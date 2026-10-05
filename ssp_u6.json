@@ -1,0 +1,126 @@
+{
+  "unitNumber": 6,
+  "unitId": "unit6-band-structure",
+  "title": "Electronic Band Structure & Bloch Electron Dynamics",
+  "description": "Comprehensive energy band theory in crystals: periodic potential, Bloch theorem, Kronig-Penney solvable model, origin of energy band gaps, reduced and extended zone schemes, nearly free electron approximation, tight-binding LCAO method, semiclassical electron dynamics, group velocity, effective mass tensor, concept of positive holes, and Fermi surfaces.",
+  "sections": [
+    {
+      "id": "ssp-6-1",
+      "title": "Periodic Crystal Potential & Bloch's Theorem",
+      "content": "<h4>1. Electrons in a Periodic Crystal Potential</h4>\n<p>An electron in a perfect crystalline solid experiences a potential energy $V(\\vec{r})$ that possesses the full discrete translational periodicity of the Bravais lattice:</p>\n<div class=\"math-display\">\n$$V(\\vec{r} + \\vec{R}) = V(\\vec{r}) \\quad \\forall \\vec{R} = n_1 \\vec{a}_1 + n_2 \\vec{a}_2 + n_3 \\vec{a}_3$$\n</div>\n<p>The single-electron Schr\u00f6dinger equation is:</p>\n<div class=\"math-display\">\n$$\\hat{H} \\psi(\\vec{r}) = \\left[ - \\frac{\\hbar^2}{2m} \\nabla^2 + V(\\vec{r}) \\right] \\psi(\\vec{r}) = E \\psi(\\vec{r})$$\n</div>\n\n<h4>2. Formal Statement & Proof of Bloch's Theorem</h4>\n<p>Because the Hamiltonian commutes with all lattice translation operators $\\hat{T}_{\\vec{R}}$ ($[\\hat{H}, \\hat{T}_{\\vec{R}}] = 0$), simultaneous eigenstates of $\\hat{H}$ and $\\hat{T}_{\\vec{R}}$ can be constructed. <strong>Bloch's Theorem</strong> states that the eigenstates of an electron in a periodic potential can be chosen in the form of a plane wave modulated by a periodic function $u_{n,\\vec{k}}(\\vec{r})$ having the periodicity of the lattice:</p>\n<div class=\"math-display\">\n$$\\psi_{n,\\vec{k}}(\\vec{r}) = e^{i \\vec{k} \\cdot \\vec{r}} u_{n,\\vec{k}}(\\vec{r})$$\n</div>\n<p>where $u_{n,\\vec{k}}(\\vec{r} + \\vec{R}) = u_{n,\\vec{k}}(\\vec{r})$ for all lattice vectors $\\vec{R}$. Equivalently, translating by any lattice vector $\\vec{R}$ merely shifts the phase of the wavefunction:</p>\n<div class=\"math-display\">\n$$\\psi_{n,\\vec{k}}(\\vec{r} + \\vec{R}) = e^{i \\vec{k} \\cdot \\vec{R}} \\psi_{n,\\vec{k}}(\\vec{r})$$\n</div>\n<p>The vector $\\vec{k}$ is the <strong>crystal wavevector</strong>, and the integer $n = 1, 2, 3, \\dots$ is the <strong>band index</strong>.</p>\n\n<h4>3. Crystal Momentum vs. Physical Momentum</h4>\n<p>The quantity $\\hbar \\vec{k}$ is known as <strong>crystal momentum</strong>. It is not the eigenvalue of the physical momentum operator $-i\\hbar\\nabla$ (since momentum is not conserved in the presence of the lattice potential). Instead, crystal momentum is conserved in electron-photon, electron-phonon, and electron-electron scattering events modulo an arbitrary reciprocal lattice vector $\\vec{G}$:</p>\n<div class=\"math-display\">\n$$\\vec{k}' = \\vec{k} + \\vec{q} + \\vec{G}$$\n</div>"
+    },
+    {
+      "id": "ssp-6-2",
+      "title": "The Kronig-Penney Model & Origin of Energy Band Gaps",
+      "simulation": "ssp-kronig-penney-sim",
+      "content": "<h4>1. The Kronig-Penney 1D Solvable Model</h4>\n<p>R. de L. Kronig and W. G. Penney (1931) introduced an idealized one-dimensional periodic array of rectangular potential barriers of height $V_0$, barrier width $b$, and well width $a$ (lattice constant $d = a + b$):</p>\n<div class=\"math-display\">\n$$V(x) = \\begin{cases} 0, & 0 < x < a \\\\ V_0, & -b < x < 0 \\end{cases}$$\n</div>\n<p>In Region I ($0 < x < a$), $\\psi_1(x) = A e^{i K x} + B e^{-i K x}$, where $K = \\sqrt{2mE/\\hbar^2}$.</p>\n<p>In Region II ($-b < x < 0$), for $E < V_0$, $\\psi_2(x) = C e^{Q x} + D e^{-Q x}$, where $Q = \\sqrt{2m(V_0 - E)/\\hbar^2}$.</p>\n\n<h4>2. The Dirac Delta-Function Barrier Limit</h4>\n<p>Taking the limit where the barriers become infinitely thin and tall ($b \\to 0, V_0 \\to \\infty$) while their barrier area $P = \\lim \\frac{m V_0 b a}{\\hbar^2}$ remains constant, matching wavefunctions and their derivatives across the boundary using Bloch's theorem yields the famous <strong>Kronig-Penney dispersion relation</strong>:</p>\n<div class=\"math-display\">\n$$P \\frac{\\sin(K a)}{K a} + \\cos(K a) = \\cos(k a)$$\n</div>\n<p>where $P$ is the dimensionless <strong>barrier strength</strong> (representing the strength of the periodic crystal potential).</p>\n\n<h4>3. Origin of Energy Bands and Band Gaps</h4>\n<p>Because the right-hand side is $\\cos(k a)$, real solutions for crystal wavevector $k$ exist <em>if and only if</em> the left-hand side satisfies:</p>\n<div class=\"math-display\">\n$$-1 \\le P \\frac{\\sin(K a)}{K a} + \\cos(K a) \\le +1$$\n</div>\n<ul>\n<li><strong>Allowed Energy Bands:</strong> Values of $E = \\frac{\\hbar^2 K^2}{2m}$ where the condition is satisfied represent allowed energy bands.</li>\n<li><strong>Forbidden Band Gaps ($E_g$):</strong> Energy ranges where the magnitude of the left-hand side exceeds unity ($> +1$ or $< -1$). No traveling Bloch waves can propagate through the crystal at these energies; electron waves undergo destructive interference and total Bragg reflection.</li>\n<li><strong>Limits:</strong>\n<ul>\n<li>$P \\to 0$ (Free Electrons): $\\cos(Ka) = \\cos(ka) \\implies K = k \\implies E = \\frac{\\hbar^2 k^2}{2m}$ (continuous parabolic spectrum).</li>\n<li>$P \\to \\infty$ (Isolated Atoms): $\\sin(Ka) = 0 \\implies Ka = n\\pi \\implies E_n = \\frac{n^2 \\pi^2 \\hbar^2}{2m a^2}$ (discrete bound atomic levels).</li>\n</ul></li>\n</ul>"
+    },
+    {
+      "id": "ssp-6-3",
+      "title": "Zone Schemes & Nearly Free Electron (NFE) Approximation",
+      "content": "<h4>1. Representation of Energy Bands: Zone Schemes</h4>\n<p>Because energy eigenvalues satisfy $E_n(k + G) = E_n(k)$, the band structure can be represented in three equivalent representations:</p>\n<ol>\n<li><strong>Extended Zone Scheme:</strong> Band $n$ is plotted in the $n$-th Brillouin zone: band 1 in $[-\\pi/a, +\\pi/a]$, band 2 in $[-2\\pi/a, -\\pi/a] \\cup [+\\pi/a, +2\\pi/a]$, etc. Most closely resembles the free-electron parabola $E = \\hbar^2 k^2/2m$.</li>\n<li><strong>Reduced Zone Scheme:</strong> All energy bands are mapped back into the First Brillouin Zone ($-\\pi/a \\le k \\le +\\pi/a$) by translating by appropriate reciprocal lattice vectors $G = 2\\pi n / a$. Standard representation used in modern solid-state physics.</li>\n<li><strong>Periodic (Repeated) Zone Scheme:</strong> The First Brillouin Zone dispersion is repeated periodically across all $k$-space with period $2\\pi/a$. Convenient for visualizing semiclassical electron trajectories.</li>\n</ol>\n\n<h4>2. The Nearly Free Electron (NFE) Approximation</h4>\n<p>When the periodic crystal potential $V(x)$ is weak compared to electron kinetic energies, it can be treated as a perturbation. Expanding the potential in a Fourier series over reciprocal lattice vectors $G$:</p>\n<div class=\"math-display\">\n$$V(x) = \\sum_{G} V_G e^{i G x} \\quad (V_0 = 0)$$\n</div>\n<p>Away from the Brillouin zone boundaries, standard non-degenerate perturbation theory shifts energies insignificantly. However, near the zone boundary $k = \\pm G/2$, the two unperturbed plane-wave states $|k\\rangle$ and $|k - G\\rangle$ are degenerate ($E_0(k) \\approx E_0(k - G)$).</p>\n<p>Applying degenerate perturbation theory with trial state $\\psi = c_1 |k\\rangle + c_2 |k - G\\rangle$ yields the $2 \\times 2$ secular equation:</p>\n<div class=\"math-display\">\n$$\\begin{pmatrix} E_0(k) - E & V_G \\\\ V_G^* & E_0(k - G) - E \\end{pmatrix} \\begin{pmatrix} c_1 \\\\ c_2 \\end{pmatrix} = 0$$\n</div>\n<p>At the exact zone boundary $k = G/2$, $E_0(k) = E_0(k - G) = \\frac{\\hbar^2 (G/2)^2}{2m} = E_0$:</p>\n<div class=\"math-display\">\n$$(E_0 - E)^2 - |V_G|^2 = 0 \\implies E_{\\pm} = E_0 \\pm |V_G|$$\n</div>\n<p>A band gap of magnitude $\\Delta E_g = 2 |V_G|$ opens up at every Brillouin zone boundary. The standing wave solutions $\\psi_+ \\sim \\cos(Gx/2)$ and $\\psi_- \\sim \\sin(Gx/2)$ pile up electronic charge density either at the ion cores (lowering energy by $-|V_G|$) or midway between the ion cores (raising energy by $+|V_G|$).</p>"
+    },
+    {
+      "id": "ssp-6-4",
+      "title": "The Tight-Binding Approximation (LCAO for Crystals)",
+      "content": "<h4>1. Physical Foundation of Tight-Binding</h4>\n<p>In contrast to the nearly free electron model, the <strong>Tight-Binding Approximation</strong> assumes that electrons are tightly bound to individual atomic cores, spending most of their time in localized atomic orbitals $\\phi(\\vec{r} - \\vec{R}_n)$. When atoms are brought together into a crystal lattice, the overlap between adjacent atomic wavefunctions broadens discrete atomic energy levels into continuous energy bands.</p>\n\n<h4>2. Formulation of the Bloch Sum</h4>\n<p>To satisfy Bloch's theorem, the trial crystal wavefunction is formed as a coherent linear combination of atomic orbitals (LCAO) summed over all $N$ lattice sites $\\vec{R}_n$:</p>\n<div class=\"math-display\">\n$$\\psi_k(\\vec{r}) = \\frac{1}{\\sqrt{N}} \\sum_{n} e^{i \\vec{k}\\cdot\\vec{R}_n} \\phi(\\vec{r} - \\vec{R}_n)$$\n</div>\n\n<h4>3. Derivation of 1D and 3D Tight-Binding Dispersion</h4>\n<p>Evaluating the expectation value of the crystal Hamiltonian $\\hat{H} = \\hat{H}_{\\text{atom}} + \\Delta U(\\vec{r})$:</p>\n<div class=\"math-display\">\n$$E(k) = \\frac{\\langle \\psi_k | \\hat{H} | \\psi_k \\rangle}{\\langle \\psi_k | \\psi_k \\rangle} \\approx \\frac{\\sum_{n, m} e^{i \\vec{k}\\cdot(\\vec{R}_m - \\vec{R}_n)} \\int \\phi^*(\\vec{r} - \\vec{R}_n) \\hat{H} \\phi(\\vec{r} - \\vec{R}_m) d^3r}{N}$$\n</div>\n<p>Retaining only on-site and nearest-neighbor matrix elements:</p>\n<ul>\n<li><strong>On-site atomic energy:</strong> $\\varepsilon_0 = \\int \\phi^*(\\vec{r}) \\hat{H} \\phi(\\vec{r}) d^3r \\approx - E_0 - \\alpha$.</li>\n<li><strong>Nearest-neighbor transfer (hopping) integral:</strong> $t = - \\int \\phi^*(\\vec{r}) \\hat{H} \\phi(\\vec{r} - \\vec{a}) d^3r > 0$.</li>\n</ul>\n<p>For a <strong>one-dimensional chain</strong> with nearest-neighbor distance $a$:</p>\n<div class=\"math-display\">\n$$E(k) = \\varepsilon_0 - 2 t \\cos(k a)$$\n</div>\n<p>The total bandwidth of the tight-binding band is $W = E_{\\text{max}} - E_{\\text{min}} = (\\varepsilon_0 + 2t) - (\\varepsilon_0 - 2t) = 4t$.</p>\n<p>For a <strong>3D Simple Cubic lattice</strong> with nearest-neighbor spacing $a$:</p>\n<div class=\"math-display\">\n$$E(\\vec{k}) = \\varepsilon_0 - 2 t [\\cos(k_x a) + \\cos(k_y a) + \\cos(k_z a)] \\quad (\\text{Bandwidth } W = 12 t)$$\n</div>"
+    },
+    {
+      "id": "ssp-6-5",
+      "title": "Semiclassical Electron Dynamics, Effective Mass & Positive Holes",
+      "simulation": "ssp-effective-mass-sim",
+      "content": "<h4>1. Semiclassical Equations of Motion for Bloch Electrons</h4>\n<p>An electron in an energy band $E_n(\\vec{k})$ is described by a localized wave packet centered at position $\\vec{r}$ and mean wavevector $\\vec{k}$. Its dynamical evolution under external electromagnetic fields $\\vec{E}$ and $\\vec{B}$ is governed by the <strong>semiclassical equations of motion</strong>:</p>\n<ol>\n<li><strong>Group Velocity:</strong>\n<div class=\"math-display\">\n$$\\vec{v}(\\vec{k}) = \\frac{1}{\\hbar} \\nabla_{\\vec{k}} E(\\vec{k})$$\n</div></li>\n<li><strong>Rate of Change of Crystal Momentum:</strong>\n<div class=\"math-display\">\n$$\\hbar \\frac{d\\vec{k}}{dt} = \\vec{F}_{\\text{ext}} = - e [\\vec{E} + \\vec{v}(\\vec{k}) \\times \\vec{B}]$$\n</div></li>\n</ol>\n\n<h4>2. Derivation of the Effective Mass Tensor $m^*$</h4>\n<p>Differentiating the group velocity with respect to time:</p>\n<div class=\"math-display\">\n$$\\frac{d\\vec{v}}{dt} = \\frac{1}{\\hbar} \\frac{d}{dt} \\nabla_{\\vec{k}} E(\\vec{k}) = \\frac{1}{\\hbar} \\sum_{j} \\left( \\frac{\\partial^2 E}{\\partial k_i \\partial k_j} \\right) \\frac{dk_j}{dt}$$\n</div>\n<p>Substituting $\\hbar \\frac{dk_j}{dt} = F_j$:</p>\n<div class=\"math-display\">\n$$\\frac{dv_i}{dt} = \\sum_{j} \\left( \\frac{1}{\\hbar^2} \\frac{\\partial^2 E}{\\partial k_i \\partial k_j} \\right) F_j = \\sum_{j} \\left(\\frac{1}{m^*}\\right)_{ij} F_j$$\n</div>\n<p>Comparing with Newton's second law $\\vec{a} = (m^*)^{-1} \\vec{F}$ defines the <strong>Effective Mass Tensor</strong> $(m^*)_{ij}$:</p>\n<div class=\"math-display\">\n$$\\left(\\frac{1}{m^*}\\right)_{ij} = \\frac{1}{\\hbar^2} \\frac{\\partial^2 E(\\vec{k})}{\\partial k_i \\partial k_j}$$\n</div>\n<p>In an isotropic 1D band: $m^* = \\hbar^2 / \\left(\\frac{d^2E}{dk^2}\\right)$.</p>\n<ul>\n<li>Near the <strong>bottom of a band</strong> ($\\frac{d^2E}{dk^2} > 0$): $m^* > 0$. The electron accelerates in the direction of the applied electric force like a free electron.</li>\n<li>Near the <strong>top of a band</strong> ($\\frac{d^2E}{dk^2} < 0$): $m^* < 0$. The electron accelerates in the direction <em>opposite</em> to the external force because of Bragg reflections from the lattice potential.</li>\n</ul>\n\n<h4>3. The Concept of Positive Holes</h4>\n<p>In a nearly filled band, the absence of an electron from a state with wavevector $\\vec{k}_e$, energy $E_e$, and charge $-e$ is described as a quasiparticle called a <strong>hole</strong>:</p>\n<ul>\n<li><strong>Wavevector:</strong> $\\vec{k}_h = - \\vec{k}_e$</li>\n<li><strong>Energy:</strong> $E_h(\\vec{k}_h) = - E_e(\\vec{k}_e)$</li>\n<li><strong>Velocity:</strong> $\\vec{v}_h = \\vec{v}_e$</li>\n<li><strong>Charge:</strong> $q_h = + e$ (positive charge)</li>\n<li><strong>Effective Mass:</strong> $m_h^* = - m_e^* > 0$ (positive effective mass at the band top)</li>\n</ul>\n<p>Treating valence band transport in terms of positive holes simplifies the quantum statistical mechanics of semiconductors and metals.</p>"
+    }
+  ],
+  "problems": [
+    {
+      "id": "ssp-p-6-1",
+      "title": "Energy Band Gap Opening in the Nearly Free Electron Model",
+      "statement": "An electron moves in a 1D crystal with lattice spacing $a = 3.0 \\text{ \u00c5}$ under a weak periodic potential $V(x) = 2 V_1 \\cos(2\\pi x / a)$ with Fourier amplitude $V_1 = 0.75 \\text{ eV}$. (a) Calculate the unperturbed free-electron kinetic energy $E_0$ at the First Brillouin Zone boundary $k = \\pi / a$. (b) Determine the energy values $E_+$ and $E_-$ at the zone boundary and the magnitude of the band gap $\\Delta E_g$.",
+      "steps": [
+        {
+          "stepName": "Step 1: Calculate the Reciprocal Lattice Vector G",
+          "math": "G = \\frac{2\\pi}{a} = \\frac{2\\pi}{3.0 \\times 10^{-10}\\text{ m}} \\approx 2.094 \\times 10^{10}\\text{ m}^{-1} \\implies k_{\\text{edge}} = \\frac{G}{2} = \\frac{\\pi}{a} \\approx 1.047 \\times 10^{10}\\text{ m}^{-1}",
+          "explanation": "Compute the First Brillouin Zone boundary wavevector."
+        },
+        {
+          "stepName": "Step 2: Calculate the Unperturbed Free-Electron Energy E_0",
+          "math": "E_0 = \\frac{\\hbar^2 k_{\\text{edge}}^2}{2m} = \\frac{(1.0546 \\times 10^{-34}\\text{ J}\\cdot\\text{s})^2 (1.047 \\times 10^{10}\\text{ m}^{-1})^2}{2(9.109 \\times 10^{-31}\\text{ kg})} = \\frac{1.2185 \\times 10^{-47}}{1.8218 \\times 10^{-30}}\\text{ J} \\approx 6.688 \\times 10^{-19}\\text{ J} \\approx 4.174\\text{ eV}",
+          "explanation": "Compute unperturbed kinetic energy in electron-volts."
+        },
+        {
+          "stepName": "Step 3: Calculate the Band Gap Delta E_g",
+          "math": "\\Delta E_g = 2 |V_G| = 2 V_1 = 2 \\times 0.75\\text{ eV} = 1.50\\text{ eV}",
+          "explanation": "In degenerate perturbation theory, the band gap equals twice the Fourier component of the potential."
+        },
+        {
+          "stepName": "Step 4: Determine the Band Edge Energies E_+ and E_-",
+          "math": "E_- = E_0 - V_1 = 4.174\\text{ eV} - 0.75\\text{ eV} = 3.424\\text{ eV}, \\quad E_+ = E_0 + V_1 = 4.174\\text{ eV} + 0.75\\text{ eV} = 4.924\\text{ eV}",
+          "explanation": "The lower band terminates at E_- and the upper band begins at E_+."
+        }
+      ],
+      "answer": "E_0 = 4.17 \\text{ eV}, \\quad \\Delta E_g = 1.50 \\text{ eV}, \\quad E_- = 3.42 \\text{ eV}, \\quad E_+ = 4.92 \\text{ eV}"
+    },
+    {
+      "id": "ssp-p-6-2",
+      "title": "Effective Mass and Group Velocity in a 1D Tight-Binding Band",
+      "statement": "The energy dispersion of a 1D tight-binding conduction band is given by $E(k) = - E_0 - 2t \\cos(ka)$, where $E_0 = 1.20 \\text{ eV}$, hopping integral $t = 0.85 \\text{ eV}$, and lattice spacing $a = 2.50 \\text{ \u00c5}$. (a) Calculate the total bandwidth $W$. (b) Derive the expression for effective mass $m^*(k)$ and evaluate its numerical value in units of free electron mass $m_0$ at the band bottom ($k = 0$) and band top ($k = \\pi/a$). (c) Find the wavevector $k$ at which the electron group velocity $v_g$ reaches its maximum value.",
+      "steps": [
+        {
+          "stepName": "Step 1: Calculate the Total Bandwidth W",
+          "math": "W = E_{\\text{max}} - E_{\\text{min}} = 4t = 4 \\times 0.85\\text{ eV} = 3.40\\text{ eV}",
+          "explanation": "In a 1D tight-binding cosine band, the bandwidth equals 4 times the transfer integral t."
+        },
+        {
+          "stepName": "Step 2: Derive the Effective Mass Formula",
+          "math": "\\frac{dE}{dk} = 2 t a \\sin(k a) \\implies \\frac{d^2E}{dk^2} = 2 t a^2 \\cos(k a) \\implies m^*(k) = \\frac{\\hbar^2}{2 t a^2 \\cos(k a)}",
+          "explanation": "Differentiate E(k) twice with respect to wavevector k."
+        },
+        {
+          "stepName": "Step 3: Evaluate m* at k = 0 (Band Bottom)",
+          "math": "m^*(0) = \\frac{\\hbar^2}{2 t a^2} = \\frac{(1.0546 \\times 10^{-34}\\text{ J}\\cdot\\text{s})^2}{2 \\times (0.85 \\times 1.6022 \\times 10^{-19}\\text{ J}) \\times (2.50 \\times 10^{-10}\\text{ m})^2} = \\frac{1.1122 \\times 10^{-68}}{2.7237 \\times 10^{-19} \\times 6.25 \\times 10^{-20}} = \\frac{1.1122 \\times 10^{-68}}{1.7023 \\times 10^{-38}}\\text{ kg} \\approx 6.533 \\times 10^{-31}\\text{ kg} \\implies \\frac{m^*(0)}{m_0} = \\frac{6.533 \\times 10^{-31}}{9.109 \\times 10^{-31}} \\approx 0.717",
+          "explanation": "Substitute numerical values to find the effective mass at k = 0."
+        },
+        {
+          "stepName": "Step 4: Evaluate m* at k = pi / a (Band Top)",
+          "math": "m^*(\\pi/a) = \\frac{\\hbar^2}{2 t a^2 \\cos(\\pi)} = - m^*(0) = - 0.717 m_0",
+          "explanation": "At the zone boundary, cos(pi) = -1, yielding a negative effective mass corresponding to a positive hole mass m_h* = +0.717 m_0."
+        },
+        {
+          "stepName": "Step 5: Determine Maximum Group Velocity",
+          "math": "v_g(k) = \\frac{1}{\\hbar}\\frac{dE}{dk} = \\frac{2ta}{\\hbar}\\sin(ka) \\implies \\left. v_g \\right|_{\\text{max}} \\text{ occurs when } \\sin(ka) = 1 \\implies ka = \\frac{\\pi}{2} \\implies k = \\frac{\\pi}{2a}",
+          "explanation": "The maximum group velocity occurs at the inflection point k = pi / (2a) where effective mass diverges to infinity."
+        }
+      ],
+      "answer": "W = 3.40 \\text{ eV}, \\quad m^*(0) = +0.717 m_0, \\quad m^*(\\pi/a) = -0.717 m_0, \\quad k_{\\text{max}} = \\pi / (2a)"
+    },
+    {
+      "id": "ssp-p-6-3",
+      "title": "Period of Bloch Oscillations in an External Electric Field",
+      "statement": "An electron in a crystal with lattice constant $a = 3.50 \\text{ \u00c5}$ is subjected to a uniform external electric field $E_x = 1.50 \\times 10^5 \\text{ V/m}$. Assuming negligible scattering (mean free path exceeds the oscillation length): (a) Calculate the rate of change of crystal wavevector $dk/dt$. (b) Determine the time period $T_B$ and cyclical frequency $\\nu_B$ of the resulting Bloch oscillations.",
+      "steps": [
+        {
+          "stepName": "Step 1: Calculate the Rate of Change of Wavevector dk / dt",
+          "math": "\\hbar \\frac{dk}{dt} = - e E_x \\implies \\left|\\frac{dk}{dt}\\right| = \\frac{e E_x}{\\hbar} = \\frac{(1.6022 \\times 10^{-19}\\text{ C})(1.50 \\times 10^5\\text{ V/m})}{1.0546 \\times 10^{-34}\\text{ J}\\cdot\\text{s}} \\approx 2.279 \\times 10^{20}\\text{ m}^{-1}\\cdot\\text{s}^{-1}",
+          "explanation": "Apply the semiclassical equation of motion in an electric field."
+        },
+        {
+          "stepName": "Step 2: Determine the Wavevector Traversed in One Full Oscillation",
+          "math": "\\Delta k = \\frac{2\\pi}{a} = \\frac{2\\pi}{3.50 \\times 10^{-10}\\text{ m}} \\approx 1.795 \\times 10^{10}\\text{ m}^{-1}",
+          "explanation": "One full cycle corresponds to traversing the entire First Brillouin Zone of width 2 pi / a."
+        },
+        {
+          "stepName": "Step 3: Calculate the Bloch Oscillation Period T_B",
+          "math": "T_B = \\frac{\\Delta k}{|dk/dt|} = \\frac{2\\pi \\hbar}{e E_x a} = \\frac{h}{e E_x a} = \\frac{6.626 \\times 10^{-34}\\text{ J}\\cdot\\text{s}}{(1.6022 \\times 10^{-19}\\text{ C})(1.50 \\times 10^5\\text{ V/m})(3.50 \\times 10^{-10}\\text{ m})} = \\frac{6.626 \\times 10^{-34}}{8.4116 \\times 10^{-24}}\\text{ s} \\approx 7.877 \\times 10^{-11}\\text{ s} = 78.8\\text{ ps}",
+          "explanation": "Evaluate the Bloch period T_B = h / (e E a)."
+        },
+        {
+          "stepName": "Step 4: Calculate the Bloch Oscillation Frequency nu_B",
+          "math": "\\nu_B = \\frac{1}{T_B} = \\frac{1}{7.877 \\times 10^{-11}\\text{ s}} \\approx 1.269 \\times 10^{10}\\text{ Hz} = 12.7\\text{ GHz}",
+          "explanation": "Inverted period gives the Bloch oscillation frequency in the microwave / terahertz regime."
+        }
+      ],
+      "answer": "T_B = 78.8 \\text{ ps}, \\quad \\nu_B = 12.7 \\text{ GHz}"
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "reactor-point-kinetics-delayed-neutrons-sim": {
+    "title": "Point Reactor Kinetics & Delayed Precursor Dynamics (PRKE)",
+    "desc": "Solves point reactor kinetics equations with delayed neutron precursors, illustrating the instantaneous prompt jump P(0+) = P0 / (1 - \u03c1/\u03b2) followed by stable exponential growth or decay.",
+    "isAnimated": true,
+    "controls": [
+      {
+        "id": "reactivityRho",
+        "label": "Reactivity \u03c1 ($)",
+        "min": -1.5,
+        "max": 0.8,
+        "step": 0.1,
+        "value": 0.3
+      },
+      {
+        "id": "genTimeLambda",
+        "label": "Generation Time \u039b (\u00d710\u207b\u2074 s)",
+        "min": 0.2,
+        "max": 5.0,
+        "step": 0.2,
+        "value": 1.0
+      },
+      {
+        "id": "simTimeSpan",
+        "label": "Simulation Time Window (s)",
+        "min": 5,
+        "max": 40,
+        "step": 5,
+        "value": 20
+      }
+    ],
+    "code": "\n    const ctx = canvas.getContext(\"2d\");\n    const w = canvas.width, h = canvas.height;\n    ctx.fillStyle = \"#050811\"; ctx.fillRect(0, 0, w, h);\n\n    const rho_dollars = vals.reactivityRho !== undefined ? vals.reactivityRho : 0.3;\n    const Lambda = (vals.genTimeLambda !== undefined ? vals.genTimeLambda : 1.0) * 1e-4;\n    const tMax = vals.simTimeSpan !== undefined ? vals.simTimeSpan : 20;\n\n    const beta = 0.0065;\n    const rho = rho_dollars * beta;\n    const lambda_eff = 0.08; // 1/s\n\n    // Prompt jump ratio: P(0+) / P0 = 1 / (1 - rho/beta) = 1 / (1 - rho_dollars)\n    const promptJump = (rho_dollars < 1.0) ? (1.0 / (1.0 - rho_dollars)) : 10.0;\n    // Stable period: T = (beta - rho) / (lambda_eff * rho)\n    const T_stable = (rho !== 0) ? (beta - rho) / (lambda_eff * rho) : Infinity;\n\n    const plot = { x: 65, y: 40, w: w - 95, h: h - 85 };\n    ctx.strokeStyle = \"#1e293b\"; ctx.lineWidth = 1;\n    ctx.strokeRect(plot.x, plot.y, plot.w, plot.h);\n\n    // Title\n    ctx.fillStyle = \"#38bdf8\"; ctx.font = \"bold 12px Inter\";\n    ctx.fillText(`Point Reactor Kinetics Response | \u03c1 = ${rho_dollars.toFixed(2)}$ (${Math.round(rho * 1e5)} pcm) | Prompt Jump = \u00d7${promptJump.toFixed(2)}`, plot.x, plot.y - 12);\n\n    // Compute transient curve\n    const maxPower = Math.max(3.0, promptJump * 2.5);\n\n    ctx.beginPath();\n    ctx.strokeStyle = rho_dollars > 0 ? \"#10b981\" : (rho_dollars === 0 ? \"#f59e0b\" : \"#38bdf8\");\n    ctx.lineWidth = 2.5;\n\n    for (let t = 0; t <= tMax; t += 0.1) {\n      let P;\n      if (t < 0.05) {\n        P = 1.0;\n      } else {\n        // Prompt jump followed by stable period exponential\n        if (T_stable !== Infinity && T_stable > 0) {\n          P = promptJump * Math.exp(t / T_stable);\n        } else if (T_stable < 0) {\n          P = promptJump * Math.exp(t / T_stable);\n        } else {\n          P = 1.0;\n        }\n      }\n\n      const px = plot.x + (t / tMax) * plot.w;\n      const py = plot.y + plot.h - Math.min(1.0, P / maxPower) * (plot.h * 0.85);\n      if (t === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);\n    }\n    ctx.stroke();\n\n    // Baseline P = 1.0 line\n    const yBase = plot.y + plot.h - (1.0 / maxPower) * (plot.h * 0.85);\n    ctx.strokeStyle = \"#475569\"; ctx.setLineDash([3, 3]);\n    ctx.beginPath(); ctx.moveTo(plot.x, yBase); ctx.lineTo(plot.x + plot.w, yBase); ctx.stroke();\n    ctx.setLineDash([]);\n    ctx.fillStyle = \"#94a3b8\"; ctx.font = \"10px Inter\";\n    ctx.fillText(\"Initial Power P0 = 1.0\", plot.x + 10, yBase - 4);\n\n    // Axes\n    ctx.fillStyle = \"#64748b\"; ctx.font = \"10px Inter\";\n    for (let t = 0; t <= tMax; t += 5) {\n      const px = plot.x + (t / tMax) * plot.w;\n      ctx.fillText(`${t} s`, px - 8, plot.y + plot.h + 16);\n    }\n    ctx.fillText(\"Time t (seconds)\", plot.x + plot.w / 2 - 35, plot.y + plot.h + 30);\n    ctx.fillText(\"Relative Power P/P0\", plot.x - 55, plot.y + 15);\n\n    // Results card\n    ctx.fillStyle = \"rgba(11, 17, 32, 0.9)\";\n    ctx.fillRect(plot.x + plot.w - 240, plot.y + 20, 225, 95);\n    ctx.strokeStyle = \"#334155\"; ctx.strokeRect(plot.x + plot.w - 240, plot.y + 20, 225, 95);\n\n    ctx.fillStyle = rho_dollars > 0 ? \"#10b981\" : (rho_dollars === 0 ? \"#f59e0b\" : \"#38bdf8\");\n    ctx.font = \"bold 12px Inter\";\n    ctx.fillText(rho_dollars > 0 ? \"Supercritical (Power Rising)\" : (rho_dollars === 0 ? \"Critical (Steady Power)\" : \"Subcritical (Power Decaying)\"), plot.x + plot.w - 225, plot.y + 40);\n\n    ctx.font = \"11px Inter\"; ctx.fillStyle = \"#cbd5e1\";\n    ctx.fillText(`Prompt Jump P(0+): ${promptJump.toFixed(3)} \u00b7 P0`, plot.x + plot.w - 225, plot.y + 60);\n    ctx.fillText(`Stable Period T: ${isFinite(T_stable) ? T_stable.toFixed(1) + \" s\" : \"\u221e (Steady)\"}`, plot.x + plot.w - 225, plot.y + 80);\n    ctx.fillText(`Doubling Time Td: ${isFinite(T_stable) && T_stable > 0 ? (T_stable * Math.LN2).toFixed(1) + \" s\" : \"N/A\"}`, plot.x + plot.w - 225, plot.y + 100);\n"
+  },
+  "reactor-inhour-reactivity-period-sim": {
+    "title": "Inhour Equation Solver: Reactivity vs Stable Period",
+    "desc": "Solves the exact 6-group Inhour equation \u03c1 = \u039b/T + \u2211 \u03b2i/(1 + \u03bbi\u00b7T), displaying the characteristic curve, vertical asymptote poles at -1/\u03bbi, and the prompt critical boundary \u03c1 = 1$.",
+    "isAnimated": true,
+    "controls": [
+      {
+        "id": "rhoInputDollars",
+        "label": "Reactivity ($)",
+        "min": -1.5,
+        "max": 0.95,
+        "step": 0.05,
+        "value": 0.4
+      },
+      {
+        "id": "precursorNuclide",
+        "label": "Fissile Fuel (1=U235, 2=Pu239)",
+        "min": 1,
+        "max": 2,
+        "step": 1,
+        "value": 1
+      },
+      {
+        "id": "plotRangeT",
+        "label": "Period Range (s)",
+        "min": 20,
+        "max": 120,
+        "step": 20,
+        "value": 60
+      }
+    ],
+    "code": "\n    const ctx = canvas.getContext(\"2d\");\n    const w = canvas.width, h = canvas.height;\n    ctx.fillStyle = \"#050811\"; ctx.fillRect(0, 0, w, h);\n\n    const rho_dlr = vals.rhoInputDollars !== undefined ? vals.rhoInputDollars : 0.4;\n    const isPu = (vals.precursorNuclide === 2);\n    const maxT = vals.plotRangeT !== undefined ? vals.plotRangeT : 60;\n\n    const beta = isPu ? 0.00215 : 0.00650;\n    const Lambda = 1e-4;\n\n    // 6-group parameters for U235\n    const beta_i = isPu ? [0.072, 0.625, 0.442, 0.686, 0.180, 0.145] : [0.215, 1.424, 1.274, 2.568, 0.748, 0.271];\n    const lambda_i = [0.0124, 0.0305, 0.111, 0.301, 1.14, 3.01];\n\n    // Find stable period T for given rho_dlr using bisection\n    const targetRho = rho_dlr * beta;\n    let T_lo = 0.05, T_hi = 500.0, T_sol = 50.0;\n\n    for (let iter = 0; iter < 40; iter++) {\n      const T_mid = (T_lo + T_hi) / 2.0;\n      let rho_calc = Lambda / T_mid;\n      for (let i = 0; i < 6; i++) {\n        rho_calc += (beta_i[i] * 1e-3) / (1.0 + lambda_i[i] * T_mid);\n      }\n      if (rho_calc > targetRho) {\n        T_lo = T_mid;\n      } else {\n        T_hi = T_mid;\n      }\n      T_sol = T_mid;\n    }\n    const T_double = T_sol * Math.LN2;\n\n    const plot = { x: 65, y: 40, w: w - 95, h: h - 85 };\n    ctx.strokeStyle = \"#1e293b\"; ctx.lineWidth = 1;\n    ctx.strokeRect(plot.x, plot.y, plot.w, plot.h);\n\n    // Title\n    ctx.fillStyle = \"#38bdf8\"; ctx.font = \"bold 12px Inter\";\n    ctx.fillText(`Inhour Equation: \u03c1 = \u039b/T + \u2211 \u03b2i/(1 + \u03bbi\u00b7T) | ${isPu ? \"Pu-239\" : \"U-235\"} | \u03b2 = ${(beta * 100).toFixed(3)}%`, plot.x, plot.y - 12);\n\n    // Prompt critical limit line (\u03c1 = 1$)\n    const yPrompt = plot.y + plot.h - (1.0 / 1.2) * (plot.h * 0.85);\n    ctx.strokeStyle = \"#ef4444\"; ctx.setLineDash([4, 4]); ctx.lineWidth = 1.5;\n    ctx.beginPath(); ctx.moveTo(plot.x, yPrompt); ctx.lineTo(plot.x + plot.w, yPrompt); ctx.stroke();\n    ctx.setLineDash([]);\n    ctx.fillStyle = \"#ef4444\"; ctx.font = \"10px Inter\";\n    ctx.fillText(\"Prompt Critical Boundary: \u03c1 = 1.00 $ (Explosive)\", plot.x + 20, yPrompt - 5);\n\n    // Plot Inhour curve (\u03c1 in dollars vs T in seconds)\n    ctx.beginPath();\n    ctx.strokeStyle = \"#10b981\"; ctx.lineWidth = 2.5;\n\n    for (let T = 1.0; T <= maxT; T += 0.5) {\n      let rho_c = Lambda / T;\n      for (let i = 0; i < 6; i++) {\n        rho_c += (beta_i[i] * 1e-3) / (1.0 + lambda_i[i] * T);\n      }\n      const rho_dollars_c = rho_c / beta;\n\n      const px = plot.x + (T / maxT) * plot.w;\n      const py = plot.y + plot.h - (rho_dollars_c / 1.2) * (plot.h * 0.85);\n      if (T === 1.0) ctx.moveTo(px, py); else ctx.lineTo(px, py);\n    }\n    ctx.stroke();\n\n    // Mark current operating point\n    const curPx = plot.x + (T_sol / maxT) * plot.w;\n    const curPy = plot.y + plot.h - (rho_dlr / 1.2) * (plot.h * 0.85);\n\n    if (T_sol <= maxT) {\n      ctx.fillStyle = \"#f59e0b\";\n      ctx.beginPath(); ctx.arc(curPx, curPy, 5, 0, Math.PI * 2); ctx.fill();\n    }\n\n    // Axes\n    ctx.fillStyle = \"#64748b\"; ctx.font = \"10px Inter\";\n    for (let T = 0; T <= maxT; T += 10) {\n      const px = plot.x + (T / maxT) * plot.w;\n      ctx.fillText(`${T} s`, px - 8, plot.y + plot.h + 16);\n    }\n    ctx.fillText(\"Stable Reactor Period T (seconds)\", plot.x + plot.w / 2 - 50, plot.y + plot.h + 30);\n    ctx.fillText(\"Reactivity \u03c1 ($)\", plot.x - 55, plot.y + 15);\n\n    // Results info box\n    ctx.fillStyle = \"rgba(11, 17, 32, 0.9)\";\n    ctx.fillRect(plot.x + plot.w - 235, plot.y + 45, 220, 85);\n    ctx.strokeStyle = \"#334155\"; ctx.strokeRect(plot.x + plot.w - 235, plot.y + 45, 220, 85);\n\n    ctx.font = \"11px Inter\"; ctx.fillStyle = \"#f59e0b\";\n    ctx.fillText(`Input Reactivity: ${rho_dlr.toFixed(2)} $`, plot.x + plot.w - 220, plot.y + 65);\n    ctx.fillStyle = \"#10b981\";\n    ctx.fillText(`Stable Period T: ${T_sol.toFixed(2)} seconds`, plot.x + plot.w - 220, plot.y + 85);\n    ctx.fillStyle = \"#38bdf8\";\n    ctx.fillText(`Doubling Time Td: ${T_double.toFixed(2)} seconds`, plot.x + plot.w - 220, plot.y + 105);\n"
+  },
+  "reactor-temperature-feedback-control-sim": {
+    "title": "Reactivity Feedback & Control Rod Self-Regulation",
+    "desc": "Simulates inherent negative reactivity feedback (Doppler coefficient \u03b1D and moderator coefficient \u03b1M) counteracting positive reactivity step insertions and stabilizing reactor power.",
+    "isAnimated": true,
+    "controls": [
+      {
+        "id": "stepDisturb",
+        "label": "Step Disturbance (pcm)",
+        "min": -300,
+        "max": 400,
+        "step": 50,
+        "value": 200
+      },
+      {
+        "id": "dopplerCoeff",
+        "label": "Doppler Coeff \u03b1D (pcm/\u00b0C)",
+        "min": -5.0,
+        "max": -1.0,
+        "step": 0.5,
+        "value": -2.5
+      },
+      {
+        "id": "rodInsertion",
+        "label": "Control Rod Depth z/H (%)",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "value": 30
+      }
+    ],
+    "code": "\n    const ctx = canvas.getContext(\"2d\");\n    const w = canvas.width, h = canvas.height;\n    ctx.fillStyle = \"#050811\"; ctx.fillRect(0, 0, w, h);\n\n    const rho_step = vals.stepDisturb !== undefined ? vals.stepDisturb : 200; // pcm\n    const alpha_D = vals.dopplerCoeff !== undefined ? vals.dopplerCoeff : -2.5; // pcm/degC\n    const z_frac = (vals.rodInsertion !== undefined ? vals.rodInsertion : 30) / 100.0;\n\n    // Control rod worth S-curve: rho(z) = rho_tot * [z - sin(2pi*z)/(2pi)]\n    const rho_rod_tot = -2500; // pcm\n    const rho_rod = rho_rod_tot * (z_frac - Math.sin(2 * Math.PI * z_frac) / (2 * Math.PI));\n\n    const plot = { x: 65, y: 40, w: w - 95, h: h - 85 };\n    ctx.strokeStyle = \"#1e293b\"; ctx.lineWidth = 1;\n    ctx.strokeRect(plot.x, plot.y, plot.w, plot.h);\n\n    // Title\n    ctx.fillStyle = \"#38bdf8\"; ctx.font = \"bold 12px Inter\";\n    ctx.fillText(`Inherent Safety: Doppler Feedback Power Self-Stabilization | \u03b1D = ${alpha_D} pcm/\u00b0C`, plot.x, plot.y - 12);\n\n    // Simulate thermal-hydraulic power response over 30 seconds\n    const maxT = 30;\n    const dt = 0.2;\n    let P = 1.0;\n    let T_fuel = 600; // degC\n    const pts = [];\n\n    const totalInitRho = rho_step;\n\n    for (let t = 0; t <= maxT; t += dt) {\n      const deltaT = T_fuel - 600;\n      const rho_feedback = alpha_D * deltaT;\n      const net_rho = totalInitRho + rho_feedback;\n\n      // PRKE quasi-static power change + thermal balance\n      P += (net_rho / (0.0065 * 1e5)) * P * 0.8 * dt;\n      P = Math.max(0.1, P);\n\n      // Fuel temperature rate of change\n      T_fuel += (P - 1.0) * 15.0 * dt - deltaT * 0.05 * dt;\n\n      pts.push({ t, P });\n    }\n\n    // Plot power stabilization trajectory\n    ctx.beginPath();\n    ctx.strokeStyle = \"#10b981\"; ctx.lineWidth = 2.5;\n\n    pts.forEach((pt, i) => {\n      const px = plot.x + (pt.t / maxT) * plot.w;\n      const py = plot.y + plot.h - Math.min(1.0, pt.P / 2.5) * (plot.h * 0.85);\n      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);\n    });\n    ctx.stroke();\n\n    // Baseline P = 1.0\n    const yBase = plot.y + plot.h - (1.0 / 2.5) * (plot.h * 0.85);\n    ctx.strokeStyle = \"#475569\"; ctx.setLineDash([3, 3]);\n    ctx.beginPath(); ctx.moveTo(plot.x, yBase); ctx.lineTo(plot.x + plot.w, yBase); ctx.stroke();\n    ctx.setLineDash([]);\n\n    // Axes\n    ctx.fillStyle = \"#64748b\"; ctx.font = \"10px Inter\";\n    for (let t = 0; t <= maxT; t += 5) {\n      const px = plot.x + (t / maxT) * plot.w;\n      ctx.fillText(`${t} s`, px - 8, plot.y + plot.h + 16);\n    }\n    ctx.fillText(\"Time t (seconds)\", plot.x + plot.w / 2 - 35, plot.y + plot.h + 30);\n    ctx.fillText(\"Reactor Power P/P0\", plot.x - 55, plot.y + 15);\n\n    // Results info panel\n    ctx.fillStyle = \"rgba(11, 17, 32, 0.9)\";\n    ctx.fillRect(plot.x + plot.w - 235, plot.y + 20, 220, 95);\n    ctx.strokeStyle = \"#334155\"; ctx.strokeRect(plot.x + plot.w - 235, plot.y + 20, 220, 95);\n\n    ctx.font = \"11px Inter\"; ctx.fillStyle = \"#38bdf8\";\n    ctx.fillText(`Initial Disturbance: +${rho_step} pcm`, plot.x + plot.w - 220, plot.y + 40);\n    ctx.fillStyle = \"#10b981\";\n    ctx.fillText(`Control Rod Worth: ${Math.round(rho_rod)} pcm`, plot.x + plot.w - 220, plot.y + 60);\n    ctx.fillText(`Stabilized Fuel \u0394T: +${Math.round(Math.abs(rho_step / alpha_D))} \u00b0C`, plot.x + plot.w - 220, plot.y + 80);\n    ctx.fillStyle = \"#f59e0b\";\n    ctx.fillText(`State: Passively Self-Limiting`, plot.x + plot.w - 220, plot.y + 100);\n"
+  },
+  "reactor-xenon-samarium-poisoning-sim": {
+    "title": "Fission Product Poisoning Dynamics & Post-Shutdown Iodine Pit",
+    "desc": "Solves coupled differential equations for Iodine-135 and Xenon-135 (\u03c3a = 2.65\u00d710\u2076 b), displaying steady-state equilibrium poisoning and the dangerous post-shutdown xenon peak 10 hours later.",
+    "isAnimated": true,
+    "controls": [
+      {
+        "id": "fluxLevel",
+        "label": "Thermal Flux \u03d50 (\u00d710\u00b9\u2074 n/cm\u00b2\u00b7s)",
+        "min": 0.5,
+        "max": 3.0,
+        "step": 0.5,
+        "value": 1.5
+      },
+      {
+        "id": "reactorStatus",
+        "label": "Core State (1=Shutdown Trip, 2=Steady State)",
+        "min": 1,
+        "max": 2,
+        "step": 1,
+        "value": 1
+      },
+      {
+        "id": "historyHours",
+        "label": "Time Window (hours)",
+        "min": 24,
+        "max": 72,
+        "step": 12,
+        "value": 48
+      }
+    ],
+    "code": "\n    const ctx = canvas.getContext(\"2d\");\n    const w = canvas.width, h = canvas.height;\n    ctx.fillStyle = \"#050811\"; ctx.fillRect(0, 0, w, h);\n\n    const phi0 = (vals.fluxLevel !== undefined ? vals.fluxLevel : 1.5) * 1e14;\n    const isShutdown = (vals.reactorStatus === 1);\n    const maxHours = vals.historyHours !== undefined ? vals.historyHours : 48;\n\n    const gamma_I = 0.061, lambda_I = 2.87e-5; // s^-1 (6.7 h)\n    const gamma_Xe = 0.003, lambda_Xe = 2.09e-5; // s^-1 (9.2 h)\n    const sigma_a_Xe = 2.65e-18; // cm^2\n    const Sigma_f = 0.115; // cm^-1\n\n    // Steady state values\n    const I0 = (gamma_I * Sigma_f * phi0) / lambda_I;\n    const X0 = ((gamma_I + gamma_Xe) * Sigma_f * phi0) / (lambda_Xe + sigma_a_Xe * phi0);\n\n    const plot = { x: 65, y: 40, w: w - 95, h: h - 85 };\n    ctx.strokeStyle = \"#1e293b\"; ctx.lineWidth = 1;\n    ctx.strokeRect(plot.x, plot.y, plot.w, plot.h);\n\n    // Title\n    ctx.fillStyle = \"#38bdf8\"; ctx.font = \"bold 12px Inter\";\n    ctx.fillText(`Xenon-135 Poisoning Dynamics | ${isShutdown ? \"Post-Shutdown Iodine Pit\" : \"Equilibrium Steady State\"} | \u03d50 = ${(phi0 / 1e14).toFixed(1)} \u00d7 10\u00b9\u2074 n/cm\u00b2\u00b7s`, plot.x, plot.y - 12);\n\n    // Calculate curve points over time (hours)\n    let peakX = X0, peakTimeH = 10.5;\n    const pts = [];\n\n    for (let t_h = 0; t_h <= maxHours; t_h += 0.5) {\n      const t_s = t_h * 3600;\n      let X;\n      if (isShutdown) {\n        // Post-shutdown analytic solution: X(t) = X0*e^(-lambda_Xe*t) + (lambda_I*I0/(lambda_I - lambda_Xe))*(e^(-lambda_Xe*t) - e^(-lambda_I*t))\n        const term1 = X0 * Math.exp(-lambda_Xe * t_s);\n        const term2 = (lambda_I * I0 / (lambda_I - lambda_Xe)) * (Math.exp(-lambda_Xe * t_s) - Math.exp(-lambda_I * t_s));\n        X = term1 + term2;\n        if (X > peakX) { peakX = X; peakTimeH = t_h; }\n      } else {\n        X = X0;\n      }\n      pts.push({ t_h, X });\n    }\n\n    const maxY = isShutdown ? peakX * 1.15 : X0 * 1.5;\n\n    // Plot curve\n    ctx.beginPath();\n    ctx.strokeStyle = \"#ef4444\"; ctx.lineWidth = 2.5;\n\n    pts.forEach((pt, i) => {\n      const px = plot.x + (pt.t_h / maxHours) * plot.w;\n      const py = plot.y + plot.h - (pt.X / maxY) * (plot.h * 0.85);\n      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);\n    });\n    ctx.stroke();\n\n    // Mark peak xenon position\n    if (isShutdown) {\n      const pxPeak = plot.x + (peakTimeH / maxHours) * plot.w;\n      const pyPeak = plot.y + plot.h - (peakX / maxY) * (plot.h * 0.85);\n\n      ctx.fillStyle = \"#f59e0b\";\n      ctx.beginPath(); ctx.arc(pxPeak, pyPeak, 5, 0, Math.PI * 2); ctx.fill();\n\n      ctx.strokeStyle = \"#f59e0b\"; ctx.setLineDash([3, 3]);\n      ctx.beginPath(); ctx.moveTo(pxPeak, plot.y); ctx.lineTo(pxPeak, plot.y + plot.h); ctx.stroke();\n      ctx.setLineDash([]);\n\n      ctx.fillStyle = \"#f59e0b\"; ctx.font = \"bold 11px Inter\";\n      ctx.fillText(`Peak Xenon: ~${peakTimeH.toFixed(1)} hrs`, pxPeak + 8, pyPeak - 8);\n    }\n\n    // Axes\n    ctx.fillStyle = \"#64748b\"; ctx.font = \"10px Inter\";\n    for (let h = 0; h <= maxHours; h += 12) {\n      const px = plot.x + (h / maxHours) * plot.w;\n      ctx.fillText(`${h} h`, px - 8, plot.y + plot.h + 16);\n    }\n    ctx.fillText(\"Time After Shutdown (hours)\", plot.x + plot.w / 2 - 55, plot.y + plot.h + 30);\n    ctx.fillText(\"Xenon Concentration X(t)\", plot.x - 55, plot.y + 15);\n\n    // Results panel\n    ctx.fillStyle = \"rgba(11, 17, 32, 0.9)\";\n    ctx.fillRect(plot.x + plot.w - 245, plot.y + 25, 230, 95);\n    ctx.strokeStyle = \"#334155\"; ctx.strokeRect(plot.x + plot.w - 245, plot.y + 25, 230, 95);\n\n    ctx.font = \"11px Inter\"; ctx.fillStyle = \"#ef4444\";\n    ctx.fillText(`Equilibrium Xenon: ${(X0 / 1e15).toFixed(2)} \u00d7 10\u00b9\u2075 cm\u207b\u00b3`, plot.x + plot.w - 230, plot.y + 45);\n    ctx.fillStyle = \"#f59e0b\";\n    ctx.fillText(`Peak Post-Shutdown: ${(peakX / 1e15).toFixed(2)} \u00d7 10\u00b9\u2075 cm\u207b\u00b3`, plot.x + plot.w - 230, plot.y + 65);\n    ctx.fillStyle = \"#cbd5e1\";\n    ctx.fillText(`Peak Reactivity Penalty: -${Math.round((peakX * sigma_a_Xe / 0.16) * 1e5)} pcm`, plot.x + plot.w - 230, plot.y + 85);\n    ctx.fillText(`Deadtime: Locked until t > 30 hrs`, plot.x + plot.w - 230, plot.y + 105);\n"
+  }
+}

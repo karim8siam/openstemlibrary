@@ -1,0 +1,116 @@
+{
+  "unitNumber": 6,
+  "unitId": "unit6-data-converters-dac-adc",
+  "title": "Data Conversion Systems: Digital-to-Analog & Analog-to-Digital",
+  "description": "Theory, precision architectures, and error metrics of mixed-signal data converters: binary-weighted resistor DACs and operational amplifier virtual ground summing; R-2R ladder networks, Thevenin equivalent analysis, and constant input impedance; DAC resolution, monotonicity, settling time, differential non-linearity (DNL), and integral non-linearity (INL); Flash (simultaneous comparator) ADCs, priority decoding, and comparator count scaling; tracking ADCs, Successive Approximation Register (SAR) binary search algorithms; Dual-Slope integrating ADCs, line-frequency noise rejection, and Delta-Sigma oversampling modulation.",
+  "sections": [
+    {
+      "id": "dig-6-1",
+      "title": "D/A Conversion: Binary-Weighted Resistors & Virtual Ground",
+      "content": "<h4>1. Digital-to-Analog Converter (DAC) Operational Concept</h4>\n<p>A <strong>Digital-to-Analog Converter (DAC)</strong> translates an $N$-bit digital binary word $D = b_{N-1} b_{N-2} \\dots b_0$ into an equivalent proportional analog output voltage $V_{\\text{out}}$ or current $I_{\\text{out}}$:</p>\n<div class=\"math-display\">\n$$V_{\\text{out}} = V_{\\text{ref}} \\sum_{i=0}^{N-1} b_i 2^{i - N} = \\frac{V_{\\text{ref}}}{2^N} \\left( b_{N-1} 2^{N-1} + b_{N-2} 2^{N-2} + \\dots + b_0 2^0 \\right)$$\n</div>\n<p>where $V_{\\text{ref}}$ is a precision voltage reference, and $\\frac{V_{\\text{ref}}}{2^N}$ defines the <strong>analog step size or resolution (1 LSB)</strong>.</p>\n\n<h4>2. The Binary-Weighted Resistor DAC</h4>\n<p>Constructed by connecting weighted resistors $R, 2R, 4R, \\dots, 2^{N-1}R$ to the inverting summing junction of an operational amplifier. Binary switches connect resistor $i$ to $-V_{\\text{ref}}$ when bit $b_i = 1$, or to ground when $b_i = 0$:</p>\n<div class=\"math-display\">\n$$I_{\\text{sum}} = \\sum_{i=0}^{N-1} b_i \\frac{V_{\\text{ref}}}{2^{N-1-i} R}$$\n</div>\n<p>Because the inverting op-amp terminal is held at virtual ground ($0\\text{ V}$), the output voltage is:</p>\n<div class=\"math-display\">\n$$V_{\\text{out}} = I_{\\text{sum}} R_f = V_{\\text{ref}} \\frac{R_f}{R} \\left( \\frac{b_{N-1}}{2^1} + \\frac{b_{N-2}}{2^2} + \\dots + \\frac{b_0}{2^N} \\right)$$\n</div>\n\n<h4>3. Physical Limitations of Binary-Weighted Networks</h4>\n<p>While conceptually elegant, binary-weighted DACs are severely impractical for high resolutions ($N \\ge 8$):</p>\n<ul>\n<li><strong>Extreme Resistance Spread:</strong> For a 16-bit DAC with $R = 10\\text{ k}\\Omega$, the LSB resistor must be $2^{15} R = 327.68\\text{ M}\\Omega$\u2014a ratio exceeding $32,000 : 1$.</li>\n<li><strong>Impossibility of Monolithic Integration:</strong> Fabricating resistors spanning four orders of magnitude on a single silicon die with sub-$0.01\\%$ thermal tracking is technologically impossible.</li>\n</ul>"
+    },
+    {
+      "id": "dig-6-2",
+      "title": "The R-2R Ladder Network DAC: Thevenin Analysis & Symmetry",
+      "simulation": "dig-r2r-dac-sim",
+      "content": "<h4>1. The R-2R Ladder Architecture</h4>\n<p>Bernard Lippel (1953) resolved the resistance spread bottleneck with the ingenious <strong>$R$-$2R$ ladder network</strong>, which utilizes <strong>only two precision resistance values</strong>\u2014$R$ and $2R$\u2014regardless of the bit resolution $N$.</p>\n\n<h4>2. Thevenin Equivalent & Constant Input Impedance Proof</h4>\n<p>Looking into any node of an $R$-$2R$ ladder toward the terminated end, the equivalent resistance is identically <strong>$R$</strong>:</p>\n<ol>\n<li>At the termination end, two parallel $2R$ resistors combine to yield $2R \\parallel 2R = R$.</li>\n<li>Adding the series resistor $R$ gives $R + R = 2R$.</li>\n<li>At the next node, this $2R$ is in parallel with that stage's vertical $2R$ branch: $2R \\parallel 2R = R$.</li>\n</ol>\n<p>By mathematical induction, this perfect binary current division repeats identically across all $N$ stages. At each ladder node, the injected current splits into two equal halves ($50\\% / 50\\%$).</p>\n\n<h4>3. Inverted R-2R Current-Steering DAC</h4>\n<p>In modern monolithic CMOS DACs, the ladder is operated in the <strong>current-steering mode</strong>: the vertical $2R$ branches terminate in SPDT CMOS switches that steer currents either into the op-amp virtual ground ($I_{\\text{out}}$) or into circuit analog ground ($I_{\\text{out2}}$):</p>\n<div class=\"math-display\">\n$$V_{\\text{out}} = - V_{\\text{ref}} \\left( \\frac{R_f}{R} \\right) \\sum_{i=0}^{N-1} b_i 2^{i - N}$$\n</div>\n<p>Key Engineering Advantages:</p>\n<ul>\n<li>Only two resistor values ($R$ and $2R$, typically $10\\text{ k}\\Omega$ and $20\\text{ k}\\Omega$), manufactured by laser-trimmed thin-film SiCr or polysilicon with perfect thermal tracking ($< 1\\text{ ppm/}^\\circ\\text{C}$).</li>\n<li>All nodes remain at fixed potentials ($0\\text{ V}$), eliminating parasitic capacitance charging delays and achieving sub-nanosecond settling times.</li>\n</ul>"
+    },
+    {
+      "id": "dig-6-3",
+      "title": "DAC Performance Metrics: Resolution, Settling Time & Linearity",
+      "content": "<h4>1. DAC Resolution & Full-Scale Range (FSR)</h4>\n<p>The <strong>resolution</strong> of an $N$-bit DAC is the smallest output voltage increment it can resolve, equal to the weight of 1 LSB:</p>\n<div class=\"math-display\">\n$$V_{\\text{LSB}} = \\frac{V_{\\text{FSR}}}{2^N - 1} \\quad (\\text{or } \\frac{V_{\\text{ref}}}{2^N})$$\n</div>\n<p>The maximum analog output, attained when all bits are 1 ($11\\dots1_2$), is strictly 1 LSB below full reference:</p>\n<div class=\"math-display\">\n$$V_{\\text{out, max}} = V_{\\text{ref}} \\left( 1 - \\frac{1}{2^N} \\right)$$\n</div>\n\n<h4>2. Dynamic Metrics: Settling Time & Glitch Impulse</h4>\n<ul>\n<li><strong>Settling Time ($t_s$):</strong> The elapsed time from the application of an input digital transition until the analog output settles and remains within a specified error band (typically $\\pm \\frac{1}{2}\\text{ LSB}$) of its final value. Governed by op-amp slew rate and $RC$ time constants.</li>\n<li><strong>Major Carry Glitch Impulse:</strong> When transitioning across mid-scale ($0111\\dots1 \\to 1000\\dots0$), switch timing skews cause temporary false intermediate states ($1111\\dots1$ or $0000\\dots0$), ejecting massive voltage spikes (glitch area in $\\text{pV}\\cdot\\text{s}$) into audio/video signals.</li>\n</ul>\n\n<h4>3. Static Accuracy: Non-Linearity Metrics (INL & DNL)</h4>\n<ul>\n<li><strong>Differential Non-Linearity (DNL):</strong> The difference between the actual step height between adjacent codes and the ideal step height ($1\\text{ LSB}$):\n<div class=\"math-display\">\n$$\\text{DNL}(k) = \\frac{V_{\\text{out}}(k) - V_{\\text{out}}(k-1) - V_{\\text{LSB}}}{V_{\\text{LSB}}}$$\n</div>\nIf $\\text{DNL} < -1\\text{ LSB}$, the transfer function reverses direction, creating a <strong>non-monotonic DAC</strong>.</li>\n<li><strong>Integral Non-Linearity (INL):</strong> The maximum deviation of the actual analog transfer curve from the ideal straight line across the entire range.</li>\n</ul>"
+    },
+    {
+      "id": "dig-6-4",
+      "title": "Fast Flash (Simultaneous Comparator) ADCs",
+      "simulation": "dig-flash-sar-adc-sim",
+      "content": "<h4>1. Operational Architecture of the Flash ADC</h4>\n<p>An <strong>Analog-to-Digital Converter (ADC)</strong> quantizes a continuous analog input voltage $V_{\\text{in}}$ into a discrete digital code. The <strong>Flash (Parallel) ADC</strong> is the fastest known data conversion architecture, completing conversion in a single clock cycle ($t_{\\text{conv}} < 1\\text{ ns}$, gigasample/second speeds).</p>\n\n<h4>2. Circuit Topology</h4>\n<p>An $N$-bit Flash ADC consists of:</p>\n<ol>\n<li><strong>Precision Resistor Ladder:</strong> A string of $2^N$ matched resistors $R$ connected between $V_{\\text{ref}}$ and ground, establishing $2^N - 1$ equally spaced reference voltage taps:\n<div class=\"math-display\">\n$$V_k = \\frac{k - 0.5}{2^N} V_{\\text{ref}} \\quad (k = 1, 2, \\dots, 2^N - 1)$$\n</div></li>\n<li><strong>Comparator Bank:</strong> Exactly $2^N - 1$ analog comparators operating in parallel. Each comparator compares $V_{\\text{in}}$ to its respective reference tap $V_k$. All comparators below $V_{\\text{in}}$ output 1; all above output 0, producing a <strong>Thermometer Code</strong> of height proportional to $V_{\\text{in}}$.</li>\n<li><strong>Priority Decoder:</strong> Converts the $(2^N - 1)$-bit thermometer code into an $N$-bit binary output word in a single gate delay.</li>\n</ol>\n\n<h4>3. Flash ADC Trade-Offs & Scaling Wall</h4>\n<p>The monumental speed of Flash ADCs is offset by exponential hardware growth:</p>\n<div class=\"math-display\">\n$$\\text{Number of Comparators} = 2^N - 1$$\n</div>\n<ul>\n<li>For $N = 2$ bits: $2^2 - 1 = 3$ comparators.</li>\n<li>For $N = 3$ bits: $2^3 - 1 = 7$ comparators.</li>\n<li>For $N = 8$ bits: $2^8 - 1 = 255$ comparators (practical limit for standalone flash).</li>\n<li>For $N = 16$ bits: $2^{16} - 1 = 65,535$ precision comparators on a single chip\u2014consuming excessive silicon area and hundreds of watts of power. High resolutions require alternative multi-step architectures.</li>\n</ul>"
+    },
+    {
+      "id": "dig-6-5",
+      "title": "Tracking, SAR & Dual-Slope Integrating ADCs",
+      "content": "<h4>1. Successive Approximation Register (SAR) ADCs</h4>\n<p>The <strong>SAR ADC</strong> is the industry workhorse for medium-to-high resolution ($10 - 18\\text{ bits}$) at sample rates up to several megasamples per second. It utilizes a feedback loop containing a DAC, a single comparator, and a digital SAR control engine executing a <strong>binary search algorithm</strong>:</p>\n<ol>\n<li>Clock Cycle 1: SAR sets MSB to 1 ($1000\\dots_2$), prompting internal DAC to output mid-scale $V_{\\text{DAC}} = V_{\\text{ref}} / 2$.</li>\n<li>Comparator tests if $V_{\\text{in}} > V_{\\text{DAC}}$. If yes, MSB is retained as 1; if no, MSB is cleared to 0.</li>\n<li>Clock Cycle 2: SAR sets next bit ($b_{N-2}$) to 1, tests against $V_{\\text{in}}$, and retains or clears it.</li>\n<li>The process repeats bit-by-bit until the LSB is resolved.</li>\n</ol>\n<p>An $N$-bit SAR ADC requires exactly <strong>$N$ clock cycles</strong> per conversion ($t_{\\text{conv}} = N \\cdot T_{\\text{clk}}$), requiring only <strong>one comparator</strong> regardless of resolution.</p>\n\n<h4>2. Dual-Slope Integrating ADC</h4>\n<p>The premier architecture for high-precision digital multimeters (DMMs) where ultra-high accuracy and noise immunity outweigh conversion speed ($10 - 100\\text{ conversions/sec}$):</p>\n<ol>\n<li><strong>Run-Up Phase ($T_1$, Fixed Time):</strong> An analog integrator integrates input voltage $V_{\\text{in}}$ for a fixed time interval $T_1 = 2^N T_{\\text{clk}}$:\n<div class=\"math-display\">\n$$V_{\\text{peak}} = - \\frac{1}{R C} \\int_0^{T_1} V_{\\text{in}} dt = - \\frac{V_{\\text{in}} T_1}{R C}$$\n</div></li>\n<li><strong>Run-Down Phase ($T_2$, Measured Time):</strong> Integrator switches to precision negative reference $-V_{\\text{ref}}$ and discharges back to zero at a constant slope:\n<div class=\"math-display\">\n$$0 = V_{\\text{peak}} + \\frac{V_{\\text{ref}} T_2}{R C} \\implies \\frac{V_{\\text{in}} T_1}{R C} = \\frac{V_{\\text{ref}} T_2}{R C}$$\n</div>\n<div class=\"math-display\">\n$$T_2 = T_1 \\left( \\frac{V_{\\text{in}}}{V_{\\text{ref}}} \\right)$$\n</div></li>\n</ol>\n<p><strong>Monumental Advantage:</strong> Both $R$ and $C$ cancel out completely from the equation! Variations in resistor values, capacitor aging, and clock oscillator drift have <strong>zero effect</strong> on measurement accuracy. Setting $T_1 = 20\\text{ ms}$ ($1/50\\text{ Hz}$) provides infinite rejection of AC power line hum.</p>"
+    }
+  ],
+  "problems": [
+    {
+      "id": "dig-p-6-1",
+      "title": "Analysis of a 4-Bit R-2R Ladder Digital-to-Analog Converter",
+      "statement": "A 4-bit $R$-$2R$ ladder DAC operates with reference voltage $V_{\\text{ref}} = 10.0\\text{ V}$, ladder resistance $R = 10.0\\text{ k}\\Omega$ ($2R = 20.0\\text{ k}\\Omega$), and feedback resistor $R_f = 20.0\\text{ k}\\Omega$. (a) Calculate the voltage step size (1 LSB). (b) Determine the full-scale analog output voltage $V_{\\text{out, max}}$. (c) Calculate the exact output voltage when the digital input code is $D = 1011_2$ ($11_{10}$).",
+      "steps": [
+        {
+          "stepName": "Step 1: Calculate Step Size (1 LSB)",
+          "math": "V_{\\text{LSB}} = \\frac{V_{\\text{ref}}}{2^N} \\left(\\frac{R_f}{R}\\right) = \\frac{10.0\\text{ V}}{2^4} \\left(\\frac{20\\text{ k}\\Omega}{10\\text{ k}\\Omega}\\right) = \\frac{10.0}{16} \\times 2 = \\frac{20.0}{16}\\text{ V} = 1.250\\text{ V}",
+          "explanation": "Compute voltage equivalent of one LSB."
+        },
+        {
+          "stepName": "Step 2: Determine Full-Scale Output Voltage",
+          "math": "V_{\\text{out, max}} = V_{\\text{LSB}} \\times (2^N - 1) = 1.250\\text{ V} \\times (16 - 1) = 1.250 \\times 15 = 18.750\\text{ V}",
+          "explanation": "Full-scale output occurs when all bits are 1 (code 1111)."
+        },
+        {
+          "stepName": "Step 3: Evaluate Output for Input Code 1011",
+          "math": "D = (1011)_2 = 1 \\times 2^3 + 0 \\times 2^2 + 1 \\times 2^1 + 1 \\times 2^0 = 8 + 2 + 1 = 11_{10}",
+          "explanation": "Convert digital input code to decimal."
+        },
+        {
+          "stepName": "Step 4: Compute Final Output Voltage",
+          "math": "V_{\\text{out}} = 11 \\times V_{\\text{LSB}} = 11 \\times 1.250\\text{ V} = 13.750\\text{ V}",
+          "explanation": "Multiply decimal value by step size: exactly 13.75 V."
+        }
+      ],
+      "answer": "V_{\\text{LSB}} = 1.250\\text{ V}, \\quad V_{\\text{out, max}} = 18.75\\text{ V}, \\quad V_{\\text{out}}(1011_2) = 13.75\\text{ V}"
+    },
+    {
+      "id": "dig-p-6-2",
+      "title": "3-Bit Flash Analog-to-Digital Converter Architecture and Quantization",
+      "statement": "A 3-bit Flash ADC has a full-scale analog reference of $V_{\\text{ref}} = 8.00\\text{ V}$. (a) Calculate the total number of analog comparators and precision divider resistors required. (b) Determine the reference voltage at each comparator threshold tap ($V_1$ through $V_7$). (c) If an analog input voltage of $V_{\\text{in}} = 5.20\\text{ V}$ is applied, determine the 7-bit comparator thermometer code and the 3-bit priority encoder binary output word.",
+      "steps": [
+        {
+          "stepName": "Step 1: Calculate Component Counts",
+          "math": "N = 3 \\implies N_{\\text{comparators}} = 2^N - 1 = 2^3 - 1 = 7 \\text{ comparators}; \\quad N_{\\text{resistors}} = 2^3 = 8 \\text{ matched resistors}",
+          "explanation": "A 3-bit flash ADC requires 7 comparators and 8 resistors."
+        },
+        {
+          "stepName": "Step 2: Determine Step Size and Comparator Reference Taps",
+          "math": "V_{\\text{step}} = \\frac{V_{\\text{ref}}}{8} = \\frac{8.00\\text{ V}}{8} = 1.00\\text{ V}. \\implies V_1=1.0\\text{V}, \\ V_2=2.0\\text{V}, \\ V_3=3.0\\text{V}, \\ V_4=4.0\\text{V}, \\ V_5=5.0\\text{V}, \\ V_6=6.0\\text{V}, \\ V_7=7.0\\text{V}",
+          "explanation": "List all 7 threshold tap voltages."
+        },
+        {
+          "stepName": "Step 3: Evaluate Comparator Outputs for Vin = 5.20 V",
+          "math": "5.20\\text{ V} > V_1, V_2, V_3, V_4, V_5 \\ (1.0 - 5.0\\text{ V}) \\implies C_1 = C_2 = C_3 = C_4 = C_5 = 1; \\quad 5.20\\text{ V} < V_6, V_7 \\implies C_6 = C_7 = 0",
+          "explanation": "Comparators 1 through 5 output 1; comparators 6 and 7 output 0."
+        },
+        {
+          "stepName": "Step 4: Form Thermometer Code and Priority Binary Output",
+          "math": "\\text{Thermometer Code: } (C_7 C_6 C_5 C_4 C_3 C_2 C_1) = 0011111_2. \\implies \\text{Priority Encoder Output: } (101)_2 = 5_{10}",
+          "explanation": "Five 1s in thermometer code decodes to binary 101 (value 5, corresponding to 5V <= Vin < 6V)."
+        }
+      ],
+      "answer": "N_{\\text{comp}} = 7, \\ N_{\\text{res}} = 8; \\quad \\text{Thermometer Code} = 0011111_2 \\implies \\text{Binary Output} = 101_2 \\ (5_{10})"
+    },
+    {
+      "id": "dig-p-6-3",
+      "title": "Dual-Slope Integrating ADC Noise Immunity and Conversion Timing",
+      "statement": "A $4\\frac{1}{2}$-digit ($20,000$ count) Dual-Slope integrating ADC uses a clock frequency of $f_{\\text{clk}} = 200\\text{ kHz}$. (a) To completely eliminate $50.0\\text{ Hz}$ AC line hum, calculate the required number of integration cycles $N_1$ during run-up period $T_1$ if $T_1$ is set to exactly one $50\\text{ Hz}$ line period ($20.0\\text{ ms}$). (b) An unknown DC input voltage produces a run-down time of $T_2 = 12.80\\text{ ms}$. If reference voltage $V_{\\text{ref}} = 2.000\\text{ V}$, compute the measured input voltage $V_{\\text{in}}$.",
+      "steps": [
+        {
+          "stepName": "Step 1: Calculate Integration Clock Cycles for 50 Hz Period",
+          "math": "T_1 = \\frac{1}{50.0\\text{ Hz}} = 20.0\\text{ ms} = 0.020\\text{ s}. \\implies N_1 = T_1 \\cdot f_{\\text{clk}} = 0.020\\text{ s} \\times 200,000\\text{ Hz} = 4000 \\text{ clock counts}",
+          "explanation": "Integrating over exactly one period (4000 counts) causes net sinusoidal AC noise integral to vanish identically."
+        },
+        {
+          "stepName": "Step 2: Calculate Measured Input Voltage Using Dual-Slope Equation",
+          "math": "V_{\\text{in}} = V_{\\text{ref}} \\left( \\frac{T_2}{T_1} \\right) = 2.000\\text{ V} \\times \\left( \\frac{12.80\\text{ ms}}{20.00\\text{ ms}} \\right) = 2.000 \\times 0.640 = 1.280\\text{ V}",
+          "explanation": "Evaluate input voltage: exactly 1.280 V."
+        },
+        {
+          "stepName": "Step 3: Verification of Independence from Component Values",
+          "math": "\\text{Notice that } R, C, \\text{ and } f_{\\text{clk}} \\text{ canceled completely in } V_{\\text{in}} = V_{\\text{ref}} (N_2 / N_1) = 2.000 \\times (2560 / 4000) = 1.280\\text{ V}",
+          "explanation": "The measurement is completely immune to RC component tolerances."
+        }
+      ],
+      "answer": "N_1 = 4000 \\text{ counts } (T_1 = 20.0\\text{ ms}), \\quad V_{\\text{in}} = 1.280\\text{ V} \\quad (\\text{Infinite 50 Hz Hum Rejection})"
+    }
+  ]
+}

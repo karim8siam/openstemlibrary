@@ -1,0 +1,73 @@
+{
+  "id": "unit8",
+  "unit_number": 8,
+  "title": "Taylor Polynomials, Remainder Theorems & Applied Expansions",
+  "subtitle": "Maclaurin Series, Lagrange & Integral Remainder Bounds, and Relativistic Quantum Corrections",
+  "sections": [
+    {
+      "id": "u8-sec1",
+      "title": "Taylor & Maclaurin Polynomials: Local Matching of Higher Derivatives",
+      "content": "<h4>1. Motivation: Polynomial Interpolation of Differential Jets</h4>\n<p>Let $f: I \\to \\mathbb{R}$ be $n$ times continuously differentiable on an open interval $I$ containing $x_0$. The <strong>$n$-th degree Taylor polynomial</strong> $P_n(x)$ centered at $x_0$ is the unique polynomial of degree at most $n$ whose derivatives at $x_0$ match those of $f$ up to order $n$:</p>\n<div class=\"math-display\">\n$$P_n^{(k)}(x_0) = f^{(k)}(x_0) \\quad \\text{for all } k = 0, 1, 2, \\dots, n$$\n</div>\n<div class=\"math-display\">\n$$\\mathbf{P_n(x) = \\sum_{k=0}^n \\frac{f^{(k)}(x_0)}{k!} (x - x_0)^k = f(x_0) + f'(x_0)(x - x_0) + \\frac{f''(x_0)}{2!}(x - x_0)^2 + \\dots + \\frac{f^{(n)}(x_0)}{n!}(x - x_0)^n}$$\n</div>\n<p>When centered at $x_0 = 0$, $P_n(x)$ is specifically called the <strong>Maclaurin polynomial</strong>.</p>\n\n<h4>2. Standard Maclaurin Expansions</h4>\n<ul>\n  <li>$e^x = \\sum_{k=0}^\\infty \\frac{x^k}{k!} = 1 + x + \\frac{x^2}{2!} + \\frac{x^3}{3!} + \\dots \\quad (R = \\infty)$</li>\n  <li>$\\sin(x) = \\sum_{k=0}^\\infty \\frac{(-1)^k x^{2k+1}}{(2k+1)!} = x - \\frac{x^3}{3!} + \\frac{x^5}{5!} - \\dots \\quad (R = \\infty)$</li>\n  <li>$\\cos(x) = \\sum_{k=0}^\\infty \\frac{(-1)^k x^{2k}}{(2k)!} = 1 - \\frac{x^2}{2!} + \\frac{x^4}{4!} - \\dots \\quad (R = \\infty)$</li>\n  <li>$\\frac{1}{1 - x} = \\sum_{k=0}^\\infty x^k = 1 + x + x^2 + x^3 + \\dots \\quad (R = 1)$</li>\n  <li>$\\ln(1 + x) = \\sum_{k=1}^\\infty \\frac{(-1)^{k-1} x^k}{k} = x - \\frac{x^2}{2} + \\frac{x^3}{3} - \\dots \\quad (R = 1)$</li>\n  <li>$(1 + x)^\\alpha = \\sum_{k=0}^\\infty \\binom{\\alpha}{k} x^k = 1 + \\alpha x + \\frac{\\alpha(\\alpha-1)}{2!} x^2 + \\dots \\quad (R = 1)$</li>\n</ul>"
+    },
+    {
+      "id": "u8-sec2",
+      "title": "Taylor's Theorem with Remainder: Lagrange, Cauchy & Integral Forms",
+      "content": "<h4>1. Statement of Taylor's Theorem</h4>\n<p>Let $f \\in C^{n+1}([a, b])$ with $x_0, x \\in [a, b]$. Then $f(x) = P_n(x) + R_n(x)$, where $R_n(x)$ is the <strong>remainder</strong> (truncation error).</p>\n\n<h4>2. Lagrange Form of the Remainder</h4>\n<div class=\"math-display\">\n$$\\mathbf{R_n(x) = \\frac{f^{(n+1)}(c)}{(n+1)!} (x - x_0)^{n+1}}$$\n</div>\n<p>for some intermediate point $c$ strictly between $x_0$ and $x$. Notice that for $n = 0$, this is identically the Lagrange Mean Value Theorem $f(x) - f(x_0) = f'(c)(x - x_0)$.</p>\n\n<h4>3. Integral Form of the Remainder</h4>\n<p>Repeated integration by parts establishes:</p>\n<div class=\"math-display\">\n$$\\mathbf{R_n(x) = \\frac{1}{n!} \\int_{x_0}^x (x - t)^n f^{(n+1)}(t) \\, dt}$$\n</div>\n\n<h4>4. The Lagrange Truncation Error Bound</h4>\n<p>If $|f^{(n+1)}(t)| \\le M$ for all $t$ between $x_0$ and $x$:</p>\n<div class=\"math-display\">\n$$\\mathbf{|R_n(x)| \\le \\frac{M}{(n+1)!} |x - x_0|^{n+1}}$$\n</div>",
+      "simulation": "sim_calc2_taylor",
+      "simulations": [
+        "sim_calc2_taylor"
+      ]
+    },
+    {
+      "id": "u8-sec3",
+      "title": "High-Precision Numerical Computations & Error Estimation",
+      "content": "<h4>1. Error Budgeting Principle</h4>\n<p>To approximate $f(x)$ with error strictly less than a specified tolerance $\\varepsilon > 0$, we find the smallest integer $n$ such that:</p>\n<div class=\"math-display\">\n$$\\frac{M}{(n+1)!} |x - x_0|^{n+1} < \\varepsilon$$\n</div>\n\n<h4>2. High-Precision Approximation of $e$</h4>\n<p>Expanding $e^x$ at $x_0 = 0$ for $x = 1$ with $M = \\max_{c \\in [0, 1]} e^c = e < 3$:</p>\n<div class=\"math-display\">\n$$|R_n(1)| \\le \\frac{3}{(n+1)!}$$\n</div>\n<p>For $\\varepsilon = 10^{-6}$, setting $\\frac{3}{(n+1)!} < 10^{-6} \\implies (n+1)! > 3 \\times 10^6 \\implies n = 9$ (since $10! = 3,628,800$). Thus, adding just 10 terms of $P_9(1)$ guarantees 6 decimal places of accuracy!</p>"
+    },
+    {
+      "id": "u8-sec4",
+      "title": "Differentiation & Integration of Non-Elementary Series Functions",
+      "content": "<h4>1. Integrating Non-Elementary Integrands</h4>\n<p>Many foundational integrals in physics and probability (such as the error function $\\operatorname{erf}(x) = \\frac{2}{\\sqrt{\\pi}}\\int_0^x e^{-t^2} dt$ and the sine integral $\\operatorname{Si}(x) = \\int_0^x \\frac{\\sin t}{t} dt$) have no closed-form elementary antiderivative. Taylor series integration resolves them completely.</p>\n<p>Expanding $e^{-t^2} = \\sum_{k=0}^\\infty \\frac{(-1)^k t^{2k}}{k!}$:</p>\n<div class=\"math-display\">\n$$\\int_0^x e^{-t^2} \\, dt = \\sum_{k=0}^\\infty \\frac{(-1)^k}{k!} \\int_0^x t^{2k} \\, dt = \\sum_{k=0}^\\infty \\frac{(-1)^k x^{2k+1}}{k! (2k+1)} = x - \\frac{x^3}{3} + \\frac{x^5}{10} - \\frac{x^7}{42} + \\dots$$\n</div>\n<p>Because this is an alternating series, the truncation error after $N$ terms is bounded by the magnitude of the $(N+1)$-th term.</p>"
+    },
+    {
+      "id": "u8-sec5",
+      "title": "Applied Taylor Models: Physics, Economics & Biological Systems",
+      "content": "<h4>1. Physics: Relativistic Kinetic Energy Correction</h4>\n<p>Einstein's relativistic total energy is $E = \\gamma m c^2$ with $\\gamma = (1 - v^2/c^2)^{-1/2}$. Expanding via the binomial Taylor series for $x = v^2/c^2 \\ll 1$:</p>\n<div class=\"math-display\">\n$$\\gamma = 1 + \\frac{1}{2}\\left(\\frac{v^2}{c^2}\\right) + \\frac{3}{8}\\left(\\frac{v^2}{c^2}\\right)^2 + \\mathcal{O}\\left(\\frac{v^6}{c^6}\\right)$$\n</div>\n<p>The kinetic energy $K = E - mc^2 = (\\gamma - 1)mc^2$ becomes:</p>\n<div class=\"math-display\">\n$$\\mathbf{K = \\frac{1}{2} m v^2 + \\frac{3}{8} \\frac{m v^4}{c^2} + \\mathcal{O}(v^6)}$$\n</div>\n<p>The leading Taylor term recovers Newtonian kinetic energy $\\frac{1}{2}mv^2$, while the second term provides the leading relativistic correction!</p>\n\n<h4>2. Economics: Arrow-Pratt Risk Aversion Measure</h4>\n<p>Expanding an agent's expected utility $U(w + \\tilde{z})$ around wealth $w$ reveals that risk premium is proportional to $-\\frac{U''(w)}{U'(w)}$.</p>\n\n<h4>3. Biology: Population Linearization</h4>\n<p>Expanding the non-linear logistic growth equation $\\frac{dN}{dt} = r N (1 - N/K)$ around the carrying capacity $K$ yields stable exponential decay of perturbations.</p>"
+    }
+  ],
+  "simulations": [
+    "sim_calc2_taylor"
+  ],
+  "problems": [
+    {
+      "id": "calc2-p8-1",
+      "difficulty": "Easy",
+      "difficultyLabel": "Tier 1: Foundational",
+      "title": "Maclaurin Polynomial and Error Bound for $\\ln(1 + 2x)$",
+      "statement": "(a) Find the 3rd-degree Maclaurin polynomial $P_3(x)$ for $f(x) = \\ln(1 + 2x)$.\n(b) Use the Lagrange remainder to bound the error $|f(x) - P_3(x)|$ on the interval $[0, 0.1]$.",
+      "solution": "<h4>Part (a): Compute Derivatives and Maclaurin Polynomial</h4>\n<p>Evaluating derivatives at $x = 0$:</p>\n<div class=\"math-display\">\n$$\\begin{aligned}\nf(x) &= \\ln(1 + 2x) \\implies f(0) = 0 \\\\\nf'(x) &= 2(1 + 2x)^{-1} \\implies f'(0) = 2 \\\\\nf''(x) &= -4(1 + 2x)^{-2} \\implies f''(0) = -4 \\\\\nf'''(x) &= 16(1 + 2x)^{-3} \\implies f'''(0) = 16\n\\end{aligned}$$\n</div>\n<p>The 3rd-degree Maclaurin polynomial is:</p>\n<div class=\"math-display\">\n$$P_3(x) = 0 + 2x + \\frac{-4}{2!} x^2 + \\frac{16}{3!} x^3 = \\mathbf{2x - 2x^2 + \\frac{8}{3}x^3}$$\n</div>\n\n<h4>Part (b): Error Bound on $[0, 0.1]$</h4>\n<p>The 4th derivative is $f^{(4)}(x) = -96(1 + 2x)^{-4}$.</p>\n<p>On $[0, 0.1]$, $|f^{(4)}(x)|$ is maximized at $x = 0$ because the denominator is monotonically increasing:</p>\n<div class=\"math-display\">\n$$M = \\max_{c \\in [0, 0.1]} |f^{(4)}(c)| = |f^{(4)}(0)| = 96$$\n</div>\n<p>By the Lagrange Remainder Bound:</p>\n<div class=\"math-display\">\n$$|R_3(x)| \\le \\frac{M}{4!} |x|^4 \\le \\frac{96}{24} (0.1)^4 = 4 \\times 10^{-4} = \\mathbf{0.0004}$$\n</div>",
+      "answer": "$P_3(x) = 2x - 2x^2 + \\frac{8}{3}x^3$; error bound $|R_3(x)| \\le 0.0004$ on $[0, 0.1]$."
+    },
+    {
+      "id": "calc2-p8-2",
+      "difficulty": "Medium",
+      "difficultyLabel": "Tier 2: Intermediate Exam",
+      "title": "Numerical Integration of a Non-Elementary Integral",
+      "statement": "Approximate the definite integral to within $10^{-5}$ accuracy using Maclaurin series expansion:\n$$I = \\int_0^{0.5} \\frac{1 - \\cos(x)}{x^2} \\, dx$$",
+      "solution": "<h4>Step 1: Series Expansion of the Integrand</h4>\n<p>Recall the Maclaurin expansion for $\\cos(x)$:</p>\n<div class=\"math-display\">\n$$\\cos(x) = 1 - \\frac{x^2}{2!} + \\frac{x^4}{4!} - \\frac{x^6}{6!} + \\dots$$\n</div>\n<p>Therefore:</p>\n<div class=\"math-display\">\n$$\\frac{1 - \\cos(x)}{x^2} = \\frac{\\frac{x^2}{2} - \\frac{x^4}{24} + \\frac{x^6}{720} - \\dots}{x^2} = \\frac{1}{2} - \\frac{x^2}{24} + \\frac{x^4}{720} - \\frac{x^6}{40320} + \\dots$$\n</div>\n\n<h4>Step 2: Term-by-Term Integration</h4>\n<div class=\"math-display\">\n$$\\begin{aligned}\nI &= \\int_0^{0.5} \\left( \\frac{1}{2} - \\frac{x^2}{24} + \\frac{x^4}{720} - \\frac{x^6}{40320} + \\dots \\right) dx \\\\\n&= \\left[ \\frac{x}{2} - \\frac{x^3}{72} + \\frac{x^5}{3600} - \\frac{x^7}{282240} + \\dots \\right]_0^{0.5}\n\\end{aligned}$$\n</div>\n\n<h4>Step 3: Evaluate Terms at $x = 0.5$</h4>\n<div class=\"math-display\">\n$$\\text{Term 1: } \\frac{0.5}{2} = 0.25$$\n</div>\n<div class=\"math-display\">\n$$\\text{Term 2: } -\\frac{(0.5)^3}{72} = -\\frac{0.125}{72} \\approx -0.00173611$$\n</div>\n<div class=\"math-display\">\n$$\\text{Term 3: } \\frac{(0.5)^5}{3600} = \\frac{0.03125}{3600} \\approx 0.00000868$$\n</div>\n<p>Since this is an alternating series whose terms decrease monotonically, the truncation error after Term 2 is bounded by Term 3:</p>\n<div class=\"math-display\">\n$$|R_2| \\le \\text{Term 3} \\approx 8.68 \\times 10^{-6} < 10^{-5}$$\n</div>\n<p>Summing the first two terms:</p>\n<div class=\"math-display\">\n$$I \\approx 0.25 - 0.00173611 = \\mathbf{0.248264}$$\n</div>",
+      "answer": "$I \\approx 0.24826$ (accurate to within $10^{-5}$)."
+    },
+    {
+      "id": "calc2-p8-3",
+      "difficulty": "Hard",
+      "difficultyLabel": "Tier 3: Honors / Proof Challenge",
+      "title": "Relativistic Kinetic Energy and Quantum Perturbations",
+      "statement": "Consider the relativistic energy-momentum dispersion relation for a particle of rest mass $m$:\n$$E(p) = \\sqrt{p^2 c^2 + m^2 c^4}$$\n(a) Using the binomial Taylor series for $\\sqrt{1 + u}$, expand $E(p)$ in powers of $p/(mc)$ for non-relativistic momenta $p \\ll mc$.\n(b) Identify the rest energy, Newtonian kinetic energy, and first relativistic correction.\n(c) In relativistic quantum mechanics, this expansion generates the Dirac Hamiltonian fine structure Hamiltonian. Write down the perturbed Hamiltonian operator $H = H_0 + H_1$ in position representation with momentum operator $\\hat{p} = -i\\hbar\\nabla$.",
+      "solution": "<h4>Part (a): Binomial Taylor Series Expansion</h4>\n<p>Factor out the rest mass energy $m c^2$:</p>\n<div class=\"math-display\">\n$$E(p) = mc^2 \\sqrt{1 + \\frac{p^2}{m^2 c^2}} = mc^2 \\left( 1 + \\frac{p^2}{m^2 c^2} \\right)^{1/2}$$\n</div>\n<p>Let $u = \\frac{p^2}{m^2 c^2} \\ll 1$. Recall the binomial series for $(1 + u)^{1/2}$:</p>\n<div class=\"math-display\">\n$$(1 + u)^{1/2} = 1 + \\frac{1}{2}u - \\frac{1}{8}u^2 + \\frac{1}{16}u^3 - \\dots$$\n</div>\n<p>Substituting $u = \\frac{p^2}{m^2 c^2}$:</p>\n<div class=\"math-display\">\n$$E(p) = mc^2 \\left( 1 + \\frac{1}{2}\\frac{p^2}{m^2 c^2} - \\frac{1}{8}\\frac{p^4}{m^4 c^4} + \\mathcal{O}(p^6) \\right)$$\n</div>\n<div class=\"math-display\">\n$$\\mathbf{E(p) = mc^2 + \\frac{p^2}{2m} - \\frac{p^4}{8m^3 c^2} + \\mathcal{O}(p^6)}$$\n</div>\n\n<h4>Part (b): Identification of Energy Terms</h4>\n<ol>\n  <li><strong>Rest Energy:</strong> $E_0 = mc^2$</li>\n  <li><strong>Classical Newtonian Kinetic Energy:</strong> $K_{\\text{Newton}} = \\frac{p^2}{2m} = \\frac{1}{2}mv^2$</li>\n  <li><strong>First Relativistic Correction:</strong> $\\Delta E_{\\text{rel}} = -\\frac{p^4}{8m^3 c^2}$ (strictly negative, lowering the energy levels of high-velocity states).</li>\n</ol>\n\n<h4>Part (c): Quantum Mechanical Operator Representation</h4>\n<p>Promoting momentum to the quantum operator $\\hat{p} = -i\\hbar\\nabla$, the Laplacian gives $\\hat{p}^2 = -\\hbar^2 \\nabla^2$ and $\\hat{p}^4 = \\hbar^4 \\nabla^4$. Subtracting the constant rest energy $mc^2$:</p>\n<div class=\"math-display\">\n$$\\hat{H}_0 = -\\frac{\\hbar^2}{2m} \\nabla^2 + V(r) \\quad \\text{(Standard Schrödinger Hamiltonian)}$$\n</div>\n<div class=\"math-display\">\n$$\\mathbf{\\hat{H}_1 = -\\frac{\\hat{p}^4}{8m^3 c^2} = -\\frac{\\hbar^4}{8m^3 c^2} \\nabla^4} \\quad \\blacksquare$$\n</div>\n<p>This is precisely the relativistic mass-velocity fine-structure correction Hamiltonian in atomic spectroscopy.</p>",
+      "answer": "$E(p) = mc^2 + \\frac{p^2}{2m} - \\frac{p^4}{8m^3 c^2} + \\dots$; in quantum mechanics, $\\hat{H}_1 = -\\frac{\\hat{p}^4}{8m^3 c^2} = -\\frac{\\hbar^4}{8m^3 c^2}\\nabla^4$."
+    }
+  ],
+  "unitId": "unit8-calc2",
+  "number": 8,
+  "unitNumber": 8,
+  "leadSummary": ""
+}

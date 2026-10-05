@@ -1,0 +1,136 @@
+{
+  "unitNumber": 3,
+  "unitId": "unit3-k-maps-arithmetic-circuits",
+  "title": "Combinational Optimization, K-Maps & Arithmetic Circuits",
+  "description": "Exhaustive theory and practice of combinational logic minimization and arithmetic computation: minterms (m_i), maxterms (M_i), canonical Sum-of-Products (SOP) and Product-of-Sums (POS) representations; Karnaugh Map (K-Map) minimization across 2, 3, 4, and 5 variables with Gray code adjacency and Don't Care states; Quine-McCluskey tabular algorithm, prime implicants, and Petrick's method; radix and diminished radix complements (1's, 2's, 9's, 10's complement); half-adders, full-adders, parallel ripple-carry adders, carry-lookahead generators; BCD decimal adders with +6 correction logic, half/full subtractors, and array binary multipliers.",
+  "sections": [
+    {
+      "id": "dig-3-1",
+      "title": "Canonical Boolean Forms: Minterms, Maxterms, SOP & POS",
+      "content": "<h4>1. Canonical Boolean Representations</h4>\n<p>Every Boolean switching function of $n$ variables $F(x_1, x_2, \\dots, x_n)$ can be expressed uniquely in two complementary canonical forms:</p>\n<ol>\n<li><strong>Minterms ($m_i$) and Canonical Sum-of-Products (SOP):</strong> A <strong>minterm</strong> is a product (AND) of all $n$ variables, with each variable appearing exactly once in either its uncomplemented or complemented form. An $n$-variable function possesses $2^n$ distinct minterms ($m_0$ through $m_{2^n-1}$). Minterm $m_i$ evaluates to <strong>1</strong> for exactly one input combination whose binary representation equals index $i$. Any function is uniquely defined as the logical sum (OR) of its 1-generating minterms:\n<div class=\"math-display\">\n$$F(A, B, C) = \\sum m(1, 4, 6, 7) = \\bar{A}\\bar{B}C + A\\bar{B}\\bar{C} + AB\\bar{C} + ABC$$\n</div></li>\n<li><strong>Maxterms ($M_i$) and Canonical Product-of-Sums (POS):</strong> A <strong>maxterm</strong> is a sum (OR) of all $n$ variables. Maxterm $M_i$ evaluates to <strong>0</strong> for exactly one input combination whose binary representation equals index $i$. By De Morgan's theorem, each maxterm is the exact complement of the corresponding minterm:\n<div class=\"math-display\">\n$$M_i = \\overline{m_i}$$\n</div>\nAny function is uniquely defined as the logical product (AND) of its 0-generating maxterms:\n<div class=\"math-display\">\n$$F(A, B, C) = \\prod M(0, 2, 3, 5) = (A + B + C)(A + \\bar{B} + C)(A + \\bar{B} + \\bar{C})(\\bar{A} + B + \\bar{C})$$\n</div></li>\n</ol>\n\n<h4>2. Conversion Between Canonical SOP and POS</h4>\n<p>Because the indices that do not belong to the minterm list $\\sum m$ must generate 0s, they form the maxterm list $\\prod M$:</p>\n<div class=\"math-display\">\n$$F = \\sum m(d_1, d_2, \\dots) \\iff F = \\prod M(\\text{remaining indices})$$\n</div>\n<p>Furthermore, the complement function $\\bar{F}$ is simply the sum of all missing minterms:</p>\n<div class=\"math-display\">\n$$\\bar{F} = \\sum m(\\text{missing from } F) = \\prod M(\\text{present in } F)$$\n</div>"
+    },
+    {
+      "id": "dig-3-2",
+      "title": "Karnaugh Map (K-Map) Minimization & Don't Care Conditions",
+      "simulation": "dig-kmap-minimizer-sim",
+      "content": "<h4>1. Geometric Adjacency & Gray Code Ordering in K-Maps</h4>\n<p>Maurice Karnaugh (1953) organized truth tables into a planar graphical grid termed the <strong>Karnaugh Map (K-map)</strong>. The rows and columns are arranged in <strong>reflected Gray code sequence</strong> ($00, 01, 11, 10$):</p>\n<ul>\n<li>Adjacent cells horizontally and vertically differ in <strong>exactly one literal</strong>.</li>\n<li>The edges wrap around cyclically (toroidal topology): the leftmost column is geometrically adjacent to the rightmost column, and the top row is adjacent to the bottom row.</li>\n<li>Four-corner cells ($m_0, m_2, m_8, m_{10}$ in a 4-variable map) are mutually adjacent and form a valid group of four.</li>\n</ul>\n\n<h4>2. Grouping Rules and Prime Implicant Extraction</h4>\n<p>By applying the Boolean absorption identity $x y + x \\bar{y} = x (y + \\bar{y}) = x$, grouping adjacent cells containing 1s eliminates the differing literals:</p>\n<ul>\n<li>A group of $2^1 = 2$ adjacent cells (pair) eliminates <strong>1 literal</strong>.</li>\n<li>A group of $2^2 = 4$ adjacent cells (quad) eliminates <strong>2 literals</strong>.</li>\n<li>A group of $2^3 = 8$ adjacent cells (octet) eliminates <strong>3 literals</strong>.</li>\n<li>A group of $2^k$ adjacent cells eliminates <strong>$k$ literals</strong>.</li>\n</ul>\n<p><strong>Fundamental K-Map Optimization Axioms:</strong></p>\n<ol>\n<li>Groups must be rectangular and contain a power-of-two number of cells ($1, 2, 4, 8, 16$).</li>\n<li>Every 1 must be covered by at least one group.</li>\n<li>Groups should be made as <strong>large as possible</strong> to maximize literal elimination.</li>\n<li>The total number of groups must be <strong>minimized</strong> to minimize gate count.</li>\n<li>A <strong>Prime Implicant (PI)</strong> is a group that cannot be combined with any other cells to form a larger group.</li>\n<li>An <strong>Essential Prime Implicant (EPI)</strong> is a prime implicant that covers at least one '1' that is not covered by any other prime implicant. All EPIs <em>must</em> be included in the minimal sum.</li>\n</ol>\n\n<h4>3. Incompletely Specified Functions: Don't Care States ($\\times$)</h4>\n<p>In many digital circuits (e.g., BCD decoders), certain input combinations never occur physically (e.g., binary values $10 - 15$ in 4-bit BCD). The output for these combinations is immaterial and designated as a <strong>Don't Care ($\\times$ or $d$)</strong>.</p>\n<p>In K-map reduction, a Don't Care condition $\\times$ may be treated as <strong>1</strong> if doing so allows a group to expand to a larger power-of-two size (eliminating more literals), or as <strong>0</strong> if it does not help enlarge any group. Don't Care cells are never grouped alone.</p>"
+    },
+    {
+      "id": "dig-3-3",
+      "title": "Quine-McCluskey Tabulation & Prime Implicant Charts",
+      "content": "<h4>1. Limitations of K-Maps and the Need for Algorithmic Reduction</h4>\n<p>While Karnaugh maps are intuitive for 2, 3, and 4 variables, 5-variable maps require dual overlay planes, and 6-variable maps require 4 sub-cubes, becoming visually error-prone. For functions of $n \\ge 6$ variables, algorithmic computer-aided design (CAD) relies on the <strong>Quine-McCluskey (Q-M) Tabulation Method</strong>.</p>\n\n<h4>2. Step-by-Step Quine-McCluskey Algorithm</h4>\n<ol>\n<li><strong>Group by Hamming Weight:</strong> Express all minterms and don't cares in binary and partition them into groups based on the count of 1s (Hamming weight).</li>\n<li><strong>Pairwise Comparison:</strong> Compare each term in group $k$ with every term in group $k+1$. If two terms differ in exactly one bit position, combine them by replacing that bit with a dash ($-$) and check off ($\\checkmark$) both contributing terms:\n<div class=\"math-display\">\n$$0101 \\ (5) \\text{ and } 0111 \\ (7) \\implies 01-1 \\ (5, 7)$$\n</div></li>\n<li><strong>Iterative Expansion:</strong> Repeat the comparison process for 2-cell implicants, 4-cell implicants, etc., matching dashes in identical positions, until no further combinations are possible.</li>\n<li><strong>Prime Implicants:</strong> All terms that remain unchecked at the end of the process are the <strong>Prime Implicants (PIs)</strong>.</li>\n</ol>\n\n<h4>3. Prime Implicant Selection Chart & Petrick's Method</h4>\n<p>Construct a matrix where rows correspond to the PIs and columns correspond to the original function minterms (Don't Cares are omitted from columns):</p>\n<ul>\n<li>Place an $\\times$ in each column covered by a given PI.</li>\n<li>If a column contains only a single $\\times$, the corresponding row is an <strong>Essential Prime Implicant (EPI)</strong>. Check this row and cross off all columns covered by it.</li>\n<li>If uncovered minterms remain (cyclic prime implicant charts), apply <strong>Petrick's Method</strong>: formulate a product-of-sums Boolean expression $\\prod (P_i + P_j + \\dots)$ asserting that each column must be covered, and expand algebraically into SOP to identify the minimal literal solution.</li>\n</ul>"
+    },
+    {
+      "id": "dig-3-4",
+      "title": "Radix & Diminished Radix Complements: 1's & 2's Complement",
+      "content": "<h4>1. Mathematical Definition of Radix Complements</h4>\n<p>To perform binary subtraction using standard adder hardware (eliminating the need for separate borrow-subtractor units), modern ALUs utilize complement arithmetic. In base $r$ with $n$ digits:</p>\n<ol>\n<li><strong>Diminished Radix Complement ($r-1$'s Complement):</strong>\n<div class=\"math-display\">\n$$(r - 1)\\text{'s Complement of } N = (r^n - 1) - N$$\n</div>\nIn binary ($r=2$), the $1$'s complement is $(2^n - 1) - N$, achieved simply by <strong>inverting every individual bit</strong> ($0 \\to 1, 1 \\to 0$). In decimal ($r=10$), the $9$'s complement is obtained by subtracting each digit from 9.</li>\n<li><strong>Radix Complement ($r$'s Complement):</strong>\n<div class=\"math-display\">\n$$r\\text{'s Complement of } N = r^n - N = [(r^n - 1) - N] + 1 = (r - 1)\\text{'s Complement} + 1$$\n</div>\nIn binary, the <strong>2's complement</strong> is obtained by inverting all bits and adding 1:\n<div class=\"math-display\">\n$$N_{2's} = \\bar{N} + 1$$\n</div>\nShortcut: Leave all least significant zeros and the first '1' unchanged; invert all remaining bits to the left.</li>\n</ol>\n\n<h4>2. Subtraction Using 2's Complement Arithmetic</h4>\n<p>To compute $M - N$ for $n$-bit unsigned numbers, the ALU evaluates $M + (2^n - N) = M - N + 2^n$:</p>\n<ul>\n<li><strong>Case 1 ($M \\ge N$):</strong> The sum produces an <strong>End Carry</strong> of $2^n$ ($C_{\\text{out}} = 1$). Discarding the carry yields the correct positive difference $M - N$.</li>\n<li><strong>Case 2 ($M < N$):</strong> No end carry occurs ($C_{\\text{out}} = 0$). The result is negative and equals the 2's complement of the true magnitude: $-(2^n - \\text{Sum})$.</li>\n</ul>\n\n<h4>3. Signed Binary Representation & Arithmetic Overflow</h4>\n<p>In signed $n$-bit 2's complement representation, the Most Significant Bit (MSB) acts as the sign bit ($0 \\leftrightarrow +, 1 \\leftrightarrow -$):</p>\n<div class=\"math-display\">\n$$\\text{Range of Signed } n\\text{-bit Integer: } -2^{n-1} \\le X \\le +2^{n-1} - 1$$\n</div>\n<p>For an 8-bit byte: $-128 \\le X \\le +127$. Crucially, 2's complement features a <strong>unique zero</strong> ($00000000_2$), unlike 1's complement which suffers from $+0$ and $-0$ ambiguities.</p>\n<p><strong>Overflow Condition ($V$):</strong> When adding two numbers of identical sign, the magnitude may exceed the representable range. Hardware detects overflow via an XOR gate comparing the carry into the sign bit ($C_{n-1}$) with the carry out of the sign bit ($C_n$):</p>\n<div class=\"math-display\">\n$$V = C_n \\oplus C_{n-1}$$\n</div>\n<p>If $V = 1$, an arithmetic overflow exception is signaled.</p>"
+    },
+    {
+      "id": "dig-3-5",
+      "title": "Adders & Subtractors: Half/Full Adders & Carry-Lookahead (CLA)",
+      "simulation": "dig-adder-subtractor-sim",
+      "content": "<h4>1. Half-Adder and Full-Adder Logic</h4>\n<p>The elementary building blocks of binary addition:</p>\n<ol>\n<li><strong>Half-Adder (HA):</strong> Adds two 1-bit inputs $A$ and $B$, producing Sum $S$ and Carry $C$:\n<div class=\"math-display\">\n$$S = A \\oplus B, \\quad C = A B$$\n</div></li>\n<li><strong>Full-Adder (FA):</strong> Adds three 1-bit inputs: operands $A, B$ and carry-in $C_{\\text{in}}$:\n<div class=\"math-display\">\n$$S = A \\oplus B \\oplus C_{\\text{in}}$$\n</div>\n<div class=\"math-display\">\n$$C_{\\text{out}} = A B + B C_{\\text{in}} + A C_{\\text{in}} = A B + C_{\\text{in}}(A \\oplus B)$$\n</div>\nA Full-Adder can be synthesized using two Half-Adders and one OR gate.</li>\n</ol>\n\n<h4>2. Ripple-Carry Parallel Adder Limitations</h4>\n<p>An $n$-bit parallel adder cascades $n$ Full-Adders, with $C_{\\text{out}, i}$ connected to $C_{\\text{in}, i+1}$. While hardware cost is minimal, the critical path requires the carry bit to \"ripple\" sequentially through all $n$ stages:</p>\n<div class=\"math-display\">\n$$t_{\\text{ripple}} = n \\cdot t_{\\text{carry}}$$\n</div>\n<p>For a 64-bit adder with $t_{\\text{carry}} = 1\\text{ ns}$, the total propagation delay is $64\\text{ ns}$, severely throttling CPU clock frequencies.</p>\n\n<h4>3. Carry-Lookahead Adder (CLA) Acceleration</h4>\n<p>To eliminate serial carry propagation, the Carry-Lookahead Adder generates all carry bits simultaneously in parallel using two auxiliary functions:</p>\n<ul>\n<li><strong>Carry Generate ($G_i$):</strong> $G_i = A_i B_i$ (a carry is generated inside stage $i$ regardless of carry-in).</li>\n<li><strong>Carry Propagate ($P_i$):</strong> $P_i = A_i \\oplus B_i$ (a carry-in to stage $i$ is propagated forward to stage $i+1$).</li>\n</ul>\n<p>Expressing stage carries recursively:</p>\n<div class=\"math-display\">\n$$C_1 = G_0 + P_0 C_0$$\n</div>\n<div class=\"math-display\">\n$$C_2 = G_1 + P_1 C_1 = G_1 + P_1 G_0 + P_1 P_0 C_0$$\n</div>\n<div class=\"math-display\">\n$$C_3 = G_2 + P_2 G_1 + P_2 P_1 G_0 + P_2 P_1 P_0 C_0$$\n</div>\n<div class=\"math-display\">\n$$C_4 = G_3 + P_3 G_2 + P_3 P_2 G_1 + P_3 P_2 P_1 G_0 + P_3 P_2 P_1 P_0 C_0$$\n</div>\n<p>Each carry depends strictly on the input operands and initial carry $C_0$, bypassing intermediate stages. All carries are computed simultaneously within a constant <strong>two-gate delay</strong>, irrespective of word length.</p>"
+    },
+    {
+      "id": "dig-3-6",
+      "title": "BCD Decimal Adders, Subtractors & Binary Multipliers",
+      "content": "<h4>1. BCD Decimal Adder Architecture</h4>\n<p>In a Binary Coded Decimal (BCD) adder, two 4-bit BCD digits ($A, B \\in [0, 9]$) and carry-in $C_{\\text{in}}$ are summed using a standard 4-bit binary adder. If the binary sum $K \\le 9$, the result is a valid BCD digit. However, if the sum exceeds 9 ($10 \\le K \\le 19$), the 4-bit binary adder produces an invalid BCD codeword ($1010_2$ to $1111_2$) or an unrecorded carry:</p>\n<ul>\n<li><strong>Correction Condition:</strong> An invalid decimal state is flagged if:\n<div class=\"math-display\">\n$$\\text{Correction Carry } C_{\\text{out}} = K_4 + S_3 S_2 + S_3 S_1$$\n</div>\nwhere $K_4$ is the binary carry-out, $S_3 S_2$ flags 12 and 13, and $S_3 S_1$ flags 10 and 11.</li>\n<li><strong>Correction Circuit:</strong> Whenever $C_{\\text{out}} = 1$, the hardware adds $6_{10} = 0110_2$ to the sum via a second 4-bit binary adder. Adding 6 skips the 6 invalid 4-bit states, correctly producing the lower BCD digit and propagating the decimal carry $C_{\\text{out}} = 1$ to the next decade.</li>\n</ul>\n\n<h4>2. Controlled Adder/Subtractor Circuit</h4>\n<p>A single hardware unit performs both binary addition and subtraction by routing operand $B$ through conditional XOR inverters controlled by mode bit $M$:</p>\n<div class=\"math-display\">\n$$B_i^* = B_i \\oplus M, \\quad C_{\\text{in}} = M$$\n</div>\n<ul>\n<li>When $M = 0$: $B_i^* = B_i$ and $C_{\\text{in}} = 0 \\implies$ Evaluates $A + B$ (Addition).</li>\n<li>When $M = 1$: $B_i^* = \\bar{B}_i$ and $C_{\\text{in}} = 1 \\implies$ Evaluates $A + \\bar{B} + 1 = A - B$ (2's complement Subtraction).</li>\n</ul>\n\n<h4>3. Binary Array Multipliers</h4>\n<p>Multiplication of two unsigned binary numbers ($A = a_{m-1}\\dots a_0$ and $B = b_{n-1}\\dots b_0$) is synthesized as the accumulation of $m \\times n$ partial products $P_{i,j} = a_i \\cdot b_j$ generated by 2-input AND gates. In an $m \\times n$ array multiplier, partial product rows are shifted and summed using a 2D matrix of full adders, yielding product bits with delay scaling linearly with word length.</p>"
+    }
+  ],
+  "problems": [
+    {
+      "id": "dig-p-3-1",
+      "title": "4-Variable Karnaugh Map Optimization with Don't Care States",
+      "statement": "A combinational switching function is defined by minterms and don't care conditions: $F(A, B, C, D) = \\sum m(1, 3, 7, 11, 15) + \\sum d(0, 2, 5)$. (a) Plot the function on a 4-variable Karnaugh map. (b) Identify all Prime Implicants and Essential Prime Implicants. (c) Derive the absolute minimal Sum-of-Products (SOP) expression and state the number of logic gates saved compared to the unsimplified canonical form.",
+      "steps": [
+        {
+          "stepName": "Step 1: Plot Minterms and Don't Cares on K-Map",
+          "math": "\\text{Rows } AB: 00, 01, 11, 10; \\quad \\text{Cols } CD: 00, 01, 11, 10. \\implies m(1,3,7,11,15)=1; \\ d(0,2,5)=\\times; \\ \\text{Others}=0",
+          "explanation": "Fill K-map cells: m0=x, m1=1, m2=x, m3=1; m5=x, m7=1; m11=1; m15=1."
+        },
+        {
+          "stepName": "Step 2: Form Prime Implicant Groups Using Don't Cares",
+          "math": "\\text{Group 1 (Quad/Octet): Top row } (m_0, m_1, m_3, m_2) \\text{ contains } (\\times, 1, 1, \\times). \\text{ Combine with } (m_4=0, m_5=\\times, m_7=1, m_6=0)? \\text{ No.}",
+          "explanation": "Top row cells (0, 1, 3, 2) form a Quad of four cells: CD has all 4 states, AB = 00 -> Term: A'B'."
+        },
+        {
+          "stepName": "Step 3: Group the Vertical Column (m3, m7, m11, m15)",
+          "math": "\\text{Column } CD = 11: m_3, m_7, m_{11}, m_{15} \\text{ are all 1s!} \\implies \\text{Column Quad covers all 4 cells} \\to \\text{Term: } C D",
+          "explanation": "Column CD=11 forms an essential quad covering 3, 7, 11, 15: eliminates A and B."
+        },
+        {
+          "stepName": "Step 4: Check Coverage of Minterm 1",
+          "math": "m_1 \\text{ is covered by Quad } (m_0, m_1, m_3, m_2) \\to \\bar{A}\\bar{B}. \\quad \\text{Alternatively, Quad } (m_1, m_3, m_5, m_7) \\text{ covers } 1, 3, 5, 7 \\to \\bar{A} D",
+          "explanation": "Choosing Quad (m1, m3, m5, m7) gives A'D. Column CD gives CD. Combined: F = A'D + CD = (A' + C)D."
+        },
+        {
+          "stepName": "Step 5: Compare Minimal SOP Options",
+          "math": "F = \\bar{A} D + C D = (\\bar{A} + C) D \\quad \\text{or} \\quad F = \\bar{A}\\bar{B} + C D",
+          "explanation": "F = C D + A_bar D uses only 2 two-input gates. The unsimplified canonical form required 5 four-input AND gates plus a 5-input OR gate (30 inputs total), achieving a ~80% hardware reduction."
+        }
+      ],
+      "answer": "F(A, B, C, D) = C D + \\bar{A} D \\quad \\text{or} \\quad F = C D + \\bar{A}\\bar{B} \\quad (\\text{Hardware reduced from 30 inputs to 5})"
+    },
+    {
+      "id": "dig-p-3-2",
+      "title": "Signed 2's Complement Addition, Subtraction and Overflow Detection",
+      "statement": "Given two 8-bit signed binary numbers in 2's complement representation: $A = 01011000_2$ and $B = 01100100_2$. (a) Determine their decimal values. (b) Compute the sum $S = A + B$ in 8-bit 2's complement arithmetic. (c) Evaluate the carry into the sign bit $C_7$ and carry out of the sign bit $C_8$, determine the overflow flag $V = C_8 \\oplus C_7$, and explain the physical significance of the result.",
+      "steps": [
+        {
+          "stepName": "Step 1: Convert Operands to Decimal",
+          "math": "A = 01011000_2 \\implies + (64 + 16 + 8) = +88_{10}. \\quad B = 01100100_2 \\implies + (64 + 32 + 4) = +100_{10}",
+          "explanation": "Both numbers have MSB = 0, representing positive decimal integers."
+        },
+        {
+          "stepName": "Step 2: Perform 8-bit Binary Addition",
+          "math": "\\begin{matrix} & 01011000 \\quad (+88) \\\\ + & 01100100 \\quad (+100) \\\\ \\hline & 10111100 \\end{matrix}",
+          "explanation": "Add bits from right to left: sum is 10111100_2."
+        },
+        {
+          "stepName": "Step 3: Evaluate Carries into and out of MSB",
+          "math": "C_7 (\\text{carry into bit 7}) = 1 \\ (\\text{from } 1 + 1 + 0 = 0 \\text{ R } 1), \\quad C_8 (\\text{carry out of bit 7}) = 0 \\ (\\text{from } 0 + 0 + 1 = 1 \\text{ R } 0)",
+          "explanation": "A carry of 1 entered the sign position (bit 7), but no carry exited bit 7."
+        },
+        {
+          "stepName": "Step 4: Compute Overflow Flag V",
+          "math": "V = C_8 \\oplus C_7 = 0 \\oplus 1 = 1 \\implies \\text{OVERFLOW DETECTED!}",
+          "explanation": "Because V = 1, the arithmetic result is invalid."
+        },
+        {
+          "stepName": "Step 5: Physical Interpretation",
+          "math": "\\text{True sum: } +88 + 100 = +188_{10}. \\quad \\text{8-bit signed range: } [-128, +127]. \\quad \\text{Hardware interpretation of } 10111100_2 = -68_{10}",
+          "explanation": "Adding two positive numbers produced an apparent negative result (-68) because +188 exceeds the maximum positive 8-bit bound (+127). The ALU sets V=1 to trap the overflow."
+        }
+      ],
+      "answer": "A = +88, \\ B = +100; \\quad S = 10111100_2; \\quad C_7 = 1, \\ C_8 = 0 \\implies V = 1 \\quad (\\text{Arithmetic Overflow Exception})"
+    },
+    {
+      "id": "dig-p-3-3",
+      "title": "Carry-Lookahead Adder (CLA) vs Ripple-Carry Delay Analysis",
+      "statement": "A 16-bit parallel adder is designed using (a) standard ripple-carry full adders where each full adder has gate delays: $t_{\\text{sum}} = 6\\text{ ns}$ and $t_{\\text{carry}} = 2\\text{ ns}$, versus (b) a 16-bit Carry-Lookahead Adder (CLA) partitioned into four 4-bit CLA blocks with lookahead carry generators. Calculate the total worst-case addition delay for both designs and evaluate the speedup factor achieved by the CLA architecture.",
+      "steps": [
+        {
+          "stepName": "Step 1: Calculate Worst-Case Ripple-Carry Delay",
+          "math": "t_{\\text{ripple}} = (n - 1) \\cdot t_{\\text{carry}} + t_{\\text{sum}} = (16 - 1) \\times 2\\text{ ns} + 6\\text{ ns} = 15 \\times 2 + 6 = 36\\text{ ns}",
+          "explanation": "The carry must ripple through 15 stages before the final stage generates its sum bit."
+        },
+        {
+          "stepName": "Step 2: Analyze 4-bit CLA Architecture Timing",
+          "math": "t_{P,G} = 1\\text{ gate delay } (2\\text{ ns}), \\quad t_{\\text{carry, CLA}} = 2\\text{ gate delays } (4\\text{ ns}), \\quad t_{\\text{sum, CLA}} = 2\\text{ gate delays } (4\\text{ ns})",
+          "explanation": "Inside each 4-bit block, P and G terms take 2 ns; lookahead carry logic takes 4 ns."
+        },
+        {
+          "stepName": "Step 3: Compute Total CLA Delay Across 4 Blocks",
+          "math": "t_{\\text{total, CLA}} = t_{P,G} + (4 \\text{ blocks} - 1) \\cdot t_{\\text{block carry}} + t_{\\text{sum}} = 2\\text{ ns} + (3 \\times 4\\text{ ns}) + 4\\text{ ns} = 2 + 12 + 4 = 18\\text{ ns}",
+          "explanation": "Evaluate total block lookahead propagation: 18 ns."
+        },
+        {
+          "stepName": "Step 4: Compute Speedup Factor",
+          "math": "\\text{Speedup} = \\frac{t_{\\text{ripple}}}{t_{\\text{CLA}}} = \\frac{36\\text{ ns}}{18\\text{ ns}} = 2.0 \\times \\quad (\\text{100\\% faster})",
+          "explanation": "For 32-bit and 64-bit word lengths, CLA speedup exceeds 4x to 8x."
+        }
+      ],
+      "answer": "t_{\\text{ripple}} = 36\\text{ ns}, \\quad t_{\\text{CLA}} = 18\\text{ ns} \\implies \\text{Speedup Factor: } 2.0\\times"
+    }
+  ]
+}

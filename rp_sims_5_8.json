@@ -1,0 +1,130 @@
+{
+  "reactor-elastic-moderation-kinematics-sim": {
+    "title": "Neutron Elastic Moderation Kinematics in CM & LAB Frames",
+    "desc": "Simulates 2D elastic collision kinematics between a neutron and moderator nucleus (H, D, Be, C, U), calculating collision parameter \u03b1, average cosine \u03bc0 = 2/(3A), logarithmic decrement \u03be, and collision count.",
+    "isAnimated": true,
+    "controls": [
+      {
+        "id": "targetNuclide",
+        "label": "Target (1=H, 2=D, 3=Be, 4=C, 5=U)",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "value": 1
+      },
+      {
+        "id": "cmAngle",
+        "label": "CM Scattering Angle \u03b8_CM (deg)",
+        "min": 0,
+        "max": 180,
+        "step": 5,
+        "value": 90
+      },
+      {
+        "id": "incidentEnergy",
+        "label": "Incident Energy E1 (MeV)",
+        "min": 0.5,
+        "max": 5.0,
+        "step": 0.5,
+        "value": 2.0
+      }
+    ],
+    "code": "\n    const ctx = canvas.getContext(\"2d\");\n    const w = canvas.width, h = canvas.height;\n    ctx.fillStyle = \"#050811\"; ctx.fillRect(0, 0, w, h);\n\n    const nuclideIdx = vals.targetNuclide || 1;\n    const thetaCM_deg = vals.cmAngle !== undefined ? vals.cmAngle : 90;\n    const E1 = vals.incidentEnergy !== undefined ? vals.incidentEnergy : 2.0;\n\n    const A_vals = [1.0, 2.014, 9.012, 12.0, 238.05];\n    const names = [\"Hydrogen (\u00b9H)\", \"Deuterium (\u00b2H)\", \"Beryllium (\u2079Be)\", \"Carbon (\u00b9\u00b2C)\", \"Uranium (\u00b2\u00b3\u2078U)\"];\n    const A = A_vals[nuclideIdx - 1];\n    const name = names[nuclideIdx - 1];\n\n    const thetaCM = (thetaCM_deg * Math.PI) / 180.0;\n    const alpha = Math.pow((A - 1) / (A + 1), 2);\n    const E2_ratio = (1 + alpha) / 2.0 + ((1 - alpha) / 2.0) * Math.cos(thetaCM);\n    const E2 = E1 * E2_ratio;\n    const deltaE = E1 - E2;\n    const mu0 = 2.0 / (3.0 * A);\n\n    let xi;\n    if (A === 1.0) {\n      xi = 1.0;\n    } else {\n      xi = 1.0 + (alpha / (1.0 - alpha)) * Math.log(alpha);\n    }\n    const nColl = 18.2 / xi;\n\n    // Vector kinematics visualization\n    const center = { x: 180, y: h / 2 };\n    const radius = 100;\n\n    ctx.strokeStyle = \"#334155\"; ctx.lineWidth = 1;\n    ctx.beginPath(); ctx.arc(center.x, center.y, radius, 0, Math.PI * 2); ctx.stroke();\n\n    // CM velocity center\n    const V_cm = radius / (A + 1);\n    const u2 = (A / (A + 1)) * radius;\n\n    // Incident neutron line\n    ctx.strokeStyle = \"#475569\"; ctx.setLineDash([3, 3]);\n    ctx.beginPath(); ctx.moveTo(center.x - radius - 30, center.y); ctx.lineTo(center.x + radius + 30, center.y); ctx.stroke();\n    ctx.setLineDash([]);\n\n    // CM scattered vector u2\n    const u2_x = center.x + u2 * Math.cos(thetaCM);\n    const u2_y = center.y - u2 * Math.sin(thetaCM);\n\n    ctx.strokeStyle = \"#f43f5e\"; ctx.lineWidth = 2;\n    ctx.beginPath(); ctx.moveTo(center.x, center.y); ctx.lineTo(u2_x, u2_y); ctx.stroke();\n\n    // LAB scattered vector v2\n    ctx.strokeStyle = \"#38bdf8\"; ctx.lineWidth = 2.5;\n    ctx.beginPath(); ctx.moveTo(center.x - V_cm, center.y); ctx.lineTo(u2_x, u2_y); ctx.stroke();\n\n    // Labels & indicators\n    ctx.fillStyle = \"#38bdf8\"; ctx.font = \"bold 12px Inter\";\n    ctx.fillText(`Target: ${name} (A = ${A.toFixed(1)})`, 40, 30);\n\n    ctx.fillStyle = \"#94a3b8\"; ctx.font = \"10px Inter\";\n    ctx.fillText(\"LAB Scattered v\u2082\", u2_x + 8, u2_y);\n    ctx.fillText(\"CM Center\", center.x + 5, center.y + 15);\n\n    // Right metrics card\n    const card = { x: 380, y: 35, w: w - 410, h: h - 70 };\n    ctx.fillStyle = \"rgba(11, 17, 32, 0.85)\";\n    ctx.fillRect(card.x, card.y, card.w, card.h);\n    ctx.strokeStyle = \"#334155\"; ctx.strokeRect(card.x, card.y, card.w, card.h);\n\n    ctx.fillStyle = \"#38bdf8\"; ctx.font = \"bold 12px Inter\";\n    ctx.fillText(\"Elastic Moderation Parameters\", card.x + 15, card.y + 25);\n\n    ctx.font = \"11px Inter\"; ctx.fillStyle = \"#e2e8f0\";\n    ctx.fillText(`Collision Parameter \u03b1: ${alpha.toFixed(4)}`, card.x + 15, card.y + 55);\n    ctx.fillText(`Scattered Energy E\u2082: ${E2.toFixed(3)} MeV (${(E2_ratio * 100).toFixed(1)}%)`, card.x + 15, card.y + 80);\n    ctx.fillText(`Energy Transferred \u0394E: ${deltaE.toFixed(3)} MeV (${((1 - E2_ratio) * 100).toFixed(1)}%)`, card.x + 15, card.y + 105);\n    ctx.fillText(`Avg Scattering Cosine \u03bc\u0304\u2080 = 2/(3A): ${mu0.toFixed(4)}`, card.x + 15, card.y + 130);\n    ctx.fillText(`Logarithmic Decrement \u03be: ${xi.toFixed(4)}`, card.x + 15, card.y + 155);\n\n    ctx.fillStyle = \"#10b981\"; ctx.font = \"bold 12px Inter\";\n    ctx.fillText(`Collisions to Thermalize: ~${Math.round(nColl)} collisions`, card.x + 15, card.y + 190);\n"
+  },
+  "reactor-slowing-down-density-resonance-sim": {
+    "title": "Slowing-Down Density q(E) & Resonance Escape Probability",
+    "desc": "Simulates continuous slowing-down epithermal flux \u03d5(E) ~ 1/E, displaying sharp U-238 radiative capture resonances (6.67 eV, 20.9 eV, 36.7 eV) and Doppler broadening temperature effects on resonance escape p.",
+    "isAnimated": true,
+    "controls": [
+      {
+        "id": "modType",
+        "label": "Moderator (1=H2O, 2=D2O, 3=Graphite)",
+        "min": 1,
+        "max": 3,
+        "step": 1,
+        "value": 1
+      },
+      {
+        "id": "modFuelRatio",
+        "label": "Moderator/Fuel Ratio NM/NF",
+        "min": 100,
+        "max": 600,
+        "step": 50,
+        "value": 300
+      },
+      {
+        "id": "fuelTemp",
+        "label": "Fuel Temperature (K)",
+        "min": 300,
+        "max": 1200,
+        "step": 100,
+        "value": 600
+      }
+    ],
+    "code": "\n    const ctx = canvas.getContext(\"2d\");\n    const w = canvas.width, h = canvas.height;\n    ctx.fillStyle = \"#050811\"; ctx.fillRect(0, 0, w, h);\n\n    const modIdx = vals.modType || 1;\n    const NM_NF = vals.modFuelRatio !== undefined ? vals.modFuelRatio : 300;\n    const T = vals.fuelTemp !== undefined ? vals.fuelTemp : 600;\n\n    const modNames = [\"Light Water (H\u2082O)\", \"Heavy Water (D\u2082O)\", \"Graphite (C)\"];\n    const MR_vals = [61, 5670, 192];\n    const xi_vals = [0.925, 0.508, 0.158];\n\n    const modName = modNames[modIdx - 1];\n    const MR = MR_vals[modIdx - 1];\n    const xi = xi_vals[modIdx - 1];\n\n    // Doppler broadening factor\n    const doppler = Math.sqrt(T / 300.0);\n    // Effective resonance integral (barns)\n    const I_eff = (10.0 + 15.0 / Math.sqrt(NM_NF)) * (1 + 0.005 * (Math.sqrt(T) - Math.sqrt(300)));\n    // Resonance escape probability p = exp(- I_eff / (xi * Sigma_s / NF))\n    const sigma_s_mod = (modIdx === 1) ? 44.8 : ((modIdx === 2) ? 10.6 : 4.8);\n    const xi_Sigma_s_NF = xi * NM_NF * sigma_s_mod;\n    const p = Math.exp(-I_eff / (xi_Sigma_s_NF / 10.0));\n\n    const plot = { x: 65, y: 40, w: w - 95, h: h - 85 };\n    ctx.strokeStyle = \"#1e293b\"; ctx.lineWidth = 1;\n    ctx.strokeRect(plot.x, plot.y, plot.w, plot.h);\n\n    // Title\n    ctx.fillStyle = \"#38bdf8\"; ctx.font = \"bold 12px Inter\";\n    ctx.fillText(`Epithermal Flux Spectrum & Resonance Absorption | ${modName} | T_fuel = ${T} K`, plot.x, plot.y - 12);\n\n    // Plot 1/E slowing down flux with resonance absorption dips\n    ctx.beginPath();\n    ctx.strokeStyle = \"#38bdf8\"; ctx.lineWidth = 2.5;\n\n    // Resonances at 6.67 eV, 20.9 eV, 36.7 eV, 66.0 eV\n    const res = [6.67, 20.9, 36.7, 66.0];\n    const resW = [1.5 * doppler, 2.0 * doppler, 2.5 * doppler, 3.0 * doppler];\n    const resD = [0.85, 0.65, 0.55, 0.45];\n\n    for (let eLog = 0; eLog <= 2.5; eLog += 0.01) {\n      const E = Math.pow(10, eLog); // 1 eV to ~316 eV\n      // Base 1/E flux (normalized in log space)\n      let flux = 1.0;\n\n      // Subtract resonance dips\n      for (let r = 0; r < res.length; r++) {\n        const dE = E - res[r];\n        const dip = resD[r] * Math.exp(-Math.pow(dE / resW[r], 2));\n        flux -= dip;\n      }\n      flux = Math.max(0.05, flux);\n\n      const px = plot.x + (eLog / 2.5) * plot.w;\n      const py = plot.y + plot.h - flux * (plot.h * 0.85);\n      if (eLog === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);\n    }\n    ctx.stroke();\n\n    // Axes\n    ctx.fillStyle = \"#64748b\"; ctx.font = \"10px Inter\";\n    for (let exp = 0; exp <= 2; exp++) {\n      const px = plot.x + (exp / 2.5) * plot.w;\n      ctx.fillText(`10^${exp} eV`, px - 15, plot.y + plot.h + 16);\n    }\n    ctx.fillText(\"Neutron Energy E\", plot.x + plot.w / 2 - 35, plot.y + plot.h + 30);\n    ctx.fillText(\"Flux \u03d5(E) ~ 1/E\", plot.x - 55, plot.y + 15);\n\n    // Annotations for resonances\n    ctx.fillStyle = \"#f59e0b\"; ctx.font = \"10px Inter\";\n    ctx.fillText(\"6.67 eV\", plot.x + (Math.log10(6.67) / 2.5) * plot.w - 15, plot.y + plot.h - 15);\n    ctx.fillText(\"20.9 eV\", plot.x + (Math.log10(20.9) / 2.5) * plot.w - 15, plot.y + plot.h - 15);\n\n    // Results card\n    ctx.fillStyle = \"rgba(11, 17, 32, 0.9)\";\n    ctx.fillRect(plot.x + plot.w - 240, plot.y + 15, 225, 95);\n    ctx.strokeStyle = \"#334155\"; ctx.strokeRect(plot.x + plot.w - 240, plot.y + 15, 225, 95);\n\n    ctx.fillStyle = \"#10b981\"; ctx.font = \"bold 12px Inter\";\n    ctx.fillText(`Resonance Escape p: ${p.toFixed(4)} (${(p * 100).toFixed(2)}%)`, plot.x + plot.w - 225, plot.y + 35);\n    ctx.fillStyle = \"#cbd5e1\"; ctx.font = \"11px Inter\";\n    ctx.fillText(`Moderating Ratio: ${MR}`, plot.x + plot.w - 225, plot.y + 55);\n    ctx.fillText(`Effective Integral I_eff: ${I_eff.toFixed(2)} b`, plot.x + plot.w - 225, plot.y + 75);\n    ctx.fillText(`Doppler Broadening: \u00d7${doppler.toFixed(2)}`, plot.x + plot.w - 225, plot.y + 95);\n"
+  },
+  "reactor-fick-diffusion-flux-sim": {
+    "title": "Neutron Diffusion Theory & Fick's Law Flux Profiles",
+    "desc": "Solves steady-state 1D/radial neutron diffusion equation -D\u2207\u00b2\u03d5 + \u03a3a \u03d5 = S(r), demonstrating Fick's Law J = -D\u2207\u03d5, thermal diffusion length L = \u221a(D/\u03a3a), and extrapolated boundary d = 0.71 \u03bbtr.",
+    "isAnimated": true,
+    "controls": [
+      {
+        "id": "mediumType",
+        "label": "Medium (1=H2O, 2=D2O, 3=Be, 4=Graphite)",
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "value": 1
+      },
+      {
+        "id": "sourceGeom",
+        "label": "Geometry (1=Point Source, 2=Planar Sheet)",
+        "min": 1,
+        "max": 2,
+        "step": 1,
+        "value": 1
+      },
+      {
+        "id": "coreRadius",
+        "label": "Boundary Radius R (cm)",
+        "min": 10,
+        "max": 60,
+        "step": 5,
+        "value": 30
+      }
+    ],
+    "code": "\n    const ctx = canvas.getContext(\"2d\");\n    const w = canvas.width, h = canvas.height;\n    ctx.fillStyle = \"#050811\"; ctx.fillRect(0, 0, w, h);\n\n    const medIdx = vals.mediumType || 1;\n    const isPlane = (vals.sourceGeom === 2);\n    const R = vals.coreRadius !== undefined ? vals.coreRadius : 30;\n\n    const medNames = [\"Light Water (H\u2082O)\", \"Heavy Water (D\u2082O)\", \"Beryllium (Be)\", \"Graphite (C)\"];\n    const D_vals = [0.16, 0.85, 0.48, 0.85];\n    const L_vals = [2.85, 171.0, 20.5, 59.0];\n    const d_vals = [0.35, 1.80, 1.05, 1.85];\n\n    const medName = medNames[medIdx - 1];\n    const D = D_vals[medIdx - 1];\n    const L = L_vals[medIdx - 1];\n    const d = d_vals[medIdx - 1];\n    const R_tilde = R + d;\n\n    const plot = { x: 65, y: 40, w: w - 95, h: h - 85 };\n    ctx.strokeStyle = \"#1e293b\"; ctx.lineWidth = 1;\n    ctx.strokeRect(plot.x, plot.y, plot.w, plot.h);\n\n    // Title\n    ctx.fillStyle = \"#38bdf8\"; ctx.font = \"bold 12px Inter\";\n    ctx.fillText(`Diffusion Flux \u03d5(r) & Extrapolated Boundary | ${medName} | ${isPlane ? \"Planar\" : \"Point\"} Source`, plot.x, plot.y - 12);\n\n    // Physical boundary and extrapolated boundary lines\n    const pxR = plot.x + (R / (R + 15)) * plot.w;\n    const pxR_tilde = plot.x + (R_tilde / (R + 15)) * plot.w;\n\n    ctx.fillStyle = \"rgba(56, 189, 248, 0.05)\";\n    ctx.fillRect(plot.x, plot.y, pxR - plot.x, plot.h);\n\n    // Boundary lines\n    ctx.strokeStyle = \"#38bdf8\"; ctx.lineWidth = 1.5;\n    ctx.beginPath(); ctx.moveTo(pxR, plot.y); ctx.lineTo(pxR, plot.y + plot.h); ctx.stroke();\n\n    ctx.strokeStyle = \"#ef4444\"; ctx.setLineDash([4, 4]);\n    ctx.beginPath(); ctx.moveTo(pxR_tilde, plot.y); ctx.lineTo(pxR_tilde, plot.y + plot.h); ctx.stroke();\n    ctx.setLineDash([]);\n\n    ctx.fillStyle = \"#38bdf8\"; ctx.font = \"10px Inter\";\n    ctx.fillText(`Surface R = ${R} cm`, pxR - 40, plot.y + 15);\n    ctx.fillStyle = \"#ef4444\";\n    ctx.fillText(`Extrapolated R\u0303 = ${R_tilde.toFixed(1)} cm`, pxR_tilde + 4, plot.y + 15);\n\n    // Plot flux curve\n    ctx.beginPath();\n    ctx.strokeStyle = \"#10b981\"; ctx.lineWidth = 2.5;\n\n    for (let r = 0.5; r <= R_tilde; r += 0.2) {\n      let phi;\n      if (isPlane) {\n        // Planar: sinh((R_tilde - r)/L) / sinh(R_tilde/L)\n        phi = Math.sinh((R_tilde - r) / L) / Math.sinh(R_tilde / L);\n      } else {\n        // Radial/point: sinh((R_tilde - r)/L) / (r * sinh(R_tilde/L))\n        phi = Math.sinh((R_tilde - r) / L) / (r * Math.sinh(R_tilde / L));\n      }\n\n      const px = plot.x + (r / (R + 15)) * plot.w;\n      const py = plot.y + plot.h - Math.min(1.0, phi * (isPlane ? 1.0 : 3.0)) * (plot.h * 0.85);\n      if (r === 0.5) ctx.moveTo(px, py); else ctx.lineTo(px, py);\n    }\n    ctx.stroke();\n\n    // Axes\n    ctx.fillStyle = \"#64748b\"; ctx.font = \"10px Inter\";\n    for (let r = 0; r <= R + 15; r += 10) {\n      const px = plot.x + (r / (R + 15)) * plot.w;\n      ctx.fillText(`${r} cm`, px - 12, plot.y + plot.h + 16);\n    }\n    ctx.fillText(\"Distance r (cm)\", plot.x + plot.w / 2 - 35, plot.y + plot.h + 30);\n\n    // Metrics box\n    ctx.fillStyle = \"rgba(11, 17, 32, 0.9)\";\n    ctx.fillRect(plot.x + plot.w - 235, plot.y + 25, 220, 95);\n    ctx.strokeStyle = \"#334155\"; ctx.strokeRect(plot.x + plot.w - 235, plot.y + 25, 220, 95);\n\n    ctx.font = \"11px Inter\"; ctx.fillStyle = \"#38bdf8\";\n    ctx.fillText(`Diffusion Length L: ${L.toFixed(1)} cm`, plot.x + plot.w - 220, plot.y + 45);\n    ctx.fillStyle = \"#cbd5e1\";\n    ctx.fillText(`Diffusion Coeff D: ${D.toFixed(3)} cm`, plot.x + plot.w - 220, plot.y + 65);\n    ctx.fillText(`Extrapolated Distance d: ${d.toFixed(2)} cm`, plot.x + plot.w - 220, plot.y + 85);\n    ctx.fillText(`Fick Flux Gradient: J = -D \u2207\u03d5`, plot.x + plot.w - 220, plot.y + 105);\n"
+  },
+  "reactor-fermi-age-slowing-sim": {
+    "title": "Fermi Age Theory & Fast Neutron Slowing-Down Density",
+    "desc": "Solves the Fermi Age diffusion equation \u2207\u00b2q = \u2202q/\u2202\u03c4, showing the Gaussian spatial spreading of fast neutrons q(r, \u03c4) as age \u03c4 increases from fission birth to thermal energy.",
+    "isAnimated": true,
+    "controls": [
+      {
+        "id": "fermiAge",
+        "label": "Fermi Age \u03c4 (cm\u00b2)",
+        "min": 10,
+        "max": 350,
+        "step": 10,
+        "value": 100
+      },
+      {
+        "id": "sourcePower",
+        "label": "Source Strength S (\u00d710\u2076 n/s)",
+        "min": 1,
+        "max": 10,
+        "step": 1,
+        "value": 5
+      },
+      {
+        "id": "plotRange",
+        "label": "Radial Plot Range (cm)",
+        "min": 20,
+        "max": 80,
+        "step": 10,
+        "value": 50
+      }
+    ],
+    "code": "\n    const ctx = canvas.getContext(\"2d\");\n    const w = canvas.width, h = canvas.height;\n    ctx.fillStyle = \"#050811\"; ctx.fillRect(0, 0, w, h);\n\n    const tau = vals.fermiAge !== undefined ? vals.fermiAge : 100;\n    const S = (vals.sourcePower !== undefined ? vals.sourcePower : 5) * 1e6;\n    const rMax = vals.plotRange !== undefined ? vals.plotRange : 50;\n\n    const L_s = Math.sqrt(tau); // Slowing down length\n    const r_rms = Math.sqrt(6 * tau); // RMS slowing down distance\n\n    const plot = { x: 65, y: 40, w: w - 95, h: h - 85 };\n    ctx.strokeStyle = \"#1e293b\"; ctx.lineWidth = 1;\n    ctx.strokeRect(plot.x, plot.y, plot.w, plot.h);\n\n    // Title\n    ctx.fillStyle = \"#38bdf8\"; ctx.font = \"bold 12px Inter\";\n    ctx.fillText(`Spatial Slowing-Down Kernel q(r, \u03c4) = [S / (4\u03c0\u03c4)^(3/2)] \u00b7 exp(-r\u00b2 / 4\u03c4)`, plot.x, plot.y - 12);\n\n    // Peak q(0, tau)\n    const q0 = S / Math.pow(4 * Math.PI * tau, 1.5);\n\n    // Plot Gaussian curve\n    ctx.beginPath();\n    ctx.strokeStyle = \"#f59e0b\"; ctx.lineWidth = 2.5;\n\n    for (let r = 0; r <= rMax; r += 0.5) {\n      const q = q0 * Math.exp(-(r * r) / (4 * tau));\n      const px = plot.x + (r / rMax) * plot.w;\n      const py = plot.y + plot.h - (q / q0) * (plot.h * 0.85);\n      if (r === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);\n    }\n    ctx.stroke();\n\n    // Mark slowing down length L_s and RMS radius\n    const pxLs = plot.x + (L_s / rMax) * plot.w;\n    const pxRms = plot.x + (r_rms / rMax) * plot.w;\n\n    if (L_s <= rMax) {\n      ctx.strokeStyle = \"#38bdf8\"; ctx.setLineDash([3, 3]);\n      ctx.beginPath(); ctx.moveTo(pxLs, plot.y); ctx.lineTo(pxLs, plot.y + plot.h); ctx.stroke();\n      ctx.fillStyle = \"#38bdf8\"; ctx.font = \"10px Inter\";\n      ctx.fillText(`L_s = ${L_s.toFixed(1)} cm`, pxLs + 4, plot.y + 35);\n    }\n\n    if (r_rms <= rMax) {\n      ctx.strokeStyle = \"#10b981\"; ctx.setLineDash([3, 3]);\n      ctx.beginPath(); ctx.moveTo(pxRms, plot.y); ctx.lineTo(pxRms, plot.y + plot.h); ctx.stroke();\n      ctx.fillStyle = \"#10b981\"; ctx.font = \"10px Inter\";\n      ctx.fillText(`r_rms = ${r_rms.toFixed(1)} cm`, pxRms + 4, plot.y + 55);\n    }\n    ctx.setLineDash([]);\n\n    // Axes\n    ctx.fillStyle = \"#64748b\"; ctx.font = \"10px Inter\";\n    for (let r = 0; r <= rMax; r += 10) {\n      const px = plot.x + (r / rMax) * plot.w;\n      ctx.fillText(`${r} cm`, px - 12, plot.y + plot.h + 16);\n    }\n    ctx.fillText(\"Radial Distance r (cm)\", plot.x + plot.w / 2 - 45, plot.y + plot.h + 30);\n    ctx.fillText(\"Slowing Density q(r)\", plot.x - 55, plot.y + 15);\n\n    // Results info panel\n    ctx.fillStyle = \"rgba(11, 17, 32, 0.9)\";\n    ctx.fillRect(plot.x + plot.w - 235, plot.y + 20, 220, 95);\n    ctx.strokeStyle = \"#334155\"; ctx.strokeRect(plot.x + plot.w - 235, plot.y + 20, 220, 95);\n\n    ctx.font = \"11px Inter\"; ctx.fillStyle = \"#f59e0b\";\n    ctx.fillText(`Fermi Age \u03c4: ${tau} cm\u00b2`, plot.x + plot.w - 220, plot.y + 40);\n    ctx.fillStyle = \"#38bdf8\";\n    ctx.fillText(`Slowing-Down Length L_s: ${L_s.toFixed(2)} cm`, plot.x + plot.w - 220, plot.y + 60);\n    ctx.fillStyle = \"#10b981\";\n    ctx.fillText(`RMS Slowing Distance: ${r_rms.toFixed(2)} cm`, plot.x + plot.w - 220, plot.y + 80);\n    ctx.fillStyle = \"#94a3b8\";\n    ctx.fillText(`Peak q(0, \u03c4): ${(q0 / 1e3).toFixed(1)} \u00d7 10\u00b3 n/cm\u00b3\u00b7s`, plot.x + plot.w - 220, plot.y + 100);\n"
+  }
+}

@@ -1,0 +1,258 @@
+# Build Script for Unit 6: The Condensed State
+import json
+
+u6_sections = [
+    {
+        "id": "sec-6-1",
+        "number": "§6.1",
+        "heading": "Solids at Low and High Temperature",
+        "simulation": "debye-vs-einstein-cv-sim",
+        "content": """The thermal properties of solids reflect the quantum mechanical excitation of their crystal lattice vibrations and conduction electrons.
+
+<h4>1. The High-Temperature Classical Limit</h4>
+At high temperatures ($T \\gg \\Theta_D$), the thermal energy $k_B T$ is far larger than the quantum energy of any lattice vibration ($\\hbar \\omega_D$).
+All $3N$ normal modes of vibration are fully excited. According to the classical equipartition theorem, each harmonic mode contributes $k_B T$ of internal energy:
+$$U \\to 3 N k_B T \\implies C_V \\to 3 N k_B = 3 R \\approx 24.94\\text{ J/(mol}\\cdot\\text{K)}$$
+This is the classical Dulong-Petit value, which is identical for all non-magnetic monoatomic solids regardless of chemical identity.
+
+<h4>2. The Low-Temperature Quantum Freezing</h4>
+As temperature drops below the Debye temperature ($T \\ll \\Theta_D$), thermal energy becomes insufficient to excite high-frequency vibrational modes:
+<ul>
+  <li>In **Insulators:** Lattice acoustic phonons dominate completely, yielding the universal cubic temperature dependence:
+  $$C_V^{\\text{insulator}}(T) = A T^3 = \\frac{12\\pi^4}{5} N k_B \\left( \\frac{T}{\\Theta_D} \\right)^3$$
+  </li>
+  <li>In **Metals:** Both conduction electrons and acoustic phonons contribute:
+  $$C_V^{\\text{metal}}(T) = \\gamma T + A T^3$$
+  Plotting $C_V / T$ versus $T^2$ yields a straight line whose $y$-intercept gives the electronic Sommerfeld constant $\\gamma$ and whose slope gives the lattice coefficient $A$!</li>
+</ul>"""
+    },
+    {
+        "id": "sec-6-2",
+        "number": "§6.2",
+        "heading": "Debye's Interpolation Formula and Universal Heat Capacity Scaling",
+        "simulation": "debye-vs-einstein-cv-sim",
+        "content": """Peter Debye synthesized the low- and high-temperature regimes into a single, universal dimensionless function that describes virtually all insulating crystals.
+
+<h4>1. The Debye Function ($D(y)$)</h4>
+The internal energy of a crystal is expressed in terms of the **Debye Function**:
+$$U(T) = 3 N k_B T \\, D\\left( \\frac{\\Theta_D}{T} \\right)$$
+where $y = \\Theta_D / T$, and $D(y)$ is defined as:
+$$D(y) \\equiv \\frac{3}{y^3} \\int_0^y \\frac{x^3 dx}{e^x - 1}$$
+
+<h4>2. The Universal Specific Heat Expression</h4>
+Differentiating $U(T)$ gives the molar heat capacity:
+$$C_V(T) = 3 R \\left[ 4 D(y) - \\frac{3 y}{e^y - 1} \\right] = 9 R \\left( \\frac{T}{\\Theta_D} \\right)^3 \\int_0^{\\Theta_D / T} \\frac{x^4 e^x dx}{(e^x - 1)^2}$$
+Notice that:
+<blockquote>
+The reduced heat capacity $\\frac{C_V}{3R}$ is a <strong>universal function</strong> of the single dimensionless ratio $\\frac{T}{\\Theta_D}$.
+</blockquote>
+When experimental specific heat data for diverse solids (lead with $\\Theta_D = 105\\text{ K}$, copper with $\\Theta_D = 343\\text{ K}$, and diamond with $\\Theta_D = 2230\\text{ K}$) are plotted against $T / \\Theta_D$, all data points collapse onto the exact same theoretical Debye master curve!"""
+    },
+    {
+        "id": "sec-6-3",
+        "number": "§6.3",
+        "heading": "Thermal Expansion of Solids and the Grüneisen Parameter",
+        "simulation": "transport-coefficients-sim",
+        "content": """Why does a solid expand when heated? A perfectly harmonic crystal lattice ($V(x) = \\frac{1}{2}c x^2$) **does not expand at all**! Thermal expansion is a direct consequence of **anharmonicity** in the interatomic potential.
+
+<h4>1. Proof that Harmonic Oscillators Have Zero Thermal Expansion</h4>
+Consider an atom displaced by $x$ from its equilibrium position. In a symmetric parabolic potential $V(x) = c x^2$:
+$$\\langle x \\rangle = \\frac{\\int_{-\\infty}^\\infty x e^{-\\beta c x^2} dx}{\\int_{-\\infty}^\\infty e^{-\\beta c x^2} dx} = 0$$
+Because the potential is strictly symmetric, the thermal average displacement $\\langle x \\rangle$ vanishes identically at all temperatures. A purely harmonic crystal never expands!
+
+<h4>2. Anharmonicity and Thermal Expansion</h4>
+The real interatomic potential (such as the Lennard-Jones potential) is asymmetric, resisting compression more strongly than expansion.
+Expanding about the minimum:
+$$V(x) = c x^2 - g x^3 - f x^4, \\quad (g, f > 0)$$
+Treating the cubic anharmonic term $-g x^3$ as a perturbation:
+$$e^{-\\beta V(x)} \\approx e^{-\\beta c x^2} (1 + \\beta g x^3)$$
+$$\\langle x \\rangle = \\frac{\\int_{-\\infty}^\\infty x e^{-\\beta c x^2} (1 + \\beta g x^3) dx}{\\int_{-\\infty}^\\infty e^{-\\beta c x^2} dx} = \\frac{\\beta g \\int_{-\\infty}^\\infty x^4 e^{-\\beta c x^2} dx}{\\int_{-\\infty}^\\infty e^{-\\beta c x^2} dx} = \\frac{3 g}{4 c^2} k_B T$$
+The average interatomic spacing increases linearly with temperature: $\\langle x \\rangle \\propto T$.
+
+<h4>3. The Grüneisen Parameter and Equation of State</h4>
+As a solid expands ($V$ increases), phonon vibrational frequencies shift downward:
+$$\\gamma_G \\equiv -\\frac{d\\ln \\omega_D}{d\\ln V} = -\\frac{V}{\\omega_D}\\frac{d\\omega_D}{dV}$$
+where $\\gamma_G$ is the dimensionless **Grüneisen Parameter** (typically $\\sim 1$ to $2$).
+The volumetric thermal expansion coefficient $\\beta_V = \\frac{1}{V}\\left(\\frac{\\partial V}{\\partial T}\\right)_P$ satisfies the **Mie-Grüneisen Equation**:
+$$\\beta_V = \\frac{\\gamma_G C_V}{V K_T}$$
+where $K_T$ is the isothermal bulk modulus.
+Thermal expansion is directly proportional to lattice heat capacity: as $T \\to 0$, $\\beta_V \\propto T^3$, vanishing at absolute zero in agreement with the Third Law of Thermodynamics."""
+    },
+    {
+        "id": "sec-6-4",
+        "number": "§6.4",
+        "heading": "Quantum Liquids with Bose-Type Spectrum",
+        "simulation": "liquid-helium-lambda-sim",
+        "content": """Liquid Helium-4 ($^4\\text{He}$) is the prototypical strongly interacting **quantum Bose liquid**.
+
+<h4>1. The Elementary Excitation Spectrum</h4>
+Lev Landau (1941) proposed that elementary excitations in Liquid $^4\\text{He}$ are single quasiparticles whose energy $\\epsilon(p)$ depends continuously on momentum $p$:
+<ol>
+  <li><strong>Phonon Branch ($p/\\hbar < 0.6\\text{ Å}^{-1}$):</strong> Longitudinal sound waves with linear dispersion:
+  $$\\epsilon(p) = c_s p$$
+  where $c_s \\approx 238\\text{ m/s}$ is the speed of first sound.</li>
+  <li><strong>Maxon Peak ($p/\\hbar \\approx 1.1\\text{ Å}^{-1}$):</strong> A local maximum around $\\epsilon / k_B \\approx 14\\text{ K}$.</li>
+  <li><strong>Roton Minimum ($p/\\hbar \\approx 1.92\\text{ Å}^{-1}$):</strong> A parabolic dip around characteristic momentum $p_0$:
+  $$\\epsilon(p) \\approx \\Delta + \\frac{(p - p_0)^2}{2\\mu}$$
+  with energy gap $\\Delta / k_B \\approx 8.65\\text{ K}$, $p_0 / \\hbar \\approx 1.92\\text{ Å}^{-1}$, and effective mass $\\mu \\approx 0.16 m_4$.</li>
+</ol>
+
+<h4>2. Bogoliubov's Microscopic Theory</h4>
+Nikolay Bogoliubov (1947) derived this excitation spectrum microscopically for a weakly interacting Bose gas using canonical transformation:
+$$E(k) = \\sqrt{\\epsilon_k^2 + 2 n U_0 \\epsilon_k}$$
+where $\\epsilon_k = \\frac{\\hbar^2 k^2}{2m}$ is the free-particle kinetic energy, and $U_0 = \\frac{4\\pi \\hbar^2 a}{m}$ is the repulsive contact interaction.
+<ul>
+  <li>At low wavevector ($k \\to 0$): $E(k) \\approx \\sqrt{2 n U_0 \\frac{\\hbar^2 k^2}{2m}} = \\hbar c_s k$, reproducing linear sound waves with sound speed $c_s = \\sqrt{n U_0 / m}$.</li>
+  <li>At high wavevector ($k \\to \\infty$): $E(k) \\to \\epsilon_k + n U_0$, recovering quadratic single-particle behavior.</li>
+</ul>"""
+    },
+    {
+        "id": "sec-6-5",
+        "number": "§6.5",
+        "heading": "Quantum Liquids with Fermi-Type Spectrum (Landau Fermi Liquid Theory)",
+        "simulation": "fermi-surface-sphere-sim",
+        "content": """Liquid Helium-3 ($^3\\text{He}$, a spin-1/2 fermion) and conduction electrons in heavy fermion metals represent strongly interacting **quantum Fermi liquids**.
+
+<h4>1. Landau Fermi Liquid Theory</h4>
+Lev Landau (1956) recognized that strong repulsive interactions do not destroy the sharpness of the Fermi surface.
+Instead, there is a continuous one-to-one correspondence between the eigenstates of a non-interacting Fermi gas and the low-energy excitations of the interacting system, called **quasiparticles**.
+
+<h4>2. Quasiparticles and Effective Mass ($m^*$)</h4>
+A quasiparticle is an individual fermion dressed by a surrounding cloud of interactions with other particles.
+Near the Fermi surface, the quasiparticle energy is:
+$$\\epsilon(p) \\approx \\epsilon_F + v_F^* (p - p_F) = \\epsilon_F + \\frac{p_F}{m^*} (p - p_F)$$
+where $m^*$ is the **quasiparticle effective mass**:
+$$\\frac{m^*}{m} = 1 + \\frac{1}{3} F_1^s$$
+In Liquid $^3\\text{He}$ at ambient pressure, $m^* \\approx 3.0 m_3$; under high pressure ($30\\text{ bar}$), $m^* \\approx 6.0 m_3$.
+
+<h4>3. Quasiparticle Lifetime Divergence</h4>
+By Pauli exclusion, scattering between quasiparticles near the Fermi surface requires both initial and final states to lie within energy $k_B T$ of $\\epsilon_F$.
+The scattering rate scales as $\\Gamma \\propto (k_B T)^2 + (\\epsilon - \\epsilon_F)^2$.
+Therefore, the quasiparticle lifetime diverges at low temperatures:
+$$\\tau \\propto \\frac{1}{T^2} \\to \\infty$$
+As $T \\to 0$, quasiparticles become infinitely well-defined quantum excitations, explaining why free-electron models work remarkably well in metals!"""
+    },
+    {
+        "id": "sec-6-6",
+        "number": "§6.6",
+        "heading": "The Electronic Spectra of Metals",
+        "simulation": "fermi-surface-sphere-sim",
+        "content": """In a crystalline metal, conduction electrons move in the periodic electrostatic potential created by the ionic lattice: $V(\\mathbf{r} + \\mathbf{R}) = V(\\mathbf{r})$.
+
+<h4>1. Bloch's Theorem and Energy Bands</h4>
+According to Bloch's Theorem, single-electron wavefunctions are plane waves modulated by the lattice periodicity:
+$$\\psi_{n\\mathbf{k}}(\\mathbf{r}) = e^{i\\mathbf{k}\\cdot\\mathbf{r}} u_{n\\mathbf{k}}(\\mathbf{r}), \\quad u_{n\\mathbf{k}}(\\mathbf{r} + \\mathbf{R}) = u_{n\\mathbf{k}}(\\mathbf{r})$$
+The energy spectrum separates into continuous **energy bands** $\\epsilon_n(\\mathbf{k})$ separated by **bandgaps**.
+
+<h4>2. The Electronic Hallmark of a Metal</h4>
+A material is an electrical conductor (metal) if and only if:
+<blockquote>
+The highest occupied energy level—the <strong>Fermi Energy $\\epsilon_F$</strong>—lies inside a partially filled electronic energy band.
+</blockquote>
+Because empty quantum states are available immediately above $\\epsilon_F$ with infinitesimal energy spacing $d\\epsilon \\to 0$:
+<ul>
+  <li>An applied electric field $\\mathbf{E}$ accelerates electrons into adjacent unoccupied states, producing a net electrical current (Drude-Sommerfeld conductivity $\\sigma = \\frac{n e^2 \\tau}{m^*}$).</li>
+  <li>The density of states at the Fermi level $g(\\epsilon_F) > 0$ is finite, yielding linear electronic heat capacity $C_V = \\gamma T$ and Pauli paramagnetism $\\chi = \\mu_B^2 g(\\epsilon_F)$.</li>
+</ul>"""
+    },
+    {
+        "id": "sec-6-7",
+        "number": "§6.7",
+        "heading": "The Electronic Spectra of Solid Dielectrics",
+        "simulation": "transport-coefficients-sim",
+        "content": """In solid dielectrics (insulators and semiconductors), the Fermi level lies within a forbidden energy gap separating filled and empty electronic bands.
+
+<h4>1. Band Structure of Insulators and Semiconductors</h4>
+In an intrinsic dielectric at $T = 0\\text{ K}$:
+<ul>
+  <li>The **Valence Band** is $100\\%$ completely filled with electrons.</li>
+  <li>The **Conduction Band** is completely empty.</li>
+  <li>They are separated by a finite **Bandgap** $E_g$:
+  $$E_g = \\epsilon_c - \\epsilon_v$$
+  For semiconductors, $E_g \\lesssim 3\\text{ eV}$ (Silicon: $1.12\\text{ eV}$, Gallium Arsenide: $1.42\\text{ eV}$). For insulators, $E_g \\gtrsim 4\\text{ eV}$ (Diamond: $5.47\\text{ eV}$, Silicon Dioxide: $9.0\\text{ eV}$).</li>
+</ul>
+
+<h4>2. Thermal Carrier Generation and Chemical Potential</h4>
+At finite temperature $T > 0$, thermal fluctuations promote electrons across the bandgap into the conduction band, leaving empty states (**holes**) in the valence band.
+The electron density $n$ and hole density $p$ are:
+$$n = N_c e^{-(\\epsilon_c - \\mu)/k_B T}, \\quad p = N_v e^{-(\\mu - \\epsilon_v)/k_B T}$$
+where $N_c = 2\\left(\\frac{m_e^* k_B T}{2\\pi \\hbar^2}\\right)^{3/2}$ and $N_v = 2\\left(\\frac{m_h^* k_B T}{2\\pi \\hbar^2}\\right)^{3/2}$ are the effective densities of states.
+Equating $n = p = n_i$ (intrinsic semiconductor):
+$$n_i = \\sqrt{N_c N_v} \\exp\\left( -\\frac{E_g}{2 k_B T} \\right)$$
+$$\\mu = \\frac{\\epsilon_c + \\epsilon_v}{2} + \\frac{3}{4} k_B T \\ln\\left( \\frac{m_h^*}{m_e^*} \\right)$$
+The Fermi level in an intrinsic dielectric sits essentially at the mid-gap!
+Electrical conductivity grows exponentially with temperature: $\\sigma(T) \\propto e^{-E_g / (2 k_B T)}$, in stark contrast to metals where resistance increases with temperature due to phonon scattering."""
+    }
+]
+
+u6_problems = [
+    {
+        "id": "prob-6-1",
+        "difficulty": "Medium",
+        "title": "Debye Temperature and Maximum Lattice Frequency in Diamond",
+        "question": "For diamond, the atomic number density is $n = 1.76 \\times 10^{29}\\text{ atoms/m}^3$ and the average sound speed is $v_s = 1.20 \\times 10^4\\text{ m/s}$. (a) Calculate the Debye cutoff frequency $\\omega_D$ and Debye temperature $\\Theta_D$. (b) Explain why diamond feels remarkably cold to the touch and has a high thermal conductivity at room temperature ($300\\text{ K}$).",
+        "steps": [
+            {
+                "title": "Step 1: Calculate the Debye cutoff frequency",
+                "math": "$$\\omega_D = v_s (6\\pi^2 n)^{1/3} = (1.20 \\times 10^4\\text{ m/s}) [6\\pi^2 (1.76 \\times 10^{29}\\text{ m}^{-3})]^{1/3}$$\n$$6\\pi^2 (1.76 \\times 10^{29}) = 1.042 \\times 10^{31} \\implies (1.042 \\times 10^{31})^{1/3} = 2.184 \\times 10^{10}\\text{ m}^{-1}$$\n$$\\omega_D = (1.20 \\times 10^4) \\times (2.184 \\times 10^{10}) = 2.621 \\times 10^{14}\\text{ rad/s}$$",
+                "explanation": "This is the maximum lattice vibrational frequency in diamond."
+            },
+            {
+                "title": "Step 2: Determine the Debye temperature",
+                "math": "$$\\Theta_D = \\frac{\\hbar \\omega_D}{k_B} = \\frac{(1.055 \\times 10^{-34}\\text{ J}\\cdot\\text{s})(2.621 \\times 10^{14}\\text{ s}^{-1})}{1.381 \\times 10^{-23}\\text{ J/K}} = 2,002\\text{ K}$$",
+                "explanation": "Because $\\Theta_D \\approx 2,000\\text{ K}$ is far above room temperature ($300\\text{ K}$), diamond is deeply in the quantum regime at room temperature."
+            },
+            {
+                "title": "Step 3: Analyze thermal properties at 300 K",
+                "math": "$$\\frac{T}{\\Theta_D} = \\frac{300}{2002} \\approx 0.15 \\ll 1$$\n$$C_V \\approx \\frac{12\\pi^4}{5} R \\left(\\frac{300}{2002}\\right)^3 \\approx 6.1\\text{ J/(mol}\\cdot\\text{K)} \\ll 3R (24.9\\text{ J/(mol}\\cdot\\text{K)})$$",
+                "explanation": "Because phonon modes are largely frozen, phonon-phonon Umklapp scattering is exceptionally rare, giving diamond an extraordinarily large phonon mean free path and the highest room-temperature thermal conductivity of any bulk solid ($k \\approx 2200\\text{ W/(m}\\cdot\\text{K)}$)."
+            }
+        ]
+    },
+    {
+        "id": "prob-6-2",
+        "difficulty": "Hard",
+        "title": "Intrinsic Carrier Concentration and Fermi Level in Silicon",
+        "question": "Silicon has an indirect bandgap $E_g = 1.12\\text{ eV}$ at $T = 300\\text{ K}$. The effective masses of electrons and holes are $m_e^* = 1.08 m_0$ and $m_h^* = 0.56 m_0$. (a) Calculate the intrinsic carrier density $n_i$ at $300\\text{ K}$. (b) Determine the offset of the Fermi level from the mid-gap position.",
+        "steps": [
+            {
+                "title": "Step 1: Compute effective densities of states N_c and N_v",
+                "math": "$$N_c = 2\\left(\\frac{2\\pi m_e^* k_B T}{h^2}\\right)^{3/2} = 2.81 \\times 10^{25}\\text{ m}^{-3}$$\n$$N_v = 2\\left(\\frac{2\\pi m_h^* k_B T}{h^2}\\right)^{3/2} = 1.04 \\times 10^{25}\\text{ m}^{-3}$$",
+                "explanation": "These are the effective quantum densities of states of the conduction and valence bands."
+            },
+            {
+                "title": "Step 2: Calculate intrinsic carrier concentration n_i",
+                "math": "$$n_i = \\sqrt{N_c N_v} e^{-E_g / (2 k_B T)}$$\n$$\\sqrt{N_c N_v} = \\sqrt{(2.81 \\times 10^{25})(1.04 \\times 10^{25})} = 1.71 \\times 10^{25}\\text{ m}^{-3}$$\n$$\\frac{E_g}{2 k_B T} = \\frac{1.12\\text{ eV}}{2 (0.02585\\text{ eV})} = 21.663$$\n$$n_i = (1.71 \\times 10^{25}) \\times e^{-21.663} = (1.71 \\times 10^{25})(3.91 \\times 10^{-10}) = 6.69 \\times 10^{15}\\text{ m}^{-3} = 6.69 \\times 10^9\\text{ cm}^{-3}$$",
+                "explanation": "At room temperature, only roughly one atom in ten trillion is thermally ionized."
+            },
+            {
+                "title": "Step 3: Calculate Fermi level offset from mid-gap",
+                "math": "$$\\Delta \\mu = \\mu - \\frac{\\epsilon_c + \\epsilon_v}{2} = \\frac{3}{4} k_B T \\ln\\left(\\frac{m_h^*}{m_e^*}\\right) = \\frac{3}{4} (0.02585\\text{ eV}) \\ln\\left(\\frac{0.56}{1.08}\\right) = -0.0127\\text{ eV} = -12.7\\text{ meV}$$",
+                "explanation": "Because holes are lighter than electrons ($m_h^* < m_e^*$), the Fermi level is shifted downward by $12.7\\text{ meV}$ below the exact center of the bandgap."
+            }
+        ]
+    },
+    {
+        "id": "prob-6-3",
+        "difficulty": "Hard",
+        "title": "Grüneisen Parameter and Thermal Expansion of Aluminum",
+        "question": "For Aluminum, the molar heat capacity at $T = 300\\text{ K}$ is $C_V = 24.2\\text{ J/(mol}\\cdot\\text{K)}$, molar volume is $V_m = 1.00 \\times 10^{-5}\\text{ m}^3\\text{/mol}$, isothermal bulk modulus is $K_T = 76\\text{ GPa}$, and the linear thermal expansion coefficient is $\\alpha_L = 23.1 \\times 10^{-6}\\text{ K}^{-1}$. (a) Calculate the volumetric thermal expansion coefficient $\\beta_V = 3\\alpha_L$. (b) Use the Mie-Grüneisen relation to calculate the Grüneisen parameter $\\gamma_G$.",
+        "steps": [
+            {
+                "title": "Step 1: Compute volumetric thermal expansion coefficient",
+                "math": "$$\\beta_V = 3 \\alpha_L = 3 \\times (23.1 \\times 10^{-6}\\text{ K}^{-1}) = 6.93 \\times 10^{-5}\\text{ K}^{-1}$$",
+                "explanation": "For an isotropic cubic crystal, volumetric expansion is three times linear expansion."
+            },
+            {
+                "title": "Step 2: Solve Mie-Grüneisen equation for gamma_G",
+                "math": "$$\\beta_V = \\frac{\\gamma_G C_V}{V_m K_T} \\implies \\gamma_G = \\frac{\\beta_V V_m K_T}{C_V}$$\n$$\\gamma_G = \\frac{(6.93 \\times 10^{-5}\\text{ K}^{-1}) \\times (1.00 \\times 10^{-5}\\text{ m}^3\\text{/mol}) \\times (76 \\times 10^9\\text{ Pa})}{24.2\\text{ J/(mol}\\cdot\\text{K)}}$$\n$$\\gamma_G = \\frac{52.668}{24.2} \\approx 2.18$$",
+                "explanation": "The Grüneisen parameter of Aluminum is $2.18$, which is characteristic of anharmonic acoustic phonon shifts in fcc metals."
+            }
+        ]
+    }
+]
+
+with open('/Users/karimsiam/.gemini/antigravity/scratch/quantum-mechanics-library/unit6_data.json', 'w') as f:
+    json.dump({"number": 6, "title": "The Condensed State", "leadSummary": "Solids at low and high temperatures, Debye interpolation, thermal expansion and Grüneisen parameter, quantum Bose and Fermi liquids, and electronic band spectra of metals and dielectrics.", "sections": u6_sections, "problems": u6_problems}, f, indent=2)
+
+print("Unit 6 built successfully with 7 topics and 3 solved problems!")

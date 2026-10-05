@@ -1,0 +1,106 @@
+{
+  "number": 8,
+  "title": "Circuit Analysis & Network Theorems",
+  "leadSummary": "Comprehensive network analysis methods: Thevenin's theorem and equivalent voltage generators, Norton's theorem and dual current generators, the Superposition theorem, Maximum Power Transfer theorem with impedance matching proofs, and second-order RLC transient dynamics (underdamped, critically damped, overdamped).",
+  "sections": [
+    {
+      "id": "sec-8-1",
+      "number": "\u00a78.1",
+      "heading": "Thevenin's Theorem and Equivalent Voltage Generators",
+      "simulation": "thevenin-norton-sim",
+      "content": "L\u00e9on Charles Th\u00e9venin (1883) formulated one of the most powerful network reduction theorems in electrical engineering.\n\n<h4>1. Statement of Thevenin's Theorem</h4>\n<blockquote>\nAny linear, bilateral, two-terminal electrical network containing independent voltage sources, current sources, and linear resistors can be replaced, across its two open terminals $A$ and $B$, by an equivalent circuit consisting of a single ideal voltage source $V_{\\text{th}}$ in series with a single internal resistance $R_{\\text{th}}$.\n</blockquote>\n\n<h4>2. Determination of Thevenin Parameters</h4>\n<ol>\n  <li><strong>Thevenin Equivalent Voltage ($V_{\\text{th}}$):</strong>\n  The open-circuit potential difference appearing across terminals $A$ and $B$ when the load resistor $R_L$ is completely disconnected:\n  $$V_{\\text{th}} = V_{AB,\\text{open}}$$</li>\n  <li><strong>Thevenin Equivalent Resistance ($R_{\\text{th}}$):</strong>\n  The equivalent resistance measured between terminals $A$ and $B$ with the load removed and all independent energy sources **deactivated**:\n  <ul>\n    <li>Independent voltage sources are replaced by **short circuits** (zero internal resistance, $V = 0$).</li>\n    <li>Independent current sources are replaced by **open circuits** (infinite internal resistance, $I = 0$).</li>\n  </ul>\n  $$R_{\\text{th}} = R_{AB,\\text{deactivated}}$$</li>\n</ol>\n\n<h4>3. Calculation of Load Current and Voltage</h4>\nWhen an arbitrary load resistance $R_L$ is connected across terminals $A$ and $B$, the load current $I_L$ and terminal voltage $V_L$ are given instantly by Ohm's law:\n$$I_L = \\frac{V_{\\text{th}}}{R_{\\text{th}} + R_L}, \\quad V_L = I_L R_L = V_{\\text{th}} \\left( \\frac{R_L}{R_{\\text{th}} + R_L} \\right)$$\nThis eliminates the need to resolve the entire multi-loop system every time the load resistor changes."
+    },
+    {
+      "id": "sec-8-2",
+      "number": "\u00a78.2",
+      "heading": "Norton's Theorem and Source Transformations",
+      "simulation": "thevenin-norton-sim",
+      "content": "Edward Lawry Norton (1926) independently established the dual current-source counterpart to Thevenin's theorem.\n\n<h4>1. Statement of Norton's Theorem</h4>\n<blockquote>\nAny linear, bilateral, two-terminal electrical network can be replaced across its terminals by an equivalent circuit consisting of a single ideal current source $I_N$ connected in parallel with a single internal resistance $R_N$.\n</blockquote>\n\n<h4>2. Determination of Norton Parameters</h4>\n<ol>\n  <li><strong>Norton Equivalent Current ($I_N$):</strong>\n  The short-circuit current that flows between terminals $A$ and $B$ when a zero-resistance conductor connects them:\n  $$I_N = I_{AB,\\text{short}}$$</li>\n  <li><strong>Norton Resistance ($R_N$):</strong>\n  The equivalent resistance between terminals $A$ and $B$ with all independent sources deactivated.\n  <em>Fundamental Identity:</em>\n  $$R_N = R_{\\text{th}}$$</li>\n</ol>\n\n<h4>3. Thevenin-Norton Source Transformation Equivalence</h4>\nThevenin and Norton circuits are dual mathematical representations of the exact same physical reality:\n$$V_{\\text{th}} = I_N R_{\\text{th}}, \\quad I_N = \\frac{V_{\\text{th}}}{R_{\\text{th}}}$$\nFor load resistor $R_L$:\nBy the current divider rule across parallel resistors $R_N$ and $R_L$:\n$$I_L = I_N \\left( \\frac{R_N}{R_N + R_L} \\right) = \\left( \\frac{V_{\\text{th}}}{R_{\\text{th}}} \\right) \\left( \\frac{R_{\\text{th}}}{R_{\\text{th}} + R_L} \\right) = \\frac{V_{\\text{th}}}{R_{\\text{th}} + R_L}$$\nBoth theorems yield identical load current and voltage."
+    },
+    {
+      "id": "sec-8-3",
+      "number": "\u00a78.3",
+      "heading": "The Superposition Theorem and Maximum Power Transfer",
+      "simulation": "thevenin-norton-sim",
+      "content": "Linear electrical networks obey the fundamental principles of superposition and impedance matching.\n\n<h4>1. The Superposition Theorem</h4>\n<blockquote>\nIn any linear, bilateral electrical network energized by multiple independent sources, the net current or voltage in any branch equals the algebraic sum of the currents or voltages produced by each independent source acting alone, with all other independent sources turned off.\n</blockquote>\n<ul>\n  <li>Turn off independent voltage sources $\\to$ Replace with short circuits.</li>\n  <li>Turn off independent current sources $\\to$ Replace with open circuits.</li>\n</ul>\n<em>Caution:</em> Superposition applies strictly to linear quantities (current and voltage: $I = I_1 + I_2$). It does **NOT** apply directly to power ($P \\propto I^2 \ne I_1^2 + I_2^2$), because power is a quadratic, non-linear function of current!\n\n<h4>2. The Maximum Power Transfer Theorem</h4>\nConsider a linear source characterized by Thevenin equivalent parameters $V_{\\text{th}}$ and $R_{\\text{th}}$ driving an adjustable load resistance $R_L$.\nThe power delivered to the load resistor is:\n$$P_L = I_L^2 R_L = \\left( \\frac{V_{\\text{th}}}{R_{\\text{th}} + R_L} \\right)^2 R_L = \\frac{V_{\\text{th}}^2 R_L}{(R_{\\text{th}} + R_L)^2}$$\nTo maximize power with respect to $R_L$, differentiate and set to zero:\n$$\\frac{dP_L}{dR_L} = V_{\\text{th}}^2 \\left[ \\frac{(R_{\\text{th}} + R_L)^2 - 2 R_L (R_{\\text{th}} + R_L)}{(R_{\\text{th}} + R_L)^4} \\right] = 0$$\n$$(R_{\\text{th}} + R_L) - 2 R_L = 0 \\implies R_{\\text{th}} - R_L = 0$$\n$$R_L = R_{\\text{th}}$$\n<em>Theorem:</em> A resistive load absorbs maximum power from a linear network when its resistance equals the Thevenin resistance of the network (**impedance matching**).\nThe maximum power delivered is:\n$$P_{L,\\max} = \\frac{V_{\\text{th}}^2 R_{\\text{th}}}{(2 R_{\\text{th}})^2} = \\frac{V_{\\text{th}}^2}{4 R_{\\text{th}}}$$\n<em>Efficiency at Maximum Power:</em>\n$$\\eta = \\frac{P_{\\text{load}}}{P_{\\text{total}}} = \\frac{I_L^2 R_L}{I_L^2 (R_{\\text{th}} + R_L)} = \\frac{R_L}{2 R_L} = 50.0\\%$$\nWhile essential in communications and weak-signal electronics to extract maximum signal power, maximum power transfer is deliberately avoided in electrical power grid distribution (where engineers aim for $R_L \\gg R_{\\text{th}}$ to achieve $> 98\\%$ transmission efficiency)."
+    },
+    {
+      "id": "sec-8-4",
+      "number": "\u00a78.4",
+      "heading": "Transient Currents in Second-Order RLC Circuits",
+      "simulation": "thevenin-norton-sim",
+      "content": "When a circuit contains both inductive storage elements ($L$) and capacitive storage elements ($C$) along with damping resistance ($R$), its dynamic response is governed by a second-order linear differential equation.\n\n<h4>1. The Governing Differential Equation</h4>\nApplying Kirchhoff's voltage law to a series RLC loop discharging from initial charge $Q_0$:\n$$L \\frac{di}{dt} + R i + \\frac{q}{C} = 0$$\nSince $i = \\frac{dq}{dt}$:\n$$L \\frac{d^2 q}{dt^2} + R \\frac{dq}{dt} + \\frac{1}{C} q = 0 \\implies \\frac{d^2 q}{dt^2} + 2\\gamma \\frac{dq}{dt} + \\omega_0^2 q = 0$$\nwhere $\\gamma = \\frac{R}{2L}$ is the damping factor (s\u207b\u00b9) and $\\omega_0 = \\frac{1}{\\sqrt{LC}}$ is the natural undamped frequency.\nAuxiliary equation:\n$$\\lambda^2 + 2\\gamma \\lambda + \\omega_0^2 = 0 \\implies \\lambda = -\\gamma \\pm \\sqrt{\\gamma^2 - \\omega_0^2}$$\n\n<h4>2. The Three Transient Regimes</h4>\n<ol>\n  <li><strong>Underdamped Oscillatory Regime ($R < 2\\sqrt{L/C} \\iff \\gamma < \\omega_0$):</strong>\n  The roots are complex conjugates $\\lambda = -\\gamma \\pm i \\omega_d$, where $\\omega_d = \\sqrt{\\omega_0^2 - \\gamma^2}$.\n  $$q(t) = Q_0 e^{-\\gamma t} \\cos(\\omega_d t + \\phi)$$\n  The charge oscillates back and forth between capacitor plates while dying out exponentially.</li>\n  <li><strong>Critically Damped Regime ($R = 2\\sqrt{L/C} \\iff \\gamma = \\omega_0$):</strong>\n  $R_{\\text{crit}} = 2\\sqrt{\\frac{L}{C}}$.\n  $$q(t) = (C_1 + C_2 t) e^{-\\gamma t}$$\n  The capacitor discharges in the shortest possible time without ringing or overshoot.</li>\n  <li><strong>Overdamped Aperiodic Regime ($R > 2\\sqrt{L/C} \\iff \\gamma > \\omega_0$):</strong>\n  Two real negative roots. Non-oscillatory sluggish decay:\n  $$q(t) = C_1 e^{-(\\gamma - \\sqrt{\\gamma^2-\\omega_0^2})t} + C_2 e^{-(\\gamma + \\sqrt{\\gamma^2-\\omega_0^2})t}$$</li>\n</ol>"
+    }
+  ],
+  "problems": [
+    {
+      "id": "prob-8-1",
+      "difficulty": "Undergraduate Standard Classical Exam",
+      "title": "Thevenin and Norton Equivalent Circuit of a Bridge T-Network",
+      "question": "A linear DC circuit consists of an independent voltage source $\\mathcal{E} = 36.0\\text{ V}$ connected across a resistive T-network: resistor $R_1 = 12.0\\ \\Omega$ in series with the source, a shunt resistor $R_2 = 24.0\\ \\Omega$ across the line, and an output resistor $R_3 = 8.00\\ \\Omega$ leading to output terminals $A$ and $B$. A variable load resistor $R_L$ is connected between $A$ and $B$.\\n(a) Determine the Thevenin equivalent voltage $V_{\\text{th}}$ and Thevenin resistance $R_{\\text{th}}$,\\n(b) Find the Norton equivalent current $I_N$, and\\n(c) Calculate the load current $I_L$ and power dissipated in $R_L$ when $R_L = 16.0\\ \\Omega$.",
+      "steps": [
+        {
+          "title": "Step 1: Determine Thevenin voltage and resistance",
+          "math": "$$\\text{Open circuit across A-B: no current flows through } R_3.$$\n$$V_{\\text{th}} = V_{R2} = \\mathcal{E} \\left( \\frac{R_2}{R_1 + R_2} \\right) = 36.0 \\times \\left( \\frac{24.0}{12.0 + 24.0} \\right) = 36.0 \\times \\left(\\frac{24.0}{36.0}\\right) = 24.00 \\text{ Volts}$$\n$$\\text{Deactivate voltage source (short circuit): } R_1 \\text{ is in parallel with } R_2:$$\n$$R_{12} = \\frac{R_1 R_2}{R_1 + R_2} = \\frac{12.0 \\times 24.0}{12.0 + 24.0} = \\frac{288}{36.0} = 8.00\\ \\Omega$$\n$$R_{\\text{th}} = R_{12} + R_3 = 8.00 + 8.00 = 16.00\\ \\Omega$$",
+          "explanation": "The entire network simplifies to a 24.0 V voltage source in series with 16.0 ohms."
+        },
+        {
+          "title": "Step 2: Norton equivalent current",
+          "math": "$$I_N = \\frac{V_{\\text{th}}}{R_{\\text{th}}} = \\frac{24.00 \\text{ V}}{16.00\\ \\Omega} = 1.500 \\text{ Amperes}$$\n$$R_N = R_{\\text{th}} = 16.00\\ \\Omega$$",
+          "explanation": "The Norton equivalent is a 1.50 A current source in parallel with 16.0 ohms."
+        },
+        {
+          "title": "Step 3: Load analysis for RL = 16.0 ohms",
+          "math": "$$I_L = \\frac{V_{\\text{th}}}{R_{\\text{th}} + R_L} = \\frac{24.00 \\text{ V}}{16.00 + 16.00} = \\frac{24.00}{32.00} = 0.750 \\text{ A}$$\n$$P_L = I_L^2 R_L = (0.750 \\text{ A})^2 \\times 16.00\\ \\Omega = 0.5625 \\times 16.00 = 9.00 \\text{ Watts}$$",
+          "explanation": "Because $R_L = R_{\\text{th}} = 16\\ \\Omega$, this represents the exact maximum power transfer condition ($P_{\\max} = 9.00$ W)."
+        }
+      ]
+    },
+    {
+      "id": "prob-8-2",
+      "difficulty": "Honors Circuit Analysis Standard",
+      "title": "Superposition Theorem with Dual Independent Sources",
+      "question": "A linear network contains an independent DC voltage source $\\mathcal{E}_1 = 28.0\\text{ V}$, an independent DC current source $I_s = 3.00\\text{ A}$, and three resistors: $R_1 = 4.00\\ \\Omega$, $R_2 = 6.00\\ \\Omega$, and $R_3 = 12.0\\ \\Omega$. The voltage source is in series with $R_1$. The current source is in parallel with $R_3$. Resistor $R_2$ connects between the common nodes.\\n(a) Use the Superposition Theorem to determine the current $I_2$ through resistor $R_2$ by activating each source individually, and\\n(b) Verify the result using nodal analysis.",
+      "steps": [
+        {
+          "title": "Step 1: Case A - Voltage source alone (Current source opened)",
+          "math": "$$\\text{Current source is open circuit. } R_2 \\text{ and } R_3 \\text{ are in series:}$$\n$$R_{23} = R_2 + R_3 = 6.00 + 12.0 = 18.0\\ \\Omega$$\n$$R_{\\text{total}} = R_1 + R_{23} = 4.00 + 18.0 = 22.0\\ \\Omega$$\n$$I_2' = \\frac{\\mathcal{E}_1}{R_{\\text{total}}} = \\frac{28.0 \\text{ V}}{22.0\\ \\Omega} = 1.2727 \\text{ A}$$",
+          "explanation": "The voltage source acting alone drives 1.27 A through resistor $R_2$."
+        },
+        {
+          "title": "Step 2: Case B - Current source alone (Voltage source shorted)",
+          "math": "$$\\text{Voltage source is shorted to ground. } R_1 \\text{ and } R_2 \\text{ are in series across } R_3:$$\n$$R_{12} = R_1 + R_2 = 4.00 + 6.00 = 10.0\\ \\Omega$$\n$$\\text{By current divider rule, current splitting through the } (R_1+R_2) \\text{ branch:}$$\n$$I_2'' = -I_s \\left( \\frac{R_3}{R_{12} + R_3} \\right) = -3.00 \\times \\left( \\frac{12.0}{10.0 + 12.0} \\right) = -3.00 \\times \\left(\\frac{12.0}{22.0}\\right) = -1.6364 \\text{ A}$$",
+          "explanation": "The current source drives 1.64 A in the opposite direction through $R_2$."
+        },
+        {
+          "title": "Step 3: Algebraic superposition sum",
+          "math": "$$I_2 = I_2' + I_2'' = 1.2727 - 1.6364 = -0.3636 \\text{ A} = -364 \\text{ mA}$$",
+          "explanation": "Superposing the two states yields a net current of 364 mA flowing upward against the voltage source."
+        }
+      ]
+    },
+    {
+      "id": "prob-8-3",
+      "difficulty": "Second-Order RLC Transient Standard Exam",
+      "title": "RLC Transient Oscillation and Critical Damping Resistance",
+      "question": "A series RLC circuit has an inductor $L = 50.0\\text{ mH}$ and a capacitor $C = 2.00\\ \\mu\\text{F}$.\\n(a) Calculate the critical damping resistance $R_{\\text{crit}}$,\\n(b) If the actual resistance in the circuit is $R = 60.0\\ \\Omega$, determine whether the transient discharge is underdamped, overdamped, or critically damped, and\\n(c) Calculate the damped oscillation frequency $\\omega_d$ and the logarithmic decrement $\\delta$.",
+      "steps": [
+        {
+          "title": "Step 1: Compute critical resistance and natural frequency",
+          "math": "$$\\omega_0 = \\frac{1}{\\sqrt{LC}} = \\frac{1}{\\sqrt{(50.0 \\times 10^{-3} \\text{ H}) \\times (2.00 \\times 10^{-6} \\text{ F})}} = \\frac{1}{\\sqrt{1.000 \\times 10^{-7}}} = 3162.3 \\text{ rad/s}$$\n$$R_{\\text{crit}} = 2\\sqrt{\\frac{L}{C}} = 2\\sqrt{\\frac{50.0 \\times 10^{-3}}{2.00 \\times 10^{-6}}} = 2\\sqrt{25000} = 2 \\times 158.11 = 316.2\\ \\Omega$$",
+          "explanation": "Critical damping requires a resistance of 316.2 ohms."
+        },
+        {
+          "title": "Step 2: Regime identification for R = 60.0 ohms",
+          "math": "$$R = 60.0\\ \\Omega < R_{\\text{crit}} = 316.2\\ \\Omega \\implies \\text{UNDERDAMPED OSCILLATORY REGIME}$$\n$$\\gamma = \\frac{R}{2L} = \\frac{60.0\\ \\Omega}{2 \\times (50.0 \\times 10^{-3} \\text{ H})} = \\frac{60.0}{0.100} = 600.0 \\text{ s}^{-1}$$",
+          "explanation": "Because $R < R_{\\text{crit}}$, the circuit oscillates with decaying amplitude."
+        },
+        {
+          "title": "Step 3: Damped frequency and logarithmic decrement",
+          "math": "$$\\omega_d = \\sqrt{\\omega_0^2 - \\gamma^2} = \\sqrt{(3162.3)^2 - (600.0)^2} = \\sqrt{1.000 \\times 10^7 - 3.60 \\times 10^5} = \\sqrt{9.640 \\times 10^6} = 3104.8 \\text{ rad/s}$$\n$$f_d = \\frac{\\omega_d}{2\\pi} = \\frac{3104.8}{2\\pi} = 494.1 \\text{ Hz}$$\n$$T_d = \\frac{1}{f_d} = 2.0238 \\times 10^{-3} \\text{ s}$$\n$$\\delta = \\gamma T_d = 600.0 \\times (2.0238 \\times 10^{-3}) = 1.214$$",
+          "explanation": "The circuit rings at 494 Hz with a logarithmic decrement $\\delta = 1.21$."
+        }
+      ]
+    }
+  ]
+}

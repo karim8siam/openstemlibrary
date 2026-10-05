@@ -1,0 +1,138 @@
+{
+  "reactor-four-factor-lifecycle-sim": {
+    "title": "Four-Factor Formula Animated Neutron Life Cycle",
+    "desc": "Tracks 1000 fast neutrons through their complete generational life cycle: fast fission boost \u03f5, resonance escape p during slowing down, thermal utilization f, and reproduction \u03b7, computing k\u221e = \u03f5\u00b7p\u00b7\u03b7\u00b7f.",
+    "isAnimated": true,
+    "controls": [
+      {
+        "id": "fastFission",
+        "label": "Fast Fission Factor \u03f5",
+        "min": 1.0,
+        "max": 1.08,
+        "step": 0.01,
+        "value": 1.03
+      },
+      {
+        "id": "resEscape",
+        "label": "Resonance Escape p",
+        "min": 0.7,
+        "max": 0.95,
+        "step": 0.01,
+        "value": 0.88
+      },
+      {
+        "id": "thermUtil",
+        "label": "Thermal Utilization f",
+        "min": 0.75,
+        "max": 0.98,
+        "step": 0.01,
+        "value": 0.89
+      },
+      {
+        "id": "reproductionEta",
+        "label": "Reproduction Factor \u03b7",
+        "min": 1.3,
+        "max": 2.2,
+        "step": 0.05,
+        "value": 1.65
+      }
+    ],
+    "code": "\n    const ctx = canvas.getContext(\"2d\");\n    const w = canvas.width, h = canvas.height;\n    ctx.fillStyle = \"#050811\"; ctx.fillRect(0, 0, w, h);\n\n    const eps = vals.fastFission !== undefined ? vals.fastFission : 1.03;\n    const p = vals.resEscape !== undefined ? vals.resEscape : 0.88;\n    const f = vals.thermUtil !== undefined ? vals.thermUtil : 0.89;\n    const eta = vals.reproductionEta !== undefined ? vals.reproductionEta : 1.65;\n\n    const k_inf = eps * p * f * eta;\n\n    // Populations starting from 1000 fast neutrons\n    const N0 = 1000;\n    const N1 = Math.round(N0 * eps);\n    const N2 = Math.round(N1 * p);\n    const N3 = Math.round(N2 * f);\n    const N4 = Math.round(N3 * eta);\n\n    // Circular life cycle layout\n    const cx = w / 2 - 40, cy = h / 2 + 10;\n    const R_track = 115;\n\n    ctx.strokeStyle = \"#1e293b\"; ctx.lineWidth = 3;\n    ctx.beginPath(); ctx.arc(cx, cy, R_track, 0, Math.PI * 2); ctx.stroke();\n\n    // 4 Stations around circle:\n    // Top (0): Fast Fission (N1)\n    // Right (PI/2): Resonance Escape / Thermalization (N2)\n    // Bottom (PI): Thermal Absorption in Fuel (N3)\n    // Left (3PI/2): Next Generation Fast Neutrons (N4)\n    const stations = [\n      { angle: -Math.PI / 2, label: `Fast Fission: ${N1}`, sub: `\u03f5 = ${eps.toFixed(2)}`, color: \"#38bdf8\" },\n      { angle: 0, label: `Thermalized: ${N2}`, sub: `p = ${p.toFixed(2)}`, color: \"#10b981\" },\n      { angle: Math.PI / 2, label: `Fuel Absorbed: ${N3}`, sub: `f = ${f.toFixed(2)}`, color: \"#f59e0b\" },\n      { angle: Math.PI, label: `Generation N+1: ${N4}`, sub: `\u03b7 = ${eta.toFixed(2)}`, color: \"#a855f7\" }\n    ];\n\n    stations.forEach((st) => {\n      const sx = cx + R_track * Math.cos(st.angle);\n      const sy = cy + R_track * Math.sin(st.angle);\n\n      ctx.fillStyle = st.color;\n      ctx.beginPath(); ctx.arc(sx, sy, 9, 0, Math.PI * 2); ctx.fill();\n\n      ctx.fillStyle = \"#ffffff\"; ctx.font = \"bold 11px Inter\";\n      const offsetX = Math.cos(st.angle) * 35;\n      const offsetY = Math.sin(st.angle) * 20;\n      ctx.fillText(st.label, sx + offsetX - 35, sy + offsetY - 5);\n      ctx.fillStyle = \"#94a3b8\"; ctx.font = \"10px Inter\";\n      ctx.fillText(st.sub, sx + offsetX - 20, sy + offsetY + 10);\n    });\n\n    // Animated particles orbiting the track\n    const numParticles = 16;\n    for (let i = 0; i < numParticles; i++) {\n      const phase = (time * 0.8 + (i / numParticles) * Math.PI * 2) % (Math.PI * 2);\n      const px = cx + R_track * Math.cos(phase);\n      const py = cy + R_track * Math.sin(phase);\n\n      ctx.fillStyle = \"#38bdf8\";\n      ctx.beginPath(); ctx.arc(px, py, 2.5, 0, Math.PI * 2); ctx.fill();\n    }\n\n    // Center multiplication summary\n    ctx.fillStyle = \"#0f172a\";\n    ctx.beginPath(); ctx.arc(cx, cy, 55, 0, Math.PI * 2); ctx.fill();\n    ctx.strokeStyle = k_inf >= 1.0 ? \"#10b981\" : \"#ef4444\"; ctx.lineWidth = 2;\n    ctx.beginPath(); ctx.arc(cx, cy, 55, 0, Math.PI * 2); ctx.stroke();\n\n    ctx.fillStyle = \"#94a3b8\"; ctx.font = \"10px Inter\";\n    ctx.fillText(\"Infinite Mult\", cx - 28, cy - 15);\n    ctx.fillStyle = k_inf >= 1.0 ? \"#10b981\" : \"#ef4444\"; ctx.font = \"bold 16px Inter\";\n    ctx.fillText(`k\u221e = ${k_inf.toFixed(3)}`, cx - 35, cy + 8);\n    ctx.fillStyle = \"#64748b\"; ctx.font = \"10px Inter\";\n    ctx.fillText(k_inf > 1.0 ? \"Supercritical\" : (k_inf === 1.0 ? \"Critical\" : \"Subcritical\"), cx - 24, cy + 26);\n\n    // Right info panel\n    const card = { x: w - 215, y: 35, w: 195, h: h - 70 };\n    ctx.fillStyle = \"rgba(11, 17, 32, 0.85)\";\n    ctx.fillRect(card.x, card.y, card.w, card.h);\n    ctx.strokeStyle = \"#334155\"; ctx.strokeRect(card.x, card.y, card.w, card.h);\n\n    ctx.fillStyle = \"#38bdf8\"; ctx.font = \"bold 12px Inter\";\n    ctx.fillText(\"Neutron Balance\", card.x + 15, card.y + 25);\n\n    ctx.font = \"11px Inter\"; ctx.fillStyle = \"#cbd5e1\";\n    ctx.fillText(`Fast Birth: 1000`, card.x + 15, card.y + 50);\n    ctx.fillText(`Fast Fissions: +${N1 - N0}`, card.x + 15, card.y + 70);\n    ctx.fillStyle = \"#ef4444\";\n    ctx.fillText(`Resonance Loss: -${N1 - N2}`, card.x + 15, card.y + 90);\n    ctx.fillText(`Parasitic Loss: -${N2 - N3}`, card.x + 15, card.y + 110);\n    ctx.fillStyle = \"#10b981\";\n    ctx.fillText(`Thermal Fissions: ${N3}`, card.x + 15, card.y + 130);\n    ctx.fillText(`Next Gen: ${N4} neutrons`, card.x + 15, card.y + 155);\n\n    ctx.fillStyle = \"#94a3b8\"; ctx.font = \"10px Inter\";\n    ctx.fillText(`Net Gain/Loss: ${(N4 - N0 >= 0 ? \"+\" : \"\") + (N4 - N0)}`, card.x + 15, card.y + 185);\n"
+  },
+  "reactor-six-factor-leakage-sim": {
+    "title": "Six-Factor Formula & Finite Core Leakage Balance",
+    "desc": "Calculates fast and thermal non-leakage probabilities P_FNL = 1/(1 + Bg\u00b2\u00b7\u03c4) and P_TNL = 1/(1 + Bg\u00b2\u00b7L\u00b2), demonstrating effective core multiplication keff = k\u221e \u00b7 P_FNL \u00b7 P_TNL.",
+    "isAnimated": true,
+    "controls": [
+      {
+        "id": "kInf",
+        "label": "Infinite Mult k\u221e",
+        "min": 1.0,
+        "max": 1.35,
+        "step": 0.01,
+        "value": 1.15
+      },
+      {
+        "id": "coreBuckling",
+        "label": "Buckling Bg\u00b2 (\u00d710\u207b\u2074 cm\u207b\u00b2)",
+        "min": 1.0,
+        "max": 15.0,
+        "step": 0.5,
+        "value": 5.0
+      },
+      {
+        "id": "migrArea",
+        "label": "Migration Area M\u00b2 (cm\u00b2)",
+        "min": 35,
+        "max": 350,
+        "step": 15,
+        "value": 150
+      }
+    ],
+    "code": "\n    const ctx = canvas.getContext(\"2d\");\n    const w = canvas.width, h = canvas.height;\n    ctx.fillStyle = \"#050811\"; ctx.fillRect(0, 0, w, h);\n\n    const k_inf = vals.kInf !== undefined ? vals.kInf : 1.15;\n    const Bg2 = (vals.coreBuckling !== undefined ? vals.coreBuckling : 5.0) * 1e-4;\n    const M2 = vals.migrArea !== undefined ? vals.migrArea : 150;\n\n    // Partition M2 into tau (30%) and L2 (70%)\n    const tau = M2 * 0.35;\n    const L2 = M2 * 0.65;\n\n    const P_FNL = 1.0 / (1.0 + Bg2 * tau);\n    const P_TNL = 1.0 / (1.0 + Bg2 * L2);\n    const k_eff = k_inf * P_FNL * P_TNL;\n    const rho_pcm = ((k_eff - 1.0) / k_eff) * 1e5;\n\n    // Waterfall bar chart showing multiplication stages\n    const plot = { x: 60, y: 50, w: w - 100, h: h - 95 };\n    ctx.strokeStyle = \"#1e293b\"; ctx.lineWidth = 1;\n    ctx.strokeRect(plot.x, plot.y, plot.w, plot.h);\n\n    // Title\n    ctx.fillStyle = \"#38bdf8\"; ctx.font = \"bold 12px Inter\";\n    ctx.fillText(`Six-Factor Critical Balance | keff = k\u221e \u00b7 P_FNL \u00b7 P_TNL = ${k_eff.toFixed(4)}`, plot.x, plot.y - 12);\n\n    const stages = [\n      { label: \"k\u221e (Infinite)\", val: k_inf, color: \"#38bdf8\" },\n      { label: \"Fast Leak (-)\", val: k_inf * (1 - P_FNL), color: \"#ef4444\", isLoss: true },\n      { label: \"After Fast Leak\", val: k_inf * P_FNL, color: \"#0ea5e9\" },\n      { label: \"Thermal Leak (-)\", val: (k_inf * P_FNL) * (1 - P_TNL), color: \"#f43f5e\", isLoss: true },\n      { label: \"keff (Net Finite)\", val: k_eff, color: k_eff >= 1.0 ? \"#10b981\" : \"#f59e0b\" }\n    ];\n\n    const barW = (plot.w - 80) / stages.length;\n    const maxVal = 1.4;\n\n    stages.forEach((st, idx) => {\n      const bx = plot.x + 30 + idx * (barW + 10);\n      const barH = (st.val / maxVal) * plot.h;\n      const by = plot.y + plot.h - barH;\n\n      ctx.fillStyle = st.color;\n      ctx.fillRect(bx, by, barW, barH);\n      ctx.strokeStyle = \"#1e293b\"; ctx.strokeRect(bx, by, barW, barH);\n\n      ctx.fillStyle = \"#ffffff\"; ctx.font = \"bold 11px Inter\";\n      ctx.fillText(st.val.toFixed(3), bx + 6, by - 6);\n\n      ctx.fillStyle = \"#94a3b8\"; ctx.font = \"9px Inter\";\n      ctx.fillText(st.label, bx - 5, plot.y + plot.h + 16);\n    });\n\n    // Reference Critical Line (k = 1.0)\n    const yCrit = plot.y + plot.h - (1.0 / maxVal) * plot.h;\n    ctx.strokeStyle = \"#10b981\"; ctx.setLineDash([4, 4]); ctx.lineWidth = 1.5;\n    ctx.beginPath(); ctx.moveTo(plot.x, yCrit); ctx.lineTo(plot.x + plot.w, yCrit); ctx.stroke();\n    ctx.setLineDash([]);\n    ctx.fillStyle = \"#10b981\"; ctx.font = \"10px Inter\";\n    ctx.fillText(\"Critical Line: k = 1.000\", plot.x + plot.w - 130, yCrit - 4);\n\n    // Summary overlay badge\n    ctx.fillStyle = \"rgba(11, 17, 32, 0.9)\";\n    ctx.fillRect(plot.x + 20, plot.y + 15, 230, 80);\n    ctx.strokeStyle = \"#334155\"; ctx.strokeRect(plot.x + 20, plot.y + 15, 230, 80);\n\n    ctx.fillStyle = k_eff >= 1.0 ? \"#10b981\" : \"#f59e0b\"; ctx.font = \"bold 12px Inter\";\n    ctx.fillText(k_eff >= 1.0005 ? \"SUPERCRITICAL (Power Rising)\" : (k_eff >= 0.9995 ? \"EXACT CRITICAL (Steady State)\" : \"SUBCRITICAL (Power Decaying)\"), plot.x + 30, plot.y + 35);\n\n    ctx.font = \"11px Inter\"; ctx.fillStyle = \"#cbd5e1\";\n    ctx.fillText(`Fast Non-Leak P_FNL: ${(P_FNL * 100).toFixed(2)}%`, plot.x + 30, plot.y + 55);\n    ctx.fillText(`Thermal Non-Leak P_TNL: ${(P_TNL * 100).toFixed(2)}%`, plot.x + 30, plot.y + 70);\n    ctx.fillText(`Net Reactivity \u03c1: ${(rho_pcm >= 0 ? \"+\" : \"\") + Math.round(rho_pcm)} pcm`, plot.x + 30, plot.y + 85);\n"
+  },
+  "reactor-geometric-buckling-geometries-sim": {
+    "title": "Geometric Buckling & Flux Profiles in 5 Canonical Geometries",
+    "desc": "Solves Helmholtz critical wave equation \u2207\u00b2\u03d5 + Bg\u00b2\u00b7\u03d5 = 0 across sphere, finite cylinder, cube, rectangular parallelepiped, and slab, calculating geometric buckling Bg\u00b2 and optimum cylinder volume.",
+    "isAnimated": true,
+    "controls": [
+      {
+        "id": "geomShape",
+        "label": "Geometry (1=Sphere, 2=Opt Cyl, 3=Cube, 4=Slab)",
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "value": 1
+      },
+      {
+        "id": "dimSize",
+        "label": "Characteristic Dimension (m)",
+        "min": 1.0,
+        "max": 5.0,
+        "step": 0.2,
+        "value": 2.5
+      },
+      {
+        "id": "display3D",
+        "label": "View Mode (1=Flux Curve, 2=Volume Bar)",
+        "min": 1,
+        "max": 2,
+        "step": 1,
+        "value": 1
+      }
+    ],
+    "code": "\n    const ctx = canvas.getContext(\"2d\");\n    const w = canvas.width, h = canvas.height;\n    ctx.fillStyle = \"#050811\"; ctx.fillRect(0, 0, w, h);\n\n    const shapeIdx = vals.geomShape || 1;\n    const D_dim = vals.dimSize !== undefined ? vals.dimSize : 2.5; // meters\n    const isVolBar = (vals.display3D === 2);\n\n    const shapes = [\"Bare Sphere\", \"Optimum Finite Cylinder (H=1.082D)\", \"Bare Cube\", \"Infinite Slab\"];\n    const name = shapes[shapeIdx - 1];\n\n    // Compute buckling Bg2 (m^-2) and minimum critical volume factor\n    let Bg2, vol, fluxFormula;\n    const R_m = D_dim / 2.0;\n\n    if (shapeIdx === 1) {\n      // Sphere: Bg = pi / R\n      Bg2 = Math.pow(Math.PI / R_m, 2);\n      vol = (4.0 / 3.0) * Math.PI * Math.pow(R_m, 3);\n      fluxFormula = \"\u03d5(r) = \u03d50 \u00b7 sin(\u03c0\u00b7r/R) / (\u03c0\u00b7r/R)\";\n    } else if (shapeIdx === 2) {\n      // Opt cylinder: H = 1.082 * 2R = 2.164 R\n      const H = 2.164 * R_m;\n      Bg2 = Math.pow(2.405 / R_m, 2) + Math.pow(Math.PI / H, 2);\n      vol = Math.PI * Math.pow(R_m, 2) * H;\n      fluxFormula = \"\u03d5(r, z) = \u03d50 \u00b7 J0(2.405\u00b7r/R) \u00b7 cos(\u03c0\u00b7z/H)\";\n    } else if (shapeIdx === 3) {\n      // Cube: a = D_dim\n      Bg2 = 3.0 * Math.pow(Math.PI / D_dim, 2);\n      vol = Math.pow(D_dim, 3);\n      fluxFormula = \"\u03d5(x,y,z) = \u03d50 \u00b7 cos(\u03c0x/a)cos(\u03c0y/a)cos(\u03c0z/a)\";\n    } else {\n      // Slab: thickness a = D_dim\n      Bg2 = Math.pow(Math.PI / D_dim, 2);\n      vol = Infinity;\n      fluxFormula = \"\u03d5(x) = \u03d50 \u00b7 cos(\u03c0\u00b7x/a)\";\n    }\n\n    const plot = { x: 65, y: 40, w: w - 95, h: h - 85 };\n    ctx.strokeStyle = \"#1e293b\"; ctx.lineWidth = 1;\n    ctx.strokeRect(plot.x, plot.y, plot.w, plot.h);\n\n    // Title\n    ctx.fillStyle = \"#38bdf8\"; ctx.font = \"bold 12px Inter\";\n    ctx.fillText(`Helmholtz Critical Solution | ${name} | Bg\u00b2 = ${Bg2.toFixed(3)} m\u207b\u00b2`, plot.x, plot.y - 12);\n\n    if (!isVolBar) {\n      // Plot spatial flux distribution from center to boundary\n      ctx.beginPath();\n      ctx.strokeStyle = \"#10b981\"; ctx.lineWidth = 2.5;\n\n      const nPts = 100;\n      for (let i = 0; i <= nPts; i++) {\n        const u = i / nPts; // 0 to 1 (normalized distance to boundary)\n        let phi;\n        if (shapeIdx === 1) {\n          phi = (u === 0) ? 1.0 : Math.sin(Math.PI * u) / (Math.PI * u);\n        } else if (shapeIdx === 2) {\n          // Approximation to J0(2.405 * u)\n          phi = Math.cos(1.2 * u * Math.PI / 2) * (1 - 0.2 * u * u);\n        } else {\n          phi = Math.cos((Math.PI / 2) * u);\n        }\n\n        const px = plot.x + u * plot.w;\n        const py = plot.y + plot.h - Math.max(0, phi) * (plot.h * 0.85);\n        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);\n      }\n      ctx.stroke();\n\n      // Axes\n      ctx.fillStyle = \"#64748b\"; ctx.font = \"10px Inter\";\n      ctx.fillText(\"Center (r=0)\", plot.x + 5, plot.y + plot.h + 16);\n      ctx.fillText(`Boundary (${D_dim.toFixed(1)} m)`, plot.x + plot.w - 75, plot.y + plot.h + 16);\n      ctx.fillText(\"Relative Flux \u03d5/\u03d50\", plot.x - 55, plot.y + 15);\n\n      // Peaking factor annotation\n      const peakFactor = (shapeIdx === 1) ? 3.29 : ((shapeIdx === 2) ? 3.64 : ((shapeIdx === 3) ? 3.88 : 1.57));\n      ctx.fillStyle = \"#f59e0b\"; ctx.font = \"11px Inter\";\n      ctx.fillText(`Peak-to-Average Peaking Factor \u03a9 = ${peakFactor.toFixed(2)}`, plot.x + 20, plot.y + 35);\n      ctx.fillText(`Formula: ${fluxFormula}`, plot.x + 20, plot.y + 55);\n\n    } else {\n      // Comparison of critical volume across geometries for identical B^2\n      const geoms = [\n        { name: \"Sphere\", factor: 130, color: \"#10b981\" },\n        { name: \"Opt Cyl\", factor: 148, color: \"#38bdf8\" },\n        { name: \"Cube\", factor: 161, color: \"#f59e0b\" },\n        { name: \"P-piped\", factor: 185, color: \"#a855f7\" }\n      ];\n\n      const barW = (plot.w - 100) / geoms.length;\n      geoms.forEach((g, idx) => {\n        const bx = plot.x + 40 + idx * (barW + 15);\n        const bh = (g.factor / 200) * plot.h;\n        const by = plot.y + plot.h - bh;\n\n        ctx.fillStyle = g.color;\n        ctx.fillRect(bx, by, barW, bh);\n\n        ctx.fillStyle = \"#ffffff\"; ctx.font = \"bold 11px Inter\";\n        ctx.fillText(`${g.factor}/B\u00b3`, bx + 10, by - 6);\n\n        ctx.fillStyle = \"#94a3b8\"; ctx.font = \"10px Inter\";\n        ctx.fillText(g.name, bx + 5, plot.y + plot.h + 16);\n      });\n      ctx.fillStyle = \"#38bdf8\"; ctx.font = \"11px Inter\";\n      ctx.fillText(\"Minimum Critical Volume Theorem: Sphere requires lowest critical mass!\", plot.x + 20, plot.y + 25);\n    }\n"
+  },
+  "reactor-reflected-core-savings-sim": {
+    "title": "Two-Region Reflected Core & Reflector Savings \u03b4",
+    "desc": "Solves coupled two-region diffusion equations in multiplying core and non-multiplying reflector, demonstrating the thermal flux peak in the reflector and reduction in critical core size (reflector savings \u03b4).",
+    "isAnimated": true,
+    "controls": [
+      {
+        "id": "coreSize",
+        "label": "Bare Critical Radius (cm)",
+        "min": 30,
+        "max": 100,
+        "step": 5,
+        "value": 60
+      },
+      {
+        "id": "reflMaterial",
+        "label": "Reflector (1=Graphite, 2=D2O, 3=Be, 4=H2O)",
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "value": 1
+      },
+      {
+        "id": "reflThick",
+        "label": "Reflector Thickness (cm)",
+        "min": 10,
+        "max": 60,
+        "step": 5,
+        "value": 35
+      }
+    ],
+    "code": "\n    const ctx = canvas.getContext(\"2d\");\n    const w = canvas.width, h = canvas.height;\n    ctx.fillStyle = \"#050811\"; ctx.fillRect(0, 0, w, h);\n\n    const R_bare = vals.coreSize !== undefined ? vals.coreSize : 60;\n    const refIdx = vals.reflMaterial || 1;\n    const T_refl = vals.reflThick !== undefined ? vals.reflThick : 35;\n\n    const refNames = [\"Graphite (C)\", \"Heavy Water (D\u2082O)\", \"Beryllium (Be)\", \"Light Water (H\u2082O)\"];\n    const Lr_vals = [50.0, 171.0, 21.0, 2.85];\n    const Lr = Lr_vals[refIdx - 1];\n\n    // Reflector savings delta approx = Lr * tanh(T_refl / Lr)\n    const delta = Math.min(R_bare * 0.5, Lr * Math.tanh(T_refl / Lr));\n    const R_refl = R_bare - delta;\n    const R_total = R_refl + T_refl;\n\n    const plot = { x: 65, y: 40, w: w - 95, h: h - 85 };\n    ctx.strokeStyle = \"#1e293b\"; ctx.lineWidth = 1;\n    ctx.strokeRect(plot.x, plot.y, plot.w, plot.h);\n\n    // Title\n    ctx.fillStyle = \"#38bdf8\"; ctx.font = \"bold 12px Inter\";\n    ctx.fillText(`Reflected Reactor Flux Profile | ${refNames[refIdx - 1]} Reflector | Savings \u03b4 = ${delta.toFixed(1)} cm`, plot.x, plot.y - 12);\n\n    // Interface and outer boundary markers\n    const pxInt = plot.x + (R_refl / (R_bare + 40)) * plot.w;\n    const pxBare = plot.x + (R_bare / (R_bare + 40)) * plot.w;\n    const pxOuter = plot.x + (R_total / (R_bare + 40)) * plot.w;\n\n    // Core region shading\n    ctx.fillStyle = \"rgba(56, 189, 248, 0.08)\";\n    ctx.fillRect(plot.x, plot.y, pxInt - plot.x, plot.h);\n\n    // Reflector region shading\n    ctx.fillStyle = \"rgba(16, 185, 129, 0.08)\";\n    ctx.fillRect(pxInt, plot.y, Math.min(plot.w - (pxInt - plot.x), pxOuter - pxInt), plot.h);\n\n    // Boundary lines\n    ctx.strokeStyle = \"#38bdf8\"; ctx.lineWidth = 1.5;\n    ctx.beginPath(); ctx.moveTo(pxInt, plot.y); ctx.lineTo(pxInt, plot.y + plot.h); ctx.stroke();\n\n    ctx.strokeStyle = \"#ef4444\"; ctx.setLineDash([3, 3]);\n    ctx.beginPath(); ctx.moveTo(pxBare, plot.y); ctx.lineTo(pxBare, plot.y + plot.h); ctx.stroke();\n    ctx.setLineDash([]);\n\n    ctx.fillStyle = \"#38bdf8\"; ctx.font = \"10px Inter\";\n    ctx.fillText(`Core Interface R = ${R_refl.toFixed(1)} cm`, pxInt - 60, plot.y + 15);\n    ctx.fillStyle = \"#ef4444\";\n    ctx.fillText(`Bare R = ${R_bare} cm`, pxBare + 4, plot.y + 15);\n\n    // Plot radial flux profile showing reflector thermal flux peak\n    ctx.beginPath();\n    ctx.strokeStyle = \"#10b981\"; ctx.lineWidth = 2.5;\n\n    for (let r = 0; r <= R_total; r += 0.5) {\n      let phi;\n      if (r <= R_refl) {\n        // In core: Bessel/cosine shape\n        phi = Math.cos((Math.PI / 2) * (r / (R_refl + delta)));\n      } else {\n        // In reflector: bump due to thermalization and hyperbolic decay\n        const distFromInt = r - R_refl;\n        const decay = Math.sinh((T_refl - distFromInt) / Lr) / Math.sinh(T_refl / Lr);\n        const bump = 0.25 * Math.exp(-distFromInt / 8.0);\n        phi = Math.cos((Math.PI / 2) * (R_refl / (R_refl + delta))) * decay + bump;\n      }\n\n      const px = plot.x + (r / (R_bare + 40)) * plot.w;\n      const py = plot.y + plot.h - Math.max(0, phi) * (plot.h * 0.82);\n      if (r === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);\n    }\n    ctx.stroke();\n\n    // Results info box\n    ctx.fillStyle = \"rgba(11, 17, 32, 0.9)\";\n    ctx.fillRect(plot.x + plot.w - 235, plot.y + 25, 220, 85);\n    ctx.strokeStyle = \"#334155\"; ctx.strokeRect(plot.x + plot.w - 235, plot.y + 25, 220, 85);\n\n    ctx.fillStyle = \"#10b981\"; ctx.font = \"bold 12px Inter\";\n    ctx.fillText(`Reflector Savings \u03b4: ${delta.toFixed(1)} cm`, plot.x + plot.w - 220, plot.y + 45);\n    ctx.fillStyle = \"#cbd5e1\"; ctx.font = \"11px Inter\";\n    ctx.fillText(`Reflected Core Radius: ${R_refl.toFixed(1)} cm`, plot.x + plot.w - 220, plot.y + 65);\n    ctx.fillText(`Core Volume Saved: ${((1 - Math.pow(R_refl / R_bare, 3)) * 100).toFixed(1)}%`, plot.x + plot.w - 220, plot.y + 85);\n"
+  }
+}

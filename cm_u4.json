@@ -1,0 +1,114 @@
+{
+  "unitNumber": 4,
+  "number": 4,
+  "title": "The Rigid Body Motion & Euler's Equations",
+  "subtitle": "Orthogonal Transformations, Eulerian Angles, Inertia Tensors, Euler's Dynamical Equations & Heavy Symmetrical Top",
+  "description": "Exhaustive treatment of rigid body kinematics and dynamics: degrees of freedom, orthogonal rotation matrices and SO(3) group properties, Eulerian angles (precession, nutation, spin), Euler's rotation theorem, inertia tensor and dyadics, principal axes of inertia, Euler's dynamical equations with fixed points, Poinsot construction for torque-free motion, and the heavy symmetrical top with sleeping top stability.",
+  "topics": [
+    "Rigid Body Coordinates & Orthogonal Transformations",
+    "Eulerian Angles (Precession, Nutation, Spin)",
+    "Inertia Tensor & Ellipsoid of Inertia",
+    "Principal Axes & Diagonalization of Inertia",
+    "Euler's Dynamical Equations of Motion",
+    "Torque-Free Motion & Poinsot Construction",
+    "Heavy Symmetrical Top & Sleeping Top Stability"
+  ],
+  "sections": [
+    {
+      "id": "u4-sec1",
+      "title": "Degrees of Freedom & Orthogonal Transformation Matrices",
+      "content": "\n<h4>1. Degrees of Freedom of an Ideal Rigid Body</h4>\nA <strong>rigid body</strong> is an idealized assembly of $N$ particles where the inter-particle distances remain invariant under all forces:\n<div class=\"math-display\">$$|\\vec{r}_i - \\vec{r}_j| = c_{ij} = \\text{constant}, \\quad \\forall i, j$$</div>\nSpecifying the position of 3 non-collinear particles requires 9 coordinates subject to 3 internal distance constraints, yielding <strong>6 independent degrees of freedom</strong>:\n<ul>\n  <li><strong>3 Translational Degrees of Freedom:</strong> Specifying the position vector $\\vec{R}$ of the center of mass in the space-fixed inertial frame.</li>\n  <li><strong>3 Rotational Degrees of Freedom:</strong> Specifying the orientation of a body-fixed coordinate frame relative to the space-fixed frame.</li>\n</ul>\n\n<h4>2. Orthogonal Transformations</h4>\nLet $\\vec{r} = (x, y, z)^T$ be the coordinates of a vector in the space-fixed frame and $\\vec{r}' = (x', y', z')^T$ in the rotated frame. The linear transformation is:\n<div class=\"math-display\">$$\\vec{r}' = \\mathbf{A} \\vec{r}, \\quad x_i' = \\sum_{j=1}^3 A_{ij} x_j$$</div>\nInvariance of vector length requires $\\vec{r}' \\cdot \\vec{r}' = \\vec{r} \\cdot \\vec{r}$:\n<div class=\"math-display\">$$(\\mathbf{A}\\vec{r})^T (\\mathbf{A}\\vec{r}) = \\vec{r}^T (\\mathbf{A}^T \\mathbf{A}) \\vec{r} = \\vec{r}^T \\mathbf{I} \\vec{r}$$</div>\nThis necessitates the <strong>orthogonality condition</strong>:\n<div class=\"math-display\">$$\\mathbf{A}^T \\mathbf{A} = \\mathbf{A} \\mathbf{A}^T = \\mathbf{I} \\implies \\sum_{k=1}^3 A_{ki} A_{kj} = \\delta_{ij}$$</div>\nTaking the determinant: $\\det(\\mathbf{A}^T \\mathbf{A}) = (\\det \\mathbf{A})^2 = 1 \\implies \\det \\mathbf{A} = \\pm 1$.\nFor proper physical rotations (preserving coordinate handedness), $\\det \\mathbf{A} = +1$. The set of all such transformation matrices forms the special orthogonal Lie group $\\mathbf{SO(3)}$.\n"
+    },
+    {
+      "id": "u4-sec2",
+      "title": "The Eulerian Angles & Euler's Rotation Theorem",
+      "content": "\n<h4>1. Standard Eulerian Angle Parameterization</h4>\nTo transform an initial space-fixed coordinate system $(x, y, z)$ into an arbitrary body-fixed system $(x', y', z')$, Leonhard Euler defined three successive rotations parameterized by the <strong>Eulerian angles</strong> $(\\phi, \\theta, \\psi)$:\n<ol>\n  <li><strong>Precession (Angle $\\phi$):</strong> Rotation counter-clockwise by angle $\\phi$ about the initial $z$-axis ($0 \\le \\phi < 2\\pi$). The resulting line of nodes $\\xi$ lies along the intersection of the $(x, y)$ and $(x', y')$ planes:\n  <div class=\"math-display\">$$\\mathbf{D}(\\phi) = \\begin{pmatrix} \\cos \\phi & \\sin \\phi & 0 \\\\ -\\sin \\phi & \\cos \\phi & 0 \\\\ 0 & 0 & 1 \\end{pmatrix}$$</div></li>\n  <li><strong>Nutation (Angle $\\theta$):</strong> Rotation by angle $\\theta$ about the intermediate line of nodes $\\xi$ ($0 \\le \\theta \\le \\pi$):\n  <div class=\"math-display\">$$\\mathbf{C}(\\theta) = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & \\cos \\theta & \\sin \\theta \\\\ 0 & -\\sin \\theta & \\cos \\theta \\end{pmatrix}$$</div></li>\n  <li><strong>Intrinsic Body Spin (Angle $\\psi$):</strong> Rotation by angle $\\psi$ about the final body-fixed $z'$-axis ($0 \\le \\psi < 2\\pi$):\n  <div class=\"math-display\">$$\\mathbf{B}(\\psi) = \\begin{pmatrix} \\cos \\psi & \\sin \\psi & 0 \\\\ -\\sin \\psi & \\cos \\psi & 0 \\\\ 0 & 0 & 1 \\end{pmatrix}$$</div></li>\n</ol>\nThe composite rotation matrix $\\mathbf{A} = \\mathbf{B}(\\psi) \\mathbf{C}(\\theta) \\mathbf{D}(\\phi)$ transforms space coordinates into body coordinates.\n\n<h4>2. Angular Velocity Vector in Terms of Euler Angles</h4>\nProjecting the rates of change $(\\dot{\\phi}, \\dot{\\theta}, \\dot{\\psi})$ onto the body-fixed axes $(x', y', z')$ yields the instantaneous angular velocity $\\vec{\\omega}$:\n<div class=\"math-display\">$$\\omega_{x'} = \\dot{\\phi} \\sin \\theta \\sin \\psi + \\dot{\\theta} \\cos \\psi$$</div>\n<div class=\"math-display\">$$\\omega_{y'} = \\dot{\\phi} \\sin \\theta \\cos \\psi - \\dot{\\theta} \\sin \\psi$$</div>\n<div class=\"math-display\">$$\\omega_{z'} = \\dot{\\phi} \\cos \\theta + \\dot{\\psi}$$</div>\n"
+    },
+    {
+      "id": "u4-sec3",
+      "title": "The Inertia Tensor, Dyadics & Principal Axes of Inertia",
+      "content": "\n<h4>1. Angular Momentum and the Inertia Tensor</h4>\nFor a rigid body rotating with instantaneous angular velocity $\\vec{\\omega}$ about a fixed point (or about its center of mass), the velocity of each point mass is $\\vec{v}_i = \\vec{\\omega} \\times \\vec{r}_i$. The total angular momentum is:\n<div class=\"math-display\">$$\\vec{L} = \\sum_{i=1}^N m_i \\vec{r}_i \\times (\\vec{\\omega} \\times \\vec{r}_i) = \\sum_{i=1}^N m_i [r_i^2 \\vec{\\omega} - (\\vec{r}_i \\cdot \\vec{\\omega})\\vec{r}_i]$$</div>\nIn component notation, this linear relationship is written as $\\vec{L} = \\mathbf{I} \\vec{\\omega}$:\n<div class=\"math-display\">$$L_j = \\sum_{k=1}^3 I_{jk} \\omega_k$$</div>\nwhere $\\mathbf{I}$ is the rank-2 symmetric <strong>inertia tensor</strong>:\n<div class=\"math-display\">$$I_{jk} = \\int \\rho(\\vec{r}) (r^2 \\delta_{jk} - x_j x_k) dV$$</div>\nThe diagonal components are the <strong>moments of inertia</strong>:\n<div class=\"math-display\">$$I_{xx} = \\int (y^2 + z^2) dm, \\quad I_{yy} = \\int (x^2 + z^2) dm, \\quad I_{zz} = \\int (x^2 + y^2) dm$$</div>\nThe off-diagonal components are the <strong>products of inertia</strong>:\n<div class=\"math-display\">$$I_{xy} = I_{yx} = -\\int x y dm, \\quad I_{yz} = I_{zy} = -\\int y z dm, \\quad I_{xz} = I_{zx} = -\\int x z dm$$</div>\n\n<h4>2. Rotational Kinetic Energy</h4>\nThe rotational kinetic energy is a quadratic form in angular velocities:\n<div class=\"math-display\">$$T_{\\text{rot}} = \\frac{1}{2} \\sum_{i=1}^N m_i v_i^2 = \\frac{1}{2} \\vec{\\omega} \\cdot \\vec{L} = \\frac{1}{2} \\sum_{j=1}^3 \\sum_{k=1}^3 I_{jk} \\omega_j \\omega_k = \\frac{1}{2} \\vec{\\omega}^T \\mathbf{I} \\vec{\\omega}$$</div>\n\n<h4>3. Principal Axes of Inertia & Diagonalization</h4>\nBecause the inertia matrix $\\mathbf{I}$ is real and symmetric, the spectral theorem guarantees the existence of an orthogonal basis of eigenvectors called the <strong>principal axes of inertia</strong>. In this frame, all products of inertia vanish, and $\\mathbf{I}$ becomes purely diagonal:\n<div class=\"math-display\">$$\\mathbf{I} = \\begin{pmatrix} I_1 & 0 & 0 \\\\ 0 & I_2 & 0 \\\\ 0 & 0 & I_3 \\end{pmatrix}$$</div>\nwhere $I_1, I_2, I_3$ are the <strong>principal moments of inertia</strong>. The rotational kinetic energy and angular momentum simplify to:\n<div class=\"math-display\">$$T_{\\text{rot}} = \\frac{1}{2} I_1 \\omega_1^2 + \\frac{1}{2} I_2 \\omega_2^2 + \\frac{1}{2} I_3 \\omega_3^2$$</div>\n<div class=\"math-display\">$$\\vec{L} = I_1 \\omega_1 \\hat{e}_1 + I_2 \\omega_2 \\hat{e}_2 + I_3 \\omega_3 \\hat{e}_3$$</div>\n"
+    },
+    {
+      "id": "u4-sec4",
+      "title": "Euler's Equations of Motion for Rigid Bodies",
+      "content": "\n<h4>1. Time Derivatives in Rotating Reference Frames</h4>\nLet an arbitrary vector $\\vec{G}$ be observed in both an inertial space-fixed frame and a body-fixed frame rotating with angular velocity $\\vec{\\omega}$. The operator relation between time rates of change is:\n<div class=\"math-display\">$$\\left(\\frac{d\\vec{G}}{dt}\\right)_{\\text{space}} = \\left(\\frac{d\\vec{G}}{dt}\\right)_{\\text{body}} + \\vec{\\omega} \\times \\vec{G}$$</div>\n\n<h4>2. Derivation of Euler's Dynamical Equations</h4>\nNewtonian mechanics requires that the rate of change of total angular momentum in the space frame equals the net external torque: $\\left(\\frac{d\\vec{L}}{dt}\\right)_{\\text{space}} = \\vec{N}^{\\text{ext}}$.\nApplying the rotating frame relation:\n<div class=\"math-display\">$$\\left(\\frac{d\\vec{L}}{dt}\\right)_{\\text{body}} + \\vec{\\omega} \\times \\vec{L} = \\vec{N}$$</div>\nExpressing this vector equation along the body's <strong>principal axes of inertia</strong> where $L_1 = I_1 \\omega_1$, $L_2 = I_2 \\omega_2$, $L_3 = I_3 \\omega_3$:\n<div class=\"math-display\">$$(\\vec{\\omega} \\times \\vec{L})_1 = \\omega_2 L_3 - \\omega_3 L_2 = (I_3 - I_2) \\omega_2 \\omega_3$$</div>\nThis yields <strong>Euler's Equations of Motion</strong>:\n<div class=\"math-display\">$$I_1 \\dot{\\omega}_1 - (I_2 - I_3) \\omega_2 \\omega_3 = N_1$$</div>\n<div class=\"math-display\">$$I_2 \\dot{\\omega}_2 - (I_3 - I_1) \\omega_3 \\omega_1 = N_2$$</div>\n<div class=\"math-display\">$$I_3 \\dot{\\omega}_3 - (I_1 - I_2) \\omega_1 \\omega_2 = N_3$$</div>\n<p>These coupled nonlinear first-order differential equations govern the time evolution of the body-fixed angular velocity components under external torques $N_i$.</p>\n"
+    },
+    {
+      "id": "u4-sec5",
+      "title": "Torque-Free Motion & The Heavy Symmetrical Top",
+      "content": "\n<h4>1. Torque-Free Motion of a Symmetrical Top ($N_i = 0$, $I_1 = I_2 \\neq I_3$)</h4>\nSetting torques to zero and $I_1 = I_2$, Euler's equations become:\n<div class=\"math-display\">$$I_1 \\dot{\\omega}_1 = (I_1 - I_3) \\omega_2 \\omega_3$$</div>\n<div class=\"math-display\">$$I_1 \\dot{\\omega}_2 = -(I_1 - I_3) \\omega_1 \\omega_3$$</div>\n<div class=\"math-display\">$$I_3 \\dot{\\omega}_3 = 0 \\implies \\omega_3 = \\text{constant}$$</div>\nDefining the constant precession frequency $\\Omega_{\\text{prec}} = \\frac{I_1 - I_3}{I_1} \\omega_3$:\n<div class=\"math-display\">$$\\dot{\\omega}_1 = \\Omega_{\\text{prec}} \\omega_2, \\quad \\dot{\\omega}_2 = -\\Omega_{\\text{prec}} \\omega_1$$</div>\nDifferentiating again yields $\\ddot{\\omega}_1 + \\Omega_{\\text{prec}}^2 \\omega_1 = 0$. The angular velocity vector $\\vec{\\omega}$ precesses uniformly around the body symmetry axis ($z'$) with frequency $\\Omega_{\\text{prec}}$.\n\n<h4>2. The Heavy Symmetrical Top with Fixed Pivot</h4>\nConsider a symmetric top ($I_1 = I_2$) spinning under gravity with its apex supported at a fixed pivot. The Lagrangian in Eulerian angles $(\\phi, \\theta, \\psi)$ is:\n<div class=\"math-display\">$$L = \\frac{1}{2}I_1 (\\dot{\\theta}^2 + \\dot{\\phi}^2 \\sin^2 \\theta) + \\frac{1}{2}I_3 (\\dot{\\phi} \\cos \\theta + \\dot{\\psi})^2 - M g l \\cos \\theta$$</div>\nCoordinates $\\phi$ (precession) and $\\psi$ (spin) are cyclic:\n<div class=\"math-display\">$$p_\\phi = I_1 \\dot{\\phi} \\sin^2 \\theta + I_3 (\\dot{\\phi} \\cos \\theta + \\dot{\\psi}) \\cos \\theta = \\text{const}$$</div>\n<div class=\"math-display\">$$p_\\psi = I_3 (\\dot{\\phi} \\cos \\theta + \\dot{\\psi}) = I_3 \\omega_3 = \\text{const}$$</div>\nThe nutation angle $\\theta(t)$ oscillates between two turning points $\\theta_1$ and $\\theta_2$ governed by an effective potential.\n\n<h4>3. The Sleeping Top Stability Condition</h4>\nWhen a top spins vertically upright ($\\theta = 0$, the \"sleeping top\"), small perturbations are stable if and only if the spin angular velocity exceeds the critical threshold:\n<div class=\"math-display\">$$\\omega_3^2 \\ge \\frac{4 M g l I_1}{I_3^2}$$</div>\nIf friction slows $\\omega_3$ below this limit, the vertical state undergoes a bifurcation and the top begins to wobble (nutate) wildly.\n"
+    }
+  ],
+  "problems": [
+    {
+      "id": "cm-prob-4-1",
+      "title": "Principal Moments of Inertia of a Uniform Solid Cube",
+      "statement": "Find the inertia tensor of a uniform solid cube of mass $M$ and edge length $a$ about one of its corners as origin, and determine the principal moments of inertia and the orientation of the principal axes.",
+      "steps": [
+        {
+          "step": "Step 1: Calculate Moments and Products of Inertia About Corner Origin",
+          "math": "$$I_{xx} = \\int_0^a dx \\int_0^a dy \\int_0^a dz \\rho (y^2 + z^2) = \\frac{M}{a^3} \\left( \\frac{a^5}{3} + \\frac{a^5}{3} \\right) = \\frac{2}{3} M a^2$$",
+          "explanation": "By symmetry, $I_{xx} = I_{yy} = I_{zz} = \\frac{2}{3} M a^2$. The product of inertia is $I_{xy} = -\\int_0^a dx \\int_0^a dy \\int_0^a dz \\rho x y = -\\frac{M}{a^3} \\left(\\frac{a^2}{2}\\right)\\left(\\frac{a^2}{2}\\right) a = -\\frac{1}{4} M a^2$."
+        },
+        {
+          "step": "Step 2: Construct the Full Inertia Matrix",
+          "math": "$$\\mathbf{I} = M a^2 \\begin{pmatrix} 2/3 & -1/4 & -1/4 \\\\ -1/4 & 2/3 & -1/4 \\\\ -1/4 & -1/4 & 2/3 \\end{pmatrix}$$",
+          "explanation": "All diagonal elements are $2/3 M a^2$ and all off-diagonal products of inertia are $-1/4 M a^2$."
+        },
+        {
+          "step": "Step 3: Diagonalize the Matrix to Extract Principal Moments",
+          "math": "$$\\det(\\mathbf{I} - \\lambda \\mathbf{I}_3) = 0 \\implies \\lambda_1 = \\frac{1}{6} M a^2, \\quad \\lambda_2 = \\lambda_3 = \\frac{11}{12} M a^2$$",
+          "explanation": "The eigenvector for $\\lambda_1 = \\frac{1}{6} M a^2$ points along the main space diagonal $(1, 1, 1)^T$. The other two degenerate eigenvalues $\\frac{11}{12} M a^2$ correspond to any orthogonal vectors in the plane perpendicular to the main diagonal."
+        }
+      ],
+      "answer": "Principal moments: I1 = (1/6) M a\u00b2 (along space diagonal), I2 = I3 = (11/12) M a\u00b2 (degenerate perpendicular plane)."
+    },
+    {
+      "id": "cm-prob-4-2",
+      "title": "Euler's Equations: Intermediate Axis Instability (Tennis Racket Theorem)",
+      "statement": "An asymmetric rigid body with principal moments of inertia $I_1 < I_2 < I_3$ undergoes torque-free rotation. Use Euler's equations and linear stability analysis to prove that steady rotation about the intermediate axis $I_2$ is dynamically unstable, while rotation about $I_1$ and $I_3$ is stable.",
+      "steps": [
+        {
+          "step": "Step 1: Perturb Motion Around the Intermediate Axis 2",
+          "math": "$$\\vec{\\omega} = (\\eta_1, \\omega_0 + \\eta_2, \\eta_3), \\quad |\\eta_i| \\ll \\omega_0$$",
+          "explanation": "Let the body rotate steadily around principal axis 2 with nominal velocity $\\omega_0$, with small perturbations $\\eta_1, \\eta_2, \\eta_3$."
+        },
+        {
+          "step": "Step 2: Linearize Euler's Equations to First Order in Perturbations",
+          "math": "$$I_1 \\dot{\\eta}_1 = (I_2 - I_3) \\omega_0 \\eta_3, \\quad I_3 \\dot{\\eta}_3 = (I_1 - I_2) \\omega_0 \\eta_1$$",
+          "explanation": "To first order, $\\dot{\\eta}_2 = 0$. Differentiating the first equation: $I_1 \\ddot{\\eta}_1 = (I_2 - I_3) \\omega_0 \\dot{\\eta}_3 = \\frac{(I_2 - I_3)(I_1 - I_2)}{I_3} \\omega_0^2 \\eta_1$."
+        },
+        {
+          "step": "Step 3: Evaluate Sign of the Coefficient",
+          "math": "$$\\ddot{\\eta}_1 = \\frac{(I_2 - I_3)(I_1 - I_2)}{I_1 I_3} \\omega_0^2 \\eta_1 = +\\Omega^2 \\eta_1$$",
+          "explanation": "Since $I_1 < I_2 < I_3$, $(I_2 - I_3) < 0$ and $(I_1 - I_2) < 0$, making their product strictly POSITIVE. The perturbation grows exponentially as $\\eta_1(t) \\propto e^{+\\Omega t}$, proving instability. (For axes 1 or 3, the product is negative, giving stable harmonic oscillation $\\ddot{\\eta} = -\\Omega^2 \\eta$)."
+        }
+      ],
+      "answer": "Exponential growth rate \u03a9 = \u03c90 \u221a[(I3 - I2)(I2 - I1) / (I1 I3)] proves the intermediate axis is violently unstable (Dzhanibekov effect)."
+    },
+    {
+      "id": "cm-prob-4-3",
+      "title": "Steady Precession Rate of a Fast Heavy Symmetrical Top",
+      "statement": "A heavy symmetrical top ($I_1 = I_2$, $I_3$) spins with large angular velocity $\\omega_3$ about its symmetry axis inclined at angle $\\theta$ to the vertical. Derive the slow and fast steady precession rates $\\dot{\\phi}$ from the torque-free balance equation.",
+      "steps": [
+        {
+          "step": "Step 1: Set Up the Nutational Force Balance Equation",
+          "math": "$$I_1 \\ddot{\\theta} = I_1 \\dot{\\phi}^2 \\sin \\theta \\cos \\theta - I_3 \\omega_3 \\dot{\\phi} \\sin \\theta + M g l \\sin \\theta = 0$$",
+          "explanation": "For steady precession, nutation is fixed ($\\dot{\\theta} = 0, \\ddot{\\theta} = 0$). Dividing by $\\sin \\theta$ (assuming $\\sin \\theta \\neq 0$) yields a quadratic equation for precession speed $\\dot{\\phi}$."
+        },
+        {
+          "step": "Step 2: Solve Quadratic Equation for Precession Speed \u03c6\u0307",
+          "math": "$$I_1 \\cos \\theta \\dot{\\phi}^2 - I_3 \\omega_3 \\dot{\\phi} + M g l = 0$$",
+          "explanation": "The roots are $\\dot{\\phi} = \\frac{I_3 \\omega_3 \\pm \\sqrt{I_3^2 \\omega_3^2 - 4 I_1 M g l \\cos \\theta}}{2 I_1 \\cos \\theta}$."
+        },
+        {
+          "step": "Step 3: Extract the Fast and Slow Precession Limits for Large Spin \u03c93",
+          "math": "$$\\dot{\\phi}_{\\text{slow}} \\approx \\frac{M g l}{I_3 \\omega_3}, \\quad \\dot{\\phi}_{\\text{fast}} \\approx \\frac{I_3 \\omega_3}{I_1 \\cos \\theta}$$",
+          "explanation": "Expanding the square root for $I_3^2 \\omega_3^2 \\gg 4 I_1 M g l \\cos \\theta$: the minus sign gives the ordinary slow gyroscopic precession $\\dot{\\phi} = \\tau / L$, and the plus sign gives the fast inertial precession."
+        }
+      ],
+      "answer": "Slow steady precession: \u03c6\u0307_slow = M g l / (I3 \u03c93); Fast precession: \u03c6\u0307_fast = I3 \u03c93 / (I1 cos \u03b8)."
+    }
+  ]
+}

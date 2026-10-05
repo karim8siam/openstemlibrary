@@ -1,0 +1,121 @@
+{
+  "unitNumber": 4,
+  "unitId": "unit4-flip-flops-multivibrators",
+  "title": "Latches, Flip-Flops & Multivibrator Timing Circuits",
+  "description": "Bistable memory primitives and relaxation oscillator timing: cross-coupled BJT transistor latches, active-LOW NAND and active-HIGH NOR latches; clocked level-triggered SR and D transparent latches; edge-triggered flip-flops (master-slave architecture, dynamic setup time t_su and hold time t_h); the JK flip-flop, race-around hazard elimination, characteristic equations Q(t+1), excitation tables, and T flip-flop conversion; multivibrator classes (astable, monostable, bistable) and Schmitt trigger hysteresis; the 555 integrated timer internal comparator architecture, astable frequency, and duty cycle design.",
+  "sections": [
+    {
+      "id": "dig-4-1",
+      "title": "Bistable Elements: Cross-Coupled Inverters & SR Latches",
+      "content": "<h4>1. The Fundamental Bistable Circuit Principle</h4>\n<p>While combinational circuits produce outputs that depend strictly on current inputs, <strong>sequential circuits</strong> incorporate memory elements whose outputs depend on both current inputs and the past sequence of states. The most primitive electronic memory cell is the <strong>bistable multivibrator</strong>, formed by cross-coupling two inverting stages with positive feedback ($A_v > 1$):</p>\n<div class=\"math-display\">\n$$Q = \\overline{\\bar{Q}}, \\quad \\bar{Q} = \\bar{Q}$$\n</div>\n<p>The circuit possesses two stable equilibrium states: State 1 ($Q=1, \\bar{Q}=0$, \"SET\") and State 2 ($Q=0, \\bar{Q}=1$, \"RESET\"). The intermediate state where both inverters operate in their linear amplification region ($V_{\\text{in}} = V_{\\text{out}} \\approx V_{DD}/2$) is <strong>metastable</strong>; infinitesimal thermal noise forces the cell to regenerate into one of the two stable binary states.</p>\n\n<h4>2. Active-HIGH NOR Latch</h4>\n<p>Constructed by cross-coupling two 2-input NOR gates with inputs $S$ (Set) and $R$ (Reset):</p>\n<div class=\"math-display\">\n$$Q_{n+1} = \\overline{R + \\bar{Q}_n}, \\quad \\bar{Q}_{n+1} = \\overline{S + Q_n}$$\n</div>\n<ul>\n<li>$S=0, R=0$: <strong>Hold / Memory State</strong> ($Q_{n+1} = Q_n$). Latches the previous bit indefinitely.</li>\n<li>$S=1, R=0$: <strong>Set State</strong> ($Q_{n+1} = 1, \\bar{Q}_{n+1} = 0$).</li>\n<li>$S=0, R=1$: <strong>Reset State</strong> ($Q_{n+1} = 0, \\bar{Q}_{n+1} = 1$).</li>\n<li>$S=1, R=1$: <strong>Forbidden / Invalid State</strong>. Forces both outputs to $0$ ($Q = \\bar{Q} = 0$), violating complementarity. If both inputs return simultaneously to $0$, race conditions lead to unpredictable metastable collapse.</li>\n</ul>\n\n<h4>3. Active-LOW NAND Latch</h4>\n<p>Constructed by cross-coupling two 2-input NAND gates with active-LOW inputs $\\bar{S}$ and $\\bar{R}$:</p>\n<div class=\"math-display\">\n$$Q_{n+1} = \\overline{\\bar{S} \\cdot \\bar{Q}_n}, \\quad \\bar{Q}_{n+1} = \\overline{\\bar{R} \\cdot Q_n}$$\n</div>\n<ul>\n<li>$\\bar{S}=1, \\bar{R}=1$: <strong>Hold State</strong>.</li>\n<li>$\\bar{S}=0, \\bar{R}=1$: <strong>Set State</strong> ($Q=1$).</li>\n<li>$\\bar{S}=1, \\bar{R}=0$: <strong>Reset State</strong> ($Q=0$).</li>\n<li>$\\bar{S}=0, \\bar{R}=0$: <strong>Forbidden State</strong> ($Q = \\bar{Q} = 1$).</li>\n</ul>"
+    },
+    {
+      "id": "dig-4-2",
+      "title": "Clocked Latches: Synchronous SR & Transparent D Latch",
+      "content": "<h4>1. Clocked SR Latch</h4>\n<p>To synchronize state transitions with a central clock signal ($CLK$), two steering NAND gates precede the basic NAND latch:</p>\n<div class=\"math-display\">\n$$S^* = \\overline{S \\cdot CLK}, \\quad R^* = \\overline{R \\cdot CLK}$$\n</div>\n<ul>\n<li>When $CLK = 0$: $S^* = R^* = 1$. The latch remains frozen in its hold state regardless of $S$ and $R$.</li>\n<li>When $CLK = 1$: $S^* = \\bar{S}$ and $R^* = \\bar{R}$. The latch responds directly to $S$ and $R$ inputs.</li>\n</ul>\n\n<h4>2. The Transparent D Latch</h4>\n<p>To eliminate the forbidden $S=R=1$ hazard, an inverter is placed between the inputs ($R = \\bar{S}$), creating the single-input <strong>Data or D Latch</strong> ($S = D, R = \\bar{D}$):</p>\n<div class=\"math-display\">\n$$Q_{n+1} = D \\quad (\\text{when } CLK = 1)$$\n</div>\n<ul>\n<li><strong>Transparent Mode ($CLK = 1$):</strong> The output $Q$ tracks input $D$ continuously in real time with minimal gate delay. Any noise or glitches on $D$ propagate directly to $Q$.</li>\n<li><strong>Latched Mode ($CLK = 0$):</strong> The output $Q$ freezes, holding the value present at $D$ at the instant the clock fell.</li>\n</ul>"
+    },
+    {
+      "id": "dig-4-3",
+      "title": "Edge-Triggered Flip-Flops: Master-Slave & Timing Windows",
+      "simulation": "dig-flipflop-clock-sim",
+      "content": "<h4>1. Edge-Triggering vs Level-Sensitivity</h4>\n<p>A <strong>latch</strong> is level-sensitive: it responds continuously as long as the clock enable remains active. In contrast, an <strong>edge-triggered flip-flop</strong> samples its input and changes state <em>only</em> during an infinitesimal transition edge of the clock signal\u2014either the <strong>positive (rising) edge</strong> ($0 \\to 1$) or the <strong>negative (falling) edge</strong> ($1 \\to 0$).</p>\n\n<h4>2. Master-Slave Architecture</h4>\n<p>A classic edge-triggered flip-flop cascades two clocked latches in series controlled by complementary clock phases:</p>\n<ol>\n<li><strong>Master Latch:</strong> Enabled when $CLK = 1$. Samples data input $D$ while the slave is disabled ($\\overline{CLK} = 0$). Output $Q_M$ tracks $D$, but external output $Q$ remains isolated.</li>\n<li><strong>Slave Latch:</strong> Enabled when $CLK$ transitions from $1 \\to 0$ ($\\overline{CLK} \\to 1$). The master latch instantly freezes, and the slave copies the frozen state $Q_M$ to the external output $Q$.</li>\n</ol>\n<p>Because the master and slave are never enabled simultaneously, data cannot ripple through both stages in a single clock cycle, completely severing feedthrough loops in shift registers and counters.</p>\n\n<h4>3. Dynamic Timing Parameters: Setup Time & Hold Time</h4>\n<p>Reliable digital state capture requires strict adherence to dynamic timing windows:</p>\n<ul>\n<li><strong>Setup Time ($t_{su}$):</strong> The minimum duration that the data input $D$ must remain stable <em>before</em> the active clock edge arrives. Typically $1 - 5\\text{ ns}$ (down to tens of picoseconds in deep submicron CMOS).</li>\n<li><strong>Hold Time ($t_h$):</strong> The minimum duration that the data input $D$ must remain stable <em>after</em> the active clock edge has transitioned.</li>\n<li><strong>Propagation Delay ($t_{pd} = t_{CLK \\to Q}$):</strong> The time delay between the active clock edge and the appearance of the new valid state at output $Q$.</li>\n<li><strong>Metastability Hazard:</strong> If input $D$ transitions within the forbidden setup/hold aperture ($t_{su} + t_h$), internal regenerative feedback can hang in an indeterminate analog voltage state for an unbounded duration before collapsing randomly to 0 or 1, causing catastrophic hardware crashes.</li>\n</ul>"
+    },
+    {
+      "id": "dig-4-4",
+      "title": "The JK Flip-Flop: Race-Around Elimination & T Flip-Flops",
+      "content": "<h4>1. The Race-Around Condition Hazard</h4>\n<p>In a level-triggered JK latch with inputs $J = K = 1$, the output toggles ($Q \\to \\bar{Q}$). If the clock pulse width $t_w$ is longer than the propagation delay of the flip-flop ($t_{pd}$):</p>\n<div class=\"math-display\">\n$$t_{pd} < t_w$$\n</div>\n<p>the newly toggled output will feed back to the input gates while the clock is still HIGH, causing the output to toggle repeatedly back and forth (\"race around\") throughout the pulse duration $t_w$. The final state of $Q$ when the clock falls is completely unpredictable.</p>\n<p><strong>Race-Around Elimination Methods:</strong></p>\n<ol>\n<li>Narrow clock pulses ($t_w < t_{pd}$, difficult to guarantee across temperature and process variations).</li>\n<li><strong>Edge-Triggered Design:</strong> State transitions occur only during clock edges ($\\sim 1\\text{ ns}$).</li>\n<li><strong>Master-Slave JK Flip-Flop:</strong> The master isolates inputs while the slave updates outputs.</li>\n</ol>\n\n<h4>2. Truth Table & Characteristic Equation of the JK Flip-Flop</h4>\n<div class=\"table-responsive\">\n<table class=\"table table-bordered\">\n<thead>\n<tr><th>$J$</th><th>$K$</th><th>$Q_{n+1}$</th><th>Operational Mode</th></tr>\n</thead>\n<tbody>\n<tr><td>$0$</td><td>$0$</td><td>$Q_n$</td><td>Hold / No Change</td></tr>\n<tr><td>$0$</td><td>$1$</td><td>$0$</td><td>Reset</td></tr>\n<tr><td>$1$</td><td>$0$</td><td>$1$</td><td>Set</td></tr>\n<tr><td>$1$</td><td>$1$</td><td>$\\bar{Q}_n$</td><td>Toggle</td></tr>\n</tbody>\n</table>\n</div>\n<p>From the K-map of next-state $Q_{n+1}$, the <strong>Characteristic Equation</strong> is:</p>\n<div class=\"math-display\">\n$$Q_{n+1} = J \\bar{Q}_n + \\bar{K} Q_n$$\n</div>\n\n<h4>3. The Toggle (T) Flip-Flop</h4>\n<p>Formed by tying the $J$ and $K$ inputs together ($J = K = T$):</p>\n<div class=\"math-display\">\n$$Q_{n+1} = T \\bar{Q}_n + \\bar{T} Q_n = T \\oplus Q_n$$\n</div>\n<ul>\n<li>When $T = 0$: $Q_{n+1} = Q_n$ (Hold).</li>\n<li>When $T = 1$: $Q_{n+1} = \\bar{Q}_n$ (Toggle). Divides the input clock frequency by exactly <strong>2</strong> ($f_{\\text{out}} = f_{\\text{clk}} / 2$), forming the foundational block for binary ripple counters.</li>\n</ul>"
+    },
+    {
+      "id": "dig-4-5",
+      "title": "Multivibrators: Astable, Monostable & Schmitt Triggers",
+      "content": "<h4>1. Classification of Multivibrator Circuits</h4>\n<p>Multivibrators are regenerative switching circuits categorized by their number of permanently stable states:</p>\n<ol>\n<li><strong>Bistable:</strong> Two permanently stable states (Flip-Flops, Latches). Requires an external trigger pulse to transition between states.</li>\n<li><strong>Monostable (One-Shot):</strong> One stable state and one quasi-stable state. An incoming trigger pulse initiates a transition to the quasi-stable state, where it remains for a predetermined duration $\\tau = R C \\ln(2) \\approx 0.693 R C$ before returning automatically to the stable state. Used for pulse widening, debouncing switches, and fixed-delay generation.</li>\n<li><strong>Astable (Free-Running Oscillator):</strong> Zero stable states. The circuit oscillates continuously between two quasi-stable states without external excitation, generating square wave clock signals.</li>\n</ol>\n\n<h4>2. The Schmitt Trigger & Hysteresis</h4>\n<p>Otto Schmitt (1937) invented the <strong>Schmitt Trigger</strong>, a comparator circuit with positive feedback that exhibits <strong>hysteresis</strong>\u2014two distinct switching threshold voltages:</p>\n<ul>\n<li><strong>Upper Trigger Point ($V_{UTP}$):</strong> When input voltage rises, output remains HIGH until $V_{\\text{in}} \\ge V_{UTP}$, at which point it snaps sharply to LOW.</li>\n<li><strong>Lower Trigger Point ($V_{LTP}$):</strong> When input voltage falls, output remains LOW until $V_{\\text{in}} \\le V_{LTP}$, at which point it snaps sharply back to HIGH.</li>\n<li><strong>Hysteresis Band ($\\Delta V_H = V_{UTP} - V_{LTP}$):</strong> Completely rejects electrical noise and slow input voltage transitions, preventing erratic multi-trigger ringing on clock inputs.</li>\n</ul>"
+    },
+    {
+      "id": "dig-4-6",
+      "title": "The 555 Integrated Timer: Internal Architecture & Astable Design",
+      "simulation": "dig-555-timer-sim",
+      "content": "<h4>1. Internal Architecture of the 555 Timer IC</h4>\n<p>The iconic 555 timer (Signetics, 1971) contains 23 transistors, 2 diodes, and 16 resistors integrated on silicon, structured into four functional blocks:</p>\n<ol>\n<li><strong>Precision Resistor Divider:</strong> Three matched $5\\text{ k}\\Omega$ resistors establish internal reference voltages of $\\frac{2}{3} V_{CC}$ and $\\frac{1}{3} V_{CC}$ (hence the name \"555\").</li>\n<li><strong>Threshold Comparator (Comp 1):</strong> Compares Pin 6 (Threshold) to $\\frac{2}{3} V_{CC}$. If $V_{\\text{thresh}} > \\frac{2}{3} V_{CC}$, sets the internal flip-flop ($R=1$).</li>\n<li><strong>Trigger Comparator (Comp 2):</strong> Compares Pin 2 (Trigger) to $\\frac{1}{3} V_{CC}$. If $V_{\\text{trig}} < \\frac{1}{3} V_{CC}$, resets the internal flip-flop ($S=1$).</li>\n<li><strong>RS Flip-Flop & Discharge Transistor ($Q_{\\text{dis}}$):</strong> Drives output Pin 3 through a high-current totem-pole driver ($\\pm 200\\text{ mA}$) and controls Pin 7 (Discharge open-collector transistor to ground).</li>\n</ol>\n\n<h4>2. Astable Multivibrator Frequency & Duty Cycle Equations</h4>\n<p>Connected with external timing resistors $R_A, R_B$ and capacitor $C$, the capacitor charges through $R_A + R_B$ toward $V_{CC}$ and discharges through $R_B$ toward ground:</p>\n<ul>\n<li><strong>Charge Interval ($t_{\\text{high}}$):</strong> $V_C(t)$ rises from $\\frac{1}{3} V_{CC}$ to $\\frac{2}{3} V_{CC}$:\n<div class=\"math-display\">\n$$t_{\\text{high}} = (R_A + R_B) C \\ln(2) \\approx 0.693 (R_A + R_B) C$$\n</div></li>\n<li><strong>Discharge Interval ($t_{\\text{low}}$):</strong> $V_C(t)$ falls from $\\frac{2}{3} V_{CC}$ to $\\frac{1}{3} V_{CC}$:\n<div class=\"math-display\">\n$$t_{\\text{low}} = R_B C \\ln(2) \\approx 0.693 R_B C$$\n</div></li>\n<li><strong>Total Oscillation Period ($T$):</strong>\n<div class=\"math-display\">\n$$T = t_{\\text{high}} + t_{\\text{low}} = 0.693 (R_A + 2 R_B) C$$\n</div></li>\n<li><strong>Output Frequency ($f$):</strong>\n<div class=\"math-display\">\n$$f = \\frac{1}{T} = \\frac{1.44}{(R_A + 2 R_B) C}$$\n</div></li>\n<li><strong>Duty Cycle ($D$):</strong>\n<div class=\"math-display\">\n$$D = \\frac{t_{\\text{high}}}{T} = \\frac{R_A + R_B}{R_A + 2 R_B} \\times 100\\%$$\n</div>\nBecause $R_A > 0$, standard astable connections have $D > 50\\%$. Connecting a steering diode across $R_B$ bypasses $R_B$ during charging, enabling $50\\%$ or lower duty cycles ($t_{\\text{high}} \\approx 0.693 R_A C$).</li>\n</ul>"
+    }
+  ],
+  "problems": [
+    {
+      "id": "dig-p-4-1",
+      "title": "Race-Around Condition Analysis in Level-Triggered JK Flip-Flops",
+      "statement": "A level-triggered JK flip-flop has a clock pulse width of $t_w = 40\\text{ ns}$ and an internal propagation delay of $t_{pd} = 12\\text{ ns}$. (a) Determine if the race-around condition occurs when $J = K = 1$. (b) Calculate how many times the output toggles during a single clock pulse. (c) Explain how a Master-Slave JK flip-flop eliminates this hazard regardless of clock pulse width.",
+      "steps": [
+        {
+          "stepName": "Step 1: Compare Clock Width to Propagation Delay",
+          "math": "t_w = 40\\text{ ns} > t_{pd} = 12\\text{ ns} \\implies \\text{Condition for Race-Around: } t_w > t_{pd} \\text{ IS MET!}",
+          "explanation": "Because the clock pulse remains HIGH longer than the propagation delay, outputs feed back to inputs while the clock is still enabled."
+        },
+        {
+          "stepName": "Step 2: Calculate Number of Output Toggles",
+          "math": "N_{\\text{toggles}} = \\left\\lfloor \\frac{t_w}{t_{pd}} \\right\\rfloor = \\left\\lfloor \\frac{40\\text{ ns}}{12\\text{ ns}} \\right\\rfloor = 3 \\text{ complete toggles}",
+          "explanation": "The output toggles 3 times during the single pulse, leaving the final output unpredictable."
+        },
+        {
+          "stepName": "Step 3: Master-Slave Elimination Mechanism",
+          "math": "\\text{When } CLK=1: \\text{ Master samples } (J, K), \\text{ Slave is disabled}. \\quad \\text{When } CLK=0: \\text{ Master is isolated}, \\text{ Slave updates } Q.",
+          "explanation": "Because Master and Slave are never enabled simultaneously, feedback from the slave cannot reach the master during the same clock cycle, completely extinguishing the race-around hazard."
+        }
+      ],
+      "answer": "\\text{Race-around occurs } (t_w > t_{pd}); \\quad N = 3 \\text{ toggles per pulse}; \\quad \\text{Master-Slave isolates feedback path}"
+    },
+    {
+      "id": "dig-p-4-2",
+      "title": "555 Timer Astable Multivibrator Component Calculation",
+      "statement": "Design an astable 555 timer clock generator to produce a square wave with frequency $f = 10.0\\text{ kHz}$ and duty cycle $D = 65.0\\%$. If a timing capacitor of $C = 10.0\\text{ nF}$ is chosen: (a) Calculate the required values for resistors $R_A$ and $R_B$. (b) Calculate the high time $t_{\\text{high}}$ and low time $t_{\\text{low}}$.",
+      "steps": [
+        {
+          "stepName": "Step 1: Calculate Total Period T",
+          "math": "T = \\frac{1}{f} = \\frac{1}{10.0 \\times 10^3\\text{ Hz}} = 100\\text{ \\mu s}",
+          "explanation": "Compute total period: 100 microseconds."
+        },
+        {
+          "stepName": "Step 2: Calculate High Time and Low Time",
+          "math": "t_{\\text{high}} = D \\cdot T = 0.650 \\times 100\\text{ \\mu s} = 65.0\\text{ \\mu s}, \\quad t_{\\text{low}} = T - t_{\\text{high}} = 35.0\\text{ \\mu s}",
+          "explanation": "Calculate high and low durations."
+        },
+        {
+          "stepName": "Step 3: Solve for Resistor R_B",
+          "math": "t_{\\text{low}} = 0.693 R_B C \\implies R_B = \\frac{t_{\\text{low}}}{0.693 C} = \\frac{35.0 \\times 10^{-6}\\text{ s}}{0.693 \\times (10.0 \\times 10^{-9}\\text{ F})} \\approx 5050\\text{ }\\Omega = 5.05\\text{ k}\\Omega",
+          "explanation": "Evaluate R_B: approximately 5.05 kOhm (standard 5.1 kOhm)."
+        },
+        {
+          "stepName": "Step 4: Solve for Resistor R_A",
+          "math": "t_{\\text{high}} = 0.693 (R_A + R_B) C \\implies R_A + R_B = \\frac{65.0 \\times 10^{-6}}{0.693 \\times 10^{-8}} \\approx 9380\\text{ }\\Omega \\implies R_A = 9380 - 5050 = 4330\\text{ }\\Omega = 4.33\\text{ k}\\Omega",
+          "explanation": "Evaluate R_A: approximately 4.33 kOhm (standard 4.3 kOhm)."
+        }
+      ],
+      "answer": "R_A = 4.33\\text{ k}\\Omega, \\quad R_B = 5.05\\text{ k}\\Omega, \\quad t_{\\text{high}} = 65.0\\text{ \\mu s}, \\quad t_{\\text{low}} = 35.0\\text{ \\mu s}"
+    },
+    {
+      "id": "dig-p-4-3",
+      "title": "Flip-Flop Conversion: Synthesis of D Flip-Flop Using a JK Flip-Flop",
+      "statement": "Convert a standard JK flip-flop into a D-type flip-flop: (a) Construct the excitation table showing required $J$ and $K$ inputs for all four desired $Q_n \\to Q_{n+1}$ state transitions under input $D$. (b) Derive the minimized Boolean equations for $J$ and $K$ in terms of $D$. (c) Draw the hardware gate connection logic.",
+      "steps": [
+        {
+          "stepName": "Step 1: Construct the Conversion Excitation Table",
+          "math": "\\begin{matrix} D & Q_n & Q_{n+1} & J & K \\\\ \\hline 0 & 0 & 0 & 0 & \\times \\\\ 0 & 1 & 0 & \\times & 1 \\\\ 1 & 0 & 1 & 1 & \\times \\\\ 1 & 1 & 1 & \\times & 0 \\end{matrix}",
+          "explanation": "Map desired transition Q_n -> Q_(n+1) to JK excitation rules."
+        },
+        {
+          "stepName": "Step 2: Derive Minimized K-Map Equations for J and K",
+          "math": "J(D, Q_n): J(0,0)=0, J(1,0)=1, J(0,1)=\\times, J(1,1)=\\times \\implies J = D",
+          "explanation": "K-map for J reduces to J = D."
+        },
+        {
+          "stepName": "Step 3: Derive Equation for K",
+          "math": "K(D, Q_n): K(0,0)=\\times, K(1,0)=\\times, K(0,1)=1, K(1,1)=0 \\implies K = \\bar{D}",
+          "explanation": "K-map for K reduces to K = D_bar."
+        },
+        {
+          "stepName": "Step 4: Hardware Realization",
+          "math": "J = D, \\quad K = \\bar{D} = \\text{NOT}(D)",
+          "explanation": "A single NOT gate connecting D to K, with D connected directly to J, converts any JK flip-flop into a D flip-flop."
+        }
+      ],
+      "answer": "J = D, \\quad K = \\bar{D} \\quad (\\text{Single Inverter between } J \\text{ and } K)"
+    }
+  ]
+}

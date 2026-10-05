@@ -1,0 +1,121 @@
+{
+  "unitNumber": 5,
+  "unitId": "unit5-counters-registers-msi",
+  "title": "Counters, Shift Registers & Combinational MSI Subsystems",
+  "description": "Comprehensive design and operational analysis of medium-scale integrated (MSI) digital building blocks: asynchronous (ripple) up/down counters, propagation delay accumulation, and MOD-N reset truncation; systematic synchronous counter synthesis via excitation tables, state transition graphs, and lockout protection; shift register architectures (SISO, SIPO, PISO, PIPO, universal bidirectional), Ring and Johnson twisted counters; decoders (3-to-8, BCD-to-7-segment), priority encoders, multiplexers as universal logic modules, and demultiplexers.",
+  "sections": [
+    {
+      "id": "dig-5-1",
+      "title": "Asynchronous (Ripple) Counters & MOD-N Truncation",
+      "content": "<h4>1. Working Principle of Asynchronous (Ripple) Counters</h4>\n<p>An <strong>asynchronous counter</strong> (or ripple counter) consists of a cascade of toggle flip-flops (T or JK flip-flops with $J=K=1$) where only the first flip-flop ($FF_0$) is clocked by the external master clock. Each subsequent flip-flop $FF_{i+1}$ is clocked by the output ($Q_i$ or $\\bar{Q}_i$) of the preceding stage:</p>\n<ul>\n<li><strong>Negative Edge-Triggered Up-Counter:</strong> Clocking $FF_{i+1}$ from output $Q_i$ causes $FF_{i+1}$ to toggle whenever $Q_i$ transitions from $1 \\to 0$, creating a standard binary count sequence ($0, 1, 2, \\dots, 2^n - 1$).</li>\n<li><strong>Negative Edge-Triggered Down-Counter:</strong> Clocking $FF_{i+1}$ from inverted output $\\bar{Q}_i$ creates a downward counting sequence ($2^n - 1, \\dots, 1, 0$).</li>\n</ul>\n\n<h4>2. Propagation Delay Accumulation & Maximum Operating Frequency</h4>\n<p>Because each flip-flop must wait for the preceding stage to settle, the total propagation delay accumulates linearly with the number of stages $n$:</p>\n<div class=\"math-display\">\n$$t_{\\text{total}} = n \\cdot t_{pd}$$\n</div>\n<p>To avoid false count sampling, the clock period $T_{\\text{clk}}$ must be strictly greater than this accumulated delay:</p>\n<div class=\"math-display\">\n$$T_{\\text{clk}} \\ge n \\cdot t_{pd} + t_s \\implies f_{\\text{max}} \\le \\frac{1}{n \\cdot t_{pd} + t_s}$$\n</div>\n<p>For an 8-bit ripple counter with $t_{pd} = 15\\text{ ns}$, $t_{\\text{total}} = 120\\text{ ns}$, capping clock speed below $8.3\\text{ MHz}$. During the transient settling window, intermediate invalid states produce severe false output \"glitches\".</p>\n\n<h4>3. Truncated Modulus Counters (MOD-N Counters)</h4>\n<p>An $n$-stage binary counter naturally recycles after $2^n$ counts (natural modulus $MOD = 2^n$). To construct a counter with an arbitrary modulus $N < 2^n$ (e.g., a <strong>decade / BCD counter</strong> with $MOD = 10$ using $n = 4$ flip-flops):</p>\n<ol>\n<li>Identify the binary representation of target modulus $N$. For $N = 10_{10} = 1010_2$, bits $Q_3 = 1$ and $Q_1 = 1$.</li>\n<li>Connect $Q_3$ and $Q_1$ to the inputs of an asynchronous NAND gate, and connect the NAND output to the active-LOW asynchronous Clear ($\\overline{CLR}$) pins of all four flip-flops.</li>\n<li>As soon as the counter reaches state $1010_2$, the NAND gate output goes LOW, instantaneously resetting all flip-flops to $0000_2$. The state $1010_2$ persists for only a few nanoseconds (the clear propagation delay), yielding a stable 10-state sequence ($0$ through $9$).</li>\n</ol>"
+    },
+    {
+      "id": "dig-5-2",
+      "title": "Synchronous Counter Synthesis & State Machine Design",
+      "simulation": "dig-synchronous-counter-sim",
+      "content": "<h4>1. The Synchronous Architecture Advantage</h4>\n<p>In a <strong>synchronous counter</strong>, all flip-flops are connected to the <strong>same common master clock signal</strong>. All state transitions occur simultaneously across all stages at the active clock edge. Propagation delay is independent of counter bit length, being limited solely to a single flip-flop delay plus one combinational gating level:</p>\n<div class=\"math-display\">\n$$f_{\\text{max, sync}} = \\frac{1}{t_{pd, FF} + t_{pd, \\text{gate}} + t_{su}}$$\n</div>\n\n<h4>2. Formal Step-by-Step Synthesis Algorithm</h4>\n<ol>\n<li><strong>State Diagram & State Transition Table:</strong> Formulate the sequence of present states $Q_n$ and required next states $Q_{n+1}$.</li>\n<li><strong>Select Flip-Flop Type:</strong> Typically JK or D flip-flops. Reference the <strong>Excitation Table</strong>:\n<div class=\"table-responsive\">\n<table class=\"table table-bordered\">\n<thead>\n<tr><th>Transition ($Q_n \\to Q_{n+1}$)</th><th>Required $J$</th><th>Required $K$</th><th>Required $D$</th><th>Required $T$</th></tr>\n</thead>\n<tbody>\n<tr><td>$0 \\to 0$</td><td>$0$</td><td>$\\times$</td><td>$0$</td><td>$0$</td></tr>\n<tr><td>$0 \\to 1$</td><td>$1$</td><td>$\\times$</td><td>$1$</td><td>$1$</td></tr>\n<tr><td>$1 \\to 0$</td><td>$\\times$</td><td>$1$</td><td>$0$</td><td>$1$</td></tr>\n<tr><td>$1 \\to 1$</td><td>$\\times$</td><td>$0$</td><td>$1$</td><td>$0$</td></tr>\n</tbody>\n</table>\n</div></li>\n<li><strong>K-Map Derivation of Flip-Flop Excitation Inputs:</strong> Plot $J_i, K_i$ (or $D_i$) as functions of present state variables $Q_k$, exploiting Don't Care states to obtain minimal Boolean equations.</li>\n<li><strong>Lockout Verification:</strong> Analyze unassigned or unused states. If electrical noise drops the counter into an unused state, it must self-recover back to the valid sequence within a finite number of clock cycles rather than circulating indefinitely in a parasitic <strong>lockout cycle</strong>.</li>\n</ol>"
+    },
+    {
+      "id": "dig-5-3",
+      "title": "Shift Registers: SISO, SIPO, PISO, PIPO, Ring & Johnson",
+      "simulation": "dig-shift-register-ring-sim",
+      "content": "<h4>1. Shift Register Functional Topologies</h4>\n<p>A <strong>shift register</strong> is an array of cascaded flip-flops configured such that stored binary data moves laterally by one bit position on each clock pulse. The four fundamental operational topologies are:</p>\n<ol>\n<li><strong>Serial-In Serial-Out (SISO):</strong> Data bits enter sequentially one bit per clock pulse and exit sequentially from the final stage. Requires $n$ clock cycles to load and $n$ clock cycles to read out an $n$-bit word. Acts as an accurate time delay line.</li>\n<li><strong>Serial-In Parallel-Out (SIPO):</strong> Data is shifted in serially; once filled after $n$ clock pulses, all $n$ bits are read out simultaneously in parallel. Fundamental to UART serial communication receivers.</li>\n<li><strong>Parallel-In Serial-Out (PISO):</strong> Data is loaded in parallel simultaneously via combinational steering gates, then shifted out serially one bit at a time. Fundamental to UART serial communication transmitters.</li>\n<li><strong>Parallel-In Parallel-Out (PIPO):</strong> Universal high-speed buffer register. Loads and reads $n$ bits simultaneously in a single clock cycle.</li>\n</ol>\n\n<h4>2. The Universal Bidirectional Shift Register</h4>\n<p>A 4-bit Universal Shift Register (e.g., standard 74HC194 IC) incorporates four 4-to-1 multiplexers at the inputs of each D flip-flop, controlled by two mode select lines $(S_1, S_0)$:</p>\n<ul>\n<li>$S_1 S_0 = 00$: <strong>Hold / No Change</strong> ($D_i = Q_i$).</li>\n<li>$S_1 S_0 = 01$: <strong>Shift Right</strong> ($D_i = Q_{i-1}$, with $D_3 = \\text{Serial Input Right}$).</li>\n<li>$S_1 S_0 = 10$: <strong>Shift Left</strong> ($D_i = Q_{i+1}$, with $D_0 = \\text{Serial Input Left}$).</li>\n<li>$S_1 S_0 = 11$: <strong>Parallel Load</strong> ($D_i = I_i$).</li>\n</ul>\n\n<h4>3. Cyclic Shift Counters: Ring & Johnson Counters</h4>\n<ol>\n<li><strong>Ring Counter:</strong> Formed by circulating the serial output of the final stage directly back into the serial input of the first stage ($D_0 = Q_{n-1}$):\n<div class=\"math-display\">\n$$\\text{Initial State: } 1000_2 \\longrightarrow 0100_2 \\longrightarrow 0010_2 \\longrightarrow 0001_2 \\longrightarrow 1000_2$$\n</div>\nA single circulating '1' decodes directly into $n$ mutually exclusive timing pulses with <strong>zero decoding gates</strong>, but utilizes only $n$ states out of $2^n$ available states ($MOD = n$).</li>\n<li><strong>Johnson (Twisted Ring / Moebius) Counter:</strong> Formed by feeding back the <em>inverted</em> output of the final stage into the first stage ($D_0 = \\bar{Q}_{n-1}$):\n<div class=\"math-display\">\n$$\\text{States: } 0000 \\to 1000 \\to 1100 \\to 1110 \\to 1111 \\to 0111 \\to 0011 \\to 0001 \\to 0000$$\n</div>\nAn $n$-stage Johnson counter produces $2n$ states ($MOD = 2n$). Adjacent states differ by only a single bit (unit distance), enabling completely glitch-free decoding with simple 2-input AND gates.</li>\n</ol>"
+    },
+    {
+      "id": "dig-5-4",
+      "title": "Decoders, Encoders & BCD-to-7-Segment Display Drivers",
+      "content": "<h4>1. Binary Decoders</h4>\n<p>A <strong>decoder</strong> is an MSI combinational circuit with $n$ input lines and up to $2^n$ unique output lines. It decodes an $n$-bit binary input code by activating exactly one output line corresponding to that input minterm:</p>\n<ul>\n<li><strong>3-to-8 Line Decoder (74138 IC):</strong> Three inputs $(A_2, A_1, A_0)$ select one of 8 active-LOW outputs ($\\bar{Y}_0$ through $\\bar{Y}_7$). Contains active-LOW enable inputs ($\\bar{E}_1, \\bar{E}_2, E_3$) used to cascade multiple decoders into large memory address decoding trees.</li>\n<li><strong>Universal Logic Realization:</strong> Because each output of an active-LOW decoder produces an individual minterm $\\bar{m}_i = \\overline{A B C}$, any arbitrary Boolean function in SOP form can be implemented simply by feeding the appropriate decoder outputs into an external NAND gate (since $\\overline{\\bar{m}_1 \\cdot \\bar{m}_4} = m_1 + m_4$).</li>\n</ul>\n\n<h4>2. Encoders & Priority Encoders</h4>\n<p>An <strong>encoder</strong> performs the inverse operation: it accepts $2^n$ input lines (where only one line is asserted at any time) and outputs an $n$-bit binary code. If multiple inputs can be asserted simultaneously, standard encoders fail.</p>\n<p>A <strong>Priority Encoder (e.g., 74148 IC)</strong> resolves input contention by asserting the binary code of the <strong>highest-priority active input</strong>, ignoring all lower-priority inputs. It also generates an active Group Select ($GS$) signal indicating whether any valid input is active, forming the foundation of CPU interrupt request (IRQ) controllers.</p>\n\n<h4>3. BCD-to-7-Segment Display Drivers (7447 IC)</h4>\n<p>Drives numerical LED/LCD displays containing seven planar segments labeled $a, b, c, d, e, f, g$. Translates 4-bit BCD input $(D, C, B, A)$ into 7 segment drive signals. For common-anode LED displays, the 7447 provides open-collector active-LOW outputs ($a=0$ lights the segment), incorporating lamp test ($LT$) and automatic zero-blanking inputs ($RBI, RBO$).</p>"
+    },
+    {
+      "id": "dig-5-5",
+      "title": "Multiplexers (MUX) & Demultiplexers (DEMUX)",
+      "content": "<h4>1. Multiplexers (Data Selectors)</h4>\n<p>A <strong>Multiplexer (MUX)</strong> is a combinational switching subsystem that directs binary information from one of $2^n$ data input channels ($I_0, I_1, \\dots, I_{2^n-1}$) to a single output line $Y$, selected by $n$ control select lines ($S_{n-1}, \\dots, S_0$):</p>\n<div class=\"math-display\">\n$$Y = \\sum_{k=0}^{2^n-1} m_k(S) \\cdot I_k = \\bar{S}_1 \\bar{S}_0 I_0 + \\bar{S}_1 S_0 I_1 + S_1 \\bar{S}_0 I_2 + S_1 S_0 I_3 \\quad (\\text{4-to-1 MUX})$$\n</div>\n\n<h4>2. Implementing Arbitrary Logic Functions Using Multiplexers</h4>\n<p>A $2^n$-to-1 multiplexer can implement <strong>any arbitrary Boolean function of $n+1$ variables</strong> without requiring any external logic gates:</p>\n<ol>\n<li>Assign $n$ variables to the MUX select lines $(S_{n-1}, \\dots, S_0)$.</li>\n<li>Express the remaining $(n+1)$-th variable $Z$ as the data input $I_k$ for each select combination. For each minterm pair, $I_k$ will evaluate to either $0$, $1$, $Z$, or $\\bar{Z}$.</li>\n</ol>\n<p>Multiplexers thus function as universal, software-configurable look-up tables (LUTs), forming the core logic fabric of modern Field-Programmable Gate Arrays (FPGAs).</p>\n\n<h4>3. Demultiplexers (DEMUX)</h4>\n<p>A <strong>Demultiplexer</strong> takes a single data input line and routes it to one of $2^n$ output lines selected by $n$ address lines. A binary decoder with an enable input is functionally identical to a demultiplexer (the enable acts as the serial data input).</p>"
+    }
+  ],
+  "problems": [
+    {
+      "id": "dig-p-5-1",
+      "title": "Design of a Synchronous MOD-6 Counter Using JK Flip-Flops",
+      "statement": "Design a synchronous counter that counts through the cyclic sequence: $0 \\to 1 \\to 2 \\to 3 \\to 4 \\to 5 \\to 0$ using three JK flip-flops ($Q_2, Q_1, Q_0$). (a) Construct the state transition table and list the required $J$ and $K$ excitations for all three flip-flops. (b) Derive the minimal Boolean excitation equations using 3-variable K-maps. (c) Analyze the unused states $6$ ($110_2$) and $7$ ($111_2$) and verify whether the counter is self-correcting (lockout-free).",
+      "steps": [
+        {
+          "stepName": "Step 1: Construct the State Transition & Excitation Table",
+          "math": "\\begin{matrix} Q_2 Q_1 Q_0 & Q_2^+ Q_1^+ Q_0^+ & J_2 & K_2 & J_1 & K_1 & J_0 & K_0 \\\\ \\hline 000 & 001 & 0 & \\times & 0 & \\times & 1 & \\times \\\\ 001 & 010 & 0 & \\times & 1 & \\times & \\times & 1 \\\\ 010 & 011 & 0 & \\times & \\times & 0 & 1 & \\times \\\\ 011 & 100 & 1 & \\times & \\times & 1 & \\times & 1 \\\\ 100 & 101 & \\times & 0 & 0 & \\times & 1 & \\times \\\\ 101 & 000 & \\times & 1 & 0 & \\times & \\times & 1 \\end{matrix}",
+          "explanation": "Map valid transitions (0 to 5) to JK excitation rules: 0->0: (0,x); 0->1: (1,x); 1->0: (x,1); 1->1: (x,0)."
+        },
+        {
+          "stepName": "Step 2: Derive Minimized K-Map Equations for Flip-Flop 0",
+          "math": "J_0: \\text{cells } 0, 2, 4 = 1; \\ 1, 3, 5 = \\times \\implies J_0 = 1. \\quad K_0: \\text{cells } 1, 3, 5 = 1; \\ 0, 2, 4 = \\times \\implies K_0 = 1",
+          "explanation": "Flip-flop 0 toggles on every single clock pulse: J0 = 1, K0 = 1."
+        },
+        {
+          "stepName": "Step 3: Derive Equations for Flip-Flop 1 and Flip-Flop 2",
+          "math": "J_1 = \\bar{Q}_2 Q_0, \\quad K_1 = Q_0. \\qquad J_2 = Q_1 Q_0, \\quad K_2 = Q_0",
+          "explanation": "Plot K-maps with unused states 6 and 7 as Don't Cares (x)."
+        },
+        {
+          "stepName": "Step 4: Lockout Analysis for Unused State 6 (110)",
+          "math": "\\text{For } Q = 110_2: J_2 = 0, K_2 = 0 \\implies Q_2^+=1; \\quad J_1 = 0, K_1 = 0 \\implies Q_1^+=1; \\quad J_0=1, K_0=1 \\implies Q_0^+=1 \\implies 110 \\to 111",
+          "explanation": "State 6 transitions to State 7 on next clock pulse."
+        },
+        {
+          "stepName": "Step 5: Lockout Analysis for Unused State 7 (111)",
+          "math": "\\text{For } Q = 111_2: J_2=1, K_2=1 \\implies Q_2^+=0; \\quad J_1=0, K_1=1 \\implies Q_1^+=0; \\quad J_0=1, K_0=1 \\implies Q_0^+=0 \\implies 111 \\to 000!",
+          "explanation": "State 7 transitions directly to valid state 000. Both unused states self-recover within 2 clock cycles: the design is completely lockout-free."
+        }
+      ],
+      "answer": "J_0 = K_0 = 1; \\quad J_1 = \\bar{Q}_2 Q_0, \\ K_1 = Q_0; \\quad J_2 = Q_1 Q_0, \\ K_2 = Q_0 \\quad (\\text{Self-Correcting, Lockout-Free})"
+    },
+    {
+      "id": "dig-p-5-2",
+      "title": "Universal Shift Register State Transitions and Timing Sequence",
+      "statement": "A 4-bit Universal Shift Register initially holds binary data $Q_3 Q_2 Q_1 Q_0 = 1010_2$. The register is clocked with the following control mode sequence: (1) One clock pulse with $S_1 S_0 = 01$ and Serial Input Right $SIR = 1$; (2) One clock pulse with $S_1 S_0 = 10$ and Serial Input Left $SIL = 0$; (3) One clock pulse with $S_1 S_0 = 11$ and Parallel Inputs $I = 1100_2$. Determine the register contents after each operational step.",
+      "steps": [
+        {
+          "stepName": "Step 1: Initial State",
+          "math": "Q^{(0)} = 1010_2",
+          "explanation": "Register holds 1010."
+        },
+        {
+          "stepName": "Step 2: Clock Pulse 1 - Shift Right (S1 S0 = 01)",
+          "math": "\\text{Bits shift right: } Q_3 \\leftarrow SIR = 1, \\quad Q_2 \\leftarrow Q_3 = 1, \\quad Q_1 \\leftarrow Q_2 = 0, \\quad Q_0 \\leftarrow Q_1 = 1 \\implies Q^{(1)} = 1101_2",
+          "explanation": "Previous LSB (0) is shifted out and lost; SIR=1 shifts into MSB."
+        },
+        {
+          "stepName": "Step 3: Clock Pulse 2 - Shift Left (S1 S0 = 10)",
+          "math": "\\text{Bits shift left: } Q_3 \\leftarrow Q_2 = 1, \\quad Q_2 \\leftarrow Q_1 = 0, \\quad Q_1 \\leftarrow Q_0 = 1, \\quad Q_0 \\leftarrow SIL = 0 \\implies Q^{(2)} = 1010_2",
+          "explanation": "Previous MSB (1) is shifted out; SIL=0 shifts into LSB."
+        },
+        {
+          "stepName": "Step 4: Clock Pulse 3 - Parallel Load (S1 S0 = 11)",
+          "math": "Q \\leftarrow I \\implies Q^{(3)} = 1100_2",
+          "explanation": "Parallel data 1100 is loaded directly into all four stages simultaneously in one clock cycle."
+        }
+      ],
+      "answer": "Q^{(1)} = 1101_2 \\quad (\\text{Shift Right}), \\quad Q^{(2)} = 1010_2 \\quad (\\text{Shift Left}), \\quad Q^{(3)} = 1100_2 \\quad (\\text{Parallel Load})"
+    },
+    {
+      "id": "dig-p-5-3",
+      "title": "Synthesis of a 4-Variable Boolean Function Using an 8-to-1 Multiplexer",
+      "statement": "Implement the 4-variable Boolean function $F(A, B, C, D) = \\sum m(1, 3, 4, 11, 12, 13, 14, 15)$ using a single 8-to-1 multiplexer (e.g., 74151). Assign variables $A, B, C$ to select lines $S_2, S_1, S_0$ and derive the required logic connections for data inputs $I_0$ through $I_7$ in terms of variable $D$, $0$, or $1$.",
+      "steps": [
+        {
+          "stepName": "Step 1: Construct MUX Partitioning Table",
+          "math": "\\begin{matrix} \\text{Select } ABC & \\text{Minterm } D=0 & \\text{Minterm } D=1 & \\text{Required } I_k \\\\ \\hline 000 \\ (0) & m_0 (0) & m_1 (1) & I_0 = D \\\\ 001 \\ (1) & m_2 (0) & m_3 (1) & I_1 = D \\\\ 010 \\ (2) & m_4 (1) & m_5 (0) & I_2 = \\bar{D} \\\\ 011 \\ (3) & m_6 (0) & m_7 (0) & I_3 = 0 \\\\ 100 \\ (4) & m_8 (0) & m_9 (0) & I_4 = 0 \\\\ 101 \\ (5) & m_{10} (0) & m_{11} (1) & I_5 = D \\\\ 110 \\ (6) & m_{12} (1) & m_{13} (1) & I_6 = 1 \\\\ 111 \\ (7) & m_{14} (1) & m_{15} (1) & I_7 = 1 \\end{matrix}",
+          "explanation": "Group minterms in pairs of D=0 and D=1 for each select combination."
+        },
+        {
+          "stepName": "Step 2: Evaluate Each Data Line",
+          "math": "I_0 = D, \\quad I_1 = D, \\quad I_2 = \\bar{D}, \\quad I_3 = 0, \\quad I_4 = 0, \\quad I_5 = D, \\quad I_6 = 1, \\quad I_7 = 1",
+          "explanation": "If only D=1 is in minterm list: I_k = D. If both are 1: I_k = 1. If only D=0 is 1: I_k = D_bar. If neither: I_k = 0."
+        },
+        {
+          "stepName": "Step 3: Hardware Implementation",
+          "math": "S_2 = A, \\ S_1 = B, \\ S_0 = C; \\quad I_0, I_1, I_5 \\leftarrow D; \\quad I_2 \\leftarrow \\bar{D}; \\quad I_3, I_4 \\leftarrow \\text{GND}; \\quad I_6, I_7 \\leftarrow V_{CC}",
+          "explanation": "A single 8-to-1 MUX and one inverter for D_bar implements the complete 4-variable function."
+        }
+      ],
+      "answer": "S_2=A, S_1=B, S_0=C; \\quad I_0=I_1=I_5=D, \\ I_2=\\bar{D}, \\ I_3=I_4=0, \\ I_6=I_7=1"
+    }
+  ]
+}

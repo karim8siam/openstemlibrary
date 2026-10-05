@@ -1,0 +1,1660 @@
+import json
+
+# Complete 7-Unit Syllabus Data for Optics & Modern Optics (PHY-202)
+# Rigorous mathematics, step-by-step proofs, solved exam problems, and topic-level inline simulations.
+
+optics_units = []
+
+# =========================================================================
+# UNIT 1: Interference (Division of Wavefront)
+# =========================================================================
+u1_sections = [
+    {
+        "id": "sec-1-1",
+        "number": "§1.1",
+        "heading": "Huygens-Fresnel Principle, Wave Superposition and Complex Notation",
+        "simulation": "young-double-slit",
+        "content": """The wave nature of light rests on the fundamental principle that light propagation is governed by harmonic scalar wave equations derived directly from Maxwell's electrodynamics:
+
+$$\\nabla^2 \\psi - \\frac{1}{c^2} \\frac{\\partial^2 \\psi}{\\partial t^2} = 0$$
+
+where $\\psi(\\mathbf{r}, t)$ represents any scalar component of the optical electric field $\\mathbf{E}(\\mathbf{r}, t)$.
+
+<h4>1. Complex Exponential Wave Representation</h4>
+In monochromatic optical analysis, real oscillatory fields are most efficiently represented using Euler's complex notation:
+
+$$\\psi(\\mathbf{r}, t) = \\operatorname{Re} \\left\\{ \\tilde{E}(\\mathbf{r}) e^{-i\\omega t} \\right\\} = \\operatorname{Re} \\left\\{ E_0 e^{i(\\mathbf{k} \\cdot \\mathbf{r} - \\omega t + \\phi)} \\right\\}$$
+
+where $\\tilde{E}(\\mathbf{r}) = E_0 e^{i(\\mathbf{k}\\cdot\\mathbf{r} + \\phi)}$ is the complex amplitude (phasor), $k = \\frac{2\\pi}{\\lambda} = \\frac{\\omega}{c}$ is the wave number, $\\omega$ is the angular optical frequency, and $\\phi$ is the initial phase constant.
+
+<h4>2. Linear Superposition of Two Coherent Optical Fields</h4>
+Consider two monochromatic electromagnetic waves of identical angular frequency $\\omega$ intersecting at an observation point $P(\\mathbf{r})$. The individual electric field scalar amplitudes are:
+
+$$E_1 = E_{01} e^{i(\\mathbf{k}_1 \\cdot \\mathbf{r} - \\omega t + \\phi_1)}, \\quad E_2 = E_{02} e^{i(\\mathbf{k}_2 \\cdot \\mathbf{r} - \\omega t + \\phi_2)}$$
+
+By the principle of linear superposition in linear dielectric media, the total electric field at $P$ is the algebraic sum of the individual field vectors:
+
+$$E_{\\text{total}} = E_1 + E_2 = \\left( E_{01} e^{i\\delta_1} + E_{02} e^{i\\delta_2} \\right) e^{-i\\omega t}$$
+
+where $\\delta_1 = \\mathbf{k}_1 \\cdot \\mathbf{r} + \\phi_1$ and $\\delta_2 = \\mathbf{k}_2 \\cdot \\mathbf{r} + \\phi_2$.
+
+<h4>3. Observable Optical Intensity and the Interference Term</h4>
+Optical detectors (photodiodes, CCD sensors, human eye) cannot track instantaneous optical oscillations ($~10^{14}-10^{15} \\text{ Hz}$). Instead, detectors measure the time-averaged irradiance (optical intensity) $I$:
+
+$$I = \\langle |E_{\\text{total}}|^2 \\rangle = \\frac{1}{2} E_{\\text{total}} E_{\\text{total}}^*$$
+
+Substituting the complex superposition:
+
+$$I = \\frac{1}{2} \\left( E_{01} e^{i\\delta_1} + E_{02} e^{i\\delta_2} \\right) \\left( E_{01} e^{-i\\delta_1} + E_{02} e^{-i\\delta_2} \\right)$$
+
+$$I = \\frac{1}{2} \\left[ E_{01}^2 + E_{02}^2 + E_{01}E_{02} \\left( e^{i(\\delta_1 - \\delta_2)} + e^{-i(\\delta_1 - \\delta_2)} \\right) \\right]$$
+
+Using Euler's identity $e^{i\\delta} + e^{-i\\delta} = 2\\cos \\delta$, and defining the phase difference $\\delta = \\delta_2 - \\delta_1$:
+
+$$I = I_1 + I_2 + 2\\sqrt{I_1 I_2} \\cos \\delta$$
+
+where $I_1 = \\frac{1}{2} E_{01}^2$ and $I_2 = \\frac{1}{2} E_{02}^2$ are the intensities of the independent beams. The term $J_{12} = 2\\sqrt{I_1 I_2} \\cos \\delta$ is the **Interference Term**.
+
+<h4>4. Conditions for Sustained, High-Contrast Interference</h4>
+For stable, observable interference fringes to persist in space and time:
+<ol>
+  <li><strong>Monochromaticity & Frequency Matching:</strong> The interfering beams must possess identical or nearly identical frequencies ($\\omega_1 = \\omega_2$). If frequencies differ by $\\Delta \\omega$, the cross term oscillates at $\\cos(\\Delta \\omega \\cdot t)$ and time-averages to zero.</li>
+  <li><strong>Constant Phase Relationship (Coherence):</strong> The relative phase difference $\\delta$ must remain strictly invariant over the observation time interval $T_{\\text{obs}} \\gg \\tau_c$, where $\\tau_c$ is the coherence time of the source.</li>
+  <li><strong>Parallel Polarization Vectors:</strong> If the electric fields are orthogonal ($\\mathbf{E}_1 \\perp \\mathbf{E}_2$), their scalar product vanishes: $\\mathbf{E}_1 \\cdot \\mathbf{E}_2 = 0$, giving $I = I_1 + I_2$ with zero interference modulation (Fresnel-Arago Law 1).</li>
+  <li><strong>Equal Amplitudes ($I_1 \\approx I_2$):</strong> When $I_1 = I_2 = I_0$, the fringe visibility (contrast) reaches its theoretical maximum of unity:
+  
+  $$\\mathcal{V} = \\frac{I_{\\text{max}} - I_{\\text{min}}}{I_{\\text{max}} + I_{\\text{min}}} = \\frac{4I_0 - 0}{4I_0 + 0} = 1$$
+  
+  $$I(\\delta) = 4I_0 \\cos^2\\left(\\frac{\\delta}{2}\\right)$$
+  </li>
+</ol>"""
+    },
+    {
+        "id": "sec-1-2",
+        "number": "§1.2",
+        "heading": "Young’s Double-Slit Experiment, Hyperbolic Fringes and Intensity Distribution",
+        "simulation": "young-fringe-geometry",
+        "content": """In 1801, Thomas Young provided the definitive experimental proof of the wave nature of light by dividing a primary wavefront into two secondary coherent wavelets using two closely spaced narrow slits $S_1$ and $S_2$.
+
+<h4>1. Geometric Path Difference Derivation</h4>
+Let two parallel slits separated by center-to-center distance $d$ illuminate a screen placed at distance $D$, where $D \\gg d$. Let the origin $O$ be the center of the screen, and let $P$ be a point on the screen at distance $y$ from $O$.
+
+The physical paths traveled by the two wavelets from slits $S_1(0, d/2)$ and $S_2(0, -d/2)$ to $P(D, y)$ are:
+
+$$r_1 = \\sqrt{D^2 + \\left(y - \\frac{d}{2}\\right)^2} = D \\left[ 1 + \\frac{\\left(y - d/2\\right)^2}{D^2} \\right]^{1/2}$$
+
+$$r_2 = \\sqrt{D^2 + \\left(y + \\frac{d}{2}\\right)^2} = D \\left[ 1 + \\frac{\\left(y + d/2\\right)^2}{D^2} \\right]^{1/2}$$
+
+Applying the binomial expansion $(1 + u)^{1/2} = 1 + \\frac{1}{2}u - \\dots$ for $y, d \\ll D$:
+
+$$r_1 \\approx D + \\frac{(y - d/2)^2}{2D}, \\quad r_2 \\approx D + \\frac{(y + d/2)^2}{2D}$$
+
+The optical path difference $\\Delta = r_2 - r_1$ is:
+
+$$\\Delta = \\frac{(y + d/2)^2 - (y - d/2)^2}{2D} = \\frac{2yd}{2D} = \\frac{y d}{D}$$
+
+In angular coordinates where $\\theta$ is the angle subtended at the slit midpoint: $\\sin \\theta \\approx \\tan \\theta = \\frac{y}{D}$, yielding:
+
+$$\\Delta = d \\sin \\theta$$
+
+<h4>2. Constructive and Destructive Interference Conditions</h4>
+The corresponding optical phase difference is:
+
+$$\\delta = \\frac{2\\pi}{\\lambda} \\Delta = \\frac{2\\pi d y}{\\lambda D}$$
+
+<ul>
+  <li><strong>Bright Fringes (Intensity Maxima):</strong> Occur when the path difference is an integer multiple of the wavelength:
+  
+  $$\\Delta = m \\lambda \\implies y_m = m \\frac{\\lambda D}{d}, \\quad m \\in \\{0, \\pm 1, \\pm 2, \\dots\\}$$
+  </li>
+  <li><strong>Dark Fringes (Intensity Minima):</strong> Occur when the path difference is a half-integral multiple of the wavelength:
+  
+  $$\\Delta = \\left(m + \\frac{1}{2}\\right) \\lambda \\implies y_m' = \\left(m + \\frac{1}{2}\\right) \\frac{\\lambda D}{d}, \\quad m \\in \\{0, \\pm 1, \\pm 2, \\dots\\}$$
+  </li>
+</ul>
+
+<h4>3. Linear Fringe Width (Fringe Spacing) $\\beta$</h4>
+The distance between any two consecutive bright or dark fringes is constant:
+
+$$\\beta = y_{m+1} - y_m = \\frac{(m+1)\\lambda D}{d} - \\frac{m\\lambda D}{d} = \\frac{\\lambda D}{d}$$
+
+This equation provides a direct, high-precision laboratory method for measuring the optical wavelength $\\lambda = \\frac{\\beta d}{D}$.
+
+<h4>4. 3D Spatial Fringe Shape: Hyperboloids of Revolution</h4>
+The locus of all points in 3D space with a constant path difference from two point sources $S_1$ and $S_2$ is defined by:
+
+$$|r_2 - r_1| = \\text{constant} = m\\lambda$$
+
+By classical analytic geometry, this is the definition of a **hyperboloid of two sheets** having $S_1$ and $S_2$ as foci. When intercepted by a flat planar screen placed perpendicular to the central axis at $x = D$, the intersection of these hyperboloids with the plane $x = D$ produces narrow hyperbolic curves. Near the central axis ($y, z \\ll D$), the vertices of these hyperbolas have extremely small curvature, appearing to high precision as straight, equispaced parallel interference fringes."""
+    },
+    {
+        "id": "sec-1-3",
+        "number": "§1.3",
+        "heading": "Fresnel’s Biprism: Virtual Coherent Sources and Wavelength Determination",
+        "simulation": "fresnel-biprism",
+        "content": """Augustin-Jean Fresnel designed the biprism to overcome the criticism that Young's fringes were merely edge-diffraction effects produced by the slit edges. The Fresnel biprism produces two mutually coherent virtual sources purely by refraction without any aperture edges between the two beams.
+
+<h4>1. Optical Construction and Refraction by Biprism</h4>
+A Fresnel biprism consists of two acute prisms joined at their bases, with an obtuse angle of approximately $179^\\circ$ and two very small refracting angles $\\alpha \\approx 30' \\approx 0.5^\\circ$.
+
+A narrow monochromatic slit $S$ illuminated by wavelength $\\lambda$ is placed at distance $u$ in front of the flat face of the biprism. Light passing through the upper half is deviated downwards by angle $\\delta$, while light passing through the lower half is deviated upwards by the identical angle $\\delta$.
+
+For a thin prism of refractive index $n$ and refracting angle $\\alpha$, the angle of minimum deviation is:
+
+$$\\delta = (n - 1)\\alpha$$
+
+<h4>2. Separation Between Virtual Coherent Sources $d$</h4>
+Due to refraction, the light appears to diverge from two virtual point sources $S_1$ and $S_2$ located in the plane of the original slit $S$:
+
+$$d = 2 u \\delta = 2 u (n - 1) \\alpha$$
+
+Because both $S_1$ and $S_2$ originate from the same primary wavefront of slit $S$, they maintain strict mutual phase coherence.
+
+<h4>3. Fringe Width and Screen Separation</h4>
+Let the distance from the slit $S$ to the micrometer eyepiece (screen) be $D$. The fringe width on the observation plane is given by the standard interference relation:
+
+$$\\beta = \\frac{\\lambda D}{d} = \\frac{\\lambda D}{2 u (n - 1) \\alpha}$$
+
+<h4>4. The Displacement Method for Direct Measurement of $d$</h4>
+Direct physical measurement of the virtual distance $d$ (which is on the order of $0.5 - 2 \\text{ mm}$) introduces significant experimental error. Fresnel solved this by inserting a convex lens between the biprism and the eyepiece.
+
+For a fixed distance $D > 4f$, there exist two conjugate positions of the convex lens that produce sharp real images of $S_1$ and $S_2$ in the focal plane of the micrometer eyepiece:
+<ul>
+  <li>Position 1 (Magnified image separation $d_1$): $m_1 = \\frac{v_1}{u_1} = \\frac{d_1}{d}$</li>
+  <li>Position 2 (Diminished image separation $d_2$): $m_2 = \\frac{v_2}{u_2} = \\frac{d_2}{d}$</li>
+</ul>
+
+By the principle of optical reversibility, $u_1 = v_2$ and $v_1 = u_2$, therefore:
+
+$$m_1 \\cdot m_2 = \\frac{d_1}{d} \\cdot \\frac{d_2}{d} = 1 \\implies d^2 = d_1 d_2 \\implies d = \\sqrt{d_1 d_2}$$
+
+Consequently, the optical wavelength is determined with exceptional accuracy without needing to know the refractive index $n$ or biprism angle $\\alpha$:
+
+$$\\lambda = \\frac{\\beta d}{D} = \\frac{\\beta \\sqrt{d_1 d_2}}{D}$$"""
+    },
+    {
+        "id": "sec-1-4",
+        "number": "§1.4",
+        "heading": "Lloyd’s Mirror: Grazing Incidence and the Fundamental Half-Wave (\\pi) Phase Shift",
+        "simulation": "lloyd-mirror",
+        "content": """In 1834, Humphrey Lloyd developed a single-reflector interference configuration that definitively confirmed the electromagnetic boundary condition predicting a $\\pi$ phase shift upon external reflection.
+
+<h4>1. Experimental Geometry and Ray Tracing</h4>
+A monochromatic primary point source $S_1$ of wavelength $\\lambda$ is placed at a very small height $h$ above the plane of an optical flat front-surface mirror of length $L$. A screen is placed at distance $D$ perpendicular to the mirror plane.
+
+Light from $S_1$ propagates to the screen via two paths:
+<ol>
+  <li><strong>Direct Wave:</strong> Propagates directly from $S_1$ to the screen at height $y$.</li>
+  <li><strong>Reflected Wave:</strong> Strikes the mirror at grazing incidence and reflects to the screen, appearing to originate from the virtual mirror image $S_2$ located at depth $h$ below the mirror surface.</li>
+</ol>
+
+The effective distance between the two interfering coherent sources is:
+
+$$d = 2h$$
+
+<h4>2. The Crucial Half-Wave Phase Discontinuity ($\\pi$ Phase Jump)</h4>
+From Maxwell's electromagnetic boundary conditions (Fresnel reflection equations), when an optical wave traveling in an optically rarer medium ($n_1 = 1$) reflects at the boundary of a denser medium ($n_2 > 1$) at grazing incidence (angle of incidence $\\theta_i \\to 90^\\circ$):
+
+$$r_{\\perp} = \\frac{\\cos \\theta_i - \\sqrt{n^2 - \\sin^2 \\theta_i}}{\\cos \\theta_i + \\sqrt{n^2 - \\sin^2 \\theta_i}} \\xrightarrow{\\theta_i \\to 90^\\circ} -1 = e^{i\\pi}$$
+
+This reflection introduces an abrupt, non-geometric phase discontinuity of exactly $\\pi$ radians (equivalent to an optical path penalty of $\\frac{\\lambda}{2}$).
+
+The net optical path difference between the reflected and direct waves arriving at height $y$ is:
+
+$$\\Delta_{\\text{net}} = (r_2 - r_1) + \\frac{\\lambda}{2} = \\frac{y d}{D} + \\frac{\\lambda}{2}$$
+
+<h4>3. Inversion of Interference Conditions</h4>
+Setting $\\Delta_{\\text{net}}$ equal to integral and half-integral multiples of $\\lambda$:
+
+<ul>
+  <li><strong>Dark Fringes (Destructive Interference):</strong>
+  
+  $$\\frac{y d}{D} + \\frac{\\lambda}{2} = \\left(m + \\frac{1}{2}\\right)\\lambda \\implies y_m = m \\frac{\\lambda D}{d}, \\quad m \\in \\{0, 1, 2, \\dots\\}$$
+  </li>
+  <li><strong>Bright Fringes (Constructive Interference):</strong>
+  
+  $$\\frac{y d}{D} + \\frac{\\lambda}{2} = m\\lambda \\implies y_m' = \\left(m - \\frac{1}{2}\\right) \\frac{\\lambda D}{d}, \\quad m \\in \\{1, 2, 3, \\dots\\}$$
+  </li>
+</ul>
+
+<h4>4. The Vanishing Central Fringe at the Mirror Edge</h4>
+At the point of grazing contact with the mirror surface ($y = 0$), the geometric path difference vanishes: $r_2 - r_1 = 0$. In standard Young's double-slit interference, $y = 0$ corresponds to the central **bright** maximum.
+
+However, in Lloyd's mirror, due to the $-\\pi$ phase jump on reflection:
+
+$$\\Delta_{\\text{net}}(y=0) = 0 + \\frac{\\lambda}{2} = \\frac{\\lambda}{2} \\implies I(y=0) = 0$$
+
+Thus, the central fringe in Lloyd's mirror is **strictly dark**. When white light is used, the central fringe is completely achromatic and jet black, unambiguously proving that reflection from a denser medium induces a phase change of $\\pi$ radians."""
+    }
+]
+
+u1_problems = [
+    {
+        "difficulty": "diff-medium",
+        "difficultyLabel": "Medium",
+        "title": "Example 1.1: Quantitative Precision Measurement in Fresnel Biprism",
+        "question": "In a Fresnel biprism experiment with sodium light of wavelength $\\lambda = 589.3\\text{ nm}$, the distance between the primary slit and the micrometer eyepiece is $D = 1.20\\text{ m}$. Using a convex lens placed at two conjugate positions, the separations between the magnified and diminished images of the virtual sources are measured to be $d_1 = 4.05\\text{ mm}$ and $d_2 = 2.45\\text{ mm}$ respectively. Calculate: (a) the separation $d$ between the virtual coherent sources, (b) the fringe width $\\beta$ observed on the micrometer scale, and (c) the number of bright fringes observed across a $15\\text{ mm}$ field of view.",
+        "steps": [
+            {
+                "title": "Step 1: Calculate the virtual source separation d using the conjugate displacement formula",
+                "math": "$$d = \\sqrt{d_1 d_2} = \\sqrt{(4.05 \\times 10^{-3} \\text{ m}) \\times (2.45 \\times 10^{-3} \\text{ m})} = \\sqrt{9.9225 \\times 10^{-6} \\text{ m}^2} \\approx 3.150 \\times 10^{-3} \\text{ m} = 3.150 \\text{ mm}$$",
+                "explanation": "The lens magnification at conjugate positions satisfies $m_1 m_2 = 1$, making the geometric mean of the two image separations equal to the true separation of the virtual sources."
+            },
+            {
+                "title": "Step 2: Determine the linear fringe width beta",
+                "math": "$$\\beta = \\frac{\\lambda D}{d} = \\frac{(589.3 \\times 10^{-9} \\text{ m}) \\times (1.20 \\text{ m})}{3.150 \\times 10^{-3} \\text{ m}} = \\frac{7.0716 \\times 10^{-7}}{3.150 \\times 10^{-3}} \\approx 2.245 \\times 10^{-4} \\text{ m} = 0.2245 \\text{ mm}$$",
+                "explanation": "Each fringe pair occupies exactly $0.2245\\text{ mm}$ on the eyepiece focal plane."
+            },
+            {
+                "title": "Step 3: Calculate the total number of fringes across the field of view",
+                "math": "$$N = \\frac{W}{\\beta} = \\frac{15.0 \\text{ mm}}{0.2245 \\text{ mm}} \\approx 66.82 \\implies N = 66 \\text{ complete bright fringes}$$",
+                "explanation": "Over a $1.5\\text{ cm}$ field of view, 66 bright interference bands are resolved."
+            }
+        ]
+    },
+    {
+        "difficulty": "diff-hard",
+        "difficultyLabel": "Hard",
+        "title": "Example 1.2: Shift of Fringes by Introduction of Thin Transparent Mica Sheet",
+        "question": "A thin transparent sheet of mica of refractive index $\\mu = 1.58$ is inserted into the path of one of the interfering beams in a double-slit experiment illuminated by $\\lambda = 550\\text{ nm}$. The central zero-order bright fringe shifts across the screen by a distance equal to the spacing of 14 bright fringes. (a) Derive the general expression for the fringe shift $y_0$. (b) Calculate the precise thickness $t$ of the mica sheet.",
+        "steps": [
+            {
+                "title": "Step 1: Derive the optical path difference introduced by a dielectric plate of thickness t",
+                "math": "$$\\text{Path in air} = t, \\quad \\text{Optical path in medium} = \\mu t$$\n$$\\Delta_{\\text{extra}} = \\mu t - t = (\\mu - 1)t$$\n$$\\text{Total path difference at screen position } y: \\quad \\Delta = \\frac{y d}{D} - (\\mu - 1)t$$",
+                "explanation": "The medium slows the phase velocity to $c/\\mu$, adding an optical distance $(\\mu - 1)t$ to the traversed arm."
+            },
+            {
+                "title": "Step 2: Relate the central fringe position to the fringe count shift n",
+                "math": "$$\\text{At the shifted central fringe } (\\Delta = 0): \\quad \\frac{y_0 d}{D} = (\\mu - 1)t \\implies y_0 = \\frac{D}{d} (\\mu - 1)t$$\n$$\\text{Since fringe width } \\beta = \\frac{\\lambda D}{d}, \\quad y_0 = n \\beta = n \\frac{\\lambda D}{d} \\implies n \\lambda = (\\mu - 1)t$$",
+                "explanation": "The number of shifted fringes $n$ depends purely on the extra optical path divided by the wavelength."
+            },
+            {
+                "title": "Step 3: Solve for thickness t with numerical parameters",
+                "math": "$$t = \\frac{n \\lambda}{\\mu - 1} = \\frac{14 \\times (550 \\times 10^{-9} \\text{ m})}{1.58 - 1} = \\frac{7.70 \\times 10^{-6} \\text{ m}}{0.58} \\approx 1.328 \\times 10^{-5} \\text{ m} = 13.28 \\ \\mu\\text{m}$$",
+                "explanation": "The mica sheet has a physical thickness of $13.28$ micrometers."
+            }
+        ]
+    }
+]
+
+optics_units.append({
+    "number": 1,
+    "title": "Interference by Division of Wavefront",
+    "description": "Huygens' principle, wave superposition in complex notation, Young's double slit, fringe width & geometry, Fresnel's biprism, and Lloyd's mirror.",
+    "sections": u1_sections,
+    "problems": u1_problems
+})
+
+# =========================================================================
+# UNIT 2: Interference by Division of Amplitude & Interferometry
+# =========================================================================
+u2_sections = [
+    {
+        "id": "sec-2-1",
+        "number": "§2.1",
+        "heading": "Stokes’ Relations and Phase Reversal on Reflection",
+        "simulation": "stokes-reversibility",
+        "content": """Sir George Gabriel Stokes utilized the principle of optical reversibility—which states that in the absence of absorption or dissipative losses, any optical ray tracing can be reversed precisely along its trajectory—to establish fundamental thermodynamic relations governing amplitude reflection and transmission coefficients.
+
+<h4>1. Ray Decomposition at a Planar Dielectric Interface</h4>
+Consider an incident plane wave of unit amplitude $E_0 = 1$ propagating from medium 1 ($n_1$) toward an interface with medium 2 ($n_2$). At the interface:
+<ul>
+  <li>A reflected ray of amplitude $r$ is generated in medium 1.</li>
+  <li>A transmitted (refracted) ray of amplitude $t$ enters medium 2.</li>
+</ul>
+
+Now reverse the two rays simultaneously:
+<ol>
+  <li>Reversing the reflected ray $r$: upon reaching the boundary, it produces a reflected component $r \\cdot r = r^2$ into medium 1, and a transmitted component $r \\cdot t$ into medium 2.</li>
+  <li>Reversing the transmitted ray $t$: upon reaching the boundary from medium 2 (where reflection coefficient is $r'$ and transmission coefficient is $t'$), it produces a transmitted component $t \\cdot t'$ back into medium 1, and a reflected component $t \\cdot r'$ in medium 2.</li>
+</ol>
+
+<h4>2. Application of the Principle of Reversibility</h4>
+For the reversed system to perfectly reconstitute the original incident ray of unit amplitude traveling in medium 1, and produce zero net field propagating backwards into medium 2:
+
+$$\\text{In medium 1:} \\quad r^2 + t t' = 1$$
+
+$$\\text{In medium 2:} \\quad r t + t r' = 0 \\implies t (r + r') = 0$$
+
+Since the transmission coefficient $t \\neq 0$:
+
+$$r' = -r = r e^{\\pm i\\pi}$$
+
+$$t t' = 1 - r^2$$
+
+<h4>3. Physical Significance</h4>
+The relation $r' = -r$ proves conclusively that the amplitude reflection coefficient experienced by a wave incident from the rarer side ($r$) is equal in magnitude but exactly opposite in sign (differing by a phase angle of $\\pi$ radians) to the reflection coefficient experienced by a wave incident from the denser side ($r'$).
+
+This phase inversion accounts for the loss of half a wavelength ($\\lambda/2$) whenever light reflects externally from a dielectric medium of higher refractive index ($n_2 > n_1$)."""
+    },
+    {
+        "id": "sec-2-2",
+        "number": "§2.2",
+        "heading": "Interference in Thin Dielectric Films, Wedge Films and Anti-Reflection Coatings",
+        "simulation": "thin-film-coating",
+        "content": """When a beam of light strikes a thin transparent dielectric film of thickness $t$ and refractive index $\\mu$, the beam is split into multiple reflected and transmitted components at the upper and lower surfaces, generating division-of-amplitude interference.
+
+<h4>1. Derivation of the Cosine Law of Path Difference</h4>
+Consider a plane wave incident at angle $i$ on a plane-parallel film of thickness $t$ and refractive index $\\mu$. The angle of refraction inside the film is $r$, governed by Snell's law: $\\sin i = \\mu \\sin r$.
+
+The optical path difference between the ray reflected from the top surface and the ray reflected from the bottom surface is:
+
+$$\\Delta_{\\text{geom}} = \\mu (AB + BC) - AD$$
+
+From the film geometry:
+
+$$AB = BC = \\frac{t}{\\cos r}$$
+
+$$AC = 2 t \\tan r, \\quad AD = AC \\sin i = (2 t \\tan r)(\\mu \\sin r) = 2 \\mu t \\frac{\\sin^2 r}{\\cos r}$$
+
+Substituting into the path difference:
+
+$$\\Delta_{\\text{geom}} = \\mu \\left( \\frac{2t}{\\cos r} \\right) - 2 \\mu t \\frac{\\sin^2 r}{\\cos r} = \\frac{2 \\mu t}{\\cos r} (1 - \\sin^2 r) = 2 \\mu t \\cos r$$
+
+<h4>2. Phase Change on Reflection and Net Path Difference</h4>
+By Stokes' relations, the external reflection at the top surface (air $\\to$ film) introduces an abrupt phase change of $\\pi$, equivalent to an optical path difference of $\\frac{\\lambda}{2}$. The internal reflection at the bottom surface (film $\\to$ air) undergoes no phase change.
+
+The net optical path difference for **reflected light** is:
+
+$$\\Delta_{\\text{net}} = 2 \\mu t \\cos r - \\frac{\\lambda}{2}$$
+
+<ul>
+  <li><strong>Constructive Interference (Bright Film):</strong>
+  
+  $$2 \\mu t \\cos r = \\left(m + \\frac{1}{2}\\right) \\lambda, \\quad m \\in \\{0, 1, 2, \\dots\\}$$
+  </li>
+  <li><strong>Destructive Interference (Dark Film):</strong>
+  
+  $$2 \\mu t \\cos r = m \\lambda, \\quad m \\in \\{1, 2, 3, \\dots\\}$$
+  </li>
+</ul>
+
+For **transmitted light**, there is no phase jump, and the conditions are exactly complementary ($2\\mu t\\cos r = m\\lambda$ for maximum transmission).
+
+<h4>3. Wedge-Shaped Films (Fringes of Equal Thickness)</h4>
+For a film bounded by two flat glass plates inclined at a minute angle $\\theta \\ll 1\\text{ rad}$:
+
+$$t(x) = x \\theta$$
+
+Fringes form straight, equispaced parallel bands running parallel to the line of contact. The fringe width is:
+
+$$\\beta = \\frac{\\lambda}{2 \\mu \\theta}$$
+
+<h4>4. Engineering of Quarter-Wave Anti-Reflection (AR) Coatings</h4>
+In precision optical instruments (cameras, telescopes, lasers), reflection losses from glass elements ($n_g \\approx 1.5$) are eliminated by depositing a thin dielectric film of refractive index $n_c$ such that:
+
+$$n_1 < n_c < n_g \\quad (\\text{e.g., air } n_1=1, \\text{ MgF}_2 \\ n_c=1.38, \\text{ glass } n_g=1.52)$$
+
+Because $n_1 < n_c$ and $n_c < n_g$, both the ray reflected from the air-coating interface and the ray reflected from the coating-glass interface undergo a $\\pi$ phase shift at reflection.
+
+To produce destructive interference between the two reflected rays at normal incidence ($r = 0, \\cos r = 1$):
+
+$$2 n_c d = \\frac{\\lambda_0}{2} \\implies d = \\frac{\\lambda_0}{4 n_c}$$
+
+Furthermore, for complete cancellation of the reflected intensity, the two reflected amplitudes must be equal ($r_1 = r_2$):
+
+$$\\frac{n_c - 1}{n_c + 1} = \\frac{n_g - n_c}{n_g + n_c} \\implies n_c = \\sqrt{n_g}$$"""
+    },
+    {
+        "id": "sec-2-3",
+        "number": "§2.3",
+        "heading": "Newton’s Rings: Circular Equal-Thickness Fringes and Radius of Curvature",
+        "simulation": "newtons-rings",
+        "content": """Newton's rings provide a classic example of fringes of equal thickness formed by a variable-thickness air film enclosed between a spherical convex surface and an optical flat.
+
+<h4>1. Geometry of the Enclosed Air Film</h4>
+A plano-convex lens of large radius of curvature $R$ (typically $1 - 3\\text{ m}$) is placed with its curved surface in contact with an optically flat glass plate.
+
+Let $r_n$ be the radius of the $n$-th circular ring, and let $t$ be the thickness of the air film at distance $r_n$ from the point of contact $O$. By the geometric theorem of intersecting chords for a sphere of radius $R$:
+
+$$r_n^2 = t(2R - t)$$
+
+Since $t \\ll R$, the term $t^2$ is negligible, yielding:
+
+$$t = \\frac{r_n^2}{2R}$$
+
+<h4>2. Condition for Interference in Reflected Light</h4>
+For an air film ($\\mu = 1$) at normal incidence ($\\cos r = 1$), the optical path difference between the beam reflected from the lower curved surface of the lens and the beam reflected from the flat plate is:
+
+$$\\Delta = 2t + \\frac{\\lambda}{2} = \\frac{r_n^2}{R} + \\frac{\\lambda}{2}$$
+
+<ul>
+  <li><strong>Dark Rings (Destructive Interference):</strong>
+  
+  $$\\frac{r_n^2}{R} + \\frac{\\lambda}{2} = \\left(n + \\frac{1}{2}\\right) \\lambda \\implies r_n^2 = n R \\lambda$$
+  
+  $$\\text{Ring Diameter } D_n = 2r_n = 2\\sqrt{n R \\lambda} \\implies D_n^2 = 4 n R \\lambda, \\quad n \\in \\{0, 1, 2, \\dots\\}$$
+  </li>
+  <li><strong>Bright Rings (Constructive Interference):</strong>
+  
+  $$\\frac{r_n^2}{R} + \\frac{\\lambda}{2} = n \\lambda \\implies r_n^2 = \\left(n - \\frac{1}{2}\\right) R \\lambda$$
+  
+  $$D_n'^2 = 4\\left(n - \\frac{1}{2}\\right) R \\lambda = 2(2n - 1) R \\lambda, \\quad n \\in \\{1, 2, 3, \\dots\\}$$
+  </li>
+</ul>
+
+<h4>3. Central Dark Spot and Spacing Law</h4>
+At the center of contact ($n = 0, r = 0$), $t = 0$. The path difference is purely $\\Delta = \\frac{\\lambda}{2}$, resulting in destructive interference. Therefore, the central spot in reflected light is **strictly dark**.
+
+The difference in squares of diameters of the $(n+p)$-th and $n$-th dark rings is:
+
+$$D_{n+p}^2 - D_n^2 = 4(n+p)R\\lambda - 4nR\\lambda = 4 p R \\lambda$$
+
+$$\\lambda = \\frac{D_{n+p}^2 - D_n^2}{4 p R}$$
+
+This relation allows the measurement of optical wavelengths with parts-per-thousand precision, independent of the exact position of the zero-th center.
+
+<h4>4. Measurement of Refractive Index of Liquids</h4>
+When a liquid of unknown refractive index $\\mu$ is introduced between the lens and the glass plate:
+
+$$(D_{n+p}^2 - D_n^2)_{\\text{liquid}} = \\frac{4 p R \\lambda}{\\mu}$$
+
+Dividing the air measurement by the liquid measurement:
+
+$$\\mu = \\frac{(D_{n+p}^2 - D_n^2)_{\\text{air}}}{(D_{n+p}^2 - D_n^2)_{\\text{liquid}}}$$"""
+    },
+    {
+        "id": "sec-2-4",
+        "number": "§2.4",
+        "heading": "Michelson’s Interferometer: Dual-Beam Amplitude Division and Precision Metrology",
+        "simulation": "michelson-interferometer",
+        "content": """Invented by Albert A. Michelson in 1881, the Michelson interferometer is the archetypal amplitude-splitting dual-beam optical instrument. It played a pivotal role in testing the luminiferous aether (Michelson-Morley experiment) and in defining the international standard meter in terms of optical wavelengths.
+
+<h4>1. Optical Architecture and Ray Trajectory</h4>
+The instrument consists of:
+<ul>
+  <li>A monochromatic extended light source $S$.</li>
+  <li>A precision beam splitter plate $G_1$, lightly silvered or dielectrically coated on its back surface to achieve $50/50$ division of amplitude ($R = T = 0.5$).</li>
+  <li>A compensating plate $G_2$ of identical thickness and material as $G_1$, oriented strictly parallel to $G_1$.</li>
+  <li>A fixed reference mirror $M_1$ and a movable mirror $M_2$ mounted on a precision micrometer carriage.</li>
+</ul>
+
+An incident ray is divided at the semi-reflecting face of $G_1$:
+<ol>
+  <li><strong>Beam 1 (Transmitted):</strong> Propagates through $G_1$, traverses compensating plate $G_2$, reflects off mirror $M_2$, re-traverses $G_2$, and reflects off the semi-reflecting face of $G_1$ toward the detector.</li>
+  <li><strong>Beam 2 (Reflected):</strong> Reflects off the back face of $G_1$, reflects off mirror $M_1$, traverses $G_1$, and reaches the detector.</li>
+</ol>
+
+The compensating plate $G_2$ ensures that both beams traverse identical thicknesses of dispersive glass ($3 \\times$ through plate thickness), eliminating chromatic dispersion.
+
+<h4>2. Mathematical Formulation of Circular Fringes</h4>
+Let $M_1'$ be the virtual image of mirror $M_1$ formed by reflection in the beam splitter $G_1$. The interferometer is optically equivalent to an air film of thickness $d = |d_2 - d_1|$ bounded by parallel planes $M_2$ and $M_1'$.
+
+For an extended source, rays entering the detector at inclination angle $\\theta$ experience an optical path difference:
+
+$$\\Delta = 2 d \\cos \\theta$$
+
+Taking into account the phase change of $\\pi$ upon internal vs external reflection at the beam splitter:
+
+$$2 d \\cos \\theta = m \\lambda \\quad (\\text{Bright fringes})$$
+
+$$2 d \\cos \\theta = \\left(m + \\frac{1}{2}\\right) \\lambda \\quad (\\text{Dark fringes})$$
+
+Since the path difference is circularly symmetric about the normal to the mirrors, the resulting fringes of equal inclination (Haidinger fringes) are **concentric circles**.
+
+<h4>3. Fringe Shift and Mirror Displacement</h4>
+When the movable mirror $M_2$ is translated by distance $\\Delta d$, the optical path changes by $2\\Delta d$. If $N$ fringes cross the crosshair of the viewing telescope:
+
+$$2 \\Delta d = N \\lambda \\implies \\Delta d = N \\frac{\\lambda}{2}$$
+
+This provides sub-nanometer displacement resolution.
+
+<h4>4. Measurement of Doublet Wavelength Separation (e.g., Sodium D-Lines)</h4>
+When illuminated by a source containing two closely spaced wavelengths $\\lambda_1$ and $\\lambda_2$ (such as the sodium doublet $\\lambda_1 = 589.6\\text{ nm}, \\lambda_2 = 589.0\\text{ nm}$), each wavelength produces an independent fringe pattern.
+
+As mirror $M_2$ is moved, the fringes periodically go from maximum visibility (bright rings coincident) to minimum visibility (bright rings of $\\lambda_1$ falling on dark rings of $\\lambda_2$).
+
+If the mirror displacement between two consecutive positions of maximum darkness (minimum visibility) is $d_{\\text{dis}}$:
+
+$$d_{\\text{dis}} = \\frac{\\lambda_1 \\lambda_2}{2(\\lambda_1 - \\lambda_2)} \\approx \\frac{\\bar{\\lambda}^2}{2 \\Delta \\lambda} \\implies \\Delta \\lambda = \\frac{\\bar{\\lambda}^2}{2 d_{\\text{dis}}}$$"""
+    },
+    {
+        "id": "sec-2-5",
+        "number": "§2.5",
+        "heading": "Multiple-Beam Interferometry: Fabry-Pérot Interferometer, Airy Formula and Finesse",
+        "simulation": "fabry-perot-etalon",
+        "content": """Unlike two-beam interferometers which produce broad sinusoidal fringes, multiple-beam interferometers utilize repeated reflections between two highly reflective parallel surfaces to produce exceptionally sharp, needle-like transmission fringes.
+
+<h4>1. Airy’s Derivation of Multiple-Beam Superposition</h4>
+Consider a plane wave of unit amplitude $E_0 = 1$ incident at angle $\\theta$ upon an optical cavity (Fabry-Pérot etalon) of plate spacing $d$ and refractive index $n$, bounded by two parallel plates each having intensity reflectance $R = r^2$ and transmittance $T = t^2$.
+
+The phase difference between any two consecutively transmitted rays is:
+
+$$\\delta = \\frac{2\\pi}{\\lambda} (2 n d \\cos \\theta)$$
+
+The total transmitted complex amplitude is the infinite geometric series:
+
+$$E_T = t t' e^{i\\phi_0} \\left[ 1 + r^2 e^{i\\delta} + r^4 e^{i2\\delta} + r^6 e^{i3\\delta} + \\dots \\right]$$
+
+Using $t t' = 1 - r^2 = 1 - R$ (for lossless coatings), the infinite sum evaluates to:
+
+$$E_T = \\frac{1 - R}{1 - R e^{i\\delta}}$$
+
+The transmitted optical intensity is:
+
+$$I_T = |E_T|^2 = \\frac{(1 - R)^2}{|1 - R(\\cos \\delta + i \\sin \\delta)|^2} = \\frac{(1 - R)^2}{(1 - R \\cos \\delta)^2 + R^2 \\sin^2 \\delta}$$
+
+Expanding the denominator:
+
+$$(1 - R \\cos \\delta)^2 + R^2 \\sin^2 \\delta = 1 - 2R\\cos \\delta + R^2 = (1 - R)^2 + 2R(1 - \\cos \\delta) = (1 - R)^2 + 4R \\sin^2\\left(\\frac{\\delta}{2}\\right)$$
+
+Dividing numerator and denominator by $(1 - R)^2$ yields the celebrated **Airy Formula**:
+
+$$I_T(\\delta) = \\frac{I_0}{1 + F \\sin^2\\left(\\frac{\\delta}{2}\\right)}$$
+
+where $F$ is the **Coefficient of Finesse**:
+
+$$F = \\frac{4R}{(1 - R)^2}$$
+
+<h4>2. Transmission Characteristics and Fringe Sharpness</h4>
+<ul>
+  <li>When $\\delta = 2m\\pi$ ($2 n d \\cos \\theta = m\\lambda$): $\\sin^2(\\delta/2) = 0 \\implies I_T = I_0$ ($100\\%$ transmission).</li>
+  <li>When $\\delta = (2m+1)\\pi$: $\\sin^2(\\delta/2) = 1 \\implies I_T = \\frac{I_0}{1 + F}$. For $R = 0.95$, $F = \\frac{4(0.95)}{(0.05)^2} = 1520$, yielding $I_{\\text{min}} = \\frac{I_0}{1521} \\approx 0.00066 I_0$.</li>
+</ul>
+
+<h4>3. Full Width at Half Maximum (FWHM) and Resolving Power</h4>
+The fringe intensity drops to half its maximum ($I_T = I_0/2$) when:
+
+$$F \\sin^2\\left(\\frac{\\Delta \\delta_{1/2}}{4}\\right) = 1 \\implies \\frac{\\Delta \\delta_{1/2}}{2} \\approx \\frac{2}{\\sqrt{F}} \\implies \\Delta \\delta = \\frac{4}{\\sqrt{F}} = \\frac{2(1 - R)}{\\sqrt{R}}$$
+
+The **Effective Finesse** $\\mathcal{F}$ is defined as the ratio of the Free Spectral Range (fringe separation $2\\pi$) to the half-width $\\Delta \\delta$:
+
+$$\\mathcal{F} = \\frac{2\\pi}{\\Delta \\delta} = \\frac{\\pi \\sqrt{F}}{2} = \\frac{\\pi \\sqrt{R}}{1 - R}$$
+
+For $R = 0.98$, $\\mathcal{F} = \\frac{\\pi \\sqrt{0.98}}{0.02} \\approx 155$.
+
+The chromatic resolving power of the Fabry-Pérot etalon is:
+
+$$\\frac{\\lambda}{\\Delta \\lambda} = m \\mathcal{F} = m \\frac{\\pi \\sqrt{R}}{1 - R}$$
+
+For order $m = 10^4$ and $\\mathcal{F} = 150$, the resolving power exceeds $1.5 \\times 10^6$, enabling the resolution of isotopic and hyperfine atomic spectral splittings."""
+    }
+]
+
+u2_problems = [
+    {
+        "difficulty": "diff-medium",
+        "difficultyLabel": "Medium",
+        "title": "Example 2.1: Radius of Curvature from Newton's Ring Measurements",
+        "question": "In a Newton's rings experiment using a sodium lamp ($\lambda = 589.0\text{ nm}$), the diameter of the 4th dark ring is measured to be $0.400\text{ cm}$ and the diameter of the 16th dark ring is measured to be $0.800\text{ cm}$. (a) Calculate the radius of curvature $R$ of the plano-convex lens. (b) If the air gap is replaced with water ($\mu = 1.333$), what will be the new diameter of the 16th dark ring?",
+        "steps": [
+            {
+                "title": "Step 1: Calculate the radius of curvature R using difference of squares",
+                "math": "$$D_{16}^2 - D_4^2 = 4 (16 - 4) R \\lambda = 4 (12) R \\lambda = 48 R \\lambda$$\n$$D_{16}^2 - D_4^2 = (0.800 \\times 10^{-2})^2 - (0.400 \\times 10^{-2})^2 = (6.40 - 1.60) \\times 10^{-5} = 4.80 \\times 10^{-5} \\text{ m}^2$$\n$$R = \\frac{4.80 \\times 10^{-5} \\text{ m}^2}{48 \\times (589.0 \\times 10^{-9} \\text{ m})} = \\frac{4.80 \\times 10^{-5}}{2.8272 \\times 10^{-5}} \\approx 1.698 \\text{ m}$$",
+                "explanation": "The radius of curvature of the convex lens is $1.698\text{ meters}$."
+            },
+            {
+                "title": "Step 2: Calculate the diameter of the 16th dark ring in water",
+                "math": "$$D_{n,\\text{water}} = \\frac{D_{n,\\text{air}}}{\\sqrt{\\mu}} = \\frac{0.800 \\text{ cm}}{\\sqrt{1.333}} = \\frac{0.800}{1.1546} \\approx 0.693 \\text{ cm}$$",
+                "explanation": "Liquid immersion increases the optical path per unit geometric thickness, compressing all ring diameters by a factor of $1/\\sqrt{\\mu}$."
+            }
+        ]
+    },
+    {
+        "difficulty": "diff-hard",
+        "difficultyLabel": "Hard",
+        "title": "Example 2.2: Fabry-Pérot Etalon Cavity Analysis and Hyperfine Resolution",
+        "question": "A Fabry-Pérot etalon has an air spacing of $d = 5.00\text{ mm}$ and plate reflectance $R = 0.94$. It is illuminated by light near $\lambda = 500.0\text{ nm}$. Calculate: (a) the coefficient of finesse $F$, (b) the effective finesse $\mathcal{F}$, (c) the free spectral range in wavelength $\Delta \lambda_{\text{FSR}}$, and (d) the minimum resolvable wavelength difference $\delta \lambda_{\text{min}}$ at normal incidence.",
+        "steps": [
+            {
+                "title": "Step 1: Compute the coefficient of finesse and effective finesse",
+                "math": "$$F = \\frac{4R}{(1-R)^2} = \\frac{4(0.94)}{(1 - 0.94)^2} = \\frac{3.76}{(0.06)^2} = \\frac{3.76}{0.0036} \\approx 1044.4$$\n$$\\mathcal{F} = \\frac{\\pi \\sqrt{R}}{1 - R} = \\frac{\\pi \\sqrt{0.94}}{0.06} = \\frac{\\pi (0.9695)}{0.06} \\approx 50.76$$",
+                "explanation": "The etalon has a finesse of $\\approx 51$, producing transmission peaks that occupy less than $2\%$ of the free spectral range."
+            },
+            {
+                "title": "Step 2: Calculate the Free Spectral Range (FSR) in wavelength",
+                "math": "$$\\Delta \\lambda_{\\text{FSR}} = \\frac{\\lambda^2}{2 d} = \\frac{(500.0 \\times 10^{-9} \\text{ m})^2}{2 \\times (5.00 \\times 10^{-3} \\text{ m})} = \\frac{2.50 \\times 10^{-13}}{1.00 \\times 10^{-2}} = 2.50 \\times 10^{-11} \\text{ m} = 0.0250 \\text{ nm} = 0.250 \\text{ Å}$$",
+                "explanation": "The periodic repetition of orders repeats every $0.025\\text{ nm}$."
+            },
+            {
+                "title": "Step 3: Determine the minimum resolvable wavelength difference",
+                "math": "$$\\delta \\lambda_{\\text{min}} = \\frac{\\Delta \\lambda_{\\text{FSR}}}{\\mathcal{F}} = \\frac{0.0250 \\text{ nm}}{50.76} \\approx 4.925 \\times 10^{-4} \\text{ nm} = 0.004925 \\text{ Å} = 0.493 \\text{ pm}$$",
+                "explanation": "The etalon can resolve spectral lines separated by under $0.5$ picometers, an instrument resolution factor exceeding $\\lambda / \\delta\\lambda \\approx 10^6$."
+            }
+        ]
+    }
+]
+
+optics_units.append({
+    "number": 2,
+    "title": "Interference by Division of Amplitude & Interferometry",
+    "description": "Stokes' relations, thin films, wedge fringes, antireflection coatings, Newton's rings, Michelson interferometer, and Fabry-Pérot multiple-beam etalon.",
+    "sections": u2_sections,
+    "problems": u2_problems
+})
+
+# =========================================================================
+# UNIT 3: Diffraction (Fresnel Class)
+# =========================================================================
+u3_sections = [
+    {
+        "id": "sec-3-1",
+        "number": "§3.1",
+        "heading": "Fresnel Diffraction: Half-Period Zones and Resultant Wavefront Amplitude",
+        "simulation": "fresnel-half-period-zones",
+        "content": """Diffraction is the non-rectilinear deviation of optical waves into the geometrical shadow when encountering obstacles or apertures. In Fresnel diffraction, the source, the diffracting obstacle, or the observation screen (or all three) are located at finite distances, resulting in non-planar (spherical) wavefronts.
+
+<h4>1. Construction of Fresnel Half-Period Zones</h4>
+Consider a spherical monochromatic wavefront $W$ of wavelength $\\lambda$ propagating from a point source $S$. Let $P$ be an observation point at distance $b$ from the wavefront pole $O$.
+
+Fresnel divided the spherical wavefront into annular concentric zones such that the optical distance from the boundaries of successive zones to the observation point $P$ increases sequentially by half a wavelength ($\\lambda/2$):
+
+$$d_1 = b + \\frac{\\lambda}{2}, \\quad d_2 = b + \\frac{2\\lambda}{2}, \\quad \\dots, \\quad d_n = b + \\frac{n\\lambda}{2}$$
+
+<h4>2. Radius and Area of the $n$-th Half-Period Zone</h4>
+Let $r_n$ be the radius of the circle bounding the $n$-th zone. By Pythagoras' theorem in the triangle formed by pole $O$, zone boundary, and observation point $P$:
+
+$$(b + \\frac{n\\lambda}{2})^2 = b^2 + r_n^2 \\implies b^2 + n b \\lambda + \\frac{n^2 \\lambda^2}{4} = b^2 + r_n^2$$
+
+Neglecting the second-order term $\\frac{n^2 \\lambda^2}{4} \\ll n b \\lambda$:
+
+$$r_n = \\sqrt{n b \\lambda}$$
+
+The area of the $n$-th zone is:
+
+$$A_n = \\pi (r_n^2 - r_{n-1}^2) = \\pi [n b \\lambda - (n-1) b \\lambda] = \\pi b \\lambda$$
+
+Remarkably, to first-order approximation, **every Fresnel half-period zone possesses the identical surface area** $A_n \\approx \\pi b \\lambda$.
+
+<h4>3. Resultant Optical Amplitude at Observation Point $P$</h4>
+The amplitude $m_n$ contributed by the $n$-th zone depends on:
+<ol>
+  <li>Directly on zone area $A_n$ (constant).</li>
+  <li>Inversely on average distance $b + \\frac{n\\lambda}{2}$ (slowly decreasing).</li>
+  <li>The inclination factor (obliquity factor) $K(\\theta_n) = \\frac{1}{2}(1 + \\cos \\theta_n)$, which decreases monotonically from $1$ at $\\theta = 0$ to $0$ at $\\theta = \\pi$.</li>
+</ol>
+
+Therefore, the amplitudes form a monotonically decreasing sequence:
+
+$$m_1 > m_2 > m_3 > m_4 > \\dots > m_n$$
+
+Because consecutive zones differ in path length by $\\lambda/2$, their wavelets arrive with a phase difference of $\\pi$ radians ($e^{i\\pi} = -1$). The resultant amplitude $R$ is an alternating sum:
+
+$$R = m_1 - m_2 + m_3 - m_4 + m_5 - \\dots \\pm m_n$$
+
+Regrouping:
+
+$$R = \\frac{m_1}{2} + \\left(\\frac{m_1}{2} - m_2 + \\frac{m_3}{2}\\right) + \\left(\\frac{m_3}{2} - m_4 + \\frac{m_5}{2}\\right) + \\dots$$
+
+Since the amplitude decreases smoothly, $m_2 \\approx \\frac{m_1 + m_3}{2}$. Every bracketed term vanishes:
+
+$$R = \\frac{m_1}{2}$$
+
+This proves Fresnel's profound theorem: **the total optical amplitude produced by an entire unobstructed wavefront is equal to exactly half the amplitude contributed by the first half-period zone alone**! The intensity is $I = R^2 = \\frac{m_1^2}{4}$."""
+    },
+    {
+        "id": "sec-3-2",
+        "number": "§3.2",
+        "heading": "Fresnel Zone Plate: Construction, Multi-Focal Properties and Lens Equivalence",
+        "simulation": "zone-plate-focus",
+        "content": """A Fresnel zone plate is a diffractive optical element that demonstrates the reality of half-period zones by selectively blocking or phase-shifting alternating zones, functioning as a powerful focusing lens.
+
+<h4>1. Physical Principle and Amplitude Amplification</h4>
+In an unobstructed wavefront, alternating zones cancel each other out ($R = m_1 - m_2 + m_3 - m_4 \\dots = \\frac{m_1}{2}$).
+
+If an opaque mask is constructed to obstruct all even-numbered zones ($2, 4, 6, \\dots$), leaving only odd zones ($1, 3, 5, \\dots$) transparent, the transmitted wavelets arrive at $P$ in phase:
+
+$$R_{\\text{zp}} = m_1 + m_3 + m_5 + \\dots + m_{2N-1} \\approx N m_1$$
+
+The intensity at the focal point becomes:
+
+$$I_{\\text{zp}} = (N m_1)^2 = N^2 m_1^2 = 4 N^2 \\left(\\frac{m_1^2}{4}\\right) = 4 N^2 I_{\\text{unobstructed}}$$
+
+For a zone plate with $N = 50$ open zones, the intensity at the focal point is amplified by a factor of $4(50)^2 = 10,000$ relative to the unobstructed beam!
+
+<h4>2. Focal Length Formula</h4>
+Recall that the outer radius of the $n$-th zone is given by $r_n^2 = n b \\lambda$. Rearranging:
+
+$$f_1 = b = \\frac{r_n^2}{n \\lambda} = \\frac{r_1^2}{\\lambda}$$
+
+This defines the primary focal length $f_1$.
+
+<h4>3. Multiple Focal Lengths</h4>
+Unlike a classical refractive lens which has a single focal length, a zone plate behaves as a diffractive optic with multiple foci:
+
+$$f_m = \\frac{r_1^2}{m \\lambda}, \\quad m \\in \\{\\pm 1, \\pm 3, \\pm 5, \\dots\\}$$
+
+Even orders ($m = 2, 4, \\dots$) vanish due to internal destructive interference within each newly subdivided zone. The negative focal lengths correspond to virtual diverging foci."""
+    },
+    {
+        "id": "sec-3-3",
+        "number": "§3.3",
+        "heading": "Cornu’s Spiral, Fresnel Integrals and Diffraction at a Straight Edge",
+        "simulation": "cornu-spiral-edge",
+        "content": """The calculation of Fresnel diffraction for non-circular apertures requires the evaluation of Fresnel integrals, which can be visualized geometrically using the Cornu spiral (clothoid).
+
+<h4>1. Fresnel Integrals Definition</h4>
+The Cartesian coordinates of the Cornu spiral are given by the normalized Fresnel integrals:
+
+$$C(v) = \\int_0^v \\cos\\left(\\frac{\\pi t^2}{2}\\right) dt, \\quad S(v) = \\int_0^v \\sin\\left(\\frac{\\pi t^2}{2}\\right) dt$$
+
+where $v$ is a dimensionless arc-length parameter defined along the diffracting wavefront.
+
+As $v \\to \\infty$, the integrals converge to asymptotic limits:
+
+$$C(\\infty) = S(\\infty) = \\frac{1}{2}, \\quad C(-\\infty) = S(-\\infty) = -\\frac{1}{2}$$
+
+The asymptotic focal points of the spiral are $Z_+ = (0.5, 0.5)$ and $Z_- = (-0.5, -0.5)$.
+
+<h4>2. Geometric Determination of Resultant Amplitude</h4>
+The resultant complex optical amplitude between wavefront limits $v_1$ and $v_2$ is represented directly by the chord vector connecting points $v_1$ and $v_2$ on the Cornu spiral:
+
+$$\\mathbf{A}(v_1, v_2) = [C(v_2) - C(v_1)] + i [S(v_2) - S(v_1)]$$
+
+The optical intensity is proportional to the square of the chord length:
+
+$$I \\propto |\\mathbf{A}|^2 = [C(v_2) - C(v_1)]^2 + [S(v_2) - S(v_1)]^2$$
+
+<h4>3. Diffraction at a Semi-Infinite Opaque Straight Edge</h4>
+Consider a semi-infinite opaque screen covering the region $y < 0$. The upper edge is at $y = 0$.
+
+<ul>
+  <li><strong>Inside the Geometrical Shadow ($v < 0$):</strong> One limit is the edge $v$, the other is $-\\infty$. As the observer moves deeper into shadow ($v \\to -\\infty$), the chord length shrinks monotonically toward zero without oscillating:
+  
+  $$I(v) \\propto [C(v) - (-0.5)]^2 + [S(v) - (-0.5)]^2 \\to 0$$
+  </li>
+  <li><strong>At the Geometrical Edge ($v = 0$):</strong> The vector connects $(0, 0)$ to $(0.5, 0.5)$:
+  
+  $$I(0) \\propto (0.5)^2 + (0.5)^2 = 0.25 + 0.25 = 0.5 = \\frac{1}{4} I_0$$
+  
+  The intensity at the geometric boundary edge is exactly **$25\\%$ of the unobstructed incident intensity**.
+  </li>
+  <li><strong>In the Illuminated Region ($v > 0$):</strong> The vector connects $Z_-$ to points along the spiral that wind around $Z_+$, producing a sequence of alternating diffraction fringes with decaying amplitude before settling to $I_0$. The first bright fringe exceeds the incident intensity by $1.37 I_0$.</li>
+</ul>"""
+    },
+    {
+        "id": "sec-3-4",
+        "number": "§3.4",
+        "heading": "Diffraction by a Circular Aperture and the Arago-Poisson Spot",
+        "simulation": "poisson-spot",
+        "content": """The diffraction of light by a circular aperture and an opaque circular disc represents one of the most celebrated triumphs of wave optics over corpuscular theory.
+
+<h4>1. Circular Aperture Axial Intensity</h4>
+Consider a circular aperture of radius $a$ illuminated at normal incidence by a plane wave. At an on-axis observation point $P$ at distance $b$:
+
+The number of exposed Fresnel zones is:
+
+$$n = \\frac{a^2}{b \\lambda}$$
+
+<ul>
+  <li>When $n$ is an <strong>odd integer</strong> ($n = 1, 3, 5, \\dots$): The exposed zones interfere constructively to yield an intensity maximum:
+  
+  $$I = (m_1 - m_2 + \\dots + m_n)^2 \\approx m_1^2 = 4 I_0$$
+  </li>
+  <li>When $n$ is an <strong>even integer</strong> ($n = 2, 4, 6, \\dots$): The exposed zones cancel in pairs, producing an on-axis intensity minimum:
+  
+  $$I \\approx 0$$
+  </li>
+</ul>
+
+As the observation screen is moved along the optical axis (varying $b$), the center of the pattern alternates between bright and dark spots!
+
+<h4>2. The Celebrated Poisson-Arago Bright Spot (Circular Obstacle)</h4>
+In 1818, Siméon Denis Poisson used Fresnel's wave theory to derive a seemingly absurd prediction intended to disprove the wave hypothesis: that the exact center of the geometrical shadow of an opaque circular disc illuminated by a point source must be bright.
+
+François Arago performed the experiment immediately and verified the phenomenon: **a bright central spot is always observed in the center of the shadow**.
+
+<strong>Mathematical Proof:</strong>
+Let an opaque disc obstruct the first $k$ half-period zones. The remaining unobstructed wavefront consists of zones from $k+1$ to $\\infty$.
+
+The resultant amplitude at the central point is:
+
+$$R = m_{k+1} - m_{k+2} + m_{k+3} - \\dots = \\frac{m_{k+1}}{2}$$
+
+The intensity at the center is:
+
+$$I_{\\text{center}} = \\frac{m_{k+1}^2}{4} \\approx I_0$$
+
+Regardless of the radius of the disc (provided the disc edge is smooth on the scale of $\\lambda$), the wavelets diffracting over the circular perimeter travel identical optical distances to the on-axis point, arriving strictly in phase and forming a bright focal spot."""
+    }
+]
+
+u3_problems = [
+    {
+        "difficulty": "diff-medium",
+        "difficultyLabel": "Medium",
+        "title": "Example 3.1: Design and Multi-Focal Analysis of a Fresnel Zone Plate",
+        "question": "A Fresnel zone plate is designed such that its primary focal length for green light ($\lambda = 500\text{ nm}$) is $f_1 = 1.00\text{ m}$. (a) Calculate the radius of the first zone $r_1$ and the radius of the 25th zone $r_{25}$. (b) If the zone plate contains 100 transparent zones, find the third harmonic focal length $f_3$.",
+        "steps": [
+            {
+                "title": "Step 1: Calculate the radius of the first and 25th zones",
+                "math": "$$r_1 = \\sqrt{f_1 \\lambda} = \\sqrt{(1.00 \\text{ m}) \\times (500 \\times 10^{-9} \\text{ m})} = \\sqrt{5.00 \\times 10^{-7}} \\approx 7.071 \\times 10^{-4} \\text{ m} = 0.7071 \\text{ mm}$$\n$$r_{25} = r_1 \\sqrt{25} = 5 \\times 0.7071 \\text{ mm} = 3.536 \\text{ mm}$$",
+                "explanation": "The zone boundaries follow the square root law $r_n = r_1 \\sqrt{n}$."
+            },
+            {
+                "title": "Step 2: Calculate the third harmonic focal length",
+                "math": "$$f_3 = \\frac{f_1}{3} = \\frac{1.00 \\text{ m}}{3} = 0.333 \\text{ m} = 33.33 \\text{ cm}$$",
+                "explanation": "Diffractive zone plates exhibit higher-order focal planes at odd fractions $f_m = f_1/m$."
+            }
+        ]
+    }
+]
+
+optics_units.append({
+    "number": 3,
+    "title": "Diffraction (Fresnel Class)",
+    "description": "Huygens-Fresnel principle, half-period zones, Fresnel zone plate, Cornu spiral, straight-edge diffraction, circular aperture, and the Poisson-Arago spot.",
+    "sections": u3_sections,
+    "problems": u3_problems
+})
+
+# =========================================================================
+# UNIT 4: Diffraction (Fraunhofer Class)
+# =========================================================================
+u4_sections = [
+    {
+        "id": "sec-4-1",
+        "number": "§4.1",
+        "heading": "Fraunhofer Diffraction at a Single Slit: Sinc Function Field and Intensity Distribution",
+        "simulation": "single-slit-fraunhofer",
+        "content": """In Fraunhofer diffraction, the source and the observation screen are effectively at infinite distances from the diffracting aperture (realized experimentally by placing the aperture between two collimating and imaging convex lenses). The incident and diffracted waves are strictly planar.
+
+<h4>1. Integration Across Aperture Width</h4>
+Consider a long slit of width $a$ oriented along the $y$-axis, illuminated normally by a monochromatic plane wave of wavelength $\\lambda$.
+
+Divide the slit into differential strips of width $dx$ at position $x \\in [-a/2, a/2]$. For a diffracted angle $\\theta$, the path difference of the wavelet from strip $dx$ relative to the center ($x=0$) is:
+
+$$\\Delta(x) = x \\sin \\theta$$
+
+The phase difference relative to the center is:
+
+$$\\phi(x) = k \\Delta(x) = \\frac{2\\pi}{\\lambda} x \\sin \\theta$$
+
+The total diffracted complex electric field amplitude is obtained by integrating across the slit:
+
+$$E(\\theta) = C \\int_{-a/2}^{a/2} e^{i k x \\sin \\theta} dx$$
+
+Evaluating the integral:
+
+$$E(\\theta) = C \\left[ \\frac{e^{i k x \\sin \\theta}}{i k \\sin \\theta} \\right]_{-a/2}^{a/2} = C \\frac{e^{i \\frac{k a \\sin \\theta}{2}} - e^{-i \\frac{k a \\sin \\theta}{2}}}{i k \\sin \\theta}$$
+
+Defining the dimensionless phase parameter:
+
+$$\\beta = \\frac{k a \\sin \\theta}{2} = \\frac{\\pi a \\sin \\theta}{\\lambda}$$
+
+Using Euler's formula $\\sin \\beta = \\frac{e^{i\\beta} - e^{-i\\beta}}{2i}$:
+
+$$E(\\theta) = C \\frac{2i \\sin \\beta}{i (2\\beta / a)} = (C a) \\frac{\\sin \\beta}{\\beta} = E_0 \\operatorname{sinc}(\\beta)$$
+
+<h4>2. Irradiance Distribution</h4>
+The diffracted intensity is proportional to $|E(\\theta)|^2$:
+
+$$I(\\theta) = I_0 \\left( \\frac{\\sin \\beta}{\\beta} \\right)^2$$
+
+<h4>3. Extrema Analysis</h4>
+<ul>
+  <li><strong>Central Maximum (Principal Maximum):</strong> As $\\theta \\to 0$, $\\beta \\to 0$, and $\\lim_{\\beta \\to 0} \\frac{\\sin \\beta}{\\beta} = 1$. The central intensity is $I(0) = I_0$.</li>
+  <li><strong>Diffraction Minima (Zero Intensity):</strong> Occur when $\\sin \\beta = 0$ with $\\beta \\neq 0$:
+  
+  $$\\beta = m \\pi \\implies \\frac{\\pi a \\sin \\theta}{\\lambda} = m \\pi \\implies a \\sin \\theta_m = m \\lambda, \\quad m \\in \\{\\pm 1, \\pm 2, \\pm 3, \\dots\\}$$
+  </li>
+  <li><strong>Secondary Maxima:</strong> Occur where $\\frac{dI}{d\\beta} = 0$:
+  
+  $$\\frac{d}{d\\beta} \\left( \\frac{\\sin^2 \\beta}{\\beta^2} \\right) = \\frac{2\\sin\\beta(\\beta \\cos \\beta - \\sin \\beta)}{\\beta^3} = 0 \\implies \\tan \\beta = \\beta$$
+  
+  Solving transcendental equation $\\tan \\beta = \\beta$:
+  <ol>
+    <li>1st Secondary Maximum: $\\beta_1 = 1.4303\\pi \\implies I_1 = \\frac{I_0}{(1.4303\\pi)^2} \\approx 0.0472 I_0 \\ (4.72\\%)$</li>
+    <li>2nd Secondary Maximum: $\\beta_2 = 2.4590\\pi \\implies I_2 \\approx 0.0165 I_0 \\ (1.65\\%)$</li>
+  </ol>
+</ul>
+
+The central maximum contains over **$85\\%$ of the total diffracted energy**, and its angular width $\\Delta \\theta_{\\text{central}} = 2 \\arcsin(\\lambda/a)$ is inversely proportional to the slit aperture."""
+    },
+    {
+        "id": "sec-4-2",
+        "number": "§4.2",
+        "heading": "Fraunhofer Diffraction at a Double Slit: Interference Envelope and Missing Orders",
+        "simulation": "double-slit-fraunhofer",
+        "content": """When light passes through two parallel slits of width $a$ separated by center-to-center distance $d$, the resulting pattern is the product of single-slit diffraction and two-beam interference.
+
+<h4>1. Mathematical Derivation</h4>
+Let the two slits be centered at $x = -d/2$ and $x = +d/2$. The diffracted field is:
+
+$$E(\\theta) = C \\left[ \\int_{-d/2 - a/2}^{-d/2 + a/2} e^{i k x \\sin \\theta} dx + \\int_{d/2 - a/2}^{d/2 + a/2} e^{i k x \\sin \\theta} dx \\right]$$
+
+Factoring out the phase of each slit center:
+
+$$E(\\theta) = E_{\\text{single}}(\\theta) \\left( e^{-i \\frac{k d \\sin \\theta}{2}} + e^{+i \\frac{k d \\sin \\theta}{2}} \\right) = 2 E_0 \\left(\\frac{\\sin \\beta}{\\beta}\\right) \\cos \\alpha$$
+
+where:
+
+$$\\beta = \\frac{\\pi a \\sin \\theta}{\\lambda} \\quad (\\text{Diffraction parameter}), \\quad \\alpha = \\frac{\\pi d \\sin \\theta}{\\lambda} \\quad (\\text{Interference parameter})$$
+
+The intensity distribution is:
+
+$$I(\\theta) = 4 I_0 \\left( \\frac{\\sin \\beta}{\\beta} \\right)^2 \\cos^2 \\alpha$$
+
+This represents a system of narrow two-beam interference fringes modulated by the broader single-slit diffraction envelope.
+
+<h4>2. Phenomenon of Missing Orders (Absent Spectra)</h4>
+An interference maximum occurs when:
+
+$$d \\sin \\theta = m \\lambda \\quad (m = 0, 1, 2, \\dots)$$
+
+A diffraction minimum occurs when:
+
+$$a \\sin \\theta = p \\lambda \\quad (p = 1, 2, 3, \\dots)$$
+
+If a diffraction minimum coincides with an interference maximum, the zero of the diffraction envelope suppresses that interference fringe entirely.
+
+Dividing the two equations:
+
+$$\\frac{d \\sin \\theta}{a \\sin \\theta} = \\frac{m \\lambda}{p \\lambda} \\implies \\frac{d}{a} = \\frac{m}{p} \\implies m = p \\left(\\frac{d}{a}\\right)$$
+
+For example, if $d = 3a$ (slit separation is three times the slit width):
+For $p = 1$, $m = 3$; for $p = 2$, $m = 6$. Thus, the 3rd, 6th, 9th, $\\dots$ interference fringes are **completely missing** from the pattern."""
+    },
+    {
+        "id": "sec-4-3",
+        "number": "§4.3",
+        "heading": "Plane Transmission Diffraction Grating: Grating Equation, Dispersion and Spectra",
+        "simulation": "grating-spectrometer",
+        "content": """A diffraction grating consists of an array of a large number $N$ of equidistant, parallel narrow slits of width $a$ separated by opaque spaces of width $b$. The grating element is $d = a + b$.
+
+<h4>1. The $N$-Slit Grating Formula</h4>
+Integrating over $N$ identical slits separated by distance $d$:
+
+$$E(\\theta) = E_{\\text{single}}(\\theta) \\sum_{n=0}^{N-1} e^{i n (2\\alpha)} = E_0 \\left(\\frac{\\sin \\beta}{\\beta}\\right) \\left( \\frac{1 - e^{i N 2\\alpha}}{1 - e^{i 2\\alpha}} \\right)$$
+
+The intensity distribution is:
+
+$$I(\\theta) = I_0 \\left( \\frac{\\sin \\beta}{\\beta} \\right)^2 \\left( \\frac{\\sin N\\alpha}{\\sin \\alpha} \\right)^2$$
+
+where $\\alpha = \\frac{\\pi d \\sin \\theta}{\\lambda}$.
+
+<h4>2. Principal Maxima</h4>
+When $\\alpha = m \\pi$ ($m \\in \\mathbb{Z}$), $\\sin \\alpha = 0$ and $\\lim_{\\alpha \\to m\\pi} \\frac{\\sin N\\alpha}{\\sin \\alpha} = N$. The intensity reaches:
+
+$$I_{\\text{principal}} = N^2 I_0 \\left( \\frac{\\sin \\beta}{\\beta} \\right)^2$$
+
+The angular positions are governed by the fundamental **Grating Equation**:
+
+$$d \\sin \\theta = m \\lambda \\implies (a + b) \\sin \\theta = m \\lambda, \\quad m \\in \\{0, \\pm 1, \\pm 2, \\dots\\}$$
+
+<h4>3. Angular Dispersion of a Grating</h4>
+The angular dispersion measures the angular separation per unit wavelength change. Differentiating the grating equation with respect to $\\lambda$:
+
+$$d \\cos \\theta \\frac{d\\theta}{d\\lambda} = m \\implies D = \\frac{d\\theta}{d\\lambda} = \\frac{m}{d \\cos \\theta} = \\frac{N_g m}{\\cos \\theta}$$
+
+where $N_g = 1/d$ is the number of ruling lines per unit length (e.g., 600 lines/mm)."""
+    },
+    {
+        "id": "sec-4-4",
+        "number": "§4.4",
+        "heading": "Rayleigh’s Criterion for Resolution and Resolving Power of Optical Systems",
+        "simulation": "rayleigh-criterion",
+        "content": """The wave nature of light sets a fundamental diffraction limit on the ability of any optical instrument to separate two closely spaced objects or spectral lines.
+
+<h4>1. Rayleigh’s Criterion for Two Spectral Lines</h4>
+Lord Rayleigh established that two spectral lines of equal intensity are defined to be **just resolved** when the central diffraction maximum of the first line falls exactly on the first diffraction minimum of the second line.
+
+At this separation, the combined intensity profile displays a dip (saddle) between the two peaks of approximately:
+
+$$\\frac{I_{\\text{saddle}}}{I_{\\text{peak}}} = \\frac{8}{\\pi^2} \\approx 0.8106 \\ (81.1\\%)$$
+
+The human eye and CCD sensors readily perceive this $19\\%$ intensity dip.
+
+<h4>2. Resolving Power of a Diffraction Grating</h4>
+The principal maximum of order $m$ for wavelength $\\lambda + \\Delta \\lambda$ occurs at:
+
+$$d \\sin \\theta = m(\\lambda + \\Delta \\lambda)$$
+
+The first minimum of order $m$ for wavelength $\\lambda$ occurs when the phase increases by $\\pi/N$:
+
+$$N d \\sin \\theta = N m \\lambda + \\lambda$$
+
+Equating the two conditions at Rayleigh's limit:
+
+$$N m(\\lambda + \\Delta \\lambda) = N m \\lambda + \\lambda \\implies N m \\Delta \\lambda = \\lambda$$
+
+The **Chromatic Resolving Power** of a grating is:
+
+$$\\mathcal{R} = \\frac{\\lambda}{\\Delta \\lambda} = m N$$
+
+where $m$ is the spectral order and $N$ is the total number of illuminated grating lines.
+
+<h4>3. Resolving Power of a Prism</h4>
+For a triangular prism of base length $B$ made of a dispersive material with refractive index dispersion $\\frac{dn}{d\\lambda}$:
+
+$$\\mathcal{R}_{\\text{prism}} = \\frac{\\lambda}{\\Delta \\lambda} = B \\left| \\frac{dn}{d\\lambda} \\right|$$
+
+Unlike gratings whose resolving power is governed purely by order and line count, a prism's resolving power is determined entirely by its physical base width and material dispersion."""
+    }
+]
+
+u4_problems = [
+    {
+        "difficulty": "diff-hard",
+        "difficultyLabel": "Hard",
+        "title": "Example 4.1: Resolving Power and Spectral Line Separation in Grating Spectroscopy",
+        "question": "A plane diffraction grating has 500 lines/mm ruled over a width of $5.0\\text{ cm}$. It is illuminated by sodium light containing the doublet $\\lambda_1 = 589.00\\text{ nm}$ and $\\lambda_2 = 589.59\\text{ nm}$. (a) Determine the angular separation between the doublet components in the second order ($m = 2$). (b) What is the minimum number of grating lines required to just resolve the doublet in the second order? (c) Can this grating resolve the doublet?",
+        "steps": [
+            {
+                "title": "Step 1: Calculate the grating spacing and diffraction angle in second order",
+                "math": "$$d = \\frac{1}{500 \\times 10^3 \\text{ lines/m}} = 2.00 \\times 10^{-6} \\text{ m} = 2.00 \\ \\mu\\text{m}$$\n$$\\sin \\theta = \\frac{m \\bar{\\lambda}}{d} = \\frac{2 \\times (589.3 \\times 10^{-9} \\text{ m})}{2.00 \\times 10^{-6} \\text{ m}} = 0.5893 \\implies \\theta \\approx 36.11^\\circ$$\n$$\\cos \\theta = \\cos(36.11^\\circ) \\approx 0.8079$$",
+                "explanation": "The second-order spectrum diffracts at approximately $36.1^\\circ$."
+            },
+            {
+                "title": "Step 2: Determine angular dispersion and separation",
+                "math": "$$\\Delta \\theta = \\frac{m \\Delta \\lambda}{d \\cos \\theta} = \\frac{2 \\times (0.59 \\times 10^{-9} \\text{ m})}{(2.00 \\times 10^{-6} \\text{ m}) \\times 0.8079} = \\frac{1.18 \\times 10^{-9}}{1.6158 \\times 10^{-6}} \\approx 7.30 \\times 10^{-4} \\text{ rad} \\approx 0.0418^\\circ$$",
+                "explanation": "The two spectral lines are separated by $0.042^\\circ$."
+            },
+            {
+                "title": "Step 3: Calculate minimum lines required via Rayleigh criterion",
+                "math": "$$\\frac{\\lambda}{\\Delta \\lambda} = m N_{\\text{min}} \\implies N_{\\text{min}} = \\frac{\\bar{\\lambda}}{m \\Delta \\lambda} = \\frac{589.3 \\text{ nm}}{2 \\times 0.59 \\text{ nm}} = \\frac{589.3}{1.18} \\approx 499.4 \\implies N_{\\text{min}} = 500 \\text{ lines}$$\n$$\\text{Total lines available on grating: } N_{\\text{total}} = (500 \\text{ lines/mm}) \\times 50.0 \\text{ mm} = 25,000 \\text{ lines}$$",
+                "explanation": "Since $25,000 \\gg 500$, the grating resolves the doublet with an enormous margin of safety ($\mathcal{R} = 50,000$ vs required $1,000$)."
+            }
+        ]
+    }
+]
+
+optics_units.append({
+    "number": 4,
+    "title": "Diffraction (Fraunhofer Class)",
+    "description": "Single-slit sinc pattern, double-slit interference envelope & missing orders, plane diffraction grating, dispersion, and Rayleigh criterion for optical resolution.",
+    "sections": u4_sections,
+    "problems": u4_problems
+})
+
+# =========================================================================
+# UNIT 5: Polarization of Light and Crystal Optics
+# =========================================================================
+u5_sections = [
+    {
+        "id": "sec-5-1",
+        "number": "§5.1",
+        "heading": "States of Polarization, Mathematical Representation and Malus’s Law",
+        "simulation": "polarization-malus",
+        "content": """Light is a transverse electromagnetic wave where the electric field vector $\\mathbf{E}$ oscillates strictly perpendicular to the direction of propagation $\\hat{\\mathbf{k}}$. The polarization state describes the geometric locus traced by the tip of the $\\mathbf{E}$-vector in a transverse plane over one temporal cycle.
+
+<h4>1. Mathematical Superposition of Orthogonal Harmonic Field Components</h4>
+Consider a monochromatic wave propagating along the $+z$ axis:
+
+$$\\mathbf{E}(z, t) = E_x(z, t) \\hat{\\mathbf{x}} + E_y(z, t) \\hat{\\mathbf{y}}$$
+
+$$E_x(z, t) = E_{0x} \\cos(k z - \\omega t), \\quad E_y(z, t) = E_{0y} \\cos(k z - \\omega t + \\delta)$$
+
+where $\\delta = \\phi_y - \\phi_x$ is the relative phase difference between the two orthogonal components.
+
+Eliminating the temporal parameter $(kz - \\omega t)$ algebraically:
+
+$$\\left(\\frac{E_x}{E_{0x}}\\right)^2 + \\left(\\frac{E_y}{E_{0y}}\\right)^2 - 2 \\left(\\frac{E_x}{E_{0x}}\\right)\\left(\\frac{E_y}{E_{0y}}\\right) \\cos \\delta = \\sin^2 \\delta$$
+
+This is the general equation of an **ellipse** inscribed in a rectangle of dimensions $2E_{0x} \\times 2E_{0y}$.
+
+<h4>2. Special Polarization States</h4>
+<ul>
+  <li><strong>Linearly Polarized Light:</strong> When $\\delta = m \\pi$ ($m \\in \\mathbb{Z}$): $\\sin \\delta = 0$, giving $\\frac{E_y}{E_{0y}} = \\pm \\frac{E_x}{E_{0x}} \\implies E_y = \\pm \\left(\\frac{E_{0y}}{E_{0x}}\\right) E_x$. The electric field oscillates along a fixed straight line at angle $\\theta = \\arctan(E_{0y}/E_{0x})$.</li>
+  <li><strong>Circularly Polarized Light:</strong> When $E_{0x} = E_{0y} = E_0$ and $\\delta = \\pm \\frac{\\pi}{2}$:
+  
+  $$\\cos \\delta = 0, \\quad \\sin^2 \\delta = 1 \\implies E_x^2 + E_y^2 = E_0^2$$
+  
+  The tip of $\\mathbf{E}$ traces a circle of constant radius $E_0$.
+  <ul>
+    <li>$\\delta = +\\pi/2$: Right Circularly Polarized (RCP) (clockwise looking toward source).</li>
+    <li>$\\delta = -\\pi/2$: Left Circularly Polarized (LCP) (counterclockwise).</li>
+  </ul>
+  </li>
+  <li><strong>Elliptically Polarized Light:</strong> The general state where $E_{0x} \\neq E_{0y}$ and $\\delta \\neq 0, \\pi$.</li>
+</ul>
+
+<h4>3. Malus’s Law</h4>
+When linearly polarized light of intensity $I_0$ is incident upon an ideal linear analyzer whose transmission axis forms an angle $\\theta$ with the electric field vector:
+
+$$E_{\\text{transmitted}} = E_0 \\cos \\theta \\implies I(\\theta) = I_0 \\cos^2 \\theta$$"""
+    },
+    {
+        "id": "sec-5-2",
+        "number": "§5.2",
+        "heading": "Polarization by Reflection, Brewster’s Law and Double Refraction in Calcite",
+        "simulation": "birefringence-nicol",
+        "content": """Light can be polarized through four fundamental physical mechanisms: reflection, refraction, selective absorption (dichroism), and scattering.
+
+<h4>1. Brewster’s Law and Polarization by Reflection</h4>
+From Fresnel's reflection formulas for parallel polarization ($p$-polarization):
+
+$$r_{\\parallel} = \\frac{\\tan(\\theta_i - \\theta_r)}{\\tan(\\theta_i + \\theta_r)}$$
+
+When the reflected and refracted rays are strictly mutually perpendicular:
+
+$$\\theta_i + \\theta_r = 90^\\circ \\implies \\tan(\\theta_i + \\theta_r) \\to \\infty \\implies r_{\\parallel} = 0$$
+
+At this critical angle, known as **Brewster’s Angle** $\\theta_B$, all $p$-polarized light is completely transmitted into the medium. The reflected beam contains purely $s$-polarized light (electric field perpendicular to plane of incidence).
+
+Using Snell's law:
+
+$$\\sin \\theta_r = \\sin(90^\\circ - \\theta_B) = \\cos \\theta_B$$
+
+$$n_1 \\sin \\theta_B = n_2 \\sin \\theta_r = n_2 \\cos \\theta_B \\implies \\tan \\theta_B = \\frac{n_2}{n_1}$$
+
+<h4>2. Double Refraction (Birefringence) in Uniaxial Anisotropic Crystals</h4>
+In optically isotropic materials (glass, water), the dielectric permittivity is a scalar $\\epsilon$. In anisotropic crystals (calcite $\\text{CaCO}_3$, quartz $\\text{SiO}_2$), the crystal lattice exhibits direction-dependent dielectric properties, described by a tensor.
+
+When an unpolarized beam enters a uniaxial crystal, it splits into two orthogonally polarized rays traveling with different phase velocities:
+<ol>
+  <li><strong>Ordinary Ray ($o$-ray):</strong> Obeys Snell's law of refraction in all directions. It sees a constant refractive index $n_o$ regardless of propagation angle. Its wavefront is spherical.</li>
+  <li><strong>Extraordinary Ray ($e$-ray):</strong> Violates Snell's law. Its refractive index $n_e(\\theta)$ varies continuously between $n_o$ and the principal extraordinary index $n_e$:
+  
+  $$\\frac{1}{n_e^2(\\theta)} = \\frac{\\cos^2 \\theta}{n_o^2} + \\frac{\\sin^2 \\theta}{n_e^2}$$
+  
+  Its wavefront is an ellipsoid of revolution.
+  </li>
+</ol>
+
+In negative uniaxial crystals like Calcite: $n_e < n_o$ ($v_e > v_o$).
+In positive uniaxial crystals like Quartz: $n_e > n_o$ ($v_e < v_o$).
+
+<h4>3. The Nicol Prism Polarizer</h4>
+Invented by William Nicol in 1828, the Nicol prism consists of a calcite rhomb cut diagonally at $68^\\circ$ to its face and cemented together with a thin layer of Canada balsam ($n_{\\text{cb}} = 1.550$).
+
+For sodium light, calcite has:
+
+$$n_o = 1.658, \\quad n_e = 1.486$$
+
+Since $n_o > n_{\\text{cb}} > n_e$:
+<ul>
+  <li>The $o$-ray strikes the Canada balsam interface traveling from denser ($1.658$) to rarer ($1.550$). The angle of incidence exceeds the critical angle $\\theta_c = \\arcsin(1.550/1.658) \\approx 69^\\circ$, undergoing **Total Internal Reflection (TIR)** and being absorbed in the black coating of the prism wall.</li>
+  <li>The $e$-ray passes from rarer ($1.486$) to denser ($1.550$) and is transmitted cleanly through the prism.</li>
+</ul>
+
+The transmitted beam emerges as **$100\\%$ linearly polarized light**."""
+    },
+    {
+        "id": "sec-5-3",
+        "number": "§5.3",
+        "heading": "Wave Retardation Plates: Quarter-Wave and Half-Wave Plates",
+        "simulation": "retardation-plates",
+        "content": """Retardation plates (wave plates) are precision optical elements cut from birefringent crystals parallel to the optic axis, used to alter the polarization state of light by introducing a controlled phase delay between the $o$-ray and $e$-ray.
+
+<h4>1. Phase Retardation Formulation</h4>
+Let a birefringent plate of thickness $d$ have refractive indices $n_o$ and $n_e$. For a wave propagating normally through the plate, the optical path difference between the extraordinary and ordinary components is:
+
+$$\\Delta = |n_e - n_o| d$$
+
+The resulting optical phase retardation $\\delta$ is:
+
+$$\\delta = \\frac{2\\pi}{\\lambda} |n_e - n_o| d$$
+
+<h4>2. Half-Wave Plate (HWP)</h4>
+A half-wave plate introduces a phase retardation of $\\delta = \\pi$ (path difference $\\lambda/2$):
+
+$$|n_e - n_o| d_{\\text{HWP}} = \\frac{\\lambda}{2} \\implies d_{\\text{HWP}} = \\frac{\\lambda}{2|n_e - n_o|}$$
+
+<strong>Action on Linearly Polarized Light:</strong>
+If incident linearly polarized light makes an angle $\\theta$ with the fast axis, the half-wave plate rotates the plane of polarization by exactly $2\\theta$.
+
+<h4>3. Quarter-Wave Plate (QWP)</h4>
+A quarter-wave plate introduces a phase retardation of $\\delta = \\frac{\\pi}{2}$ (path difference $\\lambda/4$):
+
+$$|n_e - n_o| d_{\\text{QWP}} = \\frac{\\lambda}{4} \\implies d_{\\text{QWP}} = \\frac{\\lambda}{4|n_e - n_o|}$$
+
+<strong>Action:</strong>
+<ul>
+  <li>Converts linearly polarized light oriented at $45^\\circ$ to the axes into **circularly polarized light** ($E_{0x} = E_{0y}, \\delta = \\pi/2$).</li>
+  <li>Converts circularly polarized light into **linearly polarized light**.</li>
+  <li>Converts linearly polarized light at any arbitrary angle $\\theta \\neq 0, 45^\\circ, 90^\\circ$ into **elliptically polarized light**.</li>
+</ul>"""
+    },
+    {
+        "id": "sec-5-4",
+        "number": "§5.4",
+        "heading": "Optical Activity, Biot’s Laws and Laurent’s Half-Shade Polarimeter",
+        "simulation": "polarimeter-half-shade",
+        "content": """Certain chiral substances (such as quartz, cane sugar solutions, and tartaric acid) possess optical activity—the ability to rotate the plane of polarization of linearly polarized light.
+
+<h4>1. Fresnel’s Theory of Optical Activity</h4>
+Fresnel explained optical activity by demonstrating that a linearly polarized wave can be mathematically decomposed into two coherent circularly polarized waves of opposite handedness: Right Circularly Polarized ($E_R$) and Left Circularly Polarized ($E_L$):
+
+$$\\mathbf{E} = \\mathbf{E}_R + \\mathbf{E}_L$$
+
+In an optically active medium, the chiral molecular geometry causes $E_R$ and $E_L$ to propagate with slightly different phase velocities ($n_R \\neq n_L$).
+
+After traversing path length $l$, the phase difference between the two circular components is:
+
+$$\\delta = \\frac{2\\pi}{\\lambda} (n_L - n_R) l$$
+
+Recombining $E_R$ and $E_L$ produces a linearly polarized wave whose plane of polarization is rotated by angle $\\theta$:
+
+$$\\theta = \\frac{\\delta}{2} = \\frac{\\pi l}{\\lambda} (n_L - n_R)$$
+
+<h4>2. Biot’s Laws and Specific Rotation</h4>
+For optically active solutions, the observed rotation angle $\\theta$ satisfies Biot's empirical relations:
+<ul>
+  <li>$\\theta \\propto l$ (proportional to path length in decimeters).</li>
+  <li>$\\theta \\propto c$ (proportional to solute concentration in $\\text{g/cm}^3$).</li>
+  <li>$\\theta \\propto 1/\\lambda^2$ (rotatory dispersion).</li>
+</ul>
+
+The **Specific Rotation** $[\\alpha]_\\lambda^T$ of a compound at temperature $T$ and wavelength $\\lambda$ is defined as:
+
+$$[\\alpha]_\\lambda^T = \\frac{\\theta}{l \\cdot c}$$
+
+where $\\theta$ is in degrees, $l$ is the tube length in decimeters ($1\\text{ dm} = 10\\text{ cm}$), and $c$ is the concentration in $\\text{g/cm}^3$.
+
+<h4>3. Laurent’s Half-Shade Polarimeter</h4>
+To eliminate observer subjective error when determining the zero-rotation extinction angle, Laurent inserted a semicircular half-wave plate covering half the field of view:
+<ul>
+  <li>Light traversing the plain glass half is transmitted unchanged.</li>
+  <li>Light traversing the quartz half-wave plate has its polarization rotated by $2\\phi$.</li>
+</ul>
+
+The observer matches the brightness of the two halves until both are equally illuminated, achieving measurement precision better than $0.01^\\circ$."""
+    }
+]
+
+u5_problems = [
+    {
+        "difficulty": "diff-medium",
+        "difficultyLabel": "Medium",
+        "title": "Example 5.1: Sugar Concentration Determination via Polarimetry",
+        "question": "A $20.0\\text{ cm}$ long polarimeter tube containing an aqueous solution of cane sugar produces an optical rotation of $\\theta = +13.2^\\circ$ for the sodium D-line ($\lambda = 589.3\\text{ nm}$). Given that the specific rotation of cane sugar is $[\\alpha]_D^{20} = +66.0^\\circ \\text{ dm}^{-1} \\cdot (\\text{g/cm}^3)^{-1}$, calculate: (a) the concentration of the sugar solution in $\\text{g/cm}^3$, and (b) the mass of sugar dissolved in $500\\text{ mL}$ of solution.",
+        "steps": [
+            {
+                "title": "Step 1: Convert path length to decimeters and apply Biot's specific rotation formula",
+                "math": "$$l = 20.0 \\text{ cm} = 2.00 \\text{ dm}$$\n$$[\\alpha] = \\frac{\\theta}{l \\cdot c} \\implies c = \\frac{\\theta}{l \\cdot [\\alpha]}$$\n$$c = \\frac{13.2^\\circ}{(2.00 \\text{ dm}) \\times (66.0^\\circ \\text{ dm}^{-1} \\cdot \\text{cm}^3/\\text{g})} = \\frac{13.2}{132.0} = 0.100 \\text{ g/cm}^3$$",
+                "explanation": "The sugar concentration is exactly $0.100\\text{ g/cm}^3$ (or $100\\text{ g/L}$)."
+            },
+            {
+                "title": "Step 2: Calculate the total mass in 500 mL",
+                "math": "$$m = c \\times V = (0.100 \\text{ g/cm}^3) \\times 500 \\text{ cm}^3 = 50.0 \\text{ g}$$",
+                "explanation": "There are $50.0\\text{ grams}$ of sugar in the $500\\text{ mL}$ solution."
+            }
+        ]
+    }
+]
+
+optics_units.append({
+    "number": 5,
+    "title": "Polarization of Light and Crystal Optics",
+    "description": "States of polarization, Malus's law, Brewster's angle, double refraction in calcite, Nicol prism, quarter/half-wave plates, and Laurent half-shade polarimeter.",
+    "sections": u5_sections,
+    "problems": u5_problems
+})
+
+# =========================================================================
+# UNIT 6: LASER Physics and Optical Amplification
+# =========================================================================
+u6_sections = [
+    {
+        "id": "sec-6-1",
+        "number": "§6.1",
+        "heading": "Radiation-Matter Interaction and Einstein’s A and B Coefficients",
+        "simulation": "laser-gain-threshold",
+        "content": """The physical foundation of LASER (Light Amplification by Stimulated Emission of Radiation) was established in 1917 by Albert Einstein through thermodynamic analysis of atoms in equilibrium with blackbody radiation.
+
+<h4>1. The Three Fundamental Radiative Transitions</h4>
+Consider an atomic system with two discrete energy levels $E_1$ (lower state) and $E_2$ (upper state), separated by energy $h\\nu = E_2 - E_1$, immersed in an electromagnetic radiation field of spectral energy density $\\rho(\\nu)$:
+
+<ol>
+  <li><strong>Induced (Stimulated) Absorption:</strong> An atom in level 1 absorbs a photon of energy $h\\nu$ and transitions to level 2. The rate of absorption is:
+  
+  $$R_{\\text{abs}} = B_{12} N_1 \\rho(\\nu)$$
+  
+  where $B_{12}$ is Einstein's coefficient of stimulated absorption.</li>
+  <li><strong>Spontaneous Emission:</strong> An atom in level 2 spontaneously drops to level 1 without any external trigger, emitting a photon of energy $h\\nu$ in a random direction and phase. The transition rate is:
+  
+  $$R_{\\text{spont}} = A_{21} N_2$$
+  
+  where $A_{21}$ is Einstein's coefficient of spontaneous emission (equal to the inverse spontaneous lifetime $1/\\tau_{\\text{sp}}$).</li>
+  <li><strong>Stimulated (Induced) Emission:</strong> An incident photon of energy $h\\nu$ perturbs an atom in excited level 2, inducing it to drop to level 1 and emit a second photon that is an **identical clone** of the incident photon (identical frequency, wavevector $\\mathbf{k}$, phase, and polarization state). The rate is:
+  
+  $$R_{\\text{stim}} = B_{21} N_2 \\rho(\\nu)$$
+</ol>
+
+<h4>2. Thermodynamic Derivation of Einstein Relations</h4>
+In thermodynamic equilibrium at absolute temperature $T$, the rate of upward transitions must equal the rate of downward transitions (principle of detailed balance):
+
+$$R_{\\text{abs}} = R_{\\text{spont}} + R_{\\text{stim}} \\implies B_{12} N_1 \\rho(\\nu) = A_{21} N_2 + B_{21} N_2 \\rho(\\nu)$$
+
+Solving for the spectral radiation density:
+
+$$\\rho(\\nu) = \\frac{A_{21} N_2}{B_{12} N_1 - B_{21} N_2} = \\frac{A_{21} / B_{21}}{\\left(\\frac{B_{12}}{B_{21}}\\right) \\frac{N_1}{N_2} - 1}$$
+
+From Maxwell-Boltzmann statistics, the equilibrium population ratio of non-degenerate states is:
+
+$$\\frac{N_1}{N_2} = \\frac{g_1 e^{-E_1/k_B T}}{g_2 e^{-E_2/k_B T}} = \\frac{g_1}{g_2} e^{(E_2 - E_1)/k_B T} = \\frac{g_1}{g_2} e^{h\\nu / k_B T}$$
+
+Substituting into $\\rho(\\nu)$:
+
+$$\\rho(\\nu) = \\frac{A_{21} / B_{21}}{\\left(\\frac{B_{12} g_1}{B_{21} g_2}\\right) e^{h\\nu / k_B T} - 1}$$
+
+Comparing this directly with Planck’s Blackbody Radiation Formula:
+
+$$\\rho(\\nu) = \\frac{8\\pi h \\nu^3}{c^3} \\frac{1}{e^{h\\nu / k_B T} - 1}$$
+
+Equating corresponding terms yields the fundamental **Einstein Relations**:
+
+$$g_1 B_{12} = g_2 B_{21} \\quad \\implies \\quad B_{12} = B_{21} \\quad (\\text{for } g_1 = g_2)$$
+
+$$\\frac{A_{21}}{B_{21}} = \\frac{8\\pi h \\nu^3}{c^3}$$
+
+<h4>3. Physical Consequence</h4>
+The probability of stimulated emission is strictly identical to the probability of stimulated absorption ($B_{21} = B_{12}$). The ratio of spontaneous to stimulated emission scales as $\\nu^3$, explaining why optical and UV lasers are vastly harder to construct than microwave masers."""
+    },
+    {
+        "id": "sec-6-2",
+        "number": "§6.2",
+        "heading": "Population Inversion, Pumping Schemes and Laser Cavity Threshold Condition",
+        "simulation": "laser-modes-cavity",
+        "content": """Under thermal equilibrium at any temperature $T > 0$, the Boltzmann distribution mandates:
+
+$$\\frac{N_2}{N_1} = e^{-h\\nu / k_B T} < 1 \\implies N_1 > N_2$$
+
+Because $N_1 > N_2$, stimulated absorption always exceeds stimulated emission ($B_{12} N_1 \\rho > B_{21} N_2 \\rho$). Any optical beam propagating through such a medium is attenuated exponentially: $I(z) = I_0 e^{-\\alpha z}$.
+
+To achieve optical amplification (gain), we must create a non-equilibrium condition where the excited state population exceeds the lower state:
+
+$$N_2 > \\left(\\frac{g_2}{g_1}\\right) N_1 \\quad \\implies \\quad \\textbf{Population Inversion}$$
+
+<h4>1. 3-Level vs 4-Level Pumping Schemes</h4>
+<ul>
+  <li><strong>3-Level Laser (e.g., Ruby Laser):</strong>
+    Pumping excites ground state atoms ($E_1$) into a broad pump band ($E_3$). Fast non-radiative decay transfers atoms to a metastable laser level ($E_2$). Laser action occurs between $E_2 \\to E_1$.
+    <em>Disadvantage:</em> Because the lower laser level $E_1$ is the ground state containing nearly all atoms, more than $50\\%$ of the total atomic population must be excited just to reach transparency ($N_2 = N_1$). This requires immense pump threshold power.
+  </li>
+  <li><strong>4-Level Laser (e.g., Nd:YAG, He-Ne):</strong>
+    Laser action occurs between metastable state $E_3$ and an excited lower laser level $E_2$ situated well above the ground state ($E_2 - E_1 \\gg k_B T$).
+    <em>Advantage:</em> In thermal equilibrium, level $E_2$ is essentially empty ($N_2 \\approx 0$). Thus, even a very weak pump creates population inversion ($N_3 > N_2$), resulting in orders-of-magnitude lower threshold pump power and enabling continuous-wave (CW) operation.
+  </li>
+</ul>
+
+<h4>2. The Laser Cavity Threshold Gain Condition</h4>
+An active gain medium of length $L$ with small-signal gain coefficient $\\gamma_0$ is placed inside an optical resonator bounded by two mirrors of reflectances $R_1$ and $R_2$.
+
+For a beam of intensity $I$ completing one full round-trip of length $2L$:
+<ol>
+  <li>Amplification through gain medium: $e^{2 \\gamma_0 L}$</li>
+  <li>Internal scattering and absorption losses: $e^{-2 \\alpha_s L}$</li>
+  <li>Mirror reflections: $R_1 R_2$</li>
+</ol>
+
+For steady-state sustained laser oscillation, the round-trip gain must equal the round-trip loss:
+
+$$R_1 R_2 e^{2(\\gamma_{\\text{th}} - \\alpha_s)L} = 1$$
+
+Taking the natural logarithm:
+
+$$2(\\gamma_{\\text{th}} - \\alpha_s)L + \\ln(R_1 R_2) = 0$$
+
+$$\\gamma_{\\text{th}} = \\alpha_s + \\frac{1}{2L} \\ln\\left(\\frac{1}{R_1 R_2}\\right)$$
+
+Laser oscillation initiates the instant the pumping rate drives the gain $\\gamma_0$ above this critical threshold $\\gamma_{\\text{th}}$."""
+    },
+    {
+        "id": "sec-6-3",
+        "number": "§6.3",
+        "heading": "Optical Resonator Modes and Survey of Practical Laser Systems",
+        "simulation": "laser-tem-modes",
+        "content": """An optical resonator provides the positive optical feedback necessary to build coherent oscillations and determines the spectral and spatial coherence of the laser output.
+
+<h4>1. Longitudinal (Axial) Cavity Modes</h4>
+For constructive interference of waves reflecting back and forth between two flat parallel mirrors separated by cavity length $L$, the cavity must support an integral number $m$ of half-wavelengths:
+
+$$2 L = m \\lambda_m = m \\frac{c}{n \\nu_m} \\implies \\nu_m = m \\frac{c}{2 n L}, \\quad m \\in \\mathbb{Z}$$
+
+The frequency spacing between two adjacent longitudinal modes is constant:
+
+$$\\Delta \\nu = \\nu_{m+1} - \\nu_m = \\frac{c}{2 n L}$$
+
+For a He-Ne laser with $L = 30\\text{ cm}$, $\\Delta \\nu = \\frac{3 \\times 10^8 \\text{ m/s}}{2(0.30 \\text{ m})} = 500\\text{ MHz}$.
+
+<h4>2. Transverse Electromagnetic Modes ($\\text{TEM}_{mn}$)</h4>
+Diffraction at mirror apertures and beam divergence create transverse intensity variations described by Hermite-Gaussian modes:
+
+$$I_{mn}(x, y) = I_0 \\left[ H_m\\left(\\frac{\\sqrt{2}x}{w}\\right) \\right]^2 \\left[ H_n\\left(\\frac{\\sqrt{2}y}{w}\\right) \\right]^2 e^{-2(x^2 + y^2)/w^2}$$
+
+The fundamental mode $\\text{TEM}_{00}$ has a purely Gaussian profile ($H_0(\\xi) = 1$) with zero null lines, providing diffraction-limited beam divergence.
+
+<h4>3. Survey of Practical Laser Systems</h4>
+<table style="width:100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem;">
+  <thead>
+    <tr style="border-bottom: 2px solid #334155; text-align: left;">
+      <th style="padding: 0.5rem;">Laser Type</th>
+      <th style="padding: 0.5rem;">Active Medium</th>
+      <th style="padding: 0.5rem;">Wavelength</th>
+      <th style="padding: 0.5rem;">Pumping</th>
+      <th style="padding: 0.5rem;">Operation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom: 1px solid #1e293b;">
+      <td style="padding: 0.5rem;"><strong>Helium-Neon (He-Ne)</strong></td>
+      <td style="padding: 0.5rem;">Neutral He + Ne gas mixture (10:1)</td>
+      <td style="padding: 0.5rem;">$632.8\\text{ nm}$ (Red)</td>
+      <td style="padding: 0.5rem;">Electric DC discharge</td>
+      <td style="padding: 0.5rem;">Continuous Wave (CW)</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #1e293b;">
+      <td style="padding: 0.5rem;"><strong>Ruby Laser</strong></td>
+      <td style="padding: 0.5rem;">$\\text{Cr}^{3+}$ in $\\text{Al}_2\\text{O}_3$ crystal</td>
+      <td style="padding: 0.5rem;">$694.3\\text{ nm}$ (Deep Red)</td>
+      <td style="padding: 0.5rem;">Xenon flashtube</td>
+      <td style="padding: 0.5rem;">Pulsed (Q-switched)</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #1e293b;">
+      <td style="padding: 0.5rem;"><strong>Nd:YAG</strong></td>
+      <td style="padding: 0.5rem;">$\\text{Nd}^{3+}$ in Yttrium Aluminum Garnet</td>
+      <td style="padding: 0.5rem;">$1064\\text{ nm}$ (IR) / $532\\text{ nm}$</td>
+      <td style="padding: 0.5rem;">Laser diode arrays / Flashlamp</td>
+      <td style="padding: 0.5rem;">CW / High-power pulsed</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #1e293b;">
+      <td style="padding: 0.5rem;"><strong>Carbon Dioxide ($\\text{CO}_2$)</strong></td>
+      <td style="padding: 0.5rem;">Molecular $\\text{CO}_2 + \\text{N}_2 + \\text{He}$</td>
+      <td style="padding: 0.5rem;">$10.6 \\ \\mu\\text{m}$ (Far IR)</td>
+      <td style="padding: 0.5rem;">RF / Electrical discharge</td>
+      <td style="padding: 0.5rem;">High power industrial (kW)</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #1e293b;">
+      <td style="padding: 0.5rem;"><strong>Semiconductor Diode</strong></td>
+      <td style="padding: 0.5rem;">GaAs / InGaAsP p-n junction</td>
+      <td style="padding: 0.5rem;">$405 - 1550\\text{ nm}$</td>
+      <td style="padding: 0.5rem;">Direct electrical current injection</td>
+      <td style="padding: 0.5rem;">High efficiency ($>50\\%$) CW</td>
+    </tr>
+  </tbody>
+</table>"""
+    }
+]
+
+u6_problems = [
+    {
+        "difficulty": "diff-medium",
+        "difficultyLabel": "Medium",
+        "title": "Example 6.1: Threshold Gain and Population Inversion in He-Ne Laser",
+        "question": "A Helium-Neon laser operating at $\lambda = 632.8\text{ nm}$ has an active discharge tube length of $L = 25.0\text{ cm}$. The cavity mirrors have reflectances $R_1 = 1.00$ (high reflector) and $R_2 = 0.98$ (output coupler). The internal scattering and diffraction loss coefficient is $\alpha_s = 0.010\text{ m}^{-1}$. Calculate: (a) the threshold gain coefficient $\gamma_{\text{th}}$ in $\text{m}^{-1}$, and (b) the frequency separation between adjacent longitudinal cavity modes.",
+        "steps": [
+            {
+                "title": "Step 1: Compute the threshold gain coefficient",
+                "math": "$$\\gamma_{\\text{th}} = \\alpha_s + \\frac{1}{2L} \\ln\\left(\\frac{1}{R_1 R_2}\\right)$$\n$$\\gamma_{\\text{th}} = 0.010 + \\frac{1}{2(0.25 \\text{ m})} \\ln\\left(\\frac{1}{1.00 \\times 0.98}\\right) = 0.010 + 2.0 \\times \\ln(1.02041)$$\n$$\\ln(1.02041) \\approx 0.02020 \\implies \\gamma_{\\text{th}} = 0.010 + 2.0(0.02020) = 0.010 + 0.0404 = 0.0504 \\text{ m}^{-1}$$",
+                "explanation": "The gain medium must provide at least $0.0504\\text{ m}^{-1}$ ($5.04\\%\\text{ per meter}$) to overcome cavity losses."
+            },
+            {
+                "title": "Step 2: Determine longitudinal mode frequency separation",
+                "math": "$$\\Delta \\nu = \\frac{c}{2 L} = \\frac{3.00 \\times 10^8 \\text{ m/s}}{2 \\times (0.250 \\text{ m})} = \\frac{3.00 \\times 10^8}{0.50} = 6.00 \\times 10^8 \\text{ Hz} = 600 \\text{ MHz}$$",
+                "explanation": "Cavity longitudinal modes are separated by $600\\text{ MHz}$."
+            }
+        ]
+    }
+]
+
+optics_units.append({
+    "number": 6,
+    "title": "LASER Physics and Optical Amplification",
+    "description": "Einstein coefficients, detailed balance, 3-level vs 4-level systems, population inversion, threshold gain, longitudinal modes, TEM modes, and survey of practical lasers.",
+    "sections": u6_sections,
+    "problems": u6_problems
+})
+
+# =========================================================================
+# UNIT 7: Fourier Optics and Modern Diffraction Theory
+# =========================================================================
+u7_sections = [
+    {
+        "id": "sec-7-1",
+        "number": "§7.1",
+        "heading": "Two-Dimensional Spatial Fourier Transforms and the Convolution Theorem",
+        "simulation": "lens-fourier-transform",
+        "content": """Fourier optics provides a unifying mathematical framework that treats optical imaging and diffraction through linear systems theory, where optical apertures and field distributions are decomposed into continua of spatial frequencies.
+
+<h4>1. 2D Spatial Fourier Transform Pairs</h4>
+Let $u(x, y)$ be the complex optical amplitude distribution in an aperture plane. Its two-dimensional Fourier transform $U(f_x, f_y)$ represents the spatial frequency spectrum of plane wave components:
+
+$$U(f_x, f_y) = \\mathcal{F}\\{u(x, y)\\} = \\int_{-\\infty}^{\\infty} \\int_{-\\infty}^{\\infty} u(x, y) e^{-i 2\\pi (f_x x + f_y y)} dx dy$$
+
+where $f_x = \\frac{k_x}{2\\pi} = \\frac{\\sin \\theta_x}{\\lambda}$ and $f_y = \\frac{k_y}{2\\pi} = \\frac{\\sin \\theta_y}{\\lambda}$ are the spatial frequencies in cycles per unit length (e.g., $\\text{lines/mm}$).
+
+The inverse Fourier transform reconstructs the original spatial distribution:
+
+$$u(x, y) = \\mathcal{F}^{-1}\\{U(f_x, f_y)\\} = \\int_{-\\infty}^{\\infty} \\int_{-\\infty}^{\\infty} U(f_x, f_y) e^{i 2\\pi (f_x x + f_y y)} df_x df_y$$
+
+<h4>2. Key Fourier Transform Theorems in Optics</h4>
+<ul>
+  <li><strong>Linearity:</strong> $\\mathcal{F}\\{a u_1 + b u_2\\} = a U_1 + b U_2$</li>
+  <li><strong>Spatial Scaling (Similarity):</strong> $\\mathcal{F}\\{u(ax, by)\\} = \\frac{1}{|ab|} U\\left(\\frac{f_x}{a}, \\frac{f_y}{b}\\right)$. Narrowing an aperture spatially spreads its diffracted spectrum in frequency space.</li>
+  <li><strong>Spatial Shift (Shift Theorem):</strong> $\\mathcal{F}\\{u(x - x_0, y - y_0)\\} = U(f_x, f_y) e^{-i 2\\pi (f_x x_0 + f_y y_0)}$</li>
+  <li><strong>Parseval’s Energy Theorem:</strong>
+  
+  $$\\int_{-\\infty}^{\\infty} \\int_{-\\infty}^{\\infty} |u(x, y)|^2 dx dy = \\int_{-\\infty}^{\\infty} \\int_{-\\infty}^{\\infty} |U(f_x, f_y)|^2 df_x df_y$$
+  
+  Total optical radiant energy is conserved identically between the physical aperture plane and the spatial frequency Fourier plane.
+  </li>
+</ul>
+
+<h4>3. The Convolution Theorem in Optical Imaging</h4>
+The two-dimensional spatial convolution of an input object $g(x,y)$ with an optical system impulse response (point spread function) $h(x,y)$ is:
+
+$$g_{\\text{out}}(x, y) = g_{\\text{in}}(x, y) * h(x, y) = \\int_{-\\infty}^{\\infty} \\int_{-\\infty}^{\\infty} g_{\\text{in}}(\\xi, \\eta) h(x - \\xi, y - \\eta) d\\xi d\\eta$$
+
+The **Convolution Theorem** proves that convolution in space is mathematically equivalent to simple algebraic multiplication in frequency space:
+
+$$G_{\\text{out}}(f_x, f_y) = G_{\\text{in}}(f_x, f_y) \\cdot H(f_x, f_y)$$
+
+where $H(f_x, f_y) = \\mathcal{F}\\{h(x, y)\\}$ is the **Optical Transfer Function (OTF)** of the imaging system."""
+    },
+    {
+        "id": "sec-7-2",
+        "number": "§7.2",
+        "heading": "The Thin Convex Lens as an Optical 2D Fourier Transformer",
+        "simulation": "optical-4f-filtering",
+        "content": """One of the most remarkable discoveries in physical optics is that an ordinary thin spherical convex glass lens performs an exact, instantaneous two-dimensional mathematical Fourier transform of any coherent light field.
+
+<h4>1. Phase Transformation of a Thin Lens</h4>
+A thin spherical lens of focal length $f$ and refractive index $n$ possesses a variable glass thickness profile:
+
+$$\\Delta(x, y) = \\Delta_0 - \\frac{x^2 + y^2}{2} \\left( \\frac{1}{R_1} - \\frac{1}{R_2} \\right) = \\Delta_0 - \\frac{x^2 + y^2}{2(n - 1)f}$$
+
+When a plane wave traverses the lens, the spatially varying phase delay is:
+
+$$t_L(x, y) = e^{i k n \\Delta(x,y)} e^{i k [\\Delta_0 - \\Delta(x,y)]} = e^{i k \\Delta_0} \\exp\\left[ -i \\frac{k}{2f} (x^2 + y^2) \\right]$$
+
+Dropping the constant phase factor $e^{i k \\Delta_0}$, the **lens transmission function** is:
+
+$$t_L(x, y) = \\exp\\left[ -i \\frac{k}{2f} (x^2 + y^2) \\right]$$
+
+<h4>2. Field in the Back Focal Plane</h4>
+Place an input transparency with optical field distribution $u_0(x, y)$ in the front focal plane of the lens ($z = -f$).
+
+Applying the Fresnel diffraction integral from the input plane to the lens, multiplying by the lens transmission function $t_L(x, y)$, and propagating to the back focal plane ($z = +f$):
+
+The quadratic phase factors cancel completely, leaving:
+
+$$u_f(u, v) = \\frac{1}{i \\lambda f} \\int_{-\\infty}^{\\infty} \\int_{-\\infty}^{\\infty} u_0(x, y) \\exp\\left[ -i \\frac{2\\pi}{\\lambda f} (u x + v y) \\right] dx dy$$
+
+This is the exact mathematical Fourier transform of the input object $u_0(x, y)$ evaluated at spatial frequencies:
+
+$$f_x = \\frac{u}{\\lambda f}, \\quad f_y = \\frac{v}{\\lambda f}$$
+
+Every spatial coordinate $(u, v)$ in the back focal plane corresponds to a specific spatial frequency of the input image."""
+    },
+    {
+        "id": "sec-7-3",
+        "number": "§7.3",
+        "heading": "Spatial Frequency Filtering in the 4f Correlator and the Wiener-Khinchin Theorem",
+        "simulation": "wiener-khinchin-correlation",
+        "content": """The Fourier transforming property of lenses enables optical computing and real-time spatial image processing using the classic **4f Optical Correlator**.
+
+<h4>1. Architecture of the 4f System</h4>
+The 4f system consists of two identical lenses $L_1$ and $L_2$ of focal length $f$ separated by distance $2f$:
+<ol>
+  <li><strong>Input Plane $P_1$ ($z = 0$):</strong> Object transparency $u_{\\text{in}}(x, y)$.</li>
+  <li><strong>Fourier Plane $P_2$ ($z = 2f$):</strong> Lens $L_1$ forms the optical Fourier transform $U(f_x, f_y)$. A physical spatial filter (mask) $H(f_x, f_y)$ is inserted here.</li>
+  <li><strong>Output Plane $P_3$ ($z = 4f$):</strong> Lens $L_2$ takes the inverse Fourier transform, synthesizing the filtered output image:
+  
+  $$u_{\\text{out}}(x, y) = \\mathcal{F}^{-1} \\{ U(f_x, f_y) \\cdot H(f_x, f_y) \\}$$
+  </li>
+</ol>
+
+<h4>2. Types of Optical Spatial Filters</h4>
+<ul>
+  <li><strong>Low-Pass Filter (Circular Pinhole Mask):</strong> Blocks high spatial frequencies ($f_r > f_c$). Removes high-frequency noise, speckle, and grain, producing a smooth image.</li>
+  <li><strong>High-Pass Filter (Opaque Central Dot):</strong> Blocks the zero-order DC frequency ($f_x = f_y = 0$). Highlights sharp edges, boundaries, and high-frequency textural details while suppressing uniform background illumination.</li>
+  <li><strong>Directional Filter (Slit Mask):</strong> Eliminates periodic grating lines oriented along specific angles (e.g., removing raster scanning lines from video images).</li>
+</ul>
+
+<h4>3. The Wiener-Khinchin Theorem in Optical Coherence</h4>
+The mutual coherence function (autocorrelation) of an optical field $\\Gamma(\\tau)$ is:
+
+$$\\Gamma(\\tau) = \\langle E^*(t) E(t + \\tau) \\rangle = \\lim_{T \\to \\infty} \\frac{1}{2T} \\int_{-T}^T E^*(t) E(t + \\tau) dt$$
+
+The **Wiener-Khinchin Theorem** establishes that the power spectral density $S(\\nu)$ of an optical field is the Fourier transform of its temporal autocorrelation function $\\Gamma(\\tau)$:
+
+$$S(\\nu) = \\int_{-\\infty}^{\\infty} \\Gamma(\\tau) e^{-i 2\\pi \\nu \\tau} d\\tau$$
+
+$$\\Gamma(\\tau) = \\int_{-\\infty}^{\\infty} S(\\nu) e^{i 2\\pi \\nu \\tau} d\\nu$$
+
+This theorem is the physical foundation of Fourier Transform Spectroscopy (FTS), where the emission spectrum of a star or chemical compound is recovered by Fourier transforming the interferogram measured by a Michelson interferometer."""
+    }
+]
+
+u7_problems = [
+    {
+        "difficulty": "diff-hard",
+        "difficultyLabel": "Hard",
+        "title": "Example 7.1: 4f Optical Low-Pass Spatial Filter Pinhole Diameter Calculation",
+        "question": "A 4f optical spatial filtering system uses a laser of wavelength $\lambda = 632.8\text{ nm}$ and two lenses of focal length $f = 250\text{ mm}$. The input object is a photograph corrupted by high-frequency periodic grid noise with spatial frequency $f_{\text{noise}} = 50.0\text{ lines/mm}$. (a) Calculate the radial position $r_{\text{noise}}$ of the noise spectral peaks in the Fourier transform plane. (b) What maximum pinhole aperture diameter $D_{\text{filter}}$ should be placed in the Fourier plane to completely eliminate the grid noise while retaining image content up to $40.0\text{ lines/mm}$?",
+        "steps": [
+            {
+                "title": "Step 1: Calculate the radial position of noise peaks in the Fourier plane",
+                "math": "$$r = f_{\\text{spatial}} \\lambda f$$\n$$r_{\\text{noise}} = (50.0 \\times 10^3 \\text{ m}^{-1}) \\times (632.8 \\times 10^{-9} \\text{ m}) \\times (0.250 \\text{ m}) = 50.0 \\times 10^3 \\times 1.582 \\times 10^{-7} = 7.91 \\times 10^{-3} \\text{ m} = 7.91 \\text{ mm}$$",
+                "explanation": "The noise components appear as bright diffraction spots at radius $7.91\text{ mm}$ from the optical axis."
+            },
+            {
+                "title": "Step 2: Determine cutoff radius for 40 lines/mm signal",
+                "math": "$$r_{\\text{signal, max}} = (40.0 \\times 10^3 \\text{ m}^{-1}) \\times (632.8 \\times 10^{-9} \\text{ m}) \\times (0.250 \\text{ m}) = 6.328 \\times 10^{-3} \\text{ m} = 6.328 \\text{ mm}$$",
+                "explanation": "The desired image frequencies extend out to radius $6.33\text{ mm}$."
+            },
+            {
+                "title": "Step 3: Choose pinhole filter diameter",
+                "math": "$$r_{\\text{filter}} \\in [6.33 \\text{ mm}, 7.91 \\text{ mm}] \\implies \\text{Choose } r_{\\text{filter}} = 7.00 \\text{ mm}$$\n$$D_{\\text{filter}} = 2 r_{\\text{filter}} = 14.0 \\text{ mm}$$",
+                "explanation": "A pinhole diameter of $14.0\text{ mm}$ transmits all signal up to $40\text{ lines/mm}$ while completely blocking the $50\text{ lines/mm}$ noise."
+            }
+        ]
+    }
+]
+
+optics_units.append({
+    "number": 7,
+    "title": "Fourier Optics & Modern Diffraction Theory",
+    "description": "2D Fourier transforms, convolution theorem, thin lens as an optical Fourier transformer, 4f spatial frequency filtering, and the Wiener-Khinchin theorem.",
+    "sections": u7_sections,
+    "problems": u7_problems
+})
+
+# Write out full COURSE_DATA JS file
+course_data = {
+    "courseTitle": "Optics: Wave Optics, Modern Optics, Lasers & Fourier Optics",
+    "courseCode": "PHY-202",
+    "department": "Department of Physics",
+    "institution": "OpenSTEM Global Academic Press",
+    "authorContact": "shahriyarkarimsiam@gmail.com",
+    "units": optics_units
+}
+
+with open("optics-data.js", "w", encoding="utf-8") as f:
+    f.write("// Optics: Wave Optics, Modern Optics, Lasers & Fourier Optics (PHY-202)\n")
+    f.write("// Complete university textbook curriculum dataset with 7 Units, LaTeX math, and solved exam problems.\n\n")
+    f.write("window.COURSE_DATA = " + json.dumps(course_data, indent=2, ensure_ascii=False) + ";\n")
+
+print("Generated optics-data.js successfully with 7 full units!")

@@ -1,0 +1,129 @@
+{
+  "unit_id": "unit_5",
+  "unit_title": "Summation of Algebraic & Trigonometric Series",
+  "unit_subtitle": "Mathematical Induction, Telescoping Differences, AGP Closed Forms, Partial Fractions & C + iS Phasors",
+  "sections": [
+    {
+      "id": "sec_5_1",
+      "title": "Mathematical Induction & Polynomial Power Sums",
+      "content": "\n<h3>1. The Axiom of Mathematical Induction</h3>\n<p>\nThe Principle of Mathematical Induction is fundamentally equivalent to the Well-Ordering Principle of the natural numbers $\\mathbb{N}$:\n<ul>\n  <li><strong>Weak Induction:</strong> If a proposition $P(n)$ is true for $n = 1$, and for every $k \\ge 1$ the truth of $P(k)$ implies $P(k+1)$, then $P(n)$ is true for all $n \\in \\mathbb{N}$.</li>\n  <li><strong>Strong Induction:</strong> If $P(1)$ is true, and the truth of $P(1), P(2), \\dots, P(k)$ collectively implies $P(k+1)$, then $P(n)$ is true for all $n \\in \\mathbb{N}$.</li>\n</ul>\n</p>\n\n<h3>2. Canonical Power Sum Identities</h3>\n<p>\nInductive proofs establish the classic closed forms for integer power sums:\n<div class=\"math-display\">\n$$\\mathbf{S_1(n) = \\sum_{k=1}^n k = \\frac{n(n+1)}{2}}$$\n$$\\mathbf{S_2(n) = \\sum_{k=1}^n k^2 = \\frac{n(n+1)(2n+1)}{6}}$$\n$$\\mathbf{S_3(n) = \\sum_{k=1}^n k^3 = \\left[\\frac{n(n+1)}{2}\\right]^2 = [S_1(n)]^2}$$\n</div>\nThe remarkable identity $S_3(n) = [S_1(n)]^2$ (Nicomachus's Theorem) states that the sum of the first $n$ cubes equals the square of the sum of the first $n$ integers.\n</p>\n"
+    },
+    {
+      "id": "sec_5_2",
+      "title": "Finite Differences & The Telescoping Sum Method",
+      "content": "\n<h3>1. The Difference Operator $\\Delta$</h3>\n<p>\nFor a sequence $f(n)$, the forward difference operator is defined by:\n$$\\mathbf{\\Delta f(n) \\equiv f(n+1) - f(n)}$$\nThe Fundamental Theorem of Summation Calculus states that the sum of differences telescopes:\n$$\\mathbf{\\sum_{k=1}^n \\Delta f(k) = \\sum_{k=1}^n [f(k+1) - f(k)] = f(n+1) - f(1)}$$\nAll intermediate terms cancel pairwise, leaving only the boundary evaluations!\n</p>\n\n<h3>2. Factorial Polynomials</h3>\n<p>\nWe define the falling factorial polynomial of degree $r$:\n$$n^{(r)} \\equiv n(n-1)(n-2)\\cdots(n-r+1)$$\nIts forward difference mirrors standard polynomial differentiation:\n$$\\Delta [n^{(r)}] = (n+1)^{(r)} - n^{(r)} = r \\, n^{(r-1)}$$\nThus, summation follows the discrete power rule:\n$$\\mathbf{\\sum_{k=1}^n k^{(r)} = \\frac{(n+1)^{(r+1)} - 1^{(r+1)}}{r + 1} = \\frac{(n+1)^{(r+1)}}{r + 1}}$$\nAny polynomial can be converted to factorial powers via Stirling numbers of the second kind, rendering summation algorithmic!\n</p>\n"
+    },
+    {
+      "id": "sec_5_3",
+      "title": "Arithmetico-Geometric Progressions (AGP)",
+      "content": "\n<h3>1. Definition of an AGP</h3>\n<p>\nAn <strong>Arithmetico-Geometric Progression</strong> is a sequence whose $k$-th term is the product of corresponding terms of an Arithmetic Progression ($a, a+d, a+2d, \\dots$) and a Geometric Progression ($1, r, r^2, \\dots$):\n$$\\mathbf{u_k = [a + (k-1)d] r^{k-1}}$$\nThe finite sum to $n$ terms is:\n$$S_n = a + (a + d)r + (a + 2d)r^2 + \\dots + [a + (n-1)d]r^{n-1}$$\n</p>\n\n<h3>2. Closed-Form Derivation</h3>\n<p>\nMultiply $S_n$ by the common ratio $r$:\n$$r S_n = ar + (a + d)r^2 + \\dots + [a + (n-2)d]r^{n-1} + [a + (n-1)d]r^n$$\nSubtracting this equation from $S_n$:\n$$(1 - r)S_n = a + d[r + r^2 + \\dots + r^{n-1}] - [a + (n-1)d]r^n$$\nThe bracketed terms form a standard finite geometric series with sum $\\frac{r(1 - r^{n-1})}{1 - r}$:\n$$(1 - r)S_n = a + \\frac{dr(1 - r^{n-1})}{1 - r} - [a + (n-1)d]r^n$$\nDividing by $(1 - r)$ yields the exact closed form:\n$$\\mathbf{S_n = \\frac{a}{1 - r} + \\frac{dr(1 - r^{n-1})}{(1 - r)^2} - \\frac{[a + (n-1)d]r^n}{1 - r}}$$\n</p>\n\n<h3>3. Sum to Infinity</h3>\n<p>\nFor $|r| < 1$, as $n \\to \\infty$, $r^n \\to 0$ and $n r^n \\to 0$. The infinite sum simplifies to:\n$$\\mathbf{S_\\infty = \\frac{a}{1 - r} + \\frac{dr}{(1 - r)^2}}$$\n</p>\n"
+    },
+    {
+      "id": "sec_5_4",
+      "title": "Summation of Series by Partial Fraction Decomposition",
+      "content": "\n<h3>1. The Method of Partial Fractions for Series</h3>\n<p>\nWhen terms of an infinite series are reciprocal products of linear factors, we decompose each term $u_k$ into partial fractions to induce telescoping cancellation:\n$$u_k = \\frac{1}{(k + a)(k + b)} = \\frac{1}{b - a} \\left[ \\frac{1}{k + a} - \\frac{1}{k + b} \\right]$$\nSumming from $k = 1$ to $n$:\n$$S_n = \\frac{1}{b - a} \\sum_{k=1}^n \\left( \\frac{1}{k + a} - \\frac{1}{k + b} \\right)$$\nDepending on the shift $b - a$, intermediate terms cancel, leaving a finite number of uncancelled boundary fractions.\n</p>\n\n<h3>2. Higher-Order Factor Decompositions</h3>\n<p>\nFor three factors in arithmetic progression:\n$$u_k = \\frac{1}{(a k + b)(a(k+1) + b)(a(k+2) + b)} = \\frac{1}{2a} \\left[ \\frac{1}{(ak+b)(a(k+1)+b)} - \\frac{1}{(a(k+1)+b)(a(k+2)+b)} \\right]$$\nDefining $v_k = \\frac{1}{(ak+b)(a(k+1)+b)}$, we observe that $u_k = \\frac{1}{2a}[v_k - v_{k+1}]$.\nThe sum to $n$ terms telescopes directly:\n$$\\sum_{k=1}^n u_k = \\frac{1}{2a}[v_1 - v_{n+1}]$$\nand as $n \\to \\infty$, $v_{n+1} \\to 0$, giving the exact limit $S_\\infty = \\frac{v_1}{2a}$!\n</p>\n"
+    },
+    {
+      "id": "sec_5_5",
+      "title": "Summation of Trigonometric Series via the $C + iS$ Method",
+      "content": "\n<h3>1. The Complex Phasor Coupling Technique</h3>\n<p>\nTo sum a cosine series $C = \\sum_{k=0}^{n-1} a_k \\cos(\\theta_k)$ and sine series $S = \\sum_{k=0}^{n-1} a_k \\sin(\\theta_k)$, we form the complex linear combination:\n$$\\mathbf{C + iS = \\sum_{k=0}^{n-1} a_k [\\cos(\\theta_k) + i\\sin(\\theta_k)] = \\sum_{k=0}^{n-1} a_k e^{i\\theta_k}}$$\nThis converts trigonometric sums into geometric or binomial series in the complex domain! After evaluating $C + iS$ in closed form, equating real parts recovers $C$, and equating imaginary parts recovers $S$.\n</p>\n\n<h3>2. Sum of Sines and Cosines in Arithmetic Progression</h3>\n<p>\nLet $\\theta_k = \\alpha + k\\beta$:\n$$C + iS = \\sum_{k=0}^{n-1} e^{i(\\alpha + k\\beta)} = e^{i\\alpha} \\sum_{k=0}^{n-1} (e^{i\\beta})^k = e^{i\\alpha} \\frac{1 - e^{in\\beta}}{1 - e^{i\\beta}}$$\nFactoring out half-angles:\n$$1 - e^{in\\beta} = -e^{in\\beta/2}(e^{in\\beta/2} - e^{-in\\beta/2}) = -2i e^{in\\beta/2}\\sin(n\\beta/2)$$\n$$1 - e^{i\\beta} = -2i e^{i\\beta/2}\\sin(\\beta/2)$$\nDividing:\n$$C + iS = e^{i\\alpha} \\frac{-2i e^{in\\beta/2}\\sin(n\\beta/2)}{-2i e^{i\\beta/2}\\sin(\\beta/2)} = \\frac{\\sin(n\\beta/2)}{\\sin(\\beta/2)} e^{i\\left(\\alpha + \\frac{n-1}{2}\\beta\\right)}$$\nEquating real and imaginary parts gives the famous closed forms:\n<div class=\"math-display\">\n$$\\mathbf{C = \\sum_{k=0}^{n-1} \\cos(\\alpha + k\\beta) = \\frac{\\sin(n\\beta/2)}{\\sin(\\beta/2)} \\cos\\left(\\alpha + \\frac{n-1}{2}\\beta\\right)}$$\n$$\\mathbf{S = \\sum_{k=0}^{n-1} \\sin(\\alpha + k\\beta) = \\frac{\\sin(n\\beta/2)}{\\sin(\\beta/2)} \\sin\\left(\\alpha + \\frac{n-1}{2}\\beta\\right)}$$\n</div>\n</p>\n",
+      "simulation": "algebra-series-cis-phasor-sim",
+      "simulations": [
+        "algebra-series-cis-phasor-sim"
+      ]
+    }
+  ],
+  "simulation": {
+    "sim_id": "algebra-series-cis-phasor-sim",
+    "title": "Interactive C + iS Complex Phasor & Trigonometric Sum Visualizer",
+    "description": "Visualize trigonometric summation by chaining complex phasors exp(i(α + kβ)) in the Argand plane. Adjust angle parameters and term count n to see the polygon of chords close onto circular arcs, verifying the closed form."
+  },
+  "problems": [
+    {
+      "difficulty": "Tier 1: Foundational",
+      "difficultyLabel": "Foundational Mechanics",
+      "title": "Example 5.1: Finite Arithmetico-Geometric Series Evaluation",
+      "statement": "Evaluate the sum of the first $n$ terms of the arithmetico-geometric series $S_n = 1\\cdot 2 + 2\\cdot 2^2 + 3\\cdot 2^3 + \\dots + n\\cdot 2^n$.",
+      "steps": [
+        {
+          "step": "Step 1: Identify Parameters and Multiply by Common Ratio",
+          "math": "a = 1, \\quad d = 1, \\quad r = 2 \\\\ S_n = 1\\cdot 2^1 + 2\\cdot 2^2 + 3\\cdot 2^3 + \\dots + n\\cdot 2^n \\\\ 2 S_n = 1\\cdot 2^2 + 2\\cdot 2^3 + \\dots + (n-1)\\cdot 2^n + n\\cdot 2^{n+1}",
+          "explanation": "Shift by the common ratio $r = 2$."
+        },
+        {
+          "step": "Step 2: Subtract the Shifted Series",
+          "math": "S_n - 2S_n = 2^1 + (2^2 + 2^3 + \\dots + 2^n) - n\\cdot 2^{n+1} \\\\ -S_n = \\sum_{k=1}^n 2^k - n\\cdot 2^{n+1}",
+          "explanation": "Subtracting aligns terms with unit differences."
+        },
+        {
+          "step": "Step 3: Evaluate the Geometric Sum and Solve for Sₙ",
+          "math": "\\sum_{k=1}^n 2^k = \\frac{2(2^n - 1)}{2 - 1} = 2^{n+1} - 2 \\\\ -S_n = (2^{n+1} - 2) - n\\cdot 2^{n+1} = (1 - n)2^{n+1} - 2 \\\\ S_n = (n - 1)2^{n+1} + 2",
+          "explanation": "Multiply by $-1$ to isolate $S_n$."
+        }
+      ],
+      "answer": "\\mathbf{S_n = (n - 1)2^{n+1} + 2}."
+    },
+    {
+      "difficulty": "Tier 2: Intermediate Exam",
+      "difficultyLabel": "Intermediate University Exam",
+      "title": "Example 5.2: Telescoping Partial Fraction Infinite Series",
+      "statement": "Find the sum to $n$ terms and the infinite sum of the series $S = \\sum_{k=1}^\\infty \\frac{1}{(2k-1)(2k+1)(2k+3)}$.",
+      "steps": [
+        {
+          "step": "Step 1: Decompose the General Term into Partial Differences",
+          "math": "u_k = \\frac{1}{(2k-1)(2k+1)(2k+3)} \\\\ \\text{Difference between outer factors: } (2k+3) - (2k-1) = 4 \\\\ u_k = \\frac{1}{4} \\left[ \\frac{(2k+3) - (2k-1)}{(2k-1)(2k+1)(2k+3)} \\right] = \\frac{1}{4} \\left[ \\frac{1}{(2k-1)(2k+1)} - \\frac{1}{(2k+1)(2k+3)} \\right]",
+          "explanation": "Split the three-factor denominator into differences of two-factor denominators."
+        },
+        {
+          "step": "Step 2: Form the Telescoping Sum",
+          "math": "v_k = \\frac{1}{(2k-1)(2k+1)} \\implies u_k = \\frac{1}{4}[v_k - v_{k+1}] \\\\ S_n = \\sum_{k=1}^n u_k = \\frac{1}{4}[v_1 - v_{n+1}] = \\frac{1}{4}\\left[ \\frac{1}{1\\cdot 3} - \\frac{1}{(2n+1)(2n+3)} \\right] = \\frac{1}{12} - \\frac{1}{4(2n+1)(2n+3)}",
+          "explanation": "All interior terms cancel out pairwise."
+        },
+        {
+          "step": "Step 3: Evaluate the Infinite Limit",
+          "math": "S_\\infty = \\lim_{n \\to \\infty} S_n = \\frac{1}{12} - 0 = \\frac{1}{12}",
+          "explanation": "The terminal boundary term approaches zero as $n \\to \\infty$."
+        }
+      ],
+      "answer": "\\mathbf{S_n = \\frac{1}{12} - \\frac{1}{4(2n+1)(2n+3)}}, \\qquad \\mathbf{S_\\infty = \\frac{1}{12}}."
+    },
+    {
+      "difficulty": "Tier 3: Honors / Proof Challenge",
+      "difficultyLabel": "Honors / Proof Challenge",
+      "title": "Example 5.3: Binomial Trigonometric Sums via the C + iS Method",
+      "statement": "Use the complex $C + iS$ method to evaluate $C = \\sum_{k=0}^n \\binom{n}{k} \\cos(k\\theta)$ and $S = \\sum_{k=0}^n \\binom{n}{k} \\sin(k\\theta)$, and prove that $C = 2^n \\cos^n(\\theta/2) \\cos(n\\theta/2)$.",
+      "steps": [
+        {
+          "step": "Step 1: Set Up the Complex Linear Combination C + iS",
+          "math": "C + iS = \\sum_{k=0}^n \\binom{n}{k} [\\cos(k\\theta) + i\\sin(k\\theta)] = \\sum_{k=0}^n \\binom{n}{k} (e^{i\\theta})^k",
+          "explanation": "Combine the real cosine and imaginary sine sums."
+        },
+        {
+          "step": "Step 2: Apply the Binomial Theorem",
+          "math": "C + iS = (1 + e^{i\\theta})^n",
+          "explanation": "The sum matches the binomial expansion of $(1 + z)^n$ where $z = e^{i\\theta}$."
+        },
+        {
+          "step": "Step 3: Factor Half-Angles and Apply Euler's Formula",
+          "math": "1 + e^{i\\theta} = e^{i\\theta/2}(e^{-i\\theta/2} + e^{i\\theta/2}) = e^{i\\theta/2}[2\\cos(\\theta/2)] = 2\\cos(\\theta/2) e^{i\\theta/2} \\\\ (1 + e^{i\\theta})^n = [2\\cos(\\theta/2) e^{i\\theta/2}]^n = 2^n \\cos^n(\\theta/2) e^{i n\\theta/2} \\\\ = 2^n \\cos^n(\\theta/2) [\\cos(n\\theta/2) + i\\sin(n\\theta/2)]",
+          "explanation": "Factor $e^{i\\theta/2}$ from the base to convert to polar form."
+        },
+        {
+          "step": "Step 4: Equate Real and Imaginary Parts",
+          "math": "C = 2^n \\cos^n(\\theta/2) \\cos(n\\theta/2) \\quad \\blacksquare \\\\ S = 2^n \\cos^n(\\theta/2) \\sin(n\\theta/2)",
+          "explanation": "Real part yields $C$, and imaginary part yields $S$."
+        }
+      ],
+      "answer": "\\mathbf{C = 2^n \\cos^n(\\theta/2) \\cos(n\\theta/2)}, \\qquad \\mathbf{S = 2^n \\cos^n(\\theta/2) \\sin(n\\theta/2)}."
+    }
+  ],
+  "simulations": [
+    "algebra-series-cis-phasor-sim"
+  ],
+  "id": "unit5",
+  "unitId": "unit5-algebra",
+  "number": 5,
+  "unitNumber": 5,
+  "leadSummary": "Mathematical Induction, Telescoping Differences, AGP Closed Forms, Partial Fractions & C + iS Phasors",
+  "title": "Summation of Algebraic & Trigonometric Series"
+}

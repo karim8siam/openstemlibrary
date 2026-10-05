@@ -1,0 +1,106 @@
+{
+  "number": 7,
+  "title": "Alternating Current",
+  "leadSummary": "AC generator dynamics, RMS and average effective values, response of pure resistive, inductive, and capacitive elements, phasor analysis and complex impedance, series LCR circuits, resonance sharpness and Quality factor, real and reactive power, power factor correction, and transformer physics.",
+  "sections": [
+    {
+      "id": "sec-7-1",
+      "number": "\u00a77.1",
+      "heading": "AC Generator Principles and Mathematical Representation of Sinusoids",
+      "simulation": "ac-rlc-resonance-sim",
+      "content": "Alternating Current (AC) is electric current whose magnitude and direction reverse periodically in time according to a sinusoidal function.\n\n<h4>1. The Simple AC Generator (Alternator)</h4>\nConsider a planar rectangular armature coil of $N$ turns and area $A$ rotated with constant angular velocity $\\omega$ in a uniform magnetic field $\\vec{B}$.\nThe instantaneous angle between the coil normal and the field is $\\theta(t) = \\omega t$.\nThe magnetic flux through the coil is:\n$$\\Phi_B(t) = B A \\cos(\\omega t)$$\nBy Faraday's law of electromagnetic induction, the induced EMF is:\n$$\\mathcal{E}(t) = -N \\frac{d\\Phi_B}{dt} = -N B A \\frac{d}{dt}[\\cos(\\omega t)] = N B A \\omega \\sin(\\omega t)$$\n$$\\mathcal{E}(t) = \\mathcal{E}_0 \\sin(\\omega t)$$\nwhere $\\mathcal{E}_0 = N B A \\omega$ is the **peak voltage amplitude** (Volts).\n\n<h4>2. Root-Mean-Square (R.M.S.) and Average Values</h4>\nConsider a sinusoidal voltage $v(t) = V_0 \\sin(\\omega t)$ with period $T = 2\\pi / \\omega$:\n<ul>\n  <li><strong>Full-Cycle Average:</strong>\n  $$\\bar{V} = \\frac{1}{T}\\int_0^T V_0 \\sin(\\omega t) dt = 0$$\n  The average over a complete cycle vanishes because positive and negative half-cycles cancel identically.</li>\n  <li><strong>Half-Cycle Average:</strong>\n  $$\\bar{V}_{1/2} = \\frac{2}{T}\\int_0^{T/2} V_0 \\sin(\\omega t) dt = \\frac{2 V_0}{\\pi} \\approx 0.6366 V_0$$</li>\n  <li><strong>Root-Mean-Square (R.M.S. / Effective) Value:</strong>\n  The equivalent DC voltage that produces the identical average heating power in a pure resistor:\n  $$V_{\\text{rms}} = \\sqrt{ \\frac{1}{T}\\int_0^T [V_0 \\sin(\\omega t)]^2 dt } = \\sqrt{ \\frac{V_0^2}{T}\\int_0^T \\left(\\frac{1 - \\cos(2\\omega t)}{2}\\right) dt } = \\frac{V_0}{\\sqrt{2}} \\approx 0.7071 V_0$$\n  $$I_{\\text{rms}} = \\frac{I_0}{\\sqrt{2}} \\approx 0.7071 I_0$$\n  (Standard household mains 230 V or 120 V AC are R.M.S. values; the peak amplitude is $V_0 = 230\\sqrt{2} \\approx 325\\text{ V}$).</li>\n</ul>"
+    },
+    {
+      "id": "sec-7-2",
+      "number": "\u00a77.2",
+      "heading": "AC Response of Pure Circuit Elements: Resistors, Inductors, and Capacitors",
+      "simulation": "ac-rlc-resonance-sim",
+      "content": "When sinusoidal voltage $v(t) = V_0 \\sin(\\omega t)$ is applied individually to ideal passive elements, distinct phase relationships emerge.\n\n<h4>1. Pure Resistive Circuit ($R$)</h4>\nApplying Ohm's law:\n$$i_R(t) = \\frac{v(t)}{R} = \\frac{V_0}{R} \\sin(\\omega t) = I_0 \\sin(\\omega t)$$\n<em>Phase:</em> Current and voltage are strictly **in phase** ($\\phi = 0$).\n\n<h4>2. Pure Inductive Circuit ($L$)</h4>\nBy Faraday's law: $v(t) = L \\frac{di}{dt} \\implies di = \\frac{V_0}{L} \\sin(\\omega t) dt$.\nIntegrating:\n$$i_L(t) = -\\frac{V_0}{\\omega L} \\cos(\\omega t) = \\frac{V_0}{\\omega L} \\sin\\left( \\omega t - \\frac{\\pi}{2} \\right) = I_0 \\sin\\left( \\omega t - \\frac{\\pi}{2} \\right)$$\nwhere $X_L = \\omega L = 2\\pi f L$ is the <strong>Inductive Reactance</strong> ($\\Omega$).\n<em>Phase:</em> In an inductor, current **lags voltage by 90\u00b0 ($\\pi/2$ radians)**. An inductor opposes high frequencies ($X_L \\propto f$).\n\n<h4>3. Pure Capacitive Circuit ($C$)</h4>\nBy charge-voltage relation: $q(t) = C v(t) = C V_0 \\sin(\\omega t)$.\nCurrent is $i(t) = \\frac{dq}{dt}$:\n$$i_C(t) = \\omega C V_0 \\cos(\\omega t) = \\frac{V_0}{1/(\\omega C)} \\sin\\left( \\omega t + \\frac{\\pi}{2} \\right) = I_0 \\sin\\left( \\omega t + \\frac{\\pi}{2} \\right)$$\nwhere $X_C = \\frac{1}{\\omega C} = \\frac{1}{2\\pi f C}$ is the <strong>Capacitive Reactance</strong> ($\\Omega$).\n<em>Phase:</em> In a capacitor, current **leads voltage by 90\u00b0 ($\\pi/2$ radians)**. A capacitor blocks DC ($X_C \\to \\infty$ as $f \\to 0$) and passes high frequencies ($X_C \\to 0$).\n<em>Mnemonic:</em> **ELI the ICE man** (in $L$, $E$ leads $I$; in $C$, $I$ leads $E$)."
+    },
+    {
+      "id": "sec-7-3",
+      "number": "\u00a77.3",
+      "heading": "Series LCR Circuits, Complex Impedance, and Electrical Resonance",
+      "simulation": "ac-rlc-resonance-sim",
+      "content": "Connecting a resistor, inductor, and capacitor in series across an AC source $v(t) = V_0 \\sin(\\omega t)$ establishes a driven harmonic system.\n\n<h4>1. Phasor Addition and Total Impedance ($Z$)</h4>\nBecause elements are in series, the common current is $i(t) = I_0 \\sin(\\omega t - \\phi)$.\nThe voltage drops across each element are:\n$$V_R = I_0 R, \\quad V_L = I_0 X_L, \\quad V_C = I_0 X_C$$\nOn the phasor plane, $V_L$ leads $I$ by $+90^\\circ$ and $V_C$ lags $I$ by $-90^\\circ$. The net reactive voltage is $V_L - V_C$.\nBy the Pythagorean theorem:\n$$V_0 = \\sqrt{ V_R^2 + (V_L - V_C)^2 } = I_0 \\sqrt{ R^2 + (X_L - X_C)^2 } = I_0 Z$$\nThe <strong>Impedance ($Z$)</strong> of the series LCR circuit is:\n$$Z = \\sqrt{ R^2 + (\\omega L - \\frac{1}{\\omega C})^2 }$$\nThe phase angle $\\phi$ of voltage relative to current is:\n$$\\tan\\phi = \\frac{X_L - X_C}{R} = \\frac{\\omega L - 1/(\\omega C)}{R}$$\n<ul>\n  <li>If $X_L > X_C$: $\\phi > 0$ (circuit is inductive, voltage leads current).</li>\n  <li>If $X_L < X_C$: $\\phi < 0$ (circuit is capacitive, current leads voltage).</li>\n  <li>If $X_L = X_C$: $\\phi = 0$ (circuit is purely resistive).</li>\n</ul>\n\n<h4>2. Series Electrical Resonance</h4>\nWhen the applied frequency makes inductive reactance balance capacitive reactance:\n$$X_L = X_C \\implies \\omega_0 L = \\frac{1}{\\omega_0 C} \\implies \\omega_0 = \\frac{1}{\\sqrt{LC}}, \\quad f_0 = \\frac{1}{2\\pi\\sqrt{LC}}$$\nAt the <strong>resonant frequency $\\omega_0$</strong>:\n<ol>\n  <li>The total impedance drops to its absolute theoretical minimum: $Z_{\\min} = R$.</li>\n  <li>The current reaches its absolute theoretical maximum: $I_{\\max} = V_0 / R$.</li>\n  <li>Current and voltage are perfectly in phase ($\\phi = 0$, power factor $\\cos\\phi = 1$).</li>\n</ol>\n\n<h4>3. Quality Factor ($Q$) and Bandwidth</h4>\nThe Quality Factor $Q$ quantifies the sharpness and selectivity of resonance:\n$$Q = \\frac{\\omega_0 L}{R} = \\frac{1}{\\omega_0 C R} = \\frac{1}{R}\\sqrt{\\frac{L}{C}}$$\nThe half-power bandwidth is $\\Delta\\omega = \\omega_2 - \\omega_1 = \\frac{R}{L} = \\frac{\\omega_0}{Q}$.\nHigh $Q$ produces extreme selectivity, essential for radio tuning circuits."
+    },
+    {
+      "id": "sec-7-4",
+      "number": "\u00a77.4",
+      "heading": "Power Dissipation in AC Circuits and Ideal Transformers",
+      "simulation": "ac-rlc-resonance-sim",
+      "content": "Unlike DC circuits where power is simply $P = V I$, AC power calculations must account for the phase angle between voltage and current.\n\n<h4>1. Instantaneous and Real Average Power</h4>\nLet $v(t) = V_0 \\sin(\\omega t)$ and $i(t) = I_0 \\sin(\\omega t - \\phi)$.\nThe instantaneous power is:\n$$p(t) = v(t) i(t) = V_0 I_0 \\sin(\\omega t) [\\sin(\\omega t)\\cos\\phi - \\cos(\\omega t)\\sin\\phi]$$\n$$p(t) = V_0 I_0 \\sin^2(\\omega t)\\cos\\phi - \\frac{1}{2} V_0 I_0 \\sin(2\\omega t)\\sin\\phi$$\nAveraging over a complete cycle ($\\langle \\sin^2\\omega t \\rangle = 1/2$, $\\langle \\sin 2\\omega t \\rangle = 0$):\n$$\\langle P \\rangle = \\frac{1}{2} V_0 I_0 \\cos\\phi = \\left(\\frac{V_0}{\\sqrt{2}}\\right) \\left(\\frac{I_0}{\\sqrt{2}}\\right) \\cos\\phi$$\n$$\\langle P \\rangle = V_{\\text{rms}} I_{\\text{rms}} \\cos\\phi$$\nwhere:\n<ul>\n  <li>$P$: <strong>Real (Active) Power</strong> dissipated as heat or mechanical work (Watts, W). Pure inductors and capacitors consume zero average real power!</li>\n  <li>$S = V_{\\text{rms}} I_{\\text{rms}}$: <strong>Apparent Power</strong> (Volt-Amperes, VA).</li>\n  <li>$Q_{\\text{react}} = V_{\\text{rms}} I_{\\text{rms}} \\sin\\phi$: <strong>Reactive Power</strong> surging back and forth between source and reactive fields (Volt-Amperes Reactive, VAR).</li>\n  <li>$\\cos\\phi = \\frac{R}{Z}$: <strong>Power Factor</strong> ($0 \\le \\cos\\phi \\le 1$). Power companies mandate $\\cos\\phi \\ge 0.95$ using power factor correction capacitors to minimize transmission line $I^2 R$ heat losses.</li>\n</ul>\n\n<h4>2. The Ideal Transformer</h4>\nA transformer consists of two coils (primary of $N_p$ turns and secondary of $N_s$ turns) wound around a common laminated ferromagnetic core.\nAssuming zero flux leakage ($k = 1$) and zero resistance:\n$$\\mathcal{E}_p = -N_p \\frac{d\\Phi_B}{dt}, \\quad \\mathcal{E}_s = -N_s \\frac{d\\Phi_B}{dt}$$\nDividing:\n$$\\frac{V_s}{V_p} = \\frac{N_s}{N_p} = a \\quad (\\text{Transformation Ratio})$$\nBy energy conservation ($P_{\\text{in}} = P_{\\text{out}} \\implies V_p I_p = V_s I_s$):\n$$\\frac{I_p}{I_s} = \\frac{V_s}{V_p} = \\frac{N_s}{N_p} = a \\implies I_s = \\frac{I_p}{a}$$\nImpedance reflection: A load $R_L$ connected across the secondary reflects back to the primary as an equivalent impedance:\n$$R_{\\text{in}} = \\frac{V_p}{I_p} = \\frac{V_s / a}{a I_s} = \\frac{1}{a^2}\\left(\\frac{V_s}{I_s}\\right) = \\frac{R_L}{a^2} = \\left(\\frac{N_p}{N_s}\\right)^2 R_L$$\nThis principle allows audio and RF engineers to achieve impedance matching for maximum power transfer."
+    }
+  ],
+  "problems": [
+    {
+      "id": "prob-7-1",
+      "difficulty": "Undergraduate Standard Classical Exam",
+      "title": "Series LCR Resonance and Resonance Magnification",
+      "question": "A series LCR circuit has resistance $R = 8.00\\ \\Omega$, inductance $L = 40.0\\text{ mH}$, and capacitance $C = 2.50\\ \\mu\\text{F}$. It is driven by an AC voltage source of amplitude $V_0 = 120.0\\text{ V}$ with variable angular frequency $\\omega$.\\n(a) Determine the resonant angular frequency $\\omega_0$ and linear frequency $f_0$,\\n(b) Calculate the Quality Factor $Q$ and half-power bandwidth $\\Delta f$, and\\n(c) At resonance, compute the peak current $I_0$ and the peak voltages across the inductor ($V_{L0}$) and capacitor ($V_{C0}$).",
+      "steps": [
+        {
+          "title": "Step 1: Compute resonance frequency",
+          "math": "$$\\omega_0 = \\frac{1}{\\sqrt{LC}} = \\frac{1}{\\sqrt{(40.0 \\times 10^{-3} \\text{ H}) \\times (2.50 \\times 10^{-6} \\text{ F})}} = \\frac{1}{\\sqrt{1.000 \\times 10^{-7}}} = \\frac{1}{3.1623 \\times 10^{-4}}$$\n$$\\omega_0 = 3162.3 \\text{ rad/s}$$\n$$f_0 = \\frac{\\omega_0}{2\\pi} = \\frac{3162.3}{2\\pi} = 503.3 \\text{ Hz}$$",
+          "explanation": "The circuit resonates at 3162 rad/s (503.3 Hz)."
+        },
+        {
+          "title": "Step 2: Calculate Quality Factor and bandwidth",
+          "math": "$$Q = \\frac{\\omega_0 L}{R} = \\frac{(3162.3 \\text{ rad/s}) \\times (0.0400 \\text{ H})}{8.00\\ \\Omega} = \\frac{126.49}{8.00} = 15.81$$\n$$\\Delta f = \\frac{f_0}{Q} = \\frac{503.3 \\text{ Hz}}{15.81} = 31.83 \\text{ Hz}$$",
+          "explanation": "A high Quality Factor of 15.8 corresponds to a narrow, sharp resonance bandwidth of 31.8 Hz."
+        },
+        {
+          "title": "Step 3: Current and voltages at resonance",
+          "math": "$$\\text{At resonance, } Z = R = 8.00\\ \\Omega:$$\n$$I_0 = \\frac{V_0}{R} = \\frac{120.0 \\text{ V}}{8.00\\ \\Omega} = 15.00 \\text{ A}$$\n$$X_{L0} = \\omega_0 L = 3162.3 \\times 0.0400 = 126.49\\ \\Omega$$\n$$V_{L0} = I_0 X_{L0} = 15.00 \\times 126.49 = 1897.4 \\text{ Volts}$$\n$$V_{C0} = I_0 X_{C0} = 1897.4 \\text{ Volts}$$\n$$\\frac{V_{L0}}{V_0} = \\frac{1897.4}{120.0} = 15.81 = Q$$",
+          "explanation": "Notice the dramatic resonance voltage magnification: the inductor and capacitor each sustain 1.90 kV (nearly 16 times the 120 V supply voltage!)."
+        }
+      ]
+    },
+    {
+      "id": "prob-7-2",
+      "difficulty": "Industrial AC Engineering Problem",
+      "title": "AC Power Factor Correction with Shunt Capacitance",
+      "question": "A small factory operating on a $V_{\\text{rms}} = 240\\text{ V}$, $f = 50.0\\text{ Hz}$ single-phase AC supply draws real power $P = 12.0\\text{ kW}$ at a lagging power factor $\\cos\\phi_1 = 0.650$ due to induction motors.\\n(a) Determine the initial apparent power $S_1$, reactive power $Q_1$, and total line current $I_{\\text{rms,1}}$,\\n(b) What reactive power $Q_C$ must be supplied by a shunt power factor correction capacitor to raise the overall power factor to $\\cos\\phi_2 = 0.950$ (lagging), and\\n(c) Calculate the required capacitance $C$ of the capacitor and the reduction in supply line current.",
+      "steps": [
+        {
+          "title": "Step 1: Compute initial uncompensated parameters",
+          "math": "$$\\cos\\phi_1 = 0.650 \\implies \\phi_1 = \\arccos(0.650) = 49.458^\\circ, \\quad \\tan\\phi_1 = 1.1691$$\n$$S_1 = \\frac{P}{\\cos\\phi_1} = \\frac{12.0 \\text{ kW}}{0.650} = 18.462 \\text{ kVA}$$\n$$I_{\\text{rms,1}} = \\frac{S_1}{V_{\\text{rms}}} = \\frac{18462 \\text{ VA}}{240 \\text{ V}} = 76.92 \\text{ A}$$\n$$Q_1 = P \\tan\\phi_1 = 12.0 \\times 1.1691 = 14.029 \\text{ kVAR}$$",
+          "explanation": "The motors draw 76.9 A of line current and 14.0 kVAR of lagging reactive power."
+        },
+        {
+          "title": "Step 2: Determine target compensated parameters",
+          "math": "$$\\cos\\phi_2 = 0.950 \\implies \\phi_2 = \\arccos(0.950) = 18.195^\\circ, \\quad \\tan\\phi_2 = 0.3287$$\n$$Q_2 = P \\tan\\phi_2 = 12.0 \\times 0.3287 = 3.944 \\text{ kVAR}$$\n$$Q_C = Q_1 - Q_2 = 14.029 - 3.944 = 10.085 \\text{ kVAR}$$",
+          "explanation": "The capacitor must inject 10.09 kVAR of leading reactive power."
+        },
+        {
+          "title": "Step 3: Calculate required capacitance and new line current",
+          "math": "$$Q_C = V_{\\text{rms}}^2 \\omega C = V_{\\text{rms}}^2 (2\\pi f) C$$\n$$C = \\frac{Q_C}{2\\pi f V_{\\text{rms}}^2} = \\frac{10085 \\text{ VAR}}{2\\pi \\times 50.0 \\times (240)^2} = \\frac{10085}{314.16 \\times 57600} = \\frac{10085}{1.80956 \\times 10^7} = 5.573 \\times 10^{-4} \\text{ F} = 557 \\ \\mu\\text{F}$$\n$$I_{\\text{rms,2}} = \\frac{P}{V_{\\text{rms}} \\cos\\phi_2} = \\frac{12000}{240 \\times 0.950} = \\frac{12000}{228} = 52.63 \\text{ A}$$\n$$\\Delta I = 76.92 - 52.63 = 24.29 \\text{ A (31.6% line current reduction)}$$",
+          "explanation": "Installing a 557 microfarad capacitor slashes supply current by 24.3 A, reducing cable $I^2 R$ heat losses by 53%."
+        }
+      ]
+    },
+    {
+      "id": "prob-7-3",
+      "difficulty": "Standard University Exam Problem",
+      "title": "Step-Down Transformer Efficiency and Reflected Impedance",
+      "question": "A step-down power distribution transformer has $N_p = 2400$ primary turns and $N_s = 200$ secondary turns. The primary connects to an AC line of $V_p = 2400\\text{ V}$ (RMS) at $50\\text{ Hz}$. The secondary delivers electrical power to a resistive heating load $R_L = 4.00\\ \\Omega$. Assume an ideal transformer with zero losses.\\n(a) Determine the secondary voltage $V_s$ and secondary load current $I_s$,\\n(b) Find the primary current $I_p$ and total power delivered, and\\n(c) Calculate the equivalent reflected load impedance $R_{\\text{in}}$ seen by the primary supply line.",
+      "steps": [
+        {
+          "title": "Step 1: Compute secondary voltage and current",
+          "math": "$$\\text{Turns ratio: } a = \\frac{N_s}{N_p} = \\frac{200}{2400} = \\frac{1}{12}$$\n$$V_s = a V_p = \\frac{1}{12} \\times 2400 \\text{ V} = 200.0 \\text{ Volts}$$\n$$I_s = \\frac{V_s}{R_L} = \\frac{200.0 \\text{ V}}{4.00\\ \\Omega} = 50.00 \\text{ Amperes}$$",
+          "explanation": "The transformer steps down the 2400 V primary voltage to 200 V, delivering 50 A."
+        },
+        {
+          "title": "Step 2: Primary current and delivered power",
+          "math": "$$I_p = a I_s = \\left(\\frac{1}{12}\\right) \\times 50.00 \\text{ A} = 4.167 \\text{ Amperes}$$\n$$P = V_s I_s = 200.0 \\text{ V} \\times 50.00 \\text{ A} = 10000 \\text{ Watts} = 10.0 \\text{ kW}$$\n$$P_{\\text{primary}} = V_p I_p = 2400 \\text{ V} \\times 4.167 \\text{ A} = 10000 \\text{ Watts}$$",
+          "explanation": "Primary draw is only 4.17 A while delivering 10.0 kW of power."
+        },
+        {
+          "title": "Step 3: Reflected input impedance",
+          "math": "$$R_{\\text{in}} = \\frac{V_p}{I_p} = \\frac{2400 \\text{ V}}{4.167 \\text{ A}} = 576.0\\ \\Omega$$\n$$\\text{Check via formula: } R_{\\text{in}} = \\left(\\frac{N_p}{N_s}\\right)^2 R_L = (12)^2 \\times 4.00 = 144 \\times 4.00 = 576.0\\ \\Omega$$\n$$\\text{Q.E.D.}$$",
+          "explanation": "The 4-ohm secondary resistor is reflected into the primary circuit as an equivalent 576-ohm load."
+        }
+      ]
+    }
+  ]
+}

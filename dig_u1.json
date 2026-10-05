@@ -1,0 +1,136 @@
+{
+  "unitNumber": 1,
+  "unitId": "unit1-number-systems-codes",
+  "title": "Number Systems, Weighted Codes & Error-Correction Codes",
+  "description": "Fundamental arithmetic and representations in digital computers: positional radix systems (binary, octal, decimal, hexadecimal) and fractional base conversions; weighted binary codes (8421 BCD, 2421, 84-2-1), self-complementing codes, Excess-3, and unit-distance reflected Gray codes; alphanumeric standards (7-bit and 8-bit ASCII) and parity generation; Richard Hamming's single error-correcting, double error-detecting (SEC-DED) block code syndrome analysis; and hardware code converter circuit architectures.",
+  "sections": [
+    {
+      "id": "dig-1-1",
+      "title": "Positional Number Systems: Radix Conversions & Fractional Arithmetic",
+      "simulation": "dig-radix-converter-sim",
+      "content": "<h4>1. General Radix Positional Number Representation</h4>\n<p>In digital electronics, numbers are represented in a positional numeral system characterized by a <strong>base or radix ($r$)</strong>. Any real number $N$ possessing an integer part of $n$ digits and a fractional part of $m$ digits is expanded mathematically as a polynomial power series:</p>\n<div class=\"math-display\">\n$$(N)_r = \\sum_{i=-m}^{n-1} d_i \\cdot r^i = d_{n-1} r^{n-1} + \\dots + d_1 r^1 + d_0 r^0 + d_{-1} r^{-1} + \\dots + d_{-m} r^{-m}$$\n</div>\n<p>where $d_i \\in \\{0, 1, \\dots, r - 1\\}$ represents the digit coefficient at weight $r^i$, and the period separating $d_0$ and $d_{-1}$ is the <strong>radix point</strong>. The four primary radices utilized in digital computation are:</p>\n<ul>\n<li><strong>Binary ($r = 2$):</strong> Digits (bits) $d_i \\in \\{0, 1\\}$. Direct physical mapping to transistor cut-off and saturation states.</li>\n<li><strong>Octal ($r = 8 = 2^3$):</strong> Digits $d_i \\in \\{0, 1, 2, 3, 4, 5, 6, 7\\}$. Exactly three binary bits map to one octal digit.</li>\n<li><strong>Decimal ($r = 10$):</strong> Digits $d_i \\in \\{0, 1, \\dots, 9\\}$. Standard human arithmetic convention.</li>\n<li><strong>Hexadecimal ($r = 16 = 2^4$):</strong> Digits $d_i \\in \\{0, 1, \\dots, 9, \\text{A}(10), \\text{B}(11), \\text{C}(12), \\text{D}(13), \\text{E}(14), \\text{F}(15)\\}$. Exactly four binary bits (one nibble) map to one hexadecimal digit. Widely used for byte addresses and machine opcode representations.</li>\n</ul>\n\n<h4>2. Base Conversion Algorithms</h4>\n<ol>\n<li><strong>Radix-$r$ to Decimal:</strong> Directly evaluate the polynomial expansion $\\sum d_i r^i$ using decimal arithmetic. For example:\n<div class=\"math-display\">\n$$(11010.11)_2 = 1\\cdot 2^4 + 1\\cdot 2^3 + 0\\cdot 2^2 + 1\\cdot 2^1 + 0\\cdot 2^0 + 1\\cdot 2^{-1} + 1\\cdot 2^{-2} = 16 + 8 + 2 + 0.5 + 0.25 = (26.75)_{10}$$\n</div></li>\n<li><strong>Decimal to Radix-$r$ (Successive Division / Multiplication):</strong>\n<ul>\n<li><strong>Integer Part:</strong> Repeatedly divide the decimal integer by radix $r$. The remainder generated at division step $k$ forms digit $d_k$, terminating when the quotient reaches zero. The first remainder is the <em>Least Significant Digit (LSD)</em>; the final remainder is the <em>Most Significant Digit (MSD)</em>.</li>\n<li><strong>Fractional Part:</strong> Repeatedly multiply the fractional remainder by radix $r$. The integer carry extracted at each step forms digit $d_{-k}$, proceeding until the product terminates or reaches the desired precision. The first extracted integer is the most significant fractional digit $d_{-1}$.</li>\n</ul></li>\n<li><strong>Binary $\\leftrightarrow$ Octal $\\leftrightarrow$ Hexadecimal Grouping:</strong> Because $8 = 2^3$ and $16 = 2^4$, conversion between binary, octal, and hexadecimal requires zero polynomial arithmetic. Simply partition the binary string into groups of 3 bits (octal) or 4 bits (hexadecimal) radiating outward from the radix point, padding with leading and trailing zeros as necessary.</li>\n</ol>"
+    },
+    {
+      "id": "dig-1-2",
+      "title": "Weighted BCD Codes, Excess-3 & Reflected Gray Code",
+      "content": "<h4>1. Binary Coded Decimal (BCD) & Weighted 4-Bit Codes</h4>\n<p>To interface digital hardware with decimal displays without full binary polynomial division, decimal digits $0 - 9$ are encoded individually using 4-bit binary codewords. In a <strong>weighted code</strong>, each bit position $j$ is assigned an explicit numerical weight $w_j$, such that the decimal value is:</p>\n<div class=\"math-display\">\n$$D = \\sum_{j=0}^{3} b_j w_j \\quad (b_j \\in \\{0, 1\\})$$\n</div>\n<ul>\n<li><strong>8421 BCD (Natural BCD):</strong> The standard weights are $w_3 = 8, w_2 = 4, w_1 = 2, w_0 = 1$. The 10 decimal digits map directly to binary patterns $0000_2$ through $1001_2$. The remaining six 4-bit patterns ($1010_2$ to $1111_2$, values 10 to 15) are <strong>forbidden / invalid states</strong> that never occur in legitimate BCD words.</li>\n<li><strong>Self-Complementing Codes (2421 & Excess-3):</strong> A code is <em>self-complementing</em> if the 9's complement of any decimal digit $D$ (i.e., $9 - D$) is obtained simply by taking the 1's complement (inverting all bits $b_j \\to \\bar{b}_j$) of its codeword.\n<ul>\n<li><strong>2421 Code (Aikens Code):</strong> Weights $(2, 4, 2, 1)$ where $\\sum w_j = 9$. Digit $2$ is $0010_2$, and its 9's complement $7$ is $1101_2 = \\overline{0010}_2$.</li>\n<li><strong>Excess-3 (XS-3) Code:</strong> An unweighted self-complementing code derived by adding $3_{10} = 0011_2$ to each natural 8421 BCD digit. For digit $0$: $0011_2$; for digit $9$: $1100_2 = \\overline{0011}_2$. Excess-3 simplifies decimal subtraction in early mechanical and electronic ALUs.</li>\n</ul></li>\n<li><strong>Negative Weight Codes ($84\\text{-}2\\text{-}1$):</strong> Possesses weights $w_3 = 8, w_2 = 4, w_1 = -2, w_0 = -1$. For example, decimal $5$ is encoded as $1\\cdot 8 + 0\\cdot 4 + 1\\cdot(-2) + 1\\cdot(-1) = 8 - 3 = 5$, represented by $1011_2$.</li>\n</ul>\n\n<h4>2. The Unit-Distance Reflected Gray Code</h4>\n<p>Frank Gray (1953) developed the <strong>reflected binary Gray code</strong>, an unweighted cyclic code exhibiting the critical property of <strong>unit distance</strong>: between any two adjacent decimal numbers $k$ and $k+1$, <strong>exactly one bit changes state</strong>.</p>\n<p>In electromechanical shaft optical encoders, converting angular position using natural binary can produce disastrous transient read errors. If a shaft transitions from $7$ ($0111_2$) to $8$ ($1000_2$), all four bits must flip simultaneously. Because physical photodetectors cannot switch with infinitesimal synchronicity, intermediate false states (e.g., $1111_2 = 15$) can be latched momentarily. The Gray code eliminates this hazard entirely.</p>\n<p><strong>Binary to Gray Conversion Algorithm:</strong> Given binary word $B = b_n b_{n-1} \\dots b_0$ and Gray codeword $G = g_n g_{n-1} \\dots g_0$:</p>\n<div class=\"math-display\">\n$$g_n = b_n, \\quad g_i = b_{i+1} \\oplus b_i \\quad (i = 0, 1, \\dots, n-1)$$\n</div>\n<p><strong>Gray to Binary Conversion Algorithm:</strong></p>\n<div class=\"math-display\">\n$$b_n = g_n, \\quad b_i = b_{i+1} \\oplus g_i \\quad (i = 0, 1, \\dots, n-1)$$\n</div>"
+    },
+    {
+      "id": "dig-1-3",
+      "title": "Alphanumeric Representation: ASCII Standard & Parity Checking",
+      "content": "<h4>1. The ASCII Alphanumeric Encoding Standard</h4>\n<p>Digital computer systems process non-numerical information (text characters, punctuation, control commands) through standardized alphanumeric binary lookup codes. The <strong>American Standard Code for Information Interchange (ASCII)</strong> is a 7-bit encoding scheme capable of defining $2^7 = 128$ distinct characters:</p>\n<ul>\n<li><strong>32 Control Characters ($00_{16} - 1\\text{F}_{16}$):</strong> Non-printable device instructions (NUL: $00_{16}$, SOH: $01_{16}$, STX: $02_{16}$, ACK: $06_{16}$, BEL: $07_{16}$, BS: $08_{16}$, LF: $0\\text{A}_{16}$, CR: $0\\text{D}_{16}$, ESC: $1\\text{B}_{16}$).</li>\n<li><strong>96 Printable Characters ($20_{16} - 7\\text{E}_{16}$):</strong> Comprising space ($20_{16}$), decimal digits '0'-'9' ($30_{16} - 39_{16}$), uppercase letters 'A'-'Z' ($41_{16} - 5\\text{A}_{16}$), lowercase letters 'a'-'z' ($61_{16} - 7\\text{A}_{16}$), and mathematical/punctuation symbols. Note that toggling bit 5 ($20_{16}$) converts between uppercase and lowercase letters (e.g., 'A' is $01000001_2$, 'a' is $01100001_2$).</li>\n<li><strong>Extended 8-Bit ASCII ($00_{16} - \\text{FF}_{16}$):</strong> Adds 128 characters ($80_{16} - \\text{FF}_{16}$) for accented European letters, box-drawing graphics, and Greek scientific symbols.</li>\n</ul>\n\n<h4>2. Parity Bit Generation & Single-Bit Error Detection</h4>\n<p>During data transmission across communication channels or memory buses, electrical noise, thermal fluctuations, or cosmic radiation can flip a binary bit ($0 \\to 1$ or $1 \\to 0$). The simplest hardware mechanism for error detection is the appendance of a <strong>parity bit ($P$)</strong>:</p>\n<ul>\n<li><strong>Even Parity:</strong> The parity bit $P$ is chosen so that the total count of 1s in the transmitted codeword (data bits plus parity bit) is strictly <strong>even</strong>. For an $n$-bit data vector $D = (d_{n-1}, \\dots, d_0)$, the even parity bit is synthesized via cascaded XOR gates:\n<div class=\"math-display\">\n$$P_{\\text{even}} = d_{n-1} \\oplus d_{n-2} \\oplus \\dots \\oplus d_1 \\oplus d_0$$\n</div></li>\n<li><strong>Odd Parity:</strong> The parity bit $P$ is chosen so that the total count of 1s is strictly <strong>odd</strong>:\n<div class=\"math-display\">\n$$P_{\\text{odd}} = \\overline{d_{n-1} \\oplus d_{n-2} \\oplus \\dots \\oplus d_0} = \\overline{P_{\\text{even}}}$$\n</div></li>\n</ul>\n<p>At the receiver, an identical XOR parity checker computes the parity of the received packet. If a single bit flips, the parity check fails, triggering an error interrupt. However, single-bit parity cannot detect <em>double-bit errors</em> (which restore parity count) and provides zero information regarding which specific bit flipped, rendering error correction impossible.</p>"
+    },
+    {
+      "id": "dig-1-4",
+      "title": "Hamming Error-Correcting Code: SEC-DED Architecture",
+      "simulation": "dig-hamming-code-sim",
+      "content": "<h4>1. Richard Hamming's Geometric Code Distance Theory (1950)</h4>\n<p>To enable automated in-flight error correction in telecommunications and memory ECC (Error-Correcting Code), Richard Hamming introduced the concept of <strong>Hamming Distance ($d_{\\text{min}}$)</strong>, defined as the minimum number of bit positions in which any two valid codewords differ.</p>\n<p>For a code to detect up to $t$ simultaneous bit errors and correct up to $c$ bit errors, the minimum Hamming distance must satisfy:</p>\n<div class=\"math-display\">\n$$d_{\\text{min}} \\ge 2c + t + 1 \\quad (c \\le t)$$\n</div>\n<ul>\n<li>To <strong>detect</strong> $t = 1$ single error: $d_{\\text{min}} \\ge 1 + 1 = 2$ (simple parity bit).</li>\n<li>To <strong>correct</strong> $c = 1$ single error: $d_{\\text{min}} \\ge 2(1) + 1 = 3$ (standard Hamming code).</li>\n<li>To <strong>correct single errors and detect double errors (SEC-DED)</strong>: $d_{\\text{min}} \\ge 2(1) + 1 + 1 = 4$ (Hamming code with overall parity bit).</li>\n</ul>\n\n<h4>2. Construction of the Hamming (7,4) Single-Error-Correcting Code</h4>\n<p>Consider transmitting $m = 4$ data bits ($D_7, D_6, D_5, D_3$). To isolate the location of any single-bit error among the $n = m + k$ bits transmitted, or verify error-free transmission, the $k$ parity check bits must represent at least $n + 1$ distinct states:</p>\n<div class=\"math-display\">\n$$2^k \\ge m + k + 1 \\implies 2^k \\ge n + 1$$\n</div>\n<p>For $m = 4$, setting $k = 3$ satisfies $2^3 = 8 \\ge 4 + 3 + 1 = 8$. Thus, $n = 7$ total bits are transmitted: 4 data bits and 3 parity bits.</p>\n<p><strong>Parity Bit Placement:</strong> Parity bits $P_1, P_2, P_4$ are assigned to bit positions that are exact powers of 2 ($1, 2, 4$). The remaining positions ($3, 5, 6, 7$) hold the data bits:</p>\n<div class=\"table-responsive\">\n<table class=\"table table-bordered\">\n<thead>\n<tr><th>Bit Position</th><th>7</th><th>6</th><th>5</th><th>4</th><th>3</th><th>2</th><th>1</th></tr>\n</thead>\n<tbody>\n<tr><td><strong>Binary Position Index</strong></td><td>$111_2$</td><td>$110_2$</td><td>$101_2$</td><td>$100_2$</td><td>$011_2$</td><td>$010_2$</td><td>$001_2$</td></tr>\n<tr><td><strong>Bit Assignment</strong></td><td>$D_7$</td><td>$D_6$</td><td>$D_5$</td><td>$P_4$</td><td>$D_3$</td><td>$P_2$</td><td>$P_1$</td></tr>\n</tbody>\n</table>\n</div>\n<p>Each parity bit enforces even parity over all bit positions whose binary index contains a 1 in that parity bit's respective binary position:</p>\n<div class=\"math-display\">\n$$P_1 = D_3 \\oplus D_5 \\oplus D_7 \\quad (\\text{Positions } 1, 3, 5, 7 \\text{ have bit 0 = 1})$$\n</div>\n<div class=\"math-display\">\n$$P_2 = D_3 \\oplus D_6 \\oplus D_7 \\quad (\\text{Positions } 2, 3, 6, 7 \\text{ have bit 1 = 1})$$\n</div>\n<div class=\"math-display\">\n$$P_4 = D_5 \\oplus D_6 \\oplus D_7 \\quad (\\text{Positions } 4, 5, 6, 7 \\text{ have bit 2 = 1})$$\n</div>\n\n<h4>3. Syndrome Decoding and Hardware Error Correction</h4>\n<p>At the receiver, the 7 received bits ($r_7, r_6, r_5, r_4, r_3, r_2, r_1$) are processed by three parity-check XOR trees to calculate the 3-bit <strong>Syndrome Vector $S = (S_4 S_2 S_1)$</strong>:</p>\n<div class=\"math-display\">\n$$S_1 = r_1 \\oplus r_3 \\oplus r_5 \\oplus r_7, \\quad S_2 = r_2 \\oplus r_3 \\oplus r_6 \\oplus r_7, \\quad S_4 = r_4 \\oplus r_5 \\oplus r_6 \\oplus r_7$$\n</div>\n<ul>\n<li>If $S = 000_2$: No error occurred; data is valid.</li>\n<li>If $S = S_4 S_2 S_1 \\neq 0$: The binary integer value of $S$ points <strong>directly to the exact erroneous bit position</strong> ($1$ through $7$). The hardware simply inverts that specific bit ($r_S \\leftarrow \\overline{r_S}$) using an XOR gate driven by a 3-to-8 decoder, achieving automated instantaneous hardware error correction.</li>\n</ul>"
+    },
+    {
+      "id": "dig-1-5",
+      "title": "Hardware Code Converters: BCD, Gray & Excess-3 Logic",
+      "content": "<h4>1. Combinational Code Conversion Architecture</h4>\n<p>A digital code converter is an $n$-input, $m$-output combinational logic circuit that accepts input words represented in code $\\mathcal{A}$ and produces equivalent codewords in code $\\mathcal{B}$. The synthesis procedure follows systematic Boolean optimization:</p>\n<ol>\n<li>Construct a comprehensive truth table mapping each valid input codeword to its desired output codeword.</li>\n<li>Treat unused or invalid input combinations as <strong>Don't Care states ($\\times$)</strong> to maximize logic gate reduction.</li>\n<li>Derive minimized Sum-of-Products (SOP) expressions for each output bit using Karnaugh maps or Quine-McCluskey tabulation.</li>\n</ol>\n\n<h4>2. Binary-to-Gray and Gray-to-Binary Hardware Circuits</h4>\n<p>From the conversion equations $g_i = b_{i+1} \\oplus b_i$, a 4-bit Binary-to-Gray converter requires only three two-input XOR gates:</p>\n<div class=\"math-display\">\n$$g_3 = b_3, \\quad g_2 = b_3 \\oplus b_2, \\quad g_1 = b_2 \\oplus b_1, \\quad g_0 = b_1 \\oplus b_0$$\n</div>\n<p>Similarly, the Gray-to-Binary converter $b_i = b_{i+1} \\oplus g_i$ utilizes three XOR gates in a ripple-feedback cascade:</p>\n<div class=\"math-display\">\n$$b_3 = g_3, \\quad b_2 = g_3 \\oplus g_2, \\quad b_1 = b_2 \\oplus g_1, \\quad b_0 = b_1 \\oplus g_0$$\n</div>\n\n<h4>3. BCD-to-Excess-3 Hardware Synthesis</h4>\n<p>To convert an 8421 BCD digit $(B_3, B_2, B_1, B_0)$ to Excess-3 $(E_3, E_2, E_1, E_0)$, the circuit adds $0011_2$. For input minterms $m_{10}$ through $m_{15}$, the outputs are defined as Don't Cares ($\\times$). Minimizing via 4-variable K-maps yields:</p>\n<div class=\"math-display\">\n$$E_0 = \\overline{B_0}$$\n</div>\n<div class=\"math-display\">\n$$E_1 = B_1 \\oplus B_0 = B_1 \\overline{B_0} + \\overline{B_1} B_0$$\n</div>\n<div class=\"math-display\">\n$$E_2 = B_2 \\oplus (B_1 + B_0) = \\overline{B_2}(B_1 + B_0) + B_2 \\overline{B_1}\\,\\overline{B_0}$$\n</div>\n<div class=\"math-display\">\n$$E_3 = B_3 + B_2(B_1 + B_0) = B_3 + B_2 B_1 + B_2 B_0$$\n</div>\n<p>This compact logic network requires only four standard logic gates, illustrating the power of exploiting Don't Care conditions.</p>"
+    }
+  ],
+  "problems": [
+    {
+      "id": "dig-p-1-1",
+      "title": "Fractional Base Conversion: Decimal to Binary, Octal and Hexadecimal",
+      "statement": "Given the decimal number $N = (109.6875)_{10}$: (a) Convert the integer part $(109)_{10}$ and fractional part $(0.6875)_{10}$ into binary using successive division and multiplication. (b) Convert the resulting binary representation directly into Octal and Hexadecimal by bit grouping. (c) Verify your hexadecimal result by expanding $(N)_{16}$ back into decimal polynomial form.",
+      "steps": [
+        {
+          "stepName": "Step 1: Successive Division of Integer Part (109)",
+          "math": "109 / 2 = 54 \\text{ R } 1 \\ (d_0), \\quad 54 / 2 = 27 \\text{ R } 0, \\quad 27 / 2 = 13 \\text{ R } 1, \\quad 13 / 2 = 6 \\text{ R } 1, \\quad 6 / 2 = 3 \\text{ R } 0, \\quad 3 / 2 = 1 \\text{ R } 1, \\quad 1 / 2 = 0 \\text{ R } 1 \\ (d_6)",
+          "explanation": "Reading remainders from bottom to top yields (109)_10 = (1101101)_2."
+        },
+        {
+          "stepName": "Step 2: Successive Multiplication of Fractional Part (0.6875)",
+          "math": "0.6875 \\times 2 = 1.375 \\ (\\text{carry } 1), \\quad 0.375 \\times 2 = 0.75 \\ (\\text{carry } 0), \\quad 0.75 \\times 2 = 1.50 \\ (\\text{carry } 1), \\quad 0.50 \\times 2 = 1.00 \\ (\\text{carry } 1)",
+          "explanation": "Reading integer carries top to bottom yields (0.6875)_10 = (0.1011)_2. Combining: (109.6875)_10 = (1101101.1011)_2."
+        },
+        {
+          "stepName": "Step 3: Direct Grouping to Octal (Base 8)",
+          "math": "(001 \\ 101 \\ 101 \\ . \\ 101 \\ 100)_2 = (1 \\ 5 \\ 5 \\ . \\ 5 \\ 4)_8 = (155.54)_8",
+          "explanation": "Pad left with zeros to 9 integer bits and right with zeros to 6 fractional bits; evaluate triads: 001=1, 101=5, 101=5, 101=5, 100=4."
+        },
+        {
+          "stepName": "Step 4: Direct Grouping to Hexadecimal (Base 16)",
+          "math": "(0110 \\ 1101 \\ . \\ 1011)_2 = (6 \\ \\text{D} \\ . \\ \\text{B})_{16} = (6\\text{D.B})_{16}",
+          "explanation": "Pad left to 8 integer bits; evaluate tetrads: 0110 = 6, 1101 = 13 = D, 1011 = 11 = B."
+        },
+        {
+          "stepName": "Step 5: Verification of Hexadecimal Representation",
+          "math": "6 \\times 16^1 + 13 \\times 16^0 + 11 \\times 16^{-1} = 96 + 13 + \\frac{11}{16} = 109 + 0.6875 = 109.6875_{10}",
+          "explanation": "Exact decimal match confirms 100% precision."
+        }
+      ],
+      "answer": "(109.6875)_{10} = (1101101.1011)_2 = (155.54)_8 = (6\\text{D.B})_{16}"
+    },
+    {
+      "id": "dig-p-1-2",
+      "title": "Hamming (7,4) Code Encoding, Transmission Error and Syndrome Correction",
+      "statement": "A 4-bit data word $D = 1011_2$ ($D_7 = 1, D_6 = 0, D_5 = 1, D_3 = 1$) is to be transmitted using an even-parity Hamming (7,4) code. (a) Determine the parity bits $P_1, P_2, P_4$ and write the complete 7-bit transmitted codeword. (b) During transmission, an electrical noise burst flips bit 5 ($r_5: 1 \\to 0$). Calculate the syndrome vector $S = (S_4 S_2 S_1)$ at the receiver. (c) Show how the syndrome vector pinpoints the error and state the corrected word.",
+      "steps": [
+        {
+          "stepName": "Step 1: Calculate Parity Check Bits",
+          "math": "P_1 = D_3 \\oplus D_5 \\oplus D_7 = 1 \\oplus 1 \\oplus 1 = 1, \\quad P_2 = D_3 \\oplus D_6 \\oplus D_7 = 1 \\oplus 0 \\oplus 1 = 0, \\quad P_4 = D_5 \\oplus D_6 \\oplus D_7 = 1 \\oplus 0 \\oplus 1 = 0",
+          "explanation": "Evaluate even parity check equations for positions 1, 2, 4."
+        },
+        {
+          "stepName": "Step 2: Construct the Transmitted 7-bit Codeword",
+          "math": "C = (D_7 D_6 D_5 P_4 D_3 P_2 P_1) = (1 \\ 0 \\ 1 \\ 0 \\ 1 \\ 0 \\ 1)_2",
+          "explanation": "The transmitted codeword is 1010101_2."
+        },
+        {
+          "stepName": "Step 3: Evaluate Received Word with Error at Bit 5",
+          "math": "\\text{Bit 5 flips: } D_5 = 1 \\to 0. \\implies R = (r_7 r_6 r_5 r_4 r_3 r_2 r_1) = (1 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 1)_2",
+          "explanation": "Bit position 5 now contains 0 instead of 1."
+        },
+        {
+          "stepName": "Step 4: Compute Receiver Syndrome Vector",
+          "math": "S_1 = r_1 \\oplus r_3 \\oplus r_5 \\oplus r_7 = 1 \\oplus 1 \\oplus 0 \\oplus 1 = 1, \\quad S_2 = r_2 \\oplus r_3 \\oplus r_6 \\oplus r_7 = 0 \\oplus 1 \\oplus 0 \\oplus 1 = 0, \\quad S_4 = r_4 \\oplus r_5 \\oplus r_6 \\oplus r_7 = 0 \\oplus 0 \\oplus 0 \\oplus 1 = 1",
+          "explanation": "Compute syndrome bits S1, S2, S4."
+        },
+        {
+          "stepName": "Step 5: Identify Error Location and Invert",
+          "math": "S = (S_4 S_2 S_1) = (1 \\ 0 \\ 1)_2 = 5_{10}. \\implies \\text{Error is at Bit Position 5!}",
+          "explanation": "The syndrome decimal value 5 indicates bit 5 is inverted. Inverting r_5: 0 -> 1 restores the original transmitted codeword C = 1010101_2."
+        }
+      ],
+      "answer": "C = 1010101_2, \\quad S = (101)_2 = 5_{10} \\implies \\text{Error in Bit 5 Corrected to } 1010101_2"
+    },
+    {
+      "id": "dig-p-1-3",
+      "title": "Reflected Gray Code Synthesis and Multi-Bit State Traversal",
+      "statement": "An absolute optical shaft rotary encoder with $N = 16$ angular sectors ($22.5^\\circ$ resolution) encodes shaft positions $0$ through $15$. (a) Construct the 4-bit Binary and reflected Gray codewords for decimal sector positions $7$, $8$, and $9$. (b) Calculate the number of simultaneously switching bits during the transition from sector $7$ to $8$ in natural binary versus Gray code. (c) Using the conversion formulas, mathematically derive the Gray codeword for binary $B = (1101)_2$ ($13_{10}$).",
+      "steps": [
+        {
+          "stepName": "Step 1: Binary Codewords for Sectors 7, 8, 9",
+          "math": "7_{10} = 0111_2, \\quad 8_{10} = 1000_2, \\quad 9_{10} = 1001_2",
+          "explanation": "Write 4-bit natural binary representations."
+        },
+        {
+          "stepName": "Step 2: Generate Reflected Gray Codewords",
+          "math": "G(7) = 0111 \\oplus 0011 = 0100_2, \\quad G(8) = 1000 \\oplus 0100 = 1100_2, \\quad G(9) = 1001 \\oplus 0100 = 1101_2",
+          "explanation": "Compute Gray code for each sector."
+        },
+        {
+          "stepName": "Step 3: Compare Transition Bit Flips (Sector 7 to 8)",
+          "math": "\\text{Binary: } 0111_2 \\to 1000_2 \\implies \\text{Hamming distance } d = 4 \\ (\\text{All 4 bits flip simultaneously!})",
+          "explanation": "Natural binary undergoes 4 simultaneous bit transitions, creating severe asynchronous timing hazards."
+        },
+        {
+          "stepName": "Step 4: Evaluate Gray Transition Distance",
+          "math": "\\text{Gray: } 0100_2 \\to 1100_2 \\implies \\text{Hamming distance } d = 1 \\ (\\text{Only MSB flips from 0 to 1})",
+          "explanation": "Gray code switches exactly 1 bit, completely eliminating encoder transition glitches."
+        },
+        {
+          "stepName": "Step 5: Convert Binary 1101 to Gray",
+          "math": "g_3 = b_3 = 1, \\quad g_2 = b_3 \\oplus b_2 = 1 \\oplus 1 = 0, \\quad g_1 = b_2 \\oplus b_1 = 1 \\oplus 0 = 1, \\quad g_0 = b_1 \\oplus b_0 = 0 \\oplus 1 = 1 \\implies G = (1011)_2",
+          "explanation": "Apply conversion equations bit-by-bit."
+        }
+      ],
+      "answer": "G(7)=0100_2, \\ G(8)=1100_2 \\ (d=1 \\text{ vs } d=4 \\text{ in binary}); \\quad G(1101_2) = 1011_2"
+    }
+  ]
+}

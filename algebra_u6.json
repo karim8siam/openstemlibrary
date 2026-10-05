@@ -1,0 +1,124 @@
+{
+  "unit_id": "unit_6",
+  "unit_title": "Matrix Algebra & Determinants",
+  "unit_subtitle": "Matrix Rings, Special Matrix Classes, Multilinear Determinants, Cauchy-Binet Multiplicativity & Adjugate Inverses",
+  "sections": [
+    {
+      "id": "sec_6_1",
+      "title": "Algebra of Matrices: Rings, Transposition & Trace",
+      "content": "\n<h3>1. The Matrix Ring</h3>\n<p>\nThe collection of $m \\times n$ matrices with entries in a field $\\mathbb{F}$ ($\\mathbb{R}$ or $\\mathbb{C}$), denoted $M_{m \\times n}(\\mathbb{F})$, forms a vector space under entrywise addition and scalar multiplication.<br>\nFor $A \\in M_{m \\times p}(\\mathbb{F})$ and $B \\in M_{p \\times n}(\\mathbb{F})$, their <strong>matrix product</strong> $C = AB \\in M_{m \\times n}(\\mathbb{F})$ has entries:\n$$\\mathbf{c_{ij} = \\sum_{k=1}^p a_{ik} b_{kj}}$$\nThe product is associative ($A(BC) = (AB)C$) and distributes over addition, but is strictly non-commutative ($AB \\ne BA$ in general). The square matrices $M_n(\\mathbb{F})$ form a non-commutative ring with identity $I_n$.\n</p>\n\n<h3>2. The Transpose & Conjugate Transpose</h3>\n<p>\nThe <strong>transpose</strong> $A^T$ of $A = [a_{ij}]$ is defined by $(A^T)_{ij} = a_{ji}$. Key properties:\n$$(A + B)^T = A^T + B^T, \\quad (cA)^T = c A^T, \\quad (A^T)^T = A, \\quad \\mathbf{(AB)^T = B^T A^T}$$\nFor complex matrices, the <strong>Hermitian adjoint</strong> (conjugate transpose) is $A^\\dagger \\equiv (\\bar{A})^T$, satisfying $(AB)^\\dagger = B^\\dagger A^\\dagger$.\n</p>\n\n<h3>3. The Trace Function</h3>\n<p>\nFor a square matrix $A \\in M_n(\\mathbb{F})$, the <strong>trace</strong> is the sum of its diagonal elements:\n$$\\mathbf{\\text{tr}(A) \\equiv \\sum_{i=1}^n a_{ii}}$$\n<strong>Cyclic Invariance Theorem:</strong> For any $A \\in M_{m \\times n}$ and $B \\in M_{n \\times m}$:\n$$\\mathbf{\\text{tr}(AB) = \\text{tr}(BA)}$$\n<em>Proof:</em> $\\text{tr}(AB) = \\sum_{i=1}^m (AB)_{ii} = \\sum_{i=1}^m \\sum_{j=1}^n a_{ij} b_{ji} = \\sum_{j=1}^n \\sum_{i=1}^m b_{ji} a_{ij} = \\sum_{j=1}^n (BA)_{jj} = \\text{tr}(BA)$. $\\blacksquare$\n</p>\n"
+    },
+    {
+      "id": "sec_6_2",
+      "title": "Taxonomy of Special Classes of Matrices",
+      "content": "\n<h3>1. Real Special Matrices</h3>\n<p>\nLet $A \\in M_n(\\mathbb{R})$:\n<ul>\n  <li><strong>Symmetric:</strong> $A^T = A \\iff a_{ij} = a_{ji}$.</li>\n  <li><strong>Skew-Symmetric:</strong> $A^T = -A \\iff a_{ij} = -a_{ji}$ (diagonal entries must be zero: $a_{ii} = 0$).</li>\n  <li><strong>Orthogonal:</strong> $A^T A = A A^T = I \\iff A^{-1} = A^T$. Rows (and columns) form an orthonormal basis of $\\mathbb{R}^n$. Orthogonal transformations preserve Euclidean lengths and angles: $\\|Ax\\| = \\|x\\|$.</li>\n</ul>\n</p>\n\n<h3>2. Complex Special Matrices</h3>\n<p>\nLet $A \\in M_n(\\mathbb{C})$:\n<ul>\n  <li><strong>Hermitian:</strong> $A^\\dagger = A \\iff a_{ij} = \\bar{a}_{ji}$ (diagonal entries must be purely real: $a_{ii} \\in \\mathbb{R}$).</li>\n  <li><strong>Skew-Hermitian:</strong> $A^\\dagger = -A \\iff a_{ij} = -\\bar{a}_{ji}$ (diagonal entries must be purely imaginary).</li>\n  <li><strong>Unitary:</strong> $A^\\dagger A = I \\iff A^{-1} = A^\\dagger$. Unitary matrices preserve the complex inner product: $\\langle Ux, Uy \\rangle = \\langle x, y \\rangle$.</li>\n</ul>\n</p>\n\n<h3>3. Algebraic Operational Classes</h3>\n<p>\n<ul>\n  <li><strong>Idempotent:</strong> $A^2 = A$ (represents projection operators).</li>\n  <li><strong>Nilpotent:</strong> $A^k = 0$ for some integer $k \\ge 1$ (the smallest such $k$ is the index of nilpotency).</li>\n  <li><strong>Involutory:</strong> $A^2 = I \\iff A^{-1} = A$ (represents reflection operators).</li>\n</ul>\n</p>\n"
+    },
+    {
+      "id": "sec_6_3",
+      "title": "Axiomatic Characterization & Laplace Expansion of Determinants",
+      "content": "\n<h3>1. Axiomatic Definition of the Determinant</h3>\n<p>\nThe <strong>determinant</strong> is the unique function $\\det: M_n(\\mathbb{F}) \\to \\mathbb{F}$ satisfying three fundamental axioms:\n<ol>\n  <li><strong>Multilinearity:</strong> $\\det$ is a linear function of each row when all other rows are held fixed.</li>\n  <li><strong>Alternating Property:</strong> Swapping any two rows negates the determinant: $\\det(R_1, \\dots, R_i, \\dots, R_j, \\dots, R_n) = -\\det(R_1, \\dots, R_j, \\dots, R_i, \\dots, R_n)$. Consequently, if two rows are identical, $\\det A = 0$.</li>\n  <li><strong>Normalization:</strong> $\\det(I_n) = 1$.</li>\n</ol>\n</p>\n\n<h3>2. The Leibniz Permutation Formula</h3>\n<p>\nFrom the axioms, the explicit determinant formula is:\n$$\\mathbf{\\det(A) = \\sum_{\\sigma \\in S_n} \\text{sgn}(\\sigma) \\prod_{i=1}^n a_{i, \\sigma(i)}}$$\nwhere the sum ranges over all $n!$ permutations $\\sigma$ of the symmetric group $S_n$, and $\\text{sgn}(\\sigma) \\in \\{+1, -1\\}$ is the permutation parity.\n</p>\n\n<h3>3. Laplace's Cofactor Expansion Theorem</h3>\n<p>\nThe $(i, j)$-th <strong>minor</strong> $M_{ij}$ is the determinant of the $(n-1) \\times (n-1)$ submatrix formed by deleting row $i$ and column $j$. The $(i, j)$-th <strong>cofactor</strong> is:\n$$C_{ij} \\equiv (-1)^{i+j} M_{ij}$$\n<strong>Theorem (Laplace):</strong> The determinant can be evaluated by expanding along any arbitrary row $i$ or column $j$:\n$$\\mathbf{\\det(A) = \\sum_{j=1}^n a_{ij} C_{ij} \\quad (\\text{Expansion along row } i)}$$\n$$\\mathbf{\\det(A) = \\sum_{i=1}^n a_{ij} C_{ij} \\quad (\\text{Expansion along column } j)}$$\n</p>\n"
+    },
+    {
+      "id": "sec_6_4",
+      "title": "Fundamental Determinant Properties & Multiplicativity",
+      "content": "\n<h3>1. Invariance and Operational Properties</h3>\n<p>\n<ul>\n  <li><strong>Transpose Invariance:</strong> $\\det(A^T) = \\det(A)$. Row operations and column operations have identical effects on determinants!</li>\n  <li><strong>Triangular Matrices:</strong> If $A$ is upper-triangular, lower-triangular, or diagonal, its determinant is simply the product of its diagonal entries:\n  $$\\det(A) = a_{11} a_{22} \\cdots a_{nn}$$</li>\n  <li><strong>Type III Row Operations:</strong> Adding a scalar multiple of one row to another preserves the determinant strictly unchanged: $\\det(A) = \\det(E A)$ where $\\det(E) = 1$.</li>\n  <li><strong>Scalar Multiplication:</strong> For an $n \\times n$ matrix, $\\det(c A) = c^n \\det(A)$.</li>\n</ul>\n</p>\n\n<h3>2. The Multiplicative Theorem</h3>\n<p>\n<strong>Theorem (Cauchy–Binet):</strong> For any two $n \\times n$ matrices $A$ and $B$:\n$$\\mathbf{\\det(AB) = \\det(A) \\det(B)}$$\n<em>Immediate Corollaries:</em>\n<ul>\n  <li>A matrix $A$ is invertible if and only if $\\det(A) \\ne 0$.</li>\n  <li>If $A$ is invertible: $\\det(A^{-1}) = \\frac{1}{\\det(A)}$.</li>\n  <li>If $A$ and $B$ are similar ($B = P^{-1} A P$): $\\det(B) = \\det(P^{-1})\\det(A)\\det(P) = \\det(A)$.</li>\n  <li>If $Q$ is orthogonal: $Q^T Q = I \\implies [\\det(Q)]^2 = 1 \\implies \\det(Q) = \\pm 1$.</li>\n</ul>\n</p>\n"
+    },
+    {
+      "id": "sec_6_5",
+      "title": "The Classical Adjugate Matrix, Matrix Inversion & Cramer's Rule",
+      "content": "\n<h3>1. The Classical Adjugate (Adjoint)</h3>\n<p>\nThe <strong>adjugate</strong> $\\text{adj}(A)$ of an $n \\times n$ matrix $A$ is the transpose of its cofactor matrix $C = [C_{ij}]$:\n$$\\mathbf{\\text{adj}(A) \\equiv C^T \\implies [\\text{adj}(A)]_{ij} = C_{ji} = (-1)^{i+j} M_{ji}}$$\n</p>\n\n<h3>2. The Fundamental Inversion Theorem</h3>\n<p>\n<strong>Theorem:</strong> For any $n \\times n$ matrix $A$:\n$$\\mathbf{A \\cdot \\text{adj}(A) = \\text{adj}(A) \\cdot A = (\\det A) I_n}$$\n<em>Proof:</em> The $(i, k)$-th entry of $A \\cdot \\text{adj}(A)$ is $\\sum_{j=1}^n a_{ij} [\\text{adj}(A)]_{jk} = \\sum_{j=1}^n a_{ij} C_{kj}$.\nIf $i = k$, this is the Laplace expansion of $\\det(A)$ along row $i$.\nIf $i \\ne k$, this represents the expansion of a matrix with two identical rows ($i$ and $k$), which vanishes identically (alien cofactors). Thus $[A \\cdot \\text{adj}(A)]_{ik} = \\delta_{ik} \\det(A)$. $\\blacksquare$\n</p>\n<p>\nConsequently, whenever $\\det(A) \\ne 0$, the unique matrix inverse is:\n$$\\mathbf{A^{-1} = \\frac{1}{\\det(A)} \\text{adj}(A)}$$\n</p>\n\n<h3>3. Cramer’s Rule for Linear Systems</h3>\n<p>\nFor an $n \\times n$ system $AX = B$ with $\\det(A) \\ne 0$, $X = A^{-1} B = \\frac{1}{\\det A}\\text{adj}(A) B$. Entrywise:\n$$\\mathbf{x_i = \\frac{\\det(A_i)}{\\det(A)}}$$\nwhere $A_i$ is the matrix obtained by replacing the $i$-th column of $A$ with the constant vector $B$.\n</p>\n",
+      "simulation": "algebra-matrix-determinant-sim",
+      "simulations": [
+        "algebra-matrix-determinant-sim"
+      ]
+    }
+  ],
+  "simulation": {
+    "sim_id": "algebra-matrix-determinant-sim",
+    "title": "Interactive Matrix Transformation & Signed Determinant Visualizer",
+    "description": "Drag the column basis vectors of a 2x2 matrix to visualize linear geometric deformations of the unit square. Live computes signed area det(A), matrix trace, orientation parity, and checks singularity conditions det(A) = 0."
+  },
+  "problems": [
+    {
+      "difficulty": "Tier 1: Foundational",
+      "difficultyLabel": "Foundational Mechanics",
+      "title": "Example 6.1: Determinant Evaluation via Row Operations & Cofactor Inversion",
+      "statement": "Given the $3 \\times 3$ matrix $A = \\begin{pmatrix} 2 & 1 & 3 \\\\ 1 & 0 & 2 \\\\ 4 & 2 & 1 \\end{pmatrix}$: (a) Compute $\\det(A)$. (b) Construct the adjugate matrix $\\text{adj}(A)$ and find $A^{-1}$.",
+      "steps": [
+        {
+          "step": "Step 1: Compute det(A) via Row Operations",
+          "math": "\\det(A) = \\begin{vmatrix} 2 & 1 & 3 \\\\ 1 & 0 & 2 \\\\ 4 & 2 & 1 \\end{vmatrix} \\xrightarrow{R_3 \\to R_3 - 2R_1} \\begin{vmatrix} 2 & 1 & 3 \\\\ 1 & 0 & 2 \\\\ 0 & 0 & -5 \\end{vmatrix} \\\\ \\text{Expand along row 3: } \\det(A) = (-5) \\cdot (-1)^{3+3} \\begin{vmatrix} 2 & 1 \\\\ 1 & 0 \\end{vmatrix} = (-5)(1)(0 - 1) = 5",
+          "explanation": "Subtracting $2R_1$ from $R_3$ produces two zeros in row 3, making cofactor expansion trivial."
+        },
+        {
+          "step": "Step 2: Compute All 9 Cofactors",
+          "math": "C_{11} = +\\begin{vmatrix} 0 & 2 \\\\ 2 & 1 \\end{vmatrix} = -4, \\quad C_{12} = -\\begin{vmatrix} 1 & 2 \\\\ 4 & 1 \\end{vmatrix} = 7, \\quad C_{13} = +\\begin{vmatrix} 1 & 0 \\\\ 4 & 2 \\end{vmatrix} = 2 \\\\ C_{21} = -\\begin{vmatrix} 1 & 3 \\\\ 2 & 1 \\end{vmatrix} = 5, \\quad C_{22} = +\\begin{vmatrix} 2 & 3 \\\\ 4 & 1 \\end{vmatrix} = -10, \\quad C_{23} = -\\begin{vmatrix} 2 & 1 \\\\ 4 & 2 \\end{vmatrix} = 0 \\\\ C_{31} = +\\begin{vmatrix} 1 & 3 \\\\ 0 & 2 \\end{vmatrix} = 2, \\quad C_{32} = -\\begin{vmatrix} 2 & 3 \\\\ 1 & 2 \\end{vmatrix} = -1, \\quad C_{33} = +\\begin{vmatrix} 2 & 1 \\\\ 1 & 0 \\end{vmatrix} = -1",
+          "explanation": "Evaluate the signed minors for each position."
+        },
+        {
+          "step": "Step 3: Transpose to Form adj(A) and Compute A⁻¹",
+          "math": "\\text{adj}(A) = C^T = \\begin{pmatrix} -4 & 5 & 2 \\\\ 7 & -10 & -1 \\\\ 2 & 0 & -1 \\end{pmatrix} \\\\ A^{-1} = \\frac{1}{5} \\begin{pmatrix} -4 & 5 & 2 \\\\ 7 & -10 & -1 \\\\ 2 & 0 & -1 \\end{pmatrix} = \\begin{pmatrix} -0.8 & 1.0 & 0.4 \\\\ 1.4 & -2.0 & -0.2 \\\\ 0.4 & 0.0 & -0.2 \\end{pmatrix}",
+          "explanation": "Divide the transposed cofactor matrix by $\\det(A) = 5$."
+        }
+      ],
+      "answer": "\\det(A) = 5; \\quad \\mathbf{A^{-1} = \\frac{1}{5}\\begin{pmatrix} -4 & 5 & 2 \\\\ 7 & -10 & -1 \\\\ 2 & 0 & -1 \\end{pmatrix}}."
+    },
+    {
+      "difficulty": "Tier 2: Intermediate Exam",
+      "difficultyLabel": "Intermediate University Exam",
+      "title": "Example 6.2: Symmetric-Skew Decomposition & Vandermonde Determinant",
+      "statement": "(a) Prove that every square matrix $A$ can be uniquely decomposed as $A = S + K$, where $S$ is symmetric and $K$ is skew-symmetric. (b) Evaluate the $3 \\times 3$ Vandermonde determinant $V(a, b, c) = \\begin{vmatrix} 1 & a & a^2 \\\\ 1 & b & b^2 \\\\ 1 & c & c^2 \\end{vmatrix}$.",
+      "steps": [
+        {
+          "step": "Step 1: Construct the Unique Decomposition",
+          "math": "S \\equiv \\frac{A + A^T}{2}, \\quad K \\equiv \\frac{A - A^T}{2} \\\\ S^T = \\frac{A^T + (A^T)^T}{2} = \\frac{A^T + A}{2} = S \\quad (\\text{Symmetric}) \\\\ K^T = \\frac{A^T - (A^T)^T}{2} = \\frac{A^T - A}{2} = -K \\quad (\\text{Skew-symmetric}) \\\\ S + K = \\frac{A + A^T + A - A^T}{2} = A",
+          "explanation": "Construct $S$ and $K$ explicitly, demonstrating existence."
+        },
+        {
+          "step": "Step 2: Prove Uniqueness",
+          "math": "\\text{Suppose } A = S' + K'. \\text{ Then } A^T = S'^T + K'^T = S' - K' \\\\ A + A^T = 2S' \\implies S' = \\frac{A + A^T}{2} = S \\\\ A - A^T = 2K' \\implies K' = \\frac{A - A^T}{2} = K \\quad \\blacksquare",
+          "explanation": "Taking transposes and adding/subtracting establishes uniqueness."
+        },
+        {
+          "step": "Step 3: Evaluate Vandermonde Determinant via Row Operations",
+          "math": "V(a, b, c) = \\begin{vmatrix} 1 & a & a^2 \\\\ 1 & b & b^2 \\\\ 1 & c & c^2 \\end{vmatrix} \\xrightarrow{\\substack{R_2 \\to R_2 - R_1 \\\\ R_3 \\to R_3 - R_1}} \\begin{vmatrix} 1 & a & a^2 \\\\ 0 & b - a & b^2 - a^2 \\\\ 0 & c - a & c^2 - a^2 \\end{vmatrix} \\\\ = \\begin{vmatrix} b - a & (b - a)(b + a) \\\\ c - a & (c - a)(c + a) \\end{vmatrix} = (b - a)(c - a) \\begin{vmatrix} 1 & b + a \\\\ 1 & c + a \\end{vmatrix} \\\\ = (b - a)(c - a) [(c + a) - (b + a)] = (b - a)(c - a)(c - b) = (c - b)(b - a)(c - a)",
+          "explanation": "Factoring $(b-a)$ and $(c-a)$ leaves a simple $2 \\times 2$ determinant."
+        }
+      ],
+      "answer": "\\mathbf{A = \\frac{A + A^T}{2} + \\frac{A - A^T}{2}} \\text{ is unique; } \\quad \\mathbf{V(a, b, c) = (b - a)(c - a)(c - b)}."
+    },
+    {
+      "difficulty": "Tier 3: Honors / Proof Challenge",
+      "difficultyLabel": "Honors / Proof Challenge",
+      "title": "Example 6.3: Closed Formula for Circulant Determinants via Roots of Unity",
+      "statement": "For the $3 \\times 3$ circulant matrix $C = \\begin{pmatrix} a & b & c \\\\ c & a & b \\\\ b & c & a \\end{pmatrix}$, prove that $\\det(C) = (a + b + c)(a + \\omega b + \\omega^2 c)(a + \\omega^2 b + \\omega c) = a^3 + b^3 + c^3 - 3abc$, where $\\omega = e^{i 2\\pi/3}$ is the cube root of unity.",
+      "steps": [
+        {
+          "step": "Step 1: Direct Column Transformation using Roots of Unity",
+          "math": "\\text{Let } \\omega \\text{ satisfy } \\omega^3 = 1, \\; 1 + \\omega + \\omega^2 = 0 \\\\ \\text{Add } \\omega \\cdot \\text{Col}_2 + \\omega^2 \\cdot \\text{Col}_3 \\text{ to } \\text{Col}_1: \\\\ \\text{Row 1: } a + \\omega b + \\omega^2 c \\\\ \\text{Row 2: } c + \\omega a + \\omega^2 b = \\omega(a + \\omega b + \\omega^2 c) \\quad (\\text{since } \\omega^3 c = c) \\\\ \\text{Row 3: } b + \\omega c + \\omega^2 a = \\omega^2(a + \\omega b + \\omega^2 c)",
+          "explanation": "The linear combination produces a common factor $(a + \\omega b + \\omega^2 c)$ down the entire first column!"
+        },
+        {
+          "step": "Step 2: Factor Out Eigenvalues",
+          "math": "\\text{For each } k \\in \\{0, 1, 2\\}, \\text{ substituting the root } \\omega^k \\text{ proves that } \\lambda_k = a + \\omega^k b + \\omega^{2k} c \\text{ is an eigenvalue of } C! \\\\ \\det(C) = \\prod_{k=0}^2 \\lambda_k = (a + b + c)(a + \\omega b + \\omega^2 c)(a + \\omega^2 b + \\omega c)",
+          "explanation": "The determinant of any matrix equals the product of its eigenvalues."
+        },
+        {
+          "step": "Step 3: Expand the Product",
+          "math": "(a + \\omega b + \\omega^2 c)(a + \\omega^2 b + \\omega c) = a^2 + \\omega^2 ab + \\omega ac + \\omega ab + b^2 + \\omega^2 bc + \\omega^2 ac + \\omega bc + c^2 \\\\ = a^2 + b^2 + c^2 + (\\omega + \\omega^2)(ab + bc + ca) = a^2 + b^2 + c^2 - (ab + bc + ca) \\\\ \\det(C) = (a + b + c)[a^2 + b^2 + c^2 - ab - bc - ca] = a^3 + b^3 + c^3 - 3abc \\quad \\blacksquare",
+          "explanation": "Using $1 + \\omega + \\omega^2 = 0 \\implies \\omega + \\omega^2 = -1$ recovers Euler's classical cubic product factorization."
+        }
+      ],
+      "answer": "\\mathbf{\\det(C) = a^3 + b^3 + c^3 - 3abc = (a + b + c)(a + \\omega b + \\omega^2 c)(a + \\omega^2 b + \\omega c)}."
+    }
+  ],
+  "simulations": [
+    "algebra-matrix-determinant-sim"
+  ],
+  "id": "unit6",
+  "unitId": "unit6-algebra",
+  "number": 6,
+  "unitNumber": 6,
+  "leadSummary": "Matrix Rings, Special Matrix Classes, Multilinear Determinants, Cauchy-Binet Multiplicativity & Adjugate Inverses",
+  "title": "Matrix Algebra & Determinants"
+}

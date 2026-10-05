@@ -1,0 +1,130 @@
+{
+  "reactor-atom-density-breeder-sim": {
+    "title": "Atom Density, Breeding Ratio & Doubling Time Simulator",
+    "desc": "Calculates atomic number densities for actinide fuels and solves the breeding gain differential equation, computing fissile inventory accumulation and doubling time in fast breeder reactors.",
+    "isAnimated": true,
+    "controls": [
+      {
+        "id": "convRatio",
+        "label": "Conversion Ratio CR",
+        "min": 0.6,
+        "max": 1.5,
+        "step": 0.05,
+        "value": 1.25
+      },
+      {
+        "id": "thermalPower",
+        "label": "Core Power (MWth)",
+        "min": 500,
+        "max": 3500,
+        "step": 100,
+        "value": 2000
+      },
+      {
+        "id": "fissileMass",
+        "label": "Initial Fissile Mass (kg)",
+        "min": 1000,
+        "max": 4000,
+        "step": 100,
+        "value": 2500
+      }
+    ],
+    "code": "\n    const ctx = canvas.getContext(\"2d\");\n    const w = canvas.width, h = canvas.height;\n    ctx.fillStyle = \"#050811\"; ctx.fillRect(0, 0, w, h);\n\n    const CR = vals.convRatio !== undefined ? vals.convRatio : 1.25;\n    const P = vals.thermalPower !== undefined ? vals.thermalPower : 2000;\n    const M0 = vals.fissileMass !== undefined ? vals.fissileMass : 2500;\n\n    const plot = { x: 60, y: 40, w: w - 90, h: h - 85 };\n    ctx.strokeStyle = \"#1e293b\"; ctx.lineWidth = 1;\n    ctx.strokeRect(plot.x, plot.y, plot.w, plot.h);\n\n    // Title\n    ctx.fillStyle = \"#38bdf8\"; ctx.font = \"bold 12px Inter, sans-serif\";\n    ctx.fillText(`Breeder Reactor Fissile Inventory Trajectory | CR = ${CR.toFixed(2)} | P = ${P} MWth`, plot.x, plot.y - 12);\n\n    // Physics: daily consumption rate = 1.05 * (1 + alpha) * P g/day ~ 1.23 * P g/day\n    // Fissile production rate = CR * consumption\n    // Net accumulation rate dM/dt = (CR - 1) * 1.23 * P [kg/yr]\n    const alpha = 0.17;\n    const consPerDay = 1.05 * (1 + alpha) * (P / 1000); // kg/day\n    const netPerYear = (CR - 1) * consPerDay * 365; // kg/year\n    const T_double = (CR > 1.0) ? (M0 * Math.log(2)) / (netPerYear * Math.log(2) / (M0 * (CR - 1) * 0.0003 * 365)) : Infinity;\n    const actualDoublingTime = (CR > 1.0) ? (M0 / netPerYear) : Infinity;\n\n    // Grid & axes\n    const maxYears = 20;\n    const yMax = M0 * 2.5;\n    const yMin = 0;\n\n    ctx.strokeStyle = \"rgba(30, 41, 59, 0.6)\"; ctx.lineWidth = 1;\n    for (let yr = 0; yr <= maxYears; yr += 5) {\n      const px = plot.x + (yr / maxYears) * plot.w;\n      ctx.beginPath(); ctx.moveTo(px, plot.y); ctx.lineTo(px, plot.y + plot.h); ctx.stroke();\n      ctx.fillStyle = \"#64748b\"; ctx.font = \"10px Inter\";\n      ctx.fillText(`${yr} yr`, px - 12, plot.y + plot.h + 16);\n    }\n\n    for (let m = 0; m <= yMax; m += 1500) {\n      const py = plot.y + plot.h - ((m - yMin) / (yMax - yMin)) * plot.h;\n      ctx.beginPath(); ctx.moveTo(plot.x, py); ctx.lineTo(plot.x + plot.w, py); ctx.stroke();\n      ctx.fillStyle = \"#64748b\"; ctx.font = \"10px Inter\";\n      ctx.fillText(`${m} kg`, plot.x - 48, py + 4);\n    }\n\n    // Initial mass baseline\n    const yBase = plot.y + plot.h - ((M0 - yMin) / (yMax - yMin)) * plot.h;\n    ctx.strokeStyle = \"#475569\"; ctx.setLineDash([4, 4]);\n    ctx.beginPath(); ctx.moveTo(plot.x, yBase); ctx.lineTo(plot.x + plot.w, yBase); ctx.stroke();\n    ctx.setLineDash([]);\n    ctx.fillStyle = \"#94a3b8\"; ctx.font = \"10px Inter\";\n    ctx.fillText(`M0 = ${M0} kg (Initial)`, plot.x + 8, yBase - 4);\n\n    // Plot trajectory curve\n    ctx.beginPath();\n    ctx.strokeStyle = CR > 1.0 ? \"#10b981\" : (CR === 1.0 ? \"#f59e0b\" : \"#ef4444\");\n    ctx.lineWidth = 2.5;\n    for (let yr = 0; yr <= maxYears; yr += 0.2) {\n      const M = Math.max(0, M0 + netPerYear * yr);\n      const px = plot.x + (yr / maxYears) * plot.w;\n      const py = plot.y + plot.h - ((M - yMin) / (yMax - yMin)) * plot.h;\n      if (yr === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);\n    }\n    ctx.stroke();\n\n    // Animated operating time marker\n    const animYr = (time % 15) * (maxYears / 15);\n    const animM = Math.max(0, M0 + netPerYear * animYr);\n    const animX = plot.x + (animYr / maxYears) * plot.w;\n    const animY = plot.y + plot.h - ((animM - yMin) / (yMax - yMin)) * plot.h;\n\n    ctx.fillStyle = CR > 1.0 ? \"#34d399\" : \"#f87171\";\n    ctx.beginPath(); ctx.arc(animX, animY, 5, 0, Math.PI * 2); ctx.fill();\n\n    // Info overlay box\n    ctx.fillStyle = \"rgba(11, 17, 32, 0.85)\";\n    ctx.fillRect(plot.x + plot.w - 230, plot.y + 12, 218, 90);\n    ctx.strokeStyle = \"#334155\"; ctx.strokeRect(plot.x + plot.w - 230, plot.y + 12, 218, 90);\n\n    ctx.font = \"11px Inter\";\n    ctx.fillStyle = \"#94a3b8\";\n    ctx.fillText(`Regime: `, plot.x + plot.w - 220, plot.y + 30);\n    ctx.fillStyle = CR > 1.0 ? \"#10b981\" : (CR === 1.0 ? \"#f59e0b\" : \"#ef4444\");\n    ctx.font = \"bold 11px Inter\";\n    ctx.fillText(CR > 1.0 ? \"Fast Breeder (CR > 1)\" : (CR === 1.0 ? \"Break-Even (CR = 1)\" : \"Burner / Converter\"), plot.x + plot.w - 170, plot.y + 30);\n\n    ctx.font = \"11px Inter\"; ctx.fillStyle = \"#cbd5e1\";\n    ctx.fillText(`Net Fissile Gain: ${(netPerYear >= 0 ? \"+\" : \"\") + netPerYear.toFixed(1)} kg/yr`, plot.x + plot.w - 220, plot.y + 50);\n    ctx.fillText(`Doubling Time Td: ${actualDoublingTime !== Infinity ? actualDoublingTime.toFixed(1) + \" years\" : \"N/A (Non-breeder)\"}`, plot.x + plot.w - 220, plot.y + 70);\n    ctx.fillText(`Simulated Year: ${animYr.toFixed(1)} yr | Fissile: ${animM.toFixed(0)} kg`, plot.x + plot.w - 220, plot.y + 90);\n"
+  },
+  "reactor-neutron-attenuation-flux-sim": {
+    "title": "Neutron Beam Attenuation & Reaction Rate Simulator",
+    "desc": "Simulates exponential attenuation I(x) = I0 * exp(-\u03a3t * x) of a monoenergetic neutron beam propagating through shielding materials, displaying macroscopic cross section, mean free path, and HVL.",
+    "isAnimated": true,
+    "controls": [
+      {
+        "id": "incidentIntensity",
+        "label": "Incident Intensity I0 (n/cm\u00b2\u00b7s)",
+        "min": 1000,
+        "max": 10000,
+        "step": 500,
+        "value": 5000
+      },
+      {
+        "id": "macroSigma",
+        "label": "Macroscopic Cross Section \u03a3t (cm\u207b\u00b9)",
+        "min": 0.2,
+        "max": 4.0,
+        "step": 0.1,
+        "value": 1.8
+      },
+      {
+        "id": "shieldThick",
+        "label": "Shield Thickness x (cm)",
+        "min": 1.0,
+        "max": 10.0,
+        "step": 0.5,
+        "value": 5.0
+      }
+    ],
+    "code": "\n    const ctx = canvas.getContext(\"2d\");\n    const w = canvas.width, h = canvas.height;\n    ctx.fillStyle = \"#050811\"; ctx.fillRect(0, 0, w, h);\n\n    const I0 = vals.incidentIntensity !== undefined ? vals.incidentIntensity : 5000;\n    const Sigma_t = vals.macroSigma !== undefined ? vals.macroSigma : 1.8;\n    const thick = vals.shieldThick !== undefined ? vals.shieldThick : 5.0;\n\n    const lambda = 1.0 / Sigma_t;\n    const HVL = Math.LN2 / Sigma_t;\n    const I_out = I0 * Math.exp(-Sigma_t * thick);\n\n    // Left diagram: Physical beam penetrating slab\n    const slabBox = { x: 50, y: 50, w: 280, h: h - 100 };\n    ctx.strokeStyle = \"#334155\"; ctx.strokeRect(slabBox.x, slabBox.y, slabBox.w, slabBox.h);\n\n    // Material slab visual\n    const slabW = (thick / 10.0) * (slabBox.w * 0.6);\n    const slabX = slabBox.x + 80;\n    ctx.fillStyle = \"rgba(56, 189, 248, 0.15)\";\n    ctx.fillRect(slabX, slabBox.y, slabW, slabBox.h);\n    ctx.strokeStyle = \"#38bdf8\"; ctx.lineWidth = 1.5;\n    ctx.strokeRect(slabX, slabBox.y, slabW, slabBox.h);\n\n    ctx.fillStyle = \"#94a3b8\"; ctx.font = \"11px Inter\";\n    ctx.fillText(`Target Slab: ${thick.toFixed(1)} cm`, slabX + 5, slabBox.y - 8);\n\n    // Draw animated neutron rays\n    const numRays = 18;\n    for (let i = 0; i < numRays; i++) {\n      const rayY = slabBox.y + 15 + i * (slabBox.h - 30) / (numRays - 1);\n      const speed = 120;\n      const rayPhase = ((time * speed + i * 25) % (slabBox.w + 40));\n      const rayX = slabBox.x + rayPhase;\n\n      // Check transmission probability\n      let transmitted = true;\n      if (rayX > slabX) {\n        const distInSlab = Math.min(slabW, rayX - slabX);\n        const transProb = Math.exp(-Sigma_t * (distInSlab / (slabBox.w * 0.6) * 10.0));\n        if (Math.sin(i * 99 + 1) > transProb * 2 - 1) {\n          transmitted = false;\n        }\n      }\n\n      ctx.fillStyle = transmitted ? \"#38bdf8\" : \"rgba(239, 68, 68, 0.4)\";\n      ctx.beginPath();\n      ctx.arc(rayX, rayY, 2.5, 0, Math.PI * 2);\n      ctx.fill();\n    }\n\n    // Right diagram: Exponential attenuation curve\n    const plot = { x: 370, y: 50, w: w - 400, h: h - 100 };\n    ctx.strokeStyle = \"#1e293b\"; ctx.lineWidth = 1;\n    ctx.strokeRect(plot.x, plot.y, plot.w, plot.h);\n\n    ctx.fillStyle = \"#38bdf8\"; ctx.font = \"bold 12px Inter\";\n    ctx.fillText(\"Intensity Profile I(x) = I0 \u00b7 exp(-\u03a3t \u00b7 x)\", plot.x, plot.y - 10);\n\n    // Plot curve\n    ctx.beginPath();\n    ctx.strokeStyle = \"#10b981\"; ctx.lineWidth = 2.5;\n    for (let x = 0; x <= 10; x += 0.1) {\n      const I_x = I0 * Math.exp(-Sigma_t * x);\n      const px = plot.x + (x / 10.0) * plot.w;\n      const py = plot.y + plot.h - (I_x / I0) * plot.h;\n      if (x === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);\n    }\n    ctx.stroke();\n\n    // Mark current slab thickness point\n    const curPx = plot.x + (thick / 10.0) * plot.w;\n    const curPy = plot.y + plot.h - (I_out / I0) * plot.h;\n    ctx.strokeStyle = \"#f59e0b\"; ctx.setLineDash([3, 3]);\n    ctx.beginPath(); ctx.moveTo(curPx, plot.y); ctx.lineTo(curPx, plot.y + plot.h); ctx.stroke();\n    ctx.beginPath(); ctx.moveTo(plot.x, curPy); ctx.lineTo(curPx, curPy); ctx.stroke();\n    ctx.setLineDash([]);\n\n    ctx.fillStyle = \"#f59e0b\";\n    ctx.beginPath(); ctx.arc(curPx, curPy, 4.5, 0, Math.PI * 2); ctx.fill();\n\n    // Metrics panel\n    ctx.fillStyle = \"#e2e8f0\"; ctx.font = \"11px Inter\";\n    ctx.fillText(`Transmitted Flux: ${I_out.toFixed(1)} n/cm\u00b2\u00b7s (${((I_out / I0) * 100).toFixed(2)}%)`, plot.x + 10, plot.y + 25);\n    ctx.fillText(`Mean Free Path \u03bb: ${lambda.toFixed(3)} cm`, plot.x + 10, plot.y + 45);\n    ctx.fillText(`Half-Value Layer HVL: ${HVL.toFixed(3)} cm`, plot.x + 10, plot.y + 65);\n    ctx.fillText(`Attenuated Fraction: ${((1 - I_out / I0) * 100).toFixed(2)}%`, plot.x + 10, plot.y + 85);\n"
+  },
+  "reactor-fission-yield-spectrum-sim": {
+    "title": "Fission Mass Yield & Prompt Neutron Watt Spectrum",
+    "desc": "Displays the empirical asymmetric double-hump fission product mass yield curve Y(A) for U-235 and Pu-239 alongside the Cranberg/Watt prompt fission neutron energy distribution \u03c7(E).",
+    "isAnimated": true,
+    "controls": [
+      {
+        "id": "fuelType",
+        "label": "Fissile Isotope (1=U235, 2=Pu239)",
+        "min": 1,
+        "max": 2,
+        "step": 1,
+        "value": 1
+      },
+      {
+        "id": "displayMode",
+        "label": "Display (1=Mass Yield, 2=Watt Spectrum)",
+        "min": 1,
+        "max": 2,
+        "step": 1,
+        "value": 1
+      },
+      {
+        "id": "incidentEnergy",
+        "label": "Neutron Energy (1=Thermal, 2=Fast)",
+        "min": 1,
+        "max": 2,
+        "step": 1,
+        "value": 1
+      }
+    ],
+    "code": "\n    const ctx = canvas.getContext(\"2d\");\n    const w = canvas.width, h = canvas.height;\n    ctx.fillStyle = \"#050811\"; ctx.fillRect(0, 0, w, h);\n\n    const isPu = (vals.fuelType === 2);\n    const isWatt = (vals.displayMode === 2);\n    const isFast = (vals.incidentEnergy === 2);\n\n    const plot = { x: 65, y: 45, w: w - 95, h: h - 85 };\n    ctx.strokeStyle = \"#1e293b\"; ctx.lineWidth = 1;\n    ctx.strokeRect(plot.x, plot.y, plot.w, plot.h);\n\n    if (!isWatt) {\n      // Mass yield Y(A)\n      ctx.fillStyle = \"#38bdf8\"; ctx.font = \"bold 12px Inter\";\n      ctx.fillText(`Fission Product Mass Yield Y(A) | ${isPu ? \"Pu-239\" : \"U-235\"} | ${isFast ? \"Fast (14 MeV)\" : \"Thermal (0.025 eV)\"}`, plot.x, plot.y - 12);\n\n      // Light and heavy peaks\n      const peakL = isPu ? 99 : 95;\n      const peakH = isPu ? 139 : 140;\n      const valley = 117;\n      const valleyHeight = isFast ? 1.2 : 0.01;\n\n      // Draw Y(A) curve\n      ctx.beginPath();\n      ctx.strokeStyle = isPu ? \"#f43f5e\" : \"#38bdf8\"; ctx.lineWidth = 2.5;\n\n      for (let A = 70; A <= 165; A += 0.5) {\n        // Double Gaussian plus valley\n        const gL = 6.6 * Math.exp(-Math.pow((A - peakL) / 6.5, 2));\n        const gH = 6.6 * Math.exp(-Math.pow((A - peakH) / 6.5, 2));\n        const v = valleyHeight * Math.exp(-Math.pow((A - valley) / 10.0, 2));\n        const y = gL + gH + v;\n\n        const px = plot.x + ((A - 70) / 95.0) * plot.w;\n        const py = plot.y + plot.h - (y / 7.5) * plot.h;\n        if (A === 70) ctx.moveTo(px, py); else ctx.lineTo(px, py);\n      }\n      ctx.stroke();\n\n      // Axes & labels\n      ctx.fillStyle = \"#64748b\"; ctx.font = \"10px Inter\";\n      for (let A = 70; A <= 165; A += 15) {\n        const px = plot.x + ((A - 70) / 95.0) * plot.w;\n        ctx.fillText(`${A}`, px - 8, plot.y + plot.h + 16);\n      }\n      ctx.fillText(\"Mass Number A\", plot.x + plot.w / 2 - 35, plot.y + plot.h + 30);\n\n      for (let y = 0; y <= 7; y += 2) {\n        const py = plot.y + plot.h - (y / 7.5) * plot.h;\n        ctx.fillText(`${y}%`, plot.x - 30, py + 4);\n      }\n      ctx.fillText(\"Yield Y(A)\", plot.x - 55, plot.y + 15);\n\n      // Annotations\n      ctx.fillStyle = \"#f59e0b\"; ctx.font = \"11px Inter\";\n      ctx.fillText(`Light Peak A \u2248 ${peakL} (~6.6%)`, plot.x + ((peakL - 70) / 95.0) * plot.w - 40, plot.y + 35);\n      ctx.fillText(`Heavy Peak A \u2248 ${peakH} (~6.6%)`, plot.x + ((peakH - 70) / 95.0) * plot.w - 40, plot.y + 35);\n      ctx.fillStyle = \"#94a3b8\";\n      ctx.fillText(`Symmetric Valley A \u2248 117 (${isFast ? \"Filled (Fast)\" : \"Deep (~0.01%)\"})`, plot.x + ((valley - 70) / 95.0) * plot.w - 55, plot.y + plot.h - 20);\n\n    } else {\n      // Watt prompt neutron spectrum \u03c7(E)\n      ctx.fillStyle = \"#10b981\"; ctx.font = \"bold 12px Inter\";\n      ctx.fillText(`Prompt Fission Neutron Watt Spectrum \u03c7(E) = c \u00b7 exp(-E/a) \u00b7 sinh(\u221a(b\u00b7E))`, plot.x, plot.y - 12);\n\n      const a = isPu ? 0.966 : 0.988;\n      const b = isPu ? 2.842 : 2.249;\n\n      ctx.beginPath();\n      ctx.strokeStyle = \"#10b981\"; ctx.lineWidth = 2.5;\n\n      for (let E = 0.05; E <= 10.0; E += 0.05) {\n        const chi = 0.453 * Math.exp(-1.036 * E) * Math.sinh(Math.sqrt(2.29 * E));\n        const px = plot.x + (E / 10.0) * plot.w;\n        const py = plot.y + plot.h - (chi / 0.40) * plot.h;\n        if (E === 0.05) ctx.moveTo(px, py); else ctx.lineTo(px, py);\n      }\n      ctx.stroke();\n\n      // Peak marker (Most probable energy ~ 0.73 MeV)\n      const Emp = 0.73;\n      const chiMax = 0.453 * Math.exp(-1.036 * Emp) * Math.sinh(Math.sqrt(2.29 * Emp));\n      const pxMp = plot.x + (Emp / 10.0) * plot.w;\n      const pyMp = plot.y + plot.h - (chiMax / 0.40) * plot.h;\n\n      ctx.fillStyle = \"#f59e0b\";\n      ctx.beginPath(); ctx.arc(pxMp, pyMp, 5, 0, Math.PI * 2); ctx.fill();\n      ctx.fillText(`Most Probable: Emp = 0.73 MeV`, pxMp + 10, pyMp + 5);\n\n      // Mean energy marker (E_avg ~ 1.98 MeV)\n      const Eavg = 1.98;\n      const chiAvg = 0.453 * Math.exp(-1.036 * Eavg) * Math.sinh(Math.sqrt(2.29 * Eavg));\n      const pxAvg = plot.x + (Eavg / 10.0) * plot.w;\n      const pyAvg = plot.y + plot.h - (chiAvg / 0.40) * plot.h;\n\n      ctx.strokeStyle = \"#38bdf8\"; ctx.setLineDash([3, 3]);\n      ctx.beginPath(); ctx.moveTo(pxAvg, plot.y); ctx.lineTo(pxAvg, plot.y + plot.h); ctx.stroke();\n      ctx.setLineDash([]);\n      ctx.fillStyle = \"#38bdf8\";\n      ctx.fillText(`Average: E_mean = 1.98 MeV`, pxAvg + 8, plot.y + 40);\n\n      // X axes\n      ctx.fillStyle = \"#64748b\"; ctx.font = \"10px Inter\";\n      for (let E = 0; E <= 10; E += 1) {\n        const px = plot.x + (E / 10.0) * plot.w;\n        ctx.fillText(`${E}`, px - 4, plot.y + plot.h + 16);\n      }\n      ctx.fillText(\"Neutron Energy E (MeV)\", plot.x + plot.w / 2 - 50, plot.y + plot.h + 30);\n    }\n"
+  },
+  "reactor-fuel-burnup-energy-sim": {
+    "title": "Reactor Thermal Power & Fuel Burnup Dynamics",
+    "desc": "Simulates fuel consumption, fission rate, daily U-235 burnup, and core burnup accumulation (MWd/MTU) over multi-month reactor operating campaigns.",
+    "isAnimated": true,
+    "controls": [
+      {
+        "id": "corePower",
+        "label": "Thermal Power (MWth)",
+        "min": 1000,
+        "max": 4500,
+        "step": 100,
+        "value": 3000
+      },
+      {
+        "id": "initialFuel",
+        "label": "Core Heavy Metal (MTU)",
+        "min": 60,
+        "max": 120,
+        "step": 5,
+        "value": 90
+      },
+      {
+        "id": "operatingDays",
+        "label": "Operating Days",
+        "min": 100,
+        "max": 730,
+        "step": 15,
+        "value": 500
+      }
+    ],
+    "code": "\n    const ctx = canvas.getContext(\"2d\");\n    const w = canvas.width, h = canvas.height;\n    ctx.fillStyle = \"#050811\"; ctx.fillRect(0, 0, w, h);\n\n    const P = vals.corePower !== undefined ? vals.corePower : 3000;\n    const M_HM = vals.initialFuel !== undefined ? vals.initialFuel : 90;\n    const days = vals.operatingDays !== undefined ? vals.operatingDays : 500;\n\n    const plot = { x: 65, y: 40, w: w - 95, h: h - 85 };\n    ctx.strokeStyle = \"#1e293b\"; ctx.lineWidth = 1;\n    ctx.strokeRect(plot.x, plot.y, plot.w, plot.h);\n\n    // Title\n    ctx.fillStyle = \"#38bdf8\"; ctx.font = \"bold 12px Inter\";\n    ctx.fillText(`Core Burnup Trajectory & U-235 Depletion | P = ${P} MWth | M = ${M_HM} MTU`, plot.x, plot.y - 12);\n\n    // Physics\n    const dailyEnergy = P; // MWd/day\n    const totalBurnup = (P * days) / M_HM; // MWd/MTU\n    const dailyU235Burn = 1.05 * 1.17 * (P / 1000.0); // kg/day\n    const totalU235Burned = dailyU235Burn * days; // kg\n\n    // Axes\n    const maxDays = 750;\n    const maxBurnup = (4500 * 750) / 60; // ~ 56,250 MWd/MTU\n\n    ctx.strokeStyle = \"rgba(30, 41, 59, 0.5)\"; ctx.lineWidth = 1;\n    for (let d = 0; d <= maxDays; d += 150) {\n      const px = plot.x + (d / maxDays) * plot.w;\n      ctx.beginPath(); ctx.moveTo(px, plot.y); ctx.lineTo(px, plot.y + plot.h); ctx.stroke();\n      ctx.fillStyle = \"#64748b\"; ctx.font = \"10px Inter\";\n      ctx.fillText(`${d} d`, px - 10, plot.y + plot.h + 16);\n    }\n\n    for (let b = 0; b <= 50000; b += 10000) {\n      const py = plot.y + plot.h - (b / 55000) * plot.h;\n      ctx.beginPath(); ctx.moveTo(plot.x, py); ctx.lineTo(plot.x + plot.w, py); ctx.stroke();\n      ctx.fillStyle = \"#64748b\"; ctx.font = \"10px Inter\";\n      ctx.fillText(`${b / 1000}k`, plot.x - 30, py + 4);\n    }\n    ctx.fillText(\"Burnup (MWd/MTU)\", plot.x - 55, plot.y + 15);\n\n    // Plot burnup curve\n    ctx.beginPath();\n    ctx.strokeStyle = \"#f59e0b\"; ctx.lineWidth = 2.5;\n    for (let d = 0; d <= days; d += 5) {\n      const b = (P * d) / M_HM;\n      const px = plot.x + (d / maxDays) * plot.w;\n      const py = plot.y + plot.h - (b / 55000) * plot.h;\n      if (d === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);\n    }\n    ctx.stroke();\n\n    // Mark current operating point\n    const curX = plot.x + (days / maxDays) * plot.w;\n    const curY = plot.y + plot.h - (totalBurnup / 55000) * plot.h;\n    ctx.fillStyle = \"#f59e0b\";\n    ctx.beginPath(); ctx.arc(curX, curY, 5, 0, Math.PI * 2); ctx.fill();\n\n    // Metrics overlay box\n    ctx.fillStyle = \"rgba(11, 17, 32, 0.9)\";\n    ctx.fillRect(plot.x + 20, plot.y + 20, 240, 95);\n    ctx.strokeStyle = \"#334155\"; ctx.strokeRect(plot.x + 20, plot.y + 20, 240, 95);\n\n    ctx.font = \"11px Inter\"; ctx.fillStyle = \"#38bdf8\";\n    ctx.fillText(`Core Burnup: ${totalBurnup.toFixed(0)} MWd/MTU`, plot.x + 30, plot.y + 40);\n    ctx.fillStyle = \"#cbd5e1\";\n    ctx.fillText(`Fission Rate: ${(P * 3.12e16 / 1e19).toFixed(2)} \u00d7 10\u00b9\u2079 fissions/s`, plot.x + 30, plot.y + 60);\n    ctx.fillText(`Daily U-235 Burn: ${dailyU235Burn.toFixed(2)} kg/day`, plot.x + 30, plot.y + 80);\n    ctx.fillText(`Total U-235 Destroyed: ${totalU235Burned.toFixed(0)} kg`, plot.x + 30, plot.y + 100);\n"
+  }
+}
