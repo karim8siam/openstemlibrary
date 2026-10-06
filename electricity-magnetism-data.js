@@ -762,7 +762,7 @@ window.COURSE_DATA = {
             },
             {
               "title": "Step 3: Calculate required capacitance and new line current",
-              "math": "$$Q_C = V_{\\text{rms}}^2 \\omega C = V_{\\text{rms}}^2 (2\\pi f) C$$\n$$C = \\frac{Q_C}{2\\pi f V_{\\text{rms}}^2} = \\frac{10085 \\text{ VAR}}{2\\pi \\times 50.0 \\times (240)^2} = \\frac{10085}{314.16 \\times 57600} = \\frac{10085}{1.80956 \\times 10^7} = 5.573 \\times 10^{-4} \\text{ F} = 557 \\ \\mu\\text{F}$$\n$$I_{\\text{rms,2}} = \\frac{P}{V_{\\text{rms}} \\cos\\phi_2} = \\frac{12000}{240 \\times 0.950} = \\frac{12000}{228} = 52.63 \\text{ A}$$\n$$\\Delta I = 76.92 - 52.63 = 24.29 \\text{ A (31.6% line current reduction)}$$",
+              "math": "$$Q_C = V_{\\text{rms}}^2 \\omega C = V_{\\text{rms}}^2 (2\\pi f) C$$\n$$C = \\frac{Q_C}{2\\pi f V_{\\text{rms}}^2} = \\frac{10085 \\text{ VAR}}{2\\pi \\times 50.0 \\times (240)^2} = \\frac{10085}{314.16 \\times 57600} = \\frac{10085}{1.80956 \\times 10^7} = 5.573 \\times 10^{-4} \\text{ F} = 557 \\ \\mu\\text{F}$$\n$$I_{\\text{rms,2}} = \\frac{P}{V_{\\text{rms}} \\cos\\phi_2} = \\frac{12000}{240 \\times 0.950} = \\frac{12000}{228} = 52.63 \\text{ A}$$\n$$\\Delta I = 76.92 - 52.63 = 24.29 \\text{ A (31.6\\% line current reduction)}$$",
               "explanation": "Installing a 557 microfarad capacitor slashes supply current by 24.3 A, reducing cable $I^2 R$ heat losses by 53%."
             }
           ]

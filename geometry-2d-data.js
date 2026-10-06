@@ -463,7 +463,7 @@ window.COURSE_DATA = {
             {
               "step": "Step 3: Normalize to Standard Distance Coordinates",
               "math": "\\lambda = 0 \\implies (x + 2y)^2 = 4x - 2y + 5 \\\\ \\left(\\frac{x + 2y}{\\sqrt{1^2 + 2^2}}\\right)^2 = \\frac{4x - 2y + 5}{5} = \\frac{\\sqrt{4^2 + (-2)^2}}{5} \\left(\\frac{4x - 2y + 5}{\\sqrt{20}}\\right) = \\frac{\\sqrt{20}}{5} Y' = \\frac{2\\sqrt{5}}{5} Y' = \\frac{2}{\\sqrt{5}} X'",
-              "explanation": "Let $Y' = \\frac{x + 2y}{\\sqrt{5}}$ and $X' = \\frac{4x - 2y + 5}{\\sqrt{20}} = \\frac{4x - 2y + 5}{2\\sqrt{5}}$. Then $Y'^2 = \\frac{2}{\\sqrt{5}} X' = 4 \\left(\\frac{1}{2\\sqrt{5}}\right) X'$."
+              "explanation": "Let $Y' = \\frac{x + 2y}{\\sqrt{5}}$ and $X' = \\frac{4x - 2y + 5}{\\sqrt{20}} = \\frac{4x - 2y + 5}{2\\sqrt{5}}$. Then $Y'^2 = \\frac{2}{\\sqrt{5}} X' = 4 \\left(\\frac{1}{2\\sqrt{5}}\\right) X'$."
             },
             {
               "step": "Step 4: Extract Geometric Elements",
