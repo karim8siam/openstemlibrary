@@ -517,7 +517,7 @@ window.LIBRARY_CATALOG = {
           subtitle: "Multivariable Calculus, Vector Analysis, Curvature & Integral Theorems",
           status: "AVAILABLE",
           url: "calculus-3.html",
-          badge: "✨ NEW • Interactive Book Live",
+          badge: "Interactive Book Live",
           seoKeywords: "Calculus III Textbook, Multivariable Calculus, Vector Calculus, Vector-Valued Functions, Space Curves, Curvature and Torsion, Frenet-Serret Frame, Osculating Plane, Directional Derivatives, Gradient Vector, Tangent Planes, Multivariable Extrema, Lagrange Multipliers, Double Integrals, Polar Coordinates, Triple Integrals, Cylindrical Coordinates, Spherical Coordinates, Jacobian Determinant, Vector Fields, Line Integrals, Surface Integrals, Conservative Vector Fields, Green's Theorem, Stokes' Theorem, Gauss Divergence Theorem",
           description: "Rigorous university-level digital textbook covering multivariable calculus, spatial differential geometry, and vector analysis: vector-valued functions, spatial trajectories, curvature, torsion, Frenet-Serret apparatus, multivariable limits, partial and directional derivatives, tangent planes, extrema and Lagrange multipliers, double and triple integrals in Cartesian, cylindrical, and spherical coordinates, multi-dimensional Jacobians, vector fields, work, flux, line and surface integrals, and fundamental integral theorems (Green's, Stokes', and Gauss's Divergence theorems) with 8 interactive 60 FPS simulations and 24 tiered solved problems.",
           topics: [
@@ -529,6 +529,26 @@ window.LIBRARY_CATALOG = {
             "Triple Integrals in Cartesian, Cylindrical & Spherical Coordinates and Jacobians",
             "Vector Fields, Work, Circulation, Flux & Line Integrals",
             "Fundamental Integral Theorems: Green's, Stokes' & Gauss's Divergence Theorems"
+          ]
+        },
+        {
+          id: "linear-algebra",
+          title: "Linear Algebra & Spectral Theory",
+          subtitle: "Vector Spaces, Linear Transformations, Eigenvalues, Canonical Forms & Quadratic Systems",
+          status: "AVAILABLE",
+          url: "linear-algebra.html",
+          badge: "✨ NEW • Interactive Book Live",
+          seoKeywords: "Linear Algebra Textbook, Spectral Theory, Vector Spaces, Subspaces, Linear Transformations, Kernel, Range, Rank-Nullity Theorem, Steinitz Exchange Lemma, Four Fundamental Subspaces, Gaussian Elimination, LU Decomposition, Determinants Laplace, Eigenvalues and Eigenvectors, Diagonalization, Cayley-Hamilton Theorem, Inner Product Spaces, Cauchy-Schwarz Inequality, Gram-Schmidt Orthonormalization, QR Factorization, Adjoint Operators, Spectral Theorem, Schur Triangularization, Jordan Canonical Form, Rational Canonical Form, Bilinear Forms, Quadratic Forms, Sylvester's Law of Inertia, Sylvester Criterion, Definiteness, Hermitian Forms",
+          description: "Rigorous university-level digital textbook unifying abstract vector space theory, operator algebra, and matrix decompositions: matrices, Gaussian elimination, LU decomposition, multilinear determinant theory, abstract vector spaces and subspaces, Steinitz exchange lemma, dimension formulas, the four fundamental matrix subspaces, rank-nullity theorem, linear transformations, change of basis, eigenvalues, eigenvectors, diagonalization, Cayley-Hamilton theorem, inner product spaces, Gram-Schmidt orthonormalization, QR factorization, adjoint operators, the Spectral Theorem, Jordan canonical form, rational canonical form, bilinear and quadratic forms, Sylvester's Law of Inertia, definiteness criteria, and Hermitian forms with 8 interactive 60 FPS simulations and 24 tiered solved problems.",
+          topics: [
+            "Vectors in ℝⁿ & ℂⁿ, Systems of Linear Equations, Matrices & LU Decomposition",
+            "Algebraic Foundations: Groups, Fields, Vector Spaces & Subspaces",
+            "Linear Combinations, Span, Linear Independence & Dimension",
+            "The Four Fundamental Matrix Subspaces & Rank-Nullity of Matrices",
+            "Linear Transformations, Kernel, Image, Isomorphisms & Change of Basis",
+            "Eigenvalues, Eigenvectors, Diagonalization & Cayley-Hamilton Theorem",
+            "Inner Product Spaces, Gram-Schmidt, Adjoint Operators & Spectral Theory",
+            "Canonical Forms, Bilinear, Quadratic & Hermitian Forms"
           ]
         }
       ]

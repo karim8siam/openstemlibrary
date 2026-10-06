@@ -25,7 +25,7 @@ def sanitize_obj(obj):
         return [sanitize_obj(x) for x in obj]
     return obj
 
-json_files = sorted(glob.glob("calc1_u*.json") + glob.glob("calc2_u*.json") + glob.glob("geom2d_u*.json") + glob.glob("algebra_u*.json") + glob.glob("geom3d_u*.json") + glob.glob("calc3_u*.json"))
+json_files = sorted(glob.glob("calc1_u*.json") + glob.glob("calc2_u*.json") + glob.glob("geom2d_u*.json") + glob.glob("algebra_u*.json") + glob.glob("geom3d_u*.json") + glob.glob("calc3_u*.json") + glob.glob("la_u*.json"))
 modified_count = 0
 
 for f in json_files:

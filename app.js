@@ -270,7 +270,8 @@ function startApp() {
     
     // Isolate $$...$$
     clean = clean.replace(/\$\$(.*?)\$\$/gs, function(match, math) {
-      return "\n\n<div class=\"math-display\">$$" + math.trim() + "$$</div>\n\n";
+      const singleLineMath = math.trim().replace(/\r?\n/g, " ");
+      return "\n\n<div class=\"math-display\">$$" + singleLineMath + "$$</div>\n\n";
     });
 
     const lines = clean.split("\n");

@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
       container.appendChild(deptSection);
 
       const gridEl = deptSection.querySelector(`#grid-${dept.id}`);
-      const hasExcess = !isSearching && filteredCourses.length > DEFAULT_CARDS_PER_DEPT;
+      const hasExcess = (activeDeptFilter === "all") && !isSearching && filteredCourses.length > DEFAULT_CARDS_PER_DEPT;
       const isExpanded = Boolean(deptExpandedState[dept.id]);
 
       // Render Course Cards
