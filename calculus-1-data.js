@@ -927,12 +927,7 @@ window.COURSE_DATA = {
             },
             {
               "step": "Step 2: Sign Analysis of $f'(x)$",
-              "math": "\\begin{array}{c|c|c|c}
-\\text{Interval} & (-\\infty, 0) & (0, 3) & (3, \\infty) \\\\ \\hline
-4x^2 & + & + & + \\\\
-x - 3 & - & - & + \\\\ \\hline
-f'(x) & - & - & +
-\\end{array}",
+              "math": "\\begin{array}{c|c|c|c} \\text{Interval} & (-\\infty, 0) & (0, 3) & (3, \\infty) \\\\ \\hline 4x^2 & + & + & + \\\\ x - 3 & - & - & + \\\\ \\hline f'(x) & - & - & + \\end{array}",
               "explanation": "$f$ is strictly decreasing on $(-\\infty, 3)$ and strictly increasing on $(3, \\infty)$. Notice $f'$ does NOT change sign across $x = 0$."
             },
             {
