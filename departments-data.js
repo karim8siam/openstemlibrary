@@ -650,6 +650,26 @@ window.LIBRARY_CATALOG = {
             "Integral Domains, Euclidean Domains, PIDs & UFDs",
             "Polynomial Rings, Irreducibility Criteria & Field Extensions"
           ]
+        },
+        {
+          id: "graph-theory",
+          title: "Graph Theory: Structures, Algorithms & Flows",
+          subtitle: "Eulerian & Hamiltonian Circuits, Trees, Connectivity, Matrix Representations, Planarity, Coloring & Network Flows",
+          status: "AVAILABLE",
+          url: "graph-theory.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Graph Theory Textbook, Handshaking Lemma, Havel-Hakimi Theorem, Degree Sequences, Graph Isomorphism, Eulerian Trails, Fleury Algorithm, Hamiltonian Cycles, Dirac Theorem, Ore Theorem, Spanning Trees, Kruskal Algorithm, Prim Algorithm, Cayley Formula, Prüfer Sequences, Cut-Vertices, Cut-Sets, Whitney Inequality, Menger Theorem, Incidence Matrix, Adjacency Matrix, Graph Laplacian, Kirchhoff Matrix Tree Theorem, Directed Graphs, Tournaments, Landau Theorem, DAG, Topological Sorting, Planar Graphs, Euler Polyhedral Formula, Kuratowski Theorem, Wagner Minors, Dual Graphs, Vertex Coloring, Chromatic Number, Brooks Theorem, Five Color Theorem, Four Color Theorem, Chromatic Polynomial, Deletion-Contraction Recurrence, Edge Coloring, Chromatic Index, Vizing Theorem, Network Flows, Residual Networks, Max-Flow Min-Cut Theorem, Ford-Fulkerson Algorithm, Bipartite Matching, Hall Marriage Theorem",
+          description: "Exhaustive honors-level digital textbook covering the full breadth of graph theory: structural foundations, degree sequences, Handshaking theorems, Havel-Hakimi criterion, isomorphism invariants, walks, paths, Eulerian trails, Fleury's algorithm, Hamiltonian cycles, Dirac and Ore theorems, tree characterizations, distance metrics, Jordan's center theorem, Cayley's formula, Prüfer sequences, Kruskal and Prim MST algorithms, connectivity, cut-vertices, cut-sets, Whitney's inequality, Menger's theorems, incidence, circuit, cut-set and Laplacian matrices, walk counting via matrix powers, Kirchhoff's Matrix Tree Theorem, directed graphs, tournaments, Landau and Rédei theorems, DAGs, Kahn's topological sorting, planar graphs, Euler's formula, Kuratowski and Wagner theorems, geometric duality, vertex coloring, chromatic number, Brooks' theorem, Five-Color theorem, chromatic polynomials, deletion-contraction recurrence, edge coloring, Vizing's theorem, network flows, Ford-Fulkerson algorithm, Max-Flow Min-Cut theorem, and Hall's Marriage Theorem. Features 8 interactive 60 FPS Canvas simulations and 24 tiered solved examination problems with line-by-line proofs.",
+          topics: [
+            "Foundations of Graph Theory, Degree Sequences & Handshaking Theorems",
+            "Walks, Paths, Circuits, Eulerian Graphs & Hamiltonian Cycles",
+            "Trees, Spanning Trees, Center Theorems & Tree Metric Algorithms",
+            "Connectivity, Cut-Sets, Fundamental Circuits & Menger's Theorem",
+            "Algebraic Graph Theory: Incidence, Circuit, Cut-Set & Laplacian Matrices",
+            "Directed Graphs, Tournaments, DAGs & Topological Sorting",
+            "Planar Graphs, Euler's Formula, Kuratowski's Theorem & Duality",
+            "Graph Coloring, Chromatic Polynomials & Network Flows"
+          ]
         }
       ]
     }
