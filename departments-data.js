@@ -577,7 +577,7 @@ window.LIBRARY_CATALOG = {
           subtitle: "First-Order Systems, Series Solutions, Classical Orthogonal Functions & Sturm-Liouville Theory",
           status: "AVAILABLE",
           url: "ordinary-differential-equations-2.html",
-          badge: "✨ NEW • Interactive Book Live",
+          badge: "Interactive Book Live",
           seoKeywords: "Ordinary Differential Equations II Textbook, Systems of Linear Differential Equations, Phase Plane Analysis, Trace Determinant Classification, Critical Equilibrium Points, Matrix Exponential, Putzer Algorithm, Generalized Eigenvectors, Jordan Chains, Nonhomogeneous Systems Variation of Parameters, Power Series Solutions, Ordinary Points, Regular Singular Points, Method of Frobenius, Indicial Equation, Logarithmic Singular Solutions, Legendre Differential Equation, Legendre Polynomials, Rodrigues Formula, Bessel Differential Equation, Bessel Functions First Second Kind, Neumann Functions, Laguerre Polynomials, Hermite Polynomials, Sturm-Liouville Theory, Self-Adjoint Differential Operators, Green's Functions, Dirac Delta Jump Conditions, Fredholm Alternative",
           description: "Rigorous university-level digital textbook covering advanced linear differential systems, series solutions near ordinary and regular singular points, classical orthogonal functions, and boundary value eigenvalue problems: conversion of n-th order linear equations to first-order vector systems, Picard-Lindelöf existence-uniqueness vector theorem, operator elimination method, 2D autonomous linear systems and Poincaré phase portrait classification, homogeneous matrix systems, defective matrices and chains of generalized eigenvectors, the fundamental matrix and Abel-Liouville identity, matrix exponential via Putzer's algorithm, nonhomogeneous variation of parameters, power series method near ordinary points, the method of Frobenius across all three indicial root cases, Legendre's equation and polynomials, Bessel functions and circular drum harmonics, Laguerre and Hermite orthogonal polynomials, self-adjoint Sturm-Liouville theory, reality of eigenvalues and orthogonality, Sturm oscillation and separation theorems, generalized Fourier expansions, solvability via the Fredholm Alternative, and explicit closed-form construction of Green's functions with 8 interactive 60 FPS simulations and 24 tiered solved university examination problems.",
           topics: [
@@ -589,6 +589,26 @@ window.LIBRARY_CATALOG = {
             "Bessel Functions & Classical Orthogonal Systems (Laguerre & Hermite)",
             "Sturm-Liouville Theory, Self-Adjoint Operators & Oscillation Theorems",
             "Nonhomogeneous Boundary Value Problems, The Fredholm Alternative & Green's Functions"
+          ]
+        },
+        {
+          id: "complex-analysis",
+          title: "Complex Analysis",
+          subtitle: "Holomorphic Functions, Cauchy Theory, Laurent Expansions, Residue Calculus & Conformal Mappings",
+          status: "AVAILABLE",
+          url: "complex-analysis.html",
+          badge: "✨ NEW • Interactive Book Live",
+          seoKeywords: "Complex Analysis Textbook, Holomorphic Functions, Cauchy-Riemann Equations, Harmonic Conjugates, Cauchy-Goursat Theorem, Cauchy Integral Formula, Higher Derivatives, Liouville Theorem, Fundamental Theorem of Algebra, Morera Theorem, Maximum Modulus Principle, Schwarz Lemma, Taylor Series, Laurent Series, Isolated Singularities, Removable Singularities, Poles, Essential Singularities, Casorati-Weierstrass Theorem, Picard Theorem, Residue Calculus, Contour Integration, Jordan Lemma, Indented Contours, Branch Points, Branch Cuts, Keyhole Contour, Argument Principle, Rouche Theorem, Conformal Mapping, Mobius Transformations, Bilinear Transformations, Cross-Ratio, Joukowsky Airfoil, Analytic Continuation, Riemann Surfaces",
+          description: "Rigorous university-level digital textbook covering complex differentiability, holomorphic functions, Cauchy-Riemann equations and harmonic conjugates, complex contour integration, the Cauchy-Goursat theorem, Cauchy integral formulas, Liouville's theorem and the Fundamental Theorem of Algebra, Morera's theorem, the Maximum Modulus Principle, Schwarz's lemma, Taylor and Laurent series expansions, classification of isolated singularities, the Casorati-Weierstrass theorem, Cauchy residue calculus, contour integration methods (Jordan's lemma, indented semicircular paths, keyhole contours around branch cuts), Rouché's theorem, and conformal Möbius transformations with 8 interactive 60 FPS simulations and 24 tiered solved university examination problems.",
+          topics: [
+            "Metric Topology of the Complex Plane, Stereographic Projection & Power Series",
+            "Holomorphic Functions, Cauchy-Riemann Equations & Harmonic Conjugates",
+            "Complex Integration, Rectifiable Curves & The Cauchy-Goursat Theorem",
+            "Cauchy's Integral Formula, Liouville's Theorem & The Maximum Modulus Principle",
+            "Complex Series Expansions: Taylor, Laurent & Singularity Classification",
+            "The Residue Theorem, Argument Principle & Rouché's Theorem",
+            "Advanced Contour Integration: Real Integrals, Jordan's Lemma & Branch Cuts",
+            "Conformal Mappings, Möbius Transformations & Analytic Continuation"
           ]
         }
       ]
