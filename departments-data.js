@@ -610,6 +610,26 @@ window.LIBRARY_CATALOG = {
             "Advanced Contour Integration: Real Integrals, Jordan's Lemma & Branch Cuts",
             "Conformal Mappings, Möbius Transformations & Analytic Continuation"
           ]
+        },
+        {
+          id: "numerical-analysis",
+          title: "Numerical Analysis & Computational Methods",
+          subtitle: "Algorithms, Error Analysis, Numerical Calculus, Linear Systems & Differential Equations",
+          status: "AVAILABLE",
+          url: "numerical-analysis.html",
+          badge: "✨ NEW • Interactive Book Live",
+          seoKeywords: "Numerical Analysis Textbook, Computational Methods, Floating Point Error, IEEE 754, Bisection Method, Regula Falsi, Newton Raphson, Aitken Delta Squared, Polynomial Interpolation, Lagrange Interpolation, Newton Divided Differences, Chebyshev Nodes, Runge Phenomenon, Numerical Differentiation, Richardson Extrapolation, Simpson Rule, Weddle Rule, Gaussian Quadrature, Gauss Legendre, LU Decomposition, Cholesky Factorization, Jacobi Method, Gauss Seidel, SOR Method, Picard Iteration, Runge Kutta, RK4, Butcher Tableau, Local Truncation Error, Global Truncation Error, Discrete Gronwall Inequality, Adaptive Step Size, Dahlquist Test Equation, Absolute Stability Region, Stiff Differential Equations, A-Stability, L-Stability, Linear Multistep Methods, Adams Bashforth, Adams Moulton, Predictor Corrector, BDF, Dahlquist Root Condition, Dahlquist Barriers, Boundary Value Problems, Linear Shooting Method, Nonlinear Shooting Method, Variational Sensitivity Equations, Finite Difference Method, Tridiagonal Matrix Algorithm, Thomas Algorithm",
+          description: "Exhaustive university honors digital textbook covering algorithmic numerical approximations, IEEE floating-point error theory, bracketing and open root-finding, polynomial interpolation and Runge's phenomenon, numerical differentiation and high-order Gaussian quadrature, direct and iterative numerical linear algebra, single-step and multi-step ODE initial value solvers, Dahlquist absolute stability theory, stiff differential equations, and shooting and finite difference boundary value algorithms with 8 interactive 60 FPS simulations and 24 tiered solved examination problems.",
+          topics: [
+            "Non-Linear Equations in a Single Variable & Foundations of Numerical Error",
+            "Polynomial Interpolation, Finite Differences & Approximation Theory",
+            "Numerical Differentiation, Richardson Extrapolation & Advanced Quadrature",
+            "Numerical Linear Algebra & Multi-Variable Non-Linear Systems",
+            "Initial Value Problems for Ordinary Differential Equations: Single-Step Methods",
+            "Convergence & Error Analysis for Initial Value Problems",
+            "Absolute Stability Analysis, Stiff Differential Equations & Linear Multi-Step Methods",
+            "Boundary Value Problems for Ordinary Differential Equations: Shooting & Finite Differences"
+          ]
         }
       ]
     }

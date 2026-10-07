@@ -470,9 +470,13 @@ function startApp() {
       const items = document.querySelectorAll(".unit-nav-item");
 
       items.forEach((item, idx) => {
-        const unit = window.COURSE_DATA.units[idx];
-        const matchTitle = unit.title.toLowerCase().includes(term);
-        const matchSections = unit.sections.some(s => s.heading.toLowerCase().includes(term) || s.content.toLowerCase().includes(term));
+        const unit = window.COURSE_DATA && window.COURSE_DATA.units ? window.COURSE_DATA.units[idx] : null;
+        if (!unit) return;
+        const matchTitle = (unit.title || "").toLowerCase().includes(term);
+        const matchSections = unit.sections && unit.sections.some(s => 
+          ((s.heading || s.title || "").toLowerCase().includes(term)) || 
+          ((s.content || "").toLowerCase().includes(term))
+        );
 
         if (term === "" || matchTitle || matchSections) {
           item.style.display = "flex";
