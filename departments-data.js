@@ -537,7 +537,7 @@ window.LIBRARY_CATALOG = {
           subtitle: "Vector Spaces, Linear Transformations, Eigenvalues, Canonical Forms & Quadratic Systems",
           status: "AVAILABLE",
           url: "linear-algebra.html",
-          badge: "✨ NEW • Interactive Book Live",
+          badge: "Interactive Book Live",
           seoKeywords: "Linear Algebra Textbook, Spectral Theory, Vector Spaces, Subspaces, Linear Transformations, Kernel, Range, Rank-Nullity Theorem, Steinitz Exchange Lemma, Four Fundamental Subspaces, Gaussian Elimination, LU Decomposition, Determinants Laplace, Eigenvalues and Eigenvectors, Diagonalization, Cayley-Hamilton Theorem, Inner Product Spaces, Cauchy-Schwarz Inequality, Gram-Schmidt Orthonormalization, QR Factorization, Adjoint Operators, Spectral Theorem, Schur Triangularization, Jordan Canonical Form, Rational Canonical Form, Bilinear Forms, Quadratic Forms, Sylvester's Law of Inertia, Sylvester Criterion, Definiteness, Hermitian Forms",
           description: "Rigorous university-level digital textbook unifying abstract vector space theory, operator algebra, and matrix decompositions: matrices, Gaussian elimination, LU decomposition, multilinear determinant theory, abstract vector spaces and subspaces, Steinitz exchange lemma, dimension formulas, the four fundamental matrix subspaces, rank-nullity theorem, linear transformations, change of basis, eigenvalues, eigenvectors, diagonalization, Cayley-Hamilton theorem, inner product spaces, Gram-Schmidt orthonormalization, QR factorization, adjoint operators, the Spectral Theorem, Jordan canonical form, rational canonical form, bilinear and quadratic forms, Sylvester's Law of Inertia, definiteness criteria, and Hermitian forms with 8 interactive 60 FPS simulations and 24 tiered solved problems.",
           topics: [
@@ -549,6 +549,26 @@ window.LIBRARY_CATALOG = {
             "Eigenvalues, Eigenvectors, Diagonalization & Cayley-Hamilton Theorem",
             "Inner Product Spaces, Gram-Schmidt, Adjoint Operators & Spectral Theory",
             "Canonical Forms, Bilinear, Quadratic & Hermitian Forms"
+          ]
+        },
+        {
+          id: "ordinary-differential-equations-1",
+          title: "Ordinary Differential Equations I",
+          subtitle: "First-Order Equations, Exact Forms, Higher-Order Linear Systems & University Solved Problems",
+          status: "AVAILABLE",
+          url: "ordinary-differential-equations-1.html",
+          badge: "✨ NEW • Interactive Book Live",
+          seoKeywords: "Ordinary Differential Equations I Textbook, First Order Differential Equations, Separable Equations, Exact Differential Equations, Integrating Factors, Picard-Lindelöf Existence Uniqueness Theorem, Direction Fields, Clairaut Equation, Singular Solutions, Envelope Curve, Orthogonal Trajectories, Population Growth Logistic Harvesting, Newton Law of Cooling, Wronskian Determinant, Abel Identity, Linear Differential Equations with Constant Coefficients, Method of Undetermined Coefficients, Variation of Parameters Lagrange, Cauchy-Euler Equidimensional Equation, Mechanical Oscillations, Resonance, Beats Phenomenon",
+          description: "Rigorous university-level digital textbook covering first-order ordinary differential equations, exact differential forms, higher-order linear differential equations, and classical applications: initial and boundary value problems, Picard-Lindelöf existence and uniqueness theorem, direction fields and isoclines, separation of variables, homogeneous and linear first-order equations, Bernoulli, Riccati, and Clairaut equations, singular solutions and envelopes, orthogonal trajectories, physical modeling (mixing tanks, population dynamics with harvesting, Newton's law of cooling, chemical rate kinetics), higher-order linear theory, linear independence and the Wronskian, Abel's identity, complementary functions, particular integrals via annihilator operators and undetermined coefficients, Lagrange's variation of parameters, Cauchy-Euler equations, operator factorizations, and mechanical resonance and beats with 8 interactive 60 FPS simulations and 24 tiered solved university examination problems.",
+          topics: [
+            "Foundations, Classifications, Geometric Slopes & Picard-Lindelöf Existence Theory",
+            "First-Order Analytical Solution Methods: Separable, Homogeneous & Linear Equations",
+            "Exact Differential Equations, Integrating Factors & Potential Fields",
+            "Equations of the First Order but Higher Degree & Singular Envelope Solutions",
+            "Orthogonal Trajectories & Physical Applications of First-Order Equations",
+            "Higher-Order Linear Differential Equations: Theory, Homogeneous Systems & The Wronskian",
+            "Non-Homogeneous Equations: Undetermined Coefficients & Variation of Parameters",
+            "Homogeneous Linear Equations with Variable Coefficients & Cauchy-Euler Equidimensional Systems"
           ]
         }
       ]
