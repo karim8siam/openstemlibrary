@@ -630,6 +630,26 @@ window.LIBRARY_CATALOG = {
             "Absolute Stability Analysis, Stiff Differential Equations & Linear Multi-Step Methods",
             "Boundary Value Problems for Ordinary Differential Equations: Shooting & Finite Differences"
           ]
+        },
+        {
+          id: "abstract-algebra",
+          title: "Abstract Algebra: Groups, Rings & Fields",
+          subtitle: "Symmetric Groups, Normal Subgroups, Isomorphism Theorems, Ideals, Unique Factorization Domains & Field Extensions",
+          status: "AVAILABLE",
+          url: "abstract-algebra.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Abstract Algebra Textbook, Group Theory, Ring Theory, Field Theory, Equivalence Relations, Congruence Modulo n, Group Axioms, Subgroups, Cyclic Groups, Symmetric Group, Permutation Groups, Alternating Group, Dihedral Group, Orbit-Stabilizer Theorem, Burnside Lemma, Cosets, Lagrange Theorem, Euler Totient Function, Fermat Little Theorem, Normal Subgroups, Quotient Groups, Class Equation, Conjugacy Classes, Center of Group, Group Homomorphisms, Kernel and Image, First Isomorphism Theorem, Second Isomorphism Theorem, Third Isomorphism Theorem, Cayley Theorem, Automorphisms, Inner Automorphisms, Rings, Commutative Rings, Subrings, Ring Characteristic, Ideals, Principal Ideals, Quotient Rings, Ring Homomorphisms, Prime Ideals, Maximal Ideals, Integral Domains, Cancellation Law, Field of Fractions, Euclidean Domains, Principal Ideal Domains, Unique Factorization Domains, Gaussian Integers, Polynomial Rings, Division Algorithm, Gauss Lemma, Eisenstein Irreducibility Criterion, Cyclotomic Polynomials, Field Extensions, Minimal Polynomial, Algebraic Elements, Tower Law, Geometric Constructions, Doubling the Cube, Angle Trisection",
+          description: "Exhaustive honors-level digital textbook covering abstract algebraic structures: equivalence relations and modular arithmetic, group axioms, subgroups and cyclic group lattices, permutation and symmetric groups, Dihedral groups and group actions, cosets and Lagrange's Theorem, normal subgroups, quotient groups and the class equation, group homomorphisms and the First, Second, and Third Isomorphism Theorems, Cayley's theorem and automorphisms, ring theory, ideals, quotient rings, prime and maximal ideals, integral domains, Euclidean domains, PIDs, UFDs, polynomial rings over fields, Gauss's lemma, Eisenstein's criterion, and field extensions with the Tower Law and geometric impossibility proofs. Features 8 interactive 60 FPS simulations and 24 tiered solved examination problems with line-by-line proofs.",
+          topics: [
+            "Foundations of Algebraic Structures, Relations & Modular Arithmetic",
+            "Subgroups, Cyclic Groups, Lattices & Generators",
+            "Permutation Groups, Symmetric Groups, Dihedral Groups & Group Actions",
+            "Cosets, Lagrange's Theorem, Normal Subgroups & Quotient Groups",
+            "Group Homomorphisms, Isomorphism Theorems & Automorphisms",
+            "Ring Theory: Subrings, Ideals, Quotient Rings & Ring Homomorphisms",
+            "Integral Domains, Euclidean Domains, PIDs & UFDs",
+            "Polynomial Rings, Irreducibility Criteria & Field Extensions"
+          ]
         }
       ]
     }
