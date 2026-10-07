@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const allBtn = document.createElement("button");
     allBtn.className = `dept-pill-btn ${activeDeptFilter === "all" ? 'active' : ''}`;
     allBtn.dataset.dept = "all";
+    allBtn.setAttribute("aria-label", "Filter by all subjects");
     allBtn.innerText = `🌐 All Subjects (${totalBooks})`;
     allBtn.addEventListener("click", () => selectDept("all"));
     tabsContainer.appendChild(allBtn);
@@ -42,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const btn = document.createElement("button");
       btn.className = `dept-pill-btn ${activeDeptFilter === dept.id ? 'active' : ''}`;
       btn.dataset.dept = dept.id;
+      btn.setAttribute("aria-label", `Filter by ${dept.name} department`);
       btn.innerText = `${dept.icon} ${dept.name} (${availCount})`;
       btn.addEventListener("click", () => selectDept(dept.id));
       tabsContainer.appendChild(btn);
@@ -145,12 +147,12 @@ document.addEventListener("DOMContentLoaded", () => {
             ${topicsHtml}
           </div>
           ${isAvailable ? `
-            <a href="${c.url}" class="btn-open-course primary" title="Read ${c.title} Online">
+            <a href="${c.url}" class="btn-open-course primary" title="Read ${c.title} Online" aria-label="Read ${c.title} textbook and simulations">
               <span>Read Textbook & Simulations</span>
               <span>→</span>
             </a>
           ` : `
-            <button class="btn-open-course disabled" disabled>
+            <button class="btn-open-course disabled" disabled aria-label="${c.title} textbook coming soon">
               <span>Textbook in Writing • Coming Soon</span>
             </button>
           `}
@@ -170,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="dept-showing-meta">
             Showing <strong class="meta-current-count">${isExpanded ? filteredCourses.length : DEFAULT_CARDS_PER_DEPT}</strong> of <strong>${filteredCourses.length}</strong> textbooks in ${dept.name}
           </div>
-          <button class="btn-see-more ${isExpanded ? 'is-expanded' : ''}" data-dept="${dept.id}" aria-expanded="${isExpanded}">
+          <button class="btn-see-more ${isExpanded ? 'is-expanded' : ''}" data-dept="${dept.id}" aria-expanded="${isExpanded}" aria-label="Toggle all textbooks in ${dept.name}">
             <span class="btn-see-more-icon">${isExpanded ? '▲' : '📂'}</span>
             <span class="btn-see-more-text">${isExpanded ? `Show Fewer Textbooks (Collapse to ${DEFAULT_CARDS_PER_DEPT})` : `See More ${dept.name} Textbooks (+${excessCount} More)`}</span>
             <span class="btn-see-more-arrow">${isExpanded ? '↑' : '↓'}</span>
