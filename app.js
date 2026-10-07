@@ -293,35 +293,129 @@ function startApp() {
       if (inOl) { output.push("</ol>"); inOl = false; }
     }
 
-    lines.forEach(function(line) {
+    let i = 0;
+    while (i < lines.length) {
+      let line = lines[i];
       let s = line.trim();
       if (!s) {
         flushPara();
         closeLists();
-        return;
+        i++;
+        continue;
       }
 
+      // Horizontal Rule
+      if (s === "---" || s === "***") {
+        flushPara();
+        closeLists();
+        output.push("<hr class=\"section-divider-hr\">");
+        i++;
+        continue;
+      }
+
+      // Pre-wrapped math display
       if (s.startsWith("<div") || (s.startsWith("$$") && s.endsWith("$$"))) {
         flushPara();
         closeLists();
         output.push(s.startsWith("<div") ? s : "<div class=\"math-display\">" + s + "</div>");
-        return;
+        i++;
+        continue;
       }
 
+      // Blockquotes (> ...)
+      if (s.startsWith(">")) {
+        flushPara();
+        closeLists();
+        const bqLines = [];
+        while (i < lines.length && lines[i].trim().startsWith(">")) {
+          let bRaw = lines[i].trim();
+          let bContent = bRaw.substring(1).trim();
+          bqLines.push(bContent);
+          i++;
+        }
+
+        const bqOutput = [];
+        let bqPara = [];
+        let bqUl = false;
+        let bqOl = false;
+
+        function flushBqPara() {
+          if (bqPara.length > 0) {
+            let bp = bqPara.join(" ").trim()
+              .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+              .replace(/\*(.*?)\*/g, "<em>$1</em>");
+            if (bp) bqOutput.push("<p>" + bp + "</p>");
+            bqPara = [];
+          }
+        }
+        function closeBqLists() {
+          if (bqUl) { bqOutput.push("</ul>"); bqUl = false; }
+          if (bqOl) { bqOutput.push("</ol>"); bqOl = false; }
+        }
+
+        bqLines.forEach(bl => {
+          let bs = bl.trim();
+          if (!bs) {
+            flushBqPara();
+            closeBqLists();
+            return;
+          }
+          if (bs.startsWith("<div") || (bs.startsWith("$$") && bs.endsWith("$$"))) {
+            flushBqPara();
+            closeBqLists();
+            bqOutput.push(bs.startsWith("<div") ? bs : "<div class=\"math-display\">" + bs + "</div>");
+            return;
+          }
+          if (bs.startsWith("- ") || bs.startsWith("* ")) {
+            flushBqPara();
+            if (bqOl) { bqOutput.push("</ol>"); bqOl = false; }
+            if (!bqUl) { bqOutput.push("<ul>"); bqUl = true; }
+            let item = bs.substring(2).trim()
+              .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+              .replace(/\*(.*?)\*/g, "<em>$1</em>");
+            bqOutput.push("  <li>" + item + "</li>");
+            return;
+          }
+          let bOlMatch = bs.match(/^([0-9]+)\.\s+(.*)$/);
+          if (bOlMatch) {
+            flushBqPara();
+            if (bqUl) { bqOutput.push("</ul>"); bqUl = false; }
+            if (!bqOl) { bqOutput.push("<ol>"); bqOl = true; }
+            let item = bOlMatch[2].trim()
+              .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+              .replace(/\*(.*?)\*/g, "<em>$1</em>");
+            bqOutput.push("  <li>" + item + "</li>");
+            return;
+          }
+          closeBqLists();
+          bqPara.push(bs);
+        });
+
+        flushBqPara();
+        closeBqLists();
+
+        output.push("<blockquote class=\"math-callout\">\n" + bqOutput.join("\n") + "\n</blockquote>");
+        continue;
+      }
+
+      // Section Headings
       if (s.startsWith("### ")) {
         flushPara();
         closeLists();
         output.push("<h4>" + s.substring(4).trim() + "</h4>");
-        return;
+        i++;
+        continue;
       }
 
       if (s.startsWith("#### ")) {
         flushPara();
         closeLists();
         output.push("<h5>" + s.substring(5).trim() + "</h5>");
-        return;
+        i++;
+        continue;
       }
 
+      // Unordered List
       if (s.startsWith("- ") || s.startsWith("* ")) {
         flushPara();
         if (inOl) { output.push("</ol>"); inOl = false; }
@@ -330,19 +424,22 @@ function startApp() {
           .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
           .replace(/\*(.*?)\*/g, "<em>$1</em>");
         output.push("  <li>" + item + "</li>");
-        return;
+        i++;
+        continue;
       }
 
+      // Ordered List or Numbered Section
       const olMatch = s.match(/^([0-9]+)\.\s+(.*)$/);
       if (olMatch) {
         let num = olMatch[1];
         let body = olMatch[2].trim();
-        if (!inOl && (body.startsWith("**") || body.includes("Method") || body.includes("Law") || body.includes("Equation") || body.includes("Nature") || body.includes("Criteria") || body.includes("Equilibrium"))) {
+        if (!inOl && (body.startsWith("**") || body.includes("Method") || body.includes("Law") || body.includes("Equation") || body.includes("Nature") || body.includes("Criteria") || body.includes("Equilibrium") || body.includes("Summing"))) {
           flushPara();
           closeLists();
           let cleanTitle = body.replace(/\*\*/g, "");
           output.push("<h4>" + num + ". " + cleanTitle + "</h4>");
-          return;
+          i++;
+          continue;
         } else {
           flushPara();
           if (inUl) { output.push("</ul>"); inUl = false; }
@@ -351,7 +448,8 @@ function startApp() {
             .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
             .replace(/\*(.*?)\*/g, "<em>$1</em>");
           output.push("  <li>" + item + "</li>");
-          return;
+          i++;
+          continue;
         }
       }
 
@@ -360,7 +458,8 @@ function startApp() {
         .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
         .replace(/\*(.*?)\*/g, "<em>$1</em>");
       paraLines.push(formattedLine);
-    });
+      i++;
+    }
 
     flushPara();
     closeLists();

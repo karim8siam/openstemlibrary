@@ -17,10 +17,10 @@ class NoCacheHandler(http.server.SimpleHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Origin', '*')
         super().end_headers()
 
-socketserver.TCPServer.allow_reuse_address = True
+socketserver.ThreadingTCPServer.allow_reuse_address = True
 try:
-    with socketserver.TCPServer(("", PORT), NoCacheHandler) as httpd:
-        print(f"Server started on http://localhost:{PORT} with zero caching")
+    with socketserver.ThreadingTCPServer(("", PORT), NoCacheHandler) as httpd:
+        print(f"Server started on http://localhost:{PORT} with zero caching (multi-threaded)")
         sys.stdout.flush()
         httpd.serve_forever()
 except Exception as e:

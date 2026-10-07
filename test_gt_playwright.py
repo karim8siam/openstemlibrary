@@ -20,7 +20,7 @@ def run_tests():
         page.on("console", lambda msg: errors.append(f"ConsoleError: {msg.text}") if msg.type == "error" else None)
 
         print("--> Testing http://localhost:4242/graph-theory.html ...")
-        page.goto("http://localhost:4242/graph-theory.html", wait_until="networkidle")
+        page.goto("http://localhost:4242/graph-theory.html", wait_until="domcontentloaded")
 
         title = page.title()
         print(f"Page Title: {title}")
@@ -91,7 +91,8 @@ def run_tests():
 
         # Test index.html
         print("\n--> Testing http://localhost:4242/index.html ...")
-        page.goto("http://localhost:4242/index.html", wait_until="networkidle")
+        page.goto("http://localhost:4242/index.html", wait_until="domcontentloaded")
+        page.wait_for_timeout(400)
 
         index_text = page.locator("body").text_content()
         assert "33 Textbooks" in index_text or "33 Live Textbooks" in index_text, "Hero badge does not show 33 textbooks!"
@@ -105,7 +106,8 @@ def run_tests():
 
         # Check cross-links in other textbooks
         for other_url in ["abstract-algebra.html", "linear-algebra.html", "numerical-analysis.html"]:
-            page.goto(f"http://localhost:4242/{other_url}", wait_until="networkidle")
+            page.goto(f"http://localhost:4242/{other_url}", wait_until="domcontentloaded")
+            page.wait_for_timeout(300)
             gt_link = page.locator('a[href="graph-theory.html"]')
             assert gt_link.count() >= 1, f"Graph Theory link not found in footer of {other_url}!"
             print(f"✓ Verified Graph Theory footer link in {other_url}.")

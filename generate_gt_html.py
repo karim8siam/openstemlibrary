@@ -3,29 +3,179 @@
 generate_gt_html.py
 Generates graph-theory.html with exact layout parity to linear-algebra.html and abstract-algebra.html,
 deep SEO meta tags, Schema.org JSON-LD (strictly zero course numbers),
-pre-rendered Unit 1 sections & worked problems, interactive Canvas simulations mount,
-font toggle, live topic search, and comprehensive trust footer.
+pre-rendered Unit 1 sections & worked problems (fully formatted semantic HTML with callout blockquotes),
+interactive Canvas simulations mount, font toggle, live topic search, and comprehensive trust footer.
 """
 
+import re
 import build_gt_unit1
+
+def format_markdown_to_html(text):
+    if not text:
+        return ""
+    clean = text.replace('\r\n', '\n').strip()
+
+    # Pre-isolate display math $$...$$
+    def isolate_math(match):
+        single = match.group(1).strip().replace('\n', ' ')
+        return f"\n\n<div class=\"math-display\">$${single}$$</div>\n\n"
+    clean = re.sub(r'\$\$(.*?)\$\$', isolate_math, clean, flags=re.DOTALL)
+
+    lines = clean.split('\n')
+    output = []
+    i = 0
+    para = []
+
+    def flush_para():
+        nonlocal para
+        if para:
+            p = ' '.join(para).strip()
+            p = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', p)
+            p = re.sub(r'\*(.*?)\*', r'<em>\1</em>', p)
+            if p:
+                output.append(f"<p>{p}</p>")
+            para = []
+
+    while i < len(lines):
+        line = lines[i]
+        s = line.strip()
+        if not s:
+            flush_para()
+            i += 1
+            continue
+
+        # Horizontal rule
+        if s == '---' or s == '***':
+            flush_para()
+            output.append('<hr class="section-divider-hr">')
+            i += 1
+            continue
+
+        # Pre-wrapped display math or div
+        if s.startswith('<div') or (s.startswith('$$') and s.endswith('$$')):
+            flush_para()
+            output.append(s if s.startswith('<div') else f'<div class="math-display">{s}</div>')
+            i += 1
+            continue
+
+        # Blockquote (group all consecutive lines starting with >)
+        if s.startswith('>'):
+            flush_para()
+            bq_lines = []
+            while i < len(lines) and lines[i].strip().startswith('>'):
+                b_raw = lines[i].strip()
+                b_content = b_raw[1:].strip()
+                bq_lines.append(b_content)
+                i += 1
+
+            bq_out = []
+            bq_p = []
+
+            def flush_bq_p():
+                nonlocal bq_p
+                if bq_p:
+                    bp = ' '.join(bq_p).strip()
+                    bp = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', bp)
+                    bp = re.sub(r'\*(.*?)\*', r'<em>\1</em>', bp)
+                    if bp:
+                        bq_out.append(f"<p>{bp}</p>")
+                    bq_p = []
+
+            for bl in bq_lines:
+                bs = bl.strip()
+                if not bs:
+                    flush_bq_p()
+                    continue
+                if bs.startswith('<div') or (bs.startswith('$$') and bs.endswith('$$')):
+                    flush_bq_p()
+                    bq_out.append(bs if bs.startswith('<div') else f'<div class="math-display">{bs}</div>')
+                    continue
+                if bs.startswith('- ') or bs.startswith('* '):
+                    flush_bq_p()
+                    item = bs[2:].strip()
+                    item = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', item)
+                    item = re.sub(r'\*(.*?)\*', r'<em>\1</em>', item)
+                    bq_out.append(f"<ul><li>{item}</li></ul>")
+                    continue
+                m_num = re.match(r'^([0-9]+)\.\s+(.*)$', bs)
+                if m_num:
+                    flush_bq_p()
+                    item = m_num.group(2).strip()
+                    item = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', item)
+                    item = re.sub(r'\*(.*?)\*', r'<em>\1</em>', item)
+                    bq_out.append(f"<ol start=\"{m_num.group(1)}\"><li>{item}</li></ol>")
+                    continue
+                bq_p.append(bs)
+
+            flush_bq_p()
+            output.append(f"<blockquote class=\"math-callout\">\n" + '\n'.join(bq_out) + "\n</blockquote>")
+            continue
+
+        # Headings
+        if s.startswith('### '):
+            flush_para()
+            output.append(f"<h4>{s[4:].strip()}</h4>")
+            i += 1
+            continue
+
+        if s.startswith('#### '):
+            flush_para()
+            output.append(f"<h5>{s[5:].strip()}</h5>")
+            i += 1
+            continue
+
+        # Unordered lists
+        if s.startswith('- ') or s.startswith('* '):
+            flush_para()
+            item = s[2:].strip()
+            item = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', item)
+            item = re.sub(r'\*(.*?)\*', r'<em>\1</em>', item)
+            output.append(f"<ul><li>{item}</li></ul>")
+            i += 1
+            continue
+
+        # Numbered headings or lists
+        m_num = re.match(r'^([0-9]+)\.\s+(.*)$', s)
+        if m_num:
+            num = m_num.group(1)
+            body = m_num.group(2).strip()
+            if body.startswith('**') or any(kw in body for kw in ['Method', 'Law', 'Equation', 'Nature', 'Criteria', 'Summing']):
+                flush_para()
+                clean_title = body.replace('**', '')
+                output.append(f"<h4>{num}. {clean_title}</h4>")
+                i += 1
+                continue
+            else:
+                flush_para()
+                item = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', body)
+                item = re.sub(r'\*(.*?)\*', r'<em>\1</em>', item)
+                output.append(f"<ol start=\"{num}\"><li>{item}</li></ol>")
+                i += 1
+                continue
+
+        para.append(s)
+        i += 1
+
+    flush_para()
+    return '\n\n'.join(output)
 
 def generate_html():
     u1 = build_gt_unit1.get_unit1()
 
-    # Pre-render Unit 1 sections
+    # Pre-render Unit 1 sections with clean semantic HTML
     sections_html = []
     for s_idx, sec in enumerate(u1["sections"], start=1):
         sec_id = f"u1-sec{s_idx}"
         sec_num = sec.get("secNumber", f"1.{s_idx}")
         sec_title = sec["title"]
-        sec_content = sec["content"]
-        
+        sec_content = format_markdown_to_html(sec["content"])
+
         # Simulation mount if section has it
         sim_mount_html = ""
         sims = sec.get("simulations", [])
         if sec_num == "1.3":
             sims = ["sim_gt_graph_builder"]
-            
+
         if sims:
             for sim_id in sims:
                 sim_mount_html += f"""
@@ -68,8 +218,8 @@ def generate_html():
             diff_label = "Tier 3 • Honors / Proof Challenge"
 
         prob_title = prob.get("title", f"Solved Problem 1.{p_idx}")
-        statement = prob.get("statement", "")
-        solution = prob.get("solution", "")
+        statement = format_markdown_to_html(prob.get("statement", ""))
+        solution = format_markdown_to_html(prob.get("solution", ""))
 
         p_block = f"""<div class="problem-card" id="{prob_id}">
   <div class="problem-header">
@@ -143,10 +293,10 @@ def generate_html():
   <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/auto-render.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
   <!-- Application Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=20261008_v1">
+  <link rel="stylesheet" href="styles.css?v=20261008_v2">
 </head>
 <body>
 
@@ -282,9 +432,9 @@ def generate_html():
   </div>
 
   <!-- Textbook Application Scripts -->
-  <script src="graph-theory-sims.js?v=20261008_v1"></script>
-  <script src="graph-theory-data.js?v=20261008_v1"></script>
-  <script src="app.js?v=20261008_v1"></script>
+  <script src="graph-theory-sims.js?v=20261008_v2"></script>
+  <script src="graph-theory-data.js?v=20261008_v2"></script>
+  <script src="app.js?v=20261008_v2"></script>
 </body>
 </html>
 """
