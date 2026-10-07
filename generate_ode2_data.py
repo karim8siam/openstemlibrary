@@ -9,12 +9,12 @@ import json
 
 def build_data():
     course = {
-        "courseCode": "MTH 3104",
+        "courseCode": "",
         "courseTitle": "Ordinary Differential Equations II",
         "courseSubtitle": "First-Order Systems, Series Solutions, Classical Orthogonal Functions & Sturm-Liouville Theory",
         "credits": 3,
         "lectureHours": 45,
-        "prerequisites": "Calculus I (MTH 1102), Calculus II (MTH 1202) & Ordinary Differential Equations I (MTH 2103)",
+        "prerequisites": "Calculus I, Calculus II & Ordinary Differential Equations I",
         "description": "Exhaustive honors-level university digital textbook covering advanced linear differential systems, series solutions near ordinary and regular singular points, classical orthogonal functions (Legendre, Bessel, Laguerre, Hermite), Sturm-Liouville eigenvalue boundary value theory, the Fredholm Alternative, and Green's functions with 8 interactive 60 FPS simulations and 24 tiered solved university examination problems.",
         "units": [],
         "problems": []
@@ -1201,6 +1201,28 @@ For any load with $\int_0^1 f(x)\,dx = 0$, the unique zero-mean solution is $y(x
             "answer": r"$G_m(x, \xi) = \frac{x^2 + \xi^2}{2} - \max(x, \xi) + \frac{1}{3}$."
         }
     ]
+
+    for p in problems:
+        t = p.get("tier", 1)
+        if t == 1:
+            p["difficulty"] = "Easy"
+            p["difficultyLabel"] = "Tier 1 • Foundational"
+        elif t == 2:
+            p["difficulty"] = "Medium"
+            p["difficultyLabel"] = "Tier 2 • Intermediate Exam"
+        else:
+            p["difficulty"] = "Hard"
+            p["difficultyLabel"] = "Tier 3 • Honors Challenge"
+
+    # Assign 3 worked problems to each unit for dynamic chapter rendering in app.js
+    course["units"][0]["problems"] = [problems[0], problems[8], problems[16]]
+    course["units"][1]["problems"] = [problems[1], problems[9], problems[17]]
+    course["units"][2]["problems"] = [problems[2], problems[12], problems[20]]
+    course["units"][3]["problems"] = [problems[3], problems[5], problems[18]]
+    course["units"][4]["problems"] = [problems[4], problems[10], problems[13]]
+    course["units"][5]["problems"] = [problems[11], problems[19], problems[14]]
+    course["units"][6]["problems"] = [problems[6], problems[14], problems[21]]
+    course["units"][7]["problems"] = [problems[7], problems[15], problems[22]]
 
     course["problems"] = problems
 

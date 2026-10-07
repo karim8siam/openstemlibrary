@@ -233,6 +233,9 @@ html_content = f'''<!DOCTYPE html>
               <a href="geometry-3d.html" class="reader-trust-link">3D & Vector Geometry</a>
               <a href="calculus-3.html" class="reader-trust-link">Calculus III</a>
               <a href="linear-algebra.html" class="reader-trust-link">Linear Algebra</a>
+              <a href="ordinary-differential-equations-1.html" class="reader-trust-link">Differential Equations I</a>
+              <a href="ordinary-differential-equations-2.html" class="reader-trust-link">Differential Equations II</a>
+              <a href="complex-analysis.html" class="reader-trust-link">Complex Analysis</a>
               <a href="about.html" class="reader-trust-link">About & Editorial</a>
               <a href="privacy.html" class="reader-trust-link">Privacy Policy</a>
               <a href="terms.html" class="reader-trust-link">Terms of Service</a>

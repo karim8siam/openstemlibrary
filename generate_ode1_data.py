@@ -7,12 +7,12 @@ Full 8-chapter university honors textbook with 3x content depth, complete KaTeX 
 import json
 
 course_data = {
-    "courseCode": "MTH 2103",
+    "courseCode": "",
     "courseTitle": "Ordinary Differential Equations I",
     "courseSubtitle": "Analytical Methods, Existence Theory, Higher-Order Linear Systems & Dynamic Modeling",
     "credits": 3,
     "lectureHours": 45,
-    "prerequisites": "Calculus I (MTH 1101) & Calculus II (MTH 1202)",
+    "prerequisites": "Calculus I & Calculus II",
     "description": "Comprehensive university honors digital textbook covering ordinary differential equations and their applications in physical, biological, and engineering sciences: classifications, Picard-Lindelöf existence and uniqueness theory, direction fields, exact differential forms, integrating factors, Bernoulli, Riccati, and Clairaut equations, orthogonal trajectories, linear differential operators, Wronskian algebra, Abel's identity, reduction of order, constant coefficient and Cauchy-Euler equations, undetermined coefficients, variation of parameters, mechanical vibrations, resonance, RLC circuits, and rocket motion.",
     "units": [
         # UNIT 1

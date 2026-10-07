@@ -2,15 +2,15 @@
 """
 Generator for ordinary-differential-equations-1.html
 Pre-renders Unit 1 for instant first paint and Googlebot SEO indexing,
-injects Schema.org Course and BreadcrumbList JSON-LD,
-links the Google-compliant favicon suite, and mounts the 8-chapter curriculum.
+strictly adheres to the linear-algebra.html gold standard layout,
+omits all university course numbers, and mounts the 8-chapter curriculum.
 """
 import json
 import re
 
 with open("ordinary-differential-equations-1-data.js", "r", encoding="utf-8") as f:
     raw = f.read()
-    raw_json = raw[len("window.COURSE_DATA = "):].rstrip(";\n")
+    raw_json = raw[raw.find("{"):raw.rfind("}") + 1]
     course_data = json.loads(raw_json)
 
 u1 = course_data["units"][0]
@@ -40,14 +40,16 @@ for sec in u1["sections"]:
 
 # Generate Pre-Rendered Problems for Unit 1
 problems_html = []
-for i, prob in enumerate(u1["problems"], 1):
+for i, prob in enumerate(u1.get("problems", []), 1):
     diff = prob.get("difficulty", "Hard")
     diff_class = "diff-easy" if "Foundational" in diff or diff == "Easy" or i == 1 else ("diff-medium" if "Intermediate" in diff or diff == "Medium" or i == 2 else "diff-hard")
     diff_label = prob.get("difficultyLabel", f"Tier {i} Problem")
-    pid = prob.get("id", f"ode1-prob-{i}")
+    pid = prob.get("id", f"ode1-prob-1-{i}")
     ptitle = prob["title"]
-    pstatement = prob.get("statement", "")
-    psolution = prob.get("solution", "")
+    pstatement = prob.get("statement", prob.get("question", ""))
+    pstatement = re.sub(r'\$\$(.*?)\$\$', lambda m: '$$' + m.group(1).replace('\n', ' ') + '$$', pstatement, flags=re.DOTALL)
+    psolution = prob.get("derivation", prob.get("solution", ""))
+    psolution = re.sub(r'\$\$(.*?)\$\$', lambda m: '$$' + m.group(1).replace('\n', ' ') + '$$', psolution, flags=re.DOTALL)
     panswer = prob.get("answer", "")
     
     sol_html = f'''<div class="solution-step">
@@ -56,7 +58,7 @@ for i, prob in enumerate(u1["problems"], 1):
     if panswer:
         sol_html += f'''
 <div class="solution-step" style="border-left-color: #10b981;">
-  <div class="step-title" style="color: #10b981;">Analytical Answer & Insights</div>
+  <div class="step-title" style="color: #10b981;">Final Answer & Analytical Insight</div>
   <div class="step-explanation">{panswer}</div>
 </div>'''
 
@@ -82,6 +84,8 @@ for i, prob in enumerate(u1["problems"], 1):
 joined_sections = "\n".join(sections_html)
 joined_problems = "\n".join(problems_html)
 
+lead_desc = u1.get("subtitle", u1.get("leadSummary", u1.get("description", "")))
+
 html_content = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -90,7 +94,7 @@ html_content = f'''<!DOCTYPE html>
 
   <!-- Comprehensive SEO Meta Tags -->
   <title>Ordinary Differential Equations I: Analytical Methods, Existence Theory & Modeling | OpenSTEM Digital Academic Press</title>
-  <meta name="description" content="Free university digital textbook for MTH 2103 Ordinary Differential Equations I: classifications, Picard-Lindelöf existence and uniqueness theorem, direction fields, exact differential forms, integrating factors, Bernoulli, Riccati, and Clairaut equations, orthogonal trajectories, Wronskian algebra, Abel's identity, reduction of order, constant coefficient and Cauchy-Euler equations, undetermined coefficients, variation of parameters, mechanical vibrations, resonance, RLC networks, and rocket dynamics with 8 interactive 60 FPS simulations and 24 tiered solved university examination problems.">
+  <meta name="description" content="Free university digital textbook covering classifications, Picard-Lindelöf existence and uniqueness theorem, direction fields, exact differential forms, integrating factors, Bernoulli, Riccati, and Clairaut equations, orthogonal trajectories, Wronskian algebra, Abel's identity, reduction of order, constant coefficient and Cauchy-Euler equations, undetermined coefficients, variation of parameters, mechanical vibrations, resonance, RLC networks, and rocket dynamics with 8 interactive 60 FPS simulations and 24 tiered solved university examination problems.">
   <meta name="keywords" content="Ordinary Differential Equations, ODE, Picard Lindelof Theorem, Direction Fields, Exact Equations, Integrating Factor, Bernoulli Equation, Riccati Equation, Clairaut Equation, Orthogonal Trajectories, Wronskian, Abels Formula, Reduction of Order, Cauchy Euler Equation, Undetermined Coefficients, Variation of Parameters, Mechanical Vibrations, Resonance, RLC Circuits, Rocket Motion">
   <meta name="author" content="Shahriyar Karim Siam">
   <meta name="robots" content="index, follow, max-image-preview:large">
@@ -99,14 +103,14 @@ html_content = f'''<!DOCTYPE html>
   <!-- Open Graph / Social Media -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://openstemlibrary.com/ordinary-differential-equations-1.html">
-  <meta property="og:title" content="Ordinary Differential Equations I: Analytical Methods, Existence Theory & Modeling | OpenSTEM">
-  <meta property="og:description" content="Comprehensive university honors course covering analytical first-order and higher-order ODEs, Picard existence theory, Wronskian algebra, mechanical resonance, and 8 real-time interactive numerical simulations.">
+  <meta property="og:title" content="Ordinary Differential Equations I: Analytical Methods, Existence Theory & Modeling | OpenSTEM Digital Academic Press">
+  <meta property="og:description" content="Exhaustive university honors textbook with 8 chapters, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
   <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Ordinary Differential Equations I | OpenSTEM Digital Academic Press">
-  <meta name="twitter:description" content="Free university digital textbook covering ODE classifications, Picard iterations, exact forms, Wronskian, Cauchy-Euler, variation of parameters, and resonance.">
+  <meta name="twitter:title" content="Ordinary Differential Equations I: Analytical Methods, Existence Theory & Modeling">
+  <meta name="twitter:description" content="Free university digital textbook covering classifications, Picard iterations, exact forms, Wronskian, Cauchy-Euler, variation of parameters, and resonance.">
   <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
 
   <!-- Favicon & Search Engine Icons -->
@@ -122,14 +126,14 @@ html_content = f'''<!DOCTYPE html>
   {{
     "@context": "https://schema.org",
     "@type": "Course",
-    "name": "MTH 2103: Ordinary Differential Equations I",
+    "name": "Ordinary Differential Equations I: Analytical Methods, Existence Theory & Modeling",
     "description": "Comprehensive university honors curriculum covering classifications, Picard-Lindelof existence and uniqueness, exact equations, integrating factors, Bernoulli, Riccati, Clairaut equations, orthogonal trajectories, linear differential operators, Wronskian, Abels identity, reduction of order, constant coefficient and Cauchy-Euler equations, undetermined coefficients, variation of parameters, mechanical vibrations, resonance, and rocket dynamics.",
     "provider": {{
       "@type": "EducationalOrganization",
       "name": "OpenSTEM Digital Academic Press",
       "url": "https://openstemlibrary.com"
     }},
-    "educationalLevel": "Undergraduate B.Sc. Honours & STEM Foundation",
+    "educationalLevel": "Undergraduate B.Sc. Honors & STEM Foundation",
     "isAccessibleForFree": true
   }}
   </script>
@@ -155,49 +159,42 @@ html_content = f'''<!DOCTYPE html>
       {{
         "@type": "ListItem",
         "position": 3,
-        "name": "Ordinary Differential Equations I",
+        "name": "Ordinary Differential Equations I: Analytical Methods, Existence Theory & Modeling",
         "item": "https://openstemlibrary.com/ordinary-differential-equations-1.html"
       }}
     ]
   }}
   </script>
 
-  <!-- Google Fonts: Inter & Fira Code (Optimized Non-blocking) -->
+  <!-- Google Fonts: Inter & Fira Code -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" media="print" onload="this.media='all'">
-  <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap">
-  </noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
 
-  <!-- KaTeX for High-Fidelity Mathematical Typography -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
-  <!-- Textbook Master Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=20261006_v21">
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261006_v1">
 </head>
-<body class="academic-theme">
+<body>
 
   <div class="app-container">
-
-    <!-- Collapsible Sidebar Navigation -->
-    <aside class="sidebar" id="sidebar">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
       <div class="brand-header">
-        <a href="index.html" style="display:flex; align-items:center; gap:0.75rem; text-decoration:none; color:inherit;">
-          <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
-          <div>
-            <div class="brand-title">Differential Equations I</div>
-            <div class="brand-subtitle">MTH 2103 • Honors Digital Text</div>
-          </div>
-        </a>
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Differential Equations I</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
       </div>
 
       <!-- Live Search Filter for SEO / Navigation -->
       <div class="search-box-container">
-        <input type="text" id="topic-search-input" placeholder="🔍 Search Picard, exact, Wronskian, resonance..." class="search-input" aria-label="Search differential equations textbook topics">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search Picard, exact, Wronskian, resonance..." class="search-input">
       </div>
 
       <div class="nav-section-title">Table of Contents</div>
@@ -211,13 +208,13 @@ html_content = f'''<!DOCTYPE html>
       <!-- Top Sticky Navbar -->
       <header class="top-navbar">
         <div class="course-badge-container">
-          <span class="badge-pill badge-course">Mathematics / MTH 2103</span>
-          <span class="badge-pill badge-credits">3 Credits • 45 Lecture Hours</span>
+          <span class="badge-pill badge-course">Mathematics / Pure Mathematics</span>
+          <span class="badge-pill badge-credits">Differential Equations I</span>
           <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
         </div>
         <div class="navbar-actions">
           <a href="index.html" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
-          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font" aria-label="Toggle academic font serif sans-serif">A/A Academic</button>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
           <div class="protection-notice">
             🔒 <span>In-Browser Protected • Direct Download Disabled</span>
           </div>
@@ -233,7 +230,7 @@ html_content = f'''<!DOCTYPE html>
             <div class="unit-number-tag" id="unit-tag">Chapter 1 • Theory & Derivations</div>
             <h1 class="unit-title-heading" id="unit-title">{u1["title"]}</h1>
             <p class="unit-desc-lead" id="unit-desc">
-              {u1["leadSummary"]}
+              {lead_desc}
             </p>
           </header>
 
@@ -242,49 +239,22 @@ html_content = f'''<!DOCTYPE html>
 {joined_sections}
           </div>
 
-          <!-- Unit Fallback Simulations Mount -->
-          <div class="simulations-container" id="sim-section-wrap" style="display:none; margin-top:2.5rem;">
-            <div class="section-divider">
-              <span class="divider-label">Interactive 60 FPS Numerical Physics & Math Simulators</span>
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">TIERED UNIVERSITY HONORS PROBLEMS</div>
+              <h3 class="prob-sec-title">Step-by-Step Solved Examination Problems</h3>
+              <p class="prob-sec-desc">Comprehensive analytical derivations, multi-tier solutions (Foundational, Intermediate Exam, and Honors/Proof Challenge) with complete line-by-line verification.</p>
             </div>
-            <div id="simulations-mount"></div>
-          </div>
-
-          <!-- Worked Problems Section -->
-          <section class="problems-section-wrapper" id="unit-problems-section">
-            <div class="section-divider">
-              <span class="divider-label">Tiered University Examination Problem Sets (Full Derivations)</span>
-            </div>
-            <div class="problems-container" id="problems-mount">
+            <div class="problems-grid" id="problems-container">
 {joined_problems}
             </div>
-          </section>
+          </div>
 
-          <!-- Chapter Navigation Footer -->
-          <nav class="unit-footer-nav" id="unit-footer-nav">
-            <button class="nav-btn prev-btn" id="btn-prev-unit" disabled>← Previous Chapter</button>
-            <span class="nav-unit-indicator" id="nav-unit-indicator">Chapter 1 of 8</span>
-            <button class="nav-btn next-btn" id="btn-next-unit">Next Chapter →</button>
-          </nav>
-
-          <!-- Universal Academic Trust Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
           <footer class="reader-trust-footer">
-            <div class="reader-trust-grid">
-              <div class="reader-trust-col">
-                <div class="trust-badge-title">⚖️ Academic Rigor & Citation</div>
-                <p>Peer-reviewed undergraduate honors curriculum adhering to the standards of Griffiths, Boyce & DiPrima, Coddington & Levinson, and Zill. Mathematical proofs are complete with unskipped derivations.</p>
-              </div>
-              <div class="reader-trust-col">
-                <div class="trust-badge-title">🎓 Open Educational Resource</div>
-                <p>Free, accessible digital scholarship designed for university lecture adoption, international self-study, and competitive mathematical examinations worldwide.</p>
-              </div>
-              <div class="reader-trust-col">
-                <div class="trust-badge-title">📬 Mathematical Errata Desk</div>
-                <p>Report typographic discrepancies, alternative proofs, or pedagogical suggestions directly to the academic editorial board at <a href="mailto:shahriyarkarimsiam@gmail.com" style="color:#38bdf8;">shahriyarkarimsiam@gmail.com</a>.</p>
-              </div>
-            </div>
             <div class="reader-trust-links">
-              <a href="index.html" class="reader-trust-link">OpenSTEM Home</a>
+              <a href="index.html" class="reader-trust-link">← All Academic Departments</a>
               <a href="reader.html" class="reader-trust-link">Quantum Mechanics I</a>
               <a href="mechanics.html" class="reader-trust-link">Mechanics</a>
               <a href="electrodynamics.html" class="reader-trust-link">Electrodynamics</a>
@@ -313,6 +283,8 @@ html_content = f'''<!DOCTYPE html>
               <a href="calculus-3.html" class="reader-trust-link">Calculus III</a>
               <a href="linear-algebra.html" class="reader-trust-link">Linear Algebra</a>
               <a href="ordinary-differential-equations-1.html" class="reader-trust-link">Differential Equations I</a>
+              <a href="ordinary-differential-equations-2.html" class="reader-trust-link">Differential Equations II</a>
+              <a href="complex-analysis.html" class="reader-trust-link">Complex Analysis</a>
               <a href="about.html" class="reader-trust-link">About & Editorial</a>
               <a href="privacy.html" class="reader-trust-link">Privacy Policy</a>
               <a href="terms.html" class="reader-trust-link">Terms of Service</a>
@@ -339,4 +311,4 @@ html_content = f'''<!DOCTYPE html>
 with open("ordinary-differential-equations-1.html", "w", encoding="utf-8") as f:
     f.write(html_content)
 
-print("Generated ordinary-differential-equations-1.html successfully!")
+print("Generated ordinary-differential-equations-1.html with 100% linear-algebra.html parity and zero course numbers!")

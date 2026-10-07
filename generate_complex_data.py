@@ -9,12 +9,12 @@ import json
 
 def build_data():
     course = {
-        "courseCode": "MTH 3103",
+        "courseCode": "",
         "courseTitle": "Complex Analysis",
         "courseSubtitle": "Holomorphic Functions, Cauchy Theory, Laurent Expansions, Residue Calculus & Conformal Mappings",
         "credits": 3,
         "lectureHours": 45,
-        "prerequisites": "Calculus I (MTH 1102), Calculus II (MTH 1202) & Calculus III (MTH 2101)",
+        "prerequisites": "Calculus I, Calculus II & Calculus III",
         "description": "Rigorous university honors-level digital textbook covering single-variable complex function theory: metric topology of the complex plane, stereographic projection, holomorphic functions, Cauchy-Riemann equations and harmonic conjugates, complex contour integration, Cauchy-Goursat theorem, Cauchy integral formulas, Liouville's theorem and the Fundamental Theorem of Algebra, Morera's theorem, the Maximum Modulus Principle, Taylor and Laurent series expansions, singularity classifications (removable, poles, essential), Casorati-Weierstrass theorem, Cauchy residue calculus, contour integration techniques (Jordan's Lemma, indented contours, branch cuts and keyholes), Rouché's theorem and root tracking, and conformal Möbius transformations with 8 interactive 60 FPS simulations and 24 tiered solved university examination problems.",
         "units": [],
         "problems": []
@@ -1144,6 +1144,28 @@ Since they agree on the vertical strip $0 < \text{Re}(z) < 1$, by the Identity T
             "answer": r"$\Gamma(z)\Gamma(1 - z) = \frac{\pi}{\sin(\pi z)}$ for all $z \in \mathbb{C} \setminus \mathbb{Z}$."
         }
     ]
+
+    for p in problems:
+        t = p.get("tier", 1)
+        if t == 1:
+            p["difficulty"] = "Easy"
+            p["difficultyLabel"] = "Tier 1 • Foundational"
+        elif t == 2:
+            p["difficulty"] = "Medium"
+            p["difficultyLabel"] = "Tier 2 • Intermediate Exam"
+        else:
+            p["difficulty"] = "Hard"
+            p["difficultyLabel"] = "Tier 3 • Honors Challenge"
+
+    # Assign 3 worked problems to each unit for dynamic chapter rendering in app.js
+    course["units"][0]["problems"] = [problems[1], problems[3], problems[23]]
+    course["units"][1]["problems"] = [problems[0], problems[8], problems[17]]
+    course["units"][2]["problems"] = [problems[2], problems[16], problems[9]]
+    course["units"][3]["problems"] = [problems[10], problems[11], problems[18]]
+    course["units"][4]["problems"] = [problems[4], problems[12], problems[20]]
+    course["units"][5]["problems"] = [problems[5], problems[13], problems[19]]
+    course["units"][6]["problems"] = [problems[6], problems[14], problems[21]]
+    course["units"][7]["problems"] = [problems[7], problems[15], problems[22]]
 
     course["problems"] = problems
 

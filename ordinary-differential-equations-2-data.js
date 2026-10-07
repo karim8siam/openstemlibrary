@@ -1,10 +1,10 @@
 window.COURSE_DATA = {
-  "courseCode": "MTH 3104",
+  "courseCode": "",
   "courseTitle": "Ordinary Differential Equations II",
   "courseSubtitle": "First-Order Systems, Series Solutions, Classical Orthogonal Functions & Sturm-Liouville Theory",
   "credits": 3,
   "lectureHours": 45,
-  "prerequisites": "Calculus I (MTH 1102), Calculus II (MTH 1202) & Ordinary Differential Equations I (MTH 2103)",
+  "prerequisites": "Calculus I, Calculus II & Ordinary Differential Equations I",
   "description": "Exhaustive honors-level university digital textbook covering advanced linear differential systems, series solutions near ordinary and regular singular points, classical orthogonal functions (Legendre, Bessel, Laguerre, Hermite), Sturm-Liouville eigenvalue boundary value theory, the Fredholm Alternative, and Green's functions with 8 interactive 60 FPS simulations and 24 tiered solved university examination problems.",
   "units": [
     {
@@ -30,6 +30,38 @@ window.COURSE_DATA = {
           "title": "Autonomous 2D Linear Systems, Phase Portraits & Classification of Critical Equilibrium Points",
           "simulation": "ode2-phase-portrait-sim",
           "content": "<h3>1. Autonomous 2D Linear Systems</h3>\n<p>Consider the planar autonomous linear system:</p>\n$$\\frac{d\\vec{x}}{dt} = \\mathbf{A} \\vec{x}, \\quad \\mathbf{A} = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} \\in \\mathbb{R}^{2 \\times 2}$$\n<p>The origin $\\vec{x}^* = \\begin{pmatrix} 0 & 0 \\end{pmatrix}^T$ is the unique equilibrium point whenever $\\det(\\mathbf{A}) \\ne 0$. The characteristic equation governing the eigenvalues $\\lambda$ is:</p>\n$$\\det(\\mathbf{A} - \\lambda \\mathbf{I}) = \\lambda^2 - \\tau \\lambda + \\Delta = 0$$\n<p>where $\\tau = \\text{Tr}(\\mathbf{A}) = a + d$ is the matrix trace, and $\\Delta = \\det(\\mathbf{A}) = ad - bc$ is the determinant. The discriminant is:</p>\n$$\\mathcal{D} = \\tau^2 - 4\\Delta$$\n\n<h3>2. The Poincaré Trace-Determinant Classification</h3>\n<div class=\"math-theorem\">\n<b>Classification of Critical Points:</b>\n<ul>\n<li><b>$\\Delta < 0$:</b> Eigenvalues $\\lambda_1 < 0 < \\lambda_2$ are real with opposite signs. The origin is a <b>Saddle Point</b> (always asymptotically unstable). Orbits approach along the stable eigenvector and depart along the unstable eigenvector.</li>\n<li><b>$\\Delta > 0$ and $\\mathcal{D} > 0$:</b> Real distinct eigenvalues of the same sign.\n  <ul>\n    <li>$\\tau < 0 \\implies \\lambda_1, \\lambda_2 < 0$: <b>Stable Node</b> (asymptotically stable attractor).</li>\n    <li>$\\tau > 0 \\implies \\lambda_1, \\lambda_2 > 0$: <b>Unstable Node</b> (repeller).</li>\n  </ul>\n</li>\n<li><b>$\\Delta > 0$ and $\\mathcal{D} < 0$:</b> Complex conjugate eigenvalues $\\lambda = \\alpha \\pm i\\beta$ where $\\alpha = \\frac{\\tau}{2}$ and $\\beta = \\frac{\\sqrt{4\\Delta - \\tau^2}}{2}$.\n  <ul>\n    <li>$\\tau < 0 \\implies \\alpha < 0$: <b>Stable Spiral (Focus)</b>. Orbits spiral inward toward the origin.</li>\n    <li>$\\tau > 0 \\implies \\alpha > 0$: <b>Unstable Spiral (Focus)</b>. Orbits spiral outward to infinity.</li>\n    <li>$\\tau = 0 \\implies \\alpha = 0$: <b>Center (Vortex)</b>. Eigenvalues are purely imaginary $\\lambda = \\pm i\\beta$. Orbits form closed concentric ellipses (neutrally stable, non-isolated periodic orbits).</li>\n  </ul>\n</li>\n<li><b>$\\mathcal{D} = 0$:</b> Repeated eigenvalue $\\lambda_1 = \\lambda_2 = \\frac{\\tau}{2}$.\n  <ul>\n    <li>If $\\mathbf{A} = \\lambda \\mathbf{I}$: <b>Proper Star Node</b> (every radial direction is an eigenvector trajectory).</li>\n    <li>If $\\mathbf{A} \\ne \\lambda \\mathbf{I}$ (defective matrix): <b>Degenerate / Improper Node</b> (trajectories tangent to the single eigenvector span).</li>\n  </ul>\n</li>\n</ul>\n</div>"
+        }
+      ],
+      "problems": [
+        {
+          "id": "prob-01",
+          "tier": 1,
+          "difficultyLabel": "Tier 1 • Foundational",
+          "title": "Homogeneous 2x2 System with Real Distinct Eigenvalues",
+          "statement": "Solve the initial value problem for the linear system:<br>$$\\frac{d\\vec{x}}{dt} = \\begin{pmatrix} 1 & 2 \\\\ 2 & 1 \\end{pmatrix} \\vec{x}, \\quad \\vec{x}(0) = \\begin{pmatrix} 3 \\\\ 1 \\end{pmatrix}$$",
+          "solution": "<b>Step 1: Eigenvalues of the system matrix</b><br>\n$$\\det(\\mathbf{A} - \\lambda \\mathbf{I}) = \\begin{vmatrix} 1 - \\lambda & 2 \\\\ 2 & 1 - \\lambda \\end{vmatrix} = (1 - \\lambda)^2 - 4 = \\lambda^2 - 2\\lambda - 3 = 0$$\nFactorizing yields $(\\lambda - 3)(\\lambda + 1) = 0 \\implies \\lambda_1 = 3, \\lambda_2 = -1$.<br><br>\n<b>Step 2: Eigenvector for $\\lambda_1 = 3$</b><br>\n$$(\\mathbf{A} - 3\\mathbf{I})\\vec{v}_1 = \\begin{pmatrix} -2 & 2 \\\\ 2 & -2 \\end{pmatrix} \\begin{pmatrix} v_{11} \\\\ v_{12} \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix} \\implies v_{11} = v_{12} \\implies \\vec{v}_1 = \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix}$$\n<br><b>Step 3: Eigenvector for $\\lambda_2 = -1$</b><br>\n$$(\\mathbf{A} + \\mathbf{I})\\vec{v}_2 = \\begin{pmatrix} 2 & 2 \\\\ 2 & 2 \\end{pmatrix} \\begin{pmatrix} v_{21} \\\\ v_{22} \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix} \\implies v_{21} = -v_{22} \\implies \\vec{v}_2 = \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix}$$\n<br><b>Step 4: General Solution & Initial Condition</b><br>\n$$\\vec{x}(t) = c_1 e^{3t} \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} + c_2 e^{-t} \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix}$$\nAt $t = 0$:\n$$\\vec{x}(0) = \\begin{pmatrix} c_1 + c_2 \\\\ c_1 - c_2 \\end{pmatrix} = \\begin{pmatrix} 3 \\\\ 1 \\end{pmatrix}$$\nAdding both equations: $2c_1 = 4 \\implies c_1 = 2$. Subtracting: $2c_2 = 2 \\implies c_2 = 1$.<br><br>\n$$\\vec{x}(t) = 2e^{3t} \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} + e^{-t} \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix} = \\begin{pmatrix} 2e^{3t} + e^{-t} \\\\ 2e^{3t} - e^{-t} \\end{pmatrix}$$",
+          "answer": "$\\vec{x}(t) = \\begin{pmatrix} 2e^{3t} + e^{-t} \\\\ 2e^{3t} - e^{-t} \\end{pmatrix}$",
+          "difficulty": "Easy"
+        },
+        {
+          "id": "prob-09",
+          "tier": 2,
+          "difficultyLabel": "Tier 2 • Intermediate Exam",
+          "title": "3x3 System with Complex Eigenvalues & Invariant Orbital Manifold",
+          "statement": "Solve the $3 \\times 3$ linear differential system:<br>$$\\vec{x}' = \\begin{pmatrix} 0 & 1 & 0 \\\\ -4 & 0 & 0 \\\\ 0 & 0 & -2 \\end{pmatrix} \\vec{x}, \\quad \\vec{x}(0) = \\begin{pmatrix} 1 \\\\ 0 \\\\ 2 \\end{pmatrix}$$",
+          "solution": "<b>Step 1: Block structure and eigenvalues</b><br>\nThe matrix is block diagonal: $\\mathbf{A} = \\begin{pmatrix} \\mathbf{B} & \\vec{0} \\\\ \\vec{0}^T & -2 \\end{pmatrix}$ where $\\mathbf{B} = \\begin{pmatrix} 0 & 1 \\\\ -4 & 0 \\end{pmatrix}$.\n$\\det(\\mathbf{B} - \\lambda \\mathbf{I}) = \\lambda^2 + 4 = 0 \\implies \\lambda_{1, 2} = \\pm 2i$.\nThe third eigenvalue is $\\lambda_3 = -2$.<br><br>\n<b>Step 2: Eigenvectors</b><br>\nFor $\\lambda_1 = 2i$:\n$$\\begin{pmatrix} -2i & 1 & 0 \\\\ -4 & -2i & 0 \\\\ 0 & 0 & -2 - 2i \\end{pmatrix} \\begin{pmatrix} v_1 \\\\ v_2 \\\\ v_3 \\end{pmatrix} = \\vec{0} \\implies v_3 = 0, \\quad v_2 = 2i v_1 \\implies \\vec{v} = \\begin{pmatrix} 1 \\\\ 2i \\\\ 0 \\end{pmatrix} = \\begin{pmatrix} 1 \\\\ 0 \\\\ 0 \\end{pmatrix} + i \\begin{pmatrix} 0 \\\\ 2 \\\\ 0 \\end{pmatrix}$$\nReal independent solutions:\n$$\\vec{x}_1(t) = \\begin{pmatrix} \\cos 2t \\\\ -2\\sin 2t \\\\ 0 \\end{pmatrix}, \\quad \\vec{x}_2(t) = \\begin{pmatrix} \\sin 2t \\\\ 2\\cos 2t \\\\ 0 \\end{pmatrix}$$\nFor $\\lambda_3 = -2$:\n$$\\vec{v}_3 = \\begin{pmatrix} 0 \\\\ 0 \\\\ 1 \\end{pmatrix} \\implies \\vec{x}_3(t) = e^{-2t} \\begin{pmatrix} 0 \\\\ 0 \\\\ 1 \\end{pmatrix}$$\n<br><b>Step 3: Initial conditions</b><br>\n$$\\vec{x}(t) = c_1 \\begin{pmatrix} \\cos 2t \\\\ -2\\sin 2t \\\\ 0 \\end{pmatrix} + c_2 \\begin{pmatrix} \\sin 2t \\\\ 2\\cos 2t \\\\ 0 \\end{pmatrix} + c_3 \\begin{pmatrix} 0 \\\\ 0 \\\\ e^{-2t} \\end{pmatrix}$$\nAt $t = 0$: $c_1 = 1, 2c_2 = 0 \\implies c_2 = 0$, and $c_3 = 2$.<br><br>\n$$\\vec{x}(t) = \\begin{pmatrix} \\cos 2t \\\\ -2\\sin 2t \\\\ 2e^{-2t} \\end{pmatrix}$$",
+          "answer": "$\\vec{x}(t) = \\begin{pmatrix} \\cos 2t \\\\ -2\\sin 2t \\\\ 2e^{-2t} \\end{pmatrix}$",
+          "difficulty": "Medium"
+        },
+        {
+          "id": "prob-17",
+          "tier": 3,
+          "difficultyLabel": "Tier 3 • Honors Challenge",
+          "title": "Matrix Riccati Transformation & Hamiltonian Linear System",
+          "statement": "Convert the nonlinear matrix Riccati differential equation $\\mathbf{R}' = \\mathbf{B} - \\mathbf{R} \\mathbf{D} \\mathbf{R}$ into an equivalent $2n \\times 2n$ linear Hamiltonian dynamical system $\\vec{z}' = \\mathbf{H}\\vec{z}$.",
+          "solution": "<b>Step 1: Fractional Linear Transformation</b><br>\nLet $\\mathbf{R}(t) = \\mathbf{X}(t) \\mathbf{Y}^{-1}(t)$ where $\\mathbf{X}(t), \\mathbf{Y}(t) \\in \\mathbb{R}^{n \\times n}$ and $\\det \\mathbf{Y}(t) \\ne 0$.<br><br>\n<b>Step 2: Differentiate the quotient</b><br>\nUsing the matrix product rule and derivative of inverse $\\frac{d}{dt}[\\mathbf{Y}^{-1}] = -\\mathbf{Y}^{-1} \\mathbf{Y}' \\mathbf{Y}^{-1}$:\n$$\\mathbf{R}' = \\mathbf{X}' \\mathbf{Y}^{-1} + \\mathbf{X} (\\mathbf{Y}^{-1})' = \\mathbf{X}' \\mathbf{Y}^{-1} - \\mathbf{X} \\mathbf{Y}^{-1} \\mathbf{Y}' \\mathbf{Y}^{-1} = (\\mathbf{X}' - \\mathbf{R} \\mathbf{Y}') \\mathbf{Y}^{-1}$$\n<br><b>Step 3: Equate to Riccati expression</b><br>\n$$\\mathbf{R}' = \\mathbf{B} - \\mathbf{R} \\mathbf{D} \\mathbf{R} = \\mathbf{B} - \\mathbf{R} \\mathbf{D} \\mathbf{X} \\mathbf{Y}^{-1}$$\nEquating both expressions and post-multiplying by $\\mathbf{Y}$:\n$$\\mathbf{X}' - \\mathbf{R} \\mathbf{Y}' = \\mathbf{B} \\mathbf{Y} - \\mathbf{R} \\mathbf{D} \\mathbf{X}$$\nRearranging terms by isolating $\\mathbf{R}$:\n$$\\mathbf{X}' - \\mathbf{B} \\mathbf{Y} = \\mathbf{R} (\\mathbf{Y}' - \\mathbf{D} \\mathbf{X})$$\n<br><b>Step 4: Decouple into Linear System</b><br>\nThis identity holds identically if both parenthetical sides vanish:\n$$\\mathbf{X}' = \\mathbf{B} \\mathbf{Y}, \\quad \\mathbf{Y}' = \\mathbf{D} \\mathbf{X}$$\nStacking state vectors $\\vec{z} = \\begin{pmatrix} \\mathbf{X} \\\\ \\mathbf{Y} \\end{pmatrix}$:\n$$\\frac{d}{dt} \\begin{pmatrix} \\mathbf{X} \\\\ \\mathbf{Y} \\end{pmatrix} = \\begin{pmatrix} \\mathbf{0} & \\mathbf{B} \\\\ \\mathbf{D} & \\mathbf{0} \\end{pmatrix} \\begin{pmatrix} \\mathbf{X} \\\\ \\mathbf{Y} \\end{pmatrix}$$\nThis establishes that the solution of the nonlinear Riccati equation is $\\mathbf{R}(t) = \\mathbf{X}(t)\\mathbf{Y}^{-1}(t)$ generated by the linear flow map $e^{\\mathbf{H}t}$.",
+          "answer": "$\\mathbf{R}(t) = \\mathbf{X}(t)\\mathbf{Y}(t)^{-1}$ where $\\frac{d}{dt}\\begin{pmatrix} \\mathbf{X} \\\\ \\mathbf{Y} \\end{pmatrix} = \\begin{pmatrix} \\mathbf{0} & \\mathbf{B} \\\\ \\mathbf{D} & \\mathbf{0} \\end{pmatrix} \\begin{pmatrix} \\mathbf{X} \\\\ \\mathbf{Y} \\end{pmatrix}$.",
+          "difficulty": "Hard"
         }
       ]
     },
@@ -57,6 +89,38 @@ window.COURSE_DATA = {
           "simulation": "ode2-eigen-decomp-sim",
           "content": "<h3>1. Algebraic vs Geometric Multiplicity</h3>\n<p>Let $\\lambda$ be an eigenvalue of $\\mathbf{A}$ with algebraic multiplicity $m_a = k$ (meaning $(\\lambda - \\lambda_0)^k$ divides the characteristic polynomial). The geometric multiplicity $m_g = \\dim \\ker(\\mathbf{A} - \\lambda \\mathbf{I})$ is the number of linearly independent eigenvectors associated with $\\lambda$.</p>\n<p>If $m_g < m_a$, the matrix $\\mathbf{A}$ is called <b>defective</b>. In this case, ordinary eigenvectors cannot span the full solution subspace, requiring <b>generalized eigenvectors</b>.</p>\n\n<h3>2. Chains of Generalized Eigenvectors</h3>\n<p>A chain of generalized eigenvectors $\\{\\vec{v}_1, \\vec{v}_2, \\dots, \\vec{v}_k\\}$ associated with eigenvalue $\\lambda$ satisfies:</p>\n$$\\begin{aligned}\n(\\mathbf{A} - \\lambda \\mathbf{I}) \\vec{v}_1 &= \\vec{0} \\quad (\\text{genuine eigenvector}) \\\\\n(\\mathbf{A} - \\lambda \\mathbf{I}) \\vec{v}_2 &= \\vec{v}_1 \\implies (\\mathbf{A} - \\lambda \\mathbf{I})^2 \\vec{v}_2 = \\vec{0} \\\\\n(\\mathbf{A} - \\lambda \\mathbf{I}) \\vec{v}_3 &= \\vec{v}_2 \\implies (\\mathbf{A} - \\lambda \\mathbf{I})^3 \\vec{v}_3 = \\vec{0} \\\\\n&\\;\\;\\vdots \\\\\n(\\mathbf{A} - \\lambda \\mathbf{I}) \\vec{v}_k &= \\vec{v}_{k-1} \\implies (\\mathbf{A} - \\lambda \\mathbf{I})^k \\vec{v}_k = \\vec{0}\n\\end{aligned}$$\n\n<h3>3. Form of Independent Solutions</h3>\n<p>For a chain of length 2 ($\\vec{v}_1, \\vec{v}_2$), the two linearly independent solutions are:</p>\n$$\\begin{aligned}\n\\vec{x}_1(t) &= e^{\\lambda t} \\vec{v}_1 \\\\\n\\vec{x}_2(t) &= e^{\\lambda t} (t \\vec{v}_1 + \\vec{v}_2)\n\\end{aligned}$$\n<p>For a chain of length 3 ($\\vec{v}_1, \\vec{v}_2, \\vec{v}_3$):</p>\n$$\\vec{x}_3(t) = e^{\\lambda t} \\left( \\frac{t^2}{2} \\vec{v}_1 + t \\vec{v}_2 + \\vec{v}_3 \\right)$$\n<p>This matches the Taylor expansion of $e^{\\mathbf{A}t} \\vec{v}_k = e^{\\lambda t} e^{(\\mathbf{A} - \\lambda \\mathbf{I})t} \\vec{v}_k$.</p>"
         }
+      ],
+      "problems": [
+        {
+          "id": "prob-02",
+          "tier": 1,
+          "difficultyLabel": "Tier 1 • Foundational",
+          "title": "Matrix Exponential for Defective Repeated Eigenvalue Matrix",
+          "statement": "Compute the matrix exponential $e^{\\mathbf{A}t}$ for the defective matrix:<br>$$\\mathbf{A} = \\begin{pmatrix} 2 & 1 \\\\ 0 & 2 \\end{pmatrix}$$",
+          "solution": "<b>Step 1: Nilpotent Decomposition</b><br>\nNotice that $\\mathbf{A}$ can be split into a scalar multiple of identity and a nilpotent upper-triangular matrix:\n$$\\mathbf{A} = 2\\mathbf{I} + \\mathbf{N}, \\quad \\text{where } \\mathbf{N} = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$$\nObserve that $\\mathbf{N}^2 = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix} \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix} = \\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}$. Thus $\\mathbf{N}$ is nilpotent of degree 2.<br><br>\n<b>Step 2: Commuting Matrices Property</b><br>\nSince $(2\\mathbf{I}t)(\\mathbf{N}t) = (\\mathbf{N}t)(2\\mathbf{I}t)$, we can multiply their exponentials:\n$$e^{\\mathbf{A}t} = e^{2\\mathbf{I}t + \\mathbf{N}t} = e^{2\\mathbf{I}t} e^{\\mathbf{N}t}$$\n<br><b>Step 3: Exponentiation of Terms</b><br>\n$$e^{2\\mathbf{I}t} = e^{2t} \\mathbf{I} = \\begin{pmatrix} e^{2t} & 0 \\\\ 0 & e^{2t} \\end{pmatrix}$$\n$$e^{\\mathbf{N}t} = \\mathbf{I} + t\\mathbf{N} + \\frac{t^2}{2!} \\mathbf{N}^2 + \\dots = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix} + t \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix} = \\begin{pmatrix} 1 & t \\\\ 0 & 1 \\end{pmatrix}$$\n<br><b>Step 4: Matrix Multiplication</b><br>\n$$e^{\\mathbf{A}t} = e^{2t} \\begin{pmatrix} 1 & t \\\\ 0 & 1 \\end{pmatrix} = \\begin{pmatrix} e^{2t} & t e^{2t} \\\\ 0 & e^{2t} \\end{pmatrix}$$",
+          "answer": "$e^{\\mathbf{A}t} = \\begin{pmatrix} e^{2t} & t e^{2t} \\\\ 0 & e^{2t} \\end{pmatrix}$",
+          "difficulty": "Easy"
+        },
+        {
+          "id": "prob-10",
+          "tier": 2,
+          "difficultyLabel": "Tier 2 • Intermediate Exam",
+          "title": "Putzer's Algorithm for 3x3 Nilpotent Jordan Block",
+          "statement": "Use Putzer's algorithm to compute the matrix exponential $e^{\\mathbf{A}t}$ for the $3 \\times 3$ matrix:<br>$$\\mathbf{A} = \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 1 \\\\ 0 & 0 & 0 \\end{pmatrix}$$",
+          "solution": "<b>Step 1: Eigenvalues</b><br>\nThe characteristic polynomial is $\\det(\\mathbf{A} - \\lambda \\mathbf{I}) = -\\lambda^3 = 0 \\implies \\lambda_1 = \\lambda_2 = \\lambda_3 = 0$.<br><br>\n<b>Step 2: Putzer's polynomial matrices $\\mathbf{P}_k$</b><br>\n$$\\mathbf{P}_0 = \\mathbf{I} = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1 \\end{pmatrix}$$\n$$\\mathbf{P}_1 = \\mathbf{A} - \\lambda_1 \\mathbf{I} = \\mathbf{A} = \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 1 \\\\ 0 & 0 & 0 \\end{pmatrix}$$\n$$\\mathbf{P}_2 = (\\mathbf{A} - \\lambda_2 \\mathbf{I})\\mathbf{P}_1 = \\mathbf{A}^2 = \\begin{pmatrix} 0 & 0 & 1 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix}$$\n<br><b>Step 3: Scalar differential equations for $r_k(t)$</b><br>\n$r_1'(t) = 0, r_1(0) = 1 \\implies r_1(t) = 1$.<br>\n$r_2'(t) = r_1(t) = 1, r_2(0) = 0 \\implies r_2(t) = t$.<br>\n$r_3'(t) = r_2(t) = t, r_3(0) = 0 \\implies r_3(t) = \\frac{t^2}{2}$.<br><br>\n<b>Step 4: Matrix exponential assembly</b><br>\n$$e^{\\mathbf{A}t} = r_1(t)\\mathbf{P}_0 + r_2(t)\\mathbf{P}_1 + r_3(t)\\mathbf{P}_2 = \\mathbf{I} + t\\mathbf{A} + \\frac{t^2}{2}\\mathbf{A}^2 = \\begin{pmatrix} 1 & t & t^2/2 \\\\ 0 & 1 & t \\\\ 0 & 0 & 1 \\end{pmatrix}$$",
+          "answer": "$e^{\\mathbf{A}t} = \\begin{pmatrix} 1 & t & t^2/2 \\\\ 0 & 1 & t \\\\ 0 & 0 & 1 \\end{pmatrix}$",
+          "difficulty": "Medium"
+        },
+        {
+          "id": "prob-18",
+          "tier": 3,
+          "difficultyLabel": "Tier 3 • Honors Challenge",
+          "title": "Jordan Canonical Form Derivation for Highly Defective 3x3 System",
+          "statement": "Solve the defective system $\\vec{x}' = \\mathbf{A}\\vec{x}$ where $\\mathbf{A} = \\begin{pmatrix} 3 & 1 & 0 \\\\ 0 & 3 & 1 \\\\ 0 & 0 & 3 \\end{pmatrix}$ using generalized eigenvector chains.",
+          "solution": "<b>Step 1: Spectral Analysis</b><br>\nThe characteristic polynomial is $(\\lambda - 3)^3 = 0 \\implies \\lambda = 3$ with algebraic multiplicity $m_a = 3$.\nThe null space $(\\mathbf{A} - 3\\mathbf{I})\\vec{v} = \\vec{0}$ has rank 2, so the geometric multiplicity is $m_g = 3 - 2 = 1$. The matrix is defective with a single Jordan block of size 3.<br><br>\n<b>Step 2: Construct the Jordan Chain</b><br>\nWe seek a generalized eigenvector $\\vec{v}_3$ of rank 3:\n$$(\\mathbf{A} - 3\\mathbf{I})^3 = \\mathbf{0}, \\quad (\\mathbf{A} - 3\\mathbf{I})^2 \\vec{v}_3 \\ne \\vec{0}$$\n$$\\mathbf{A} - 3\\mathbf{I} = \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 1 \\\\ 0 & 0 & 0 \\end{pmatrix}, \\quad (\\mathbf{A} - 3\\mathbf{I})^2 = \\begin{pmatrix} 0 & 0 & 1 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix}$$\nChoose $\\vec{v}_3 = \\begin{pmatrix} 0 \\\\ 0 \\\\ 1 \\end{pmatrix}$.\nThen:\n$$\\vec{v}_2 = (\\mathbf{A} - 3\\mathbf{I}) \\vec{v}_3 = \\begin{pmatrix} 0 \\\\ 1 \\\\ 0 \\end{pmatrix}$$\n$$\\vec{v}_1 = (\\mathbf{A} - 3\\mathbf{I}) \\vec{v}_2 = \\begin{pmatrix} 1 \\\\ 0 \\\\ 0 \\end{pmatrix} \\quad (\\text{genuine eigenvector})$$\n<br><b>Step 3: Construct Three Linearly Independent Solutions</b><br>\n$$\\begin{aligned}\n\\vec{x}_1(t) &= e^{3t} \\vec{v}_1 = e^{3t} \\begin{pmatrix} 1 \\\\ 0 \\\\ 0 \\end{pmatrix} \\\\\n\\vec{x}_2(t) &= e^{3t} (t \\vec{v}_1 + \\vec{v}_2) = e^{3t} \\begin{pmatrix} t \\\\ 1 \\\\ 0 \\end{pmatrix} \\\\\n\\vec{x}_3(t) &= e^{3t} \\left( \\frac{t^2}{2} \\vec{v}_1 + t \\vec{v}_2 + \\vec{v}_3 \\right) = e^{3t} \\begin{pmatrix} t^2/2 \\\\ t \\\\ 1 \\end{pmatrix}\n\\end{aligned}$$\n<br><b>Step 4: General Solution</b><br>\n$$\\vec{x}(t) = e^{3t} \\begin{pmatrix} c_1 + c_2 t + c_3 \\frac{t^2}{2} \\\\ c_2 + c_3 t \\\\ c_3 \\end{pmatrix}$$",
+          "answer": "$\\vec{x}(t) = e^{3t} \\begin{pmatrix} c_1 + c_2 t + c_3 \\frac{t^2}{2} \\\\ c_2 + c_3 t \\\\ c_3 \\end{pmatrix}$",
+          "difficulty": "Hard"
+        }
       ]
     },
     {
@@ -83,6 +147,38 @@ window.COURSE_DATA = {
           "title": "Nonhomogeneous Systems: Undetermined Coefficients & Variation of Parameters",
           "content": "<h3>1. Matrix Variation of Parameters</h3>\n<p>Consider the nonhomogeneous linear system $\\vec{x}'(t) = \\mathbf{A}(t)\\vec{x}(t) + \\vec{g}(t)$. Let $\\mathbf{\\Phi}(t)$ be a fundamental matrix for the associated homogeneous system $\\vec{x}' = \\mathbf{A}(t)\\vec{x}$. We seek a particular solution of the form:</p>\n$$\\vec{x}_p(t) = \\mathbf{\\Phi}(t) \\vec{u}(t)$$\n<p>Differentiating using the product rule:</p>\n$$\\vec{x}_p'(t) = \\mathbf{\\Phi}'(t) \\vec{u}(t) + \\mathbf{\\Phi}(t) \\vec{u}'(t) = \\mathbf{A}(t) \\mathbf{\\Phi}(t) \\vec{u}(t) + \\mathbf{\\Phi}(t) \\vec{u}'(t)$$\n<p>Substituting into the nonhomogeneous equation:</p>\n$$\\mathbf{A}(t) \\mathbf{\\Phi}(t) \\vec{u}(t) + \\mathbf{\\Phi}(t) \\vec{u}'(t) = \\mathbf{A}(t) \\mathbf{\\Phi}(t) \\vec{u}(t) + \\vec{g}(t)$$\n$$\\mathbf{\\Phi}(t) \\vec{u}'(t) = \\vec{g}(t) \\implies \\vec{u}'(t) = \\mathbf{\\Phi}^{-1}(t) \\vec{g}(t)$$\n<div class=\"math-theorem\">\n<b>Theorem 3.2 (Variation of Parameters Formula for Systems):</b> Integrating $\\vec{u}'(t)$ from $t_0$ to $t$ yields the complete general solution:\n$$\\vec{x}(t) = \\mathbf{\\Phi}(t)\\mathbf{\\Phi}^{-1}(t_0) \\vec{x}_0 + \\mathbf{\\Phi}(t) \\int_{t_0}^t \\mathbf{\\Phi}^{-1}(s) \\vec{g}(s)\\,ds$$\nFor constant matrix $\\mathbf{A}$, where $\\mathbf{\\Phi}(t) = e^{\\mathbf{A}t}$, this simplifies to Duhamel's convolution integral:\n$$\\vec{x}(t) = e^{\\mathbf{A}(t - t_0)} \\vec{x}_0 + \\int_{t_0}^t e^{\\mathbf{A}(t - s)} \\vec{g}(s)\\,ds$$\n</div>"
         }
+      ],
+      "problems": [
+        {
+          "id": "prob-03",
+          "tier": 1,
+          "difficultyLabel": "Tier 1 • Foundational",
+          "title": "Variation of Parameters for Nonhomogeneous 2x2 System",
+          "statement": "Find a particular solution using Variation of Parameters for the system:<br>$$\\vec{x}' = \\begin{pmatrix} 0 & 1 \\\\ -2 & 3 \\end{pmatrix} \\vec{x} + \\begin{pmatrix} 0 \\\\ e^t \\end{pmatrix}$$",
+          "solution": "<b>Step 1: Homogeneous eigenvalues and eigenvectors</b><br>\n$\\det(\\mathbf{A} - \\lambda \\mathbf{I}) = \\lambda^2 - 3\\lambda + 2 = (\\lambda - 1)(\\lambda - 2) = 0 \\implies \\lambda_1 = 1, \\lambda_2 = 2$.<br>\nFor $\\lambda_1 = 1$: $(\\mathbf{A} - \\mathbf{I})\\vec{v}_1 = \\begin{pmatrix} -1 & 1 \\\\ -2 & 2 \\end{pmatrix} \\begin{pmatrix} v_1 \\\\ v_2 \\end{pmatrix} = \\vec{0} \\implies \\vec{v}_1 = \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix}$.<br>\nFor $\\lambda_2 = 2$: $(\\mathbf{A} - 2\\mathbf{I})\\vec{v}_2 = \\begin{pmatrix} -2 & 1 \\\\ -2 & 1 \\end{pmatrix} \\begin{pmatrix} v_1 \\\\ v_2 \\end{pmatrix} = \\vec{0} \\implies \\vec{v}_2 = \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix}$.<br><br>\n<b>Step 2: Fundamental Matrix $\\mathbf{\\Phi}(t)$</b><br>\n$$\\mathbf{\\Phi}(t) = \\begin{pmatrix} e^t & e^{2t} \\\\ e^t & 2e^{2t} \\end{pmatrix}, \\quad \\det \\mathbf{\\Phi}(t) = 2e^{3t} - e^{3t} = e^{3t}$$\n$$\\mathbf{\\Phi}^{-1}(t) = \\frac{1}{e^{3t}} \\begin{pmatrix} 2e^{2t} & -e^{2t} \\\\ -e^t & e^t \\end{pmatrix} = \\begin{pmatrix} 2e^{-t} & -e^{-t} \\\\ -e^{-2t} & e^{-2t} \\end{pmatrix}$$\n<br><b>Step 3: Integrate $\\vec{u}'(t) = \\mathbf{\\Phi}^{-1}(t) \\vec{g}(t)$</b><br>\n$$\\vec{u}'(t) = \\begin{pmatrix} 2e^{-t} & -e^{-t} \\\\ -e^{-2t} & e^{-2t} \\end{pmatrix} \\begin{pmatrix} 0 \\\\ e^t \\end{pmatrix} = \\begin{pmatrix} -1 \\\\ e^{-t} \\end{pmatrix}$$\nIntegrating with respect to $t$:\n$$\\vec{u}(t) = \\begin{pmatrix} -t \\\\ -e^{-t} \\end{pmatrix}$$\n<br><b>Step 4: Form Particular Solution $\\vec{x}_p(t) = \\mathbf{\\Phi}(t) \\vec{u}(t)$</b><br>\n$$\\vec{x}_p(t) = \\begin{pmatrix} e^t & e^{2t} \\\\ e^t & 2e^{2t} \\end{pmatrix} \\begin{pmatrix} -t \\\\ -e^{-t} \\end{pmatrix} = \\begin{pmatrix} -t e^t - e^t \\\\ -t e^t - 2e^t \\end{pmatrix}$$",
+          "answer": "$\\vec{x}_p(t) = \\begin{pmatrix} -(t + 1)e^t \\\\ -(t + 2)e^t \\end{pmatrix}$",
+          "difficulty": "Easy"
+        },
+        {
+          "id": "prob-13",
+          "tier": 2,
+          "difficultyLabel": "Tier 2 • Intermediate Exam",
+          "title": "Bessel Differential Recurrence & Integral Evaluation",
+          "statement": "Prove the recurrence identity $\\frac{d}{dx}[x^\\nu J_\\nu(x)] = x^\\nu J_{\\nu-1}(x)$ and use it to evaluate $\\int x^3 J_0(x)\\,dx$.",
+          "solution": "<b>Step 1: Proof of identity</b><br>\nFrom the series definition:\n$$x^\\nu J_\\nu(x) = \\sum_{m=0}^\\infty \\frac{(-1)^m}{m!\\, \\Gamma(m + \\nu + 1)} \\frac{x^{2m + 2\\nu}}{2^{2m + \\nu}}$$\nDifferentiating with respect to $x$:\n$$\\frac{d}{dx}[x^\\nu J_\\nu(x)] = \\sum_{m=0}^\\infty \\frac{(-1)^m (2m + 2\\nu)}{m!\\, \\Gamma(m + \\nu + 1)} \\frac{x^{2m + 2\\nu - 1}}{2^{2m + \\nu}}$$\nSince $2m + 2\\nu = 2(m + \\nu)$ and $\\Gamma(m + \\nu + 1) = (m + \\nu)\\Gamma(m + \\nu)$:\n$$= x^\\nu \\sum_{m=0}^\\infty \\frac{(-1)^m}{m!\\, \\Gamma(m + \\nu)} \\left(\\frac{x}{2}\\right)^{2m + \\nu - 1} = x^\\nu J_{\\nu-1}(x)$$\n<br><b>Step 2: Integration of $\\int x^3 J_0(x)\\,dx$</b><br>\nRewrite integrand as $x^2 \\cdot [x J_0(x)]$.\nFrom identity with $\\nu = 1$: $\\frac{d}{dx}[x J_1(x)] = x J_0(x) \\implies \\int x J_0(x)\\,dx = x J_1(x)$.<br>\nIntegrate by parts:\n$$u = x^2 \\implies du = 2x\\,dx, \\quad dv = x J_0(x)\\,dx \\implies v = x J_1(x)$$\n$$\\int x^3 J_0(x)\\,dx = x^2 [x J_1(x)] - \\int [x J_1(x)](2x)\\,dx = x^3 J_1(x) - 2 \\int x^2 J_1(x)\\,dx$$\nNow apply identity with $\\nu = 2$: $\\frac{d}{dx}[x^2 J_2(x)] = x^2 J_1(x) \\implies \\int x^2 J_1(x)\\,dx = x^2 J_2(x)$.<br>\n$$= x^3 J_1(x) - 2 x^2 J_2(x) + C$$\nUsing recurrence $J_2(x) = \\frac{2}{x} J_1(x) - J_0(x)$:\n$$x^3 J_1(x) - 2x^2 \\left( \\frac{2}{x} J_1(x) - J_0(x) \\right) = (x^3 - 4x) J_1(x) + 2x^2 J_0(x) + C$$",
+          "answer": "$\\int x^3 J_0(x)\\,dx = x^3 J_1(x) - 2x^2 J_2(x) + C = (x^3 - 4x)J_1(x) + 2x^2 J_0(x) + C$",
+          "difficulty": "Medium"
+        },
+        {
+          "id": "prob-21",
+          "tier": 3,
+          "difficultyLabel": "Tier 3 • Honors Challenge",
+          "title": "Associated Laguerre Transformation of Hydrogen Radial Schrödinger Equation",
+          "statement": "Transform the radial hydrogenic Schrödinger equation $\\frac{d^2 R}{dr^2} + \\frac{2}{r} \\frac{dR}{dr} + \\left[ \\frac{2Z}{r} - \\frac{l(l+1)}{r^2} - \\kappa^2 \\right] R = 0$ into the confluent hypergeometric Associated Laguerre equation.",
+          "solution": "<b>Step 1: Asymptotic Behavior</b><br>\nAs $r \\to \\infty$: $R'' - \\kappa^2 R \\approx 0 \\implies R(r) \\sim e^{-\\kappa r}$.<br>\nAs $r \\to 0$: $R'' + \\frac{2}{r} R' - \\frac{l(l+1)}{r^2} R \\approx 0 \\implies R(r) \\sim r^l$.<br><br>\n<b>Step 2: Dimensionless variable and ansatz</b><br>\nDefine dimensionless coordinate $\\rho = 2\\kappa r$.<br>\nLet $R(\\rho) = \\rho^l e^{-\\rho/2} v(\\rho)$.<br><br>\n<b>Step 3: Derivatives of the ansatz</b><br>\nCompute $R'$ and $R''$ in terms of $\\rho$ and substitute into the radial equation. After factorizing $\\rho^l e^{-\\rho/2}$, the equation reduces to:\n$$\\rho \\frac{d^2 v}{d\\rho^2} + [2(l + 1) - \\rho] \\frac{dv}{d\\rho} + (n - l - 1) v = 0$$\nwhere $n = \\frac{Z}{\\kappa}$ is the principal quantum number.<br><br>\n<b>Step 4: Associated Laguerre Polynomials</b><br>\nLet $k = 2l + 1$ and $p = n - l - 1 \\ge 0$. The equation becomes:\n$$\\rho v'' + (k + 1 - \\rho) v' + p v = 0$$\nwhich is precisely the <b>Associated Laguerre differential equation</b>!\nThe solutions are $v(\\rho) = L_{n - l - 1}^{2l + 1}(\\rho)$, proving that the bound state energy levels are quantized:\n$$E_n = -\\frac{\\hbar^2 \\kappa^2}{2\\mu} = -\\frac{\\mu Z^2 e^4}{2\\hbar^2 n^2}, \\quad n = l + 1, l + 2, \\dots$$",
+          "answer": "$\\rho v'' + (2l + 2 - \\rho)v' + (n - l - 1)v = 0$ with solution $v(\\rho) = L_{n-l-1}^{2l+1}(2\\kappa r)$.",
+          "difficulty": "Hard"
+        }
       ]
     },
     {
@@ -108,6 +204,38 @@ window.COURSE_DATA = {
           "title": "Legendre's Differential Equation, Legendre Polynomials P_n(x), Rodrigues' Formula & Orthogonality",
           "simulation": "ode2-legendre-series-sim",
           "content": "<h3>1. Legendre's Differential Equation</h3>\n<p>Legendre's differential equation arises ubiquitously in electrostatics, quantum mechanics, and gravitational potential theory when solving Laplace's equation in spherical coordinates:</p>\n$$(1 - x^2) y'' - 2x y' + \\alpha(\\alpha + 1) y = 0$$\n<p>Dividing by $1 - x^2$, the singular points are $x = \\pm 1$. The origin $x_0 = 0$ is an ordinary point. Substituting $y = \\sum a_n x^n$ yields the two-step recurrence relation:</p>\n$$a_{n+2} = -\\frac{(\\alpha - n)(\\alpha + n + 1)}{(n + 1)(n + 2)} a_n$$\n<p>When $\\alpha = n$ is a non-negative integer, the series terminates after the term $x^n$, producing a polynomial of degree $n$. Normalized such that $P_n(1) = 1$, these are the <b>Legendre Polynomials</b> $P_n(x)$:</p>\n$$P_0(x) = 1, \\quad P_1(x) = x, \\quad P_2(x) = \\frac{1}{2}(3x^2 - 1), \\quad P_3(x) = \\frac{1}{2}(5x^3 - 3x), \\quad P_4(x) = \\frac{1}{8}(35x^4 - 30x^2 + 3)$$\n\n<h3>2. Rodrigues' Formula & Orthogonality</h3>\n<div class=\"math-theorem\">\n<b>Rodrigues' Formula:</b>\n$$P_n(x) = \\frac{1}{2^n n!} \\frac{d^n}{dx^n} (x^2 - 1)^n$$\n<b>Orthogonality Relation:</b> The Legendre polynomials form a complete orthogonal set in $L^2[-1, 1]$:\n$$\\int_{-1}^1 P_n(x) P_m(x)\\,dx = \\frac{2}{2n + 1} \\delta_{nm}$$\n</div>"
+        }
+      ],
+      "problems": [
+        {
+          "id": "prob-04",
+          "tier": 1,
+          "difficultyLabel": "Tier 1 • Foundational",
+          "title": "Power Series Solution of Airy-Type Equation about x = 0",
+          "statement": "Find the general power series solution about the ordinary point $x_0 = 0$ for:<br>$$y'' - x y = 0$$",
+          "solution": "<b>Step 1: Series Substitution</b><br>\nLet $y = \\sum_{n=0}^\\infty a_n x^n$. Then:\n$$y'' = \\sum_{n=2}^\\infty n(n - 1) a_n x^{n-2}, \\quad x y = \\sum_{n=0}^\\infty a_n x^{n+1}$$\n<br><b>Step 2: Align Indices</b><br>\nLet $k$ be the power of $x$:\nIn $y''$: $k = n - 2 \\implies n = k + 2 \\implies \\sum_{k=0}^\\infty (k + 2)(k + 1) a_{k+2} x^k$.\nFor $k = 0$: $2(1) a_2 = 0 \\implies a_2 = 0$.\nFor $k \\ge 1$: let $j = k - 1 \\ge 0$, equating coefficients gives:\n$$(k + 2)(k + 1) a_{k+2} = a_{k-1} \\implies a_{k+2} = \\frac{a_{k-1}}{(k + 2)(k + 1)}$$\nSetting $k + 2 = n$:\n$$a_n = \\frac{a_{n-3}}{n(n - 1)} \\quad \\text{for } n \\ge 3$$\n<br><b>Step 3: Compute Coefficients</b><br>\nSince $a_2 = 0$, all terms $a_{3m+2} = 0$.<br>\nMultiples of 3 (governed by $a_0$):\n$$a_3 = \\frac{a_0}{3 \\cdot 2}, \\quad a_6 = \\frac{a_3}{6 \\cdot 5} = \\frac{a_0}{6 \\cdot 5 \\cdot 3 \\cdot 2}$$\nTerms of form $3m+1$ (governed by $a_1$):\n$$a_4 = \\frac{a_1}{4 \\cdot 3}, \\quad a_7 = \\frac{a_4}{7 \\cdot 6} = \\frac{a_1}{7 \\cdot 6 \\cdot 4 \\cdot 3}$$\n<br><b>Step 4: Solution</b><br>\n$$y(x) = a_0 \\left( 1 + \\frac{x^3}{6} + \\frac{x^6}{180} + \\dots \\right) + a_1 \\left( x + \\frac{x^4}{12} + \\frac{x^7}{504} + \\dots \\right)$$",
+          "answer": "$y(x) = a_0 \\left(1 + \\frac{x^3}{6} + \\frac{x^6}{180} + \\dots\\right) + a_1 \\left(x + \\frac{x^4}{12} + \\frac{x^7}{504} + \\dots\\right)$",
+          "difficulty": "Easy"
+        },
+        {
+          "id": "prob-06",
+          "tier": 1,
+          "difficultyLabel": "Tier 1 • Foundational",
+          "title": "Legendre Polynomial P_3(x) and Orthogonality Verification",
+          "statement": "Derive $P_3(x)$ via Rodrigues' formula and verify the orthogonality $\\int_{-1}^1 P_1(x) P_3(x)\\,dx = 0$.",
+          "solution": "<b>Step 1: Rodrigues' Formula for $n = 3$</b><br>\n$$P_3(x) = \\frac{1}{2^3 \\cdot 3!} \\frac{d^3}{dx^3} (x^2 - 1)^3 = \\frac{1}{48} \\frac{d^3}{dx^3} (x^6 - 3x^4 + 3x^2 - 1)$$\nFirst derivative:\n$$\\frac{d}{dx}(x^6 - 3x^4 + 3x^2 - 1) = 6x^5 - 12x^3 + 6x$$\nSecond derivative:\n$$\\frac{d^2}{dx^2} = 30x^4 - 36x^2 + 6$$\nThird derivative:\n$$\\frac{d^3}{dx^3} = 120x^3 - 72x$$\nDividing by 48:\n$$P_3(x) = \\frac{120x^3 - 72x}{48} = \\frac{5}{2}x^3 - \\frac{3}{2}x = \\frac{1}{2}(5x^3 - 3x)$$\n<br><b>Step 2: Orthogonality integral with $P_1(x) = x$</b><br>\n$$\\int_{-1}^1 P_1(x) P_3(x)\\,dx = \\int_{-1}^1 x \\cdot \\frac{1}{2}(5x^3 - 3x)\\,dx = \\frac{1}{2} \\int_{-1}^1 (5x^4 - 3x^2)\\,dx$$\nBecause the integrand is even:\n$$= \\int_0^1 (5x^4 - 3x^2)\\,dx = \\left[ x^5 - x^3 \\right]_0^1 = (1 - 1) - 0 = 0$$\nOrthogonality is verified identically!",
+          "answer": "$P_3(x) = \\frac{1}{2}(5x^3 - 3x)$ and $\\int_{-1}^1 P_1(x)P_3(x)\\,dx = 0$.",
+          "difficulty": "Easy"
+        },
+        {
+          "id": "prob-19",
+          "tier": 3,
+          "difficultyLabel": "Tier 3 • Honors Challenge",
+          "title": "Complete Legendre Series Expansion & Parseval's Identity",
+          "statement": "Expand $f(x) = x(1 - x^2)$ in terms of Legendre polynomials on $[-1, 1]$ and verify Parseval's identity.",
+          "solution": "<b>Step 1: Algebraic decomposition</b><br>\n$f(x) = x - x^3$. We express $f(x)$ as a linear combination of Legendre polynomials:\n$$P_1(x) = x \\implies x = P_1(x)$$\n$$P_3(x) = \\frac{1}{2}(5x^3 - 3x) \\implies 5x^3 = 2P_3(x) + 3x = 2P_3(x) + 3P_1(x) \\implies x^3 = \\frac{2}{5}P_3(x) + \\frac{3}{5}P_1(x)$$\nSubstituting $x^3$:\n$$f(x) = P_1(x) - \\left( \\frac{2}{5}P_3(x) + \\frac{3}{5}P_1(x) \\right) = \\frac{2}{5}P_1(x) - \\frac{2}{5}P_3(x)$$\nAll other coefficients $c_n = 0$.<br><br>\n<b>Step 2: Parseval's Identity Verification</b><br>\nLHS: Directly compute $\\int_{-1}^1 [f(x)]^2\\,dx$:\n$$[f(x)]^2 = x^2(1 - x^2)^2 = x^2(1 - 2x^2 + x^4) = x^2 - 2x^4 + x^6$$\n$$\\int_{-1}^1 (x^2 - 2x^4 + x^6)\\,dx = 2 \\left[ \\frac{1}{3} - \\frac{2}{5} + \\frac{1}{7} \\right] = 2 \\left( \\frac{35 - 42 + 15}{105} \\right) = 2 \\left(\\frac{8}{105}\\right) = \\frac{16}{105}$$\nRHS: Compute $\\sum c_n^2 \\|P_n\\|^2$ where $\\|P_n\\|^2 = \\frac{2}{2n + 1}$:\n$$c_1^2 \\|P_1\\|^2 + c_3^2 \\|P_3\\|^2 = \\left(\\frac{2}{5}\\right)^2 \\left(\\frac{2}{3}\\right) + \\left(-\\frac{2}{5}\\right)^2 \\left(\\frac{2}{7}\\right)$$\n$$= \\frac{4}{25} \\left( \\frac{2}{3} + \\frac{2}{7} \\right) = \\frac{4}{25} \\left( \\frac{20}{21} \\right) = \\frac{80}{525} = \\frac{16}{105}$$\nLHS = RHS = $\\frac{16}{105}$. Parseval's identity holds with 100% precision!",
+          "answer": "$f(x) = \\frac{2}{5}P_1(x) - \\frac{2}{5}P_3(x)$ and $\\|f\\|^2 = \\sum c_n^2 \\|P_n\\|^2 = \\frac{16}{105}$.",
+          "difficulty": "Hard"
         }
       ]
     },
@@ -140,6 +268,38 @@ window.COURSE_DATA = {
           "title": "Case 3: Roots Differing by a Positive Integer & The Logarithmic Factor Criterion",
           "content": "<h3>1. Case 3: $r_1 - r_2 = N \\in \\mathbb{Z}^+$</h3>\n<p>When the roots differ by a positive integer $N$, the recurrence relation for the smaller root $r_2$ encounters $F(r_2 + N) = F(r_1) = 0$ in the denominator of $a_N$, which may lead to division by zero.</p>\n<div class=\"math-theorem\">\n<b>Theorem 5.1 (Frobenius Case 3 Structure):</b> The second solution takes the general form:\n$$y_2(x) = C y_1(x) \\ln x + x^{r_2} \\sum_{n=0}^\\infty c_n x^n \\quad (c_0 \\ne 0)$$\nwhere the constant $C$ is given by:\n$$C = \\lim_{r \\to r_2} (r - r_2) a_N(r)$$\n<ul>\n<li>If $C = 0$, the logarithmic term vanishes, and $y_2(x)$ is a pure Frobenius series without logarithms.</li>\n<li>If $C \\ne 0$, the logarithmic term is mandatory.</li>\n</ul>\n</div>"
         }
+      ],
+      "problems": [
+        {
+          "id": "prob-05",
+          "tier": 1,
+          "difficultyLabel": "Tier 1 • Foundational",
+          "title": "Frobenius Series Case 1: Roots Differing by Non-Integer",
+          "statement": "Find the Frobenius series solutions about $x = 0$ for:<br>$$2x y'' + y' + y = 0$$",
+          "solution": "<b>Step 1: Identify singularity and indicial equation</b><br>\nNormalized form: $y'' + \\frac{1}{2x} y' + \\frac{1}{2x} y = 0$.\n$p(x) = x P(x) = \\frac{1}{2} \\implies p_0 = \\frac{1}{2}$, and $q(x) = x^2 Q(x) = \\frac{x}{2} \\implies q_0 = 0$.\nThe point $x = 0$ is a regular singular point.\nIndicial equation:\n$$r(r - 1) + \\frac{1}{2} r + 0 = r\\left(r - \\frac{1}{2}\\right) = 0 \\implies r_1 = \\frac{1}{2}, \\quad r_2 = 0$$\nSince $r_1 - r_2 = \\frac{1}{2} \\notin \\mathbb{Z}$, this is <b>Case 1</b> (two distinct Frobenius series).<br><br>\n<b>Step 2: Recurrence relation for general $r$</b><br>\nSubstitute $y = \\sum_{n=0}^\\infty a_n x^{n+r}$:\n$$2 \\sum (n+r)(n+r-1) a_n x^{n+r-1} + \\sum (n+r) a_n x^{n+r-1} + \\sum a_n x^{n+r} = 0$$\nFor $n \\ge 1$:\n$$[(n+r)(2n + 2r - 1)] a_n = -a_{n-1} \\implies a_n = -\\frac{a_{n-1}}{(n+r)(2n + 2r - 1)}$$\n<br><b>Step 3: Solution for $r_1 = 1/2$</b><br>\nDenominator factor: $(n + 1/2)(2n) = n(2n + 1)$.\n$$a_n = -\\frac{a_{n-1}}{n(2n + 1)} \\implies y_1(x) = x^{1/2} \\left( 1 - \\frac{x}{3} + \\frac{x^2}{30} - \\frac{x^3}{630} + \\dots \\right)$$\n<br><b>Step 4: Solution for $r_2 = 0$</b><br>\nDenominator factor: $n(2n - 1)$.\n$$a_n = -\\frac{a_{n-1}}{n(2n - 1)} \\implies y_2(x) = 1 - x + \\frac{x^2}{6} - \\frac{x^3}{90} + \\dots$$",
+          "answer": "$y(x) = c_1 x^{1/2}\\left(1 - \\frac{x}{3} + \\frac{x^2}{30} - \\dots\\right) + c_2 \\left(1 - x + \\frac{x^2}{6} - \\dots\\right)$",
+          "difficulty": "Easy"
+        },
+        {
+          "id": "prob-11",
+          "tier": 2,
+          "difficultyLabel": "Tier 2 • Intermediate Exam",
+          "title": "Frobenius Method Case 2: Equal Indicial Roots & Logarithmic Branch",
+          "statement": "Find two linearly independent solutions about $x = 0$ for:<br>$$x y'' + y' - y = 0$$",
+          "solution": "<b>Step 1: Indicial equation</b><br>\nMultiply by $x$: $x^2 y'' + x y' - x y = 0$.\n$p(x) = 1 \\implies p_0 = 1$, $q(x) = -x \\implies q_0 = 0$.\nIndicial equation: $F(r) = r(r - 1) + r = r^2 = 0 \\implies r_1 = r_2 = 0$.\nEqual roots $\\implies$ <b>Case 2</b> (logarithmic second solution).<br><br>\n<b>Step 2: Recurrence relation for $y(x, r)$</b><br>\nSubstitute $y(x, r) = \\sum_{n=0}^\\infty a_n(r) x^{n+r}$:\n$$F(n + r) a_n = a_{n-1} \\implies (n + r)^2 a_n(r) = a_{n-1}(r) \\implies a_n(r) = \\frac{a_0}{[(1+r)(2+r)\\dots(n+r)]^2}$$\nFor $r = 0$ and $a_0 = 1$:\n$$a_n(0) = \\frac{1}{(n!)^2} \\implies y_1(x) = \\sum_{n=0}^\\infty \\frac{x^n}{(n!)^2} = 1 + x + \\frac{x^2}{4} + \\frac{x^3}{36} + \\dots$$\n<br><b>Step 3: Differentiate with respect to $r$ to obtain $y_2(x)$</b><br>\n$$y_2(x) = \\left. \\frac{\\partial y(x, r)}{\\partial r} \\right|_{r=0} = y_1(x) \\ln x + \\sum_{n=1}^\\infty a_n'(0) x^n$$\nUsing logarithmic differentiation on $a_n(r)$:\n$$\\ln a_n(r) = -2 \\sum_{k=1}^n \\ln(k + r) \\implies \\frac{a_n'(r)}{a_n(r)} = -2 \\sum_{k=1}^n \\frac{1}{k + r}$$\nAt $r = 0$: $a_n'(0) = -2 H_n a_n(0) = -2 \\frac{H_n}{(n!)^2}$, where $H_n = \\sum_{k=1}^n \\frac{1}{k}$ is the $n$-th harmonic number.<br><br>\n$$y_2(x) = y_1(x) \\ln x - 2 \\sum_{n=1}^\\infty \\frac{H_n}{(n!)^2} x^n = y_1(x) \\ln x - 2\\left( x + \\frac{3}{8}x^2 + \\frac{11}{216}x^3 + \\dots \\right)$$",
+          "answer": "$y_1(x) = \\sum_{n=0}^\\infty \\frac{x^n}{(n!)^2}, \\quad y_2(x) = y_1(x)\\ln x - 2\\sum_{n=1}^\\infty \\frac{H_n}{(n!)^2} x^n$",
+          "difficulty": "Medium"
+        },
+        {
+          "id": "prob-14",
+          "tier": 2,
+          "difficultyLabel": "Tier 2 • Intermediate Exam",
+          "title": "Hermite Polynomials Generating Function & Orthogonality",
+          "statement": "Using the generating function $\\Phi(x, t) = e^{2xt - t^2} = \\sum_{n=0}^\\infty \\frac{H_n(x)}{n!} t^n$, prove the orthogonality relation:<br>$$\\int_{-\\infty}^\\infty e^{-x^2} H_n(x) H_m(x)\\,dx = 2^n n! \\sqrt{\\pi}\\, \\delta_{nm}$$",
+          "solution": "<b>Step 1: Product of generating functions</b><br>\nConsider two generating functions with parameters $t$ and $s$:\n$$\\sum_{n=0}^\\infty \\sum_{m=0}^\\infty \\frac{t^n s^m}{n!\\, m!} \\int_{-\\infty}^\\infty e^{-x^2} H_n(x) H_m(x)\\,dx = \\int_{-\\infty}^\\infty e^{-x^2} \\Phi(x, t) \\Phi(x, s)\\,dx$$\n<br><b>Step 2: Combine exponents</b><br>\n$$\\Phi(x, t) \\Phi(x, s) = e^{2xt - t^2} e^{2xs - s^2} = e^{2x(t + s) - (t^2 + s^2)}$$\nThe integrand exponent is:\n$$-x^2 + 2x(t + s) - (t^2 + s^2) = -[x - (t + s)]^2 + (t + s)^2 - (t^2 + s^2) = -[x - (t + s)]^2 + 2ts$$\n<br><b>Step 3: Evaluate Gaussian integral</b><br>\n$$\\int_{-\\infty}^\\infty e^{-[x - (t + s)]^2 + 2ts}\\,dx = e^{2ts} \\int_{-\\infty}^\\infty e^{-u^2}\\,du = \\sqrt{\\pi} e^{2ts}$$\n<br><b>Step 4: Taylor series expansion of $e^{2ts}$</b><br>\n$$\\sqrt{\\pi} e^{2ts} = \\sqrt{\\pi} \\sum_{n=0}^\\infty \\frac{(2ts)^n}{n!} = \\sqrt{\\pi} \\sum_{n=0}^\\infty \\frac{2^n}{n!} t^n s^n$$\nNotice that there are NO terms with unequal powers $t^n s^m$ ($n \\ne m$). Hence:\n$$\\int_{-\\infty}^\\infty e^{-x^2} H_n(x) H_m(x)\\,dx = 0 \\quad \\text{for } n \\ne m$$\nFor $n = m$, equating coefficients of $\\frac{t^n s^n}{(n!)^2}$:\n$$\\frac{1}{(n!)^2} \\int_{-\\infty}^\\infty e^{-x^2} [H_n(x)]^2\\,dx = \\sqrt{\\pi} \\frac{2^n}{n!} \\implies \\int_{-\\infty}^\\infty e^{-x^2} [H_n(x)]^2\\,dx = 2^n n! \\sqrt{\\pi}$$",
+          "answer": "$\\int_{-\\infty}^\\infty e^{-x^2} H_n(x) H_m(x)\\,dx = 2^n n! \\sqrt{\\pi}\\, \\delta_{nm}$",
+          "difficulty": "Medium"
+        }
       ]
     },
     {
@@ -170,6 +330,38 @@ window.COURSE_DATA = {
           "secNumber": "6.4",
           "title": "Hermite's Differential Equation, Hermite Polynomials H_n(x) & Harmonic Oscillator Orthogonality",
           "content": "<h3>1. Hermite's Differential Equation</h3>\n<p>Hermite's equation governs the stationary wavefunctions of the quantum harmonic oscillator:</p>\n$$y'' - 2x y' + 2n y = 0$$\n<p>For integer $n \\ge 0$, the solutions are the <b>Hermite Polynomials</b> $H_n(x)$:</p>\n$$H_n(x) = (-1)^n e^{x^2} \\frac{d^n}{dx^n} (e^{-x^2})$$\n<p>First few polynomials: $H_0(x) = 1$, $H_1(x) = 2x$, $H_2(x) = 4x^2 - 2$, $H_3(x) = 8x^3 - 12x$.</p>\n<div class=\"math-theorem\">\n<b>Orthogonality of Hermite Polynomials:</b>\n$$\\int_{-\\infty}^\\infty e^{-x^2} H_n(x) H_m(x)\\,dx = 2^n n! \\sqrt{\\pi}\\, \\delta_{nm}$$\n</div>"
+        }
+      ],
+      "problems": [
+        {
+          "id": "prob-12",
+          "tier": 2,
+          "difficultyLabel": "Tier 2 • Intermediate Exam",
+          "title": "Bessel Differential Equation of Order Zero: J_0(x) and Y_0(x)",
+          "statement": "Obtain the series solution for Bessel's equation of order zero:<br>$$x y'' + y' + x y = 0$$",
+          "solution": "<b>Step 1: Indicial equation</b><br>\nMultiply by $x$: $x^2 y'' + x y' + x^2 y = 0$.\n$p_0 = 1, q_0 = 0 \\implies r^2 = 0 \\implies r_1 = r_2 = 0$.<br><br>\n<b>Step 2: Recurrence relation</b><br>\nSubstitute $y = \\sum a_n x^{n+r}$:\n$$(n + r)^2 a_n = -a_{n-2} \\quad (a_1 = 0)$$\nOdd coefficients vanish: $a_{2m+1} = 0$.\nFor even coefficients $n = 2m$:\n$$a_{2m}(r) = \\frac{(-1)^m a_0}{2^{2m} [(1 + r/2)(2 + r/2)\\dots(m + r/2)]^2}$$\nFor $r = 0, a_0 = 1$:\n$$a_{2m}(0) = \\frac{(-1)^m}{2^{2m} (m!)^2} \\implies J_0(x) = \\sum_{m=0}^\\infty \\frac{(-1)^m}{(m!)^2} \\left(\\frac{x}{2}\\right)^{2m}$$\n<br><b>Step 3: Second solution $Y_0(x)$</b><br>\nDifferentiating with respect to $r$:\n$$\\left. \\frac{\\partial a_{2m}}{\\partial r} \\right|_{r=0} = -H_m a_{2m}(0)$$\n$$y_2(x) = J_0(x) \\ln x - \\sum_{m=1}^\\infty \\frac{(-1)^m H_m}{(m!)^2} \\left(\\frac{x}{2}\\right)^{2m}$$\nThe standard Neumann function is normalized as $Y_0(x) = \\frac{2}{\\pi}\\left[ y_2(x) + (\\gamma - \\ln 2) J_0(x) \\right]$.",
+          "answer": "$J_0(x) = \\sum_{m=0}^\\infty \\frac{(-1)^m}{(m!)^2} \\left(\\frac{x}{2}\\right)^{2m}$ and $Y_0(x)$ contains logarithmic singularity $\\frac{2}{\\pi} J_0(x)\\ln x$.",
+          "difficulty": "Medium"
+        },
+        {
+          "id": "prob-20",
+          "tier": 3,
+          "difficultyLabel": "Tier 3 • Honors Challenge",
+          "title": "Inhomogeneous Bessel Equation via Lommel's Integrals",
+          "statement": "Solve the inhomogeneous Bessel equation of order zero:<br>$$x^2 y'' + x y' + x^2 y = x$$<br>using Variation of Parameters.",
+          "solution": "<b>Step 1: Normalized standard form</b><br>\nDivide by $x^2$:\n$$y'' + \\frac{1}{x} y' + y = \\frac{1}{x}$$\nThe homogeneous solutions are $y_1(x) = J_0(x)$ and $y_2(x) = Y_0(x)$.<br><br>\n<b>Step 2: Wronskian of Bessel functions</b><br>\nAbel's identity gives:\n$$W(J_0, Y_0)(x) = \\frac{2}{\\pi x}$$\n<br><b>Step 3: Variation of Parameters formulas</b><br>\n$$u_1'(x) = -\\frac{y_2(x) g(x)}{W(x)} = -\\frac{Y_0(x) (1/x)}{2/(\\pi x)} = -\\frac{\\pi}{2} Y_0(x)$$\n$$u_2'(x) = \\frac{y_1(x) g(x)}{W(x)} = \\frac{J_0(x) (1/x)}{2/(\\pi x)} = \\frac{\\pi}{2} J_0(x)$$\n<br><b>Step 4: Particular solution</b><br>\n$$y_p(x) = -\\frac{\\pi}{2} J_0(x) \\int_0^x Y_0(s)\\,ds + \\frac{\\pi}{2} Y_0(x) \\int_0^x J_0(s)\\,ds$$\nThis is the celebrated Struve function relation: $y_p(x) = \\frac{\\pi}{2} \\mathbf{H}_0(x)$.",
+          "answer": "$y(x) = c_1 J_0(x) + c_2 Y_0(x) + \\frac{\\pi}{2}\\left[ Y_0(x)\\int_0^x J_0(s)ds - J_0(x)\\int_0^x Y_0(s)ds \\right]$",
+          "difficulty": "Hard"
+        },
+        {
+          "id": "prob-15",
+          "tier": 2,
+          "difficultyLabel": "Tier 2 • Intermediate Exam",
+          "title": "Sturm Comparison Theorem & Interlacing Zeros of Bessel Functions",
+          "statement": "Prove using Sturm's Separation/Comparison Theorem that between any two consecutive positive zeros of $J_0(x)$, there is exactly one zero of $J_1(x)$.",
+          "solution": "<b>Step 1: Recurrence relation between $J_0$ and $J_1$</b><br>\nRecall from Bessel recurrence relations:\n$$\\frac{d}{dx} J_0(x) = -J_1(x)$$\n<br><b>Step 2: Apply Rolle's Theorem</b><br>\nLet $0 < x_1 < x_2$ be two consecutive positive zeros of $J_0(x)$, so $J_0(x_1) = 0$ and $J_0(x_2) = 0$, and $J_0(x) \\ne 0$ for all $x \\in (x_1, x_2)$.<br>\nSince $J_0(x)$ is continuously differentiable on $[x_1, x_2]$, Rolle's theorem guarantees that there exists at least one point $\\xi \\in (x_1, x_2)$ such that $J_0'(\\xi) = 0$.<br>\nSince $J_0'(x) = -J_1(x)$, this means $J_1(\\xi) = 0$. Thus $J_1$ has <i>at least one</i> zero in $(x_1, x_2)$.<br><br>\n<b>Step 3: Uniqueness via Sturm Separation</b><br>\nNow consider the identity:\n$$\\frac{d}{dx}[x J_1(x)] = x J_0(x)$$\nSuppose $J_1(x)$ had two zeros $\\xi_1 < \\xi_2$ in $(x_1, x_2)$. Then applying Rolle's theorem to $g(x) = x J_1(x)$ on $[\\xi_1, \\xi_2]$ would imply $g'(\\eta) = \\eta J_0(\\eta) = 0$ for some $\\eta \\in (\\xi_1, \\xi_2) \\subset (x_1, x_2)$.<br>\nSince $\\eta > 0$, this would force $J_0(\\eta) = 0$, directly contradicting that $x_1$ and $x_2$ are <i>consecutive</i> zeros of $J_0(x)$!<br><br>\n<b>Conclusion:</b> There is <b>strictly one</b> zero of $J_1(x)$ between any two consecutive zeros of $J_0(x)$. The zeros strictly interlace: $0 < j_{0, 1} < j_{1, 1} < j_{0, 2} < j_{1, 2} < \\dots$.",
+          "answer": "Proved: zeros of $J_0(x)$ and $J_1(x)$ strictly interlace.",
+          "difficulty": "Medium"
         }
       ]
     },
@@ -202,6 +394,38 @@ window.COURSE_DATA = {
           "title": "Generalized Fourier Series & Eigenfunction Completeness in L^2_w[a, b]",
           "content": "<h3>1. Generalized Fourier Series Expansions</h3>\n<p>The normalized eigenfunctions $\\phi_n(x) = \\frac{y_n(x)}{\\sqrt{\\int_a^b y_n^2 w\\,dx}}$ form an orthonormal basis for the Hilbert space $L^2_w[a, b]$. Any piecewise smooth function $f(x)$ on $[a, b]$ can be expanded in a generalized Fourier series:</p>\n$$f(x) \\sim \\sum_{n=1}^\\infty c_n \\phi_n(x), \\quad c_n = \\langle f, \\phi_n \\rangle_w = \\int_a^b f(x) \\phi_n(x) w(x)\\,dx$$\n<p>The series converges pointwise to $\\frac{f(x^+) + f(x^-)}{2}$ at all interior points $x \\in (a, b)$, and satisfies Parseval's identity:</p>\n$$\\|f\\|_w^2 = \\int_a^b [f(x)]^2 w(x)\\,dx = \\sum_{n=1}^\\infty c_n^2$$"
         }
+      ],
+      "problems": [
+        {
+          "id": "prob-07",
+          "tier": 1,
+          "difficultyLabel": "Tier 1 • Foundational",
+          "title": "Regular Sturm-Liouville Eigenvalues & Mixed Boundary Conditions",
+          "statement": "Find all eigenvalues and eigenfunctions of the regular Sturm-Liouville problem:<br>$$y'' + \\lambda y = 0, \\quad y(0) = 0, \\quad y'(\\pi) = 0$$",
+          "solution": "<b>Case 1: $\\lambda < 0$ ($\\lambda = -\\mu^2, \\mu > 0$)</b><br>\n$y(x) = c_1 \\cosh(\\mu x) + c_2 \\sinh(\\mu x)$.<br>\n$y(0) = c_1 = 0 \\implies y(x) = c_2 \\sinh(\\mu x)$.<br>\n$y'(\\pi) = c_2 \\mu \\cosh(\\mu \\pi) = 0$. Since $\\mu \\ne 0$ and $\\cosh(\\mu \\pi) \\ge 1$, $c_2 = 0$. No non-trivial solutions.<br><br>\n<b>Case 2: $\\lambda = 0$</b><br>\n$y(x) = c_1 x + c_2$. $y(0) = c_2 = 0$. $y'(x) = c_1 \\implies y'(\\pi) = c_1 = 0$. Only trivial solution.<br><br>\n<b>Case 3: $\\lambda > 0$ ($\\lambda = k^2, k > 0$)</b><br>\n$y(x) = c_1 \\cos(kx) + c_2 \\sin(kx)$.<br>\n$y(0) = c_1 = 0 \\implies y(x) = c_2 \\sin(kx)$.<br>\n$y'(x) = c_2 k \\cos(kx) \\implies y'(\\pi) = c_2 k \\cos(k\\pi) = 0$.<br>\nFor non-trivial solutions ($c_2 \\ne 0$), we require:\n$$\\cos(k\\pi) = 0 \\implies k\\pi = \\left(n - \\frac{1}{2}\\right)\\pi \\implies k_n = n - \\frac{1}{2} = \\frac{2n - 1}{2}, \\quad n = 1, 2, 3, \\dots$$\n<br><b>Step 4: Eigenvalues & Orthonormal Eigenfunctions</b><br>\n$$\\lambda_n = k_n^2 = \\frac{(2n - 1)^2}{4}, \\quad y_n(x) = \\sin\\left(\\frac{2n - 1}{2} x\\right)$$\nNorm: $\\int_0^\\pi \\sin^2\\left(\\frac{2n - 1}{2} x\\right) dx = \\frac{\\pi}{2}$.\nOrthonormal set: $\\phi_n(x) = \\sqrt{\\frac{2}{\\pi}} \\sin\\left(\\frac{2n - 1}{2} x\\right)$.",
+          "answer": "$\\lambda_n = \\frac{(2n - 1)^2}{4}, \\quad y_n(x) = \\sin\\left(\\frac{2n - 1}{2} x\\right), \\quad n = 1, 2, 3, \\dots$",
+          "difficulty": "Easy"
+        },
+        {
+          "id": "prob-15",
+          "tier": 2,
+          "difficultyLabel": "Tier 2 • Intermediate Exam",
+          "title": "Sturm Comparison Theorem & Interlacing Zeros of Bessel Functions",
+          "statement": "Prove using Sturm's Separation/Comparison Theorem that between any two consecutive positive zeros of $J_0(x)$, there is exactly one zero of $J_1(x)$.",
+          "solution": "<b>Step 1: Recurrence relation between $J_0$ and $J_1$</b><br>\nRecall from Bessel recurrence relations:\n$$\\frac{d}{dx} J_0(x) = -J_1(x)$$\n<br><b>Step 2: Apply Rolle's Theorem</b><br>\nLet $0 < x_1 < x_2$ be two consecutive positive zeros of $J_0(x)$, so $J_0(x_1) = 0$ and $J_0(x_2) = 0$, and $J_0(x) \\ne 0$ for all $x \\in (x_1, x_2)$.<br>\nSince $J_0(x)$ is continuously differentiable on $[x_1, x_2]$, Rolle's theorem guarantees that there exists at least one point $\\xi \\in (x_1, x_2)$ such that $J_0'(\\xi) = 0$.<br>\nSince $J_0'(x) = -J_1(x)$, this means $J_1(\\xi) = 0$. Thus $J_1$ has <i>at least one</i> zero in $(x_1, x_2)$.<br><br>\n<b>Step 3: Uniqueness via Sturm Separation</b><br>\nNow consider the identity:\n$$\\frac{d}{dx}[x J_1(x)] = x J_0(x)$$\nSuppose $J_1(x)$ had two zeros $\\xi_1 < \\xi_2$ in $(x_1, x_2)$. Then applying Rolle's theorem to $g(x) = x J_1(x)$ on $[\\xi_1, \\xi_2]$ would imply $g'(\\eta) = \\eta J_0(\\eta) = 0$ for some $\\eta \\in (\\xi_1, \\xi_2) \\subset (x_1, x_2)$.<br>\nSince $\\eta > 0$, this would force $J_0(\\eta) = 0$, directly contradicting that $x_1$ and $x_2$ are <i>consecutive</i> zeros of $J_0(x)$!<br><br>\n<b>Conclusion:</b> There is <b>strictly one</b> zero of $J_1(x)$ between any two consecutive zeros of $J_0(x)$. The zeros strictly interlace: $0 < j_{0, 1} < j_{1, 1} < j_{0, 2} < j_{1, 2} < \\dots$.",
+          "answer": "Proved: zeros of $J_0(x)$ and $J_1(x)$ strictly interlace.",
+          "difficulty": "Medium"
+        },
+        {
+          "id": "prob-22",
+          "tier": 3,
+          "difficultyLabel": "Tier 3 • Honors Challenge",
+          "title": "Periodic Sturm-Liouville Problem & Double Spectral Degeneracy",
+          "statement": "Establish the self-adjointness, non-negative spectrum, and double degeneracy for the periodic Sturm-Liouville problem:<br>$$y'' + \\lambda y = 0, \\quad y(-\\pi) = y(\\pi), \\quad y'(-\\pi) = y'(\\pi)$$",
+          "solution": "<b>Step 1: Self-Adjointness via Green's Formula</b><br>\nFor $L[y] = -y''$:\n$$\\int_{-\\pi}^\\pi (u L[v] - v L[u])\\,dx = \\left[ -u v' + v u' \\right]_{-\\pi}^\\pi = [-u(\\pi)v'(\\pi) + v(\\pi)u'(\\pi)] - [-u(-\\pi)v'(-\\pi) + v(-\\pi)u'(-\\pi)]$$\nUsing periodic conditions $u(-\\pi) = u(\\pi)$ and $u'(-\\pi) = u'(\\pi)$:\n$$= [-u(\\pi)v'(\\pi) + v(\\pi)u'(\\pi)] - [-u(\\pi)v'(\\pi) + v(\\pi)u'(\\pi)] = 0$$\nThe periodic boundary conditions make the boundary term vanish. Hence $L$ is <b>self-adjoint</b>.<br><br>\n<b>Step 2: Non-negative eigenvalues ($\\lambda \\ge 0$)</b><br>\nMultiply by $y$ and integrate by parts:\n$$\\lambda \\int_{-\\pi}^\\pi y^2\\,dx = \\int_{-\\pi}^\\pi (y')^2\\,dx - [y y']_{-\\pi}^\\pi = \\int_{-\\pi}^\\pi (y')^2\\,dx \\ge 0$$\nHence $\\lambda \\ge 0$.<br><br>\n<b>Step 3: Eigenvalues & Degeneracy</b><br>\nFor $\\lambda_0 = 0$: $y_0(x) = 1$ (non-degenerate, dimension 1).<br>\nFor $\\lambda_n = n^2 > 0$ ($n = 1, 2, 3, \\dots$):\nBoth $y_{n, 1}(x) = \\cos(nx)$ and $y_{n, 2}(x) = \\sin(nx)$ satisfy the periodic boundary conditions!\nThus every eigenvalue $\\lambda_n = n^2$ has <b>multiplicity 2</b> (doubly degenerate eigenspace spanned by $\\{\\cos nx, \\sin nx\\}$), generating the classical full Fourier series!",
+          "answer": "$\\lambda_0 = 0$ (simple), $\\lambda_n = n^2$ ($n \\ge 1$, doubly degenerate with basis $\\{\\cos nx, \\sin nx\\}$).",
+          "difficulty": "Hard"
+        }
       ]
     },
     {
@@ -233,6 +457,38 @@ window.COURSE_DATA = {
           "title": "Green's Function Representation of Inhomogeneous Solutions & Physical Applications",
           "content": "<h3>1. Physical Example: Deflection of a Taut Elastic String</h3>\n<p>A taut string of length $L$ under uniform tension $T$ clamped at both ends ($y(0) = 0, y(L) = 0$) subject to transverse load density $f(x)$ satisfies:</p>\n$$-T y''(x) = f(x), \\quad y(0) = 0, \\quad y(L) = 0$$\n<p>Here $p(x) = T$. The solutions satisfying the boundary conditions are $y_1(x) = x$ and $y_2(x) = L - x$. The Wronskian is $W(y_1, y_2) = x(-1) - (L - x)(1) = -L$. Hence $p W = -TL$. The Green's function is:</p>\n$$G(x, \\xi) = \\begin{cases}\n\\frac{x(L - \\xi)}{TL}, & 0 \\le x \\le \\xi \\\\\n\\frac{\\xi(L - x)}{TL}, & \\xi \\le x \\le L\n\\end{cases}$$\n<p>The deflection caused by a uniform distributed gravitational load $f(x) = \\rho g$ is:</p>\n$$y(x) = \\int_0^L G(x, \\xi) \\rho g\\,d\\xi = \\frac{\\rho g}{2T} x(L - x)$$\n<p>which matches the classical parabolic profile of hanging cables and beam theory.</p>"
         }
+      ],
+      "problems": [
+        {
+          "id": "prob-08",
+          "tier": 1,
+          "difficultyLabel": "Tier 1 • Foundational",
+          "title": "Explicit Construction of Green's Function for y'' = f(x)",
+          "statement": "Construct the Green's function for the Dirichlet boundary value problem:<br>$$y'' = f(x), \\quad y(0) = 0, \\quad y(1) = 0$$<br>and find the solution for $f(x) = x$.",
+          "solution": "<b>Step 1: Linearly independent solutions satisfying boundary conditions</b><br>\nHomogeneous ODE: $y'' = 0 \\implies y(x) = c_1 x + c_2$.<br>\nLeft solution satisfying $y_1(0) = 0$: $y_1(x) = x$.<br>\nRight solution satisfying $y_2(1) = 0$: $y_2(x) = 1 - x$.<br><br>\n<b>Step 2: Wronskian computation</b><br>\n$$W(y_1, y_2) = y_1 y_2' - y_2 y_1' = x(-1) - (1 - x)(1) = -x - 1 + x = -1$$\nIn $L[y] = -y''$, $p(x) = 1$. So $-p W = -1(-1) = 1$.<br><br>\n<b>Step 3: Green's Function Formulation</b><br>\nFor $-y'' = -f(x)$, or directly:\n$$G(x, \\xi) = \\begin{cases}\nx(1 - \\xi), & 0 \\le x \\le \\xi \\\\\n\\xi(1 - x), & \\xi \\le x \\le 1\n\\end{cases}$$\n<br><b>Step 4: Solution for $f(x) = x$ (where $-y'' = -x \\implies y'' = x$)</b><br>\n$$y(x) = \\int_0^1 G(x, \\xi) (-\\xi)\\,d\\xi = -\\int_0^x \\xi(1 - x) \\xi\\,d\\xi - \\int_x^1 x(1 - \\xi) \\xi\\,d\\xi$$\nFirst integral:\n$$-(1 - x) \\int_0^x \\xi^2 d\\xi = -(1 - x) \\frac{x^3}{3} = -\\frac{x^3}{3} + \\frac{x^4}{3}$$\nSecond integral:\n$$-x \\int_x^1 (\\xi - \\xi^2) d\\xi = -x \\left[ \\frac{\\xi^2}{2} - \\frac{\\xi^3}{3} \\right]_x^1 = -x \\left( \\frac{1}{6} - \\frac{x^2}{2} + \\frac{x^3}{3} \\right) = -\\frac{x}{6} + \\frac{x^3}{2} - \\frac{x^4}{3}$$\nSumming both:\n$$y(x) = -\\frac{x^3}{3} + \\frac{x^4}{3} - \\frac{x}{6} + \\frac{x^3}{2} - \\frac{x^4}{3} = \\frac{x^3}{6} - \\frac{x}{6} = \\frac{x(x^2 - 1)}{6}$$\nVerify: $y'' = x, y(0) = 0, y(1) = 0$. Matches!",
+          "answer": "$G(x, \\xi) = \\begin{cases} x(1-\\xi), & x \\le \\xi \\\\ \\xi(1-x), & x > \\xi \\end{cases}$ and $y(x) = \\frac{x(x^2 - 1)}{6}$",
+          "difficulty": "Easy"
+        },
+        {
+          "id": "prob-16",
+          "tier": 2,
+          "difficultyLabel": "Tier 2 • Intermediate Exam",
+          "title": "Solvability Condition via the Fredholm Alternative",
+          "statement": "Determine the exact condition on the function $h(x)$ for the boundary value problem to possess a solution:<br>$$y'' + \\pi^2 y = h(x), \\quad y(0) = 0, \\quad y(1) = 0$$",
+          "solution": "<b>Step 1: Check homogeneous boundary value problem</b><br>\n$$y_h'' + \\pi^2 y_h = 0 \\implies y_h(x) = c_1 \\cos(\\pi x) + c_2 \\sin(\\pi x)$$\nBoundary conditions:\n$$y_h(0) = c_1 = 0 \\implies y_h(x) = c_2 \\sin(\\pi x)$$\n$$y_h(1) = c_2 \\sin(\\pi) = 0 \\quad (\\text{satisfied for any } c_2)$$\nThe homogeneous problem has non-trivial solution $\\phi(x) = \\sin(\\pi x)$.<br><br>\n<b>Step 2: Self-adjointness of operator</b><br>\nThe operator $L[y] = y'' + \\pi^2 y$ with Dirichlet conditions $y(0) = y(1) = 0$ is formally self-adjoint:\n$$\\int_0^1 (u L[v] - v L[u])\\,dx = [u v' - v u']_0^1 = 0$$\n<br><b>Step 3: Apply the Fredholm Alternative (Case II)</b><br>\nBy Theorem 8.1, the nonhomogeneous problem has a solution if and only if $h(x)$ is orthogonal to the null space of the adjoint operator:\n$$\\int_0^1 h(x) \\phi(x)\\,dx = 0 \\implies \\int_0^1 h(x) \\sin(\\pi x)\\,dx = 0$$\nIf this integral is zero, an infinite family of solutions exists ($y(x) = y_p(x) + c \\sin(\\pi x)$). If non-zero, NO solution exists.",
+          "answer": "Solvability condition: $\\int_0^1 h(x) \\sin(\\pi x)\\,dx = 0$.",
+          "difficulty": "Medium"
+        },
+        {
+          "id": "prob-23",
+          "tier": 3,
+          "difficultyLabel": "Tier 3 • Honors Challenge",
+          "title": "Bilinear Mercer Eigenfunction Expansion of Green's Function",
+          "statement": "Prove the bilinear eigenfunction expansion for the Green's function of a regular Sturm-Liouville problem:<br>$$G(x, \\xi) = \\sum_{n=1}^\\infty \\frac{\\phi_n(x) \\phi_n(\\xi)}{\\lambda_n}$$",
+          "solution": "<b>Step 1: Expand Green's function in orthonormal eigenfunctions</b><br>\nLet $\\{\\phi_n(x)\\}$ be the complete orthonormal eigenfunctions of $L[\\phi_n] = \\lambda_n w(x) \\phi_n$ with separated boundary conditions. For any fixed $\\xi \\in (a, b)$, $G(x, \\xi)$ satisfies the boundary conditions in $x$. Expand $G(x, \\xi)$ in terms of $\\phi_n(x)$:\n$$G(x, \\xi) = \\sum_{n=1}^\\infty c_n(\\xi) \\phi_n(x)$$\n<br><b>Step 2: Determine expansion coefficients $c_n(\\xi)$</b><br>\nBy orthonormality $\\int_a^b \\phi_n(x) \\phi_m(x) w(x)\\,dx = \\delta_{nm}$:\n$$c_n(\\xi) = \\int_a^b G(x, \\xi) \\phi_n(x) w(x)\\,dx$$\n<br><b>Step 3: Exploit self-adjointness and eigenvalue equation</b><br>\nSince $\\phi_n(x) = \\frac{1}{\\lambda_n w(x)} L[\\phi_n](x)$:\n$$c_n(\\xi) = \\frac{1}{\\lambda_n} \\int_a^b G(x, \\xi) L[\\phi_n](x)\\,dx$$\nUsing Green's formula $\\int_a^b (u L[v] - v L[u])\\,dx = 0$:\n$$c_n(\\xi) = \\frac{1}{\\lambda_n} \\int_a^b \\phi_n(x) L_x[G(x, \\xi)]\\,dx$$\nSince $L_x[G(x, \\xi)] = \\delta(x - \\xi)$:\n$$c_n(\\xi) = \\frac{1}{\\lambda_n} \\int_a^b \\phi_n(x) \\delta(x - \\xi)\\,dx = \\frac{\\phi_n(\\xi)}{\\lambda_n}$$\n<br><b>Step 4: Substitute $c_n(\\xi)$ back</b><br>\n$$G(x, \\xi) = \\sum_{n=1}^\\infty \\frac{\\phi_n(x) \\phi_n(\\xi)}{\\lambda_n}$$\nThis Mercer series proves the exact symmetry $G(x, \\xi) = G(\\xi, x)$ and convergence in $L^2$.",
+          "answer": "$G(x, \\xi) = \\sum_{n=1}^\\infty \\frac{\\phi_n(x) \\phi_n(\\xi)}{\\lambda_n}$ (Mercer's Bilinear Expansion).",
+          "difficulty": "Hard"
+        }
       ]
     }
   ],
@@ -240,146 +496,162 @@ window.COURSE_DATA = {
     {
       "id": "prob-01",
       "tier": 1,
-      "difficultyLabel": "Tier 1 • University Standard",
+      "difficultyLabel": "Tier 1 • Foundational",
       "title": "Homogeneous 2x2 System with Real Distinct Eigenvalues",
       "statement": "Solve the initial value problem for the linear system:<br>$$\\frac{d\\vec{x}}{dt} = \\begin{pmatrix} 1 & 2 \\\\ 2 & 1 \\end{pmatrix} \\vec{x}, \\quad \\vec{x}(0) = \\begin{pmatrix} 3 \\\\ 1 \\end{pmatrix}$$",
       "solution": "<b>Step 1: Eigenvalues of the system matrix</b><br>\n$$\\det(\\mathbf{A} - \\lambda \\mathbf{I}) = \\begin{vmatrix} 1 - \\lambda & 2 \\\\ 2 & 1 - \\lambda \\end{vmatrix} = (1 - \\lambda)^2 - 4 = \\lambda^2 - 2\\lambda - 3 = 0$$\nFactorizing yields $(\\lambda - 3)(\\lambda + 1) = 0 \\implies \\lambda_1 = 3, \\lambda_2 = -1$.<br><br>\n<b>Step 2: Eigenvector for $\\lambda_1 = 3$</b><br>\n$$(\\mathbf{A} - 3\\mathbf{I})\\vec{v}_1 = \\begin{pmatrix} -2 & 2 \\\\ 2 & -2 \\end{pmatrix} \\begin{pmatrix} v_{11} \\\\ v_{12} \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix} \\implies v_{11} = v_{12} \\implies \\vec{v}_1 = \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix}$$\n<br><b>Step 3: Eigenvector for $\\lambda_2 = -1$</b><br>\n$$(\\mathbf{A} + \\mathbf{I})\\vec{v}_2 = \\begin{pmatrix} 2 & 2 \\\\ 2 & 2 \\end{pmatrix} \\begin{pmatrix} v_{21} \\\\ v_{22} \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix} \\implies v_{21} = -v_{22} \\implies \\vec{v}_2 = \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix}$$\n<br><b>Step 4: General Solution & Initial Condition</b><br>\n$$\\vec{x}(t) = c_1 e^{3t} \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} + c_2 e^{-t} \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix}$$\nAt $t = 0$:\n$$\\vec{x}(0) = \\begin{pmatrix} c_1 + c_2 \\\\ c_1 - c_2 \\end{pmatrix} = \\begin{pmatrix} 3 \\\\ 1 \\end{pmatrix}$$\nAdding both equations: $2c_1 = 4 \\implies c_1 = 2$. Subtracting: $2c_2 = 2 \\implies c_2 = 1$.<br><br>\n$$\\vec{x}(t) = 2e^{3t} \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} + e^{-t} \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix} = \\begin{pmatrix} 2e^{3t} + e^{-t} \\\\ 2e^{3t} - e^{-t} \\end{pmatrix}$$",
-      "answer": "$\\vec{x}(t) = \\begin{pmatrix} 2e^{3t} + e^{-t} \\\\ 2e^{3t} - e^{-t} \\end{pmatrix}$"
+      "answer": "$\\vec{x}(t) = \\begin{pmatrix} 2e^{3t} + e^{-t} \\\\ 2e^{3t} - e^{-t} \\end{pmatrix}$",
+      "difficulty": "Easy"
     },
     {
       "id": "prob-02",
       "tier": 1,
-      "difficultyLabel": "Tier 1 • University Standard",
+      "difficultyLabel": "Tier 1 • Foundational",
       "title": "Matrix Exponential for Defective Repeated Eigenvalue Matrix",
       "statement": "Compute the matrix exponential $e^{\\mathbf{A}t}$ for the defective matrix:<br>$$\\mathbf{A} = \\begin{pmatrix} 2 & 1 \\\\ 0 & 2 \\end{pmatrix}$$",
       "solution": "<b>Step 1: Nilpotent Decomposition</b><br>\nNotice that $\\mathbf{A}$ can be split into a scalar multiple of identity and a nilpotent upper-triangular matrix:\n$$\\mathbf{A} = 2\\mathbf{I} + \\mathbf{N}, \\quad \\text{where } \\mathbf{N} = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$$\nObserve that $\\mathbf{N}^2 = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix} \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix} = \\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}$. Thus $\\mathbf{N}$ is nilpotent of degree 2.<br><br>\n<b>Step 2: Commuting Matrices Property</b><br>\nSince $(2\\mathbf{I}t)(\\mathbf{N}t) = (\\mathbf{N}t)(2\\mathbf{I}t)$, we can multiply their exponentials:\n$$e^{\\mathbf{A}t} = e^{2\\mathbf{I}t + \\mathbf{N}t} = e^{2\\mathbf{I}t} e^{\\mathbf{N}t}$$\n<br><b>Step 3: Exponentiation of Terms</b><br>\n$$e^{2\\mathbf{I}t} = e^{2t} \\mathbf{I} = \\begin{pmatrix} e^{2t} & 0 \\\\ 0 & e^{2t} \\end{pmatrix}$$\n$$e^{\\mathbf{N}t} = \\mathbf{I} + t\\mathbf{N} + \\frac{t^2}{2!} \\mathbf{N}^2 + \\dots = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix} + t \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix} = \\begin{pmatrix} 1 & t \\\\ 0 & 1 \\end{pmatrix}$$\n<br><b>Step 4: Matrix Multiplication</b><br>\n$$e^{\\mathbf{A}t} = e^{2t} \\begin{pmatrix} 1 & t \\\\ 0 & 1 \\end{pmatrix} = \\begin{pmatrix} e^{2t} & t e^{2t} \\\\ 0 & e^{2t} \\end{pmatrix}$$",
-      "answer": "$e^{\\mathbf{A}t} = \\begin{pmatrix} e^{2t} & t e^{2t} \\\\ 0 & e^{2t} \\end{pmatrix}$"
+      "answer": "$e^{\\mathbf{A}t} = \\begin{pmatrix} e^{2t} & t e^{2t} \\\\ 0 & e^{2t} \\end{pmatrix}$",
+      "difficulty": "Easy"
     },
     {
       "id": "prob-03",
       "tier": 1,
-      "difficultyLabel": "Tier 1 • University Standard",
+      "difficultyLabel": "Tier 1 • Foundational",
       "title": "Variation of Parameters for Nonhomogeneous 2x2 System",
       "statement": "Find a particular solution using Variation of Parameters for the system:<br>$$\\vec{x}' = \\begin{pmatrix} 0 & 1 \\\\ -2 & 3 \\end{pmatrix} \\vec{x} + \\begin{pmatrix} 0 \\\\ e^t \\end{pmatrix}$$",
       "solution": "<b>Step 1: Homogeneous eigenvalues and eigenvectors</b><br>\n$\\det(\\mathbf{A} - \\lambda \\mathbf{I}) = \\lambda^2 - 3\\lambda + 2 = (\\lambda - 1)(\\lambda - 2) = 0 \\implies \\lambda_1 = 1, \\lambda_2 = 2$.<br>\nFor $\\lambda_1 = 1$: $(\\mathbf{A} - \\mathbf{I})\\vec{v}_1 = \\begin{pmatrix} -1 & 1 \\\\ -2 & 2 \\end{pmatrix} \\begin{pmatrix} v_1 \\\\ v_2 \\end{pmatrix} = \\vec{0} \\implies \\vec{v}_1 = \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix}$.<br>\nFor $\\lambda_2 = 2$: $(\\mathbf{A} - 2\\mathbf{I})\\vec{v}_2 = \\begin{pmatrix} -2 & 1 \\\\ -2 & 1 \\end{pmatrix} \\begin{pmatrix} v_1 \\\\ v_2 \\end{pmatrix} = \\vec{0} \\implies \\vec{v}_2 = \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix}$.<br><br>\n<b>Step 2: Fundamental Matrix $\\mathbf{\\Phi}(t)$</b><br>\n$$\\mathbf{\\Phi}(t) = \\begin{pmatrix} e^t & e^{2t} \\\\ e^t & 2e^{2t} \\end{pmatrix}, \\quad \\det \\mathbf{\\Phi}(t) = 2e^{3t} - e^{3t} = e^{3t}$$\n$$\\mathbf{\\Phi}^{-1}(t) = \\frac{1}{e^{3t}} \\begin{pmatrix} 2e^{2t} & -e^{2t} \\\\ -e^t & e^t \\end{pmatrix} = \\begin{pmatrix} 2e^{-t} & -e^{-t} \\\\ -e^{-2t} & e^{-2t} \\end{pmatrix}$$\n<br><b>Step 3: Integrate $\\vec{u}'(t) = \\mathbf{\\Phi}^{-1}(t) \\vec{g}(t)$</b><br>\n$$\\vec{u}'(t) = \\begin{pmatrix} 2e^{-t} & -e^{-t} \\\\ -e^{-2t} & e^{-2t} \\end{pmatrix} \\begin{pmatrix} 0 \\\\ e^t \\end{pmatrix} = \\begin{pmatrix} -1 \\\\ e^{-t} \\end{pmatrix}$$\nIntegrating with respect to $t$:\n$$\\vec{u}(t) = \\begin{pmatrix} -t \\\\ -e^{-t} \\end{pmatrix}$$\n<br><b>Step 4: Form Particular Solution $\\vec{x}_p(t) = \\mathbf{\\Phi}(t) \\vec{u}(t)$</b><br>\n$$\\vec{x}_p(t) = \\begin{pmatrix} e^t & e^{2t} \\\\ e^t & 2e^{2t} \\end{pmatrix} \\begin{pmatrix} -t \\\\ -e^{-t} \\end{pmatrix} = \\begin{pmatrix} -t e^t - e^t \\\\ -t e^t - 2e^t \\end{pmatrix}$$",
-      "answer": "$\\vec{x}_p(t) = \\begin{pmatrix} -(t + 1)e^t \\\\ -(t + 2)e^t \\end{pmatrix}$"
+      "answer": "$\\vec{x}_p(t) = \\begin{pmatrix} -(t + 1)e^t \\\\ -(t + 2)e^t \\end{pmatrix}$",
+      "difficulty": "Easy"
     },
     {
       "id": "prob-04",
       "tier": 1,
-      "difficultyLabel": "Tier 1 • University Standard",
+      "difficultyLabel": "Tier 1 • Foundational",
       "title": "Power Series Solution of Airy-Type Equation about x = 0",
       "statement": "Find the general power series solution about the ordinary point $x_0 = 0$ for:<br>$$y'' - x y = 0$$",
       "solution": "<b>Step 1: Series Substitution</b><br>\nLet $y = \\sum_{n=0}^\\infty a_n x^n$. Then:\n$$y'' = \\sum_{n=2}^\\infty n(n - 1) a_n x^{n-2}, \\quad x y = \\sum_{n=0}^\\infty a_n x^{n+1}$$\n<br><b>Step 2: Align Indices</b><br>\nLet $k$ be the power of $x$:\nIn $y''$: $k = n - 2 \\implies n = k + 2 \\implies \\sum_{k=0}^\\infty (k + 2)(k + 1) a_{k+2} x^k$.\nFor $k = 0$: $2(1) a_2 = 0 \\implies a_2 = 0$.\nFor $k \\ge 1$: let $j = k - 1 \\ge 0$, equating coefficients gives:\n$$(k + 2)(k + 1) a_{k+2} = a_{k-1} \\implies a_{k+2} = \\frac{a_{k-1}}{(k + 2)(k + 1)}$$\nSetting $k + 2 = n$:\n$$a_n = \\frac{a_{n-3}}{n(n - 1)} \\quad \\text{for } n \\ge 3$$\n<br><b>Step 3: Compute Coefficients</b><br>\nSince $a_2 = 0$, all terms $a_{3m+2} = 0$.<br>\nMultiples of 3 (governed by $a_0$):\n$$a_3 = \\frac{a_0}{3 \\cdot 2}, \\quad a_6 = \\frac{a_3}{6 \\cdot 5} = \\frac{a_0}{6 \\cdot 5 \\cdot 3 \\cdot 2}$$\nTerms of form $3m+1$ (governed by $a_1$):\n$$a_4 = \\frac{a_1}{4 \\cdot 3}, \\quad a_7 = \\frac{a_4}{7 \\cdot 6} = \\frac{a_1}{7 \\cdot 6 \\cdot 4 \\cdot 3}$$\n<br><b>Step 4: Solution</b><br>\n$$y(x) = a_0 \\left( 1 + \\frac{x^3}{6} + \\frac{x^6}{180} + \\dots \\right) + a_1 \\left( x + \\frac{x^4}{12} + \\frac{x^7}{504} + \\dots \\right)$$",
-      "answer": "$y(x) = a_0 \\left(1 + \\frac{x^3}{6} + \\frac{x^6}{180} + \\dots\\right) + a_1 \\left(x + \\frac{x^4}{12} + \\frac{x^7}{504} + \\dots\\right)$"
+      "answer": "$y(x) = a_0 \\left(1 + \\frac{x^3}{6} + \\frac{x^6}{180} + \\dots\\right) + a_1 \\left(x + \\frac{x^4}{12} + \\frac{x^7}{504} + \\dots\\right)$",
+      "difficulty": "Easy"
     },
     {
       "id": "prob-05",
       "tier": 1,
-      "difficultyLabel": "Tier 1 • University Standard",
+      "difficultyLabel": "Tier 1 • Foundational",
       "title": "Frobenius Series Case 1: Roots Differing by Non-Integer",
       "statement": "Find the Frobenius series solutions about $x = 0$ for:<br>$$2x y'' + y' + y = 0$$",
       "solution": "<b>Step 1: Identify singularity and indicial equation</b><br>\nNormalized form: $y'' + \\frac{1}{2x} y' + \\frac{1}{2x} y = 0$.\n$p(x) = x P(x) = \\frac{1}{2} \\implies p_0 = \\frac{1}{2}$, and $q(x) = x^2 Q(x) = \\frac{x}{2} \\implies q_0 = 0$.\nThe point $x = 0$ is a regular singular point.\nIndicial equation:\n$$r(r - 1) + \\frac{1}{2} r + 0 = r\\left(r - \\frac{1}{2}\\right) = 0 \\implies r_1 = \\frac{1}{2}, \\quad r_2 = 0$$\nSince $r_1 - r_2 = \\frac{1}{2} \\notin \\mathbb{Z}$, this is <b>Case 1</b> (two distinct Frobenius series).<br><br>\n<b>Step 2: Recurrence relation for general $r$</b><br>\nSubstitute $y = \\sum_{n=0}^\\infty a_n x^{n+r}$:\n$$2 \\sum (n+r)(n+r-1) a_n x^{n+r-1} + \\sum (n+r) a_n x^{n+r-1} + \\sum a_n x^{n+r} = 0$$\nFor $n \\ge 1$:\n$$[(n+r)(2n + 2r - 1)] a_n = -a_{n-1} \\implies a_n = -\\frac{a_{n-1}}{(n+r)(2n + 2r - 1)}$$\n<br><b>Step 3: Solution for $r_1 = 1/2$</b><br>\nDenominator factor: $(n + 1/2)(2n) = n(2n + 1)$.\n$$a_n = -\\frac{a_{n-1}}{n(2n + 1)} \\implies y_1(x) = x^{1/2} \\left( 1 - \\frac{x}{3} + \\frac{x^2}{30} - \\frac{x^3}{630} + \\dots \\right)$$\n<br><b>Step 4: Solution for $r_2 = 0$</b><br>\nDenominator factor: $n(2n - 1)$.\n$$a_n = -\\frac{a_{n-1}}{n(2n - 1)} \\implies y_2(x) = 1 - x + \\frac{x^2}{6} - \\frac{x^3}{90} + \\dots$$",
-      "answer": "$y(x) = c_1 x^{1/2}\\left(1 - \\frac{x}{3} + \\frac{x^2}{30} - \\dots\\right) + c_2 \\left(1 - x + \\frac{x^2}{6} - \\dots\\right)$"
+      "answer": "$y(x) = c_1 x^{1/2}\\left(1 - \\frac{x}{3} + \\frac{x^2}{30} - \\dots\\right) + c_2 \\left(1 - x + \\frac{x^2}{6} - \\dots\\right)$",
+      "difficulty": "Easy"
     },
     {
       "id": "prob-06",
       "tier": 1,
-      "difficultyLabel": "Tier 1 • University Standard",
+      "difficultyLabel": "Tier 1 • Foundational",
       "title": "Legendre Polynomial P_3(x) and Orthogonality Verification",
       "statement": "Derive $P_3(x)$ via Rodrigues' formula and verify the orthogonality $\\int_{-1}^1 P_1(x) P_3(x)\\,dx = 0$.",
       "solution": "<b>Step 1: Rodrigues' Formula for $n = 3$</b><br>\n$$P_3(x) = \\frac{1}{2^3 \\cdot 3!} \\frac{d^3}{dx^3} (x^2 - 1)^3 = \\frac{1}{48} \\frac{d^3}{dx^3} (x^6 - 3x^4 + 3x^2 - 1)$$\nFirst derivative:\n$$\\frac{d}{dx}(x^6 - 3x^4 + 3x^2 - 1) = 6x^5 - 12x^3 + 6x$$\nSecond derivative:\n$$\\frac{d^2}{dx^2} = 30x^4 - 36x^2 + 6$$\nThird derivative:\n$$\\frac{d^3}{dx^3} = 120x^3 - 72x$$\nDividing by 48:\n$$P_3(x) = \\frac{120x^3 - 72x}{48} = \\frac{5}{2}x^3 - \\frac{3}{2}x = \\frac{1}{2}(5x^3 - 3x)$$\n<br><b>Step 2: Orthogonality integral with $P_1(x) = x$</b><br>\n$$\\int_{-1}^1 P_1(x) P_3(x)\\,dx = \\int_{-1}^1 x \\cdot \\frac{1}{2}(5x^3 - 3x)\\,dx = \\frac{1}{2} \\int_{-1}^1 (5x^4 - 3x^2)\\,dx$$\nBecause the integrand is even:\n$$= \\int_0^1 (5x^4 - 3x^2)\\,dx = \\left[ x^5 - x^3 \\right]_0^1 = (1 - 1) - 0 = 0$$\nOrthogonality is verified identically!",
-      "answer": "$P_3(x) = \\frac{1}{2}(5x^3 - 3x)$ and $\\int_{-1}^1 P_1(x)P_3(x)\\,dx = 0$."
+      "answer": "$P_3(x) = \\frac{1}{2}(5x^3 - 3x)$ and $\\int_{-1}^1 P_1(x)P_3(x)\\,dx = 0$.",
+      "difficulty": "Easy"
     },
     {
       "id": "prob-07",
       "tier": 1,
-      "difficultyLabel": "Tier 1 • University Standard",
+      "difficultyLabel": "Tier 1 • Foundational",
       "title": "Regular Sturm-Liouville Eigenvalues & Mixed Boundary Conditions",
       "statement": "Find all eigenvalues and eigenfunctions of the regular Sturm-Liouville problem:<br>$$y'' + \\lambda y = 0, \\quad y(0) = 0, \\quad y'(\\pi) = 0$$",
       "solution": "<b>Case 1: $\\lambda < 0$ ($\\lambda = -\\mu^2, \\mu > 0$)</b><br>\n$y(x) = c_1 \\cosh(\\mu x) + c_2 \\sinh(\\mu x)$.<br>\n$y(0) = c_1 = 0 \\implies y(x) = c_2 \\sinh(\\mu x)$.<br>\n$y'(\\pi) = c_2 \\mu \\cosh(\\mu \\pi) = 0$. Since $\\mu \\ne 0$ and $\\cosh(\\mu \\pi) \\ge 1$, $c_2 = 0$. No non-trivial solutions.<br><br>\n<b>Case 2: $\\lambda = 0$</b><br>\n$y(x) = c_1 x + c_2$. $y(0) = c_2 = 0$. $y'(x) = c_1 \\implies y'(\\pi) = c_1 = 0$. Only trivial solution.<br><br>\n<b>Case 3: $\\lambda > 0$ ($\\lambda = k^2, k > 0$)</b><br>\n$y(x) = c_1 \\cos(kx) + c_2 \\sin(kx)$.<br>\n$y(0) = c_1 = 0 \\implies y(x) = c_2 \\sin(kx)$.<br>\n$y'(x) = c_2 k \\cos(kx) \\implies y'(\\pi) = c_2 k \\cos(k\\pi) = 0$.<br>\nFor non-trivial solutions ($c_2 \\ne 0$), we require:\n$$\\cos(k\\pi) = 0 \\implies k\\pi = \\left(n - \\frac{1}{2}\\right)\\pi \\implies k_n = n - \\frac{1}{2} = \\frac{2n - 1}{2}, \\quad n = 1, 2, 3, \\dots$$\n<br><b>Step 4: Eigenvalues & Orthonormal Eigenfunctions</b><br>\n$$\\lambda_n = k_n^2 = \\frac{(2n - 1)^2}{4}, \\quad y_n(x) = \\sin\\left(\\frac{2n - 1}{2} x\\right)$$\nNorm: $\\int_0^\\pi \\sin^2\\left(\\frac{2n - 1}{2} x\\right) dx = \\frac{\\pi}{2}$.\nOrthonormal set: $\\phi_n(x) = \\sqrt{\\frac{2}{\\pi}} \\sin\\left(\\frac{2n - 1}{2} x\\right)$.",
-      "answer": "$\\lambda_n = \\frac{(2n - 1)^2}{4}, \\quad y_n(x) = \\sin\\left(\\frac{2n - 1}{2} x\\right), \\quad n = 1, 2, 3, \\dots$"
+      "answer": "$\\lambda_n = \\frac{(2n - 1)^2}{4}, \\quad y_n(x) = \\sin\\left(\\frac{2n - 1}{2} x\\right), \\quad n = 1, 2, 3, \\dots$",
+      "difficulty": "Easy"
     },
     {
       "id": "prob-08",
       "tier": 1,
-      "difficultyLabel": "Tier 1 • University Standard",
+      "difficultyLabel": "Tier 1 • Foundational",
       "title": "Explicit Construction of Green's Function for y'' = f(x)",
       "statement": "Construct the Green's function for the Dirichlet boundary value problem:<br>$$y'' = f(x), \\quad y(0) = 0, \\quad y(1) = 0$$<br>and find the solution for $f(x) = x$.",
       "solution": "<b>Step 1: Linearly independent solutions satisfying boundary conditions</b><br>\nHomogeneous ODE: $y'' = 0 \\implies y(x) = c_1 x + c_2$.<br>\nLeft solution satisfying $y_1(0) = 0$: $y_1(x) = x$.<br>\nRight solution satisfying $y_2(1) = 0$: $y_2(x) = 1 - x$.<br><br>\n<b>Step 2: Wronskian computation</b><br>\n$$W(y_1, y_2) = y_1 y_2' - y_2 y_1' = x(-1) - (1 - x)(1) = -x - 1 + x = -1$$\nIn $L[y] = -y''$, $p(x) = 1$. So $-p W = -1(-1) = 1$.<br><br>\n<b>Step 3: Green's Function Formulation</b><br>\nFor $-y'' = -f(x)$, or directly:\n$$G(x, \\xi) = \\begin{cases}\nx(1 - \\xi), & 0 \\le x \\le \\xi \\\\\n\\xi(1 - x), & \\xi \\le x \\le 1\n\\end{cases}$$\n<br><b>Step 4: Solution for $f(x) = x$ (where $-y'' = -x \\implies y'' = x$)</b><br>\n$$y(x) = \\int_0^1 G(x, \\xi) (-\\xi)\\,d\\xi = -\\int_0^x \\xi(1 - x) \\xi\\,d\\xi - \\int_x^1 x(1 - \\xi) \\xi\\,d\\xi$$\nFirst integral:\n$$-(1 - x) \\int_0^x \\xi^2 d\\xi = -(1 - x) \\frac{x^3}{3} = -\\frac{x^3}{3} + \\frac{x^4}{3}$$\nSecond integral:\n$$-x \\int_x^1 (\\xi - \\xi^2) d\\xi = -x \\left[ \\frac{\\xi^2}{2} - \\frac{\\xi^3}{3} \\right]_x^1 = -x \\left( \\frac{1}{6} - \\frac{x^2}{2} + \\frac{x^3}{3} \\right) = -\\frac{x}{6} + \\frac{x^3}{2} - \\frac{x^4}{3}$$\nSumming both:\n$$y(x) = -\\frac{x^3}{3} + \\frac{x^4}{3} - \\frac{x}{6} + \\frac{x^3}{2} - \\frac{x^4}{3} = \\frac{x^3}{6} - \\frac{x}{6} = \\frac{x(x^2 - 1)}{6}$$\nVerify: $y'' = x, y(0) = 0, y(1) = 0$. Matches!",
-      "answer": "$G(x, \\xi) = \\begin{cases} x(1-\\xi), & x \\le \\xi \\\\ \\xi(1-x), & x > \\xi \\end{cases}$ and $y(x) = \\frac{x(x^2 - 1)}{6}$"
+      "answer": "$G(x, \\xi) = \\begin{cases} x(1-\\xi), & x \\le \\xi \\\\ \\xi(1-x), & x > \\xi \\end{cases}$ and $y(x) = \\frac{x(x^2 - 1)}{6}$",
+      "difficulty": "Easy"
     },
     {
       "id": "prob-09",
       "tier": 2,
-      "difficultyLabel": "Tier 2 • Advanced Analytical",
+      "difficultyLabel": "Tier 2 • Intermediate Exam",
       "title": "3x3 System with Complex Eigenvalues & Invariant Orbital Manifold",
       "statement": "Solve the $3 \\times 3$ linear differential system:<br>$$\\vec{x}' = \\begin{pmatrix} 0 & 1 & 0 \\\\ -4 & 0 & 0 \\\\ 0 & 0 & -2 \\end{pmatrix} \\vec{x}, \\quad \\vec{x}(0) = \\begin{pmatrix} 1 \\\\ 0 \\\\ 2 \\end{pmatrix}$$",
       "solution": "<b>Step 1: Block structure and eigenvalues</b><br>\nThe matrix is block diagonal: $\\mathbf{A} = \\begin{pmatrix} \\mathbf{B} & \\vec{0} \\\\ \\vec{0}^T & -2 \\end{pmatrix}$ where $\\mathbf{B} = \\begin{pmatrix} 0 & 1 \\\\ -4 & 0 \\end{pmatrix}$.\n$\\det(\\mathbf{B} - \\lambda \\mathbf{I}) = \\lambda^2 + 4 = 0 \\implies \\lambda_{1, 2} = \\pm 2i$.\nThe third eigenvalue is $\\lambda_3 = -2$.<br><br>\n<b>Step 2: Eigenvectors</b><br>\nFor $\\lambda_1 = 2i$:\n$$\\begin{pmatrix} -2i & 1 & 0 \\\\ -4 & -2i & 0 \\\\ 0 & 0 & -2 - 2i \\end{pmatrix} \\begin{pmatrix} v_1 \\\\ v_2 \\\\ v_3 \\end{pmatrix} = \\vec{0} \\implies v_3 = 0, \\quad v_2 = 2i v_1 \\implies \\vec{v} = \\begin{pmatrix} 1 \\\\ 2i \\\\ 0 \\end{pmatrix} = \\begin{pmatrix} 1 \\\\ 0 \\\\ 0 \\end{pmatrix} + i \\begin{pmatrix} 0 \\\\ 2 \\\\ 0 \\end{pmatrix}$$\nReal independent solutions:\n$$\\vec{x}_1(t) = \\begin{pmatrix} \\cos 2t \\\\ -2\\sin 2t \\\\ 0 \\end{pmatrix}, \\quad \\vec{x}_2(t) = \\begin{pmatrix} \\sin 2t \\\\ 2\\cos 2t \\\\ 0 \\end{pmatrix}$$\nFor $\\lambda_3 = -2$:\n$$\\vec{v}_3 = \\begin{pmatrix} 0 \\\\ 0 \\\\ 1 \\end{pmatrix} \\implies \\vec{x}_3(t) = e^{-2t} \\begin{pmatrix} 0 \\\\ 0 \\\\ 1 \\end{pmatrix}$$\n<br><b>Step 3: Initial conditions</b><br>\n$$\\vec{x}(t) = c_1 \\begin{pmatrix} \\cos 2t \\\\ -2\\sin 2t \\\\ 0 \\end{pmatrix} + c_2 \\begin{pmatrix} \\sin 2t \\\\ 2\\cos 2t \\\\ 0 \\end{pmatrix} + c_3 \\begin{pmatrix} 0 \\\\ 0 \\\\ e^{-2t} \\end{pmatrix}$$\nAt $t = 0$: $c_1 = 1, 2c_2 = 0 \\implies c_2 = 0$, and $c_3 = 2$.<br><br>\n$$\\vec{x}(t) = \\begin{pmatrix} \\cos 2t \\\\ -2\\sin 2t \\\\ 2e^{-2t} \\end{pmatrix}$$",
-      "answer": "$\\vec{x}(t) = \\begin{pmatrix} \\cos 2t \\\\ -2\\sin 2t \\\\ 2e^{-2t} \\end{pmatrix}$"
+      "answer": "$\\vec{x}(t) = \\begin{pmatrix} \\cos 2t \\\\ -2\\sin 2t \\\\ 2e^{-2t} \\end{pmatrix}$",
+      "difficulty": "Medium"
     },
     {
       "id": "prob-10",
       "tier": 2,
-      "difficultyLabel": "Tier 2 • Advanced Analytical",
+      "difficultyLabel": "Tier 2 • Intermediate Exam",
       "title": "Putzer's Algorithm for 3x3 Nilpotent Jordan Block",
       "statement": "Use Putzer's algorithm to compute the matrix exponential $e^{\\mathbf{A}t}$ for the $3 \\times 3$ matrix:<br>$$\\mathbf{A} = \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 1 \\\\ 0 & 0 & 0 \\end{pmatrix}$$",
       "solution": "<b>Step 1: Eigenvalues</b><br>\nThe characteristic polynomial is $\\det(\\mathbf{A} - \\lambda \\mathbf{I}) = -\\lambda^3 = 0 \\implies \\lambda_1 = \\lambda_2 = \\lambda_3 = 0$.<br><br>\n<b>Step 2: Putzer's polynomial matrices $\\mathbf{P}_k$</b><br>\n$$\\mathbf{P}_0 = \\mathbf{I} = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1 \\end{pmatrix}$$\n$$\\mathbf{P}_1 = \\mathbf{A} - \\lambda_1 \\mathbf{I} = \\mathbf{A} = \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 1 \\\\ 0 & 0 & 0 \\end{pmatrix}$$\n$$\\mathbf{P}_2 = (\\mathbf{A} - \\lambda_2 \\mathbf{I})\\mathbf{P}_1 = \\mathbf{A}^2 = \\begin{pmatrix} 0 & 0 & 1 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix}$$\n<br><b>Step 3: Scalar differential equations for $r_k(t)$</b><br>\n$r_1'(t) = 0, r_1(0) = 1 \\implies r_1(t) = 1$.<br>\n$r_2'(t) = r_1(t) = 1, r_2(0) = 0 \\implies r_2(t) = t$.<br>\n$r_3'(t) = r_2(t) = t, r_3(0) = 0 \\implies r_3(t) = \\frac{t^2}{2}$.<br><br>\n<b>Step 4: Matrix exponential assembly</b><br>\n$$e^{\\mathbf{A}t} = r_1(t)\\mathbf{P}_0 + r_2(t)\\mathbf{P}_1 + r_3(t)\\mathbf{P}_2 = \\mathbf{I} + t\\mathbf{A} + \\frac{t^2}{2}\\mathbf{A}^2 = \\begin{pmatrix} 1 & t & t^2/2 \\\\ 0 & 1 & t \\\\ 0 & 0 & 1 \\end{pmatrix}$$",
-      "answer": "$e^{\\mathbf{A}t} = \\begin{pmatrix} 1 & t & t^2/2 \\\\ 0 & 1 & t \\\\ 0 & 0 & 1 \\end{pmatrix}$"
+      "answer": "$e^{\\mathbf{A}t} = \\begin{pmatrix} 1 & t & t^2/2 \\\\ 0 & 1 & t \\\\ 0 & 0 & 1 \\end{pmatrix}$",
+      "difficulty": "Medium"
     },
     {
       "id": "prob-11",
       "tier": 2,
-      "difficultyLabel": "Tier 2 • Advanced Analytical",
+      "difficultyLabel": "Tier 2 • Intermediate Exam",
       "title": "Frobenius Method Case 2: Equal Indicial Roots & Logarithmic Branch",
       "statement": "Find two linearly independent solutions about $x = 0$ for:<br>$$x y'' + y' - y = 0$$",
       "solution": "<b>Step 1: Indicial equation</b><br>\nMultiply by $x$: $x^2 y'' + x y' - x y = 0$.\n$p(x) = 1 \\implies p_0 = 1$, $q(x) = -x \\implies q_0 = 0$.\nIndicial equation: $F(r) = r(r - 1) + r = r^2 = 0 \\implies r_1 = r_2 = 0$.\nEqual roots $\\implies$ <b>Case 2</b> (logarithmic second solution).<br><br>\n<b>Step 2: Recurrence relation for $y(x, r)$</b><br>\nSubstitute $y(x, r) = \\sum_{n=0}^\\infty a_n(r) x^{n+r}$:\n$$F(n + r) a_n = a_{n-1} \\implies (n + r)^2 a_n(r) = a_{n-1}(r) \\implies a_n(r) = \\frac{a_0}{[(1+r)(2+r)\\dots(n+r)]^2}$$\nFor $r = 0$ and $a_0 = 1$:\n$$a_n(0) = \\frac{1}{(n!)^2} \\implies y_1(x) = \\sum_{n=0}^\\infty \\frac{x^n}{(n!)^2} = 1 + x + \\frac{x^2}{4} + \\frac{x^3}{36} + \\dots$$\n<br><b>Step 3: Differentiate with respect to $r$ to obtain $y_2(x)$</b><br>\n$$y_2(x) = \\left. \\frac{\\partial y(x, r)}{\\partial r} \\right|_{r=0} = y_1(x) \\ln x + \\sum_{n=1}^\\infty a_n'(0) x^n$$\nUsing logarithmic differentiation on $a_n(r)$:\n$$\\ln a_n(r) = -2 \\sum_{k=1}^n \\ln(k + r) \\implies \\frac{a_n'(r)}{a_n(r)} = -2 \\sum_{k=1}^n \\frac{1}{k + r}$$\nAt $r = 0$: $a_n'(0) = -2 H_n a_n(0) = -2 \\frac{H_n}{(n!)^2}$, where $H_n = \\sum_{k=1}^n \\frac{1}{k}$ is the $n$-th harmonic number.<br><br>\n$$y_2(x) = y_1(x) \\ln x - 2 \\sum_{n=1}^\\infty \\frac{H_n}{(n!)^2} x^n = y_1(x) \\ln x - 2\\left( x + \\frac{3}{8}x^2 + \\frac{11}{216}x^3 + \\dots \\right)$$",
-      "answer": "$y_1(x) = \\sum_{n=0}^\\infty \\frac{x^n}{(n!)^2}, \\quad y_2(x) = y_1(x)\\ln x - 2\\sum_{n=1}^\\infty \\frac{H_n}{(n!)^2} x^n$"
+      "answer": "$y_1(x) = \\sum_{n=0}^\\infty \\frac{x^n}{(n!)^2}, \\quad y_2(x) = y_1(x)\\ln x - 2\\sum_{n=1}^\\infty \\frac{H_n}{(n!)^2} x^n$",
+      "difficulty": "Medium"
     },
     {
       "id": "prob-12",
       "tier": 2,
-      "difficultyLabel": "Tier 2 • Advanced Analytical",
+      "difficultyLabel": "Tier 2 • Intermediate Exam",
       "title": "Bessel Differential Equation of Order Zero: J_0(x) and Y_0(x)",
       "statement": "Obtain the series solution for Bessel's equation of order zero:<br>$$x y'' + y' + x y = 0$$",
       "solution": "<b>Step 1: Indicial equation</b><br>\nMultiply by $x$: $x^2 y'' + x y' + x^2 y = 0$.\n$p_0 = 1, q_0 = 0 \\implies r^2 = 0 \\implies r_1 = r_2 = 0$.<br><br>\n<b>Step 2: Recurrence relation</b><br>\nSubstitute $y = \\sum a_n x^{n+r}$:\n$$(n + r)^2 a_n = -a_{n-2} \\quad (a_1 = 0)$$\nOdd coefficients vanish: $a_{2m+1} = 0$.\nFor even coefficients $n = 2m$:\n$$a_{2m}(r) = \\frac{(-1)^m a_0}{2^{2m} [(1 + r/2)(2 + r/2)\\dots(m + r/2)]^2}$$\nFor $r = 0, a_0 = 1$:\n$$a_{2m}(0) = \\frac{(-1)^m}{2^{2m} (m!)^2} \\implies J_0(x) = \\sum_{m=0}^\\infty \\frac{(-1)^m}{(m!)^2} \\left(\\frac{x}{2}\\right)^{2m}$$\n<br><b>Step 3: Second solution $Y_0(x)$</b><br>\nDifferentiating with respect to $r$:\n$$\\left. \\frac{\\partial a_{2m}}{\\partial r} \\right|_{r=0} = -H_m a_{2m}(0)$$\n$$y_2(x) = J_0(x) \\ln x - \\sum_{m=1}^\\infty \\frac{(-1)^m H_m}{(m!)^2} \\left(\\frac{x}{2}\\right)^{2m}$$\nThe standard Neumann function is normalized as $Y_0(x) = \\frac{2}{\\pi}\\left[ y_2(x) + (\\gamma - \\ln 2) J_0(x) \\right]$.",
-      "answer": "$J_0(x) = \\sum_{m=0}^\\infty \\frac{(-1)^m}{(m!)^2} \\left(\\frac{x}{2}\\right)^{2m}$ and $Y_0(x)$ contains logarithmic singularity $\\frac{2}{\\pi} J_0(x)\\ln x$."
+      "answer": "$J_0(x) = \\sum_{m=0}^\\infty \\frac{(-1)^m}{(m!)^2} \\left(\\frac{x}{2}\\right)^{2m}$ and $Y_0(x)$ contains logarithmic singularity $\\frac{2}{\\pi} J_0(x)\\ln x$.",
+      "difficulty": "Medium"
     },
     {
       "id": "prob-13",
       "tier": 2,
-      "difficultyLabel": "Tier 2 • Advanced Analytical",
+      "difficultyLabel": "Tier 2 • Intermediate Exam",
       "title": "Bessel Differential Recurrence & Integral Evaluation",
       "statement": "Prove the recurrence identity $\\frac{d}{dx}[x^\\nu J_\\nu(x)] = x^\\nu J_{\\nu-1}(x)$ and use it to evaluate $\\int x^3 J_0(x)\\,dx$.",
       "solution": "<b>Step 1: Proof of identity</b><br>\nFrom the series definition:\n$$x^\\nu J_\\nu(x) = \\sum_{m=0}^\\infty \\frac{(-1)^m}{m!\\, \\Gamma(m + \\nu + 1)} \\frac{x^{2m + 2\\nu}}{2^{2m + \\nu}}$$\nDifferentiating with respect to $x$:\n$$\\frac{d}{dx}[x^\\nu J_\\nu(x)] = \\sum_{m=0}^\\infty \\frac{(-1)^m (2m + 2\\nu)}{m!\\, \\Gamma(m + \\nu + 1)} \\frac{x^{2m + 2\\nu - 1}}{2^{2m + \\nu}}$$\nSince $2m + 2\\nu = 2(m + \\nu)$ and $\\Gamma(m + \\nu + 1) = (m + \\nu)\\Gamma(m + \\nu)$:\n$$= x^\\nu \\sum_{m=0}^\\infty \\frac{(-1)^m}{m!\\, \\Gamma(m + \\nu)} \\left(\\frac{x}{2}\\right)^{2m + \\nu - 1} = x^\\nu J_{\\nu-1}(x)$$\n<br><b>Step 2: Integration of $\\int x^3 J_0(x)\\,dx$</b><br>\nRewrite integrand as $x^2 \\cdot [x J_0(x)]$.\nFrom identity with $\\nu = 1$: $\\frac{d}{dx}[x J_1(x)] = x J_0(x) \\implies \\int x J_0(x)\\,dx = x J_1(x)$.<br>\nIntegrate by parts:\n$$u = x^2 \\implies du = 2x\\,dx, \\quad dv = x J_0(x)\\,dx \\implies v = x J_1(x)$$\n$$\\int x^3 J_0(x)\\,dx = x^2 [x J_1(x)] - \\int [x J_1(x)](2x)\\,dx = x^3 J_1(x) - 2 \\int x^2 J_1(x)\\,dx$$\nNow apply identity with $\\nu = 2$: $\\frac{d}{dx}[x^2 J_2(x)] = x^2 J_1(x) \\implies \\int x^2 J_1(x)\\,dx = x^2 J_2(x)$.<br>\n$$= x^3 J_1(x) - 2 x^2 J_2(x) + C$$\nUsing recurrence $J_2(x) = \\frac{2}{x} J_1(x) - J_0(x)$:\n$$x^3 J_1(x) - 2x^2 \\left( \\frac{2}{x} J_1(x) - J_0(x) \\right) = (x^3 - 4x) J_1(x) + 2x^2 J_0(x) + C$$",
-      "answer": "$\\int x^3 J_0(x)\\,dx = x^3 J_1(x) - 2x^2 J_2(x) + C = (x^3 - 4x)J_1(x) + 2x^2 J_0(x) + C$"
+      "answer": "$\\int x^3 J_0(x)\\,dx = x^3 J_1(x) - 2x^2 J_2(x) + C = (x^3 - 4x)J_1(x) + 2x^2 J_0(x) + C$",
+      "difficulty": "Medium"
     },
     {
       "id": "prob-14",
       "tier": 2,
-      "difficultyLabel": "Tier 2 • Advanced Analytical",
+      "difficultyLabel": "Tier 2 • Intermediate Exam",
       "title": "Hermite Polynomials Generating Function & Orthogonality",
       "statement": "Using the generating function $\\Phi(x, t) = e^{2xt - t^2} = \\sum_{n=0}^\\infty \\frac{H_n(x)}{n!} t^n$, prove the orthogonality relation:<br>$$\\int_{-\\infty}^\\infty e^{-x^2} H_n(x) H_m(x)\\,dx = 2^n n! \\sqrt{\\pi}\\, \\delta_{nm}$$",
       "solution": "<b>Step 1: Product of generating functions</b><br>\nConsider two generating functions with parameters $t$ and $s$:\n$$\\sum_{n=0}^\\infty \\sum_{m=0}^\\infty \\frac{t^n s^m}{n!\\, m!} \\int_{-\\infty}^\\infty e^{-x^2} H_n(x) H_m(x)\\,dx = \\int_{-\\infty}^\\infty e^{-x^2} \\Phi(x, t) \\Phi(x, s)\\,dx$$\n<br><b>Step 2: Combine exponents</b><br>\n$$\\Phi(x, t) \\Phi(x, s) = e^{2xt - t^2} e^{2xs - s^2} = e^{2x(t + s) - (t^2 + s^2)}$$\nThe integrand exponent is:\n$$-x^2 + 2x(t + s) - (t^2 + s^2) = -[x - (t + s)]^2 + (t + s)^2 - (t^2 + s^2) = -[x - (t + s)]^2 + 2ts$$\n<br><b>Step 3: Evaluate Gaussian integral</b><br>\n$$\\int_{-\\infty}^\\infty e^{-[x - (t + s)]^2 + 2ts}\\,dx = e^{2ts} \\int_{-\\infty}^\\infty e^{-u^2}\\,du = \\sqrt{\\pi} e^{2ts}$$\n<br><b>Step 4: Taylor series expansion of $e^{2ts}$</b><br>\n$$\\sqrt{\\pi} e^{2ts} = \\sqrt{\\pi} \\sum_{n=0}^\\infty \\frac{(2ts)^n}{n!} = \\sqrt{\\pi} \\sum_{n=0}^\\infty \\frac{2^n}{n!} t^n s^n$$\nNotice that there are NO terms with unequal powers $t^n s^m$ ($n \\ne m$). Hence:\n$$\\int_{-\\infty}^\\infty e^{-x^2} H_n(x) H_m(x)\\,dx = 0 \\quad \\text{for } n \\ne m$$\nFor $n = m$, equating coefficients of $\\frac{t^n s^n}{(n!)^2}$:\n$$\\frac{1}{(n!)^2} \\int_{-\\infty}^\\infty e^{-x^2} [H_n(x)]^2\\,dx = \\sqrt{\\pi} \\frac{2^n}{n!} \\implies \\int_{-\\infty}^\\infty e^{-x^2} [H_n(x)]^2\\,dx = 2^n n! \\sqrt{\\pi}$$",
-      "answer": "$\\int_{-\\infty}^\\infty e^{-x^2} H_n(x) H_m(x)\\,dx = 2^n n! \\sqrt{\\pi}\\, \\delta_{nm}$"
+      "answer": "$\\int_{-\\infty}^\\infty e^{-x^2} H_n(x) H_m(x)\\,dx = 2^n n! \\sqrt{\\pi}\\, \\delta_{nm}$",
+      "difficulty": "Medium"
     },
     {
       "id": "prob-15",
       "tier": 2,
-      "difficultyLabel": "Tier 2 • Advanced Analytical",
+      "difficultyLabel": "Tier 2 • Intermediate Exam",
       "title": "Sturm Comparison Theorem & Interlacing Zeros of Bessel Functions",
       "statement": "Prove using Sturm's Separation/Comparison Theorem that between any two consecutive positive zeros of $J_0(x)$, there is exactly one zero of $J_1(x)$.",
       "solution": "<b>Step 1: Recurrence relation between $J_0$ and $J_1$</b><br>\nRecall from Bessel recurrence relations:\n$$\\frac{d}{dx} J_0(x) = -J_1(x)$$\n<br><b>Step 2: Apply Rolle's Theorem</b><br>\nLet $0 < x_1 < x_2$ be two consecutive positive zeros of $J_0(x)$, so $J_0(x_1) = 0$ and $J_0(x_2) = 0$, and $J_0(x) \\ne 0$ for all $x \\in (x_1, x_2)$.<br>\nSince $J_0(x)$ is continuously differentiable on $[x_1, x_2]$, Rolle's theorem guarantees that there exists at least one point $\\xi \\in (x_1, x_2)$ such that $J_0'(\\xi) = 0$.<br>\nSince $J_0'(x) = -J_1(x)$, this means $J_1(\\xi) = 0$. Thus $J_1$ has <i>at least one</i> zero in $(x_1, x_2)$.<br><br>\n<b>Step 3: Uniqueness via Sturm Separation</b><br>\nNow consider the identity:\n$$\\frac{d}{dx}[x J_1(x)] = x J_0(x)$$\nSuppose $J_1(x)$ had two zeros $\\xi_1 < \\xi_2$ in $(x_1, x_2)$. Then applying Rolle's theorem to $g(x) = x J_1(x)$ on $[\\xi_1, \\xi_2]$ would imply $g'(\\eta) = \\eta J_0(\\eta) = 0$ for some $\\eta \\in (\\xi_1, \\xi_2) \\subset (x_1, x_2)$.<br>\nSince $\\eta > 0$, this would force $J_0(\\eta) = 0$, directly contradicting that $x_1$ and $x_2$ are <i>consecutive</i> zeros of $J_0(x)$!<br><br>\n<b>Conclusion:</b> There is <b>strictly one</b> zero of $J_1(x)$ between any two consecutive zeros of $J_0(x)$. The zeros strictly interlace: $0 < j_{0, 1} < j_{1, 1} < j_{0, 2} < j_{1, 2} < \\dots$.",
-      "answer": "Proved: zeros of $J_0(x)$ and $J_1(x)$ strictly interlace."
+      "answer": "Proved: zeros of $J_0(x)$ and $J_1(x)$ strictly interlace.",
+      "difficulty": "Medium"
     },
     {
       "id": "prob-16",
       "tier": 2,
-      "difficultyLabel": "Tier 2 • Advanced Analytical",
+      "difficultyLabel": "Tier 2 • Intermediate Exam",
       "title": "Solvability Condition via the Fredholm Alternative",
       "statement": "Determine the exact condition on the function $h(x)$ for the boundary value problem to possess a solution:<br>$$y'' + \\pi^2 y = h(x), \\quad y(0) = 0, \\quad y(1) = 0$$",
       "solution": "<b>Step 1: Check homogeneous boundary value problem</b><br>\n$$y_h'' + \\pi^2 y_h = 0 \\implies y_h(x) = c_1 \\cos(\\pi x) + c_2 \\sin(\\pi x)$$\nBoundary conditions:\n$$y_h(0) = c_1 = 0 \\implies y_h(x) = c_2 \\sin(\\pi x)$$\n$$y_h(1) = c_2 \\sin(\\pi) = 0 \\quad (\\text{satisfied for any } c_2)$$\nThe homogeneous problem has non-trivial solution $\\phi(x) = \\sin(\\pi x)$.<br><br>\n<b>Step 2: Self-adjointness of operator</b><br>\nThe operator $L[y] = y'' + \\pi^2 y$ with Dirichlet conditions $y(0) = y(1) = 0$ is formally self-adjoint:\n$$\\int_0^1 (u L[v] - v L[u])\\,dx = [u v' - v u']_0^1 = 0$$\n<br><b>Step 3: Apply the Fredholm Alternative (Case II)</b><br>\nBy Theorem 8.1, the nonhomogeneous problem has a solution if and only if $h(x)$ is orthogonal to the null space of the adjoint operator:\n$$\\int_0^1 h(x) \\phi(x)\\,dx = 0 \\implies \\int_0^1 h(x) \\sin(\\pi x)\\,dx = 0$$\nIf this integral is zero, an infinite family of solutions exists ($y(x) = y_p(x) + c \\sin(\\pi x)$). If non-zero, NO solution exists.",
-      "answer": "Solvability condition: $\\int_0^1 h(x) \\sin(\\pi x)\\,dx = 0$."
+      "answer": "Solvability condition: $\\int_0^1 h(x) \\sin(\\pi x)\\,dx = 0$.",
+      "difficulty": "Medium"
     },
     {
       "id": "prob-17",
@@ -388,7 +660,8 @@ window.COURSE_DATA = {
       "title": "Matrix Riccati Transformation & Hamiltonian Linear System",
       "statement": "Convert the nonlinear matrix Riccati differential equation $\\mathbf{R}' = \\mathbf{B} - \\mathbf{R} \\mathbf{D} \\mathbf{R}$ into an equivalent $2n \\times 2n$ linear Hamiltonian dynamical system $\\vec{z}' = \\mathbf{H}\\vec{z}$.",
       "solution": "<b>Step 1: Fractional Linear Transformation</b><br>\nLet $\\mathbf{R}(t) = \\mathbf{X}(t) \\mathbf{Y}^{-1}(t)$ where $\\mathbf{X}(t), \\mathbf{Y}(t) \\in \\mathbb{R}^{n \\times n}$ and $\\det \\mathbf{Y}(t) \\ne 0$.<br><br>\n<b>Step 2: Differentiate the quotient</b><br>\nUsing the matrix product rule and derivative of inverse $\\frac{d}{dt}[\\mathbf{Y}^{-1}] = -\\mathbf{Y}^{-1} \\mathbf{Y}' \\mathbf{Y}^{-1}$:\n$$\\mathbf{R}' = \\mathbf{X}' \\mathbf{Y}^{-1} + \\mathbf{X} (\\mathbf{Y}^{-1})' = \\mathbf{X}' \\mathbf{Y}^{-1} - \\mathbf{X} \\mathbf{Y}^{-1} \\mathbf{Y}' \\mathbf{Y}^{-1} = (\\mathbf{X}' - \\mathbf{R} \\mathbf{Y}') \\mathbf{Y}^{-1}$$\n<br><b>Step 3: Equate to Riccati expression</b><br>\n$$\\mathbf{R}' = \\mathbf{B} - \\mathbf{R} \\mathbf{D} \\mathbf{R} = \\mathbf{B} - \\mathbf{R} \\mathbf{D} \\mathbf{X} \\mathbf{Y}^{-1}$$\nEquating both expressions and post-multiplying by $\\mathbf{Y}$:\n$$\\mathbf{X}' - \\mathbf{R} \\mathbf{Y}' = \\mathbf{B} \\mathbf{Y} - \\mathbf{R} \\mathbf{D} \\mathbf{X}$$\nRearranging terms by isolating $\\mathbf{R}$:\n$$\\mathbf{X}' - \\mathbf{B} \\mathbf{Y} = \\mathbf{R} (\\mathbf{Y}' - \\mathbf{D} \\mathbf{X})$$\n<br><b>Step 4: Decouple into Linear System</b><br>\nThis identity holds identically if both parenthetical sides vanish:\n$$\\mathbf{X}' = \\mathbf{B} \\mathbf{Y}, \\quad \\mathbf{Y}' = \\mathbf{D} \\mathbf{X}$$\nStacking state vectors $\\vec{z} = \\begin{pmatrix} \\mathbf{X} \\\\ \\mathbf{Y} \\end{pmatrix}$:\n$$\\frac{d}{dt} \\begin{pmatrix} \\mathbf{X} \\\\ \\mathbf{Y} \\end{pmatrix} = \\begin{pmatrix} \\mathbf{0} & \\mathbf{B} \\\\ \\mathbf{D} & \\mathbf{0} \\end{pmatrix} \\begin{pmatrix} \\mathbf{X} \\\\ \\mathbf{Y} \\end{pmatrix}$$\nThis establishes that the solution of the nonlinear Riccati equation is $\\mathbf{R}(t) = \\mathbf{X}(t)\\mathbf{Y}^{-1}(t)$ generated by the linear flow map $e^{\\mathbf{H}t}$.",
-      "answer": "$\\mathbf{R}(t) = \\mathbf{X}(t)\\mathbf{Y}(t)^{-1}$ where $\\frac{d}{dt}\\begin{pmatrix} \\mathbf{X} \\\\ \\mathbf{Y} \\end{pmatrix} = \\begin{pmatrix} \\mathbf{0} & \\mathbf{B} \\\\ \\mathbf{D} & \\mathbf{0} \\end{pmatrix} \\begin{pmatrix} \\mathbf{X} \\\\ \\mathbf{Y} \\end{pmatrix}$."
+      "answer": "$\\mathbf{R}(t) = \\mathbf{X}(t)\\mathbf{Y}(t)^{-1}$ where $\\frac{d}{dt}\\begin{pmatrix} \\mathbf{X} \\\\ \\mathbf{Y} \\end{pmatrix} = \\begin{pmatrix} \\mathbf{0} & \\mathbf{B} \\\\ \\mathbf{D} & \\mathbf{0} \\end{pmatrix} \\begin{pmatrix} \\mathbf{X} \\\\ \\mathbf{Y} \\end{pmatrix}$.",
+      "difficulty": "Hard"
     },
     {
       "id": "prob-18",
@@ -397,7 +670,8 @@ window.COURSE_DATA = {
       "title": "Jordan Canonical Form Derivation for Highly Defective 3x3 System",
       "statement": "Solve the defective system $\\vec{x}' = \\mathbf{A}\\vec{x}$ where $\\mathbf{A} = \\begin{pmatrix} 3 & 1 & 0 \\\\ 0 & 3 & 1 \\\\ 0 & 0 & 3 \\end{pmatrix}$ using generalized eigenvector chains.",
       "solution": "<b>Step 1: Spectral Analysis</b><br>\nThe characteristic polynomial is $(\\lambda - 3)^3 = 0 \\implies \\lambda = 3$ with algebraic multiplicity $m_a = 3$.\nThe null space $(\\mathbf{A} - 3\\mathbf{I})\\vec{v} = \\vec{0}$ has rank 2, so the geometric multiplicity is $m_g = 3 - 2 = 1$. The matrix is defective with a single Jordan block of size 3.<br><br>\n<b>Step 2: Construct the Jordan Chain</b><br>\nWe seek a generalized eigenvector $\\vec{v}_3$ of rank 3:\n$$(\\mathbf{A} - 3\\mathbf{I})^3 = \\mathbf{0}, \\quad (\\mathbf{A} - 3\\mathbf{I})^2 \\vec{v}_3 \\ne \\vec{0}$$\n$$\\mathbf{A} - 3\\mathbf{I} = \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 1 \\\\ 0 & 0 & 0 \\end{pmatrix}, \\quad (\\mathbf{A} - 3\\mathbf{I})^2 = \\begin{pmatrix} 0 & 0 & 1 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix}$$\nChoose $\\vec{v}_3 = \\begin{pmatrix} 0 \\\\ 0 \\\\ 1 \\end{pmatrix}$.\nThen:\n$$\\vec{v}_2 = (\\mathbf{A} - 3\\mathbf{I}) \\vec{v}_3 = \\begin{pmatrix} 0 \\\\ 1 \\\\ 0 \\end{pmatrix}$$\n$$\\vec{v}_1 = (\\mathbf{A} - 3\\mathbf{I}) \\vec{v}_2 = \\begin{pmatrix} 1 \\\\ 0 \\\\ 0 \\end{pmatrix} \\quad (\\text{genuine eigenvector})$$\n<br><b>Step 3: Construct Three Linearly Independent Solutions</b><br>\n$$\\begin{aligned}\n\\vec{x}_1(t) &= e^{3t} \\vec{v}_1 = e^{3t} \\begin{pmatrix} 1 \\\\ 0 \\\\ 0 \\end{pmatrix} \\\\\n\\vec{x}_2(t) &= e^{3t} (t \\vec{v}_1 + \\vec{v}_2) = e^{3t} \\begin{pmatrix} t \\\\ 1 \\\\ 0 \\end{pmatrix} \\\\\n\\vec{x}_3(t) &= e^{3t} \\left( \\frac{t^2}{2} \\vec{v}_1 + t \\vec{v}_2 + \\vec{v}_3 \\right) = e^{3t} \\begin{pmatrix} t^2/2 \\\\ t \\\\ 1 \\end{pmatrix}\n\\end{aligned}$$\n<br><b>Step 4: General Solution</b><br>\n$$\\vec{x}(t) = e^{3t} \\begin{pmatrix} c_1 + c_2 t + c_3 \\frac{t^2}{2} \\\\ c_2 + c_3 t \\\\ c_3 \\end{pmatrix}$$",
-      "answer": "$\\vec{x}(t) = e^{3t} \\begin{pmatrix} c_1 + c_2 t + c_3 \\frac{t^2}{2} \\\\ c_2 + c_3 t \\\\ c_3 \\end{pmatrix}$"
+      "answer": "$\\vec{x}(t) = e^{3t} \\begin{pmatrix} c_1 + c_2 t + c_3 \\frac{t^2}{2} \\\\ c_2 + c_3 t \\\\ c_3 \\end{pmatrix}$",
+      "difficulty": "Hard"
     },
     {
       "id": "prob-19",
@@ -406,7 +680,8 @@ window.COURSE_DATA = {
       "title": "Complete Legendre Series Expansion & Parseval's Identity",
       "statement": "Expand $f(x) = x(1 - x^2)$ in terms of Legendre polynomials on $[-1, 1]$ and verify Parseval's identity.",
       "solution": "<b>Step 1: Algebraic decomposition</b><br>\n$f(x) = x - x^3$. We express $f(x)$ as a linear combination of Legendre polynomials:\n$$P_1(x) = x \\implies x = P_1(x)$$\n$$P_3(x) = \\frac{1}{2}(5x^3 - 3x) \\implies 5x^3 = 2P_3(x) + 3x = 2P_3(x) + 3P_1(x) \\implies x^3 = \\frac{2}{5}P_3(x) + \\frac{3}{5}P_1(x)$$\nSubstituting $x^3$:\n$$f(x) = P_1(x) - \\left( \\frac{2}{5}P_3(x) + \\frac{3}{5}P_1(x) \\right) = \\frac{2}{5}P_1(x) - \\frac{2}{5}P_3(x)$$\nAll other coefficients $c_n = 0$.<br><br>\n<b>Step 2: Parseval's Identity Verification</b><br>\nLHS: Directly compute $\\int_{-1}^1 [f(x)]^2\\,dx$:\n$$[f(x)]^2 = x^2(1 - x^2)^2 = x^2(1 - 2x^2 + x^4) = x^2 - 2x^4 + x^6$$\n$$\\int_{-1}^1 (x^2 - 2x^4 + x^6)\\,dx = 2 \\left[ \\frac{1}{3} - \\frac{2}{5} + \\frac{1}{7} \\right] = 2 \\left( \\frac{35 - 42 + 15}{105} \\right) = 2 \\left(\\frac{8}{105}\\right) = \\frac{16}{105}$$\nRHS: Compute $\\sum c_n^2 \\|P_n\\|^2$ where $\\|P_n\\|^2 = \\frac{2}{2n + 1}$:\n$$c_1^2 \\|P_1\\|^2 + c_3^2 \\|P_3\\|^2 = \\left(\\frac{2}{5}\\right)^2 \\left(\\frac{2}{3}\\right) + \\left(-\\frac{2}{5}\\right)^2 \\left(\\frac{2}{7}\\right)$$\n$$= \\frac{4}{25} \\left( \\frac{2}{3} + \\frac{2}{7} \\right) = \\frac{4}{25} \\left( \\frac{20}{21} \\right) = \\frac{80}{525} = \\frac{16}{105}$$\nLHS = RHS = $\\frac{16}{105}$. Parseval's identity holds with 100% precision!",
-      "answer": "$f(x) = \\frac{2}{5}P_1(x) - \\frac{2}{5}P_3(x)$ and $\\|f\\|^2 = \\sum c_n^2 \\|P_n\\|^2 = \\frac{16}{105}$."
+      "answer": "$f(x) = \\frac{2}{5}P_1(x) - \\frac{2}{5}P_3(x)$ and $\\|f\\|^2 = \\sum c_n^2 \\|P_n\\|^2 = \\frac{16}{105}$.",
+      "difficulty": "Hard"
     },
     {
       "id": "prob-20",
@@ -415,7 +690,8 @@ window.COURSE_DATA = {
       "title": "Inhomogeneous Bessel Equation via Lommel's Integrals",
       "statement": "Solve the inhomogeneous Bessel equation of order zero:<br>$$x^2 y'' + x y' + x^2 y = x$$<br>using Variation of Parameters.",
       "solution": "<b>Step 1: Normalized standard form</b><br>\nDivide by $x^2$:\n$$y'' + \\frac{1}{x} y' + y = \\frac{1}{x}$$\nThe homogeneous solutions are $y_1(x) = J_0(x)$ and $y_2(x) = Y_0(x)$.<br><br>\n<b>Step 2: Wronskian of Bessel functions</b><br>\nAbel's identity gives:\n$$W(J_0, Y_0)(x) = \\frac{2}{\\pi x}$$\n<br><b>Step 3: Variation of Parameters formulas</b><br>\n$$u_1'(x) = -\\frac{y_2(x) g(x)}{W(x)} = -\\frac{Y_0(x) (1/x)}{2/(\\pi x)} = -\\frac{\\pi}{2} Y_0(x)$$\n$$u_2'(x) = \\frac{y_1(x) g(x)}{W(x)} = \\frac{J_0(x) (1/x)}{2/(\\pi x)} = \\frac{\\pi}{2} J_0(x)$$\n<br><b>Step 4: Particular solution</b><br>\n$$y_p(x) = -\\frac{\\pi}{2} J_0(x) \\int_0^x Y_0(s)\\,ds + \\frac{\\pi}{2} Y_0(x) \\int_0^x J_0(s)\\,ds$$\nThis is the celebrated Struve function relation: $y_p(x) = \\frac{\\pi}{2} \\mathbf{H}_0(x)$.",
-      "answer": "$y(x) = c_1 J_0(x) + c_2 Y_0(x) + \\frac{\\pi}{2}\\left[ Y_0(x)\\int_0^x J_0(s)ds - J_0(x)\\int_0^x Y_0(s)ds \\right]$"
+      "answer": "$y(x) = c_1 J_0(x) + c_2 Y_0(x) + \\frac{\\pi}{2}\\left[ Y_0(x)\\int_0^x J_0(s)ds - J_0(x)\\int_0^x Y_0(s)ds \\right]$",
+      "difficulty": "Hard"
     },
     {
       "id": "prob-21",
@@ -424,7 +700,8 @@ window.COURSE_DATA = {
       "title": "Associated Laguerre Transformation of Hydrogen Radial Schrödinger Equation",
       "statement": "Transform the radial hydrogenic Schrödinger equation $\\frac{d^2 R}{dr^2} + \\frac{2}{r} \\frac{dR}{dr} + \\left[ \\frac{2Z}{r} - \\frac{l(l+1)}{r^2} - \\kappa^2 \\right] R = 0$ into the confluent hypergeometric Associated Laguerre equation.",
       "solution": "<b>Step 1: Asymptotic Behavior</b><br>\nAs $r \\to \\infty$: $R'' - \\kappa^2 R \\approx 0 \\implies R(r) \\sim e^{-\\kappa r}$.<br>\nAs $r \\to 0$: $R'' + \\frac{2}{r} R' - \\frac{l(l+1)}{r^2} R \\approx 0 \\implies R(r) \\sim r^l$.<br><br>\n<b>Step 2: Dimensionless variable and ansatz</b><br>\nDefine dimensionless coordinate $\\rho = 2\\kappa r$.<br>\nLet $R(\\rho) = \\rho^l e^{-\\rho/2} v(\\rho)$.<br><br>\n<b>Step 3: Derivatives of the ansatz</b><br>\nCompute $R'$ and $R''$ in terms of $\\rho$ and substitute into the radial equation. After factorizing $\\rho^l e^{-\\rho/2}$, the equation reduces to:\n$$\\rho \\frac{d^2 v}{d\\rho^2} + [2(l + 1) - \\rho] \\frac{dv}{d\\rho} + (n - l - 1) v = 0$$\nwhere $n = \\frac{Z}{\\kappa}$ is the principal quantum number.<br><br>\n<b>Step 4: Associated Laguerre Polynomials</b><br>\nLet $k = 2l + 1$ and $p = n - l - 1 \\ge 0$. The equation becomes:\n$$\\rho v'' + (k + 1 - \\rho) v' + p v = 0$$\nwhich is precisely the <b>Associated Laguerre differential equation</b>!\nThe solutions are $v(\\rho) = L_{n - l - 1}^{2l + 1}(\\rho)$, proving that the bound state energy levels are quantized:\n$$E_n = -\\frac{\\hbar^2 \\kappa^2}{2\\mu} = -\\frac{\\mu Z^2 e^4}{2\\hbar^2 n^2}, \\quad n = l + 1, l + 2, \\dots$$",
-      "answer": "$\\rho v'' + (2l + 2 - \\rho)v' + (n - l - 1)v = 0$ with solution $v(\\rho) = L_{n-l-1}^{2l+1}(2\\kappa r)$."
+      "answer": "$\\rho v'' + (2l + 2 - \\rho)v' + (n - l - 1)v = 0$ with solution $v(\\rho) = L_{n-l-1}^{2l+1}(2\\kappa r)$.",
+      "difficulty": "Hard"
     },
     {
       "id": "prob-22",
@@ -433,7 +710,8 @@ window.COURSE_DATA = {
       "title": "Periodic Sturm-Liouville Problem & Double Spectral Degeneracy",
       "statement": "Establish the self-adjointness, non-negative spectrum, and double degeneracy for the periodic Sturm-Liouville problem:<br>$$y'' + \\lambda y = 0, \\quad y(-\\pi) = y(\\pi), \\quad y'(-\\pi) = y'(\\pi)$$",
       "solution": "<b>Step 1: Self-Adjointness via Green's Formula</b><br>\nFor $L[y] = -y''$:\n$$\\int_{-\\pi}^\\pi (u L[v] - v L[u])\\,dx = \\left[ -u v' + v u' \\right]_{-\\pi}^\\pi = [-u(\\pi)v'(\\pi) + v(\\pi)u'(\\pi)] - [-u(-\\pi)v'(-\\pi) + v(-\\pi)u'(-\\pi)]$$\nUsing periodic conditions $u(-\\pi) = u(\\pi)$ and $u'(-\\pi) = u'(\\pi)$:\n$$= [-u(\\pi)v'(\\pi) + v(\\pi)u'(\\pi)] - [-u(\\pi)v'(\\pi) + v(\\pi)u'(\\pi)] = 0$$\nThe periodic boundary conditions make the boundary term vanish. Hence $L$ is <b>self-adjoint</b>.<br><br>\n<b>Step 2: Non-negative eigenvalues ($\\lambda \\ge 0$)</b><br>\nMultiply by $y$ and integrate by parts:\n$$\\lambda \\int_{-\\pi}^\\pi y^2\\,dx = \\int_{-\\pi}^\\pi (y')^2\\,dx - [y y']_{-\\pi}^\\pi = \\int_{-\\pi}^\\pi (y')^2\\,dx \\ge 0$$\nHence $\\lambda \\ge 0$.<br><br>\n<b>Step 3: Eigenvalues & Degeneracy</b><br>\nFor $\\lambda_0 = 0$: $y_0(x) = 1$ (non-degenerate, dimension 1).<br>\nFor $\\lambda_n = n^2 > 0$ ($n = 1, 2, 3, \\dots$):\nBoth $y_{n, 1}(x) = \\cos(nx)$ and $y_{n, 2}(x) = \\sin(nx)$ satisfy the periodic boundary conditions!\nThus every eigenvalue $\\lambda_n = n^2$ has <b>multiplicity 2</b> (doubly degenerate eigenspace spanned by $\\{\\cos nx, \\sin nx\\}$), generating the classical full Fourier series!",
-      "answer": "$\\lambda_0 = 0$ (simple), $\\lambda_n = n^2$ ($n \\ge 1$, doubly degenerate with basis $\\{\\cos nx, \\sin nx\\}$)."
+      "answer": "$\\lambda_0 = 0$ (simple), $\\lambda_n = n^2$ ($n \\ge 1$, doubly degenerate with basis $\\{\\cos nx, \\sin nx\\}$).",
+      "difficulty": "Hard"
     },
     {
       "id": "prob-23",
@@ -442,7 +720,8 @@ window.COURSE_DATA = {
       "title": "Bilinear Mercer Eigenfunction Expansion of Green's Function",
       "statement": "Prove the bilinear eigenfunction expansion for the Green's function of a regular Sturm-Liouville problem:<br>$$G(x, \\xi) = \\sum_{n=1}^\\infty \\frac{\\phi_n(x) \\phi_n(\\xi)}{\\lambda_n}$$",
       "solution": "<b>Step 1: Expand Green's function in orthonormal eigenfunctions</b><br>\nLet $\\{\\phi_n(x)\\}$ be the complete orthonormal eigenfunctions of $L[\\phi_n] = \\lambda_n w(x) \\phi_n$ with separated boundary conditions. For any fixed $\\xi \\in (a, b)$, $G(x, \\xi)$ satisfies the boundary conditions in $x$. Expand $G(x, \\xi)$ in terms of $\\phi_n(x)$:\n$$G(x, \\xi) = \\sum_{n=1}^\\infty c_n(\\xi) \\phi_n(x)$$\n<br><b>Step 2: Determine expansion coefficients $c_n(\\xi)$</b><br>\nBy orthonormality $\\int_a^b \\phi_n(x) \\phi_m(x) w(x)\\,dx = \\delta_{nm}$:\n$$c_n(\\xi) = \\int_a^b G(x, \\xi) \\phi_n(x) w(x)\\,dx$$\n<br><b>Step 3: Exploit self-adjointness and eigenvalue equation</b><br>\nSince $\\phi_n(x) = \\frac{1}{\\lambda_n w(x)} L[\\phi_n](x)$:\n$$c_n(\\xi) = \\frac{1}{\\lambda_n} \\int_a^b G(x, \\xi) L[\\phi_n](x)\\,dx$$\nUsing Green's formula $\\int_a^b (u L[v] - v L[u])\\,dx = 0$:\n$$c_n(\\xi) = \\frac{1}{\\lambda_n} \\int_a^b \\phi_n(x) L_x[G(x, \\xi)]\\,dx$$\nSince $L_x[G(x, \\xi)] = \\delta(x - \\xi)$:\n$$c_n(\\xi) = \\frac{1}{\\lambda_n} \\int_a^b \\phi_n(x) \\delta(x - \\xi)\\,dx = \\frac{\\phi_n(\\xi)}{\\lambda_n}$$\n<br><b>Step 4: Substitute $c_n(\\xi)$ back</b><br>\n$$G(x, \\xi) = \\sum_{n=1}^\\infty \\frac{\\phi_n(x) \\phi_n(\\xi)}{\\lambda_n}$$\nThis Mercer series proves the exact symmetry $G(x, \\xi) = G(\\xi, x)$ and convergence in $L^2$.",
-      "answer": "$G(x, \\xi) = \\sum_{n=1}^\\infty \\frac{\\phi_n(x) \\phi_n(\\xi)}{\\lambda_n}$ (Mercer's Bilinear Expansion)."
+      "answer": "$G(x, \\xi) = \\sum_{n=1}^\\infty \\frac{\\phi_n(x) \\phi_n(\\xi)}{\\lambda_n}$ (Mercer's Bilinear Expansion).",
+      "difficulty": "Hard"
     },
     {
       "id": "prob-24",
@@ -451,7 +730,8 @@ window.COURSE_DATA = {
       "title": "Modified Generalized Green's Function for Semi-Definite Neumann Problems",
       "statement": "Construct the modified (generalized) Green's function for the pure Neumann boundary value problem:<br>$$-y'' = f(x), \\quad y'(0) = 0, \\quad y'(1) = 0$$<br>subject to the Fredholm solvability condition $\\int_0^1 f(x)\\,dx = 0$.",
       "solution": "<b>Step 1: Check Homogeneous Neumann Problem</b><br>\n$-y_h'' = 0 \\implies y_h(x) = c_1 x + c_2$.\n$y_h'(0) = c_1 = 0 \\implies y_h(x) = c_2$. $y_h'(1) = 0$ holds identically.\nThus $\\phi(x) = 1$ is a non-trivial homogeneous solution (normalized: $\\phi_0(x) = 1$).\nThe standard Green's function does NOT exist because $\\lambda = 0$ is an eigenvalue!<br><br>\n<b>Step 2: Modified Green's Function Definition</b><br>\nThe modified Green's function $G_m(x, \\xi)$ satisfies:\n$$-G_m''(x, \\xi) = \\delta(x - \\xi) - 1, \\quad G_m'(0, \\xi) = 0, \\quad G_m'(1, \\xi) = 0, \\quad \\int_0^1 G_m(x, \\xi)\\,dx = 0$$\nNotice that integrating both sides over $[0, 1]$ gives $-(G_m'(1) - G_m'(0)) = 1 - 1 = 0$, guaranteeing consistency!<br><br>\n<b>Step 3: Integrate piecewise</b><br>\nFor $x < \\xi$: $-G_m'' = -1 \\implies G_m'' = 1 \\implies G_m'(x) = x + A$.\nSince $G_m'(0) = 0 \\implies A = 0 \\implies G_m'(x) = x$.\nIntegrating: $G_m(x) = \\frac{x^2}{2} + C_1$.<br>\nFor $x > \\xi$: $G_m'(x) = x - 1$ to satisfy $G_m'(1) = 0$.\nIntegrating: $G_m(x) = \\frac{x^2}{2} - x + C_2$.<br><br>\n<b>Step 4: Jump and Continuity Conditions</b><br>\nDerivative jump: $\\left. G_m' \\right|_{\\xi^+} - \\left. G_m' \\right|_{\\xi^-} = (\\xi - 1) - \\xi = -1$. (Satisfied identically!)<br>\nContinuity at $x = \\xi$: $\\frac{\\xi^2}{2} + C_1 = \\frac{\\xi^2}{2} - \\xi + C_2 \\implies C_1 = C_2 - \\xi$.<br>\nSymmetric form:\n$$G_m(x, \\xi) = \\frac{x^2 + \\xi^2}{2} - \\max(x, \\xi) + C$$\nApplying normalization $\\int_0^1 G_m(x, \\xi)\\,dx = 0$ fixes $C = \\frac{1}{3}$:\n$$G_m(x, \\xi) = \\frac{x^2 + \\xi^2}{2} - \\max(x, \\xi) + \\frac{1}{3}$$\nFor any load with $\\int_0^1 f(x)\\,dx = 0$, the unique zero-mean solution is $y(x) = \\int_0^1 G_m(x, \\xi) f(\\xi)\\,d\\xi$.",
-      "answer": "$G_m(x, \\xi) = \\frac{x^2 + \\xi^2}{2} - \\max(x, \\xi) + \\frac{1}{3}$."
+      "answer": "$G_m(x, \\xi) = \\frac{x^2 + \\xi^2}{2} - \\max(x, \\xi) + \\frac{1}{3}$.",
+      "difficulty": "Hard"
     }
   ]
 };

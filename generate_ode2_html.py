@@ -1,339 +1,294 @@
-#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-generate_ode2_html.py
-Generates ordinary-differential-equations-2.html with complete SEO metadata,
-Schema.org JSON-LD, pre-rendered Chapter 1 content, KaTeX rendering, and universal trust footer.
+Generator for ordinary-differential-equations-2.html
+Pre-renders Unit 1 for instant first paint and Googlebot SEO indexing,
+strictly adheres to the linear-algebra.html gold standard layout,
+omits all university course numbers, and mounts the 8-chapter curriculum.
 """
-
 import json
+import re
 
-def generate_html():
-    with open('ordinary-differential-equations-2-data.js', 'r', encoding='utf-8') as f:
-        data_text = f.read()
+with open("ordinary-differential-equations-2-data.js", "r", encoding="utf-8") as f:
+    raw = f.read()
+    raw_json = raw[raw.find("{"):raw.rfind("}") + 1]
+    course_data = json.loads(raw_json)
 
-    # Parse course data
-    prefix = 'window.COURSE_DATA = '
-    start_idx = data_text.find(prefix) + len(prefix)
-    end_idx = data_text.find(';\nwindow.BOOK_DATA')
-    course_json = data_text[start_idx:end_idx]
-    course_data = json.loads(course_json)
+u1 = course_data["units"][0]
 
-    unit1 = course_data['units'][0]
+# Generate Pre-Rendered Sections for Unit 1
+sections_html = []
+for sec in u1["sections"]:
+    sec_id = f"u1-sec{sec['secNumber'].replace('.', '-')}"
+    sec_title = sec["title"]
+    sec_content = sec["content"].strip()
+    sec_num = f"§{sec['secNumber']}"
+    
+    sim_markup = ""
+    if "simulation" in sec:
+        sim_id = sec["simulation"]
+        sim_markup = f'\n  <div id="sim-container-{sim_id}" class="inline-simulation-wrapper" style="margin-top: 2rem;"></div>'
+    elif "simulations" in u1 and len(u1["simulations"]) > 0 and sec == u1["sections"][0]:
+        sim_id = u1["simulations"][0]
+        sim_markup = f'\n  <div id="sim-container-{sim_id}" class="inline-simulation-wrapper" style="margin-top: 2rem;"></div>'
+        
+    s_html = f'''<section class="textbook-section-card" id="{sec_id}">
+  <header class="sec-header">
+    <h3 class="sec-title"><span class="sec-num">{sec_num}</span><span>{sec_title}</span></h3>
+  </header>
+  <div class="sec-content">
+{sec_content}
+  </div>{sim_markup}
+</section>'''
+    sections_html.append(s_html)
 
-    # Pre-render sections
-    prerendered_sections_html = ""
-    for idx, sec in enumerate(unit1['sections']):
-        sec_num = sec['secNumber']
-        sec_title = sec['title']
-        sec_content = sec['content']
-        sim_code = ""
-        if 'simulation' in sec:
-            sim_type = sec['simulation']
-            sim_code = f"""
-            <div class="simulation-wrapper" style="margin: 2rem 0;">
-              <div class="sim-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.75rem;">
-                <span style="font-weight:700; color:#38bdf8; font-size:0.95rem; display:flex; align-items:center; gap:0.5rem;">
-                  <span>⚡</span> Interactive Numerical Simulation: 2D Autonomous Phase Plane Explorer
-                </span>
-                <span class="sim-status" style="font-size:0.75rem; background:rgba(56,189,248,0.15); color:#38bdf8; padding:2px 8px; border-radius:4px; font-weight:600;">60 FPS Active</span>
-              </div>
-              <div id="sim-{sim_type}" class="sim-mount-point" data-sim="{sim_type}" style="min-height:380px;"></div>
-            </div>
-            """
+# Generate Pre-Rendered Problems for Unit 1
+problems_html = []
+for i, prob in enumerate(u1.get("problems", []), 1):
+    diff = prob.get("difficulty", "Hard")
+    diff_class = "diff-easy" if "Foundational" in diff or diff == "Easy" or i == 1 else ("diff-medium" if "Intermediate" in diff or diff == "Medium" or i == 2 else "diff-hard")
+    diff_label = prob.get("difficultyLabel", f"Tier {i} Problem")
+    pid = prob.get("id", f"ode2-prob-1-{i}")
+    ptitle = prob["title"]
+    pstatement = prob.get("statement", prob.get("question", ""))
+    pstatement = re.sub(r'\$\$(.*?)\$\$', lambda m: '$$' + m.group(1).replace('\n', ' ') + '$$', pstatement, flags=re.DOTALL)
+    psolution = prob.get("derivation", prob.get("solution", ""))
+    psolution = re.sub(r'\$\$(.*?)\$\$', lambda m: '$$' + m.group(1).replace('\n', ' ') + '$$', psolution, flags=re.DOTALL)
+    panswer = prob.get("answer", "")
+    
+    sol_html = f'''<div class="solution-step">
+  <div class="step-explanation">{psolution}</div>
+</div>'''
+    if panswer:
+        sol_html += f'''
+<div class="solution-step" style="border-left-color: #10b981;">
+  <div class="step-title" style="color: #10b981;">Final Answer & Analytical Insight</div>
+  <div class="step-explanation">{panswer}</div>
+</div>'''
 
-        prerendered_sections_html += f"""
-        <section class="textbook-section-card" id="sec-{sec_num.replace('.', '-')}">
-          <div class="section-badge-row">
-            <span class="section-counter">Section {sec_num}</span>
-            <span class="reading-time">14 min read</span>
-          </div>
-          <h2 class="section-heading">{sec_title}</h2>
-          <div class="section-body">
-            {sec_content}
-            {sim_code}
-          </div>
-        </section>
-        """
+    p_card = f'''<div class="problem-card" id="{pid}">
+  <div class="problem-header">
+    <div class="problem-title-box">
+      <span class="diff-badge {diff_class}">{diff_label}</span>
+      <strong>{ptitle}</strong>
+    </div>
+  </div>
+  <div class="problem-question-box">
+    {pstatement}
+  </div>
+  <button class="solution-toggle-btn" id="btn-sol-{pid}">
+    👁️ Reveal Complete Derivation & Solution
+  </button>
+  <div class="solution-content" id="sol-content-{pid}" style="display: none; margin-top: 1.25rem;">
+    {sol_html}
+  </div>
+</div>'''
+    problems_html.append(p_card)
 
-    # Pre-render problems for Chapter 1
-    unit1_problems = [p for p in course_data['problems'] if p['id'] in ['prob-01', 'prob-09', 'prob-17']]
-    problems_html = ""
-    for prob in unit1_problems:
-        tier_class = f"tier-{prob['tier']}"
-        problems_html += f"""
-        <div class="problem-card {tier_class}" id="{prob['id']}">
-          <div class="problem-meta">
-            <span class="tier-pill">{prob['difficultyLabel']}</span>
-            <span class="problem-number">{prob['id'].upper()}</span>
-          </div>
-          <h3 class="problem-title">{prob['title']}</h3>
-          <div class="problem-statement">{prob['statement']}</div>
-          <details class="solution-accordion">
-            <summary class="solution-toggle">
-              <span class="toggle-icon">▶</span>
-              <span>View Step-by-Step Derivation & Verification</span>
-            </summary>
-            <div class="solution-content">
-              {prob['solution']}
-              <div class="solution-answer">
-                <strong>Final Result:</strong> {prob['answer']}
-              </div>
-            </div>
-          </details>
-        </div>
-        """
+joined_sections = "\n".join(sections_html)
+joined_problems = "\n".join(problems_html)
 
-    full_html = f"""<!DOCTYPE html>
+lead_desc = u1.get("subtitle", u1.get("leadSummary", u1.get("description", "")))
+
+html_content = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ordinary Differential Equations II: First-Order Systems, Series Solutions & Sturm-Liouville Theory | OpenSTEM Digital Academic Press</title>
-  
-  <!-- Primary SEO Metadata -->
-  <meta name="description" content="Comprehensive university honors textbook covering first-order linear systems, phase portraits, matrix exponential Putzer algorithm, Frobenius series solutions, Legendre polynomials, Bessel functions, Sturm-Liouville theory, and Green's functions with 8 interactive 60 FPS simulations and 24 tiered solved university examination problems.">
-  <meta name="keywords" content="Ordinary Differential Equations II, Systems of Differential Equations, Phase Portrait, Matrix Exponential, Putzer Algorithm, Frobenius Method, Legendre Polynomials, Bessel Functions, Laguerre Polynomials, Hermite Polynomials, Sturm-Liouville Theory, Green's Functions, Fredholm Alternative">
-  <meta name="author" content="OpenSTEM Global Academic Press">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Ordinary Differential Equations II: Systems, Series Solutions, Special Functions & Sturm-Liouville Theory | OpenSTEM Digital Academic Press</title>
+  <meta name="description" content="Free university digital textbook covering systems of linear differential equations, phase portraits, matrix exponential, Putzer algorithm, Frobenius series solutions, Legendre polynomials, Bessel functions, Sturm-Liouville theory, and Green's functions with 8 interactive 60 FPS simulations and 24 tiered solved university examination problems.">
+  <meta name="keywords" content="Ordinary Differential Equations II, Linear ODE Systems, Phase Plane Analysis, Trace Determinant, Matrix Exponential, Putzer Algorithm, Generalized Eigenvectors, Frobenius Method, Indicial Equation, Legendre Polynomials, Bessel Functions, Sturm Liouville Theory, Self Adjoint Operators, Greens Functions, Fredholm Alternative">
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://openstemlibrary.com/ordinary-differential-equations-2.html">
 
-  <!-- Open Graph / Social Meta -->
+  <!-- Open Graph / Social Media -->
   <meta property="og:type" content="article">
-  <meta property="og:site_name" content="OpenSTEM Digital Academic Press">
-  <meta property="og:title" content="Ordinary Differential Equations II: First-Order Systems, Series Solutions & Sturm-Liouville Theory">
-  <meta property="og:description" content="Comprehensive university honors textbook covering first-order linear systems, matrix exponential, Frobenius method, Legendre and Bessel functions, Sturm-Liouville eigenvalue theory, and Green's functions with 8 interactive simulations.">
   <meta property="og:url" content="https://openstemlibrary.com/ordinary-differential-equations-2.html">
-  <meta property="og:image" content="https://openstemlibrary.com/logo.svg">
-
-  <!-- Twitter Card -->
+  <meta property="og:title" content="Ordinary Differential Equations II: Systems, Series Solutions, Special Functions & Sturm-Liouville Theory | OpenSTEM Digital Academic Press">
+  <meta property="og:description" content="Exhaustive university honors textbook with 8 chapters, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Ordinary Differential Equations II: Honors Digital Textbook">
-  <meta name="twitter:description" content="Free university-standard digital textbook with complete proofs, 8 real-time simulations, and 24 solved examination problems.">
-  <meta name="twitter:image" content="https://openstemlibrary.com/logo.svg">
+  <meta name="twitter:title" content="Ordinary Differential Equations II: Systems, Series Solutions, Special Functions & Sturm-Liouville Theory">
+  <meta name="twitter:description" content="Free university digital textbook covering ODE systems, phase planes, Frobenius series, Bessel functions, Sturm-Liouville theory, and Green's functions.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
 
-  <!-- Favicon Suite -->
-  <link rel="icon" href="favicon.ico" sizes="48x48">
-  <link rel="icon" href="favicon-48x48.png" type="image/png" sizes="48x48">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
-  <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
-  <!-- Structured Data: JSON-LD Course and TechArticle -->
+  <!-- Schema.org Educational Course JSON-LD -->
   <script type="application/ld+json">
   {{
     "@context": "https://schema.org",
-    "@graph": [
+    "@type": "Course",
+    "name": "Ordinary Differential Equations II: Systems, Series Solutions, Special Functions & Sturm-Liouville Theory",
+    "description": "Comprehensive university honors curriculum covering advanced linear differential systems, series solutions near ordinary and regular singular points, classical orthogonal functions (Legendre, Bessel, Laguerre, Hermite), Sturm-Liouville eigenvalue boundary value theory, the Fredholm Alternative, and Green's functions.",
+    "provider": {{
+      "@type": "EducationalOrganization",
+      "name": "OpenSTEM Digital Academic Press",
+      "url": "https://openstemlibrary.com"
+    }},
+    "educationalLevel": "Undergraduate B.Sc. Honors & STEM Foundation",
+    "isAccessibleForFree": true
+  }}
+  </script>
+
+  <!-- Schema.org Breadcrumb Navigation -->
+  <script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
       {{
-        "@type": "Course",
-        "name": "Ordinary Differential Equations II",
-        "courseCode": "MTH 3104",
-        "description": "Comprehensive university honors textbook covering first-order linear systems, phase portraits, matrix exponential Putzer algorithm, Frobenius series solutions, Legendre polynomials, Bessel functions, Sturm-Liouville theory, and Green's functions.",
-        "provider": {{
-          "@type": "Organization",
-          "name": "OpenSTEM Global Academic Press",
-          "sameAs": "https://openstemlibrary.com"
-        }},
-        "educationalLevel": "B.Sc. (Honours) / Upper-Division Undergraduate",
-        "isAccessibleForFree": true,
-        "hasCourseInstance": {{
-          "@type": "CourseInstance",
-          "courseMode": "Online",
-          "courseWorkload": "45 lecture hours + 9 hours individual guidance"
-        }}
+        "@type": "ListItem",
+        "position": 1,
+        "name": "OpenSTEM Library",
+        "item": "https://openstemlibrary.com/"
       }},
       {{
-        "@type": "TechArticle",
-        "headline": "Ordinary Differential Equations II: First-Order Systems, Series Solutions & Sturm-Liouville Theory",
-        "url": "https://openstemlibrary.com/ordinary-differential-equations-2.html",
-        "inLanguage": "en-US",
-        "publisher": {{
-          "@type": "Organization",
-          "name": "OpenSTEM Global Academic Press",
-          "logo": {{
-            "@type": "ImageObject",
-            "url": "https://openstemlibrary.com/logo.svg"
-          }}
-        }},
-        "about": [
-          "Systems of Linear First-Order ODEs",
-          "Phase Plane Analysis",
-          "Matrix Exponential and Putzer Algorithm",
-          "Frobenius Method",
-          "Legendre Polynomials",
-          "Bessel Functions",
-          "Sturm-Liouville Boundary Value Problems",
-          "Green's Functions"
-        ]
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Department of Mathematics",
+        "item": "https://openstemlibrary.com/#mathematics"
       }},
       {{
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {{
-            "@type": "ListItem",
-            "position": 1,
-            "name": "OpenSTEM Library",
-            "item": "https://openstemlibrary.com/"
-          }},
-          {{
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Mathematics Department",
-            "item": "https://openstemlibrary.com/#departments-container"
-          }},
-          {{
-            "@type": "ListItem",
-            "position": 3,
-            "name": "Ordinary Differential Equations II (MTH 3104)",
-            "item": "https://openstemlibrary.com/ordinary-differential-equations-2.html"
-          }}
-        ]
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Ordinary Differential Equations II: Systems, Series Solutions, Special Functions & Sturm-Liouville Theory",
+        "item": "https://openstemlibrary.com/ordinary-differential-equations-2.html"
       }}
     ]
   }}
   </script>
 
-  <!-- Typography & Preconnect -->
+  <!-- Google Fonts: Inter & Fira Code -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" media="print" onload="this.media='all'">
-  <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap">
-  </noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
 
-  <!-- KaTeX for High-Fidelity Mathematical Typography -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
-  <!-- Textbook Master Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=20261006_v21">
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261006_v1">
 </head>
-<body class="academic-theme">
+<body>
 
   <div class="app-container">
-
-    <!-- Collapsible Sidebar Navigation -->
-    <aside class="sidebar" id="sidebar">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
       <div class="brand-header">
-        <a href="index.html" style="display:flex; align-items:center; gap:0.75rem; text-decoration:none; color:inherit;">
-          <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
-          <div class="brand-text">
-            <span class="brand-title">OpenSTEM</span>
-            <span class="brand-subtitle">Academic Press</span>
-          </div>
-        </a>
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Differential Equations II</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
       </div>
 
-      <div class="course-meta-badge">
-        <span class="course-code">MTH 3104</span>
-        <span class="course-level">Compulsory Honors</span>
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search Frobenius, Bessel, Legendre, Green's..." class="search-input">
       </div>
 
-      <nav class="unit-nav" aria-label="Table of Contents">
-        <h3 class="nav-section-title">COURSE MODULES</h3>
-        <ol class="unit-nav-list" id="unit-nav-list">
-          <!-- Populated dynamically by app.js from COURSE_DATA -->
-          <li class="unit-nav-item active" data-unit-index="0">
-            <span class="unit-nav-num">Ch.1</span>
-            <span class="unit-nav-text">Systems of Linear First-Order ODEs: Foundations & Phase Portraits</span>
-          </li>
-          <li class="unit-nav-item" data-unit-index="1">
-            <span class="unit-nav-num">Ch.2</span>
-            <span class="unit-nav-text">Homogeneous Matrix Systems & Generalized Eigenvectors</span>
-          </li>
-          <li class="unit-nav-item" data-unit-index="2">
-            <span class="unit-nav-num">Ch.3</span>
-            <span class="unit-nav-text">The Fundamental Matrix, Matrix Exponential & Nonhomogeneous Systems</span>
-          </li>
-          <li class="unit-nav-item" data-unit-index="3">
-            <span class="unit-nav-num">Ch.4</span>
-            <span class="unit-nav-text">Series Solutions Near Ordinary Points & Legendre Differential Equation</span>
-          </li>
-          <li class="unit-nav-item" data-unit-index="4">
-            <span class="unit-nav-num">Ch.5</span>
-            <span class="unit-nav-text">Regular Singular Points & The Method of Frobenius</span>
-          </li>
-          <li class="unit-nav-item" data-unit-index="5">
-            <span class="unit-nav-num">Ch.6</span>
-            <span class="unit-nav-text">Bessel Functions & Classical Orthogonal Systems</span>
-          </li>
-          <li class="unit-nav-item" data-unit-index="6">
-            <span class="unit-nav-num">Ch.7</span>
-            <span class="unit-nav-text">Sturm-Liouville Theory, Self-Adjoint Operators & Oscillation Theorems</span>
-          </li>
-          <li class="unit-nav-item" data-unit-index="7">
-            <span class="unit-nav-num">Ch.8</span>
-            <span class="unit-nav-text">Nonhomogeneous BVPs, The Fredholm Alternative & Green's Functions</span>
-          </li>
-        </ol>
-      </nav>
-
-      <div class="sidebar-footer">
-        <a href="ordinary-differential-equations-1.html" class="catalog-back-btn" style="margin-bottom:0.5rem; color:#38bdf8;">
-          <span>←</span> Previous: ODE I (MTH 2103)
-        </a>
-        <a href="index.html#departments-container" class="catalog-back-btn">
-          <span>📚</span> Full Academic Catalog
-        </a>
-      </div>
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list">
+        <!-- Rendered dynamically by app.js from COURSE_DATA -->
+      </ul>
     </aside>
 
-    <!-- Main Content Reader -->
-    <main class="content-area" id="main-content">
-      
-      <!-- Sticky Navigation Header -->
-      <header class="reader-header">
-        <button class="sidebar-toggle-btn" id="sidebar-toggle" aria-label="Toggle Sidebar">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
-
-        <div class="course-header-info">
-          <span class="course-parent-tag">Mathematics • B.Sc. (Honours) Level</span>
-          <h1 class="course-main-title">Ordinary Differential Equations II</h1>
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Mathematics / Pure Mathematics</span>
+          <span class="badge-pill badge-credits">Differential Equations II</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
         </div>
-
-        <div class="reader-actions">
-          <button class="font-toggle-btn" id="font-toggle" title="Toggle Serif / Sans Font">Aa</button>
+        <div class="navbar-actions">
+          <a href="index.html" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">
+            🔒 <span>In-Browser Protected • Direct Download Disabled</span>
+          </div>
         </div>
       </header>
 
-      <!-- Textbook Content Container -->
-      <div class="content-scroll-container">
-        <article class="textbook-unit-article">
-
-          <!-- Chapter Banner Header -->
-          <header class="unit-banner">
-            <div class="unit-tag" id="unit-tag">Chapter 1 • Theory & Derivations</div>
-            <h1 class="unit-title" id="unit-title">{unit1['title']}</h1>
-            <p class="unit-desc" id="unit-desc">{unit1['leadSummary']}</p>
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 1 • Theory & Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">{u1["title"]}</h1>
+            <p class="unit-desc-lead" id="unit-desc">
+              {lead_desc}
+            </p>
           </header>
 
-          <!-- Pre-rendered Chapter 1 Sections for Immediate SEO Indexing -->
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
           <div id="textbook-sections">
-            {prerendered_sections_html}
+{joined_sections}
           </div>
 
-          <!-- Solved Examination Problems Container -->
-          <section class="solved-problems-section" id="solved-problems-container" style="margin-top: 3.5rem;">
-            <div class="problems-header">
-              <span class="section-badge">Examination Practice</span>
-              <h2 class="problems-heading">University Solved Examination Problems</h2>
-              <p class="problems-sub">Comprehensive multi-tiered examination problems solved with unskipped step-by-step mathematical proofs.</p>
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">TIERED UNIVERSITY HONORS PROBLEMS</div>
+              <h3 class="prob-sec-title">Step-by-Step Solved Examination Problems</h3>
+              <p class="prob-sec-desc">Comprehensive analytical derivations, multi-tier solutions (Foundational, Intermediate Exam, and Honors/Proof Challenge) with complete line-by-line verification.</p>
             </div>
-            <div id="problems-list">
-              {problems_html}
+            <div class="problems-grid" id="problems-container">
+{joined_problems}
             </div>
-          </section>
+          </div>
 
-          <!-- Universal Academic Trust Footer -->
-          <footer class="reader-trust-footer" style="margin-top: 5rem; padding: 2.5rem 1.5rem; border-top: 1px solid rgba(148, 163, 184, 0.15); text-align: center;">
-            <div class="reader-trust-links" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 1.25rem; margin-bottom: 1rem; font-size: 0.85rem;">
-              <a href="index.html" class="reader-trust-link">Academic Catalog</a>
-              <a href="index.html#faq-section" class="reader-trust-link">FAQ & Student Guide</a>
-              <a href="about.html" class="reader-trust-link">About & Editorial Standards</a>
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer">
+            <div class="reader-trust-links">
+              <a href="index.html" class="reader-trust-link">← All Academic Departments</a>
+              <a href="reader.html" class="reader-trust-link">Quantum Mechanics I</a>
+              <a href="mechanics.html" class="reader-trust-link">Mechanics</a>
+              <a href="electrodynamics.html" class="reader-trust-link">Electrodynamics</a>
+              <a href="optics.html" class="reader-trust-link">Wave Optics</a>
+              <a href="statistical-mechanics.html" class="reader-trust-link">Statistical Mechanics</a>
+              <a href="properties-of-matter.html" class="reader-trust-link">Properties of Matter</a>
+              <a href="electricity-magnetism.html" class="reader-trust-link">Electricity & Magnetism</a>
+              <a href="thermal-physics.html" class="reader-trust-link">Thermal Physics</a>
+              <a href="classical-mechanics.html" class="reader-trust-link">Classical Mechanics</a>
+              <a href="basic-electronics.html" class="reader-trust-link">Basic Electronics</a>
+              <a href="atomic-molecular-physics.html" class="reader-trust-link">Atomic & Molecular Physics</a>
+              <a href="solid-state-physics.html" class="reader-trust-link">Solid State Physics</a>
+              <a href="nuclear-physics.html" class="reader-trust-link">Nuclear Physics</a>
+              <a href="digital-electronics.html" class="reader-trust-link">Digital Electronics</a>
+              <a href="quantum-mechanics-2.html" class="reader-trust-link">Quantum Mechanics II</a>
+              <a href="astrophysics.html" class="reader-trust-link">Astrophysics</a>
+              <a href="plasma-physics.html" class="reader-trust-link">Plasma Physics</a>
+              <a href="solid-state-physics-2.html" class="reader-trust-link">Solid State Physics II</a>
+              <a href="nuclear-physics-2.html" class="reader-trust-link">Nuclear Physics II</a>
+              <a href="reactor-physics.html" class="reader-trust-link">Reactor Physics</a>
+              <a href="calculus-1.html" class="reader-trust-link">Calculus I</a>
+              <a href="geometry-2d.html" class="reader-trust-link">Two-Dimensional Geometry</a>
+              <a href="basic-algebra.html" class="reader-trust-link">Basic Algebra</a>
+              <a href="calculus-2.html" class="reader-trust-link">Calculus II</a>
+              <a href="geometry-3d.html" class="reader-trust-link">3D & Vector Geometry</a>
+              <a href="calculus-3.html" class="reader-trust-link">Calculus III</a>
+              <a href="linear-algebra.html" class="reader-trust-link">Linear Algebra</a>
+              <a href="ordinary-differential-equations-1.html" class="reader-trust-link">Differential Equations I</a>
+              <a href="ordinary-differential-equations-2.html" class="reader-trust-link">Differential Equations II</a>
+              <a href="complex-analysis.html" class="reader-trust-link">Complex Analysis</a>
+              <a href="about.html" class="reader-trust-link">About & Editorial</a>
               <a href="privacy.html" class="reader-trust-link">Privacy Policy</a>
               <a href="terms.html" class="reader-trust-link">Terms of Service</a>
               <a href="https://discord.gg/tBBKtvFJzW" target="_blank" rel="noopener noreferrer" class="reader-trust-link" style="color: #a5b4fc;">💬 Discord Community</a>
@@ -354,11 +309,9 @@ def generate_html():
   <script src="app.js?v=20261007_v1"></script>
 </body>
 </html>
-"""
+'''
 
-    with open('ordinary-differential-equations-2.html', 'w', encoding='utf-8') as f:
-        f.write(full_html)
-    print('Generated ordinary-differential-equations-2.html successfully!')
+with open("ordinary-differential-equations-2.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
 
-if __name__ == '__main__':
-    generate_html()
+print("Generated ordinary-differential-equations-2.html with 100% linear-algebra.html parity and zero course numbers!")
