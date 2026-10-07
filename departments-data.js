@@ -557,7 +557,7 @@ window.LIBRARY_CATALOG = {
           subtitle: "First-Order Equations, Exact Forms, Higher-Order Linear Systems & University Solved Problems",
           status: "AVAILABLE",
           url: "ordinary-differential-equations-1.html",
-          badge: "✨ NEW • Interactive Book Live",
+          badge: "Interactive Book Live",
           seoKeywords: "Ordinary Differential Equations I Textbook, First Order Differential Equations, Separable Equations, Exact Differential Equations, Integrating Factors, Picard-Lindelöf Existence Uniqueness Theorem, Direction Fields, Clairaut Equation, Singular Solutions, Envelope Curve, Orthogonal Trajectories, Population Growth Logistic Harvesting, Newton Law of Cooling, Wronskian Determinant, Abel Identity, Linear Differential Equations with Constant Coefficients, Method of Undetermined Coefficients, Variation of Parameters Lagrange, Cauchy-Euler Equidimensional Equation, Mechanical Oscillations, Resonance, Beats Phenomenon",
           description: "Rigorous university-level digital textbook covering first-order ordinary differential equations, exact differential forms, higher-order linear differential equations, and classical applications: initial and boundary value problems, Picard-Lindelöf existence and uniqueness theorem, direction fields and isoclines, separation of variables, homogeneous and linear first-order equations, Bernoulli, Riccati, and Clairaut equations, singular solutions and envelopes, orthogonal trajectories, physical modeling (mixing tanks, population dynamics with harvesting, Newton's law of cooling, chemical rate kinetics), higher-order linear theory, linear independence and the Wronskian, Abel's identity, complementary functions, particular integrals via annihilator operators and undetermined coefficients, Lagrange's variation of parameters, Cauchy-Euler equations, operator factorizations, and mechanical resonance and beats with 8 interactive 60 FPS simulations and 24 tiered solved university examination problems.",
           topics: [
@@ -569,6 +569,26 @@ window.LIBRARY_CATALOG = {
             "Higher-Order Linear Differential Equations: Theory, Homogeneous Systems & The Wronskian",
             "Non-Homogeneous Equations: Undetermined Coefficients & Variation of Parameters",
             "Homogeneous Linear Equations with Variable Coefficients & Cauchy-Euler Equidimensional Systems"
+          ]
+        },
+        {
+          id: "ordinary-differential-equations-2",
+          title: "Ordinary Differential Equations II",
+          subtitle: "First-Order Systems, Series Solutions, Classical Orthogonal Functions & Sturm-Liouville Theory",
+          status: "AVAILABLE",
+          url: "ordinary-differential-equations-2.html",
+          badge: "✨ NEW • Interactive Book Live",
+          seoKeywords: "Ordinary Differential Equations II Textbook, Systems of Linear Differential Equations, Phase Plane Analysis, Trace Determinant Classification, Critical Equilibrium Points, Matrix Exponential, Putzer Algorithm, Generalized Eigenvectors, Jordan Chains, Nonhomogeneous Systems Variation of Parameters, Power Series Solutions, Ordinary Points, Regular Singular Points, Method of Frobenius, Indicial Equation, Logarithmic Singular Solutions, Legendre Differential Equation, Legendre Polynomials, Rodrigues Formula, Bessel Differential Equation, Bessel Functions First Second Kind, Neumann Functions, Laguerre Polynomials, Hermite Polynomials, Sturm-Liouville Theory, Self-Adjoint Differential Operators, Green's Functions, Dirac Delta Jump Conditions, Fredholm Alternative",
+          description: "Rigorous university-level digital textbook covering advanced linear differential systems, series solutions near ordinary and regular singular points, classical orthogonal functions, and boundary value eigenvalue problems: conversion of n-th order linear equations to first-order vector systems, Picard-Lindelöf existence-uniqueness vector theorem, operator elimination method, 2D autonomous linear systems and Poincaré phase portrait classification, homogeneous matrix systems, defective matrices and chains of generalized eigenvectors, the fundamental matrix and Abel-Liouville identity, matrix exponential via Putzer's algorithm, nonhomogeneous variation of parameters, power series method near ordinary points, the method of Frobenius across all three indicial root cases, Legendre's equation and polynomials, Bessel functions and circular drum harmonics, Laguerre and Hermite orthogonal polynomials, self-adjoint Sturm-Liouville theory, reality of eigenvalues and orthogonality, Sturm oscillation and separation theorems, generalized Fourier expansions, solvability via the Fredholm Alternative, and explicit closed-form construction of Green's functions with 8 interactive 60 FPS simulations and 24 tiered solved university examination problems.",
+          topics: [
+            "Systems of Linear First-Order ODEs: Foundations, Operator Elimination & Phase Plane Topology",
+            "Homogeneous Matrix Systems with Constant Coefficients & Generalized Eigenvectors",
+            "The Fundamental Matrix, Matrix Exponential & Nonhomogeneous Systems",
+            "Series Solutions Near Ordinary Points & Legendre Differential Equation",
+            "Regular Singular Points & The Method of Frobenius (All 3 Indicial Cases)",
+            "Bessel Functions & Classical Orthogonal Systems (Laguerre & Hermite)",
+            "Sturm-Liouville Theory, Self-Adjoint Operators & Oscillation Theorems",
+            "Nonhomogeneous Boundary Value Problems, The Fredholm Alternative & Green's Functions"
           ]
         }
       ]
