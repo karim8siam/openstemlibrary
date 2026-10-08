@@ -790,6 +790,26 @@ window.LIBRARY_CATALOG = {
             "Trees, Spanning Trees & Shortest Path Algorithms",
             "Network Flows, Max-Flow Min-Cut Theorem & Combinatorial Optimization"
           ]
+        },
+        {
+          id: "tensor-analysis",
+          title: "Tensor Analysis: Differential Invariants & Curvature Tensors",
+          subtitle: "Index Notation & Affine Spaces, Tensor Algebra & Quotient Law, Riemannian Metrics & Index Manipulation, Christoffel Symbols & Geodesics, Covariant Differentiation & Ricci's Theorem, Curvature Tensors & Bianchi Identities, Hypersurfaces & Conformal Curvature, and Physical Applications to Continuum Mechanics, Electrodynamics & Gravitation",
+          status: "AVAILABLE",
+          url: "tensor-analysis.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Tensor Analysis Textbook, Tensor Calculus, Riemannian Geometry, Einstein Summation Convention, Kronecker Delta, Levi-Civita Permutation, Contravariant Vectors, Covariant Vectors, Tensor Algebra, Quotient Law, Metric Tensor, Reciprocal Metric, Christoffel Symbols, Levi-Civita Connection, Geodesics, Geodesic Deviation, Covariant Differentiation, Ricci Theorem, Differential Invariants, Laplace-Beltrami Operator, Parallel Transport, Holonomy, Riemann Curvature Tensor, Ricci Tensor, Scalar Curvature, Einstein Tensor, Bianchi Identities, Sectional Curvature, Schur Theorem, Conformal Curvature, Weyl Tensor, Cotton Tensor, Hypersurface Geometry, First Fundamental Form, Second Fundamental Form, Shape Operator, Gauss Theorema Egregium, Codazzi-Mainardi Equations, Stress-Energy Tensor, Covariant Maxwell Electrodynamics, Einstein Field Equations, Schwarzschild Metric, Perihelion Precession",
+          description: "Exhaustive honors-level master digital textbook on tensor analysis and Riemannian differential geometry: Einstein summation convention, dummy and free indices, generalized Kronecker delta and Levi-Civita permutation pseudo-tensors, contravariant and covariant vector transformation laws, affine spaces and tangent spaces, tensor algebra operations including outer product, index contraction, inner products, symmetric and antisymmetric decomposition, the fundamental Quotient Law with unskipped proofs, Riemannian and pseudo-Riemannian metric tensors, conjugate metric determinants, derivative identities and Jacobi formulas, musical isomorphisms for raising and lowering indices, Christoffel symbols of the first and second kinds, non-tensorial inhomogeneous transformation rules, the Levi-Civita metric-compatible connection, contracted connection divergence formulas, geodesic equations derived from the variational principle, geodesic deviation and tidal Jacobi fields, covariant differentiation of general type (r, s) tensors, product rules, Ricci's Theorem proving covariant constancy of the metric, invariant gradient, divergence, curl, and Laplace-Beltrami operators, parallel transport, holonomy and the Foucault pendulum, the Riemann curvature tensor derived from commutators of covariant derivatives, full algebraic symmetries, formula for the n^2(n^2-1)/12 independent components, Ricci tensor, scalar curvature, Einstein tensor, first and second Bianchi differential identities, twice-contracted Bianchi identity and conservation laws, sectional curvature and Schur's Theorem, Riemannian flatness criteria, Weyl conformal curvature tensor in n dimensions, Cotton-York tensor in 3D, geometry of embedded hypersurfaces, first and second fundamental forms, Weingarten shape operator, principal curvatures, Mean and Gaussian curvature, Gauss-Codazzi-Mainardi embedding equations, Cauchy stress and continuum momentum conservation, covariant Maxwell electrodynamics, 4-potential and Faraday field tensor, the geodesic principle and gravitational time dilation / redshift, derivation of the Einstein field equations with cosmological constant, and the exact Schwarzschild black hole solution with planetary perihelion precession and gravitational starlight bending. Features 8 interactive 60 FPS Canvas simulations and 24 tiered solved examination problems with complete line-by-line mathematical proofs.",
+          topics: [
+            "Coordinates, Index Notation, Summation Convention & Affine Spaces",
+            "Tensor Algebra, Operations & The Quotient Law",
+            "Metric Tensors, Riemannian Spaces & Index Manipulation",
+            "Christoffel Symbols & Affine Connections",
+            "Covariant Differentiation & Ricci's Theorem",
+            "Curvature Tensors: Riemann, Ricci & Bianchi Identities",
+            "Special Geometries, Flat Spaces & Hypersurfaces",
+            "Physical Applications: Continuum Mechanics, Electromagnetism & Gravitation"
+          ]
         }
       ]
     }

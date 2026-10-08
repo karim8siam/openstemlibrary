@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-generate_dm_html.py
-Generates discrete-mathematics.html with exact layout parity to partial-differential-equations.html,
-topology.html, number-theory.html, real-analysis.html, etc.
+generate_tensor_html.py
+Generates tensor-analysis.html with exact layout parity to discrete-mathematics.html,
+partial-differential-equations.html, topology.html, number-theory.html, real-analysis.html, etc.
 Deep SEO meta tags, Schema.org JSON-LD (strictly zero course numbers),
 pre-rendered Unit 1 sections & worked problems (fully formatted semantic HTML with callout blockquotes),
 interactive Canvas simulations mount, font toggle, live topic search, and comprehensive trust footer.
 """
 
 import re
-import build_dm_unit1
+import build_tensor_unit1
 
 def format_markdown_to_html(text):
     if not text:
@@ -159,7 +159,7 @@ def format_markdown_to_html(text):
 
 
 def generate_html():
-    u1 = build_dm_unit1.get_unit1()
+    u1 = build_tensor_unit1.get_unit1()
 
     # Pre-render Unit 1 Sections
     rendered_sections = []
@@ -174,17 +174,17 @@ def generate_html():
             sim_mount_html = f"""
 <div class="simulation-card" style="margin: 1.5rem 0;">
   <div class="sim-header">
-    <div class="sim-title">Propositional Logic Truth Tables & Digital Gate Engine</div>
+    <div class="sim-title">2D Curvilinear Coordinate Transformations & Basis Vectors Engine</div>
     <div class="sim-badge">60 FPS Real-Time Canvas Engine</div>
   </div>
   <div class="canvas-wrapper">
     <canvas id="sim-u1-canvas" width="800" height="420" class="sim-canvas"></canvas>
   </div>
   <div class="sim-controls" id="sim-u1-controls" style="display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center; padding: 0.75rem 1rem; background: #0b1120; border-top: 1px solid #1e293b;">
-    <!-- Controls populated dynamically by sim_dm_logic_truth_tables -->
+    <!-- Controls populated dynamically by sim_tensor_coord_transform -->
   </div>
   <div class="sim-desc" style="padding: 0.75rem 1rem; color: #94a3b8; font-size: 0.85rem; line-height: 1.4; border-top: 1px solid rgba(255,255,255,0.05);">
-    Synthesize and evaluate propositional expressions and digital logic circuits in real time. Observe live truth values propagating through AND, OR, NOT, NAND, NOR, and XOR gates, generate complete 8-row truth tables, and examine Canonical DNF minterm extractions.
+    Interact with curvilinear coordinate transformations across Cartesian, Polar, Elliptic, and Hyperbolic coordinate systems. Drag points to dynamically observe the contravariant tangent basis vectors $\mathbf{{e}}_i = \frac{{\partial \mathbf{{r}}}}{{\partial x^i}}$ and covariant normal dual covector basis $\mathbf{{e}}^i = \nabla x^i$ with live metric component calculations.
   </div>
 </div>
 """
@@ -205,7 +205,7 @@ def generate_html():
     rendered_problems = []
     for p_idx, prob in enumerate(u1["problems"], 1):
         tier = prob["tier"]
-        diff_class = "diff-easy" if "Foundational" in tier else ("diff-medium" if "Advanced" in tier else "diff-hard")
+        diff_class = "diff-easy" if "Foundational" in tier or "Fundamentals" in tier else ("diff-medium" if "Advanced" in tier or "Computational" in tier else "diff-hard")
         title = prob["title"]
         stmt_html = format_markdown_to_html(prob["statement"])
         sol_html = format_markdown_to_html(prob["solution"])
@@ -242,17 +242,17 @@ def generate_html():
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Comprehensive SEO Meta Tags -->
-  <title>Discrete Mathematics: Mathematical Reasoning, Combinatorics, Graph Algorithms & Network Flows | OpenSTEM Digital Academic Press</title>
-  <meta name="description" content="Free comprehensive university honors digital textbook on discrete mathematics: propositional and predicate logic, rules of inference, proof techniques, mathematical induction, well-ordering, program verification via Hoare logic, counting principles, pigeonhole principle, inclusion-exclusion, recurrence relations, generating functions, relations, posets, lattices, Boolean algebra, Karnaugh maps, graph theory, Eulerian trails, Hamiltonian cycles, trees, minimum spanning trees, shortest paths, and network flows with the max-flow min-cut theorem. Features 8 interactive 60 FPS Canvas simulations and 24 tiered solved problems with complete line-by-line mathematical proofs.">
-  <meta name="keywords" content="Discrete Mathematics, Mathematical Reasoning, Propositional Logic, Predicate Calculus, Mathematical Induction, Well Ordering Principle, Hoare Logic, Loop Invariants, Combinatorics, Pigeonhole Principle, Principle of Inclusion Exclusion, Recurrence Relations, Master Theorem, Generating Functions, Catalan Numbers, Binary Relations, Posets, Hasse Diagrams, Lattices, Boolean Algebra, Karnaugh Maps, Graph Theory, Handshaking Lemma, Eulerian Trails, Hamiltonian Cycles, Trees, Cayley Formula, Minimum Spanning Tree, Kruskal Algorithm, Prim Algorithm, Dijkstra Algorithm, Floyd Warshall Algorithm, Network Flows, Max-Flow Min-Cut Theorem, Ford Fulkerson, Edmonds Karp">
+  <title>Tensor Analysis: Differential Invariants, Riemannian Metrics, Covariant Differentiation & Curvature Tensors | OpenSTEM Digital Academic Press</title>
+  <meta name="description" content="Free comprehensive university honors digital textbook on tensor analysis: Einstein summation convention, generalized Kronecker delta, Levi-Civita permutation pseudo-tensors, contravariant and covariant vectors, tensor algebra and quotient law, Riemannian and pseudo-Riemannian metrics, Christoffel symbols, geodesics, covariant differentiation, Ricci's theorem, differential invariants, Riemann and Ricci curvature tensors, Bianchi identities, sectional curvature, Schur's theorem, Riemannian flatness, Weyl conformal tensor, hypersurfaces and Gauss-Codazzi equations, continuum stress, covariant electrodynamics, and Einstein field equations with the Schwarzschild metric. Features 8 interactive 60 FPS Canvas simulations and 24 tiered solved problems with complete line-by-line mathematical proofs.">
+  <meta name="keywords" content="Tensor Analysis, Tensor Calculus, Riemannian Geometry, Differential Geometry, Einstein Summation Convention, Kronecker Delta, Levi-Civita Permutation Symbol, Contravariant Vectors, Covariant Vectors, Tensor Algebra, Quotient Law, Metric Tensor, Reciprocal Metric, Christoffel Symbols, Levi-Civita Connection, Geodesics, Geodesic Deviation, Covariant Differentiation, Ricci Theorem, Differential Invariants, Laplace-Beltrami Operator, Parallel Transport, Holonomy, Riemann Curvature Tensor, Ricci Tensor, Scalar Curvature, Einstein Tensor, Bianchi Identities, Sectional Curvature, Schur Theorem, Conformal Curvature, Weyl Tensor, Cotton Tensor, Hypersurface Geometry, First Fundamental Form, Second Fundamental Form, Shape Operator, Gauss Theorema Egregium, Codazzi-Mainardi Equations, Stress-Energy Tensor, Covariant Maxwell Electrodynamics, Einstein Field Equations, Schwarzschild Metric, Perihelion Precession">
   <meta name="author" content="Shahriyar Karim Siam">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://openstemlibrary.com/discrete-mathematics.html">
+  <link rel="canonical" href="https://openstemlibrary.com/tensor-analysis.html">
 
   <!-- Open Graph / Social Media -->
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Discrete Mathematics: Mathematical Reasoning, Combinatorics, Graph Algorithms & Network Flows | OpenSTEM Digital Academic Press">
-  <meta property="og:description" content="Exhaustive university honors textbook with 8 chapters, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
+  <meta property="og:title" content="Tensor Analysis: Differential Invariants, Riemannian Metrics, Covariant Differentiation & Curvature Tensors | OpenSTEM Digital Academic Press">
+  <meta property="og:description" content="Exhaustive university honors textbook with 8 units, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
   <meta property="og:image" content="https://openstemlibrary.com/logo.svg">
 
   <!-- Favicon -->
@@ -263,8 +263,8 @@ def generate_html():
   {{
     "@context": "https://schema.org",
     "@type": "Course",
-    "name": "Discrete Mathematics: Mathematical Reasoning, Combinatorics, Graph Algorithms & Network Flows",
-    "description": "Comprehensive university honors curriculum covering formal logic, inference, proof techniques, mathematical induction, program correctness, enumerative combinatorics, pigeonhole principle, recurrence relations, generating functions, relations, posets, Boolean algebra, graph algorithms, trees, spanning trees, shortest paths, and network flows.",
+    "name": "Tensor Analysis: Differential Invariants, Riemannian Metrics, Covariant Differentiation & Curvature Tensors",
+    "description": "Comprehensive university honors curriculum covering index notation, tensor algebra, Riemannian metrics, Christoffel symbols, geodesics, covariant differentiation, Ricci's theorem, curvature tensors, Bianchi identities, hypersurface geometry, conformal curvature, continuum mechanics, relativistic electrodynamics, and Einstein field equations.",
     "provider": {{
       "@type": "EducationalOrganization",
       "name": "OpenSTEM Digital Academic Press",
@@ -286,7 +286,7 @@ def generate_html():
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
   <!-- Application Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=20261008_v8">
+  <link rel="stylesheet" href="styles.css?v=20261008_v9">
 </head>
 <body>
 
@@ -296,14 +296,14 @@ def generate_html():
       <div class="brand-header">
         <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
         <div>
-          <div class="brand-title">Discrete Mathematics</div>
+          <div class="brand-title">Tensor Analysis</div>
           <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
         </div>
       </div>
 
       <!-- Live Search Filter for SEO / Navigation -->
       <div class="search-box-container">
-        <input type="text" id="topic-search-input" placeholder="🔍 Search logic, induction, combinatorics, recurrences, posets, graphs, trees, max-flow..." class="search-input">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search indices, metrics, Christoffel, covariant derivatives, curvature, Bianchi, Einstein..." class="search-input">
       </div>
 
       <div class="nav-section-title">Table of Contents</div>
@@ -317,8 +317,8 @@ def generate_html():
       <!-- Top Sticky Navbar -->
       <header class="top-navbar">
         <div class="course-badge-container">
-          <span class="badge-pill badge-course">Mathematics / Discrete Mathematics</span>
-          <span class="badge-pill badge-credits">Combinatorics, Graph Theory & Algorithms</span>
+          <span class="badge-pill badge-course">Mathematics / Tensor Analysis</span>
+          <span class="badge-pill badge-credits">Differential Invariants & Curvature Tensors</span>
           <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
         </div>
         <div class="navbar-actions">
@@ -337,9 +337,9 @@ def generate_html():
           <!-- Chapter Hero Header -->
           <header class="unit-hero">
             <div class="unit-number-tag" id="unit-tag">Chapter 1 • Theory & Derivations</div>
-            <h1 class="unit-title-heading" id="unit-title">Propositional & Predicate Logic, Inference & Formal Proof Techniques</h1>
+            <h1 class="unit-title-heading" id="unit-title">Coordinates, Index Notation, Summation Convention & Affine Spaces</h1>
             <p class="unit-desc-lead" id="unit-desc">
-              Foundations of formal mathematical logic: truth tables, logical connectives, conjunctive and disjunctive normal forms, predicate calculus with nested quantifiers, classical rules of inference, detection of deductive fallacies, and rigorous proof methods including direct, contrapositive, contradiction, case exhaustion, and non-constructive existence proofs.
+              Foundations of tensor calculus: $n$-dimensional Euclidean and affine spaces, Einstein summation convention, dummy and free index discipline, the generalized Kronecker delta $\delta^i_j$, Levi-Civita permutation pseudo-tensors $\epsilon_{{ijk}}$ and $\epsilon^{{ijk}}$, coordinate transformations, and transformation laws for contravariant vectors $A^i$ and covariant vectors $B_i$.
             </p>
           </header>
 
@@ -401,8 +401,8 @@ def generate_html():
               <a href="number-theory.html" class="reader-trust-link">Theory of Numbers</a>
               <a href="topology.html" class="reader-trust-link">General Topology</a>
               <a href="partial-differential-equations.html" class="reader-trust-link">Partial Differential Equations</a>
-              <a href="discrete-mathematics.html" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Discrete Mathematics</a>
-              <a href="tensor-analysis.html" class="reader-trust-link">Tensor Analysis</a>
+              <a href="discrete-mathematics.html" class="reader-trust-link">Discrete Mathematics</a>
+              <a href="tensor-analysis.html" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Tensor Analysis</a>
               <a href="about.html" class="reader-trust-link">About & Editorial</a>
               <a href="privacy.html" class="reader-trust-link">Privacy Policy</a>
               <a href="terms.html" class="reader-trust-link">Terms of Service</a>
@@ -419,22 +419,22 @@ def generate_html():
   </div>
 
   <!-- Textbook Application Scripts -->
-  <script src="discrete-mathematics-sims.js?v=20261008_v9"></script>
-  <script src="discrete-mathematics-data.js?v=20261008_v9"></script>
+  <script src="tensor-analysis-sims.js?v=20261008_v9"></script>
+  <script src="tensor-analysis-data.js?v=20261008_v9"></script>
   <script src="app.js?v=20261008_v9"></script>
 </body>
 </html>
 """
 
     # Check for strictly zero course numbers
-    course_code_matches = re.findall(r'MTH[\s-]*\d+|4107', html_content, re.IGNORECASE)
+    course_code_matches = re.findall(r'MTH[\s-]*\d+|4202', html_content, re.IGNORECASE)
     if course_code_matches:
         raise ValueError(f"STRICT ERROR: Prohibited course codes detected in HTML: {course_code_matches}")
 
-    with open("discrete-mathematics.html", "w", encoding="utf-8") as f:
+    with open("tensor-analysis.html", "w", encoding="utf-8") as f:
         f.write(html_content)
 
-    print("Successfully generated discrete-mathematics.html with pre-rendered Unit 1 and zero course numbers.")
+    print("Successfully generated tensor-analysis.html with pre-rendered Unit 1 and zero course numbers.")
 
 if __name__ == "__main__":
     generate_html()
