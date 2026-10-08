@@ -770,6 +770,26 @@ window.LIBRARY_CATALOG = {
             "Boundary Value Problems with Cylindrical & Spherical Symmetry: Special Functions",
             "Integral Transform Methods & Green's Functions for Inhomogeneous PDEs"
           ]
+        },
+        {
+          id: "discrete-mathematics",
+          title: "Discrete Mathematics: Reasoning, Combinatorics & Network Flows",
+          subtitle: "Propositional & Predicate Logic, Inference & Proof Techniques, Mathematical Induction & Program Verification, Combinatorial Analysis & Pigeonhole Principle, Recurrence Relations & Generating Functions, Relations, Posets, Lattices & Boolean Algebra, Graph Theory & Hamiltonian Cycles, Trees & Shortest Path Algorithms, and Network Flows & Max-Flow Min-Cut Theorem",
+          status: "AVAILABLE",
+          url: "discrete-mathematics.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Discrete Mathematics Textbook, Propositional Logic, Predicate Calculus, Mathematical Induction, Well-Ordering Principle, Hoare Logic, Loop Invariants, Combinatorics, Pigeonhole Principle, Principle of Inclusion Exclusion, Recurrence Relations, Master Theorem, Generating Functions, Catalan Numbers, Binary Relations, Posets, Hasse Diagrams, Lattices, Boolean Algebra, Karnaugh Maps, Graph Theory, Handshaking Lemma, Eulerian Trails, Hamiltonian Cycles, Trees, Cayley Formula, Minimum Spanning Tree, Kruskal Algorithm, Prim Algorithm, Dijkstra Algorithm, Floyd Warshall Algorithm, Network Flows, Max-Flow Min-Cut Theorem, Ford Fulkerson, Edmonds Karp",
+          description: "Exhaustive honors-level master digital textbook on discrete mathematics: formal propositional logic and predicate calculus with alternating quantifiers, normal forms (CNF and DNF), Sheffer stroke functional completeness, deductive inference rules and resolution refutation proofs, direct, contrapositive, contradiction, and non-constructive existence proof techniques, the Principle of Mathematical Induction (weak and strong) and equivalence with the Well-Ordering Principle, structural induction on binary trees and formal program verification via Hoare logic, loop invariants, and well-founded termination ranking functions, foundational combinatorial enumeration principles, permutations, combinations, stars-and-bars integer compositions, multinomial coefficients and Vandermonde convolutions, Dirichlet's pigeonhole principle, generalized pigeonhole, Erdős-Szekeres theorem and Ramsey numbers, the Principle of Inclusion-Exclusion (PIE) for surjections and derangements, linear homogeneous and non-homogeneous recurrence relations, the Master Theorem for divide-and-conquer algorithms, ordinary generating functions (OGF) for Catalan sequences, exponential generating functions (EGF), binary relations, transitive closures and Warshall's algorithm, equivalence relations and set partitions, partially ordered sets (posets), Hasse diagrams and topological sorting, complete, distributive, and complemented lattices, Boolean algebra Huntington axiomatization and duality, 4-variable Gray-coded Karnaugh map loops, Quine-McCluskey tabular reduction, graph topology, Handshaking Lemma and Havel-Hakimi graphic sequence test, Eulerian trails and Hierholzer's cycle-splicing algorithm, Hamiltonian cycles, Ore's and Dirac's sufficiency theorems, Traveling Salesperson Problem complexity, characterization of trees, Cayley's labeled tree formula, Huffman prefix codes, Minimum Spanning Trees (MST) with Kruskal's DSU and Prim's algorithm, Dijkstra's single-source shortest path priority queue algorithm, Floyd-Warshall dynamic programming for all-pairs shortest paths with negative cycle detection, flow networks, flow conservation laws, residual capacities and augmenting paths, Edmonds-Karp BFS polynomial bound, Dinic's blocking flows, push-relabel schemes, the Max-Flow Min-Cut Theorem with full duality proof, and reductions to Maximum Bipartite Matching, Hall's Marriage Theorem, and Menger's Theorem for edge-disjoint paths. Features 8 interactive 60 FPS Canvas simulations and 24 tiered solved examination problems with complete line-by-line mathematical proofs.",
+          topics: [
+            "Propositional & Predicate Logic, Inference & Formal Proof Techniques",
+            "Mathematical Induction, Well-Ordering & Program Verification",
+            "Combinatorial Analysis, Pigeonhole Principle & Inclusion-Exclusion",
+            "Recurrence Relations, Generating Functions & Divide-and-Conquer",
+            "Relations, Posets, Lattices & Boolean Algebra",
+            "Graph Theory: Connectivity, Eulerian Circuits & Hamiltonian Cycles",
+            "Trees, Spanning Trees & Shortest Path Algorithms",
+            "Network Flows, Max-Flow Min-Cut Theorem & Combinatorial Optimization"
+          ]
         }
       ]
     }
