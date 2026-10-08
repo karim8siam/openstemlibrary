@@ -899,6 +899,27 @@ window.LIBRARY_CATALOG = {
             "Oxygen & Sulfur Functional Groups: Alcohols, Phenols, Ethers, Epoxides & Sulfides",
             "Fundamental Heterocyclic Chemistry: Five- & Six-Membered Rings"
           ]
+        },
+        {
+          id: "organic-chemistry-2",
+          title: "Organic Chemistry II: Polynuclear Aromatics, Carbonyl Dynamics, Carboxylic Derivatives, Nitrogen Systems, Advanced Stereochemistry & Medicinal Syntheses",
+          subtitle: "Polynuclear Aromatic Hydrocarbons & Clar Sextet Theory, Aldehydes and Ketones: Nucleophilic Trajectories & Condensations, Carboxylic Acids & Hammett Free Energy Relationships, Carboxylic Acid Derivatives & Tetrahedral Intermediates, Nitrogen Systems: Amines, Diazonium Salts & Azo Dyes, Advanced Stereochemistry: Optical Activity, Axial/Planar Chirality & Chiral Models, Bi-functional Compounds & Pericyclic Reactions, Synthesis of Important Organic Pharmaceuticals, and Heterocycles with Multiple Heteroatoms & Fused Rings",
+          status: "AVAILABLE",
+          url: "organic-chemistry-2.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Organic Chemistry II Textbook, Polynuclear Aromatic Hydrocarbons, Naphthalene, Anthracene, Phenanthrene, Clar Sextet Theory, Haworth Synthesis, Bay Region Diol Epoxide, Burgi-Dunitz Trajectory, Carbonyl Nucleophilic Addition, Aldol Condensation, E1cB Elimination, Cannizzaro Reaction, Benzoin Condensation, Mannich Reaction, Wittig Reaction, Stork Enamine, Hammett Equation, Hell-Volhard-Zelinsky, Carboxylic Acids, Nucleophilic Acyl Substitution, Tetrahedral Intermediate, Ingold Hydrolysis, Amide Resonance, Soaps and Detergents, Micelle Thermodynamics, Critical Micelle Concentration, Amines, Pyramidal Inversion, Hofmann Elimination, Curtius Rearrangement, Arenediazonium Salts, Sandmeyer Reaction, Azo Coupling, Stereochemistry, Chirality, Atropisomerism, Felkin-Anh Model, Cram Chelate, Chiral Resolution, Active Methylenes, Ethyl Acetoacetate, Diethyl Malonate, Michael Addition, Robinson Annulation, Woodward-Hoffmann Rules, Medicinal Chemistry, Sulfa Drugs, Aspirin, Paracetamol, Antimalarials, Barbiturates, Heterocycles, Imidazole, Thiazole, Fischer Indole Synthesis, Skraup Quinoline Synthesis",
+          description: "Comprehensive university honors master digital textbook on Organic Chemistry II: polynuclear aromatic hydrocarbons, naphthalene, anthracene, phenanthrene, Clar sextet aromatic topology, Haworth synthesis, K-region and bay-region diol epoxide carcinogenesis; aldehydes and ketones, Bürgi-Dunitz 107° nucleophilic trajectory, enolates, aldol and E1cB condensations, Claisen-Schmidt, Cannizzaro, Benzoin, Mannich reaction, Wittig olefination, Stork enamines; carboxylic acids, Hammett linear free-energy relationships, Hell-Volhard-Zelinsky bromination, dicarboxylic and unsaturated acids, pericyclic decarboxylations; carboxylic acid derivatives, SN-Ac tetrahedral intermediate dynamics, Ingold ester hydrolysis matrix, amide resonance and rotation barriers, nitriles, lipids, soaps, and micelle thermodynamics; amines, nitrogen stereodynamics, pyramidal inversion, amine basicity anomalies, Hofmann elimination, Curtius/Hofmann rearrangements; arenediazonium salts, Sandmeyer, Gomberg-Bachmann, azo coupling dyes and UV-Vis chromophores; stereochemistry, point groups, improper rotations, axial, planar, and helical chirality, atropisomerism, Felkin-Anh and Cram chelation models, chiral auxiliaries; active methylenes, ethyl acetoacetate, diethyl malonate, Knoevenagel, Michael additions, Robinson annulation, Woodward-Hoffmann pericyclic rules; medicinal organic syntheses, sulfa drugs and DHPS antagonism, aspirin/paracetamol COX acetylation, chloroquine/artemisinin antimalarials, barbiturates, artificial sweeteners; and advanced heterocycles, imidazole, oxazole, thiazole, Breslow intermediates, indole Fischer synthesis, quinoline Skraup reaction, isoquinoline Bischler-Napieralski. Features 10 interactive 60 FPS Canvas simulations and 81 tiered solved examination problems with complete step-by-step mathematical proofs.",
+          topics: [
+            "Polynuclear Aromatic Hydrocarbons: Clar Sextet Topology, Haworth Syntheses & Bay-Region Carcinogenicity",
+            "Aldehydes and Ketones: Bürgi-Dunitz Trajectory, Carbonyl Additions & Enolate Condensations",
+            "Carboxylic Acids, Hydroxy Acids, Unsaturated Acids & Hammett Free Energy Relationships",
+            "Carboxylic Acid Derivatives, Acyl Substitution, Amide Dynamics, Soaps & Micelles",
+            "Nitrogen Systems: Amines, Pyramidal Inversion, Arenediazonium Salts & Azo Dyes",
+            "Advanced Stereochemistry: Optical Activity, Axial/Planar Chirality, Felkin-Anh Models & Resolution",
+            "Bi-functional Compounds: Active Methylenes, Michael Additions & Pericyclic Reactions",
+            "Synthesis of Important Organic Pharmaceuticals: Sulfa Drugs, Aspirin, Antimalarials & Bio-Actives",
+            "Heterocycles with Multiple Heteroatoms & Fused Ring Systems: Imidazole, Indole, Quinoline & Purines"
+          ]
         }
       ]
     }
