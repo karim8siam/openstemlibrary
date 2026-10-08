@@ -710,6 +710,26 @@ window.LIBRARY_CATALOG = {
             "Lines of Curvature, Asymptotic Curves & The Dupin Indicatrix",
             "Fundamental Equations of Surface Theory & Theorema Egregium"
           ]
+        },
+        {
+          id: "number-theory",
+          title: "Theory of Numbers: Divisibility, Congruences & Forms",
+          subtitle: "Divisibility, Fundamental Theorem of Arithmetic, Continued Fractions, Pell's Equation, Classical Modular Theorems, Arithmetical Functions, Dirichlet Convolution, Quadratic Reciprocity & Sums of Squares",
+          status: "AVAILABLE",
+          url: "number-theory.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Theory of Numbers Textbook, Number Theory, Divisibility, Euclidean Algorithm, Bezout Identity, Fundamental Theorem of Arithmetic, Primes, Continued Fractions, Pell Equation, Congruences, Chinese Remainder Theorem, Fermats Little Theorem, Eulers Totient Theorem, Wilsons Theorem, Primitive Roots, Indices, Discrete Logarithms, Arithmetic Functions, Dirichlet Convolution, Mobius Inversion, Average Orders, Ramanujan Sums, Pythagorean Triples, Fermats Last Theorem, Infinite Descent, Quadratic Reciprocity, Legendre Symbol, Sums of Squares, Gaussian Integers, Lagranges Four-Square Theorem, Legendres Three-Square Theorem",
+          description: "Exhaustive honors-level master digital textbook on elementary, algebraic, and analytic number theory: divisibility relation, Division Algorithm, greatest common divisor, Bézout's identity, the Euclidean Algorithm, prime numbers and Euclid's infinitude theorem, Sieve of Eratosthenes, Fundamental Theorem of Arithmetic (unique factorization), p-adic valuations, finite simple continued fractions, infinite continued fractions and irrational numbers, best rational approximations, Dirichlet's Approximation Theorem, Pell's Diophantine equation x^2 - d y^2 = 1, fundamental unit, congruence relations and residue classes, linear congruences, system congruences and the Chinese Remainder Theorem, Fermat's Little Theorem, Euler's Totient Theorem, Wilson's Theorem, orders of elements, primitive roots and cyclic units modulo n, discrete logarithms (indices), multiplicative arithmetical functions, divisor function d(n), sum-of-divisors function sigma(n), Euler's phi function phi(n), Dirichlet convolution algebra, Dirichlet inverse, Möbius function mu(n) and Möbius Inversion Formula, average orders of arithmetical functions (Dirichlet divisor problem), Ramanujan sums c_q(n) and finite Fourier analysis, primitive Pythagorean triples (m^2-n^2, 2mn, m^2+n^2), Fermat's Method of Infinite Descent, impossibility of x^4 + y^4 = z^2 and FLT for n=4, non-existence of right triangles with square area, quadratic residues, Legendre symbol, Euler's Criterion, Gauss's Lemma and the Law of Quadratic Reciprocity, sums of two squares (Fermat's Christmas Theorem), Gaussian integers Z[i] and classification of Gaussian primes, general two-square characterization and Jacobi's divisor excess formula r_2(n) = 4(d_1(n) - d_3(n)), Euler's four-square identity, Hamilton quaternions H, Lagrange's Four-Square Theorem via minimal descent, and Legendre's Three-Square Theorem (n != 4^a(8b+7)). Features 8 interactive 60 FPS Canvas simulations and 24 tiered solved examination problems with complete line-by-line mathematical proofs.",
+          topics: [
+            "Divisibility Theory & The Fundamental Theorem of Arithmetic",
+            "Continued Fractions & Pell's Diophantine Equation",
+            "Theory of Congruences & The Chinese Remainder Theorem",
+            "Classical Theorems: Fermat, Euler, Wilson & Primitive Roots",
+            "Arithmetical Functions & Dirichlet Convolution",
+            "Möbius Inversion, Average Orders & Ramanujan Sums",
+            "Non-Linear Diophantine Equations & Fermat's Descent",
+            "Representation of Integers as Sums of Squares"
+          ]
         }
       ]
     }
