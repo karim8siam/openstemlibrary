@@ -859,6 +859,26 @@ window.LIBRARY_CATALOG = {
             "Chemical Equilibrium: Dynamic Equilibria, Law of Mass Action & Le Chatelier's Principle",
             "Electrochemistry: Galvanic Cells, Nernst Equation, Batteries, Corrosion & Electrolysis"
           ]
+        },
+        {
+          id: "inorganic-chemistry-1",
+          title: "Inorganic Chemistry I: Atomic Structure, Periodic Trends, Chemical Bonding, Acid-Base Equilibria & Redox Systems",
+          subtitle: "Quantum Theory of the Atom & Electronic Structure, Periodicity & Relativistic Dirac Effects, Ionic Bonding & Crystal Energetics, Advanced Covalent Architectures & Hypervalency, VSEPR & Molecular Symmetry Group Theory, Valence Bond & Molecular Orbital Frameworks, Secondary Bonding & Generalized Acid-Base Models, and Precipitation & Electrochemical Potential Landscapes",
+          status: "AVAILABLE",
+          url: "inorganic-chemistry-1.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Inorganic Chemistry Textbook, Atomic Structure, Quantum Theory, Bohr Model, Schrödinger Equation, Radial Distribution, Slater Rules, Effective Nuclear Charge, Moseley Law, Periodic Trends, Atomic Radii, Ionization Energy, Electron Affinity, Pauling Electronegativity, Relativistic Effects, Dirac Contraction, Lanthanide Contraction, Inert Pair Effect, Ionic Bonding, Born-Haber Cycle, Lattice Energy, Madelung Constant, Born-Lande Equation, Kapustinskii Equation, Radius Ratio Rules, Fajans Rules, Crystal Defects, Superionic Conduction, Covalent Bonding, Lewis Structures, Hypervalency, 3c-4e Bond, Resonance, Bond Enthalpy, Dipole Moment, VSEPR Theory, Bents Rule, Coulsons Theorem, Group Theory, Point Groups, Molecular Symmetry, Valence Bond Theory, Hybridization, Molecular Orbital Theory, LCAO, Diatomic MO, Paramagnetism of Oxygen, Backbonding, Secondary Bonding, Hydrogen Bonding, Acid-Base Theories, Lux-Flood, Pearson HSAB, Chemical Hardness, Polyprotic Acids, Buffer Capacity, Superacids, Redox Reactions, Nernst Equation, Latimer Diagram, Frost Diagram, Pourbaix Diagram, Corrosion Passivation",
+          description: "Comprehensive university honors master digital textbook on inorganic chemistry: quantum theory of the atom, Bohr-Sommerfeld model, de Broglie matter waves, Heisenberg uncertainty principle, Schrödinger wave equation, radial and angular wavefunctions, quantum numbers, electron configurations, Hund's rules, Pauli exclusion principle, and Slater effective nuclear charge; periodic properties of elements, Moseley's law, atomic/ionic/covalent radii, ionization energies, electron affinities, Pauling, Mulliken, Allred-Rochow, and Allen electronegativity scales, inert pair effect, and Dirac relativistic orbital contraction; ionic bonding, Born-Haber thermochemical cycles, Madelung constants, Evjen neutral cell summation, Born-Landé and Kapustinskii equations, radius ratio packing rules, Fajan's polarization rules, crystal point defects, and superionic conductors; covalent bonding, Lewis formalisms, formal charges, Pimentel-Rundle 3c-4e hypervalency, Morse potential, bond enthalpies, percent ionic character, Natural Bond Orbital (NBO) analysis, and Wade's rules; molecular geometries, VSEPR theory, Gillespie-Nyholm axioms, Bent's rule, Coulson's theorem, group theoretical point groups, and vibrational selection rules; quantum theories of bonding, Heitler-London valence bond theory, orbital hybridization, molecular orbital theory, LCAO secular determinants, homonuclear diatomics, 2s-2p mixing, paramagnetism of O2, heteronuclear diatomics, and metal carbonyl pi-backbonding; intermolecular interactions, hydrogen bonding, Arrhenius, Brønsted-Lowry, Lewis, Lux-Flood, and Usanovich acid-base models, Pearson's HSAB principle, absolute hardness, polyprotic speciation, buffer capacity, and superacids; and inorganic reactions, precipitation equilibria, solubility products, redox equation balancing, Nernst equation, Latimer diagrams, Frost oxidation state landscapes, and Pourbaix potential-pH phase diagrams. Features 8 interactive 60 FPS Canvas simulations and 32 tiered solved examination problems with complete line-by-line mathematical proofs.",
+          topics: [
+            "Quantum Theory of the Atom, Wave Mechanics & Electronic Architecture",
+            "Periodicity of the Elements, Electronic Shielding & Relativistic Effects",
+            "The Chemical Bond I: Ionic Bonding, Crystal Energetics & Superionic Conductors",
+            "The Chemical Bond II: Covalent Bonding, Hypervalency & Cluster Topologies",
+            "Molecular Geometry: VSEPR Theory, Bent's Rule & Symmetry Group Theory",
+            "Quantum Theories of Bonding: Valence Bond & Molecular Orbital Frameworks",
+            "Secondary Bonding, Intermolecular Forces & Advanced Acid-Base Equilibria",
+            "Inorganic Chemical Reactions: Precipitation, Redox Spontaneity & Potential Diagrams"
+          ]
         }
       ]
     }
