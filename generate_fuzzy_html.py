@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-generate_tensor_html.py
-Generates tensor-analysis.html with exact layout parity to discrete-mathematics.html,
-partial-differential-equations.html, topology.html, number-theory.html, real-analysis.html, etc.
+generate_fuzzy_html.py
+Generates fuzzy-mathematics.html with exact layout parity to tensor-analysis.html,
+discrete-mathematics.html, partial-differential-equations.html, etc.
 Deep SEO meta tags, Schema.org JSON-LD (strictly zero course numbers),
 pre-rendered Unit 1 sections & worked problems (fully formatted semantic HTML with callout blockquotes),
 interactive Canvas simulations mount, font toggle, live topic search, and comprehensive trust footer.
 """
 
 import re
-import build_tensor_unit1
+import build_fuzzy_unit1
 
 def format_markdown_to_html(text):
     if not text:
@@ -159,7 +159,7 @@ def format_markdown_to_html(text):
 
 
 def generate_html():
-    u1 = build_tensor_unit1.get_unit1()
+    u1 = build_fuzzy_unit1.get_unit1()
 
     # Pre-render Unit 1 Sections
     rendered_sections = []
@@ -171,20 +171,20 @@ def generate_html():
         sim_mount_html = ""
         if s_idx == 5:
             # Mount Simulation 1 in section 1.5
-            sim_mount_html = f"""
+            sim_mount_html = """
 <div class="simulation-card" style="margin: 1.5rem 0;">
   <div class="sim-header">
-    <div class="sim-title">2D Curvilinear Coordinate Transformations & Basis Vectors Engine</div>
+    <div class="sim-title">Visual Parametric Membership Function Synthesizer</div>
     <div class="sim-badge">60 FPS Real-Time Canvas Engine</div>
   </div>
   <div class="canvas-wrapper">
     <canvas id="sim-u1-canvas" width="800" height="420" class="sim-canvas"></canvas>
   </div>
   <div class="sim-controls" id="sim-u1-controls" style="display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center; padding: 0.75rem 1rem; background: #0b1120; border-top: 1px solid #1e293b;">
-    <!-- Controls populated dynamically by sim_tensor_coord_transform -->
+    <!-- Controls populated dynamically by sim_fuzzy_membership_designer -->
   </div>
   <div class="sim-desc" style="padding: 0.75rem 1rem; color: #94a3b8; font-size: 0.85rem; line-height: 1.4; border-top: 1px solid rgba(255,255,255,0.05);">
-    Interact with curvilinear coordinate transformations across Cartesian, Polar, Elliptic, and Hyperbolic coordinate systems. Drag points to dynamically observe the contravariant tangent basis vectors $\mathbf{{e}}_i = \frac{{\partial \mathbf{{r}}}}{{\partial x^i}}$ and covariant normal dual covector basis $\mathbf{{e}}^i = \nabla x^i$ with live metric component calculations.
+    Synthesize and manipulate parametric fuzzy membership functions across Triangular, Trapezoidal, Gaussian, Generalized Bell, and Sigmoidal geometries. Tune core, support, crossover points \(\\alpha = 0.5\), and evaluate real-time grade of membership \(\\mu_A(x)\).
   </div>
 </div>
 """
@@ -242,16 +242,16 @@ def generate_html():
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Comprehensive SEO Meta Tags -->
-  <title>Tensor Analysis: Differential Invariants, Riemannian Metrics, Covariant Differentiation & Curvature Tensors | OpenSTEM Digital Academic Press</title>
-  <meta name="description" content="Free comprehensive university honors digital textbook on tensor analysis: Einstein summation convention, generalized Kronecker delta, Levi-Civita permutation pseudo-tensors, contravariant and covariant vectors, tensor algebra and quotient law, Riemannian and pseudo-Riemannian metrics, Christoffel symbols, geodesics, covariant differentiation, Ricci's theorem, differential invariants, Riemann and Ricci curvature tensors, Bianchi identities, sectional curvature, Schur's theorem, Riemannian flatness, Weyl conformal tensor, hypersurfaces and Gauss-Codazzi equations, continuum stress, covariant electrodynamics, and Einstein field equations with the Schwarzschild metric. Features 8 interactive 60 FPS Canvas simulations and 24 tiered solved problems with complete line-by-line mathematical proofs.">
-  <meta name="keywords" content="Tensor Analysis, Tensor Calculus, Riemannian Geometry, Differential Geometry, Einstein Summation Convention, Kronecker Delta, Levi-Civita Permutation Symbol, Contravariant Vectors, Covariant Vectors, Tensor Algebra, Quotient Law, Metric Tensor, Reciprocal Metric, Christoffel Symbols, Levi-Civita Connection, Geodesics, Geodesic Deviation, Covariant Differentiation, Ricci Theorem, Differential Invariants, Laplace-Beltrami Operator, Parallel Transport, Holonomy, Riemann Curvature Tensor, Ricci Tensor, Scalar Curvature, Einstein Tensor, Bianchi Identities, Sectional Curvature, Schur Theorem, Conformal Curvature, Weyl Tensor, Cotton Tensor, Hypersurface Geometry, First Fundamental Form, Second Fundamental Form, Shape Operator, Gauss Theorema Egregium, Codazzi-Mainardi Equations, Stress-Energy Tensor, Covariant Maxwell Electrodynamics, Einstein Field Equations, Schwarzschild Metric, Perihelion Precession">
+  <title>Fuzzy Mathematics: Fuzzy Sets, Fuzzy Logic, Fuzzy Arithmetic & Relational Systems | OpenSTEM Digital Academic Press</title>
+  <meta name="description" content="Free comprehensive university honors digital textbook on fuzzy mathematics: crisp sets vs fuzzy sets, characteristic and membership functions (triangular, trapezoidal, Gaussian, bell, sigmoidal), core, support, height, alpha-cuts and decomposition theorems, Zadeh extension principle, axiomatic fuzzy complements, triangular norms (t-norms) and triangular conorms (s-norms), fuzzy numbers and interval arithmetic, fuzzy equations A + X = B, fuzzy relations and compositions, similarity relations and transitive closure, Sanchez greatest relational solutions via Gödel implication, Mamdani and Takagi-Sugeno fuzzy control, and neuro-fuzzy systems. Features 8 interactive 60 FPS Canvas simulations and 24 tiered solved problems with complete line-by-line mathematical proofs.">
+  <meta name="keywords" content="Fuzzy Mathematics, Fuzzy Sets, Fuzzy Logic, Fuzzy Arithmetic, Membership Functions, Triangular Fuzzy Number, Trapezoidal Fuzzy Number, Alpha Cuts, Strong Alpha Cut, Decomposition Theorem, Extension Principle, Fuzzy Complement, Triangular Norm, t-norm, Triangular Conorm, s-norm, De Morgan Laws, Ordered Weighted Averaging, OWA, Interval Arithmetic, Fuzzy Linear Equations, Fuzzy Relations, Max-Min Composition, Max-Product Composition, Fuzzy Equivalence, Similarity Relation, Transitive Closure, Relational Equations, Sanchez Theorem, Godel Residuation, Mamdani Inference, Takagi-Sugeno-Kang, Inverted Pendulum Fuzzy Control, Fuzzy AHP, Fuzzy TOPSIS, Fuzzy c-Means, ANFIS">
   <meta name="author" content="Shahriyar Karim Siam">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://openstemlibrary.com/tensor-analysis.html">
+  <link rel="canonical" href="https://openstemlibrary.com/fuzzy-mathematics.html">
 
   <!-- Open Graph / Social Media -->
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Tensor Analysis: Differential Invariants, Riemannian Metrics, Covariant Differentiation & Curvature Tensors | OpenSTEM Digital Academic Press">
+  <meta property="og:title" content="Fuzzy Mathematics: Fuzzy Sets, Fuzzy Logic, Fuzzy Arithmetic & Relational Systems | OpenSTEM Digital Academic Press">
   <meta property="og:description" content="Exhaustive university honors textbook with 8 units, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
   <meta property="og:image" content="https://openstemlibrary.com/logo.svg">
 
@@ -263,8 +263,8 @@ def generate_html():
   {{
     "@context": "https://schema.org",
     "@type": "Course",
-    "name": "Tensor Analysis: Differential Invariants, Riemannian Metrics, Covariant Differentiation & Curvature Tensors",
-    "description": "Comprehensive university honors curriculum covering index notation, tensor algebra, Riemannian metrics, Christoffel symbols, geodesics, covariant differentiation, Ricci's theorem, curvature tensors, Bianchi identities, hypersurface geometry, conformal curvature, continuum mechanics, relativistic electrodynamics, and Einstein field equations.",
+    "name": "Fuzzy Mathematics: Fuzzy Sets, Fuzzy Logic, Fuzzy Arithmetic & Relational Systems",
+    "description": "Comprehensive university honors curriculum covering crisp vs fuzzy sets, membership functions, axiomatic complements, t-norms and s-norms, alpha-cuts and decomposition theorems, Zadeh's extension principle, fuzzy arithmetic and fuzzy equations, fuzzy relations and similarity, relational equations and Sanchez's theorem, and real-world fuzzy control and decision systems.",
     "provider": {{
       "@type": "EducationalOrganization",
       "name": "OpenSTEM Digital Academic Press",
@@ -286,7 +286,7 @@ def generate_html():
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
   <!-- Application Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=20261008_v9">
+  <link rel="stylesheet" href="styles.css?v=20261008_v10">
 </head>
 <body>
 
@@ -296,14 +296,14 @@ def generate_html():
       <div class="brand-header">
         <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
         <div>
-          <div class="brand-title">Tensor Analysis</div>
+          <div class="brand-title">Fuzzy Mathematics</div>
           <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
         </div>
       </div>
 
       <!-- Live Search Filter for SEO / Navigation -->
       <div class="search-box-container">
-        <input type="text" id="topic-search-input" placeholder="🔍 Search indices, metrics, Christoffel, covariant derivatives, curvature, Bianchi, Einstein..." class="search-input">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search membership functions, t-norms, s-norms, alpha-cuts, fuzzy numbers, equations, Mamdani..." class="search-input">
       </div>
 
       <div class="nav-section-title">Table of Contents</div>
@@ -317,8 +317,8 @@ def generate_html():
       <!-- Top Sticky Navbar -->
       <header class="top-navbar">
         <div class="course-badge-container">
-          <span class="badge-pill badge-course">Mathematics / Tensor Analysis</span>
-          <span class="badge-pill badge-credits">Differential Invariants & Curvature Tensors</span>
+          <span class="badge-pill badge-course">Mathematics / Fuzzy Mathematics</span>
+          <span class="badge-pill badge-credits">Fuzzy Sets, Logic & Relational Systems</span>
           <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
         </div>
         <div class="navbar-actions">
@@ -337,9 +337,9 @@ def generate_html():
           <!-- Chapter Hero Header -->
           <header class="unit-hero">
             <div class="unit-number-tag" id="unit-tag">Chapter 1 • Theory & Derivations</div>
-            <h1 class="unit-title-heading" id="unit-title">Coordinates, Index Notation, Summation Convention & Affine Spaces</h1>
+            <h1 class="unit-title-heading" id="unit-title">{u1["title"]}</h1>
             <p class="unit-desc-lead" id="unit-desc">
-              Foundations of tensor calculus: $n$-dimensional Euclidean and affine spaces, Einstein summation convention, dummy and free index discipline, the generalized Kronecker delta $\delta^i_j$, Levi-Civita permutation pseudo-tensors $\epsilon_{{ijk}}$ and $\epsilon^{{ijk}}$, coordinate transformations, and transformation laws for contravariant vectors $A^i$ and covariant vectors $B_i$.
+              {u1["leadSummary"]}
             </p>
           </header>
 
@@ -402,8 +402,8 @@ def generate_html():
               <a href="topology.html" class="reader-trust-link">General Topology</a>
               <a href="partial-differential-equations.html" class="reader-trust-link">Partial Differential Equations</a>
               <a href="discrete-mathematics.html" class="reader-trust-link">Discrete Mathematics</a>
-              <a href="tensor-analysis.html" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Tensor Analysis</a>
-              <a href="fuzzy-mathematics.html" class="reader-trust-link">Fuzzy Mathematics</a>
+              <a href="tensor-analysis.html" class="reader-trust-link">Tensor Analysis</a>
+              <a href="fuzzy-mathematics.html" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Fuzzy Mathematics</a>
               <a href="about.html" class="reader-trust-link">About & Editorial</a>
               <a href="privacy.html" class="reader-trust-link">Privacy Policy</a>
               <a href="terms.html" class="reader-trust-link">Terms of Service</a>
@@ -420,22 +420,22 @@ def generate_html():
   </div>
 
   <!-- Textbook Application Scripts -->
-  <script src="tensor-analysis-sims.js?v=20261008_v9"></script>
-  <script src="tensor-analysis-data.js?v=20261008_v9"></script>
-  <script src="app.js?v=20261008_v9"></script>
+  <script src="fuzzy-mathematics-sims.js?v=20261008_v10"></script>
+  <script src="fuzzy-mathematics-data.js?v=20261008_v10"></script>
+  <script src="app.js?v=20261008_v10"></script>
 </body>
 </html>
 """
 
     # Check for strictly zero course numbers
-    course_code_matches = re.findall(r'MTH[\s-]*\d+|4202', html_content, re.IGNORECASE)
+    course_code_matches = re.findall(r'MTH[\s-]*\d+|4204|4202', html_content, re.IGNORECASE)
     if course_code_matches:
         raise ValueError(f"STRICT ERROR: Prohibited course codes detected in HTML: {course_code_matches}")
 
-    with open("tensor-analysis.html", "w", encoding="utf-8") as f:
+    with open("fuzzy-mathematics.html", "w", encoding="utf-8") as f:
         f.write(html_content)
 
-    print("Successfully generated tensor-analysis.html with pre-rendered Unit 1 and zero course numbers.")
+    print("Successfully generated fuzzy-mathematics.html with pre-rendered Unit 1 and zero course numbers.")
 
 if __name__ == "__main__":
     generate_html()

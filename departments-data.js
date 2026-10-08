@@ -810,6 +810,26 @@ window.LIBRARY_CATALOG = {
             "Special Geometries, Flat Spaces & Hypersurfaces",
             "Physical Applications: Continuum Mechanics, Electromagnetism & Gravitation"
           ]
+        },
+        {
+          id: "fuzzy-mathematics",
+          title: "Fuzzy Mathematics: Fuzzy Sets, Fuzzy Logic, Fuzzy Arithmetic & Relational Systems",
+          subtitle: "Crisp vs Fuzzy Sets, Membership Functions & Logic Foundations, Operations on Fuzzy Sets & Complements, Alpha-Cuts, Decomposition Theorems & The Extension Principle, Fuzzy Numbers, Intervals & Linguistic Variables, Fuzzy Arithmetic & Solution of Fuzzy Equations, Fuzzy Relations, Similarity & Compatibility, Orderings, Morphisms & Relational Equations, and Real-World Applications to Fuzzy Control, Decision Making & AI",
+          status: "AVAILABLE",
+          url: "fuzzy-mathematics.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Fuzzy Mathematics Textbook, Fuzzy Sets, Fuzzy Logic, Fuzzy Arithmetic, Membership Functions, Triangular Fuzzy Number, Trapezoidal Fuzzy Number, Alpha Cuts, Strong Alpha Cut, Decomposition Theorem, Extension Principle, Fuzzy Complement, Triangular Norm, t-norm, Triangular Conorm, s-norm, De Morgan Laws, Ordered Weighted Averaging, OWA, Interval Arithmetic, Fuzzy Linear Equations, Fuzzy Relations, Max-Min Composition, Max-Product Composition, Fuzzy Equivalence, Similarity Relation, Transitive Closure, Relational Equations, Sanchez Theorem, Godel Residuation, Mamdani Inference, Takagi-Sugeno-Kang, Inverted Pendulum Fuzzy Control, Fuzzy AHP, Fuzzy TOPSIS, Fuzzy c-Means, ANFIS",
+          description: "Exhaustive honors-level master digital textbook on fuzzy set theory, fuzzy logic, fuzzy arithmetic, and relational systems: crisp sets and characteristic functions, classical logic vs infinite-valued fuzzy logic, membership functions (triangular, trapezoidal, Gaussian, generalized bell, sigmoidal), core, support, height, and boundary, normal and subnormal fuzzy sets, convex fuzzy sets and quasiconcavity, standard Zadeh operators and De Morgan laws, axiomatic fuzzy complements, Sugeno and Yager complement families, equilibrium points, triangular norms (t-norms: min, product, bounded difference, drastic) and triangular conorms (s-norms: max, algebraic sum, bounded sum, drastic sum), dual De Morgan pairs, averaging operators and Ordered Weighted Averaging (OWA), crisp alpha-cuts and strong alpha-cuts, cut monotonicity and representation theorems, Zadeh's Extension Principle and Nguyen's cut preservation theorem, axiomatic definition of fuzzy numbers and closed intervals, interval arithmetic and non-invertibility of interval subtraction, Triangular Fuzzy Numbers (TFN) and Trapezoidal Fuzzy Numbers (TrFN), linguistic variables and hedges (concentration, dilation, intensification), defuzzification methods (Centroid COG, Bisector BOA, Mean of Maxima MOM, First/Last of Maxima FOM/LOM) and Yager's ranking index, addition and subtraction of fuzzy numbers, quadratic shape distortion in multiplication of TFNs, MIN and MAX lattice operations, linear fuzzy equations A + X = B and solvability spread conditions, multiplicative fuzzy equations A · X = B, fuzzy binary relations on Cartesian products, membership matrices, domain, range, height, and inverse relations, Max-Min and Max-Product relational compositions, fuzzy equivalence and similarity relations, transitive closures and powers, compatibility (tolerance) relations and alpha-equivalence partitions, fuzzy partial orderings and quasi-orderings, relational morphisms (homomorphisms, isomorphisms), fuzzy relational equations P ∘ R = Q, Sanchez's Theorem for greatest relational solutions via Gödel residuated implication, minimal solutions, Mamdani and Takagi-Sugeno-Kang (TSK) fuzzy inference systems, inverted pendulum dynamic balancing, fuzzy multi-criteria decision making (Fuzzy AHP and TOPSIS), Fuzzy c-Means clustering (FCM) objective minimization, and Adaptive Neuro-Fuzzy Inference Systems (ANFIS). Features 8 interactive 60 FPS Canvas simulations and 24 tiered solved examination problems with complete line-by-line mathematical proofs.",
+          topics: [
+            "Crisp Sets vs Fuzzy Sets, Membership Functions & Logic Foundations",
+            "Operations on Fuzzy Sets: Complements, Unions & Intersections",
+            "Alpha-Cuts, Decomposition Theorems & The Extension Principle",
+            "Fuzzy Numbers, Intervals & Linguistic Variables",
+            "Fuzzy Arithmetic & Solution of Fuzzy Equations",
+            "Fuzzy Relations, Similarity & Compatibility",
+            "Orderings, Morphisms & Fuzzy Relational Equations",
+            "Real-World Applications: Control, Decision Making & AI"
+          ]
         }
       ]
     }
