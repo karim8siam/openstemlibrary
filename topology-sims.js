@@ -1455,3 +1455,30 @@ window.SIMULATIONS["sim_top_connected_sine_curve"] = {
     render();
   }
 };
+
+// Simulation Engine Mount Utility
+window.SimulationEngine = window.SimulationEngine || {
+  initSimulation: function(containerId, simType) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const simDef = window.SIMULATIONS[simType];
+    if (!simDef) {
+      console.warn('Simulation type not found:', simType);
+      return;
+    }
+
+    const canvasId = containerId + '-canvas';
+    const controlsId = containerId + '-controls';
+
+    container.innerHTML = '<div class="simulation-card" style="margin: 1.5rem 0;">' +
+      '<div class="sim-header"><div class="sim-title">' + simDef.title + '</div><div class="sim-badge">60 FPS Real-Time Canvas Engine</div></div>' +
+      '<div class="canvas-wrapper" style="position: relative; width: 100%; height: 380px; background: #0f172a; border-radius: 8px; overflow: hidden;">' +
+      '<canvas id="' + canvasId + '" width="800" height="380" class="sim-canvas" style="width: 100%; height: 100%; display: block;"></canvas></div>' +
+      '<div class="sim-controls" id="' + controlsId + '" style="padding: 1rem; background: #1e293b; border-radius: 0 0 8px 8px; display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center;"></div>' +
+      '</div>';
+
+    setTimeout(() => {
+      simDef.init(canvasId, controlsId);
+    }, 50);
+  }
+};

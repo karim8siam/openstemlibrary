@@ -750,6 +750,26 @@ window.LIBRARY_CATALOG = {
             "Compactness, Tychonoff's Theorem & Metric Compactness",
             "Connectedness, Path-Connectedness & Components"
           ]
+        },
+        {
+          id: "partial-differential-equations",
+          title: "Partial Differential Equations: Canonical Forms & Green's Functions",
+          subtitle: "First-Order PDEs & Lagrange Auxiliary Equations, Cauchy Problems & Monge Cones, Canonical Classification (Hyperbolic, Parabolic, Elliptic), Wave Equation & D'Alembert Formula, Heat Diffusion & Maximum Principles, Elliptic BVPs & Harmonic Functions, Cylindrical/Spherical Harmonics & Special Functions, and Integral Transforms & Green's Functions",
+          status: "AVAILABLE",
+          url: "partial-differential-equations.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Partial Differential Equations Textbook, PDEs, Method of Characteristics, Lagrange Auxiliary System, Cauchy Problem, Charpit Method, Monge Cone, Shock Waves, Burgers Equation, Wave Equation, DAlembert Formula, Heat Equation, Maximum Principle, Laplace Equation, Harmonic Functions, Poisson Kernel, Separation of Variables, Bessel Functions, Legendre Polynomials, Greens Functions, Fourier Transform, Laplace Transform",
+          description: "Exhaustive honors-level master digital textbook on partial differential equations: classification and geometric derivation of first-order PDEs, elimination of arbitrary constants and arbitrary functions, complete integrals, general solutions, envelopes and singular solutions, Lagrange's auxiliary system for quasilinear equations P p + Q q = R, integral surfaces passing through space curves, transversality condition and local Cauchy-Kovalevskaya theorem, traffic flow conservation laws and kinematic waves, non-linear first-order PDEs, Monge cones and contact elements, Charpit's auxiliary equations for general non-linear equations F(x, y, z, p, q) = 0, standard forms I through IV (Clairaut equation), wave steepening and shock formation in Burgers equation, Rankine-Hugoniot jump condition, general second-order linear PDEs in two variables, coordinate invariance of the discriminant Delta = B^2 - AC, canonical reduction of hyperbolic equations to cross-derivative and wave forms, parabolic equations to diffusion forms, elliptic equations to Laplace-Poisson forms, variable-coefficient mixed-type equations and Tricomi's equation, physical derivation of the 1D wave equation, D'Alembert's traveling wave formula, domain of dependence, range of influence and relativistic causality cones, semi-infinite strings and the method of images, Fourier separation of variables into standing normal modes, total mechanical energy conservation and solution uniqueness proofs, physical derivation of the heat equation and Fourier's law of conduction, weak and strong maximum/minimum principles, uniqueness of parabolic initial-boundary value problems, separation of variables for finite rods under Dirichlet, Neumann, and Robin boundaries, Duhamel's principle for time-dependent sources, the Gaussian fundamental solution (heat kernel) and error function convolution, elliptic equations in electrostatics, gravitation, steady heat, and potential fluid flow, properties of harmonic functions, Gauss's Mean Value Property, Strong Maximum Principle, Liouville's theorem, Dirichlet problem on rectangles and disks, Poisson integral formula for disks and half-planes, Dirichlet's energy minimization principle, curvilinear scale factors and Laplacians in cylindrical and spherical coordinates, Frobenius series for Bessel functions J_n and Y_n, vibrations of circular drumheads and Bessel zeros, Legendre differential equation and orthogonal Legendre polynomials P_n(cos theta), multipole expansions, Fourier sine and cosine transforms for semi-infinite domains, bilateral Fourier transform for dispersive waves, Laplace transform operational methods for initial-boundary value problems, Green's first and second identities, distributional Dirac delta sources and free-space fundamental solutions, and construction of Dirichlet Green's functions via the method of images for half-spaces, corners, and spheres. Features 8 interactive 60 FPS Canvas simulations and 24 tiered solved examination problems with complete line-by-line mathematical proofs.",
+          topics: [
+            "First-Order Linear & Quasilinear PDEs: Foundations, Integral Surfaces & Lagrange's Method",
+            "The Cauchy Problem, Method of Characteristics & Non-Linear First-Order PDEs",
+            "Classification and Canonical Reduction of Second-Order Linear PDEs",
+            "The 1D & Multi-D Wave Equation: D'Alembert's Formula & Energy Methods",
+            "The Heat/Diffusion Equation: Maximum Principles, Fundamental Solution & Separation of Variables",
+            "Elliptic Boundary Value Problems: Laplace & Poisson Equations and Harmonic Functions",
+            "Boundary Value Problems with Cylindrical & Spherical Symmetry: Special Functions",
+            "Integral Transform Methods & Green's Functions for Inhomogeneous PDEs"
+          ]
         }
       ]
     }
