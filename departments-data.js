@@ -690,6 +690,26 @@ window.LIBRARY_CATALOG = {
             "Riemann & Riemann-Stieltjes Integration & Sequences of Functions",
             "Multivariable Analysis: Euclidean Topology, Fréchet Derivatives & Multiple Integrals"
           ]
+        },
+        {
+          id: "differential-geometry",
+          title: "Differential Geometry: Curves, Surfaces & Curvatures",
+          subtitle: "Space Curves, Frenet-Serret Apparatus, Metric Tensors, Shape Operators, Curvature Invariants, Geodesics & Theorema Egregium",
+          status: "AVAILABLE",
+          url: "differential-geometry.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Differential Geometry Textbook, Space Curves, Arc-Length, Tangent Line, Osculating Plane, Serret-Frenet Formulas, Curvature, Torsion, Darboux Vector, Helices, Lancret Theorem, Involutes, Evolutes, Bertrand Curves, Parametric Surfaces, First Fundamental Form, Metric Tensor, E F G, Isometry, Conformal Mapping, Surface Area, Second Fundamental Form, L M N, Shape Operator, Weingarten Equations, Third Fundamental Form, Normal Curvature, Meusnier Theorem, Principal Curvatures, Gaussian Curvature, Mean Curvature, Elliptic Points, Hyperbolic Points, Parabolic Points, Umbilic Points, Minimal Surfaces, Scherk Surface, Beltrami Pseudosphere, Lines of Curvature, Rodrigues Formula, Euler Theorem, Dupin Indicatrix, Asymptotic Curves, Beltrami-Enneper Theorem, Christoffel Symbols, Gauss-Codazzi Equations, Bonnet Theorem, Theorema Egregium, Brioschi Formula, Geodesics, Clairaut Relation, Geodesic Curvature, Gauss-Bonnet Theorem",
+          description: "Exhaustive honors-level master digital textbook on classical differential geometry in Euclidean 3-space: smooth parametrized curves and regular points, arc-length reparametrization, unit tangent vector, equations of tangent lines and normal planes, contact order and osculating planes, canonical Taylor expansions, curvature and principal normal vector, binormal vector, rectifying planes, Serret-Frenet moving trihedron formulas, torsion and planarity characterization, the Darboux rotation vector, Fundamental Theorem of Space Curves, circular and general cylindrical helices, Lancret's theorem, spherical curves and spherical indicatrices, involutes and string evolutes, evolutes as loci of centers of curvature, Bertrand conjugate mates, smooth coordinate surface patches and regularity, tangent planes and surface unit normals, First Fundamental Form metric tensor E, F, G, positive definiteness and Gram determinant, arc-length of surface curves, local isometries, conformal mappings and isothermal coordinates, angles between tangent directions and orthogonal nets, intrinsic surface area elements and change of variables invariance, spherical Gauss map and its differential, Shape Operator / Weingarten map and self-adjointness, Second Fundamental Form L, M, N, Weingarten equations, Third Fundamental Form III, Cayley-Hamilton operator identity III - 2H II + K I = 0, normal curvature and Meusnier's theorem, principal curvatures and directions as Rayleigh quotient extrema, characteristic quadratic curvature equation, Gaussian curvature K and Mean curvature H, geometric point classifications (elliptic, hyperbolic, parabolic, planar, and umbilical points), minimal surfaces (H = 0) and soap film geometry, surfaces of revolution and Beltrami's pseudosphere, Rodrigues' formula and differential equations of lines of curvature, Euler's theorem on normal curvature, Dupin indicatrix conic sections, asymptotic curves (II = 0), Beltrami-Enneper theorem on asymptotic torsion (tau^2 = -K), conjugate directions, triply orthogonal systems and Dupin's theorem, Gauss's moving frame and Christoffel symbols of the second kind, Gauss and Codazzi-Mainardi compatibility integrability equations, Bonnet's fundamental theorem of surface theory, Gauss's celebrated Theorema Egregium and Brioschi's determinant formula, geodesics as curves of zero geodesic curvature, geodesic Euler-Lagrange equations, Clairaut's relation on surfaces of revolution, geodesic curvature kg, Liouville's formula, and the local Gauss-Bonnet theorem relating curvature to angular excess. Features 8 interactive 60 FPS Canvas simulations and 24 tiered solved examination problems with complete line-by-line mathematical proofs.",
+          topics: [
+            "Theory of Space Curves: Arc-Length, Parametrization & Tangent Lines",
+            "The Frenet-Serret Apparatus: Curvature, Torsion & The Moving Trihedron",
+            "Helices, Involutes, Evolutes & Bertrand Curves",
+            "Parametric Surfaces & The First Fundamental Form",
+            "The Second Fundamental Form & The Weingarten Map",
+            "Normal Curvatures, Principal Curvatures & Shape Classification",
+            "Lines of Curvature, Asymptotic Curves & The Dupin Indicatrix",
+            "Fundamental Equations of Surface Theory & Theorema Egregium"
+          ]
         }
       ]
     }

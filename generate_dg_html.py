@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-generate_gt_html.py
-Generates graph-theory.html with exact layout parity to linear-algebra.html and abstract-algebra.html,
-deep SEO meta tags, Schema.org JSON-LD (strictly zero course numbers),
+generate_dg_html.py
+Generates differential-geometry.html with exact layout parity to real-analysis.html,
+linear-algebra.html, abstract-algebra.html, and graph-theory.html.
+Deep SEO meta tags, Schema.org JSON-LD (strictly zero course numbers),
 pre-rendered Unit 1 sections & worked problems (fully formatted semantic HTML with callout blockquotes),
 interactive Canvas simulations mount, font toggle, live topic search, and comprehensive trust footer.
 """
 
 import re
-import build_gt_unit1
+import build_dg_unit1
 
 def format_markdown_to_html(text):
     if not text:
@@ -139,7 +140,7 @@ def format_markdown_to_html(text):
         if m_num:
             num = m_num.group(1)
             body = m_num.group(2).strip()
-            if body.startswith('**') or any(kw in body for kw in ['Method', 'Law', 'Equation', 'Nature', 'Criteria', 'Summing']):
+            if body.startswith('**') or any(kw in body for kw in ['Method', 'Law', 'Equation', 'Nature', 'Criteria', 'Summing', 'Part', 'Step']):
                 flush_para()
                 clean_title = body.replace('**', '')
                 output.append(f"<h4>{num}. {clean_title}</h4>")
@@ -160,7 +161,7 @@ def format_markdown_to_html(text):
     return '\n\n'.join(output)
 
 def generate_html():
-    u1 = build_gt_unit1.get_unit1()
+    u1 = build_dg_unit1.get_unit1()
 
     # Pre-render Unit 1 sections with clean semantic HTML
     sections_html = []
@@ -174,14 +175,14 @@ def generate_html():
         sim_mount_html = ""
         sims = sec.get("simulations", [])
         if sec_num == "1.3":
-            sims = ["sim_gt_graph_builder"]
+            sims = ["sim_dg_space_curve_tangent"]
 
         if sims:
             for sim_id in sims:
                 sim_mount_html += f"""
 <div class="simulation-card" id="{sim_id}-container" style="margin: 1.5rem 0;">
   <div class="sim-header">
-    <div class="sim-title">Interactive Graph Builder: Real-Time Topology, Adjacency & Degree Spectra</div>
+    <div class="sim-title">Space Curves, Tangent Vector & Osculating Plane Visualizer</div>
     <div class="sim-badge">60 FPS Real-Time Canvas Engine</div>
   </div>
   <div class="canvas-wrapper" style="position: relative; width: 100%; height: 380px; background: #0f172a; border-radius: 8px; overflow: hidden;">
@@ -205,7 +206,7 @@ def generate_html():
     # Pre-render Unit 1 solved problems
     problems_html = []
     for p_idx, prob in enumerate(u1["problems"], start=1):
-        prob_id = f"gt-prob-1-{p_idx}"
+        prob_id = f"dg-prob-1-{p_idx}"
         tier = prob.get("tier", p_idx)
         if "Foundational" in str(tier):
             diff_class = "diff-easy"
@@ -252,16 +253,16 @@ def generate_html():
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Comprehensive SEO Meta Tags -->
-  <title>Graph Theory: Structures, Algorithms, Algebraic Representations & Network Flows | OpenSTEM Digital Academic Press</title>
-  <meta name="description" content="Free comprehensive university honors digital textbook covering graph structures, degree sequences, Handshaking theorems, Havel-Hakimi criterion, isomorphism invariants, Eulerian trails, Fleury's algorithm, Hamiltonian cycles, Dirac and Ore theorems, tree metrics, Jordan center theorem, Cayley's formula, Prüfer sequences, Kruskal and Prim MST, connectivity, cut-sets, Whitney inequality, Menger's theorems, incidence, circuit, cut-set and Laplacian matrices, Kirchhoff's Matrix Tree Theorem, directed graphs, tournaments, Landau and Rédei theorems, DAGs, topological sorting, planar graphs, Euler's formula, Kuratowski and Wagner theorems, geometric duality, vertex coloring, Brooks' theorem, Five-Color theorem, chromatic polynomials, edge coloring, Vizing's theorem, network flows, Ford-Fulkerson, Max-Flow Min-Cut theorem, and Hall's Marriage Theorem with 8 interactive 60 FPS simulations and 24 tiered solved problems.">
-  <meta name="keywords" content="Graph Theory, Eulerian Graphs, Hamiltonian Cycles, Trees, Spanning Trees, Kruskal Algorithm, Prim Algorithm, Cayley Formula, Prüfer Sequence, Connectivity, Cut-Sets, Whitney Inequality, Menger Theorem, Incidence Matrix, Adjacency Matrix, Graph Laplacian, Kirchhoff Matrix Tree Theorem, Directed Graphs, Tournaments, Landau Theorem, DAG, Topological Sort, Kahn Algorithm, Planar Graphs, Euler Polyhedral Formula, Kuratowski Theorem, Wagner Theorem, Dual Graphs, Vertex Coloring, Chromatic Number, Brooks Theorem, Five Color Theorem, Four Color Theorem, Chromatic Polynomial, Deletion-Contraction Recurrence, Edge Coloring, Chromatic Index, Vizing Theorem, Network Flows, Residual Network, Max-Flow Min-Cut Theorem, Ford-Fulkerson Algorithm, Bipartite Matching, Hall Marriage Theorem">
+  <title>Differential Geometry: Curves, Surfaces, Fundamental Forms & Curvatures | OpenSTEM Digital Academic Press</title>
+  <meta name="description" content="Free comprehensive university honors digital textbook on classical differential geometry in Euclidean 3-space: smooth space curves, arc-length, unit tangent, osculating planes, contact order, Taylor approximations, Serret-Frenet moving trihedron, curvature, torsion, Darboux vector, circular helices, Lancret's theorem, spherical indicatrices, involutes, evolutes, Bertrand curves, parametric surface patches, First Fundamental Form metric E, F, G, isometries, conformal mappings, surface area, Gauss spherical map, Shape Operator, Second Fundamental Form L, M, N, Weingarten equations, Third Fundamental Form, Meusnier's theorem, principal curvatures, Gaussian curvature K, Mean curvature H, surface point classification, minimal surfaces, surfaces of revolution, Beltrami's pseudosphere, lines of curvature, Rodrigues' formula, Euler's theorem, Dupin indicatrix, asymptotic curves, Beltrami-Enneper theorem, Christoffel symbols, Gauss-Codazzi equations, Bonnet's theorem, Gauss's Theorema Egregium, Brioschi formula, geodesics, Clairaut's relation, geodesic curvature, and the local Gauss-Bonnet theorem. Features 8 interactive 60 FPS simulations and 24 tiered solved problems with complete line-by-line mathematical proofs.">
+  <meta name="keywords" content="Differential Geometry, Space Curves, Arc-Length, Tangent Line, Osculating Plane, Serret-Frenet Formulas, Curvature, Torsion, Darboux Vector, Helices, Lancret Theorem, Involutes, Evolutes, Bertrand Curves, Parametric Surfaces, First Fundamental Form, Metric Tensor, E F G, Isometry, Conformal Mapping, Surface Area, Second Fundamental Form, L M N, Shape Operator, Weingarten Equations, Third Fundamental Form, Normal Curvature, Meusnier Theorem, Principal Curvatures, Gaussian Curvature, Mean Curvature, Elliptic Points, Hyperbolic Points, Parabolic Points, Umbilic Points, Minimal Surfaces, Scherk Surface, Beltrami Pseudosphere, Lines of Curvature, Rodrigues Formula, Euler Theorem, Dupin Indicatrix, Asymptotic Curves, Beltrami-Enneper Theorem, Christoffel Symbols, Gauss-Codazzi Equations, Bonnet Theorem, Theorema Egregium, Brioschi Formula, Geodesics, Clairaut Relation, Geodesic Curvature, Gauss-Bonnet Theorem">
   <meta name="author" content="Shahriyar Karim Siam">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://openstemlibrary.com/graph-theory.html">
+  <link rel="canonical" href="https://openstemlibrary.com/differential-geometry.html">
 
   <!-- Open Graph / Social Media -->
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Graph Theory: Structures, Algorithms, Algebraic Representations & Network Flows | OpenSTEM Digital Academic Press">
+  <meta property="og:title" content="Differential Geometry: Curves, Surfaces, Fundamental Forms & Curvatures | OpenSTEM Digital Academic Press">
   <meta property="og:description" content="Exhaustive university honors textbook with 8 chapters, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
   <meta property="og:image" content="https://openstemlibrary.com/logo.svg">
 
@@ -273,8 +274,8 @@ def generate_html():
   {{
     "@context": "https://schema.org",
     "@type": "Course",
-    "name": "Graph Theory: Structures, Algorithms, Algebraic Representations & Network Flows",
-    "description": "Comprehensive university honors curriculum covering graph structures, degree sequences, Handshaking theorems, Havel-Hakimi criterion, isomorphism invariants, Eulerian trails, Fleury's algorithm, Hamiltonian cycles, Dirac and Ore theorems, tree metrics, Jordan center theorem, Cayley's formula, Prüfer sequences, Kruskal and Prim MST, connectivity, cut-sets, Whitney inequality, Menger's theorems, incidence, circuit, cut-set and Laplacian matrices, Kirchhoff's Matrix Tree Theorem, directed graphs, tournaments, DAGs, topological sorting, planar graphs, Euler's formula, Kuratowski and Wagner theorems, geometric duality, vertex coloring, Brooks' theorem, Five-Color theorem, chromatic polynomials, edge coloring, Vizing's theorem, network flows, and Hall's Marriage Theorem.",
+    "name": "Differential Geometry: Curves, Surfaces, Fundamental Forms & Curvatures",
+    "description": "Comprehensive university honors curriculum covering space curves, Frenet-Serret moving trihedron, curvature, torsion, helices, Bertrand curves, parametric surfaces, First and Second Fundamental Forms, Shape Operator, Weingarten equations, principal curvatures, Gaussian and Mean curvature, point classifications, minimal surfaces, lines of curvature, Dupin indicatrix, asymptotic curves, Christoffel symbols, Gauss-Codazzi equations, Gauss's Theorema Egregium, geodesics, and the Gauss-Bonnet theorem.",
     "provider": {{
       "@type": "EducationalOrganization",
       "name": "OpenSTEM Digital Academic Press",
@@ -296,7 +297,7 @@ def generate_html():
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
   <!-- Application Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=20261008_v2">
+  <link rel="stylesheet" href="styles.css?v=20261008_v4">
 </head>
 <body>
 
@@ -306,14 +307,14 @@ def generate_html():
       <div class="brand-header">
         <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
         <div>
-          <div class="brand-title">Graph Theory</div>
+          <div class="brand-title">Differential Geometry</div>
           <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
         </div>
       </div>
 
       <!-- Live Search Filter for SEO / Navigation -->
       <div class="search-box-container">
-        <input type="text" id="topic-search-input" placeholder="🔍 Search trees, Eulerian, Menger, planar, coloring, flows, spectra..." class="search-input">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search space curves, Frenet-Serret, metric E F G, Weingarten, Dupin, geodesics, Theorema Egregium..." class="search-input">
       </div>
 
       <div class="nav-section-title">Table of Contents</div>
@@ -327,8 +328,8 @@ def generate_html():
       <!-- Top Sticky Navbar -->
       <header class="top-navbar">
         <div class="course-badge-container">
-          <span class="badge-pill badge-course">Mathematics / Pure & Applied</span>
-          <span class="badge-pill badge-credits">Graph Theory: Structures, Algorithms & Flows</span>
+          <span class="badge-pill badge-course">Mathematics / Differential Geometry</span>
+          <span class="badge-pill badge-credits">Curves, Surfaces, Fundamental Forms & Curvatures</span>
           <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
         </div>
         <div class="navbar-actions">
@@ -347,9 +348,9 @@ def generate_html():
           <!-- Chapter Hero Header -->
           <header class="unit-hero">
             <div class="unit-number-tag" id="unit-tag">Chapter 1 • Theory & Derivations</div>
-            <h1 class="unit-title-heading" id="unit-title">Foundations of Graph Theory, Degree Sequences & Handshaking Theorems</h1>
+            <h1 class="unit-title-heading" id="unit-title">Theory of Space Curves: Arc-Length, Parametrization & Tangent Lines</h1>
             <p class="unit-desc-lead" id="unit-desc">
-              Rigorous introduction to abstract graphs, simple graphs, multigraphs, pseudographs, vertex degrees, isolated and pendant vertices, the First Theorem of Graph Theory (Handshaking Lemma) and its corollaries, degree sequences, graphic sequences, the Havel-Hakimi theorem and realization algorithm, subgraphs, graph complementation, and graph isomorphism invariants.
+              Foundations of curve theory in 3D Euclidean space: vector-valued functions of a single real variable, regular parametrizations and velocity vectors, arc-length as an intrinsic geometric parameter, unit tangent vectors, equations of tangent lines, the osculating plane and order of contact, and canonical Taylor approximations near a regular point.
             </p>
           </header>
 
@@ -415,9 +416,9 @@ def generate_html():
               <a href="complex-analysis.html" class="reader-trust-link">Complex Analysis</a>
               <a href="numerical-analysis.html" class="reader-trust-link">Numerical Analysis</a>
               <a href="abstract-algebra.html" class="reader-trust-link">Abstract Algebra</a>
-              <a href="graph-theory.html" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Graph Theory</a>
+              <a href="graph-theory.html" class="reader-trust-link">Graph Theory</a>
               <a href="real-analysis.html" class="reader-trust-link">Real Analysis</a>
-              <a href="differential-geometry.html" class="reader-trust-link">Differential Geometry</a>
+              <a href="differential-geometry.html" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Differential Geometry</a>
               <a href="about.html" class="reader-trust-link">About & Editorial</a>
               <a href="privacy.html" class="reader-trust-link">Privacy Policy</a>
               <a href="terms.html" class="reader-trust-link">Terms of Service</a>
@@ -434,17 +435,22 @@ def generate_html():
   </div>
 
   <!-- Textbook Application Scripts -->
-  <script src="graph-theory-sims.js?v=20261008_v2"></script>
-  <script src="graph-theory-data.js?v=20261008_v2"></script>
-  <script src="app.js?v=20261008_v2"></script>
+  <script src="differential-geometry-sims.js?v=20261008_v4"></script>
+  <script src="differential-geometry-data.js?v=20261008_v4"></script>
+  <script src="app.js?v=20261008_v4"></script>
 </body>
 </html>
 """
 
-    with open("graph-theory.html", "w", encoding="utf-8") as f:
+    # Check for strictly zero course numbers
+    course_code_matches = re.findall(r'MTH[\s-]*\d+', html_content, re.IGNORECASE)
+    if course_code_matches:
+        raise ValueError(f"STRICT ERROR: Prohibited course codes detected in HTML: {course_code_matches}")
+
+    with open("differential-geometry.html", "w", encoding="utf-8") as f:
         f.write(html_content)
 
-    print("Successfully generated graph-theory.html")
+    print("Successfully generated differential-geometry.html with pre-rendered Unit 1 and zero course numbers.")
 
 if __name__ == "__main__":
     generate_html()
