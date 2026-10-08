@@ -730,6 +730,26 @@ window.LIBRARY_CATALOG = {
             "Non-Linear Diophantine Equations & Fermat's Descent",
             "Representation of Integers as Sums of Squares"
           ]
+        },
+        {
+          id: "topology",
+          title: "General Topology: Metric Spaces, Structures & Compactness",
+          subtitle: "Metric Spaces & Baire Category, Topological Spaces & Bases, Continuity & Quotient Topologies, Countability Axioms, Separation Hierarchy (T0-T4), Urysohn's Lemma & Metrization, Compactness & Tychonoff's Theorem, and Connectedness & Components",
+          status: "AVAILABLE",
+          url: "topology.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "General Topology Textbook, Point-Set Topology, Metric Spaces, Completeness, Baire Category Theorem, Banach Fixed Point Theorem, Topological Spaces, Basis, Subbasis, Kuratowski Closure, Continuous Maps, Pasting Lemma, Homeomorphism, Quotient Space, Torus, Mobius Strip, Klein Bottle, Countability Axioms, First Countable, Second Countable, Separable, Lindelof, Sorgenfrey Line, Separation Axioms, T0, T1, Hausdorff, T2, Regular, T3, Tychonoff, T3.5, Normal, T4, Urysohn Lemma, Tietze Extension Theorem, Urysohn Metrization Theorem, Compactness, Heine-Borel, Lebesgue Number, Tychonoff Theorem, Connectedness, Path Connected, Topologists Sine Curve",
+          description: "Exhaustive honors-level master digital textbook on general point-set topology and metric space theory: definition of metric spaces, classical metric spaces (Euclidean, taxicab, Chebyshev, sequence spaces l^p and l^inf, function space C[a, b], discrete metric, ultrametrics), open balls, open sets, topologies induced by metrics, equivalent metrics (topological vs Lipschitz equivalence), sequences, Cauchy sequences, completeness, Cantor's Intersection Theorem, dense sets, nowhere dense sets, meager (first category) sets, Baire's Category Theorem with complete proof, space of continuous functions with uniform metric, Banach Fixed-Point Contraction Mapping Theorem, axiomatic definition of topological spaces, comparison of topologies (coarser vs finer), classical non-metric topologies (co-finite, co-countable, discrete, indiscrete, Sierpinski), closed sets, interior, closure, boundary, Kuratowski Closure Axioms, neighborhood systems and filters, accumulation and derived points, bases and subbases for a topology, the Basis Criterion Theorem, subspace (relative) topology, hereditary properties, continuous mappings and equivalent characterizations (open preimages, closed preimages, closure inclusions f(cl(A)) subset of cl(f(A))), Pasting (Gluing) Lemma, homeomorphisms and topological invariants, topological embeddings, initial (weak) and final topologies, function algebras C(X, R), quotient spaces and identification maps, classical 2-manifold constructions (cylinder, Mobius strip, torus T^2, Klein bottle, and real projective plane RP^2), countability axioms (first-countable spaces, second-countable spaces, separable spaces, Lindelöf spaces), countability implication hierarchy, metric countability equivalence, the Sorgenfrey line and Sorgenfrey plane product pathology, separation axioms (Kolmogorov T0, Fréchet T1, Hausdorff T2, regular and T3, completely regular T3.5 / Tychonoff, normal T4), uniqueness of limits in Hausdorff spaces, Closed Diagonal Theorem (Delta is closed in X x X iff X is T2), classical separation counterexamples (Line with Two Origins, Zariski topology), Urysohn's Lemma with complete proof via dyadic rational open chains, Tietze Extension Theorem, Urysohn Metrization Theorem, compactness and finite subcovers, Finite Intersection Property (FIP) characterization, compact subsets of Hausdorff spaces are closed, compact Hausdorff spaces are normal, metric compactness characterizations (sequential compactness, limit point compactness, Lebesgue Covering Lemma, total boundedness), locally compact spaces and Alexandroff one-point compactification alpha(X) = X union {infinity}, Tychonoff's Theorem for arbitrary Cartesian products via Alexander's Subbase Theorem, connectedness and clopen sets, continuous image preservation, Intermediate Value Theorem, connected components, closures of connected sets, path-connectedness, the Topologist's Sine Curve (connected but not path-connected), locally connected and locally path-connected spaces, and preservation of connectedness under arbitrary Cartesian products. Features 8 interactive 60 FPS Canvas simulations and 24 tiered solved examination problems with complete line-by-line mathematical proofs.",
+          topics: [
+            "Metric Spaces: Topologies, Completeness & Baire's Category Theorem",
+            "Topological Spaces, Bases, Subbases & Neighborhood Systems",
+            "Continuity, Homeomorphisms, Weak Topologies & Quotient Spaces",
+            "Countability Axioms: First, Second Countable & Separable Spaces",
+            "Separation Axioms: T0, T1, Hausdorff (T2) & Regular Spaces (T3)",
+            "Normal Spaces (T4), Urysohn's Lemma & Tietze Extension Theorem",
+            "Compactness, Tychonoff's Theorem & Metric Compactness",
+            "Connectedness, Path-Connectedness & Components"
+          ]
         }
       ]
     }

@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-generate_nt_html.py
-Generates number-theory.html with exact layout parity to differential-geometry.html,
-real-analysis.html, abstract-algebra.html, and graph-theory.html.
+generate_top_html.py
+Generates topology.html with exact layout parity to number-theory.html,
+differential-geometry.html, real-analysis.html, abstract-algebra.html, and graph-theory.html.
 Deep SEO meta tags, Schema.org JSON-LD (strictly zero course numbers),
 pre-rendered Unit 1 sections & worked problems (fully formatted semantic HTML with callout blockquotes),
 interactive Canvas simulations mount, font toggle, live topic search, and comprehensive trust footer.
 """
 
 import re
-import build_nt_unit1
+import build_top_unit1
 
 def format_markdown_to_html(text):
     if not text:
@@ -140,7 +140,7 @@ def format_markdown_to_html(text):
         if m_num:
             num = m_num.group(1)
             body = m_num.group(2).strip()
-            if body.startswith('**') or any(kw in body for kw in ['Step', 'Phase', 'Part', 'Case', 'Condition', 'Method', 'Algorithm', 'Choice', 'Decomposition']):
+            if body.startswith('**') or any(kw in body for kw in ['Step', 'Phase', 'Part', 'Case', 'Condition', 'Method', 'Algorithm', 'Inequality']):
                 flush_para()
                 clean_title = body.replace('**', '')
                 output.append(f"<h4>{num}. {clean_title}</h4>")
@@ -161,7 +161,7 @@ def format_markdown_to_html(text):
     return '\n\n'.join(output)
 
 def generate_html():
-    u1 = build_nt_unit1.get_unit1()
+    u1 = build_top_unit1.get_unit1()
 
     # Pre-render Unit 1 sections with clean semantic HTML
     sections_html = []
@@ -174,15 +174,15 @@ def generate_html():
         # Simulation mount if section has it
         sim_mount_html = ""
         sims = sec.get("simulations", [])
-        if sec_num == "1.2":
-            sims = ["sim_nt_euclidean_bezout"]
+        if sec_num == "1.1":
+            sims = ["sim_top_metric_balls_p"]
 
         if sims:
             for sim_id in sims:
                 sim_mount_html += f"""
 <div class="simulation-card" id="{sim_id}-container" style="margin: 1.5rem 0;">
   <div class="sim-header">
-    <div class="sim-title">Extended Euclidean Algorithm & Bézout Identity Visualizer</div>
+    <div class="sim-title">Metric Balls in L^p Spaces & Cauchy Sequences Visualizer</div>
     <div class="sim-badge">60 FPS Real-Time Canvas Engine</div>
   </div>
   <div class="canvas-wrapper" style="position: relative; width: 100%; height: 380px; background: #0f172a; border-radius: 8px; overflow: hidden;">
@@ -206,7 +206,7 @@ def generate_html():
     # Pre-render Unit 1 solved problems
     problems_html = []
     for p_idx, prob in enumerate(u1["problems"], start=1):
-        prob_id = f"nt-prob-1-{p_idx}"
+        prob_id = f"top-prob-1-{p_idx}"
         tier = prob.get("tier", p_idx)
         if "Foundational" in str(tier):
             diff_class = "diff-easy"
@@ -253,16 +253,16 @@ def generate_html():
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Comprehensive SEO Meta Tags -->
-  <title>Theory of Numbers: Divisibility, Congruences, Arithmetical Functions & Diophantine Equations | OpenSTEM Digital Academic Press</title>
-  <meta name="description" content="Free comprehensive university honors digital textbook on elementary, algebraic, and analytic number theory: divisibility theory, Euclidean Algorithm, Bézout identity, Fundamental Theorem of Arithmetic, continued fractions, Pell's equation, linear and system congruences, Chinese Remainder Theorem, Fermat, Euler, Wilson, primitive roots, Dirichlet convolution, Möbius inversion, average orders, Ramanujan sums, Pythagorean triples, Fermat's infinite descent, quadratic reciprocity, and sums of squares. Features 8 interactive 60 FPS simulations and 24 tiered solved problems with complete line-by-line mathematical proofs.">
-  <meta name="keywords" content="Theory of Numbers, Divisibility, Euclidean Algorithm, Bezout Identity, Fundamental Theorem of Arithmetic, Primes, Continued Fractions, Pell Equation, Congruences, Chinese Remainder Theorem, Fermats Little Theorem, Eulers Totient Theorem, Wilsons Theorem, Primitive Roots, Indices, Discrete Logarithms, Arithmetic Functions, Dirichlet Convolution, Mobius Inversion, Average Orders, Ramanujan Sums, Pythagorean Triples, Fermats Last Theorem, Infinite Descent, Quadratic Reciprocity, Legendre Symbol, Sums of Squares, Gaussian Integers, Lagranges Four-Square Theorem, Legendres Three-Square Theorem">
+  <title>General Topology: Metric Spaces, Topological Structures, Separation, Compactness & Connectedness | OpenSTEM Digital Academic Press</title>
+  <meta name="description" content="Free comprehensive university honors digital textbook on general point-set topology and metric spaces: metric space axioms, Lp norms, Cauchy completeness, Baire Category Theorem, Banach fixed-point theorem, topological spaces, bases and subbases, Kuratowski closure axioms, continuous mappings, Pasting Lemma, homeomorphisms, quotient topologies, countability axioms, Sorgenfrey line, separation axioms T0 to T4, Urysohn's Lemma, Tietze Extension Theorem, Urysohn Metrization Theorem, compactness, Lebesgue Covering Lemma, Tychonoff's Theorem, connectedness, path-connectedness, and the Topologist's Sine Curve. Features 8 interactive 60 FPS Canvas simulations and 24 tiered solved problems with complete line-by-line mathematical proofs.">
+  <meta name="keywords" content="General Topology, Point-Set Topology, Metric Spaces, Completeness, Baire Category Theorem, Banach Fixed Point Theorem, Topological Spaces, Basis, Subbasis, Kuratowski Closure, Continuous Maps, Pasting Lemma, Homeomorphism, Quotient Space, Torus, Mobius Strip, Klein Bottle, Countability Axioms, First Countable, Second Countable, Separable, Lindelof, Sorgenfrey Line, Separation Axioms, T0, T1, Hausdorff, T2, Regular, T3, Tychonoff, T3.5, Normal, T4, Urysohn Lemma, Tietze Extension Theorem, Urysohn Metrization Theorem, Compactness, Heine-Borel, Lebesgue Number, Tychonoff Theorem, Connectedness, Path Connected, Topologists Sine Curve">
   <meta name="author" content="Shahriyar Karim Siam">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://openstemlibrary.com/number-theory.html">
+  <link rel="canonical" href="https://openstemlibrary.com/topology.html">
 
   <!-- Open Graph / Social Media -->
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Theory of Numbers: Divisibility, Congruences, Arithmetical Functions & Diophantine Equations | OpenSTEM Digital Academic Press">
+  <meta property="og:title" content="General Topology: Metric Spaces, Topological Structures, Separation, Compactness & Connectedness | OpenSTEM Digital Academic Press">
   <meta property="og:description" content="Exhaustive university honors textbook with 8 chapters, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
   <meta property="og:image" content="https://openstemlibrary.com/logo.svg">
 
@@ -274,8 +274,8 @@ def generate_html():
   {{
     "@context": "https://schema.org",
     "@type": "Course",
-    "name": "Theory of Numbers: Divisibility, Congruences, Arithmetical Functions & Diophantine Equations",
-    "description": "Comprehensive university honors curriculum covering divisibility, the Fundamental Theorem of Arithmetic, continued fractions, Pell's equation, congruences, Chinese Remainder Theorem, classical modular theorems, primitive roots, arithmetical functions, Dirichlet convolution, Möbius inversion, Ramanujan sums, Pythagorean triples, Fermat descent, quadratic reciprocity, and representations as sums of squares.",
+    "name": "General Topology: Metric Spaces, Topological Structures, Separation, Compactness & Connectedness",
+    "description": "Comprehensive university honors curriculum covering metric spaces, completeness, Baire Category Theorem, topological spaces, bases and subbases, continuity, quotient spaces, countability axioms, separation axioms (T0 to T4), Urysohn's Lemma, Tietze Extension Theorem, compactness, Tychonoff's Theorem, and connectedness.",
     "provider": {{
       "@type": "EducationalOrganization",
       "name": "OpenSTEM Digital Academic Press",
@@ -297,7 +297,7 @@ def generate_html():
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
   <!-- Application Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=20261008_v5">
+  <link rel="stylesheet" href="styles.css?v=20261008_v6">
 </head>
 <body>
 
@@ -307,14 +307,14 @@ def generate_html():
       <div class="brand-header">
         <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
         <div>
-          <div class="brand-title">Theory of Numbers</div>
+          <div class="brand-title">General Topology</div>
           <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
         </div>
       </div>
 
       <!-- Live Search Filter for SEO / Navigation -->
       <div class="search-box-container">
-        <input type="text" id="topic-search-input" placeholder="🔍 Search divisibility, primes, CRT, primitive roots, Dirichlet convolution, Pell equation, sums of squares..." class="search-input">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search metric spaces, Baire, bases, quotient, countability, Hausdorff, Urysohn, compactness, Tychonoff..." class="search-input">
       </div>
 
       <div class="nav-section-title">Table of Contents</div>
@@ -328,8 +328,8 @@ def generate_html():
       <!-- Top Sticky Navbar -->
       <header class="top-navbar">
         <div class="course-badge-container">
-          <span class="badge-pill badge-course">Mathematics / Number Theory</span>
-          <span class="badge-pill badge-credits">Divisibility, Congruences & Forms</span>
+          <span class="badge-pill badge-course">Mathematics / General Topology</span>
+          <span class="badge-pill badge-credits">Structures, Separation & Compactness</span>
           <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
         </div>
         <div class="navbar-actions">
@@ -348,9 +348,9 @@ def generate_html():
           <!-- Chapter Hero Header -->
           <header class="unit-hero">
             <div class="unit-number-tag" id="unit-tag">Chapter 1 • Theory & Derivations</div>
-            <h1 class="unit-title-heading" id="unit-title">Divisibility Theory & The Fundamental Theorem of Arithmetic</h1>
+            <h1 class="unit-title-heading" id="unit-title">Metric Spaces: Topologies, Completeness & Baire's Category Theorem</h1>
             <p class="unit-desc-lead" id="unit-desc">
-              The algebraic foundation of integers: the divisibility relation, Division Algorithm, greatest common divisor, Bézout's identity, the Euclidean Algorithm, prime numbers and Euclid's infinitude theorem, the Sieve of Eratosthenes, Fundamental Theorem of Arithmetic (unique factorization), and p-adic valuations.
+              Foundations of metric topology: distance axioms, classical metric spaces (Euclidean, taxicab, Chebyshev, sequence spaces l^p and l^inf, function space C[a, b]), open balls and open sets, equivalent metrics, Cauchy sequences and completeness, Cantor's Intersection Theorem, nowhere dense and meager sets, Baire's Category Theorem with complete proof, and the Banach Fixed-Point Contraction Mapping Theorem.
             </p>
           </header>
 
@@ -419,8 +419,8 @@ def generate_html():
               <a href="graph-theory.html" class="reader-trust-link">Graph Theory</a>
               <a href="real-analysis.html" class="reader-trust-link">Real Analysis</a>
               <a href="differential-geometry.html" class="reader-trust-link">Differential Geometry</a>
-              <a href="number-theory.html" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Theory of Numbers</a>
-              <a href="topology.html" class="reader-trust-link">General Topology</a>
+              <a href="number-theory.html" class="reader-trust-link">Theory of Numbers</a>
+              <a href="topology.html" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">General Topology</a>
               <a href="about.html" class="reader-trust-link">About & Editorial</a>
               <a href="privacy.html" class="reader-trust-link">Privacy Policy</a>
               <a href="terms.html" class="reader-trust-link">Terms of Service</a>
@@ -437,9 +437,9 @@ def generate_html():
   </div>
 
   <!-- Textbook Application Scripts -->
-  <script src="number-theory-sims.js?v=20261008_v5"></script>
-  <script src="number-theory-data.js?v=20261008_v5"></script>
-  <script src="app.js?v=20261008_v5"></script>
+  <script src="topology-sims.js?v=20261008_v6"></script>
+  <script src="topology-data.js?v=20261008_v6"></script>
+  <script src="app.js?v=20261008_v6"></script>
 </body>
 </html>
 """
@@ -449,10 +449,10 @@ def generate_html():
     if course_code_matches:
         raise ValueError(f"STRICT ERROR: Prohibited course codes detected in HTML: {course_code_matches}")
 
-    with open("number-theory.html", "w", encoding="utf-8") as f:
+    with open("topology.html", "w", encoding="utf-8") as f:
         f.write(html_content)
 
-    print("Successfully generated number-theory.html with pre-rendered Unit 1 and zero course numbers.")
+    print("Successfully generated topology.html with pre-rendered Unit 1 and zero course numbers.")
 
 if __name__ == "__main__":
     generate_html()
