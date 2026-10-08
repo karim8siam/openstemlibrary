@@ -1,37 +1,188 @@
 # -*- coding: utf-8 -*-
 """
-generate_aa_html.py
-Generates abstract-algebra.html with exact layout parity to linear-algebra.html,
-deep SEO meta tags, Schema.org JSON-LD (strictly zero course numbers),
-pre-rendered Unit 1 sections & worked problems, interactive Canvas simulations mount,
-font toggle, live topic search, and comprehensive trust footer.
+generate_ra_html.py
+Generates real-analysis.html with exact layout parity to linear-algebra.html,
+abstract-algebra.html, and graph-theory.html.
+Deep SEO meta tags, Schema.org JSON-LD (strictly zero course numbers),
+pre-rendered Unit 1 sections & worked problems (fully formatted semantic HTML with callout blockquotes),
+interactive Canvas simulations mount, font toggle, live topic search, and comprehensive trust footer.
 """
 
-import build_aa_unit1
+import re
+import build_ra_unit1
+
+def format_markdown_to_html(text):
+    if not text:
+        return ""
+    clean = text.replace('\r\n', '\n').strip()
+
+    # Pre-isolate display math $$...$$
+    def isolate_math(match):
+        single = match.group(1).strip().replace('\n', ' ')
+        return f"\n\n<div class=\"math-display\">$${single}$$</div>\n\n"
+    clean = re.sub(r'\$\$(.*?)\$\$', isolate_math, clean, flags=re.DOTALL)
+
+    lines = clean.split('\n')
+    output = []
+    i = 0
+    para = []
+
+    def flush_para():
+        nonlocal para
+        if para:
+            p = ' '.join(para).strip()
+            p = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', p)
+            p = re.sub(r'\*(.*?)\*', r'<em>\1</em>', p)
+            if p:
+                output.append(f"<p>{p}</p>")
+            para = []
+
+    while i < len(lines):
+        line = lines[i]
+        s = line.strip()
+        if not s:
+            flush_para()
+            i += 1
+            continue
+
+        # Horizontal rule
+        if s == '---' or s == '***':
+            flush_para()
+            output.append('<hr class="section-divider-hr">')
+            i += 1
+            continue
+
+        # Pre-wrapped display math or div
+        if s.startswith('<div') or (s.startswith('$$') and s.endswith('$$')):
+            flush_para()
+            output.append(s if s.startswith('<div') else f'<div class="math-display">{s}</div>')
+            i += 1
+            continue
+
+        # Blockquote (group all consecutive lines starting with >)
+        if s.startswith('>'):
+            flush_para()
+            bq_lines = []
+            while i < len(lines) and lines[i].strip().startswith('>'):
+                b_raw = lines[i].strip()
+                b_content = b_raw[1:].strip()
+                bq_lines.append(b_content)
+                i += 1
+
+            bq_out = []
+            bq_p = []
+
+            def flush_bq_p():
+                nonlocal bq_p
+                if bq_p:
+                    bp = ' '.join(bq_p).strip()
+                    bp = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', bp)
+                    bp = re.sub(r'\*(.*?)\*', r'<em>\1</em>', bp)
+                    if bp:
+                        bq_out.append(f"<p>{bp}</p>")
+                    bq_p = []
+
+            for bl in bq_lines:
+                bs = bl.strip()
+                if not bs:
+                    flush_bq_p()
+                    continue
+                if bs.startswith('<div') or (bs.startswith('$$') and bs.endswith('$$')):
+                    flush_bq_p()
+                    bq_out.append(bs if bs.startswith('<div') else f'<div class="math-display">{bs}</div>')
+                    continue
+                if bs.startswith('- ') or bs.startswith('* '):
+                    flush_bq_p()
+                    item = bs[2:].strip()
+                    item = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', item)
+                    item = re.sub(r'\*(.*?)\*', r'<em>\1</em>', item)
+                    bq_out.append(f"<ul><li>{item}</li></ul>")
+                    continue
+                m_num = re.match(r'^([0-9]+)\.\s+(.*)$', bs)
+                if m_num:
+                    flush_bq_p()
+                    item = m_num.group(2).strip()
+                    item = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', item)
+                    item = re.sub(r'\*(.*?)\*', r'<em>\1</em>', item)
+                    bq_out.append(f"<ol start=\"{m_num.group(1)}\"><li>{item}</li></ol>")
+                    continue
+                bq_p.append(bs)
+
+            flush_bq_p()
+            output.append(f"<blockquote class=\"math-callout\">\n" + '\n'.join(bq_out) + "\n</blockquote>")
+            continue
+
+        # Headings
+        if s.startswith('### '):
+            flush_para()
+            output.append(f"<h4>{s[4:].strip()}</h4>")
+            i += 1
+            continue
+
+        if s.startswith('#### '):
+            flush_para()
+            output.append(f"<h5>{s[5:].strip()}</h5>")
+            i += 1
+            continue
+
+        # Unordered lists
+        if s.startswith('- ') or s.startswith('* '):
+            flush_para()
+            item = s[2:].strip()
+            item = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', item)
+            item = re.sub(r'\*(.*?)\*', r'<em>\1</em>', item)
+            output.append(f"<ul><li>{item}</li></ul>")
+            i += 1
+            continue
+
+        # Numbered headings or lists
+        m_num = re.match(r'^([0-9]+)\.\s+(.*)$', s)
+        if m_num:
+            num = m_num.group(1)
+            body = m_num.group(2).strip()
+            if body.startswith('**') or any(kw in body for kw in ['Method', 'Law', 'Equation', 'Nature', 'Criteria', 'Summing', 'Part', 'Step']):
+                flush_para()
+                clean_title = body.replace('**', '')
+                output.append(f"<h4>{num}. {clean_title}</h4>")
+                i += 1
+                continue
+            else:
+                flush_para()
+                item = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', body)
+                item = re.sub(r'\*(.*?)\*', r'<em>\1</em>', item)
+                output.append(f"<ol start=\"{num}\"><li>{item}</li></ol>")
+                i += 1
+                continue
+
+        para.append(s)
+        i += 1
+
+    flush_para()
+    return '\n\n'.join(output)
 
 def generate_html():
-    u1 = build_aa_unit1.get_unit1()
+    u1 = build_ra_unit1.get_unit1()
 
-    # Pre-render Unit 1 sections
+    # Pre-render Unit 1 sections with clean semantic HTML
     sections_html = []
     for s_idx, sec in enumerate(u1["sections"], start=1):
         sec_id = f"u1-sec{s_idx}"
         sec_num = sec.get("secNumber", f"1.{s_idx}")
         sec_title = sec["title"]
-        sec_content = sec["content"]
-        
+        sec_content = format_markdown_to_html(sec["content"])
+
         # Simulation mount if section has it
         sim_mount_html = ""
         sims = sec.get("simulations", [])
         if sec_num == "1.3":
-            sims = ["sim_aa_modular_cayley"]
-            
+            sims = ["sim_ra_dedekind_completeness"]
+
         if sims:
             for sim_id in sims:
                 sim_mount_html += f"""
 <div class="simulation-card" id="{sim_id}-container" style="margin: 1.5rem 0;">
   <div class="sim-header">
-    <div class="sim-title">Interactive Algebraic Laboratory: Modular Arithmetic & Cayley Table</div>
+    <div class="sim-title">Dedekind Cuts, Supremum Principle & Completeness of Real Numbers</div>
     <div class="sim-badge">60 FPS Real-Time Canvas Engine</div>
   </div>
   <div class="canvas-wrapper" style="position: relative; width: 100%; height: 380px; background: #0f172a; border-radius: 8px; overflow: hidden;">
@@ -55,7 +206,7 @@ def generate_html():
     # Pre-render Unit 1 solved problems
     problems_html = []
     for p_idx, prob in enumerate(u1["problems"], start=1):
-        prob_id = f"aa-prob-1-{p_idx}"
+        prob_id = f"ra-prob-1-{p_idx}"
         tier = prob.get("tier", p_idx)
         if "Foundational" in str(tier):
             diff_class = "diff-easy"
@@ -68,8 +219,8 @@ def generate_html():
             diff_label = "Tier 3 • Honors / Proof Challenge"
 
         prob_title = prob.get("title", f"Solved Problem 1.{p_idx}")
-        statement = prob.get("statement", "")
-        solution = prob.get("solution", "")
+        statement = format_markdown_to_html(prob.get("statement", ""))
+        solution = format_markdown_to_html(prob.get("solution", ""))
 
         p_block = f"""<div class="problem-card" id="{prob_id}">
   <div class="problem-header">
@@ -102,16 +253,16 @@ def generate_html():
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Comprehensive SEO Meta Tags -->
-  <title>Abstract Algebra: Groups, Rings, Fields & Modern Algebraic Structures | OpenSTEM Digital Academic Press</title>
-  <meta name="description" content="Free comprehensive university honors digital textbook covering equivalence relations, modular arithmetic, group axioms, cyclic subgroups, permutation and symmetric groups, Dihedral groups, cosets and Lagrange's Theorem, normal subgroups, quotient groups, the class equation, group homomorphisms, isomorphism theorems, Cayley's theorem, automorphisms, ring theory, ideals, quotient rings, prime and maximal ideals, integral domains, Euclidean domains, PIDs, UFDs, polynomial rings, Gauss's lemma, Eisenstein's criterion, and field extensions with 8 interactive 60 FPS simulations and 24 tiered solved problems.">
-  <meta name="keywords" content="Abstract Algebra, Group Theory, Ring Theory, Field Theory, Equivalence Relations, Congruence Modulo n, Group Axioms, Subgroups, Cyclic Groups, Symmetric Group, Permutation Groups, Alternating Group, Dihedral Group, Orbit-Stabilizer Theorem, Burnside Lemma, Cosets, Lagrange Theorem, Euler Totient Function, Fermat Little Theorem, Normal Subgroups, Quotient Groups, Class Equation, Conjugacy Classes, Center of Group, Group Homomorphisms, Kernel and Image, First Isomorphism Theorem, Second Isomorphism Theorem, Third Isomorphism Theorem, Cayley Theorem, Automorphisms, Inner Automorphisms, Rings, Commutative Rings, Subrings, Ring Characteristic, Ideals, Principal Ideals, Quotient Rings, Ring Homomorphisms, Prime Ideals, Maximal Ideals, Integral Domains, Cancellation Law, Field of Fractions, Euclidean Domains, Principal Ideal Domains, Unique Factorization Domains, Gaussian Integers, Polynomial Rings, Division Algorithm, Gauss Lemma, Eisenstein Irreducibility Criterion, Cyclotomic Polynomials, Field Extensions, Minimal Polynomial, Algebraic Elements, Tower Law, Geometric Constructions, Doubling the Cube, Angle Trisection">
+  <title>Real Analysis: Foundations, Topology, Integration & Multivariable Analysis | OpenSTEM Digital Academic Press</title>
+  <meta name="description" content="Free comprehensive university honors digital textbook covering the real field, Dedekind cuts, completeness axioms, Archimedean property, denseness of rationals, Cantor uncountability, Euclidean topology, open and closed sets, Bolzano-Weierstrass theorem, Heine-Borel compactness, connectedness, epsilon-N sequence limits, monotone convergence, Cauchy completeness, infinite series convergence tests, Riemann rearrangement theorem, epsilon-delta functional limits, Extreme Value Theorem, Intermediate Value Theorem, uniform continuity, Heine-Cantor theorem, differentiability, Rolle and Lagrange Mean Value Theorems, Cauchy MVT, L'Hôpital's rule, Taylor's theorem with remainders, Darboux sums, Riemann and Riemann-Stieltjes integration, Lebesgue's integrability criterion, Fundamental Theorem of Calculus, uniform convergence, Weierstrass M-test, multivariable Euclidean space, Fréchet derivatives, Jacobian matrices, Multivariable Chain Rule, Inverse and Implicit Function Theorems, multiple integrals, and Fubini's theorem with 8 interactive 60 FPS simulations and 24 tiered solved problems.">
+  <meta name="keywords" content="Real Analysis, Dedekind Cuts, Supremum Axiom, Completeness Axiom, Archimedean Property, Dense Subsets, Cantor Diagonalization, Metric Topology, Open Sets, Closed Sets, Compactness, Heine-Borel Theorem, Bolzano-Weierstrass Theorem, Connectedness, Epsilon-N Sequences, Monotone Convergence Theorem, Cauchy Sequences, Cauchy Completeness, Infinite Series, Comparison Test, Ratio Test, Root Test, Integral Test, Raabe Test, Gauss Test, Alternating Series, Dirichlet Test, Abel Test, Riemann Rearrangement Theorem, Epsilon-Delta Limits, Continuous Functions, Extreme Value Theorem, Intermediate Value Theorem, Uniform Continuity, Heine-Cantor Theorem, Differentiability, Carathéodory Theorem, Rolle Theorem, Mean Value Theorem, Cauchy MVT, L'Hôpital Rule, Taylor Theorem, Lagrange Remainder, Cauchy Remainder, Darboux Sums, Riemann Integral, Lebesgue Criterion, Fundamental Theorem of Calculus, Riemann-Stieltjes Integral, Uniform Convergence, Weierstrass M-Test, Multivariable Analysis, Fréchet Derivative, Jacobian Matrix, Multivariable Chain Rule, Inverse Function Theorem, Implicit Function Theorem, Multiple Integrals, Fubini Theorem, Change of Variables">
   <meta name="author" content="Shahriyar Karim Siam">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://openstemlibrary.com/abstract-algebra.html">
+  <link rel="canonical" href="https://openstemlibrary.com/real-analysis.html">
 
   <!-- Open Graph / Social Media -->
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Abstract Algebra: Groups, Rings, Fields & Modern Algebraic Structures | OpenSTEM Digital Academic Press">
+  <meta property="og:title" content="Real Analysis: Foundations, Topology, Integration & Multivariable Analysis | OpenSTEM Digital Academic Press">
   <meta property="og:description" content="Exhaustive university honors textbook with 8 chapters, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
   <meta property="og:image" content="https://openstemlibrary.com/logo.svg">
 
@@ -123,8 +274,8 @@ def generate_html():
   {{
     "@context": "https://schema.org",
     "@type": "Course",
-    "name": "Abstract Algebra: Groups, Rings, Fields & Modern Algebraic Structures",
-    "description": "Comprehensive university honors curriculum covering equivalence relations, modular arithmetic, group axioms, cyclic subgroups, permutation and symmetric groups, Dihedral groups, cosets and Lagrange's Theorem, normal subgroups, quotient groups, the class equation, group homomorphisms, isomorphism theorems, Cayley's theorem, automorphisms, ring theory, ideals, quotient rings, prime and maximal ideals, integral domains, Euclidean domains, PIDs, UFDs, polynomial rings, Gauss's lemma, Eisenstein's criterion, and field extensions with the Tower Law.",
+    "name": "Real Analysis: Foundations, Topology, Integration & Multivariable Analysis",
+    "description": "Comprehensive university honors curriculum covering axiomatic real foundations, Dedekind cuts, completeness, Euclidean metric topology, Heine-Borel compactness, sequence convergence, Cauchy completeness, infinite series tests, Riemann rearrangements, functional continuity, intermediate and extreme value theorems, differentiability, mean value theorems, Taylor polynomials, Riemann and Riemann-Stieltjes integration, uniform convergence of function sequences, Fréchet derivatives, Jacobian matrices, Inverse and Implicit Function theorems, and multiple integration in Rn.",
     "provider": {{
       "@type": "EducationalOrganization",
       "name": "OpenSTEM Digital Academic Press",
@@ -146,7 +297,7 @@ def generate_html():
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
   <!-- Application Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=20261008_v1">
+  <link rel="stylesheet" href="styles.css?v=20261008_v3">
 </head>
 <body>
 
@@ -156,14 +307,14 @@ def generate_html():
       <div class="brand-header">
         <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
         <div>
-          <div class="brand-title">Abstract Algebra</div>
+          <div class="brand-title">Real Analysis</div>
           <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
         </div>
       </div>
 
       <!-- Live Search Filter for SEO / Navigation -->
       <div class="search-box-container">
-        <input type="text" id="topic-search-input" placeholder="🔍 Search groups, rings, ideals, Lagrange, UFDs, Galois, quotients..." class="search-input">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search Dedekind, Heine-Borel, Cauchy, series, MVT, Riemann, Jacobian..." class="search-input">
       </div>
 
       <div class="nav-section-title">Table of Contents</div>
@@ -177,8 +328,8 @@ def generate_html():
       <!-- Top Sticky Navbar -->
       <header class="top-navbar">
         <div class="course-badge-container">
-          <span class="badge-pill badge-course">Mathematics / Pure Mathematics</span>
-          <span class="badge-pill badge-credits">Abstract Algebra: Groups, Rings & Fields</span>
+          <span class="badge-pill badge-course">Mathematics / Pure Analysis</span>
+          <span class="badge-pill badge-credits">Real Analysis: Foundations, Topology & Integration</span>
           <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
         </div>
         <div class="navbar-actions">
@@ -197,9 +348,9 @@ def generate_html():
           <!-- Chapter Hero Header -->
           <header class="unit-hero">
             <div class="unit-number-tag" id="unit-tag">Chapter 1 • Theory & Derivations</div>
-            <h1 class="unit-title-heading" id="unit-title">Foundations of Algebraic Structures, Relations & Modular Arithmetic</h1>
+            <h1 class="unit-title-heading" id="unit-title">The Real Field: Completeness, Supremum Principle & Dedekind Cuts</h1>
             <p class="unit-desc-lead" id="unit-desc">
-              Rigorous introduction to abstract algebraic structures, binary relations, equivalence classes, set partitions, congruence modulo n, the ring structure of Z_n, Bézout's identity, modular multiplicative inverses, monoids, semi-groups, and axiomatic group theory.
+              Axiomatic foundations of the real number system: ordered field axioms, least upper bound property, Dedekind cut construction of R, the Archimedean property, denseness of rational and irrational numbers, and Cantor's cardinality and uncountability theorems.
             </p>
           </header>
 
@@ -264,9 +415,9 @@ def generate_html():
               <a href="ordinary-differential-equations-2.html" class="reader-trust-link">Differential Equations II</a>
               <a href="complex-analysis.html" class="reader-trust-link">Complex Analysis</a>
               <a href="numerical-analysis.html" class="reader-trust-link">Numerical Analysis</a>
-              <a href="abstract-algebra.html" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Abstract Algebra</a>
+              <a href="abstract-algebra.html" class="reader-trust-link">Abstract Algebra</a>
               <a href="graph-theory.html" class="reader-trust-link">Graph Theory</a>
-              <a href="real-analysis.html" class="reader-trust-link">Real Analysis</a>
+              <a href="real-analysis.html" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Real Analysis</a>
               <a href="about.html" class="reader-trust-link">About & Editorial</a>
               <a href="privacy.html" class="reader-trust-link">Privacy Policy</a>
               <a href="terms.html" class="reader-trust-link">Terms of Service</a>
@@ -283,17 +434,22 @@ def generate_html():
   </div>
 
   <!-- Textbook Application Scripts -->
-  <script src="abstract-algebra-sims.js?v=20261008_v1"></script>
-  <script src="abstract-algebra-data.js?v=20261008_v1"></script>
-  <script src="app.js?v=20261008_v1"></script>
+  <script src="real-analysis-sims.js?v=20261008_v3"></script>
+  <script src="real-analysis-data.js?v=20261008_v3"></script>
+  <script src="app.js?v=20261008_v3"></script>
 </body>
 </html>
 """
 
-    with open("abstract-algebra.html", "w", encoding="utf-8") as f:
+    # Check for strictly zero course numbers
+    course_code_matches = re.findall(r'MTH[\s-]*\d+', html_content, re.IGNORECASE)
+    if course_code_matches:
+        raise ValueError(f"STRICT ERROR: Prohibited course codes detected in HTML: {course_code_matches}")
+
+    with open("real-analysis.html", "w", encoding="utf-8") as f:
         f.write(html_content)
 
-    print("Successfully generated abstract-algebra.html")
+    print("Successfully generated real-analysis.html with pre-rendered Unit 1 and zero course numbers.")
 
 if __name__ == "__main__":
     generate_html()

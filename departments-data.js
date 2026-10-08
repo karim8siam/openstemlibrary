@@ -670,6 +670,26 @@ window.LIBRARY_CATALOG = {
             "Planar Graphs, Euler's Formula, Kuratowski's Theorem & Duality",
             "Graph Coloring, Chromatic Polynomials & Network Flows"
           ]
+        },
+        {
+          id: "real-analysis",
+          title: "Real Analysis: Foundations, Topology & Integration",
+          subtitle: "Completeness Axioms, Euclidean Topology, Sequences & Series, Continuity, Mean Value Theorems, Riemann Integration & Multivariable Calculus",
+          status: "AVAILABLE",
+          url: "real-analysis.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Real Analysis Textbook, Dedekind Cuts, Supremum Principle, Completeness Axiom, Archimedean Property, Dense Subsets, Cantor Diagonalization, Uncountability, Euclidean Space Rn, Metric Topology, Open Sets, Closed Sets, Bolzano-Weierstrass Theorem, Heine-Borel Compactness, Connectedness, Epsilon-N Limits, Monotone Convergence Theorem, Cauchy Sequences, Cauchy Completeness, Infinite Series, Cauchy Condensation, Absolute Convergence, Ratio Test, Root Test, Integral Test, Raabe Test, Gauss Test, Alternating Series, Dirichlet Test, Abel Test, Riemann Rearrangement Theorem, Epsilon-Delta Limits, Heine Sequential Criterion, Extreme Value Theorem, Intermediate Value Theorem, Uniform Continuity, Heine-Cantor Theorem, Differentiability, Carathéodory Theorem, Fermat Lemma, Darboux Intermediate Value Theorem, Rolle Theorem, Lagrange Mean Value Theorem, Cauchy Generalized MVT, L'Hopital Rule, Taylor Theorem, Lagrange Remainder, Cauchy Remainder, Darboux Sums, Riemann Integrability, Lebesgue Integrability Criterion, Fundamental Theorem of Calculus, Riemann-Stieltjes Integral, Sequences of Functions, Pointwise and Uniform Convergence, Weierstrass M-Test, Term-by-Term Integration, Term-by-Term Differentiation, Multivariable Analysis, Cauchy-Schwarz Inequality, Total Fréchet Derivative, Jacobian Matrix, Multivariable Chain Rule, Inverse Function Theorem, Implicit Function Theorem, Multiple Integrals, Fubini Theorem, Change of Variables",
+          description: "Exhaustive honors-level digital textbook unifying single-variable and multivariable real analysis: axiomatic foundations of the real field, least upper bound property, Dedekind cuts, Archimedean property, denseness of rational and irrational numbers, Cantor's uncountability theorems, metric topology of Euclidean space, open and closed sets, derived sets, the Bolzano-Weierstrass theorem, open covers and the Heine-Borel compactness theorem, topological connectedness, rigorous epsilon-N sequence limits, monotone convergence, Cauchy completeness, infinite series convergence tests (Comparison, Limit Comparison, Cauchy Condensation, Ratio, Root, Integral, Raabe's, Gauss's, Alternating Series, Dirichlet, Abel), Riemann's rearrangement theorem, epsilon-delta functional limits, Heine's sequential characterization, topological continuity via open preimages, the Extreme Value Theorem, Bolzano's Intermediate Value Theorem, uniform continuity and the Heine-Cantor theorem, differentiability and Carathéodory's formulation, Fermat's interior extremum lemma, Darboux's intermediate value theorem for derivatives, Rolle's, Lagrange's, and Cauchy's Generalized Mean Value Theorems, rigorous proof of L'Hôpital's rules, Taylor's theorem with Lagrange, Cauchy, and integral remainders, Darboux sums and the Riemann integrability criterion, Lebesgue's measure-zero criterion, Fundamental Theorem of Calculus Parts 1 and 2, Riemann-Stieltjes integration, uniform convergence of function sequences, the Weierstrass M-test, term-by-term limit/integral/derivative interchange theorems, Euclidean n-space vector geometry, Cauchy-Schwarz inequality, directional and partial derivatives, total Fréchet derivatives, Jacobian matrices, the Multivariable Chain Rule, the Inverse Function Theorem, the Implicit Function Theorem in Rn, multiple integrals, Fubini's theorem, and multivariable change of variables with Jacobian determinants. Features 8 interactive 60 FPS Canvas simulations and 24 tiered solved examination problems with complete line-by-line mathematical proofs.",
+          topics: [
+            "The Real Field: Completeness, Supremum Principle & Dedekind Cuts",
+            "Topology of the Real Line: Open Sets, Compactness & Heine-Borel",
+            "Real Sequences: Limits, Monotone Convergence & Cauchy Sequences",
+            "Infinite Series of Real Numbers: Rigorous Convergence Tests",
+            "Continuous Real Functions: Epsilon-Delta Rigor, Compactness & Intermediate Values",
+            "Differentiability: Mean Value Theorems, Taylor's Theorem & L'Hôpital's Rule",
+            "Riemann & Riemann-Stieltjes Integration & Sequences of Functions",
+            "Multivariable Analysis: Euclidean Topology, Fréchet Derivatives & Multiple Integrals"
+          ]
         }
       ]
     }
