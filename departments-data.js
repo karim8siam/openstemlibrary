@@ -832,6 +832,35 @@ window.LIBRARY_CATALOG = {
           ]
         }
       ]
+    },
+    {
+      id: "chemistry",
+      name: "Chemistry",
+      code: "CHEMISTRY",
+      icon: "🧪",
+      description: "Molecular transformations, states of matter, chemical thermodynamics, kinetics, equilibria, and electrochemical systems.",
+      courses: [
+        {
+          id: "physical-chemistry-1",
+          title: "Physical Chemistry I: States of Matter, Thermochemistry, Kinetics, Equilibrium & Electrochemistry",
+          subtitle: "States of Matter & SI Measurement, Kinetic Molecular Theory & Real Gases, Thermochemistry & Calorimetry, Intermolecular Forces & Crystal Lattices, Solutions & Colligative Properties, Chemical Kinetics & Catalysis, Dynamic Chemical Equilibrium & Le Chatelier's Principle, and Galvanic/Electrolytic Electrochemistry",
+          status: "AVAILABLE",
+          url: "physical-chemistry-1.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Physical Chemistry Textbook, States of Matter, Kinetic Molecular Theory, Maxwell-Boltzmann Distribution, van der Waals Real Gases, Liquefaction, Thermochemistry, Enthalpy, Hess Law, Bomb Calorimetry, Intermolecular Forces, Crystal Lattice, Bragg Diffraction, Unit Cell, Solutions, Colligative Properties, Raoult Law, Osmotic Pressure, Chemical Kinetics, Rate Laws, Arrhenius Activation Energy, Dynamic Equilibrium, Le Chatelier Principle, Electrochemistry, Galvanic Cell, Nernst Equation, Batteries, Fuel Cells, Corrosion, Electrolysis, Faraday Laws",
+          description: "Comprehensive university honors master digital textbook on physical chemistry: classification of matter, SI measurement metrics, dimensional analysis, and physical properties; kinetic molecular theory of gases, Maxwell-Boltzmann speed distributions, real gas deviations, van der Waals equation of state, and gas liquefaction; thermochemical state functions, first law of thermodynamics, reaction enthalpies, Hess's law cycles, and bomb calorimetry; intermolecular forces, liquid properties, and solid-state crystal lattices (Bravais, Bragg diffraction, unit cells); physical properties of solutions, Raoult's and Henry's laws, colligative phenomena (freezing depression, boiling elevation, osmotic pressure), and Nernst distribution law; chemical kinetics, rate laws, integrated rate equations, Arrhenius activation barrier, collision theory, and catalysis; dynamic chemical equilibria, Law of Mass Action, relation between Kp, Kc, and Kx, and Le Châtelier's principle; and electrochemistry, half-reaction balancing, galvanic cells, Standard Hydrogen Electrode, Nernst equation, cell thermodynamics, commercial batteries, lithium-ion intercalation, fuel cells, corrosion mechanisms, and electrolytic cells with Faraday's laws. Features 8 interactive 60 FPS Canvas simulations and 24 tiered solved examination problems with complete line-by-line mathematical proofs.",
+          topics: [
+            "Foundations of Matter, Measurements, Dimensional Analysis & Physical Properties",
+            "The Gaseous State: Kinetic Molecular Theory, Real Gases & Liquefaction",
+            "Thermochemistry: Enthalpy, Calorimetry & Thermochemical Laws",
+            "Intermolecular Forces, Liquids & Solid-State Crystal Structures",
+            "Physical Properties of Solutions, Colligative Phenomena & Distribution Law",
+            "Chemical Kinetics: Rate Laws, Collision Theory & Catalysis",
+            "Chemical Equilibrium: Dynamic Equilibria, Law of Mass Action & Le Chatelier's Principle",
+            "Electrochemistry: Galvanic Cells, Nernst Equation, Batteries, Corrosion & Electrolysis"
+          ]
+        }
+      ]
     }
   ]
 };
