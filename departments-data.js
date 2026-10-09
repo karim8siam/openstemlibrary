@@ -1117,6 +1117,28 @@ window.LIBRARY_CATALOG = {
             "Industrial Polymer Synthesis, Reaction Mechanisms & Engineering Plastics",
             "Polymer Rheology, Viscoelasticity, Glass Transition (Tg) & Mechanical Properties"
           ]
+        },
+        {
+          id: "supramolecular-chemistry",
+          title: "Supramolecular Chemistry: Molecular Recognition, Host-Guest Complexes, Mechanically Interlocked Molecules, Self-Assembly & Liquid Crystals",
+          subtitle: "Concepts & Non-Covalent Forces, Cation-Binding Macrocycles & Cryptands, Anion Recognition & Coordination Assemblies, Catenanes, Rotaxanes & Knots, Clathrates & Cavitands, Bioinorganic Receptors, Self-Assembly & Metal-Organic Cages, Surfactants & Amphiphiles, Liquid Crystals & Mesophases, and Metallomesogens & Optoelectronic Materials",
+          status: "AVAILABLE",
+          url: "supramolecular-chemistry.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Supramolecular Chemistry Textbook, Molecular Recognition, Host-Guest Chemistry, Non-Covalent Interactions, Hydrogen Bonding, Pi-Pi Stacking, Cation-Pi Interactions, Hydrophobic Effect, Chelate Effect, Macrocyclic Effect, Preorganization, Complementarity, Lock and Key Principle, Crown Ethers, Pedersens Crown Ethers, Cryptands, Lehn Cryptates, Spherands, Cram Spherands, Lariat Ethers, Ionophores, Valinomycin, Anion Binding, Katapinands, Guanidinium Receptors, Halogen Bonding, Catenanes, Sauvage Synthesis, Rotaxanes, Molecular Shuttles, Pseudorotaxanes, Molecular Knots, Borromean Rings, Inclusion Compounds, Clathrates, Urea Clathrates, Cyclodextrins, Calixarenes, Cucurbiturils, Resorcinarenes, Bioinorganic Models, Oxygen Carriers, Hemoglobin Myoglobin Models, Porphyrins, Cobalamin Models, Artificial Enzymes, Cyclodextrin Catalysis, Self-Assembly, Helicates, Coordination Cages, Fujita Polyhedra, Metal-Organic Frameworks MOFs, Amphiphiles, Surfactants, Critical Micelle Concentration CMC, Hydrophilic-Lipophilic Balance HLB, Packing Parameter, Vesicles, Liposomes, Liquid Crystals, Mesophases, Nematic, Smectic, Cholesteric, Discotic Mesophases, Polarized Optical Microscopy Schlieren Textures, Frank Elastic Constants, Frederiks Transition, Metallomesogens, Optoelectronic Supramolecular Materials, OLEDs, Organic Photovoltaics",
+          description: "Comprehensive university honors master digital textbook on Supramolecular Chemistry: historical development, host-guest chemistry, and non-covalent forces including electrostatic, dipole, dispersion, hydrogen bonding, pi-pi stacking, cation-pi, and hydrophobic desolvation; thermodynamics of molecular recognition, chelate and macrocyclic effects, preorganization, complementarity, and kinetic vs thermodynamic selectivity; cation-binding macrocycles including crown ethers, cryptands, spherands, lariat ethers, podands, and ionophores; anion recognition principles, electrostatic guanidinium/ammonium receptors, neutral polyurea hosts, halogen bonding, and metal-directed anion binding; mechanically interlocked architectures including catenanes, rotaxanes, pseudorotaxanes, and molecular knots synthesized via transition metal templates, pi-donor/acceptor threading, and active-metal templating; inclusion compounds and molecular cavities including urea/thiourea clathrates, cyclodextrins, calixarenes, resorcinarenes, cucurbiturils, and cavitands; bioinorganic and biomimetic supramolecular model systems, synthetic porphyrin oxygen carriers, cobalamin vitamin B12 mimics, carbonic anhydrase mimics, and artificial cyclodextrin enzyme models; spontaneous self-assembly, metallo-helicates, self-sorting algorithms, coordination polyhedra (Fujita cages), and supramolecular polymers; amphiphilic thermodynamics, surfactant classes, critical micelle concentration (CMC), Israelachvili critical packing parameters, micelles, vesicles, and lyotropic phases; thermotropic and lyotropic liquid crystals, nematic, smectic A/C, cholesteric, and discotic mesophases, director order parameter, polarized optical microscopy Schlieren textures, and the Fréedericksz electro-optic transition; and metallomesogens, columnar discotic charge transport, supramolecular organic electronics, and liquid crystal displays. Features 10 interactive 60 FPS HTML5 Canvas simulations and 90 tiered solved examination problems with complete line-by-line mathematical proofs.",
+          topics: [
+            "Concepts, Non-Covalent Forces & Molecular Recognition Thermodynamics",
+            "Cation-Binding Macrocycles: Crown Ethers, Cryptands & Spherands",
+            "Anion Binding Hosts & Supramolecular Coordination Assemblies",
+            "Mechanically Interlocked Molecules: Catenanes, Rotaxanes & Molecular Knots",
+            "Clathrates, Inclusion Compounds & Macrocyclic Cavities",
+            "Bioinorganic & Bioorganic Supramolecular Model Systems",
+            "Supramolecular Self-Assembly, Helicates & Coordination Cages",
+            "Amphiphiles, Surfactants, Micelles & Vesicular Aggregates",
+            "Liquid Crystals: Mesophases, Textures & Optoelectronic Precursors",
+            "Metallomesogens & Optoelectronic Supramolecular Materials"
+          ]
         }
       ]
     }
