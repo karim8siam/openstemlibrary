@@ -366,6 +366,9 @@ def assemble():
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
+  <!-- Google AdSense Verification & Auto-Ads Script -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4546869673631824" crossorigin="anonymous"></script>
+
   <!-- Application Stylesheet -->
   <link rel="stylesheet" href="styles.css?v=20261009_v22_env">
 </head>
