@@ -1161,6 +1161,28 @@ window.LIBRARY_CATALOG = {
             "Homogeneous Catalysis: Hydrogenation, Hydroformylation & Olefin Metathesis",
             "Industrial Catalytic Processes: Polymerization, Carbonylation & Syngas Chemistry"
           ]
+        },
+        {
+          id: "environmental-chemistry",
+          title: "Environmental Chemistry: Atmospheric Kinetics, Climate Dynamics, Aquatic Equilibria, Geochemistry & Green Engineering",
+          subtitle: "Atmospheric Photochemical Smog, Greenhouse Radiative Forcing, Stratospheric Ozone & Chapman Cycles, Aquatic Carbonate Equilibria, Groundwater Arsenic Hydrogeochemistry, POPs & Fugacity Modeling, Soil Mineralogy & CEC, Industrial Effluent Treatment & Advanced Oxidation, Landfill LandGEM Biogas Kinetics, and Green Chemistry Metrics",
+          status: "AVAILABLE",
+          url: "environmental-chemistry.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Environmental Chemistry Textbook, Atmospheric Chemistry, Leighton Photostationary State, Photochemical Smog, Acid Rain, Greenhouse Effect, Radiative Forcing, Global Warming, Stratospheric Ozone, Chapman Cycle, Montreal Protocol, Aquatic Chemistry, Carbonate Equilibria, Alkalinity, Streeter-Phelps Equation, Dissolved Oxygen Sag Curve, Groundwater Arsenic, Reductive Dissolution, Ferrihydrite, Pourbaix Diagram, Ecotoxicology, Bioaccumulation, Biomagnification, BCF, POPs, Stockholm Convention, PCBs, Dioxins, TEQ, Fugacity Modeling, Soil Chemistry, Clay Mineralogy, Cation Exchange Capacity, CEC, Diffuse Double Layer, Acid Sulfate Soils, Industrial Wastewater Treatment, Activated Sludge, Lawrence-McCarty, UASB, Advanced Oxidation Processes, Fenton, Reverse Osmosis, Zero Liquid Discharge, Sanitary Landfills, LandGEM, Leachate, Green Chemistry, 12 Principles, Atom Economy, Sheldon E-Factor, Process Mass Intensity, PMI, Life Cycle Assessment",
+          description: "Comprehensive university honors master digital textbook on Environmental Chemistry: atmospheric chemistry, photochemical smog, acid deposition, and tropospheric radical dynamics; greenhouse effect, planetary energy balance, radiative forcing, and global climate dynamics; stratospheric ozone photochemistry, Chapman cycle, and halogen-catalyzed depletion; aquatic chemistry, carbonate equilibria, redox chemistry, and water quality metrics; groundwater arsenic hydrogeochemistry, reductive dissolution of iron oxyhydroxides, and marine ecotoxicology; persistent organic pollutants, pesticides, organohalogens, multimedia fugacity modeling, and bioaccumulation kinetics; soil chemistry, clay mineralogy, cation exchange capacity, and biogeochemical nutrient cycles; industrial effluent treatment, activated sludge bioreactor design, advanced oxidation processes, and membrane technologies; municipal and hazardous solid waste management, LandGEM landfill gas kinetics, leachate geochemistry, and pyrometallurgy/hydrometallurgy; green chemistry twelve principles, quantitative sustainability metrics (Atom Economy, E-Factor, PMI), neoteric solvents, continuous flow intensification, and circular industrial ecology. Features 10 interactive 60 FPS HTML5 Canvas simulations and 90 tiered solved practice problems with complete line-by-line mathematical proofs.",
+          topics: [
+            "Atmospheric Chemistry, Photochemical Smog & Acid Deposition",
+            "Greenhouse Effect, Radiative Forcing & Global Climate Dynamics",
+            "Stratospheric Ozone Dynamics, Halogen Photochemistry & The Montreal Protocol",
+            "Aquatic Chemistry, Carbonate Equilibria & Water Quality Metrics",
+            "Groundwater Arsenic Geochemistry, Oceanic Pollution & Ecotoxicology",
+            "Environmental Toxicants: Pesticides, Organohalogens & Bioaccumulation",
+            "Soil Chemistry, Clay Mineralogy & Nutrient Cycles",
+            "Industrial Effluent Treatment & Advanced Wastewater Engineering",
+            "Solid Waste Management, Hazardous Wastes & Circular Economy",
+            "Green Chemistry, Sustainable Metrics & Circular Industrial Processes"
+          ]
         }
       ]
     }

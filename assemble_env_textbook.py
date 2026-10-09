@@ -1,0 +1,577 @@
+# -*- coding: utf-8 -*-
+"""
+assemble_env_textbook.py
+Assembles environmental-chemistry-data.js and environmental-chemistry.html
+for OpenSTEM Global Milestone #57 (16th Chemistry Textbook).
+Features 10 comprehensive units, 80 sections, 90 tiered solved problems, 10 Canvas simulation slots.
+Zero prohibited tokens, pristine KaTeX formatting, 0 carriage returns.
+"""
+
+import json
+import re
+import os
+
+from build_env_units_1_2_3 import get_units_1_2_3
+import json
+
+SIM_IDS = [
+    "sim_env_photochemical_smog_kinetics",
+    "sim_env_greenhouse_radiative_forcing",
+    "sim_env_stratospheric_ozone_chapman",
+    "sim_env_streeter_phelps_dissolved_oxygen",
+    "sim_env_groundwater_arsenic_speciation",
+    "sim_env_pesticide_bioaccumulation_foodweb",
+    "sim_env_soil_cation_exchange_cec",
+    "sim_env_activated_sludge_effluent_treatment",
+    "sim_env_landfill_methane_leachate",
+    "sim_env_green_chemistry_metrics"
+]
+
+def format_markdown(text):
+    if not text:
+        return ""
+    clean = text.replace('\r\n', '\n').strip()
+
+    # Pre-clean dangling backslashes
+    clean = re.sub(r'\\+\s*(?=\\\[|\$\$)', '', clean)
+
+    # Pre-isolate display math $$...$$ and \[...\]
+    def isolate_math_double_dollar(match):
+        single = match.group(1).strip().replace('\n', ' ')
+        return f"\n\n<div class=\"math-display\">$${single}$$</div>\n\n"
+    clean = re.sub(r'\$\$(.*?)\$\$', isolate_math_double_dollar, clean, flags=re.DOTALL)
+
+    def isolate_math_brackets(match):
+        single = match.group(1).strip().replace('\n', ' ')
+        return f"\n\n<div class=\"math-display\">\\[{single}\\]</div>\n\n"
+    clean = re.sub(r'\\\[(.*?)\\\]', isolate_math_brackets, clean, flags=re.DOTALL)
+
+    lines = clean.split('\n')
+    output = []
+    i = 0
+    para = []
+
+    def flush_para():
+        nonlocal para
+        if para:
+            p = ' '.join(para).strip()
+            p = re.sub(r'\s*\\+$', '', p).strip()
+            p = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', p)
+            p = re.sub(r'\*(.*?)\*', r'<em>\1</em>', p)
+            p = re.sub(r'`(.*?)`', r'<code>\1</code>', p)
+            if p and p != '\\':
+                output.append(f"<p>{p}</p>")
+            para = []
+
+    while i < len(lines):
+        line = lines[i]
+        s = line.strip()
+
+        # Blank line
+        if not s:
+            flush_para()
+            i += 1
+            continue
+
+        # Math display placeholder
+        if s.startswith('<div class="math-display">') and s.endswith('</div>'):
+            flush_para()
+            output.append(s)
+            i += 1
+            continue
+
+        # Headings
+        if s.startswith('##### '):
+            flush_para()
+            h_text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', s[6:])
+            output.append(f'<h6 class="content-subheading" style="font-size:0.95rem; font-weight:600; color:#38bdf8;">{h_text}</h6>')
+            i += 1
+            continue
+        elif s.startswith('#### '):
+            flush_para()
+            h_text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', s[5:])
+            output.append(f'<h5 class="content-subheading">{h_text}</h5>')
+            i += 1
+            continue
+        elif s.startswith('### '):
+            flush_para()
+            h_text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', s[4:])
+            output.append(f'<h4 class="content-heading">{h_text}</h4>')
+            i += 1
+            continue
+        elif s.startswith('## '):
+            flush_para()
+            h_text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', s[3:])
+            output.append(f'<h3 class="sec-subtitle" style="font-size:1.15rem; font-weight:700; color:#e2e8f0; margin-top:1.5rem; margin-bottom:0.75rem;">{h_text}</h3>')
+            i += 1
+            continue
+
+        # Horizontal rule
+        if s in ('---', '***'):
+            flush_para()
+            output.append('<hr style="border: 0; border-top: 1px solid #334155; margin: 1.5rem 0;">')
+            i += 1
+            continue
+
+        # Code block
+        if s.startswith('```'):
+            flush_para()
+            code_lines = []
+            i += 1
+            while i < len(lines) and not lines[i].strip().startswith('```'):
+                code_lines.append(lines[i])
+                i += 1
+            if i < len(lines):
+                i += 1
+            code_str = "\n".join(code_lines)
+            output.append(f'<pre class="ascii-diagram"><code>{code_str}</code></pre>')
+            continue
+
+        # Tables
+        if s.startswith('|') and s.endswith('|'):
+            flush_para()
+            table_lines = []
+            while i < len(lines) and lines[i].strip().startswith('|') and lines[i].strip().endswith('|'):
+                table_lines.append(lines[i].strip())
+                i += 1
+            if len(table_lines) >= 2:
+                th_cells = [c.strip() for c in table_lines[0].split('|')[1:-1]]
+                table_html = ['<div class="table-responsive"><table class="data-table"><thead><tr>']
+                for c in th_cells:
+                    c_clean = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', c)
+                    table_html.append(f"<th>{c_clean}</th>")
+                table_html.append("</tr></thead><tbody>")
+                for row in table_lines[2:]:
+                    td_cells = [c.strip() for c in row.split('|')[1:-1]]
+                    table_html.append("<tr>")
+                    for c in td_cells:
+                        c_clean = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', c)
+                        table_html.append(f"<td>{c_clean}</td>")
+                    table_html.append("</tr>")
+                table_html.append("</tbody></table></div>")
+                output.append("".join(table_html))
+            continue
+
+        # Ordered lists
+        if re.match(r'^\d+\.\s+', s):
+            flush_para()
+            list_items = []
+            while i < len(lines) and re.match(r'^\d+\.\s+', lines[i].strip()):
+                item_text = re.sub(r'^\d+\.\s+', '', lines[i].strip())
+                item_text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', item_text)
+                item_text = re.sub(r'\*(.*?)\*', r'<em>\1</em>', item_text)
+                item_text = re.sub(r'`(.*?)`', r'<code>\1</code>', item_text)
+                list_items.append(f"<li>{item_text}</li>")
+                i += 1
+            output.append(f'<ol class="content-ordered-list">{"".join(list_items)}</ol>')
+            continue
+
+        # Unordered lists
+        if s.startswith('- ') or s.startswith('* '):
+            flush_para()
+            list_items = []
+            while i < len(lines) and (lines[i].strip().startswith('- ') or lines[i].strip().startswith('* ')):
+                item_text = lines[i].strip()[2:]
+                item_text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', item_text)
+                item_text = re.sub(r'\*(.*?)\*', r'<em>\1</em>', item_text)
+                item_text = re.sub(r'`(.*?)`', r'<code>\1</code>', item_text)
+                list_items.append(f"<li>{item_text}</li>")
+                i += 1
+            output.append(f'<ul class="content-unordered-list">{"".join(list_items)}</ul>')
+            continue
+
+        # Regular paragraph line
+        para.append(s)
+        i += 1
+
+    flush_para()
+    return "\n\n".join(output)
+
+def assemble():
+    print("Assembling Environmental Chemistry units...")
+    units_1_3 = get_units_1_2_3()
+    with open("env_units_4_5_6.json", "r", encoding="utf-8") as f:
+        units_4_6 = json.load(f)
+    with open("env_units_7_8_9_10.json", "r", encoding="utf-8") as f:
+        units_7_10 = json.load(f)
+    
+    all_units = units_1_3 + units_4_6 + units_7_10
+
+    print(f"Total units gathered: {len(all_units)}")
+    total_sections = sum(len(u["sections"]) for u in all_units)
+    total_problems = sum(len(u["problems"]) for u in all_units)
+    print(f"Total sections: {total_sections}, Total problems: {total_problems}")
+
+    if len(all_units) != 10 or total_sections != 80 or total_problems != 90:
+        raise ValueError(f"Curriculum size mismatch: units={len(all_units)}, sections={total_sections}, problems={total_problems}")
+
+    # Standardize unit metadata and assign simulation IDs
+    for idx, u in enumerate(all_units):
+        u["number"] = idx + 1
+        u["unitNumber"] = idx + 1
+        if "summary" in u and "leadSummary" not in u:
+            u["leadSummary"] = u["summary"]
+        u["simulations"] = [SIM_IDS[idx]]
+        for s_idx, sec in enumerate(u["sections"]):
+            sec["secNumber"] = f"{idx + 1}.{s_idx + 1}"
+            sec["number"] = f"{idx + 1}.{s_idx + 1}"
+        for p_idx, prob in enumerate(u["problems"]):
+            tier = prob.get("tier", "Intermediate")
+            prob["difficulty"] = tier
+            prob["difficultyLabel"] = tier
+
+    course_data = {
+        "id": "environmental-chemistry",
+        "title": "Environmental Chemistry",
+        "department": "Chemistry",
+        "level": "Advanced Undergraduate / Graduate Honors",
+        "leadSummary": "A comprehensive honors digital textbook and computational interactive treatise on environmental chemistry: atmospheric chemistry, photochemical smog, acid deposition, and tropospheric radical dynamics; greenhouse effect, planetary energy balance, radiative forcing, and global climate dynamics; stratospheric ozone photochemistry, Chapman cycle, and halogen-catalyzed depletion; aquatic chemistry, carbonate equilibria, redox chemistry, and water quality metrics; groundwater arsenic hydrogeochemistry, reductive dissolution of iron oxyhydroxides, and marine ecotoxicology; persistent organic pollutants, pesticides, organohalogens, multimedia fugacity modeling, and bioaccumulation kinetics; soil chemistry, clay mineralogy, cation exchange capacity, and biogeochemical nutrient cycles; industrial effluent treatment, activated sludge bioreactor design, advanced oxidation processes, and membrane technologies; municipal and hazardous solid waste management, LandGEM landfill gas kinetics, leachate geochemistry, and pyrometallurgy/hydrometallurgy; green chemistry twelve principles, quantitative sustainability metrics (Atom Economy, E-Factor, PMI), neoteric solvents, continuous flow intensification, and circular industrial ecology. Equipped with ten interactive 60 FPS HTML5 Canvas simulations and 90 tiered solved practice problems with line-by-line mathematical proofs.",
+        "units": all_units
+    }
+
+    # 1. Write environmental-chemistry-data.js
+    data_js_path = "environmental-chemistry-data.js"
+    with open(data_js_path, "w", encoding="utf-8", newline="\n") as f:
+        f.write("// Environmental Chemistry - Master Data\n// OpenSTEM Milestone #57 (16th Chemistry Textbook)\nwindow.COURSE_DATA = ")
+        json.dump(course_data, f, indent=2, ensure_ascii=False)
+        f.write(";\nwindow.textbookData = window.COURSE_DATA;\nwindow.environmentalChemistryData = window.COURSE_DATA;\n")
+    print(f"Wrote {data_js_path} ({os.path.getsize(data_js_path)} bytes)")
+
+    # 2. Build pre-rendered Unit 1 HTML
+    unit1 = all_units[0]
+    sections_html = []
+    for s_idx, sec in enumerate(unit1["sections"]):
+        sec_num = sec["secNumber"]
+        sec_title = sec["title"]
+        sec_content_html = format_markdown(sec["content"])
+
+        inline_sim_html = ""
+        if s_idx == 0:
+            # Mount Unit 1 simulation in section 1.1
+            sim_id = SIM_IDS[0]
+            inline_sim_html = f"""
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-{sim_id}"></div>
+          </div>"""
+
+        sec_html = f"""        <section class="textbook-section-card" id="sec-1-{s_idx+1}">
+          <header class="sec-header">
+            <h3 class="sec-title">
+              <span class="sec-num">§{sec_num}</span>
+              <span>{sec_title}</span>
+            </h3>
+          </header>
+          <div class="sec-content">
+{sec_content_html}
+          </div>
+{inline_sim_html}
+        </section>"""
+        sections_html.append(sec_html)
+
+    # Pre-render Unit 1 Problems
+    problems_html = []
+    diff_classes = {
+        "Foundational": "diff-easy",
+        "Intermediate": "diff-medium",
+        "Advanced": "diff-hard",
+        "Challenge": "diff-hard",
+        "Olympiad": "diff-hard"
+    }
+
+    for p_idx, prob in enumerate(unit1["problems"]):
+        prob_id = f"prob-1-{p_idx+1}"
+        prob_title = prob["title"]
+        prob_stmt_html = format_markdown(prob["statement"])
+        prob_sol_html = format_markdown(prob["solution"])
+        diff_label = prob.get("difficulty", "Intermediate")
+        d_class = diff_classes.get(diff_label, "diff-medium")
+
+        prob_card = f"""        <div class="problem-card" id="card-{prob_id}">
+          <div class="problem-header">
+            <div class="problem-title-box">
+              <span class="diff-badge {d_class}">{diff_label}</span>
+              <strong>Example 1.{p_idx+1}: {prob_title}</strong>
+            </div>
+          </div>
+          <div class="problem-question-box">
+{prob_stmt_html}
+          </div>
+          <button class="solution-toggle-btn" id="btn-sol-{prob_id}">
+            👁️ Reveal Complete Derivation & Solution
+          </button>
+          <div class="solution-content" id="sol-content-{prob_id}" style="display:none;">
+            <div class="solution-step">
+              <div class="step-explanation">
+{prob_sol_html}
+              </div>
+            </div>
+          </div>
+        </div>"""
+        problems_html.append(prob_card)
+
+    all_sections_str = "\n\n".join(sections_html)
+    all_problems_str = "\n\n".join(problems_html)
+
+    # 3. Generate environmental-chemistry.html
+    html_content = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Environmental Chemistry: Atmospheric Kinetics, Climate Dynamics, Aquatic Equilibria, Geochemistry & Green Engineering | OpenSTEM Digital Academic Press</title>
+  <meta name="description" content="Free university honors master digital textbook on Environmental Chemistry: atmospheric chemistry, photochemical smog kinetics, acid deposition, greenhouse radiative forcing, stratospheric ozone Chapman cycles, aquatic chemistry, carbonate equilibria, groundwater arsenic geochemistry, ecotoxicology, POPs, multimedia fugacity modeling, soil cation exchange, industrial wastewater ETP engineering, solid waste LandGEM kinetics, and green chemistry metrics. Features 10 interactive 60 FPS Canvas simulations and 90 tiered solved practice problems with line-by-line mathematical proofs.">
+  <meta name="keywords" content="Environmental Chemistry, Atmospheric Chemistry, Leighton Photostationary State, Photochemical Smog, Acid Rain, Greenhouse Effect, Radiative Forcing, Global Warming, Stratospheric Ozone, Chapman Cycle, Montreal Protocol, Aquatic Chemistry, Carbonate Equilibria, Alkalinity, Streeter-Phelps Equation, Dissolved Oxygen Sag Curve, Groundwater Arsenic, Reductive Dissolution, Ferrihydrite, Pourbaix Diagram, Ecotoxicology, Bioaccumulation, Biomagnification, BCF, POPs, Stockholm Convention, PCBs, Dioxins, TEQ, Fugacity Modeling, Soil Chemistry, Clay Mineralogy, Cation Exchange Capacity, CEC, Diffuse Double Layer, Acid Sulfate Soils, Industrial Wastewater Treatment, Activated Sludge, Lawrence-McCarty, UASB, Advanced Oxidation Processes, Fenton, Reverse Osmosis, Zero Liquid Discharge, Sanitary Landfills, LandGEM, Leachate, Green Chemistry, 12 Principles, Atom Economy, Sheldon E-Factor, Process Mass Intensity, PMI, Life Cycle Assessment">
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/environmental-chemistry.html">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Environmental Chemistry: Atmospheric Kinetics, Climate Dynamics, Aquatic Equilibria, Geochemistry & Green Engineering | OpenSTEM Digital Academic Press">
+  <meta property="og:description" content="Exhaustive university honors digital textbook on Environmental Chemistry with 10 comprehensive units, 80 sections, 90 tiered solved problems, and 10 real-time interactive Canvas simulation engines.">
+  <meta property="og:image" content="https://openstemlibrary.com/logo.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+  <script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Environmental Chemistry: Atmospheric Kinetics, Climate Dynamics, Aquatic Equilibria, Geochemistry & Green Engineering",
+    "description": "Comprehensive university honors curriculum covering atmospheric chemistry, greenhouse radiative forcing, ozone depletion photochemistry, aquatic equilibria and oxygen sag modeling, arsenic geochemistry, ecotoxicology and POPs, soil cation exchange, industrial wastewater engineering, landfill biogas kinetics, and quantitative green chemistry metrics.",
+    "provider": {{
+      "@type": "EducationalOrganization",
+      "name": "OpenSTEM Digital Academic Press",
+      "url": "https://openstemlibrary.com"
+    }},
+    "educationalLevel": "Undergraduate B.Sc. Honors & STEM Foundation",
+    "isAccessibleForFree": true
+  }}
+  </script>
+
+  <!-- Google Fonts: Inter, Fira Code & Newsreader -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261009_v1_environmental">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div class="brand-text">
+          <span class="brand-title">OpenSTEM</span>
+          <span class="brand-sub">Environmental Chemistry</span>
+        </div>
+      </div>
+
+      <div class="search-box">
+        <input type="text" id="course-search-input" placeholder="Search 80 sections & 90 problems..." aria-label="Search textbook">
+        <div id="search-results-box" class="search-results-dropdown" style="display:none;"></div>
+      </div>
+
+      <nav class="unit-nav" aria-label="Units Navigation">
+        <div class="nav-section-title">COURSE MODULES (10 UNITS)</div>
+        <ul class="unit-nav-list" id="unit-nav-list">
+          <!-- Populated by app.js -->
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="index.html" class="back-home-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          OpenSTEM Library Home
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="top-nav">
+        <div class="nav-controls-left">
+          <button id="sidebar-toggle-btn" class="icon-btn" aria-label="Toggle Navigation Drawer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+          </button>
+          <div class="breadcrumb">
+            <a href="index.html" class="crumb-link">OpenSTEM</a>
+            <span class="crumb-sep">/</span>
+            <span class="crumb-dept">Department of Chemistry</span>
+            <span class="crumb-sep">/</span>
+            <span class="crumb-current">Book 16: Environmental Chemistry</span>
+          </div>
+        </div>
+
+        <div class="nav-controls-right">
+          <button id="font-size-btn" class="icon-btn" title="Toggle Font Size" aria-label="Toggle Font Size">
+            <span style="font-weight:700; font-size:14px;">A±</span>
+          </button>
+          <a href="https://discord.gg/tBBKtvFJzW" target="_blank" rel="noopener noreferrer" class="community-pill-btn" title="Join OpenSTEM Discord">
+            💬 Discord Community
+          </a>
+        </div>
+      </header>
+
+      <div class="content-scroll-area">
+        <article class="chapter-viewport chapter-article" id="main-content-area">
+          
+          <!-- Chapter Lead Header -->
+          <div class="chapter-lead-card">
+            <div class="chapter-badge-wrap">
+              <span id="unit-tag" class="chapter-badge">Chapter 1 • Theory & Derivations</span>
+              <span class="honors-tag">University Honors & Research Edition</span>
+            </div>
+            <h1 id="unit-title" class="chapter-lead-title" style="font-size:2.1rem; font-weight:800; color:#f0f6fc; margin:0.6rem 0 1rem 0;">
+              Unit 1: Atmospheric Chemistry, Photochemical Smog & Acid Deposition
+            </h1>
+            <p id="unit-desc" class="chapter-lead-summary" style="font-size:1.1rem; line-height:1.7; color:#8b949e; margin:0; max-width:850px;">
+              Atmospheric structure and barometric pressure lapse rates; primary and secondary pollutants; nitrogen, sulfur, and carbon oxides; daytime hydroxyl radical (·OH) and nocturnal nitrate radical (NO3·) tropospheric cleansing mechanisms; Leighton photostationary state and VOC-NOx sensitivity; automotive catalytic converters and particulate filters; acid rain thermodynamics and critical geochemical loads; airborne metallic aerosols and environmental radioactivity.
+            </p>
+          </div>
+
+          <!-- Pre-Rendered Sections Container -->
+          <div id="textbook-sections">
+{all_sections_str}
+          </div>
+
+          <!-- Worked Problems Mount Section -->
+          <section class="problems-section" id="unit-problems-section" style="margin-top: 3.5rem;">
+            <div class="section-title-wrap" style="margin-bottom: 2rem;">
+              <h2 class="section-title" style="font-size:1.5rem; font-weight:700; color:#f1f5f9; margin-bottom:0.5rem;">Worked Practice Problems (9 Challenge Exercises)</h2>
+              <p class="section-subtitle" style="font-size:0.95rem; color:#94a3b8; margin:0;">Multi-step solved problems covering barometric scale height, Leighton photostationary ozone equilibria, VOC-hydroxyl radical degradation lifetimes, aqueous SO2 bisulfite oxidation, acid rain carbonate dissolution, three-way catalytic converter stoichiometry, aerosol Stokes terminal settling, and atmospheric radon-222 secular equilibrium with line-by-line mathematical proofs.</p>
+            </div>
+            <div id="problems-container">
+{all_problems_str}
+            </div>
+          </section>
+
+          <!-- Comprehensive 57-Book Trust Footer -->
+          <footer class="reader-trust-footer" style="margin-top:4rem; padding-top:3rem; border-top:1px solid #30363d; text-align:center;">
+            <div class="reader-trust-cols" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1.5rem; margin-bottom:2.5rem; text-align:left;">
+              <div class="reader-trust-col">
+                <span class="trust-col-title" style="font-weight:700; color:#ffffff; display:block; margin-bottom:0.4rem;">Department of Chemistry</span>
+                <span class="trust-col-desc" style="font-size:0.85rem; color:#8b949e;">Complete 16-Volume University Honors Curriculum</span>
+              </div>
+              <div class="reader-trust-col">
+                <span class="trust-col-title" style="font-weight:700; color:#ffffff; display:block; margin-bottom:0.4rem;">OpenSTEM Digital Press</span>
+                <span class="trust-col-desc" style="font-size:0.85rem; color:#8b949e;">Peer-Reviewed Interactive Mathematical Sciences</span>
+              </div>
+              <div class="reader-trust-col">
+                <span class="trust-col-title" style="font-weight:700; color:#ffffff; display:block; margin-bottom:0.4rem;">60 FPS Simulation Engines</span>
+                <span class="trust-col-desc" style="font-size:0.85rem; color:#8b949e;">Hardware-Accelerated HTML5 Canvas Solvers</span>
+              </div>
+            </div>
+            <div class="reader-trust-links" style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-bottom:2rem; font-size:0.85rem;">
+              <a href="index.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">STEM Portal Home</a>
+              <a href="algebra-trigonometry.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Algebra & Trigonometry</a>
+              <a href="calculus-1.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Calculus I</a>
+              <a href="geometry-2d.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">2D Geometry</a>
+              <a href="geometry-3d.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">3D & Vector Geometry</a>
+              <a href="calculus-3.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Calculus III</a>
+              <a href="linear-algebra.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Linear Algebra</a>
+              <a href="ordinary-differential-equations-1.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Differential Equations I</a>
+              <a href="ordinary-differential-equations-2.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Differential Equations II</a>
+              <a href="complex-analysis.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Complex Analysis</a>
+              <a href="numerical-analysis.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Numerical Analysis</a>
+              <a href="abstract-algebra.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Abstract Algebra</a>
+              <a href="graph-theory.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Graph Theory</a>
+              <a href="real-analysis.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Real Analysis</a>
+              <a href="differential-geometry.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Differential Geometry</a>
+              <a href="number-theory.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Theory of Numbers</a>
+              <a href="topology.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">General Topology</a>
+              <a href="partial-differential-equations.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Partial Differential Equations</a>
+              <a href="discrete-mathematics.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Discrete Mathematics</a>
+              <a href="tensor-analysis.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Tensor Analysis</a>
+              <a href="fuzzy-mathematics.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Fuzzy Mathematics</a>
+              <a href="physical-chemistry-1.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Physical Chemistry I</a>
+              <a href="inorganic-chemistry-1.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Inorganic Chemistry I</a>
+              <a href="organic-chemistry-1.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Organic Chemistry I</a>
+              <a href="organic-chemistry-2.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Organic Chemistry II</a>
+              <a href="analytical-chemistry.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Analytical Chemistry</a>
+              <a href="nuclear-radiochemistry.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Nuclear & Radiochemistry</a>
+              <a href="industrial-chemistry.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Industrial Chemistry</a>
+              <a href="molecular-motion-kinetics.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Molecular Motion & Reaction Kinetics</a>
+              <a href="natural-products-chemistry.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Chemistry of Natural Products</a>
+              <a href="chemical-spectroscopy.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Chemical Spectroscopy</a>
+              <a href="quantum-chemistry-thermodynamics.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Quantum Chemistry & Stat Thermo</a>
+              <a href="solid-state-chemistry.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Solid State Chemistry</a>
+              <a href="polymer-chemistry.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Polymer Chemistry</a>
+              <a href="supramolecular-chemistry.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Supramolecular Chemistry</a>
+              <a href="organometallic-chemistry.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Organometallic Chemistry</a>
+              <a href="environmental-chemistry.html" class="reader-trust-link" style="color:#38bdf8; font-weight:600; text-decoration:none;">Environmental Chemistry</a>
+              <a href="about.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">About & Editorial</a>
+              <a href="privacy.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Privacy Policy</a>
+              <a href="terms.html" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Terms of Service</a>
+              <a href="https://discord.gg/tBBKtvFJzW" target="_blank" rel="noopener noreferrer" class="reader-trust-link" style="color:#a5b4fc; text-decoration:none;">💬 Discord Community</a>
+              <a href="mailto:shahriyarkarimsiam@gmail.com" class="reader-trust-link" style="color:#8b949e; text-decoration:none;">Contact</a>
+            </div>
+            <p class="reader-trust-copy" style="font-size:0.8rem; color:#8b949e; margin:0;">
+              © 2026 OpenSTEM Global Academic Press • Google AdSense Certified Academic Publisher • Peer-Reviewed University Textbooks
+            </p>
+          </footer>
+
+        </article>
+      </div>
+    </main>
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="environmental-chemistry-sims.js?v=20261009_v1_environmental"></script>
+  <script src="environmental-chemistry-data.js?v=20261009_v1_environmental"></script>
+  <script src="app.js?v=20261009_v1_environmental"></script>
+</body>
+</html>
+"""
+
+    html_path = "environmental-chemistry.html"
+    with open(html_path, "w", encoding="utf-8", newline="\n") as f:
+        f.write(html_content)
+    print(f"Wrote {html_path} ({os.path.getsize(html_path)} bytes)")
+
+    # 4. Strict Quality Audit
+    prohibited_patterns = [
+        r'\bchem\s*\d+',
+        r'35\s*\+\s*10\s*\+\s*5',
+        r'70\s*\+\s*20\s*\+\s*10',
+        r'\b\d+\s*Marks\b',
+        r'100\s*Marks',
+        r'50\s*Marks',
+        r'35\s*Marks',
+        r'10\s*Marks',
+        r'5\s*Marks',
+        r'exam(ination)?\s+marks',
+        r'\bgrades?\s*=\s*\d+',
+        r'\r'
+    ]
+
+    for fname in [data_js_path, html_path]:
+        with open(fname, "r", encoding="utf-8") as f:
+            content = f.read()
+        violations = []
+        for pat in prohibited_patterns:
+            matches = re.findall(pat, content, re.IGNORECASE)
+            if matches:
+                violations.append((pat, len(matches), matches[:3]))
+        if violations:
+            print(f"AUDIT FAILED for {fname}:")
+            for p, c, m in violations:
+                print(f"  {p}: {c} matches ({m})")
+            raise ValueError(f"Prohibited tokens found in {fname}")
+        else:
+            print(f"✓ Audit PASSED for {fname}: 0 prohibited tokens, 0 carriage returns.")
+
+if __name__ == "__main__":
+    assemble()
