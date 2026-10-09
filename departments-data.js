@@ -963,6 +963,28 @@ window.LIBRARY_CATALOG = {
             "Radiochemical Separation Techniques: Extraction, Chromatography & Generators",
             "Analytical & Applied Radiochemistry: NAA, Isotope Dilution & Radiopharmaceuticals"
           ]
+        },
+        {
+          id: "industrial-chemistry",
+          title: "Industrial Chemistry: Chemical Processes, Manufacturing Technologies, Process Engineering & Industrial Quality Control",
+          subtitle: "Fiber Science & Synthetic Polymers, Nitrogen & Phosphorus Fertilizers, Cane & Beet Sugar Refining, Portland Cement & Lime Thermochemistry, Saponification & Synthetic Surfactants, Kraft Pulping & Recovery Boilers, Float Glass & High-Temperature Refractories, Chlor-Alkali Membrane Cells, Petroleum Refining & FCC Riser Dynamics, and Blast Furnace Ironmaking & BOF Decarburization",
+          status: "AVAILABLE",
+          url: "industrial-chemistry.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Industrial Chemistry Textbook, Chemical Process Engineering, Textile Fibers, Viscose Rayon, Cuprammonium Rayon, Nylon 66, PET Dacron, Azo Dyes, Melt Spinning, Fertilizer Industry, Haber-Bosch Ammonia, Urea Synthesis, Phosphoric Acid, TSP, SSP, NPK Fertilizers, Sugar Industry, Multiple-Effect Evaporators, Starch Hydrolysis, High Fructose Corn Syrup, HFCS, Portland Cement, Clinker Chemistry, Bogue Equations, Rotary Kiln, Precalciner, Hydration, Ettringite, C-S-H Gel, Quicklime, Slaked Lime, Saponification, Soap Making, Glycerol Distillation, Linear Alkylbenzene Sulfonate, LABS, Surfactants, Detergent Builders, Critical Micelle Concentration, CMC, Kraft Pulping, Kamyr Digester, H-Factor, Tomlinson Recovery Boiler, Green Liquor, Causticizing, ECF Bleaching, Fourdrinier Paper Machine, Float Glass, Pilkington Process, Annealing Lehr, Refractories, Chlor-Alkali, Membrane Electrolysis, Nafion, Caustic Soda, Chlorine Liquefaction, DCDA Sulfuric Acid, Petroleum Refining, Crude Distillation Unit, Fluid Catalytic Cracking, FCC, Catalytic Reforming, Hydrodesulfurization, Steam Cracking, Steam Methane Reforming, Blast Furnace Ironmaking, BOF Converter, Basic Oxygen Furnace, Secondary Metallurgy, Continuous Casting",
+          description: "Exhaustive university honors master digital textbook on Industrial Chemistry: chemical reaction engineering, manufacturing technologies, mass and energy transport phenomena, material balances, phase equilibria, and quality assurance across the heavy chemical and process industries. Features 10 complete units with 80 comprehensive sections, 90 fully solved thermodynamic and engineering problems, and 10 interactive real-time 60 FPS simulations covering every primary chemical commodity manufacturing sector.",
+          topics: [
+            "Textiles and Dyes: Fiber Science, Step-Growth Condensation, Melt Spinning & Color Chemistry",
+            "Fertilizer Industries: Haber-Bosch Ammonia, Urea Autoclave Synthesis, Phosphates & NPK Granulation",
+            "Sugar and Starch Industries: Cane & Beet Sugar Refining, Multiple-Effect Evaporators & HFCS",
+            "Cement and Lime Industries: Silicate Thermochemistry, Bogue Phases, Precalciners & Hydration",
+            "Soaps and Detergents: Saponification Kinetics, McBain Phase Equilibria, Glycerol Recovery & LABS",
+            "Pulp and Paper Industries: Wood Chemistry, Kraft Digestion, Tomlinson Recovery Boilers & Sheet Dewatering",
+            "Glass and Ceramics Industries: Vitrification, Float Glass Bath Hydrodynamics, Annealing & Refractories",
+            "Chlor-Alkali and Heavy Chemicals: Membrane Electrolysis Cells, Caustic Concentration & DCDA Sulfuric Acid",
+            "Industrial Fuels and Petroleum Refining: Crude Assays, Distillation, FCC Risers, Reforming & Steam Cracking",
+            "Extractive Metallurgy: Blast Furnace Ironmaking, Slag Basicity, BOF Decarburization & Concast Steel"
+          ]
         }
       ]
     }
