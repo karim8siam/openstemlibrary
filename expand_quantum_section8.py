@@ -259,6 +259,7 @@ George Gamow used this formula in 1928 to derive the Geiger-Nuttall law for alph
    - **Resonance Integral \(\beta\)**: Coupling between directly bonded adjacent carbon atoms:
      \[
      H_{i j} = \langle 2p_{z, i} | \hat{H}_{\text{eff}} | 2p_{z, j} \rangle = \begin{cases} \beta < 0 & (\text{if atoms } i \text{ and } j \text{ are directly bonded}) \\ 0 & (\text{otherwise}) \end{cases}
+     \]
    - **Zero Differential Overlap (ZDO)**: Overlap matrix is approximated as the identity:
      \[
      S_{i j} = \langle 2p_{z, i} | 2p_{z, j} \rangle = \delta_{i j}

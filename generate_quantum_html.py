@@ -10,75 +10,158 @@ import assemble_quantum_data
 def format_markdown(text):
     if not text:
         return ""
-    # Convert KaTeX display and inline math safely
-    # Headers
-    lines = text.split("\n")
-    html_lines = []
-    in_list = False
-    list_type = None
+    clean = text.replace('\r\n', '\n').strip()
 
-    for line in lines:
-        stripped = line.strip()
-        if not stripped:
-            if in_list:
-                html_lines.append(f"</{list_type}>")
-                in_list = False
-                list_type = None
-            html_lines.append("")
+    # Pre-isolate display math $$...$$ and \[...\]
+    def isolate_math_double_dollar(match):
+        single = match.group(1).strip().replace('\n', ' ')
+        return f"\n\n<div class=\"math-display\">$${single}$$</div>\n\n"
+    clean = re.sub(r'\$\$(.*?)\$\$', isolate_math_double_dollar, clean, flags=re.DOTALL)
+
+    def isolate_math_brackets(match):
+        single = match.group(1).strip().replace('\n', ' ')
+        return f"\n\n<div class=\"math-display\">\\[{single}\\]</div>\n\n"
+    clean = re.sub(r'\\\[(.*?)\\\]', isolate_math_brackets, clean, flags=re.DOTALL)
+
+    lines = clean.split('\n')
+    output = []
+    i = 0
+    para = []
+
+    def flush_para():
+        nonlocal para
+        if para:
+            p = ' '.join(para).strip()
+            p = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', p)
+            p = re.sub(r'\*(.*?)\*', r'<em>\1</em>', p)
+            p = re.sub(r'`(.*?)`', r'<code>\1</code>', p)
+            if p:
+                output.append(f"<p>{p}</p>")
+            para = []
+
+    while i < len(lines):
+        line = lines[i]
+        s = line.strip()
+
+        # Blank line
+        if not s:
+            flush_para()
+            i += 1
             continue
 
-        if stripped.startswith("### "):
-            if in_list:
-                html_lines.append(f"</{list_type}>")
-                in_list = False
-            html_lines.append(f'<h4 class="content-heading">{stripped[4:]}</h4>')
-        elif stripped.startswith("#### "):
-            if in_list:
-                html_lines.append(f"</{list_type}>")
-                in_list = False
-            html_lines.append(f'<h5 class="content-subheading">{stripped[5:]}</h5>')
-        elif stripped.startswith("##### "):
-            if in_list:
-                html_lines.append(f"</{list_type}>")
-                in_list = False
-            html_lines.append(f'<h6 class="content-subheading" style="font-size:0.95rem; font-weight:600; color:#38bdf8;">{stripped[6:]}</h6>')
-        elif stripped.startswith("## "):
-            if in_list:
-                html_lines.append(f"</{list_type}>")
-                in_list = False
-            html_lines.append(f'<h3 class="sec-subtitle" style="font-size:1.15rem; font-weight:700; color:#e2e8f0; margin-top:1.5rem; margin-bottom:0.75rem;">{stripped[3:]}</h3>')
-        elif stripped.startswith("- "):
-            if not in_list:
-                html_lines.append('<ul class="content-unordered-list">')
-                in_list = True
-                list_type = "ul"
-            html_lines.append(f"<li>{stripped[2:]}</li>")
-        elif stripped.startswith("1. ") or stripped.startswith("2. ") or stripped.startswith("3. ") or stripped.startswith("4. ") or stripped.startswith("5. "):
-            if not in_list:
-                html_lines.append('<ol class="content-ordered-list">')
-                in_list = True
-                list_type = "ol"
-            item_text = stripped[3:]
-            html_lines.append(f"<li>{item_text}</li>")
-        elif stripped == "---":
-            if in_list:
-                html_lines.append(f"</{list_type}>")
-                in_list = False
-            html_lines.append('<hr style="border: 0; border-top: 1px solid #334155; margin: 1.5rem 0;">')
-        else:
-            if in_list:
-                html_lines.append(f"</{list_type}>")
-                in_list = False
-                list_type = None
-            # Check for bold
-            formatted_line = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', stripped)
-            formatted_line = re.sub(r'\*(.*?)\*', r'<em>\1</em>', formatted_line)
-            html_lines.append(f"<p>{formatted_line}</p>")
+        # Math display placeholder
+        if s.startswith('<div class="math-display">') and s.endswith('</div>'):
+            flush_para()
+            output.append(s)
+            i += 1
+            continue
 
-    if in_list:
-        html_lines.append(f"</{list_type}>")
+        # Headings
+        if s.startswith('##### '):
+            flush_para()
+            h_text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', s[6:])
+            output.append(f'<h6 class="content-subheading" style="font-size:0.95rem; font-weight:600; color:#38bdf8;">{h_text}</h6>')
+            i += 1
+            continue
+        elif s.startswith('#### '):
+            flush_para()
+            h_text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', s[5:])
+            output.append(f'<h5 class="content-subheading">{h_text}</h5>')
+            i += 1
+            continue
+        elif s.startswith('### '):
+            flush_para()
+            h_text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', s[4:])
+            output.append(f'<h4 class="content-heading">{h_text}</h4>')
+            i += 1
+            continue
+        elif s.startswith('## '):
+            flush_para()
+            h_text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', s[3:])
+            output.append(f'<h3 class="sec-subtitle" style="font-size:1.15rem; font-weight:700; color:#e2e8f0; margin-top:1.5rem; margin-bottom:0.75rem;">{h_text}</h3>')
+            i += 1
+            continue
 
-    return "\n".join(html_lines)
+        # Horizontal rule
+        if s == '---' or s == '***':
+            flush_para()
+            output.append('<hr style="border: 0; border-top: 1px solid #334155; margin: 1.5rem 0;">')
+            i += 1
+            continue
+
+        # Code block
+        if s.startswith('```'):
+            flush_para()
+            code_lines = []
+            i += 1
+            while i < len(lines) and not lines[i].strip().startswith('```'):
+                code_lines.append(lines[i])
+                i += 1
+            if i < len(lines):
+                i += 1
+            code_str = "\n".join(code_lines)
+            output.append(f'<pre class="ascii-diagram"><code>{code_str}</code></pre>')
+            continue
+
+        # Tables
+        if s.startswith('|') and s.endswith('|'):
+            flush_para()
+            table_lines = []
+            while i < len(lines) and lines[i].strip().startswith('|') and lines[i].strip().endswith('|'):
+                table_lines.append(lines[i].strip())
+                i += 1
+            if len(table_lines) >= 2:
+                th_cells = [c.strip() for c in table_lines[0].split('|')[1:-1]]
+                table_html = ['<div class="table-responsive"><table class="data-table"><thead><tr>']
+                for c in th_cells:
+                    c_clean = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', c)
+                    table_html.append(f"<th>{c_clean}</th>")
+                table_html.append("</tr></thead><tbody>")
+                for row in table_lines[2:]:
+                    td_cells = [c.strip() for c in row.split('|')[1:-1]]
+                    table_html.append("<tr>")
+                    for c in td_cells:
+                        c_clean = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', c)
+                        table_html.append(f"<td>{c_clean}</td>")
+                    table_html.append("</tr>")
+                table_html.append("</tbody></table></div>")
+                output.append("".join(table_html))
+            continue
+
+        # Ordered lists
+        if re.match(r'^\d+\.\s+', s):
+            flush_para()
+            list_items = []
+            while i < len(lines) and re.match(r'^\d+\.\s+', lines[i].strip()):
+                item_text = re.sub(r'^\d+\.\s+', '', lines[i].strip())
+                item_text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', item_text)
+                item_text = re.sub(r'\*(.*?)\*', r'<em>\1</em>', item_text)
+                item_text = re.sub(r'`(.*?)`', r'<code>\1</code>', item_text)
+                list_items.append(f"<li>{item_text}</li>")
+                i += 1
+            output.append(f'<ol class="content-ordered-list">{"".join(list_items)}</ol>')
+            continue
+
+        # Unordered lists
+        if s.startswith('- ') or s.startswith('* '):
+            flush_para()
+            list_items = []
+            while i < len(lines) and (lines[i].strip().startswith('- ') or lines[i].strip().startswith('* ')):
+                item_text = lines[i].strip()[2:]
+                item_text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', item_text)
+                item_text = re.sub(r'\*(.*?)\*', r'<em>\1</em>', item_text)
+                item_text = re.sub(r'`(.*?)`', r'<code>\1</code>', item_text)
+                list_items.append(f"<li>{item_text}</li>")
+                i += 1
+            output.append(f'<ul class="content-unordered-list">{"".join(list_items)}</ul>')
+            continue
+
+        # Regular paragraph line
+        para.append(s)
+        i += 1
+
+    flush_para()
+    return "\n\n".join(output)
 
 def build_html():
     course_data = assemble_quantum_data.assemble_course_data()
@@ -385,10 +468,9 @@ def build_html():
   </script>
 
   <!-- Textbook Application Scripts -->
-  <script src="departments-data.js?v=20261009_v10_quantum_chemistry"></script>
-  <script src="quantum-chemistry-thermodynamics-sims.js?v=20261009_v10_quantum_chemistry"></script>
-  <script src="quantum-chemistry-thermodynamics-data.js?v=20261009_v10_quantum_chemistry"></script>
-  <script src="app.js?v=20261009_v10_quantum_chemistry"></script>
+  <script src="quantum-chemistry-thermodynamics-sims.js?v=20261009_v12_fix_formatting"></script>
+  <script src="quantum-chemistry-thermodynamics-data.js?v=20261009_v12_fix_formatting"></script>
+  <script src="app.js?v=20261009_v12_fix_formatting"></script>
 </body>
 </html>
 """

@@ -282,10 +282,14 @@ function startApp() {
 
     let clean = text.replace(/\r\n/g, "\n").trim();
     
-    // Isolate $$...$$
+    // Isolate $$...$$ and \[...\]
     clean = clean.replace(/\$\$(.*?)\$\$/gs, function(match, math) {
       const singleLineMath = math.trim().replace(/\r?\n/g, " ");
       return "\n\n<div class=\"math-display\">$$" + singleLineMath + "$$</div>\n\n";
+    });
+    clean = clean.replace(/\\\[(.*?)\\\]/gs, function(match, math) {
+      const singleLineMath = math.trim().replace(/\r?\n/g, " ");
+      return "\n\n<div class=\"math-display\">\\[" + singleLineMath + "\\]</div>\n\n";
     });
 
     const lines = clean.split("\n");
@@ -328,7 +332,7 @@ function startApp() {
       }
 
       // Pre-wrapped math display
-      if (s.startsWith("<div") || (s.startsWith("$$") && s.endsWith("$$"))) {
+      if (s.startsWith("<div") || (s.startsWith("$$") && s.endsWith("$$")) || (s.startsWith("\\[") && s.endsWith("\\]"))) {
         flushPara();
         closeLists();
         output.push(s.startsWith("<div") ? s : "<div class=\"math-display\">" + s + "</div>");
