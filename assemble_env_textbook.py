@@ -326,6 +326,9 @@ def assemble():
   <meta name="author" content="Shahriyar Karim Siam">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://openstemlibrary.com/environmental-chemistry.html">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
 
   <!-- Open Graph / Social Media -->
   <meta property="og:type" content="article">
@@ -364,7 +367,7 @@ def assemble():
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
   <!-- Application Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=20261009_v1_environmental">
+  <link rel="stylesheet" href="styles.css?v=20261009_v22_env">
 </head>
 <body>
 
@@ -384,57 +387,52 @@ def assemble():
         <div id="search-results-box" class="search-results-dropdown" style="display:none;"></div>
       </div>
 
-      <nav class="unit-nav" aria-label="Units Navigation">
-        <div class="nav-section-title">COURSE MODULES (10 UNITS)</div>
-        <ul class="unit-nav-list" id="unit-nav-list">
-          <!-- Populated by app.js -->
-        </ul>
-      </nav>
+      <div class="unit-nav-header">Course Chapters (10 Units)</div>
+      <ul class="unit-nav-list" id="unit-nav-list">
+        <!-- Dynamically populated by app.js -->
+      </ul>
 
       <div class="sidebar-footer">
-        <a href="index.html" class="back-home-link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-          OpenSTEM Library Home
-        </a>
+        <div class="dept-badge-pill" style="display:inline-block; padding:4px 10px; background:#161b22; border:1px solid #30363d; border-radius:20px; font-size:0.75rem; color:#58a6ff; margin-bottom:8px;">
+          Department of Chemistry • Book 16
+        </div>
+        <div style="font-size:0.75rem; color:#8b949e;">
+          OpenSTEM Academic Press • Milestone #57
+        </div>
       </div>
     </aside>
 
-    <!-- Main Content Area -->
+    <!-- Main Content Reader -->
     <main class="main-content">
-      <header class="top-nav">
-        <div class="nav-controls-left">
-          <button id="sidebar-toggle-btn" class="icon-btn" aria-label="Toggle Navigation Drawer">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
-          </button>
-          <div class="breadcrumb">
-            <a href="index.html" class="crumb-link">OpenSTEM</a>
-            <span class="crumb-sep">/</span>
-            <span class="crumb-dept">Department of Chemistry</span>
-            <span class="crumb-sep">/</span>
-            <span class="crumb-current">Book 16: Environmental Chemistry</span>
-          </div>
-        </div>
-
-        <div class="nav-controls-right">
-          <button id="font-size-btn" class="icon-btn" title="Toggle Font Size" aria-label="Toggle Font Size">
-            <span style="font-weight:700; font-size:14px;">A±</span>
-          </button>
-          <a href="https://discord.gg/tBBKtvFJzW" target="_blank" rel="noopener noreferrer" class="community-pill-btn" title="Join OpenSTEM Discord">
-            💬 Discord Community
+      <!-- Top Reader Toolbar -->
+      <header class="reader-toolbar" style="display:flex; justify-content:space-between; align-items:center; padding:12px 24px; border-bottom:1px solid var(--border-subtle, #30363d); background:var(--bg-canvas, #0d1117);">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <a href="index.html" class="back-home-link" style="color:#58a6ff; text-decoration:none; font-size:0.85rem; font-weight:500;">
+            ← OpenSTEM Portal
           </a>
+          <span style="color:#8b949e; font-size:0.85rem;">/</span>
+          <span style="font-size:0.85rem; color:#c9d1d9; font-weight:600;">Environmental Chemistry</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:16px;">
+          <button id="font-size-toggle" style="background:#161b22; color:#c9d1d9; border:1px solid #30363d; border-radius:4px; padding:4px 8px; font-size:0.8rem; cursor:pointer;" title="Adjust Font Size">
+            A± Font
+          </button>
+          <div id="study-timer" style="font-size:0.8rem; color:#8b949e; font-family:'Fira Code',monospace;">
+            ⏱️ 00:00
+          </div>
         </div>
       </header>
 
-      <div class="content-scroll-area">
-        <article class="chapter-viewport chapter-article" id="main-content-area">
-          
-          <!-- Chapter Lead Header -->
-          <div class="chapter-lead-card">
-            <div class="chapter-badge-wrap">
-              <span id="unit-tag" class="chapter-badge">Chapter 1 • Theory & Derivations</span>
-              <span class="honors-tag">University Honors & Research Edition</span>
+      <!-- Scrollable Chapter Body -->
+      <div class="chapter-scroll-container">
+        <article class="chapter-article" id="main-content-area">
+
+          <!-- Chapter Header -->
+          <div class="unit-banner" style="margin-bottom:2rem; padding:2rem 0; border-bottom:1px solid #30363d;">
+            <div id="unit-tag" class="unit-tag-pill" style="display:inline-block; font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:#58a6ff; margin-bottom:0.75rem;">
+              Chapter 1 • Theory & Derivations
             </div>
-            <h1 id="unit-title" class="chapter-lead-title" style="font-size:2.1rem; font-weight:800; color:#f0f6fc; margin:0.6rem 0 1rem 0;">
+            <h1 id="unit-title" class="chapter-main-title" style="font-size:2.2rem; font-weight:800; color:#ffffff; margin:0 0 1rem 0; line-height:1.25;">
               Unit 1: Atmospheric Chemistry, Photochemical Smog & Acid Deposition
             </h1>
             <p id="unit-desc" class="chapter-lead-summary" style="font-size:1.1rem; line-height:1.7; color:#8b949e; margin:0; max-width:850px;">
