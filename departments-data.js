@@ -1007,6 +1007,28 @@ window.LIBRARY_CATALOG = {
             "Homogeneous, Enzymatic & Oscillating Catalytic Systems",
             "Molecular Reaction Dynamics, Potential Energy Surfaces & Transition State Theory"
           ]
+        },
+        {
+          id: "natural-products-chemistry",
+          title: "Chemistry of Natural Products: Biosynthetic Pathways, Terpenoids, Carbohydrates, Amino Acids, Nucleic Acids, Alkaloids, Steroids & Antibiotics",
+          subtitle: "Biosynthetic Pathways (MVA, MEP, Shikimate, PKS), Terpenoid Isoprene Rules & Cyclization Cascades, Carbohydrate Stereochemistry & Emil Fischer Proofs, Amino Acids, SPPS & Protein Folding, Purines, Pyrimidines & Nucleic Acid Biochemistry, Alkaloid Degradations (Hofmann, Emde, von Braun), Lipids, Steroids & Cholesterol Degradation, and Antibiotics (Penicillins, Beta-Lactam Mechanisms & Chloramphenicol)",
+          status: "AVAILABLE",
+          url: "natural-products-chemistry.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Natural Products Chemistry Textbook, Biosynthetic Pathways, Mevalonic Acid Pathway, MEP DOXP Pathway, Shikimic Acid Pathway, Polyketides, PKS, Terpenoids, Isoprene Rule, Myrcene, Citral, Limonene, Farnesol, Squalene Cyclization, Stork-Eschenmoser Hypothesis, Carbohydrates, Emil Fischer Glucose Proof, Mutarotation, Anomeric Effect, Osazones, Sucrose Inversion, Starch, Cellulose, Amino Acids, Strecker Synthesis, Zwitterion, pI Calculus, Peptide SPPS, Edman Degradation, Purines, Traube Synthesis, Uric Acid, Watson-Crick B-DNA, DNA Melting Tm, Alkaloids, Hofmann Exhaustive Methylation, Ephedrine, Atropine, Robinson Tropinone Synthesis, Morphine, Steroids, Cholesterol, Diels Hydrocarbon, Barbier-Wieland Degradation, Blanc Rule, Cardiotonic Glycosides, Antibiotics, Penicillins, 6-APA, Transpeptidase Suicide Inhibition, Beta-Lactamase Resistance, Clavulanic Acid, Chloramphenicol Synthesis",
+          description: "Comprehensive university honors master digital textbook on Chemistry of Natural Products: primary vs secondary metabolites, extraction thermodynamics, and core biosynthetic pathways (MVA, MEP/DOXP, Shikimate, and Modular Type I PKS); terpenoids, isoprene rules, structural elucidations and syntheses of myrcene, citral, and limonene; sesquiterpenes (farnesol, cadinene, caryophyllene), Stork-Eschenmoser polyene cyclization hypotheses, and Wagner-Meerwein carbocation rearrangements; carbohydrates, Emil Fischer's configuration proof of D-(+)-glucose, Kiliani-Fischer extensions, mutarotation dynamics, chair conformational energetics (4C1 vs 1C4), anomeric effect, and osazone mechanisms; complex disaccharides and polysaccharides, sucrose structure proof, cane sugar inversion kinetics, maltose/cellobiose enzymatic selectivity, amylose helical iodine clathrates, and crystalline cellulose microfibrils; amino acids, peptides, and proteins, Strecker/acetamidomalonate syntheses, zwitterionic speciation, Ramachandran dihedral landscapes, Merrifield solid-phase peptide synthesis (SPPS), Edman degradation, and protein folding thermodynamics; purines, pyrimidines, and nucleic acids, Traube adenine/guanine syntheses, uric acid degradations, B-DNA geometry, cooperative melting Tm calculus, and phosphoramidite oligonucleotide synthesis; alkaloids, Hofmann exhaustive methylation ring cleavage, Emde reductions, von Braun reactions, and structures of ephedrine, atropine (Robinson biomimetic tropinone synthesis), and morphine; lipids and steroids, fatty acid unsaturation, saponification/iodine values, Diels' hydrocarbon, cholesterol functional groups, Barbier-Wieland degradation, Blanc's rule, and cardiotonic glycosides; and antibiotics, 6-APA core, strained beta-lactam reactivity, transpeptidase suicide inhibition, beta-lactamase resistance and clavulanate inactivation, and the complete stereochemical elucidation and total synthesis of chloramphenicol. Features 10 interactive 60 FPS Canvas simulations and 90 tiered solved examination problems with complete unskipped mathematical and mechanistic derivations.",
+          topics: [
+            "Foundations of Natural Products, Separation Thermodynamics & Biosynthetic Pathways (MVA, MEP, Shikimate, PKS)",
+            "Terpenoids I: The Isoprene Rule, Essential Oils & Acyclic/Monocyclic Monoterpenes (Myrcene, Citral, Limonene)",
+            "Terpenoids II: Sesquiterpenoids, Higher Terpenes & Biosynthetic Polycyclizations (Farnesol, Squalene, Taxol)",
+            "Carbohydrates I: Monosaccharides, Fischer's Proof of D-Glucose, Mutarotation, Conformations & Osazones",
+            "Carbohydrates II: Disaccharides, Cane Sugar Inversion, Polysaccharides (Starch, Cellulose) & Glycobiology",
+            "Amino Acids, Peptides & Proteins: Syntheses, Zwitterions & pI, SPPS Merrifield, Sequencing & Folding",
+            "Purines, Pyrimidines & Nucleic Acids: Traube Syntheses, Uric Acid, B-DNA Double Helix, Denaturation & Oligonucleotides",
+            "Alkaloids: Extraction, Degradation (Hofmann, Emde, von Braun), Ephedrine, Atropine & Morphine Architectures",
+            "Lipids & Steroids: Saponification/Iodine Values, Diels' Hydrocarbon, Cholesterol Elucidation & Cardiotonic Glycosides",
+            "Antibiotics & Natural Chemotherapeutics: Penicillins, Beta-Lactam Transpeptidase Inactivation & Chloramphenicol"
+          ]
         }
       ]
     }
