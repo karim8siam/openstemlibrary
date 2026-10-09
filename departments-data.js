@@ -1051,6 +1051,28 @@ window.LIBRARY_CATALOG = {
             "Nuclear Magnetic Resonance (NMR) II: Spin-Spin Coupling & Multi-Dimensional NMR",
             "Electron Spin Resonance (ESR/EPR) & Mössbauer Spectroscopy"
           ]
+        },
+        {
+          id: "quantum-chemistry-thermodynamics",
+          title: "Quantum Chemistry & Statistical Thermodynamics: Operators, Solvable Wells, Approximate Methods, Ensembles, Partition Functions & Quantum Statistics",
+          subtitle: "Historical Quantum Breakdown & Postulates, Exactly Solvable Wells & Rings, Harmonic Oscillators & Angular Momentum, Hydrogen Atom & Fine Structure, Rayleigh-Ritz & Perturbation Approximations, Multi-Electron Atoms & Chemical Bonding, Statistical Ensembles & Maxwell-Boltzmann, Molecular Partition Functions & Thermodynamic Bridge, Statistical Equilibrium & Reaction Kinetics, and Quantum Condensed Matter Statistics",
+          status: "AVAILABLE",
+          url: "quantum-chemistry-thermodynamics.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Quantum Chemistry Textbook, Statistical Thermodynamics, Schrödinger Equation, Particle in a Box, Harmonic Oscillator, Hydrogen Atom, Perturbation Theory, Variational Method, Slater Determinants, Hartree-Fock, Born-Oppenheimer, Molecular Orbitals, Valence Bond, Maxwell-Boltzmann, Partition Functions, Chemical Equilibrium, Bose-Einstein, Fermi-Dirac, Debye Heat Capacity, Superconductivity",
+          description: "Comprehensive university honors master digital textbook covering quantum foundations, exactly solvable potentials, angular momentum, hydrogenic wavefunctions, approximation methods, many-electron atomic structure, molecular bonding, statistical ensembles, molecular partition functions, chemical reaction equilibria, quantum statistics (BE/FD), Debye heat capacity of solids, and superconductivity. Features 10 interactive 60 FPS simulations and 90 tiered solved problems.",
+          topics: [
+            "Foundations & Historical Development of Quantum Mechanics",
+            "Exact Quantum Solvable Systems: Free Particle, Infinite/Finite Wells & Ring Quantization",
+            "Harmonic Oscillator, Angular Momentum & Rotational Motion",
+            "Hydrogen Atom, Central Force Dynamics & Hydrogenic Orbitals",
+            "Quantum Approximation Methods: Perturbation & Variational",
+            "Many-Electron Atoms & Quantum Chemical Bonding",
+            "Statistical Mechanics: Microstates, Ensembles & Maxwell-Boltzmann",
+            "Molecular Partition Functions & The Thermodynamic Bridge",
+            "Statistical Thermodynamics of Chemical Equilibrium & Ideal Gas Reactions",
+            "Quantum Statistics & Condensed Matter Thermodynamics"
+          ]
         }
       ]
     }
