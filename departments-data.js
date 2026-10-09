@@ -1029,6 +1029,28 @@ window.LIBRARY_CATALOG = {
             "Lipids & Steroids: Saponification/Iodine Values, Diels' Hydrocarbon, Cholesterol Elucidation & Cardiotonic Glycosides",
             "Antibiotics & Natural Chemotherapeutics: Penicillins, Beta-Lactam Transpeptidase Inactivation & Chloramphenicol"
           ]
+        },
+        {
+          id: "chemical-spectroscopy",
+          title: "Chemical Spectroscopy: EM Radiation Interaction, Rotational Microwave, Rovibrational & Raman, Atomic & Molecular Electronic Transitions, Multi-Dimensional NMR, ESR & Mössbauer",
+          subtitle: "Radiation-Matter Interaction & Einstein Coefficients, Microwave Pure Rotational Spectra & Centrifugal Distortion, Rovibrational P/Q/R Branches & Morse Anharmonicity, Polarizability Ellipsoids & Raman Scattering, Atomic Term Symbols & Zeeman Splitting, Molecular Vibronic Progressions & Tanabe-Sugano Diagrams, Photophysical Jablonski Diagrams & FRET, 1D/2D NMR Bloch Equations & Scalar Couplings, and Electron Spin Resonance & Mössbauer Hyperfine Sextets",
+          status: "AVAILABLE",
+          url: "chemical-spectroscopy.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Chemical Spectroscopy Textbook, Radiation-Matter Interaction, Einstein Coefficients, Transition Dipole Moment, Doppler Broadening, FTIR Spectroscopy, Fellgett Advantage, Jacquinot Advantage, Microwave Spectroscopy, Rigid Rotor, Centrifugal Distortion, Stark Effect, Rovibrational Spectroscopy, P Branch, R Branch, Morse Potential, Dunham Expansion, Raman Spectroscopy, Polarizability Ellipsoid, Depolarization Ratio, Resonance Raman, SERS, TERS, Atomic Term Symbols, Russell-Saunders Coupling, Landé g-factor, Zeeman Effect, Sodium D Lines, Franck-Condon Principle, Vibronic Transitions, Tanabe-Sugano Diagrams, Photophysics, Jablonski Diagram, Fluorescence Lifetime, Stern-Volmer Quenching, FRET, NMR Spectroscopy, Larmor Precession, Bloch Equations, Chemical Shift, Scalar Coupling, Dynamic NMR, 2D NMR, COSY, HSQC, HMBC, Solid-State MAS NMR, ESR Spectroscopy, Hyperfine Coupling, Mössbauer Spectroscopy, Isomer Shift, Quadrupole Splitting",
+          description: "Comprehensive university honors master digital textbook on Chemical Spectroscopy: quantum electrodynamic foundations of radiation-matter interaction, transition dipole moments, Einstein A & B coefficients, spectral linewidths, Doppler broadening, practical signal-to-noise optimization, Fourier transform spectroscopy, and resolution metrics; pure rotational microwave spectroscopy of linear, symmetric, asymmetric, and spherical rotors, centrifugal distortion, Stark splitting, and quadrupole hyperfine coupling; rovibrational spectroscopy of diatomic and polyatomic molecules, harmonic vs Morse oscillators, Dunham expansion, vibration-rotation P/Q/R branches, Coriolis coupling, and Fermi resonances; classical and quantum theory of Raman scattering, polarizability ellipsoids, Kramers-Heisenberg-Dirac dispersion, Stokes/anti-Stokes transitions, depolarization ratios, resonance Raman, SERS, and TERS; electronic spectroscopy of atoms, Russell-Saunders and jj coupling, atomic term symbols, Hund's rules, spin-orbit splitting, normal and anomalous Zeeman effects, and Stark splitting; molecular electronic spectroscopy, Born-Oppenheimer approximation, Franck-Condon principle, vibronic progressions, charge-transfer bands, d-d ligand field transitions, and Tanabe-Sugano diagrams; photophysics, Jablonski diagrams, radiative and non-radiative decay kinetics, fluorescence quenching, Stern-Volmer dynamics, intersystem crossing, phosphorescence, and Förster resonance energy transfer (FRET); nuclear magnetic resonance (NMR) spectroscopy, nuclear Zeeman Hamiltonian, Larmor precession, chemical shifts, diamagnetic and paramagnetic shielding, Bloch equations, spin-lattice (T1) and spin-spin (T2) relaxation, scalar J-coupling, and dynamic NMR line shape exchange; multi-dimensional and solid-state NMR, product operator formalism, 2D COSY, TOCSY, NOESY, HSQC, HMBC, and magic angle spinning (MAS); electron spin resonance (ESR/EPR) and Mössbauer spectroscopy, electron Zeeman interaction, isotropic and anisotropic hyperfine coupling, Kramers theorem, zero-field splitting, nuclear recoil-free gamma-ray resonance, isomer shifts, quadrupole splitting, and magnetic hyperfine sextets. Features 10 interactive 60 FPS Canvas simulations and 90 tiered solved examination problems with complete unskipped mathematical and quantum derivations.",
+          topics: [
+            "Interaction of Electromagnetic Radiation with Matter & Practical Foundations",
+            "Microwave (Pure Rotational) Spectroscopy & Molecular Geometries",
+            "Infrared & Rovibrational Spectroscopy: Diatomic & Polyatomic Molecules",
+            "Raman Spectroscopy: Classical & Quantum Theory, Symmetry & Selection Rules",
+            "Electronic Spectroscopy of Atoms: Term Symbols, Fine Structure & Zeeman Effects",
+            "Electronic Spectroscopy of Molecules: Diatomics, Polyatomics & Transition Metals",
+            "Photophysics, Photochemistry & Luminescence Spectroscopy",
+            "Nuclear Magnetic Resonance (NMR) I: Principles, Chemical Shift & Spin Relaxation",
+            "Nuclear Magnetic Resonance (NMR) II: Spin-Spin Coupling & Multi-Dimensional NMR",
+            "Electron Spin Resonance (ESR/EPR) & Mössbauer Spectroscopy"
+          ]
         }
       ]
     }
