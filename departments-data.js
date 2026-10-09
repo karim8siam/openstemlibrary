@@ -985,6 +985,28 @@ window.LIBRARY_CATALOG = {
             "Industrial Fuels and Petroleum Refining: Crude Assays, Distillation, FCC Risers, Reforming & Steam Cracking",
             "Extractive Metallurgy: Blast Furnace Ironmaking, Slag Basicity, BOF Decarburization & Concast Steel"
           ]
+        },
+        {
+          id: "molecular-motion-kinetics",
+          title: "Molecular Motion and Reaction Kinetics: Gas Transport, Electrolytic Conduction, Empirical Rate Laws & Molecular Reaction Dynamics",
+          subtitle: "Kinetic Theory of Gases, Effusion & Transport Phenomena, Electrolyte Conductance, Debye-Hückel-Onsager Dynamics, Diffusion Thermodynamics, Empirical Rate Laws, Arrhenius Theory, Unimolecular Fall-Off, Chain Branching Explosions, Enzyme & Oscillating Catalysis, and Molecular Reaction Dynamics",
+          status: "AVAILABLE",
+          url: "molecular-motion-kinetics.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Molecular Motion Textbook, Reaction Kinetics, Chemical Kinetics, Gas Transport, Effusion, Maxwell-Boltzmann Distribution, Mean Free Path, Electrolytic Conduction, Kohlrausch Law, Ionic Mobility, Transport Numbers, Debye-Huckel-Onsager, Grotthuss Mechanism, Diffusion, Fick Laws, Stokes-Einstein Equation, Brownian Motion, Integrated Rate Laws, Arrhenius Equation, Activation Energy, Reaction Mechanisms, Steady-State Approximation, Rate-Determining Step, Kinetic Isotope Effects, Quantum Tunneling, Unimolecular Reactions, Lindemann-Hinshelwood Theory, RRKM Theory, Stopped-Flow, Flash Photolysis, Chain Reactions, Explosions, Semenov Branching, Thermal Explosions, Homogeneous Catalysis, Bronsted Catalysis Law, Michaelis-Menten Kinetics, Enzyme Inhibition, Chemical Oscillations, Belousov-Zhabotinsky, Oregonator, Reaction Dynamics, Collision Theory, Transition State Theory, Eyring Equation, Kinetic Salt Effects, Potential Energy Surfaces, LEPS Surface, Polanyi Rules, Crossed Molecular Beams, Velocity Map Imaging",
+          description: "Exhaustive university honors master digital textbook on Molecular Motion and Reaction Kinetics: microscopic gas transport phenomena, Maxwell-Boltzmann distributions, effusion and viscosity; ionic conductivities, transport numbers, and Debye-Hückel-Onsager relaxation; diffusion thermodynamics, Fick's laws, and Brownian random walks; empirical integrated rate laws and multi-step mechanisms; Arrhenius activation barriers and composite temperature dependencies; Lindemann-Hinshelwood unimolecular fall-off and fast reaction techniques; branched chain reactions and Semenov explosion peninsulas; homogeneous, enzymatic, and oscillatory catalysis; and molecular reaction dynamics, Transition State Theory, and potential energy surfaces. Features 10 interactive 60 FPS Canvas simulations and 90 tiered solved problems with complete unskipped mathematical derivations.",
+          topics: [
+            "Kinetic Theory of Gases & Gas Transport Phenomena",
+            "Ion Transport & Electrolytic Conduction in Solution",
+            "Diffusion Phenomena & Brownian Motion",
+            "Empirical Chemical Kinetics & Integrated Rate Laws",
+            "Temperature Dependence, Arrhenius Theory & Composite Kinetics",
+            "Reaction Mechanisms, Approximations & Kinetic Isotope Effects",
+            "Unimolecular Reactions & Advanced Experimental Kinetic Methods",
+            "Chain Reactions, Branched Kinetics & Thermal/Branching Explosions",
+            "Homogeneous, Enzymatic & Oscillating Catalytic Systems",
+            "Molecular Reaction Dynamics, Potential Energy Surfaces & Transition State Theory"
+          ]
         }
       ]
     }
