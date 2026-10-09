@@ -1139,6 +1139,28 @@ window.LIBRARY_CATALOG = {
             "Liquid Crystals: Mesophases, Textures & Optoelectronic Precursors",
             "Metallomesogens & Optoelectronic Supramolecular Materials"
           ]
+        },
+        {
+          id: "organometallic-chemistry",
+          title: "Organometallic Chemistry: Electron Counting, Metal Carbonyls, σ- & π-Complexes, Clusters, Mechanisms & Catalysis",
+          subtitle: "18-Electron Rule & CBC Model, Main Group 3c-2e Bridges, Metal Carbonyls & Phosphines, σ-Alkyls & Agostic Interactions, π-Alkene & Allyl Complexes, Metallocenes & Fluxionality, Metal Clusters & Wade-Mingos Rules, Reaction Mechanisms, Homogeneous Catalysis, and Industrial Polymerization",
+          status: "AVAILABLE",
+          url: "organometallic-chemistry.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Organometallic Chemistry Textbook, 18-Electron Rule, Valence Electron Counting, Main Group Organometallics, Trimethylaluminum Dimer, 3-Center 2-Electron Bond, Metal Carbonyls, Dewar-Chatt-Duncanson Model, Pi-Backbonding, Tolman Cone Angle, Metal Hydrides, Agostic Interactions, Beta-Hydride Elimination, Zeise Salt, Alkene Rotation, Metallocenes, Ferrocene, Cobaltocene, Nickelocene, Ring Whizzing, Fluxionality, Metal Clusters, Wade-Mingos Rules, PSEPT, Oxidative Addition, Reductive Elimination, Migratory Insertion, Wilkinson Catalyst, Hydroformylation, Olefin Metathesis, Grubbs Catalyst, Schrock Catalyst, Ziegler-Natta Polymerization, Kaminsky Catalyst, Cossee-Arlman Mechanism, Monsanto Process, Cativa Process, Fischer-Tropsch",
+          description: "Comprehensive university honors master digital textbook on Organometallic Chemistry: 18-electron valence electron counting, covalent and ionic bonding models, CBC classification, main group alkyls and aryls, 3c-2e bridge bonding; transition metal carbonyls, nitrosyls, phosphines, Tolman cone angles and electronic parameters; sigma-alkyls, hydrides, agostic interactions, beta-hydride elimination; pi-complexes including alkenes, alkynes, allyls, dienes, metallocenes, sandwich complexes, and fluxionality; metal clusters and Wade-Mingos polyhedral skeletal electron pair theory (PSEPT); fundamental reaction mechanisms (oxidative addition, reductive elimination, migratory insertion, nucleophilic attack); homogeneous catalysis (Wilkinson's hydrogenation, hydroformylation, olefin metathesis); and industrial catalytic processes (Ziegler-Natta, metallocene polymerization, Monsanto/Cativa acetic acid, and syngas chemistry). Features 10 interactive 60 FPS HTML5 Canvas simulations and 90 tiered solved examination problems with complete line-by-line mathematical proofs.",
+          topics: [
+            "Fundamentals of Organometallic Chemistry & Electron Counting",
+            "Main Group Organometallics: Groups 13, 14 & 15",
+            "Metal Carbonyls, Nitrosyls & Phosphine Complexes",
+            "σ-Bound Ligands: Alkyls, Aryls, Hydrides & Agostic Interactions",
+            "π-Complexes I: Alkenes, Alkynes & η³-Allyl Complexes",
+            "π-Complexes II: Dienes, Polyenes, Metallocenes & Fluxionality",
+            "Metal Clusters & Wade-Mingos Electron Counting Rules",
+            "Fundamental Organometallic Reaction Mechanisms",
+            "Homogeneous Catalysis: Hydrogenation, Hydroformylation & Olefin Metathesis",
+            "Industrial Catalytic Processes: Polymerization, Carbonylation & Syngas Chemistry"
+          ]
         }
       ]
     }
