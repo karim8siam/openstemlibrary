@@ -3,10 +3,11 @@
 
 function startApp() {
   let activeUnitIndex = 0;
+  let mathDebounceTimer = null;
 
   // Initialize App
   initSidebar();
-  loadChapter(0);
+  loadChapter(0, true);
   initAntiCopyGuards();
   initFontToggle();
   initSearch();
@@ -35,7 +36,7 @@ function startApp() {
   }
 
   // 2. Load Chapter View
-  function loadChapter(unitIndex) {
+  function loadChapter(unitIndex, isInitialLoad = false) {
     activeUnitIndex = unitIndex;
     const unit = window.COURSE_DATA.units[unitIndex];
 
@@ -49,6 +50,21 @@ function startApp() {
       if (descEl) descEl.innerText = unit.leadSummary || unit.description || "";
     } catch (e) {
       console.warn("Header update notice:", e);
+    }
+
+    if (isInitialLoad && document.querySelector("#textbook-sections .textbook-section-card")) {
+      // Unit 1 already pre-rendered into HTML! Mount inline simulations safely
+      const simTypes = unit.simulations || [];
+      simTypes.forEach(simType => {
+        const simId = `sim-container-${simType}`;
+        setTimeout(() => {
+          if (window.SimulationEngine && window.SimulationEngine.initSimulation) {
+            window.SimulationEngine.initSimulation(simId, simType);
+          }
+        }, 60);
+      });
+      renderMath();
+      return;
     }
 
     try {
@@ -74,8 +90,6 @@ function startApp() {
 
     // Trigger KaTeX typesetting
     renderMath();
-    setTimeout(renderMath, 40);
-    setTimeout(renderMath, 200);
   }
 
   // 3. Render Textbook Sections (With Direct Inline Simulations)
@@ -467,9 +481,10 @@ function startApp() {
     return output.join("\n\n");
   }
 
-  // 7. Math Rendering with KaTeX
+  // 7. Math Rendering with KaTeX (Debounced & Memory-Safe)
   function renderMath() {
-    function execRender() {
+    if (mathDebounceTimer) clearTimeout(mathDebounceTimer);
+    mathDebounceTimer = setTimeout(() => {
       const target = document.getElementById("main-content-area") || document.body;
       if (window.renderMathInElement && target) {
         try {
@@ -480,27 +495,14 @@ function startApp() {
               { left: "\\[", right: "\\]", display: true },
               { left: "\\(", right: "\\)", display: false }
             ],
+            ignoredClasses: ["katex", "katex-html", "katex-display", "inline-simulation-wrapper"],
             throwOnError: false
           });
         } catch (e) {
           console.warn("Math auto-render notice:", e);
         }
       }
-    }
-
-    execRender();
-    if (!window.renderMathInElement) {
-      let tries = 0;
-      const timer = setInterval(() => {
-        tries++;
-        if (window.renderMathInElement) {
-          clearInterval(timer);
-          execRender();
-        } else if (tries > 25) {
-          clearInterval(timer);
-        }
-      }, 100);
-    }
+    }, 40);
   }
 
   // 8. Anti-Copy & Anti-Download Protection
@@ -605,6 +607,7 @@ window.addEventListener("load", () => {
             { left: "\\[", right: "\\]", display: true },
             { left: "\\(", right: "\\)", display: false }
           ],
+          ignoredClasses: ["katex", "katex-html", "katex-display", "inline-simulation-wrapper"],
           throwOnError: false
         });
       } catch (e) {

@@ -8,16 +8,42 @@
 window.SimulationEngine = window.SimulationEngine || {};
 
 // Helper: Setup Canvas with Device Pixel Ratio
+// Helper: Setup Canvas with Device Pixel Ratio and dimension caching
 function setupCanvas(canvas) {
+  if (!canvas) return { ctx: null, width: 800, height: 420 };
   const dpr = window.devicePixelRatio || 1;
-  const rect = canvas.getBoundingClientRect();
-  const width = rect.width || canvas.width || 800;
-  const height = rect.height || canvas.height || 420;
-  canvas.width = width * dpr;
-  canvas.height = height * dpr;
+  let width = canvas._cssWidth;
+  let height = canvas._cssHeight;
+
+  if (!width || !height) {
+    const rect = canvas.getBoundingClientRect();
+    width = Math.floor(rect.width > 0 ? rect.width : (canvas.parentElement ? canvas.parentElement.clientWidth : 800)) || 800;
+    height = Math.floor(rect.height > 0 ? rect.height : 420) || 420;
+    canvas._cssWidth = width;
+    canvas._cssHeight = height;
+  }
+
+  const targetW = Math.round(width * dpr);
+  const targetH = Math.round(height * dpr);
+
+  if (canvas.width !== targetW || canvas.height !== targetH) {
+    canvas.width = targetW;
+    canvas.height = targetH;
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
   const ctx = canvas.getContext('2d');
-  ctx.scale(dpr, dpr);
   return { ctx, width, height };
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('resize', function() {
+    document.querySelectorAll('.sim-canvas').forEach(function(c) {
+      c._cssWidth = null;
+      c._cssHeight = null;
+    });
+  });
 }
 
 /* ==========================================================================

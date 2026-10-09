@@ -3,16 +3,42 @@
 (function() {
   'use strict';
 
+  // Setup Canvas with dimension caching to prevent per-frame GPU reallocations
   function setupCanvas(canvas) {
+    if (!canvas) return { ctx: null, width: 800, height: 420 };
     var dpr = window.devicePixelRatio || 1;
-    var rect = canvas.getBoundingClientRect();
-    var width = rect.width || 800;
-    var height = rect.height || 420;
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
+    var width = canvas._cssWidth;
+    var height = canvas._cssHeight;
+
+    if (!width || !height) {
+      var rect = canvas.getBoundingClientRect();
+      width = Math.floor(rect.width > 0 ? rect.width : (canvas.parentElement ? canvas.parentElement.clientWidth : 800)) || 800;
+      height = Math.floor(rect.height > 0 ? rect.height : 420) || 420;
+      canvas._cssWidth = width;
+      canvas._cssHeight = height;
+    }
+
+    var targetW = Math.round(width * dpr);
+    var targetH = Math.round(height * dpr);
+
+    if (canvas.width !== targetW || canvas.height !== targetH) {
+      canvas.width = targetW;
+      canvas.height = targetH;
+      var ctx = canvas.getContext('2d');
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
     var ctx = canvas.getContext('2d');
-    ctx.scale(dpr, dpr);
     return { ctx: ctx, width: width, height: height };
+  }
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('resize', function() {
+      document.querySelectorAll('.sim-canvas').forEach(function(c) {
+        c._cssWidth = null;
+        c._cssHeight = null;
+      });
+    });
   }
 
   window.Org1Sims = {};

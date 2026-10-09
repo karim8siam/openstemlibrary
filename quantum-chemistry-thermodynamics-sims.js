@@ -7,16 +7,42 @@
 window.QuantumChemistrySimulations = (function() {
   'use strict';
 
+  // Optimized high-DPI canvas initialization with dimensions caching (avoids per-frame GPU allocations)
   function initCanvas(canvas) {
+    if (!canvas) return null;
     const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
-    const w = rect.width > 0 ? rect.width : (canvas.width || 800);
-    const h = rect.height > 0 ? rect.height : (canvas.height || 420);
-    canvas.width = w * dpr;
-    canvas.height = h * dpr;
+    let w = canvas._cssWidth;
+    let h = canvas._cssHeight;
+
+    if (!w || !h) {
+      const rect = canvas.getBoundingClientRect();
+      w = Math.floor(rect.width > 0 ? rect.width : (canvas.parentElement ? canvas.parentElement.clientWidth : 800)) || 800;
+      h = Math.floor(rect.height > 0 ? rect.height : (canvas.parentElement ? canvas.parentElement.clientHeight : 340)) || 340;
+      canvas._cssWidth = w;
+      canvas._cssHeight = h;
+    }
+
+    const targetW = Math.round(w * dpr);
+    const targetH = Math.round(h * dpr);
+
+    if (canvas.width !== targetW || canvas.height !== targetH) {
+      canvas.width = targetW;
+      canvas.height = targetH;
+      const ctx = canvas.getContext('2d');
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
     const ctx = canvas.getContext('2d');
-    ctx.scale(dpr, dpr);
     return { ctx, width: w, height: h, dpr };
+  }
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('resize', function() {
+      document.querySelectorAll('.sim-canvas').forEach(function(c) {
+        c._cssWidth = null;
+        c._cssHeight = null;
+      });
+    });
   }
 
   function getContainerEl(c) {
@@ -98,7 +124,13 @@ window.QuantumChemistrySimulations = (function() {
     };
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
       state.t += 0.03;
 
@@ -293,7 +325,13 @@ window.QuantumChemistrySimulations = (function() {
     };
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
       state.t += 0.04;
 
@@ -486,7 +524,13 @@ window.QuantumChemistrySimulations = (function() {
     ];
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
       state.t += 0.03;
 
@@ -644,7 +688,13 @@ window.QuantumChemistrySimulations = (function() {
     }
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
       state.t += 0.02;
 
@@ -789,7 +839,13 @@ window.QuantumChemistrySimulations = (function() {
     };
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
       state.t += 0.03;
 
@@ -963,7 +1019,13 @@ window.QuantumChemistrySimulations = (function() {
     };
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
       state.t += 0.03;
 
@@ -1118,7 +1180,13 @@ window.QuantumChemistrySimulations = (function() {
     };
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
       state.t += 0.05;
 
@@ -1258,7 +1326,13 @@ window.QuantumChemistrySimulations = (function() {
     };
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
       state.t += 0.03;
 
@@ -1404,7 +1478,13 @@ window.QuantumChemistrySimulations = (function() {
     };
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
       state.t += 0.03;
 
@@ -1524,7 +1604,13 @@ window.QuantumChemistrySimulations = (function() {
     };
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
       state.t += 0.03;
 

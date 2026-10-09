@@ -18,16 +18,42 @@ window.SpectroscopySimulations = (function() {
   'use strict';
 
   // Helper for crisp high-DPI canvas rendering
+  // Optimized high-DPI canvas initialization with dimensions caching (avoids per-frame GPU allocations)
   function initCanvas(canvas) {
+    if (!canvas) return null;
     const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
-    const w = rect.width > 0 ? rect.width : (canvas.width || 800);
-    const h = rect.height > 0 ? rect.height : (canvas.height || 420);
-    canvas.width = w * dpr;
-    canvas.height = h * dpr;
+    let w = canvas._cssWidth;
+    let h = canvas._cssHeight;
+
+    if (!w || !h) {
+      const rect = canvas.getBoundingClientRect();
+      w = Math.floor(rect.width > 0 ? rect.width : (canvas.parentElement ? canvas.parentElement.clientWidth : 800)) || 800;
+      h = Math.floor(rect.height > 0 ? rect.height : (canvas.parentElement ? canvas.parentElement.clientHeight : 340)) || 340;
+      canvas._cssWidth = w;
+      canvas._cssHeight = h;
+    }
+
+    const targetW = Math.round(w * dpr);
+    const targetH = Math.round(h * dpr);
+
+    if (canvas.width !== targetW || canvas.height !== targetH) {
+      canvas.width = targetW;
+      canvas.height = targetH;
+      const ctx = canvas.getContext('2d');
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
     const ctx = canvas.getContext('2d');
-    ctx.scale(dpr, dpr);
     return { ctx, width: w, height: h, dpr };
+  }
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('resize', function() {
+      document.querySelectorAll('.sim-canvas').forEach(function(c) {
+        c._cssWidth = null;
+        c._cssHeight = null;
+      });
+    });
   }
 
   /* =========================================================================
@@ -97,7 +123,13 @@ window.SpectroscopySimulations = (function() {
     };
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
 
       state.t += 0.02 * state.v;
@@ -267,7 +299,13 @@ window.SpectroscopySimulations = (function() {
     };
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
 
       state.angle += 0.03 * Math.sqrt(state.B * (state.T / 300));
@@ -440,7 +478,13 @@ window.SpectroscopySimulations = (function() {
     };
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
 
       const B0 = state.Be - 0.5 * (state.withAlpha ? state.alpha_e : 0);
@@ -606,7 +650,13 @@ window.SpectroscopySimulations = (function() {
     };
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
 
       state.t += 0.04;
@@ -773,7 +823,13 @@ window.SpectroscopySimulations = (function() {
     };
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
 
       ctx.fillStyle = "#38bdf8";
@@ -912,7 +968,13 @@ window.SpectroscopySimulations = (function() {
     };
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
 
       // Left Panel: Potential Wells (Ground & Excited Electronic States)
@@ -1095,7 +1157,13 @@ window.SpectroscopySimulations = (function() {
     document.getElementById("spec7_btn_pulse").onclick = addPulse;
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
 
       // Jablonski Diagram Energy Levels
@@ -1280,7 +1348,13 @@ window.SpectroscopySimulations = (function() {
     };
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
 
       // Precession & Bloch relaxation equations
@@ -1444,7 +1518,13 @@ window.SpectroscopySimulations = (function() {
     };
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
 
       // Left Panel: 1D Multiplet Tree & 1H Spectrum
@@ -1615,7 +1695,13 @@ window.SpectroscopySimulations = (function() {
     };
 
     function render() {
-      const { ctx, width: W, height: H } = initCanvas(canvas);
+      if (!canvas || !canvas.isConnected) {
+        if (animId) cancelAnimationFrame(animId);
+        return;
+      }
+      const setup = initCanvas(canvas);
+      if (!setup) return;
+      const { ctx, width: W, height: H } = setup;
       ctx.clearRect(0, 0, W, H);
 
       const midY = H * 0.52;
