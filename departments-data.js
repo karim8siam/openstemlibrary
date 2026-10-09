@@ -1073,6 +1073,28 @@ window.LIBRARY_CATALOG = {
             "Statistical Thermodynamics of Chemical Equilibrium & Ideal Gas Reactions",
             "Quantum Statistics & Condensed Matter Thermodynamics"
           ]
+        },
+        {
+          id: "solid-state-chemistry",
+          title: "Solid State Chemistry: Crystal Systems, Close-Packed Lattices, Symmetry, XRD, Imperfections, Band Theory & Superconductivity",
+          subtitle: "Classification of Solids & Born-Haber Cycles, Close-Packed Spheres & Interstitial Voids, Crystallographic Symmetry & Space Groups, X-Ray Diffraction & Structure Factors, Binary & Ternary Crystal Architectures, Silicates, Zeolites & Intercalation Solids, Band Theory, Kronig-Penney & Controlled Valency, Point Defects, Kröger-Vink & Non-Stoichiometry, Dislocations & Mechanical Properties, and Superconductivity & High-Tc Materials",
+          status: "AVAILABLE",
+          url: "solid-state-chemistry.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Solid State Chemistry Textbook, Crystallography, Crystal Systems, Bravais Lattices, Miller Indices, Close Packing, Hexagonal Close Packing, Cubic Close Packing, Tetrahedral Voids, Octahedral Voids, Radius Ratio Rules, Born-Haber Cycle, Born-Lande Equation, Madelung Constant, Point Groups, Space Groups, Hermann-Mauguin Symbols, X-Ray Diffraction, Braggs Law, Structure Factor, Systematic Absences, Powder XRD, Ewald Sphere, NaCl Structure, CsCl Structure, Zinc Blende, Wurtzite, Fluorite, Rutile, Perovskite, Spinel, Silicates, Zeolites, Intercalation Compounds, Band Theory, Bloch Theorem, Kronig-Penney Model, Density of States, Fermi-Dirac Distribution, Semiconductors, Doping, Controlled Valency, Point Defects, Schottky Defects, Frenkel Defects, Kroger-Vink Notation, Non-Stoichiometry, Dislocation Mechanics, Burgers Vector, Peierls-Nabarro Stress, Superconductivity, Meissner Effect, London Equations, BCS Theory, Cooper Pairs, High-Tc Cuprates, YBCO",
+          description: "Comprehensive university honors master digital textbook on Solid State Chemistry: classification of crystalline and amorphous solids, bonding types, Born-Haber thermochemical cycles, and lattice energy formulations; chemical crystallography, Bravais lattices, Miller indices, hexagonal and cubic close packing, interstitial void geometries, and radius ratio coordination rules; symmetry operations, 32 crystallographic point groups, 230 space groups, and Hermann-Mauguin notations; X-ray, electron, and neutron diffraction physics, Bragg's law, structure factors, systematic absences, powder and single-crystal diffraction, and the Ewald sphere; binary and ternary crystal structure archetypes including NaCl, CsCl, ZnS, CaF2, TiO2, CdI2, NiAs, perovskite CaTiO3, normal and inverse spinels; silicate classifications, zeolites, and intercalation host-guest compounds; electronic band theory of solids, Bloch theorem, Kronig-Penney model, nearly free electron approximation, tight-binding framework, intrinsic and extrinsic semiconductors, and controlled valency conduction; point defects, Schottky and Frenkel equilibrium thermodynamics, Kröger-Vink notation, non-stoichiometry, and solid electrolyte transport; line and planar crystal defects, edge and screw dislocations, Burgers vectors, and Peierls-Nabarro lattice friction; and superconductivity, Meissner-Ochsenfeld effect, London equations, BCS electron-phonon pairing, coherence length, London penetration depth, and high-Tc cuprate superconductors. Features 10 interactive 60 FPS Canvas simulations and 90 tiered solved examination problems with complete line-by-line mathematical proofs.",
+          topics: [
+            "Classification of Solids, Intermolecular Forces & Lattice Energy",
+            "Chemical Crystallography, Close-Packed Lattices & Void Geometries",
+            "Crystallographic Symmetry, Point Groups & Space Group Systems",
+            "X-Ray, Electron & Neutron Diffraction: Principles & Structure Solution",
+            "Binary Crystal Structures & Structural Systematics",
+            "Ternary Oxides, Silicates, Zeolites & Intercalation Solids",
+            "Electronic Properties of Solids: Band Theory & Semiconductors",
+            "Defects in Solids, Kröger-Vink Notation & Non-Stoichiometry",
+            "Dislocations, Mechanical Properties & Plastic Deformation",
+            "Electrical, Magnetic & Superconducting Properties of Solids"
+          ]
         }
       ]
     }

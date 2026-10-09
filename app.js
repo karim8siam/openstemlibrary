@@ -63,6 +63,21 @@ function startApp() {
           }
         }, 60);
       });
+      // Attach listeners to pre-rendered problem toggle buttons
+      document.querySelectorAll(".problem-card").forEach(card => {
+        const toggleBtn = card.querySelector(".solution-toggle-btn, .btn-solution-toggle");
+        const solContent = card.querySelector(".solution-content");
+        if (toggleBtn && solContent) {
+          toggleBtn.addEventListener("click", () => {
+            const isOpen = solContent.classList.toggle("open");
+            if (solContent.style.display !== undefined) {
+              solContent.style.display = isOpen ? "block" : "none";
+            }
+            toggleBtn.innerText = isOpen ? "🙈 Hide Solution" : "👁️ Reveal Complete Derivation & Solution";
+            if (isOpen) renderMath();
+          });
+        }
+      });
       renderMath();
       return;
     }
@@ -113,6 +128,8 @@ function startApp() {
         simTypes = [sec.simulation];
       } else if (sec.simulations && Array.isArray(sec.simulations)) {
         simTypes = sec.simulations;
+      } else if (sIdx === 0 && window.COURSE_DATA && window.COURSE_DATA.units && window.COURSE_DATA.units[activeUnitIndex] && window.COURSE_DATA.units[activeUnitIndex].simulations) {
+        simTypes = window.COURSE_DATA.units[activeUnitIndex].simulations;
       }
 
       let inlineSimHtml = "";
