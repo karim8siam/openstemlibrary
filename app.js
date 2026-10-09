@@ -299,13 +299,18 @@ function startApp() {
 
     let clean = text.replace(/\r\n/g, "\n").trim();
     
+    // Normalize multi-backslash math delimiters to standard \[ and \]
+    clean = clean.replace(/\\+\[/g, "\\[").replace(/\\+\]/g, "\\]");
+    // Strip dangling orphan backslash preceding display math
+    clean = clean.replace(/\\+\s*(?=\\\[|\$\$)/g, "");
+
     // Isolate $$...$$ and \[...\]
     clean = clean.replace(/\$\$(.*?)\$\$/gs, function(match, math) {
       const singleLineMath = math.trim().replace(/\r?\n/g, " ");
       return "\n\n<div class=\"math-display\">$$" + singleLineMath + "$$</div>\n\n";
     });
     clean = clean.replace(/\\\[(.*?)\\\]/gs, function(match, math) {
-      const singleLineMath = math.trim().replace(/\r?\n/g, " ");
+      const singleLineMath = math.trim().replace(/\\+$/, "").replace(/\r?\n/g, " ").trim();
       return "\n\n<div class=\"math-display\">\\[" + singleLineMath + "\\]</div>\n\n";
     });
 
@@ -318,7 +323,8 @@ function startApp() {
     function flushPara() {
       if (paraLines.length > 0) {
         let p = paraLines.join(" ").trim();
-        if (p) output.push("<p>" + p + "</p>");
+        p = p.replace(/\s*\\+$/, "").trim();
+        if (p && p !== "\\") output.push("<p>" + p + "</p>");
         paraLines = [];
       }
     }
@@ -506,7 +512,10 @@ function startApp() {
   function renderMath() {
     if (mathDebounceTimer) clearTimeout(mathDebounceTimer);
     mathDebounceTimer = setTimeout(() => {
-      const target = document.getElementById("main-content-area") || document.body;
+      const target = document.getElementById("main-content-area") || 
+                     document.querySelector(".chapter-article") || 
+                     document.getElementById("textbook-sections") || 
+                     document.body;
       if (window.renderMathInElement && target) {
         try {
           window.renderMathInElement(target, {
@@ -522,6 +531,9 @@ function startApp() {
         } catch (e) {
           console.warn("Math auto-render notice:", e);
         }
+      } else if (!window.renderMathInElement) {
+        // KaTeX bundle may still be loading, retry in 100ms
+        setTimeout(renderMath, 100);
       }
     }, 40);
   }
