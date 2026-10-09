@@ -1095,6 +1095,28 @@ window.LIBRARY_CATALOG = {
             "Dislocations, Mechanical Properties & Plastic Deformation",
             "Electrical, Magnetic & Superconducting Properties of Solids"
           ]
+        },
+        {
+          id: "polymer-chemistry",
+          title: "Polymer Chemistry: Macromolecular Architecture, Flory-Huggins Solutions, Molecular Weight Distributions, Polymerization Kinetics, Viscoelasticity & Rheology",
+          subtitle: "Macromolecular Conformations & Tacticity, Flory-Huggins Lattice Thermodynamics, Molecular Weight Averages & MWD Distributions, Osmometry, End-Group & Ultracentrifugation, Light Scattering & Zimm Plots, Viscometry & Mark-Houwink, Step-Growth & Carothers Kinetics, Radical Chain Polymerization & Trommsdorff Effect, Ionic & Living Polymerization, Ziegler-Natta Catalysis, Industrial Polymers & Engineering Resins, and Viscoelastic Rheology, Glass Transition & Rubber Elasticity",
+          status: "AVAILABLE",
+          url: "polymer-chemistry.html",
+          badge: "✨ NEW • Interactive Master Book Live",
+          seoKeywords: "Polymer Chemistry Textbook, Macromolecular Science, Tacticity, Isotactic, Syndiotactic, Atactic, Freely Jointed Chain, Radius of Gyration, Flory-Huggins Solution Theory, Chi Interaction Parameter, Theta Solvent, Molecular Weight Distribution, Number Average Mn, Weight Average Mw, Polydispersity Index, Membrane Osmometry, Vapor Pressure Osmometry, Analytical Ultracentrifugation, Svedberg Equation, Static Light Scattering, Zimm Plot, Rayleigh Ratio, Dilute Solution Viscometry, Mark-Houwink-Sakurada, Huggins Kraemer Equations, Step-Growth Polymerization, Carothers Equation, Gel Point Flory-Stockmayer, Free Radical Polymerization, Mayo Equation, Trommsdorff-Norrish Gel Effect, Ceiling Temperature, Living Anionic Polymerization, Cationic Polymerization, Ziegler-Natta Catalysis, Polyethylene, Polypropylene, PVC, Polystyrene, Bakelite, Nylon, PET, Polycarbonates, Viscoelasticity, Maxwell Model, Kelvin-Voigt Model, Time-Temperature Superposition, WLF Equation, Glass Transition Temperature Tg, Fox Equation, Rubber Elasticity",
+          description: "Comprehensive university honors master digital textbook on Polymer Chemistry: macromolecular architectures, configuration versus conformation, tacticity, freely jointed chain models, end-to-end vector statistics, radius of gyration, characteristic ratio, and secondary intermolecular forces; polymer solution thermodynamics, Hildebrand solubility parameters, Flory-Huggins mean-field lattice model, interaction chi parameter, chemical potentials, theta conditions, and phase separation binodal/spinodal mechanics; molecular weight averages (Mn, Mw, Mz, Mv), polydispersity index, differential and cumulative distributions, and Schulz-Zimm distributions; experimental molecular weight determination via membrane and vapor pressure osmometry, osmotic virial coefficients, chemical and spectroscopic end-group analysis, and analytical ultracentrifugation sedimentation velocity and equilibrium; light scattering theory, Rayleigh ratio, optical contrast factor, Zimm double-extrapolation plots, and dilute solution viscometry with Huggins, Kraemer, and Mark-Houwink-Sakurada parameter extractions; step-growth polycondensation kinetics, Carothers stoichiometric and non-stoichiometric equations, statistics of linear bifunctional systems, and Flory-Stockmayer gelation thresholds in polyfunctional step-growth; free radical chain polymerization mechanisms, steady-state rate laws, initiator efficiencies, chain transfer and Mayo equations, autoacceleration (Trommsdorff-Norrish gel effect), and thermodynamic polymerization ceiling temperatures; ionic and living polymerization mechanisms, carbocationic kinetics, living carbanionic polymerizations, termination-free Poisson distributions, and coordination Ziegler-Natta stereospecific catalysis; industrial synthesis and reaction engineering of commodity and engineering polymers including polyolefins (LDPE, HDPE, LLDPE, PP), styrenics, vinyls (PVC, PTFE), phenolics, amino resins, epoxies, polyurethanes, polyesters (PET), and polyamides (Nylon 6,6, aramids); and polymer rheology, linear viscoelasticity, mechanical analog models (Maxwell, Kelvin-Voigt, Standard Linear Solid), Boltzmann superposition, dynamic mechanical analysis (storage and loss moduli, tan delta), time-temperature superposition, Williams-Landel-Ferry (WLF) equation, free volume glass transition theories, Fox copolymer equation, and the thermodynamic entropic affine network model of rubber elasticity. Features 10 interactive 60 FPS HTML5 Canvas simulations and 90 tiered solved examination problems with complete line-by-line mathematical proofs.",
+          topics: [
+            "Macromolecular Architecture, Tacticity, Conformation & Intermolecular Forces",
+            "Polymer Solutions, Solvent Quality & Flory-Huggins Lattice Thermodynamics",
+            "Molecular Weight Averages & Polydispersity Distributions",
+            "Molecular Weight Determination: Osmometry, End-Group Analysis & Analytical Ultracentrifugation",
+            "Light Scattering & Dilute Solution Viscometry (Zimm Plots, Mark-Houwink)",
+            "Step-Growth Polymerization: Carothers Equation, Kinetics & Statistics",
+            "Radical Chain Polymerization: Kinetics, Chain Transfer, Gel Effect & Thermodynamics",
+            "Ionic & Living Polymerization: Mechanisms, Stereospecificity & Catalysis",
+            "Industrial Polymer Synthesis, Reaction Mechanisms & Engineering Plastics",
+            "Polymer Rheology, Viscoelasticity, Glass Transition (Tg) & Mechanical Properties"
+          ]
         }
       ]
     }
