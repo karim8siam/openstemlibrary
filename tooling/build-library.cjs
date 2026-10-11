@@ -98,7 +98,7 @@ function navigation(doc, book, units, selected) {
 let generated = 0;
 const chapterPaths = [];
 async function build() {
-for (const book of books) {
+for (const book of books.filter(book => !process.env.OPENSTEM_BOOK || book.id === process.env.OPENSTEM_BOOK)) {
   const original = read(book.url);
   const base = prepare(original,book.url,book,0);
   const units = base.w.COURSE_DATA.units;
@@ -121,6 +121,10 @@ for (const book of books) {
     doc.title = `${units[index].title} | ${book.title} | OpenSTEM Library`;
     const summary = units[index].leadSummary || units[index].description || '';
     if (summary) doc.querySelector('meta[name="description"]').content = summary;
+    if (book.id === 'introduction-to-statistics') {
+      for (const selector of ['meta[property="og:title"]','meta[name="twitter:title"]']) doc.querySelector(selector).content = doc.title;
+      for (const selector of ['meta[property="og:description"]','meta[name="twitter:description"]']) doc.querySelector(selector).content = summary;
+    }
     for (const script of doc.querySelectorAll('script[type="application/ld+json"]')) {
       try {
         const data = JSON.parse(script.textContent);

@@ -132,7 +132,7 @@ When calculating standardized differences from rounded summaries, allow for roun
 
 ## 6.8 Coefficients of variation and relative comparisons
 
-The conventional coefficient of variation, CV, is standard deviation divided by a positive mean, often multiplied by one hundred and expressed as a percentage. It describes spread relative to the mean and is most interpretable for positive ratio-scale quantities with a meaningful zero. State whether the standard deviation uses denominator n or n minus one. For the waiting-time sample with mean six and sample standard deviation about 4.3012, sample CV is approximately 71.687 percent.
+The conventional coefficient of variation, CV, is standard deviation divided by a positive mean, often multiplied by one hundred and expressed as a percentage. It describes spread relative to the mean and is most interpretable for positive ratio-scale quantities with a meaningful zero. State whether the standard deviation uses denominator n or n minus one. For the waiting-time sample with mean six and sample standard deviation about 4.3012, sample CV is approximately 71.686 percent.
 
 Multiplying all values by a positive constant leaves CV unchanged because both mean and standard deviation multiply by that constant. Converting a positive length dataset from metres to centimetres therefore preserves the coefficient. Adding a constant changes the mean but not the standard deviation, so CV changes. This is why an arbitrary zero point can make the comparison misleading. Celsius and Fahrenheit temperature CVs can disagree for the same physical measurements.
 

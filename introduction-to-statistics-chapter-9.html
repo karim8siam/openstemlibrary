@@ -1,0 +1,473 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Simple Regression and an Integrated Statistical Investigation | Introduction to Statistics | OpenSTEM Library</title>
+  <meta name="description" content="Least-squares regression, residuals, sums of squares, R-squared, reverse fits, leverage, extrapolation and a reproducible integrated investigation.">
+  
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/introduction-to-statistics-chapter-9">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/introduction-to-statistics-chapter-9">
+  <meta property="og:title" content="Simple Regression and an Integrated Statistical Investigation | Introduction to Statistics | OpenSTEM Library">
+  <meta property="og:description" content="Least-squares regression, residuals, sums of squares, R-squared, reverse fits, leverage, extrapolation and a reproducible integrated investigation.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Simple Regression and an Integrated Statistical Investigation | Introduction to Statistics | OpenSTEM Library">
+  <meta name="twitter:description" content="Least-squares regression, residuals, sums of squares, R-squared, reverse fits, leverage, extrapolation and a reproducible integrated investigation.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+  
+
+  
+  <!-- Schema.org Breadcrumb Navigation -->
+  
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261011_reader_catalog_v1">
+  <!-- Google AdSense Official Script -->
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4546869673631824" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="introduction-to-statistics.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Introduction to Statistics: Simple Regression and an Integrated Statistical Investigation","description":"Free English university statistics textbook: nine units on data collection, tables, graphs, averages, variance, skewness, kurtosis, correlation and simple regression, with 27 worked questions and eight interactive explorers.","url":"https://openstemlibrary.com/introduction-to-statistics-chapter-9","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Descriptive statistics","Data collection","Correlation","Simple linear regression"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Introduction to Statistics","item":"https://openstemlibrary.com/introduction-to-statistics"}]}</script></head>
+<body data-book-path="introduction-to-statistics.html" data-chapter-index="8">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Introduction to Statistics</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search data, quartiles, variance, correlation, regression…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="introduction-to-statistics" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Statistical Reasoning, Populations and Evidence</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="introduction-to-statistics-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Measurement, Data Collection and Data Quality</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="introduction-to-statistics-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Classification, Frequency Tables and Cross-Tabulation</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="introduction-to-statistics-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Statistical Graphics and Exploratory Data Analysis</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="introduction-to-statistics-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Location, Quantiles and Weighted Summaries</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="introduction-to-statistics-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Variation, Standardization and Relative Dispersion</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="introduction-to-statistics-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Moments, Skewness, Kurtosis and Distribution Shape</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="introduction-to-statistics-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Correlation and Measures of Association</span></a></li><li class="unit-nav-item active" data-unit-index="8"><a href="introduction-to-statistics-chapter-9" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.9</span><span class="unit-nav-text">Simple Regression and an Integrated Statistical Investigation</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Introductory major course</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">
+            🔒 <span>In-Browser Protected • Direct Download Disabled</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 9 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Simple Regression and an Integrated Statistical Investigation</h1>
+            <p class="unit-desc-lead" id="unit-desc">Least-squares regression, residuals, sums of squares, R-squared, reverse fits, leverage, extrapolation and a reproducible integrated investigation.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to the University of Dhaka Statistics B.S. Honours 2023–24 introductory major and practical courses. Nine units, three solved questions per unit, and interactive examples where useful. This edition has numerical checks and an editorial consistency review; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-9-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§9.1</span>
+            <span>A regression line answers a directional question</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Simple numerical regression describes a response y using a predictor x and a fitted line. Unlike correlation, the roles of the variables are directional. Predicting waiting time from the number of arrivals is different from predicting arrivals from waiting time. The choice should follow a practical question, temporal ordering when relevant, and measurement context. A fitted direction is not by itself a causal direction.</p>
+
+<p>The modelled line has an intercept a and slope b, giving fitted y equal to a plus b times x. The slope describes the change in the fitted response for a one-unit increase in the predictor. Its units are response units per predictor unit. The intercept is the fitted response at x equal to zero. That value can be scientifically meaningful, merely a mathematical reference, or an extrapolation far outside the observed predictor range.</p>
+
+<p>Each recorded pair has a fitted value and a residual, defined as observed y minus fitted y. A positive residual means the response lies above the fitted line, and a negative residual means it lies below. Residuals are measured vertically in response units in ordinary least squares. The method does not minimize perpendicular distance to the line, and it does not treat measurement uncertainty in both axes symmetrically.</p>
+
+<p>A line is a simplification. It may summarize a roughly linear pattern, provide a limited interpolation, or serve as a baseline against which curvature is visible. It should not be forced onto a pattern whose scientific structure is clearly nonlinear merely because a coefficient is easy to calculate. A scatter plot and residual inspection help identify where the simplification fails.</p>
+
+<p>This unit develops least-squares fitting as descriptive optimization. The fitted coefficients exist under suitable numerical conditions without assuming normal residuals. Later claims about standard errors, tests, confidence intervals, or prediction intervals require additional assumptions about a sampling or error model. Distinguishing the descriptive fit from inference prevents an accurate algebraic calculation from being overinterpreted.</p>
+
+<p>The predictor should vary. If every x value is identical, no unique slope can be identified from the recorded data. Several lines with different slopes can give the same fitted value at that single x location. Software should report the unavailable slope rather than divide by zero. A constant response with varying x gives slope zero and fitted values at the constant response, but correlation and a variance-based R-squared need separate handling.</p>
+
+<p>The number of complete pairs and their eligibility rules remain important. A fitted line from a selected subgroup describes that subgroup's recorded relation. Missing response values and repeated measurements can alter the target or the appropriate later uncertainty calculation. Begin with the same documented paired-data structure used for correlation rather than viewing regression as a fresh calculation detached from data collection.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-9-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§9.2</span>
+            <span>Deriving the least-squares coefficients</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Ordinary least squares selects a and b to minimize the sum of squared residuals, the sum of (y minus a minus b x) squared. The squared loss gives larger vertical errors more influence. This is a chosen criterion with a useful algebraic solution, not the only possible fitting rule. Absolute-loss regression and errors-in-variables methods solve different problems and belong to later courses.</p>
+
+<p>For a fixed slope b, the best intercept is y-bar minus b times x-bar. This follows because the residual sum of squares is a sum of squared deviations in the adjusted values y minus b x, and their arithmetic mean minimizes that sum. Substituting this intercept reduces the criterion to the sum of (y centred minus b times x centred) squared.</p>
+
+<p>Expanding gives Syy minus two b Sxy plus b squared Sxx. When Sxx is positive, complete the square to obtain a minimum at b equal to Sxy divided by Sxx. The intercept is then y-bar minus b x-bar. This derivation requires no probabilistic assumptions. It uses the definitions of centred sums from unit eight and the location minimization property from unit five.</p>
+
+<p>The fitted line passes through the point (x-bar, y-bar). Its residuals sum to zero because the intercept was fitted. The sum of x times residual is also zero, or equivalently the sum of centred x times residual is zero. These are normal-equation identities and useful numerical checks. They hold for the ordinary unconstrained intercept-and-slope least-squares fit; a no-intercept or constrained model has different properties.</p>
+
+<p>For x values 1, 2, 3, 4 and y values 2, 3, 5, 4, the means are 2.5 and 3.5. Sxx is five and Sxy is four, so slope is 0.8 and intercept 1.5. Fitted values are 2.3, 3.1, 3.9, and 4.7. Residuals are minus 0.3, minus 0.1, 1.1, and minus 0.7. Their sum is zero, and their squared sum is 1.8.</p>
+
+<p>Preserve precision during fitting. Rounding the slope before computing the intercept can move the line away from the sample mean point. Rounding fitted values before calculating residual sum of squares can alter verification identities. Use unrounded coefficients internally and show suitably rounded values in the text. The small example uses terminating decimals, which makes its checks especially transparent.</p>
+
+<p>Frequency weights can fit repeated pairs using weighted least squares with the corresponding weighted centres and sums, but general weights imply a different loss function and may have a different modelling purpose. The ordinary derivation here gives every eligible pair equal weight. Do not silently introduce survey or precision weights without declaring how the objective and target changed.</p>
+
+<p>The slope is sensitive to observations with extreme predictor positions because their centred x values strongly affect Sxx and Sxy. A large response deviation at a central x can also affect the line, but leverage and residual magnitude play distinct roles. We will inspect both rather than treating every unusual point as equivalent. An influential genuine observation may reveal that one line is an inadequate summary.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-9-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§9.3</span>
+            <span>Sums of squares, R-squared and correlation</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>For an intercept-and-slope least-squares fit, total response sum of squares SST is Syy. Explained or regression sum of squares SSR is the sum of squared fitted-value deviations from y-bar. Residual sum of squares SSE is the sum of squared residuals. The identity SST equals SSR plus SSE follows because fitted-value deviations and residuals have zero cross product under the normal equations.</p>
+
+<p>The fitted-value deviations equal b times centred x, so SSR is b squared Sxx, equivalently Sxy squared divided by Sxx when Sxx is positive. SSE is Syy minus that quantity. Every term is measured in squared response units. A small negative SSE caused solely by floating-point cancellation near a perfect fit should be treated with an appropriate numerical tolerance, but a substantial negative result indicates a computational error.</p>
+
+<p>When Syy is positive, R-squared is SSR divided by SST, or one minus SSE divided by SST. It lies between zero and one for this fitted intercept model. For the four-pair example, SST is five, SSR is 3.2, and SSE is 1.8, giving R-squared 0.64. Pearson r is 0.8, so r squared is also 0.64. This equality holds for simple least squares with an intercept on the same complete pairs.</p>
+
+<p>R-squared is a descriptive proportion of recorded centred response sum of squares captured by the fitted linear variation. Saying the line explains sixty-four percent of variation is shorthand for that algebraic definition. It does not mean the predictor causes sixty-four percent of the response, that sixty-four percent of individual predictions are correct, or that the same performance will occur in future data.</p>
+
+<p>If every response is identical, SST is zero and the usual ratio is undefined. Some software adopts a special convention for this case, but the convention should be named. A constant response already has no centred variation to partition. Reporting an unavailable variance-ratio R-squared avoids confusing an arbitrary software value with a meaningful proportion.</p>
+
+<p>No-intercept regressions can use different total-sum definitions and may produce reported R-squared values that are not directly comparable to intercept-model values. The standard decomposition and r-squared equality taught here assume an intercept. Always inspect the fitted model specification before treating a familiar label as the same quantity across outputs.</p>
+
+<p>A large R-squared can coexist with poor individual accuracy when the response range is broad or measurement error remains practically important. A small R-squared can coexist with a useful average trend when many other factors contribute to individual variation. Interpret residual magnitudes in original units and compare them with the practical decision. A proportion of variation does not replace an error-scale assessment.</p>
+
+<p>Out-of-sample performance requires evaluation on observations not used to select and fit the model, under a relevant validation design. This introductory book does not claim that a fitted R-squared measures generalization. The computing and regression courses will develop training-validation separation, prediction error, and model selection. Here, the fit's descriptive scope is made explicit.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-9-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§9.4</span>
+            <span>Units, reverse regression and transformations</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>The slope's units come from Sxy divided by Sxx: response times predictor units divided by predictor units squared, leaving response units per predictor unit. If waiting time is in minutes and arrival count is measured in people, the slope is minutes per additional person under the fitted descriptive relation. Changing predictor units changes the numerical slope even when the physical line remains equivalent.</p>
+
+<p>If y is transformed to c plus d y and x to e plus f x, with f nonzero, the transformed slope is d divided by f times the original slope. The transformed intercept follows by substituting the old variables into the equation. A positive unit conversion should preserve fitted physical predictions after converting back. Correlation magnitude is unchanged under nonzero affine conversions, with sign changes governed by negative scale factors.</p>
+
+<p>Regressing x on y gives slope Sxy divided by Syy when Syy is positive. The product of the two directional slopes is r squared. Therefore the reverse slope is not generally the reciprocal of the forward slope unless the nonconstant relation is perfectly linear with absolute correlation one. Algebraically solving a fitted y-on-x equation for x does not produce the separately fitted x-on-y least-squares line.</p>
+
+<p>This difference follows from the optimization target. Forward regression minimizes vertical y errors; reverse regression minimizes horizontal x errors. Both lines pass through the mean point, but they usually have different geometry. If both variables have substantial measurement error and the aim is a calibration relationship, a specialized errors-in-variables method may be appropriate. Ordinary regression direction should not be selected solely to obtain a preferred coefficient.</p>
+
+<p>Centering a predictor changes the intercept's interpretation without changing fitted values or slope. Replacing x by x minus a reference c makes the new intercept equal to the fitted response at original x equal c. Choosing a scientifically relevant reference can make the intercept easier to explain. It does not fix curvature, confounding, or measurement error; it is a re-expression of the same fitted line.</p>
+
+<p>Nonlinear transformations change the fitting problem. Regressing log y on x minimizes squared errors on the log-response scale, not on the original response scale. Exponentiating the fitted line gives a curve and does not automatically estimate the original arithmetic conditional mean without additional assumptions. The geometric-mean reasoning from unit five helps explain why back-transformed summaries require care.</p>
+
+<p>A line fitted after categorizing or averaging observations can differ from a line fitted to individuals. Aggregation changes centred sums and can hide within-group relations. Preserve the observational level and avoid an ecological interpretation that treats a relation among group means as the same relation among people. A regression statement should make clear whether each point is a person, visit, day, institution, or another unit.</p>
+
+<p>When reporting an equation, include variable definitions and units beside the coefficients. An equation written only as y equal 1.5 plus 0.8 x is mathematically readable but scientifically incomplete. State the eligible data range as well, because interpretation outside that range may require unsupported extrapolation. A clear equation connects calculation to an actual descriptive question.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-9-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§9.5</span>
+            <span>Residuals, leverage and influential observations</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Residual plots help reveal features hidden by the fitted line. Plot residuals against x or fitted values to inspect curvature, changes in spread, and unusual points. A smooth curved residual pattern suggests that one straight line misses systematic structure. A widening band suggests that residual variability changes with predictor level. These are descriptive observations that guide model assessment; they do not automatically identify a unique replacement model.</p>
+
+<p>The residuals of an intercept fit have mean zero by construction. Therefore a mean residual near zero is not evidence that the line predicts well. It is an algebraic consequence of fitting. Positive and negative residuals can cancel while their absolute or squared magnitudes remain large. Use an error magnitude and a plot rather than celebrating cancellation as accuracy.</p>
+
+<p>For simple regression with an intercept, the leverage of point i is one divided by n plus its squared centred x value divided by Sxx. Leverage depends on predictor position, not the observed response. It lies between zero and one in this fitted design, and the leverages sum to two when both coefficients are identifiable. A point far from the predictor mean has more potential to influence the slope.</p>
+
+<p>High leverage is not synonymous with an error. An intentionally sampled extreme operating condition may be essential to the study. Influence depends on leverage together with how the response relates to the fitted pattern. A high-leverage point close to the line can stabilize an extrapolative-looking fit, while one with a large residual can move it substantially. Investigate provenance and scientific role before exclusion.</p>
+
+<p>The four-pair example has predictor mean 2.5 and Sxx five. Leverages are 0.7, 0.3, 0.3, and 0.7, summing to two. The endpoint observations therefore have more leverage than the middle observations. Their residuals differ, illustrating that leverage and residual magnitude are separate quantities. This small calculation can be independently checked without advanced matrix notation.</p>
+
+<p>Removing a point to improve the appearance of a line requires a documented reason. If a record is ineligible or contains a verified transcription error, correct or exclude it under a transparent rule. If it is a genuine unusual observation, show its effect and consider whether one linear model is adequate. Selective deletion based only on a desired R-squared undermines the meaning of the analysis.</p>
+
+<p>Residuals from time-ordered or clustered data can also show dependence. Plotting only against fitted values may miss serial patterns. The data collection design should guide additional displays, such as residuals in observation order or by subject. Later courses formalize autocorrelation and hierarchical modelling. This introduction identifies the design issue and avoids treating every residual as an independent draw by default.</p>
+
+<p>Normality is not required to calculate the descriptive least-squares line. It may be relevant to particular finite-sample inference methods, alongside other assumptions. A residual plot is one piece of diagnostic evidence, not a proof that a model satisfies every condition. Distinguish computation, description, model assessment, and inferential claims in the final report.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-9-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§9.6</span>
+            <span>Interpolation, extrapolation and uncertainty</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Interpolation uses the fitted relation at predictor values within the observed range. Extrapolation uses it beyond that range. Both produce a numerical fitted value when the equation is defined, but extrapolation relies more heavily on the assumption that the relation continues outside the evidence. A straight line describing moderate workloads may fail near a service's capacity limit, where queues rise nonlinearly.</p>
+
+<p>For the example equation fitted y equal 1.5 plus 0.8 x, x equal 2.5 gives 3.5, the sample mean response. At x equal five, the fitted value is 5.5. The observed predictor range was one through four, so the latter is an extrapolation. The arithmetic is correct while the empirical support is weaker. A responsible answer gives both the number and this limitation rather than treating numerical availability as evidence of predictive validity.</p>
+
+<p>A fitted mean response and an individual future response are different targets. Even if a line accurately represents an average pattern, individual outcomes vary around it. A confidence interval for an estimated mean and a prediction interval for a new observation have different interpretations and usually different widths under a specified model. This book does not construct those intervals without the probability and inference foundations supplied by later courses.</p>
+
+<p>The residual standard error convention for simple intercept-and-slope regression is the square root of SSE divided by n minus two when n is greater than two. Under a suitable independent constant-variance error model, the denominator reflects two fitted coefficients. It is not the same as the sample standard deviation of raw responses. With only two distinct-x observations, a line can interpolate both exactly, leaving no residual degrees of freedom for that conventional error estimate.</p>
+
+<p>For the four-pair example, SSE is 1.8 and n minus two is two, giving residual standard error the square root of 0.9, approximately 0.948683 response units. This describes a model-based residual scale convention. It does not mean every future response will fall within about 0.95 of the fitted value. Distributional shape, coefficient uncertainty, predictor position, and population stability all matter to a future interval.</p>
+
+<p>Uncertainty can come from more than random residual variation. Measurement error, nonresponse, sampling bias, changing conditions, model misspecification, and data processing decisions can affect predictions. A textbook should not present a standard-error formula as a universal account of all these sources. The later books will develop targeted methods, while this first course preserves a clear distinction between a descriptive fit and a supported predictive claim.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-9-7">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§9.7</span>
+            <span>Planning an integrated investigation</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>An integrated investigation begins with a question that can be answered by the available measurements. For illustration, consider an artificial study of arrival counts and average waiting times across service periods. Each period is the observational unit. The response is a period's average wait in minutes, and the predictor is a count of arrivals during a fixed-duration period. This is a study of period summaries, not directly a study of individual customers.</p>
+
+<p>Define inclusion rules before inspecting results. Specify period duration, operating hours, treatment of closures, and whether arrivals and waiting times use the same eligible customers. A period with no arrivals may have an undefined average wait rather than a wait of zero. A period with an instrument outage may have missing data. Keeping these states distinct prevents a spreadsheet from turning absence of information into a misleading ordinary value.</p>
+
+<p>Create a data dictionary listing period identifier, date or order, arrival count, eligible wait count, mean wait, and quality notes. Counts should be nonnegative integers under the event definition. Mean waits should use a consistent unit and denominator. If individual waits remain available, preserve them rather than retaining only averages, because period aggregation hides within-period variation and changes later weighting choices.</p>
+
+<p>The artificial data used for a classroom demonstration must be labelled synthetic. They illustrate calculations and reporting without making claims about a real institution. Inventing a location or university affiliation for the data would create false provenance. A genuine study requires an actual source, collection process, and any relevant permissions; an introductory textbook can teach the complete workflow using transparent artificial values.</p>
+
+<p>Plan descriptive displays and summaries in advance. A period-order plot can reveal trends or disruptions. A scatter plot connects arrivals and mean waits. A table of eligible counts exposes periods whose averages rest on very different numbers of customers. Equal weighting of periods describes an average period; customer-count weighting describes a different target. The denominator reasoning developed throughout the book should guide this choice.</p>
+
+<p>Separate the descriptive objective from a causal or operational policy question. A fitted association between arrival count and wait does not establish how staffing changes would affect waiting. Staffing, case complexity, opening hours, and other factors may change together. The investigation can describe recorded patterns and identify questions for a more informative design without pretending to resolve all mechanisms.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-9-8">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§9.8</span>
+            <span>From validation to a complete analysis</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>First validate uniqueness and consistency. A period identifier should distinguish records under the declared design, and duplicate exports should not count as additional periods. Verify units, timestamp formats, count ranges, and impossible negative waits. Flag unusual but possible values for source review rather than deleting them automatically. Preserve the original data and a log of corrections so that the final analysis can be traced back to records.</p>
+
+<p>Next document missingness. Count missing predictors, missing responses, and rows excluded from paired calculations. Compare available and excluded periods on any recorded contextual features that may reveal selection. A complete-pair regression describes complete periods, and broader generalization requires justification. Filling missing waits with the overall mean can artificially reduce variation and alter association, so it is not a neutral default.</p>
+
+<p>Summarize each numerical variable with count, mean, median, appropriate spread, and a plot. Examine the response's shape before treating mean plus standard deviation as a full description. If periods differ greatly in customer counts, explain whether period averages receive equal weights. A summary of period-level means and a summary of all individual waits answer different questions even when both are labelled average waiting time.</p>
+
+<p>Construct the paired scatter plot and inspect linearity, clusters, and influential periods. Calculate Pearson correlation only as a linear summary. A rank coefficient may add an ordering perspective, but it does not repair confounding or dependence. If time order suggests a trend, keep that evidence visible. A single aggregate coefficient can mix effects of workload, season, and policy changes.</p>
+
+<p>Fit the simple line under the declared equal-period loss criterion if that is a useful descriptive baseline. Report slope, intercept, observed predictor range, SSE, and R-squared with their meanings. Check the residual zero-sum identities, the mean-point property, and the sums-of-squares decomposition. Inspect residuals in both predictor and time order. Numerical correctness and diagnostic suitability are separate stages of the workflow.</p>
+
+<p>Finally compare the conclusion with the original question. The study might support the descriptive statement that higher-arrival periods tended to have longer mean waits in the recorded dataset. It does not necessarily support a causal claim that each additional arrival creates a fixed delay for every customer. A good report can be useful and honest while retaining such limits. The purpose of statistics is evidence-based reasoning, not certainty beyond the design.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-9-9">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§9.9</span>
+            <span>Reproducible reporting and reader verification</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A reproducible report identifies the dataset version, eligibility rules, variable definitions, unit conversions, quantile convention, missingness handling, and calculation formulas or code. It need not expose private personal records to be transparent, but it should provide enough methodological detail to understand and audit the reported quantities. In this textbook, synthetic datasets are fully displayed so that every numerical example can be recalculated.</p>
+
+<p>Preserve full computational precision internally and round outputs consistently. Means and standard deviations should use sensible units and digits. Coefficients should be labelled by definition, such as descriptive excess kurtosis or Kendall tau-b. A table that combines incompatible defaults can give the appearance of a coherent analysis while concealing changes in denominator or eligible subset. Count checks help detect those changes.</p>
+
+<p>Reference established documentation for conventions without copying another textbook's exposition. This book's explanations, examples, and solution steps are original teaching material informed by the selected university curriculum and primary technical references. A curriculum map establishes topic coverage; it does not imply endorsement by that university or replace expert academic review. Readers should be able to distinguish sourced definitions from institutional affiliation claims.</p>
+
+<p>Worked solutions should show the path from question to definition, denominator, arithmetic, result, and interpretation. A final numerical answer alone is insufficient when the task tests statistical reasoning. Conversely, a long explanation cannot compensate for wrong arithmetic. This book supplies three focused worked questions per unit and checks their numerical components independently. The reader can use those checks as a model for verifying their own work.</p>
+
+<p>Simulations illustrate specific mathematical behaviour with stated artificial inputs. They should display the current data, use the same conventions as the prose, support reset, and explain invalid or degenerate cases. An attractive interactive figure that calculates a different quartile or denominator from the text is pedagogically inaccurate. Numerical and interface checks therefore belong to the publication workflow alongside proofreading.</p>
+
+<p>The final report should say what the evidence supports, what remains unresolved, and what additional information would help. For the service example, future work might collect individual waits, staffing information, and repeated comparable periods under a planned design. These next steps follow from identified limitations rather than a vague call for more data. Good statistical reasoning turns a clear descriptive finding into a better-defined subsequent question.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-9-10">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§9.10</span>
+            <span>Regression exploration and the final worked investigation</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>The regression explorer shares its paired data with the association display. Moving a response control changes the fitted line, residuals, correlation, and R-squared together. The reader can observe how one point changes a directional prediction while the predictor values remain fixed. The display should show slope and intercept in the correct units and make the current complete-pair count visible.</p>
+
+<p>At each selected setting, independently reconstruct Sxx, Sxy, and Syy. Verify the slope and intercept, then calculate fitted values and residuals. Check that residuals sum to zero and that x-weighted residuals sum to zero within floating-point tolerance. Verify SST equals SSR plus SSE and, when both variables vary, that R-squared equals Pearson r squared. These checks test the actual implemented calculation rather than only whether the page loads.</p>
+
+<p>The simulation is descriptive and deliberately small. Its line does not establish a causal effect or a future prediction interval. Changing one synthetic value is a controlled arithmetic experiment, not a randomized experiment involving people. The distinction should be explicit beside the control. A learner should leave knowing both how the numbers move and what those movements do not establish.</p>
+
+<p>Three worked questions close the book. The first fits the four-pair line and verifies residual identities. The second relates the two regression directions and their slope product to correlation. The third audits a short investigation from data definition through summaries, fit, and interpretation. It includes a deliberately unjustified causal statement for the reader to correct, demonstrating that accuracy involves conclusions as well as calculations.</p>
+
+<p>To verify a complete investigation, ask whether the observational unit stayed consistent from data collection to final report. Check whether counts, weights, and missingness rules match the target population. Confirm that graphs encode the declared quantities, and that location, spread, shape, association, and regression use compatible eligible observations. These links matter more than producing a long list of disconnected statistics.</p>
+
+<p>The course has now covered the major introductory sequence: statistical questions and evidence; measurement and data quality; classification and tables; graphics; location; variation; moments and shape; association; and simple regression. The next textbook, Probability and Probability Distributions, develops mathematical models of uncertainty that support later estimation, testing, sampling, and advanced modelling. That progression keeps this first book focused on a complete descriptive foundation rather than prematurely treating every observed pattern as an inferential conclusion.</p>
+
+<p>Before leaving, reproduce one table, one graph choice, one quantile calculation, both variance conventions, one shape coefficient, one tie-aware association calculation, and the four-pair regression fit. Explain each result in a sentence naming its unit, denominator, and scope. If the arithmetic and interpretation agree, the reader has acquired a durable foundation for the later Statistics and Probability courses.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-stat-regression"></div>
+          </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">TIERED UNIVERSITY HONORS PROBLEMS</div>
+              <h3 class="prob-sec-title">Step-by-Step Solved Examination Problems</h3>
+              <p class="prob-sec-desc">Comprehensive analytical derivations, multi-tier solutions (Foundational, Intermediate Exam, and Honors/Proof Challenge) with complete line-by-line verification.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">intermediate</span>
+            <strong>Example 9.1: Fit and verify a simple line</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Fit y on x for x=1,2,3,4 and y=2,3,5,4 using an intercept. Calculate fitted values, residuals, SSE, SSR, and R-squared. Verify the residual zero-sum identity and the total-sum decomposition.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-9-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-9-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Find coefficients</div>
+              <div class="step-math">$$\hat y=1.5+0.8x$$</div>
+              <div class="step-explanation"><p>Means are 2.5 and 3.5, with Sxx five and Sxy four. Slope is 0.8 and intercept 1.5. The line passes through the sample mean point.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Inspect residuals</div>
+              <div class="step-math">$$SSE=0.09+0.01+1.21+0.49=1.8$$</div>
+              <div class="step-explanation"><p>Fitted values are 2.3,3.1,3.9,4.7; residuals are -0.3,-0.1,1.1,-0.7. Their sum is zero and their squared sum is 1.8. Centred-x-weighted residuals also sum to zero.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Partition recorded variation</div>
+              <div class="step-math">$$R^2=3.2/5=0.64$$</div>
+              <div class="step-explanation"><p>SST is five and SSR is slope squared times Sxx, giving 3.2. Thus five equals 3.2 plus 1.8, and R-squared is 0.64. This is a descriptive linear-fit proportion, not a causal percentage or a promise about future accuracy.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">intermediate</span>
+            <strong>Example 9.2: Reverse regression is a different fit</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Using the same four pairs, fit x on y. Compare its slope with the reciprocal of the y-on-x slope and verify the product of the two fitted slopes equals Pearson correlation squared.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-9-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-9-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Fit the reverse direction</div>
+              <div class="step-math">$$\hat x=-0.3+0.8y$$</div>
+              <div class="step-explanation"><p>Sxy is four and Syy five, so the x-on-y slope is 0.8. Its intercept is x-bar minus 0.8 times y-bar, giving minus 0.3.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compare with inversion</div>
+              <div class="step-math">$$1/0.8=1.25\ne0.8$$</div>
+              <div class="step-explanation"><p>The reciprocal of the forward slope is 1.25, which differs from 0.8. Solving the forward fitted equation for x does not minimize squared x residuals and is not the reverse least-squares fit.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Verify the relationship</div>
+              <div class="step-math">$$b_{yx}b_{xy}=0.8(0.8)=0.64=r^2$$</div>
+              <div class="step-explanation"><p>The product of directional slopes is 0.64, equal to Pearson r squared. It equals one only for a perfect nonconstant linear relation. Directional regression and symmetric correlation therefore convey related but distinct information.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">intermediate</span>
+            <strong>Example 9.3: Audit a synthetic period-level investigation</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Four synthetic service periods have arrival counts 1,2,3,4 and period mean waits 2,3,5,4 minutes. Summarize the period responses, predict the fitted mean at x=2.5, and evaluate the statement: each additional arrival causes every customer to wait 0.8 minutes longer. Identify a better conclusion and a needed next step.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-9-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-9-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Keep the observational level</div>
+              <div class="step-math">$$\bar y=3.5;\quad m_{2,y}=1.25$$</div>
+              <div class="step-explanation"><p>The four response values are period means, not four individual customer waits. Their mean and median are both 3.5 minutes, descriptive variance 1.25, and range three. Equal period weighting does not give the customer-weighted average without customer counts.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Calculate the descriptive fit</div>
+              <div class="step-math">$$\hat y(2.5)=1.5+0.8(2.5)=3.5$$</div>
+              <div class="step-explanation"><p>The fitted line is 1.5 plus 0.8 times x, so at 2.5 arrivals it gives 3.5 minutes. The noninteger predictor is a mathematical interpolation of the fitted relation, not an assertion that a real period contains half a person.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Correct the conclusion</div>
+              
+              <div class="step-explanation"><p>The proposed causal statement is unsupported by these observational synthetic summaries. A defensible description is that higher-arrival periods have a positive fitted linear association with mean wait in this illustration. A real investigation should record staffing, case mix, individual waits, and a suitable design before making causal or individual prediction claims.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and technical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">Curriculum coverage; Stat H-101 and associated practical course</a></li><li><a href="https://www.itl.nist.gov/div898/handbook/eda/section3/eda35.htm" target="_blank" rel="noopener noreferrer">Cross-check standard descriptive-statistics terminology and method conventions</a></li><li><a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.html" target="_blank" rel="noopener noreferrer">Verify covariance denominator, rank correlation and tie handling</a></li><li><a href="https://cran.r-project.org/web/packages/polycor/polycor.pdf" target="_blank" rel="noopener noreferrer">Verify latent-normal interpretation of tetrachoric and biserial correlations</a></li><li><a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html" target="_blank" rel="noopener noreferrer">Sample quantile interpolation conventions, including type seven</a></li><li><a href="https://www.itl.nist.gov/div898/handbook/eda/section3/eda35b.htm" target="_blank" rel="noopener noreferrer">Descriptive and adjusted skewness, quartile asymmetry, raw and excess kurtosis</a></li><li><a href="https://search.r-project.org/CRAN/refmans/psych/html/ICC.html" target="_blank" rel="noopener noreferrer">Intraclass correlation forms and one-way single-measure definition</a></li><li><a href="https://search.r-project.org/CRAN/refmans/DescTools/html/KendallW.html" target="_blank" rel="noopener noreferrer">Kendall concordance, complete ranking tables and tie correction</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="introduction-to-statistics-chapter-8">← Previous chapter</a><a href="introduction-to-statistics">Book contents</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="introduction-to-statistics-sims.js?v=1"></script>
+  <script src="introduction-to-statistics-data.js?v=1"></script>
+  <script src="app.js?v=20261011_reader_catalog_v1"></script>
+
+
+</body></html>
