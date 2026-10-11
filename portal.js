@@ -14,10 +14,20 @@ document.addEventListener("DOMContentLoaded", () => {
   initEmailClipboard();
   initDepartmentLinks();
   window.addEventListener('hashchange', initDepartmentLinks);
+  document.addEventListener('click', event => {
+    const link = event.target.closest('a[href^="#dept-"]');
+    if (!link || !catalog.departments.some(d => '#dept-'+d.id === link.getAttribute('href'))) return;
+    event.preventDefault();
+    history.pushState(null, '', link.getAttribute('href'));
+    initDepartmentLinks();
+  });
 
   function initDepartmentLinks() {
     const match = location.hash.match(/^#dept-(.+)$/);
     if (match && catalog.departments.some(d => d.id === match[1])) {
+      searchKeyword = '';
+      const input = document.getElementById('portal-search-input');
+      if (input) input.value = '';
       selectDept(match[1]);
       document.getElementById(`dept-${match[1]}`)?.scrollIntoView({block: 'start'});
     }
@@ -44,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     allBtn.dataset.dept = "all";
     allBtn.setAttribute("aria-label", "Filter by all subjects");
     allBtn.setAttribute("aria-pressed", String(activeDeptFilter === 'all'));
-    allBtn.innerText = `🌐 All Subjects (${totalBooks})`;
+    allBtn.textContent = `🌐 All Subjects (${totalBooks})`;
     allBtn.addEventListener("click", () => selectDept("all"));
     tabsContainer.appendChild(allBtn);
 
@@ -56,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.dataset.dept = dept.id;
       btn.setAttribute("aria-label", `Filter by ${dept.name} department`);
       btn.setAttribute("aria-pressed", String(activeDeptFilter === dept.id));
-      btn.innerText = `${dept.icon} ${dept.name} (${availCount})`;
+      btn.textContent = `${dept.icon} ${dept.name} (${availCount})`;
       btn.addEventListener("click", () => selectDept(dept.id));
       tabsContainer.appendChild(btn);
     });
@@ -119,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <p class="dept-desc">${dept.description}</p>
             </div>
           </div>
-          <span class="dept-count-badge">${filteredCourses.length} Textbooks Live</span>
+          <span class="dept-count-badge">${filteredCourses.length} ${filteredCourses.length===1?'Textbook':'Textbooks'} Live</span>
         </div>
         <div class="courses-grid" id="grid-${dept.id}"></div>
       `;

@@ -4,6 +4,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
+const crypto = require('node:crypto');
 const { JSDOM } = require(process.env.OPENSTEM_JSDOM_PATH || 'jsdom');
 const root = path.resolve(__dirname, '..');
 const read = file => fs.readFileSync(path.join(root, file), 'utf8');
@@ -17,6 +18,7 @@ const write = (file, text) => {
 };
 const publicationDate = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Dhaka',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 const version = '20261011_reader_catalog_v1';
+const portalVersion = crypto.createHash('sha256').update(['departments-data.js','portal.js','portal.css'].map(read).join('\n')).digest('hex').slice(0,16);
 const context = { window: {} }; vm.createContext(context);
 vm.runInContext(read('departments-data.js'), context);
 const departments = context.window.LIBRARY_CATALOG.departments.filter(d => d.courses.some(c => c.status === 'AVAILABLE'));
@@ -99,6 +101,7 @@ let generated = 0;
 const chapterPaths = [];
 async function build() {
 for (const book of books.filter(book => !process.env.OPENSTEM_BOOK || book.id === process.env.OPENSTEM_BOOK)) {
+  if (process.env.OPENSTEM_HOMEPAGE_ONLY === '1') continue;
   const original = read(book.url);
   const base = prepare(original,book.url,book,0);
   const units = base.w.COURSE_DATA.units;
@@ -145,6 +148,7 @@ for (const book of books.filter(book => !process.env.OPENSTEM_BOOK || book.id ==
 // Keep the homepage readable and usable even before JavaScript runs.
 let home = read('index.html');
 home = home.replace(/The library currently hosts \d+ comprehensive university courses/g,`The library currently hosts ${books.length} comprehensive university courses`);
+home = home.replace(/Live Now • \d+ Textbooks/g,`Live Now • ${books.length} Textbooks`).replace(/Explore \d+ Live Textbooks/g,`Explore ${books.length} Live Textbooks`);
 home = home.replace('Protected reader interface. Google AdSense compliant open-access academic library.','Free open-access academic library.');
 const homeDom = new JSDOM(home, {url:'https://openstemlibrary.com/',runScripts:'outside-only'});
 const hw=homeDom.window, hd=hw.document;
@@ -155,13 +159,36 @@ entries.innerHTML='';
 for(const dept of departments) {
   const a=hd.createElement('a'); a.className='department-entry'; a.href='#dept-'+dept.id;
   const label=hd.createElement('strong'); label.textContent=dept.icon+' '+dept.name;
-  const count=hd.createElement('span'); count.textContent=dept.courses.filter(c=>c.status==='AVAILABLE').length+' books →';
+  const availableCount=dept.courses.filter(c=>c.status==='AVAILABLE').length;
+  const count=hd.createElement('span'); count.textContent=availableCount+(availableCount===1?' book →':' books →');
   a.append(label,count); entries.append(a);
   [...hd.querySelectorAll('.footer-link')].filter(a=>a.textContent.trim()===dept.name+' Department').forEach(a=>a.href='#dept-'+dept.id);
 }
 for(const el of hd.querySelectorAll('script[src],link[rel="stylesheet"]')) {
   const attr=el.tagName==='SCRIPT'?'src':'href', value=el.getAttribute(attr);
-  if (/^(portal\.js|portal\.css)(\?|$)/.test(value)) el.setAttribute(attr,value.split('?')[0]+'?v='+version);
+  if (/^(departments-data\.js|portal\.js|portal\.css)(\?|$)/.test(value)) el.setAttribute(attr,value.split('?')[0]+'?v='+portalVersion);
+}
+const description='Free university textbooks in Physics, Mathematics, Chemistry, and Statistics & Probability, with solved problems and interactive simulations.';
+for (const selector of ['meta[name="description"]','meta[property="og:description"]','meta[name="twitter:description"]']) hd.querySelector(selector).content=description;
+hd.querySelector('#portal-search-input').placeholder='Search by topic or course (e.g., Statistics, Regression, Calculus, Quantum Mechanics)...';
+const published=JSON.parse(read('publishing/book-queue.json')).departments.flatMap(d=>d.books).filter(b=>b.status==='published' && books.some(c=>c.url===b.url)).sort((a,b)=>(b.published_at||'').localeCompare(a.published_at||''));
+hd.querySelector('.latest-textbook')?.remove();
+if(published.length){
+  const latest=published[0], card=hd.createElement('aside'); card.className='latest-textbook'; card.setAttribute('aria-label','Latest published textbook');
+  const label=hd.createElement('span'); label.className='latest-textbook-label'; label.textContent='New textbook · Free to read';
+  const link=hd.createElement('a'); link.href=latest.url.replace(/\.html$/, ''); link.textContent=latest.title+' →';
+  const detail=hd.createElement('p');
+  detail.textContent=latest.verified_substantive_words && latest.units && latest.worked_questions && latest.simulations
+    ? `${latest.verified_substantive_words.toLocaleString('en-US')} words · ${latest.units} units · ${latest.worked_questions} solved questions · ${latest.simulations} interactive explorers`
+    : 'Original English textbook with solved questions and interactive learning activities.';
+  card.append(label,link,detail); hd.querySelector('.department-entry-grid').before(card);
+}
+const departmentFooter=hd.querySelector('a.footer-link[href="#dept-physics"]')?.parentElement;
+if(departmentFooter){
+  departmentFooter.querySelectorAll('a[href^="#dept-"]').forEach(a=>a.remove());
+  for(const dept of [...departments].reverse()){
+    const a=hd.createElement('a'); a.className='footer-link'; a.href='#dept-'+dept.id; a.textContent=dept.name+' Department'; departmentFooter.prepend(a);
+  }
 }
 const footerLinks=hd.querySelector('.portal-footer .footer-links') || hd.querySelector('footer .footer-links');
 if(footerLinks && !hd.querySelector('.footer-book-directory')) {
@@ -182,7 +209,7 @@ if (directory) {
 }
 for (const link of hd.querySelectorAll('a[href]')) { const href=link.getAttribute('href'); if(!/^(https?:|mailto:|#)/.test(href)) link.setAttribute('href',href.replace(/\.html(?=[?#]|$)/,'')); }
 hd.querySelector('link[rel="canonical"]').href='https://openstemlibrary.com/';
-write('index.html',homeDom.serialize()); hw.close();
+write('index.html',homeDom.serialize().replace(/^[ \t]+$/gm,'')); hw.close();
 // All chapter URLs are explicit, crawlable links and sitemap entries.
 const sitemapDom = new JSDOM(read('sitemap.xml'),{contentType:'text/xml'});
 const sd=sitemapDom.window.document, ns='http://www.sitemaps.org/schemas/sitemap/0.9';
