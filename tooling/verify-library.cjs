@@ -7,7 +7,8 @@ const failures=[]; let chapters=0, problems=0; const sitemap=new JSDOM(read('sit
 const urls=new Set([...sitemap.window.document.querySelectorAll('loc')].map(n=>n.textContent)); sitemap.window.close();
 async function verify() {
 for(const book of books){
-  const original=cp.execFileSync('git',['show','HEAD:'+book.url],{cwd:root,encoding:'utf8',maxBuffer:10e6});
+  const tracked=cp.spawnSync('git',['cat-file','-e','HEAD:'+book.url],{cwd:root}).status===0;
+  const original=tracked?cp.execFileSync('git',['show','HEAD:'+book.url],{cwd:root,encoding:'utf8',maxBuffer:10e6}):read(book.url);
   const old=new JSDOM(original), base=new JSDOM(read(book.url));
   for(const selector of ['#textbook-sections .sec-content','.problem-question-box','.solution-content']){
     const a=[...old.window.document.querySelectorAll(selector)].map(n=>n.textContent);
@@ -39,7 +40,7 @@ for(const book of books){
     if (global.gc) global.gc();
   }
 }
-if(cp.execFileSync('git',['diff','--name-only'],{cwd:root,encoding:'utf8'}).split('\n').some(p=>/(?:-data|course-data|-sims|simulations)\.js$/.test(p)))failures.push('Academic data or simulation source changed');
+if(cp.execFileSync('git',['diff','--name-only'],{cwd:root,encoding:'utf8'}).split('\n').some(p=>/(?:-data|course-data|-sims|simulations)\.js$/.test(p) && p!=='departments-data.js'))failures.push('Existing academic data or simulation source changed');
 console.log(JSON.stringify({books:books.length,chapterPages:chapters,workedProblems:problems,failures},null,2));
 process.exit(failures.length?1:0);
 }

@@ -7,7 +7,15 @@ const vm = require('node:vm');
 const { JSDOM } = require(process.env.OPENSTEM_JSDOM_PATH || 'jsdom');
 const root = path.resolve(__dirname, '..');
 const read = file => fs.readFileSync(path.join(root, file), 'utf8');
-const write = (file, text) => fs.writeFileSync(path.join(root, file), text);
+const changedPages = new Set();
+const write = (file, text) => {
+  const target = path.join(root, file);
+  if (!fs.existsSync(target) || fs.readFileSync(target, 'utf8') !== text) {
+    if (file.endsWith('.html')) changedPages.add(file);
+    fs.writeFileSync(target, text);
+  }
+};
+const publicationDate = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Dhaka',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 const version = '20261011_reader_catalog_v1';
 const context = { window: {} }; vm.createContext(context);
 vm.runInContext(read('departments-data.js'), context);
@@ -132,7 +140,7 @@ for (const book of books) {
 }
 // Keep the homepage readable and usable even before JavaScript runs.
 let home = read('index.html');
-home = home.replace(/The library currently hosts 27 comprehensive university courses/g,'The library currently hosts 57 comprehensive university courses');
+home = home.replace(/The library currently hosts \d+ comprehensive university courses/g,`The library currently hosts ${books.length} comprehensive university courses`);
 home = home.replace('Protected reader interface. Google AdSense compliant open-access academic library.','Free open-access academic library.');
 const homeDom = new JSDOM(home, {url:'https://openstemlibrary.com/',runScripts:'outside-only'});
 const hw=homeDom.window, hd=hw.document;
@@ -154,10 +162,19 @@ for(const el of hd.querySelectorAll('script[src],link[rel="stylesheet"]')) {
 const footerLinks=hd.querySelector('.portal-footer .footer-links') || hd.querySelector('footer .footer-links');
 if(footerLinks && !hd.querySelector('.footer-book-directory')) {
   const details=hd.createElement('details'); details.className='footer-book-directory';
-  const summary=hd.createElement('summary'); summary.textContent='Browse all 57 textbooks';
+  const summary=hd.createElement('summary'); summary.textContent=`Browse all ${books.length} textbooks`;
   const bookLinks=hd.createElement('div'); bookLinks.className='footer-links';
   [...footerLinks.querySelectorAll('a')].filter(a=>books.some(b=>b.url.replace(/\.html$/, '')===a.getAttribute('href').replace(/\.html$/, ''))).forEach(a=>bookLinks.append(a));
   details.append(summary,bookLinks); footerLinks.before(details);
+}
+const directory = hd.querySelector('.footer-book-directory');
+if (directory) {
+  directory.querySelector('summary').textContent = `Browse all ${books.length} textbooks`;
+  const links = directory.querySelector('.footer-links');
+  links.innerHTML = '';
+  for (const book of books) {
+    const a=hd.createElement('a'); a.className='footer-link'; a.href=book.url.replace(/\.html$/, ''); a.textContent=book.title; links.append(a);
+  }
 }
 for (const link of hd.querySelectorAll('a[href]')) { const href=link.getAttribute('href'); if(!/^(https?:|mailto:|#)/.test(href)) link.setAttribute('href',href.replace(/\.html(?=[?#]|$)/,'')); }
 hd.querySelector('link[rel="canonical"]').href='https://openstemlibrary.com/';
@@ -167,13 +184,21 @@ const sitemapDom = new JSDOM(read('sitemap.xml'),{contentType:'text/xml'});
 const sd=sitemapDom.window.document, ns='http://www.sitemaps.org/schemas/sitemap/0.9';
 for (const loc of sd.querySelectorAll('loc')) loc.textContent = loc.textContent.replace(/\.html$/, '');
 const existing = new Set([...sd.querySelectorAll('loc')].map(n=>n.textContent));
-for(const filename of chapterPaths) {
+for(const filename of [...books.map(b=>b.url), ...chapterPaths]) {
   const url='https://openstemlibrary.com/'+filename.replace(/\.html$/, '');
   if(existing.has(url)) continue;
   const node=sd.createElementNS(ns,'url'), loc=sd.createElementNS(ns,'loc'), mod=sd.createElementNS(ns,'lastmod');
-  loc.textContent=url; mod.textContent='2026-10-11'; node.append(loc,mod); sd.documentElement.append(node);
+  loc.textContent=url; mod.textContent=publicationDate; node.append(loc,mod); sd.documentElement.append(node); existing.add(url);
 }
-for(const mod of sd.querySelectorAll('lastmod')) mod.textContent='2026-10-11';
+for(const entry of sd.querySelectorAll('url')) {
+  const loc=entry.querySelector('loc')?.textContent;
+  const file=loc==='https://openstemlibrary.com/'?'index.html':loc?.replace('https://openstemlibrary.com/','')+'.html';
+  if(changedPages.has(file)) {
+    let mod=entry.querySelector('lastmod');
+    if(!mod){mod=sd.createElementNS(ns,'lastmod');entry.append(mod);}
+    mod.textContent=publicationDate;
+  }
+}
 write('sitemap.xml','<?xml version="1.0" encoding="UTF-8"?>\n'+sd.documentElement.outerHTML+'\n');
 sitemapDom.window.close();
 console.log(JSON.stringify({books:books.length,generatedChapterPages:generated}));
