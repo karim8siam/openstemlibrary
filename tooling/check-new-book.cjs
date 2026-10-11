@@ -37,7 +37,8 @@ try {
   data.units.forEach((u,i) => {
     const sections = u.sections || [], problems = u.problems || [];
     if (sections.length < 3) failures.push(`Unit ${i+1}: fewer than three sections`);
-    if (problems.length < 5) failures.push(`Unit ${i+1}: fewer than five worked problems`);
+    const questionRule=q.book_requirements?.worked_questions_per_unit || {minimum:2,maximum:3};
+    if (problems.length < questionRule.minimum || problems.length > questionRule.maximum) failures.push(`Unit ${i+1}: expected 2–3 fully worked questions`);
     let words = 0;
     for (const s of sections) {
       const n=normalized(s.content);
@@ -62,7 +63,7 @@ try {
     if(check?.status !== 'pass' || typeof check.evidence !== 'string' || check.evidence.trim().length < 30) failures.push('Missing documented check: '+key);
     for(const p of check?.artifacts || []) { if(!localFile(p).trim()) failures.push('Empty check evidence: '+p); }
   }
-  if(!Array.isArray(qa.units) || qa.units.length !== data.units.length || qa.units.some(u=>!u.coverage_complete || !u.practice_exercises_checked))failures.push('Unit coverage/practice review incomplete');
+  if(!Array.isArray(qa.units) || qa.units.length !== data.units.length || qa.units.some(u=>!u.coverage_complete || !u.question_set_checked))failures.push('Unit coverage/question review incomplete');
   const quantitative = dept.id === 'statistics-probability';
   if(quantitative && !qa.checks?.worked_solutions?.artifacts?.length)failures.push('Statistics needs executable answer-check evidence');
   console.log(JSON.stringify({book:id,words:total,units,failures},null,2));
