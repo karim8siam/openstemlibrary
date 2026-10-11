@@ -1,0 +1,1284 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Unit 8: Graph Coloring, Chromatic Polynomials &amp; Network Flows | Graph Theory: Structures, Algorithms &amp; Flows | OpenSTEM Library</title>
+  <meta name="description" content="Advanced theory of vertex and edge colorings, algebraic chromatic polynomials, and network flow optimization: proper vertex coloring, chromatic number chi(G), greedy coloring and Welsh-Powell algorithm, Brooks' theorem, the Five-Color and Four-Color theorems, chromatic polynomials P(G, k) and deletion-contraction recurrence, edge coloring, chromatic index chi'(G) and Vizing's theorem, network flows, residual capacity networks, the Max-Flow Min-Cut theorem, and Hall's Marriage Theorem for bipartite matchings.">
+  <meta name="keywords" content="Graph Theory, Eulerian Graphs, Hamiltonian Cycles, Trees, Spanning Trees, Kruskal Algorithm, Prim Algorithm, Cayley Formula, Prüfer Sequence, Connectivity, Cut-Sets, Whitney Inequality, Menger Theorem, Incidence Matrix, Adjacency Matrix, Graph Laplacian, Kirchhoff Matrix Tree Theorem, Directed Graphs, Tournaments, Landau Theorem, DAG, Topological Sort, Kahn Algorithm, Planar Graphs, Euler Polyhedral Formula, Kuratowski Theorem, Wagner Theorem, Dual Graphs, Vertex Coloring, Chromatic Number, Brooks Theorem, Five Color Theorem, Four Color Theorem, Chromatic Polynomial, Deletion-Contraction Recurrence, Edge Coloring, Chromatic Index, Vizing Theorem, Network Flows, Residual Network, Max-Flow Min-Cut Theorem, Ford-Fulkerson Algorithm, Bipartite Matching, Hall Marriage Theorem">
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/graph-theory-chapter-8">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Graph Theory: Structures, Algorithms, Algebraic Representations &amp; Network Flows | OpenSTEM Digital Academic Press">
+  <meta property="og:description" content="Exhaustive university honors textbook with 8 chapters, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
+  <meta property="og:image" content="https://openstemlibrary.com/logo.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+
+  <!-- Schema.org Educational Course JSON-LD (Strictly Zero Course Numbers) -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Graph Theory: Structures, Algorithms, Algebraic Representations & Network Flows","description":"Comprehensive university honors curriculum covering graph structures, degree sequences, Handshaking theorems, Havel-Hakimi criterion, isomorphism invariants, Eulerian trails, Fleury's algorithm, Hamiltonian cycles, Dirac and Ore theorems, tree metrics, Jordan center theorem, Cayley's formula, Prüfer sequences, Kruskal and Prim MST, connectivity, cut-sets, Whitney inequality, Menger's theorems, incidence, circuit, cut-set and Laplacian matrices, Kirchhoff's Matrix Tree Theorem, directed graphs, tournaments, DAGs, topological sorting, planar graphs, Euler's formula, Kuratowski and Wagner theorems, geometric duality, vertex coloring, Brooks' theorem, Five-Color theorem, chromatic polynomials, edge coloring, Vizing's theorem, network flows, and Hall's Marriage Theorem.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Digital Academic Press","url":"https://openstemlibrary.com"},"educationalLevel":"Undergraduate B.Sc. Honors & STEM Foundation","isAccessibleForFree":true}</script>
+
+  <!-- Google Fonts: Inter, Fira Code & Newsreader -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261011_reader_catalog_v1">
+  <!-- Google AdSense Official Script -->
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4546869673631824" crossorigin="anonymous"></script>
+</head>
+<body data-book-path="graph-theory.html" data-chapter-index="7">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Graph Theory</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search trees, Eulerian, Menger, planar, coloring, flows, spectra..." class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="graph-theory" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Unit 1: Foundations of Graph Theory, Degree Sequences &amp; Handshaking Theorems</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="graph-theory-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Unit 2: Walks, Paths, Circuits, Eulerian Graphs &amp; Hamiltonian Cycles</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="graph-theory-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Unit 3: Trees, Spanning Trees, Center Theorems &amp; Tree Metric Algorithms</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="graph-theory-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Unit 4: Connectivity, Cut-Sets, Fundamental Circuits &amp; Menger's Theorem</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="graph-theory-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Unit 5: Algebraic Graph Theory: Incidence, Circuit, Cut-Set &amp; Laplacian Matrices</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="graph-theory-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Unit 6: Directed Graphs, Tournaments, DAGs &amp; Topological Sorting</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="graph-theory-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Unit 7: Planar Graphs, Euler's Formula, Kuratowski's Theorem &amp; Duality</span></a></li><li class="unit-nav-item active" data-unit-index="7"><a href="graph-theory-chapter-8" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Unit 8: Graph Coloring, Chromatic Polynomials &amp; Network Flows</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Mathematics / Pure &amp; Applied</span>
+          <span class="badge-pill badge-credits">Graph Theory: Structures, Algorithms &amp; Flows</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">
+            🔒 <span>In-Browser Protected • Direct Download Disabled</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 8 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Unit 8: Graph Coloring, Chromatic Polynomials &amp; Network Flows</h1>
+            <p class="unit-desc-lead" id="unit-desc">Advanced theory of vertex and edge colorings, algebraic chromatic polynomials, and network flow optimization: proper vertex coloring, chromatic number chi(G), greedy coloring and Welsh-Powell algorithm, Brooks' theorem, the Five-Color and Four-Color theorems, chromatic polynomials P(G, k) and deletion-contraction recurrence, edge coloring, chromatic index chi'(G) and Vizing's theorem, network flows, residual capacity networks, the Max-Flow Min-Cut theorem, and Hall's Marriage Theorem for bipartite matchings.</p>
+          </header>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="u8-sec1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.1</span>
+            <span>Vertex Coloring, Chromatic Number $\chi(G)$ &amp; Brooks' Theorem</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Proper Vertex Coloring and Chromatic Number</h4>
+
+<p>Graph coloring originated from cartographic map coloring in 1852 (Francis Guthrie) and has matured into one of the richest and most computationally challenging branches of discrete mathematics.</p>
+
+<blockquote class="math-callout">
+<p><strong>Definition 8.1 (Proper Vertex $k$-Coloring):</strong> Let $G = (V, E)$ be a simple graph. A <strong>proper vertex $k$-coloring</strong> is an assignment of colors $c: V \to \{1, 2, \dots, k\}$ such that no two adjacent vertices share the same color:</p>
+</blockquote>
+
+<div class="math-display">$$\forall \{u, v\} \in E \implies c(u) \ne c(v)$$</div>
+
+<blockquote class="math-callout">
+<p>If such an assignment exists, $G$ is said to be <strong>$k$-colorable</strong>.</p>
+</blockquote>
+
+<blockquote class="math-callout">
+<p><strong>Definition 8.2 (Chromatic Number $\chi(G)$):</strong> The <strong>chromatic number</strong> of $G$, denoted $\chi(G)$, is the minimum integer $k \ge 1$ such that $G$ admits a proper $k$-coloring:</p>
+</blockquote>
+
+<div class="math-display">$$\chi(G) = \min \{ k \in \mathbb{N} : G \text{ is } k\text{-colorable} \}$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>2. Elementary Bounds on $\chi(G)$</h4>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 8.1 (Elementary Coloring Bounds):</strong> For any simple graph $G = (V, E)$ with maximum vertex degree $\Delta(G)$ and clique number $\omega(G)$ (the order of the largest complete subgraph $K_r \subseteq G$):</p>
+</blockquote>
+
+<div class="math-display">$$\omega(G) \le \chi(G) \le \Delta(G) + 1$$</div>
+
+<h5>Proof:</h5>
+
+<h4>1. Lower Bound ($\omega(G) \le \chi(G)$):</h4>
+
+<p>Let $K_r \subseteq G$ be a clique of size $r = \omega(G)$. Every pair of vertices in $K_r$ is connected by an edge. Therefore, all $r$ vertices in the clique must receive mutually distinct colors in any proper coloring. Hence $\chi(G) \ge \chi(K_r) = r = \omega(G)$.</p>
+
+<h4>2. Upper Bound ($\chi(G) \le \Delta(G) + 1$ via Greedy Coloring):</h4>
+
+<p>Let $v_1, v_2, \dots, v_n$ be an arbitrary ordering of $V(G)$. Color the vertices sequentially for $i = 1, 2, \dots, n$: When coloring $v_i$, it has at most $\deg(v_i) \le \Delta(G)$ previously colored neighbors in $\{v_1, \dots, v_{i-1}\}$. These neighbors consume at most $\Delta(G)$ distinct colors from the available set $\{1, 2, \dots, \Delta(G) + 1\}$. By the Pigeonhole Principle, there is at least one color in $\{1, 2, \dots, \Delta(G) + 1\}$ not used by any neighbor of $v_i$. Assign the smallest such available color to $v_i$. This greedy process successfully colors every vertex using at most $\Delta(G) + 1$ colors. Therefore, $\chi(G) \le \Delta(G) + 1$. $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<h4>3. Brooks' Theorem (1941)</h4>
+
+<p>The bound $\chi(G) \le \Delta(G) + 1$ is tight for complete graphs $K_n$ ($\Delta = n - 1, \chi = n$) and odd cycle graphs $C_{2k+1}$ ($\Delta = 2, \chi = 3$). Remarkably, R. L. Brooks proved that these are the <strong>only</strong> connected graphs for which the bound $\chi \le \Delta + 1$ cannot be improved by 1:</p>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 8.2 (Brooks' Theorem, 1941):</strong> Let $G$ be a connected simple graph with maximum degree $\Delta = \Delta(G)$. If $G$ is neither a complete graph ($G \not\cong K_{\Delta+1}$) nor an odd cycle of length $2k+1$ ($\Delta = 2$), then:</p>
+</blockquote>
+
+<div class="math-display">$$\chi(G) \le \Delta$$</div>
+
+<h5>Full Formal Proof (Lovász Ordering Technique):</h5>
+
+<p>We proceed through the structural cases of connectivity:</p>
+
+<h4>1. Case $\Delta \le 2$:</h4>
+
+<ul>
+
+  <li>If $\Delta = 0$, $G \cong K_1$ (complete graph).</li>
+
+  <li>If $\Delta = 1$, $G \cong K_2$ (complete graph).</li>
+
+  <li>If $\Delta = 2$, $G$ is a path $P_n$ or a cycle $C_n$.</li>
+
+  <li>If $G = P_n$, $G$ is bipartite, so $\chi(P_n) = 2 = \Delta$.</li>
+
+  <li>If $G = C_{2k}$, $G$ is an even cycle, which is bipartite, so $\chi(C_{2k}) = 2 = \Delta$.</li>
+
+  <li>If $G = C_{2k+1}$, it is an odd cycle, explicitly excluded.</li>
+
+</ul>
+
+<p>Thus the theorem holds for all $\Delta \le 2$.</p>
+
+<h4>2. Case $\Delta \ge 3$ and $G$ is not 2-connected (has a cut-vertex):</h4>
+
+<p>Let $v$ be a cut-vertex of $G$, partitioning $G - v$ into components. Then $G = G_1 \cup G_2$ where $V(G_1) \cap V(G_2) = \{v\}$ and $|V(G_1)|, |V(G_2)| &lt; |V(G)|$. By induction on the number of vertices, $\chi(G_1) \le \Delta(G_1) \le \Delta$ and $\chi(G_2) \le \Delta(G_2) \le \Delta$. Permute colors in $G_2$ so that $v$ receives the same color in both colorings. Gluing $G_1$ and $G_2$ at $v$ yields a proper $\Delta$-coloring of $G$.</p>
+
+<h4>3. Case $\Delta \ge 3$ and $G$ is 2-connected but not 3-connected:</h4>
+
+<p>If $G$ has a 2-vertex cut $\{u, v\}$, a similar decomposition applies by considering whether $\{u, v\} \in E$ or not.</p>
+
+<h4>4. Case $\Delta \ge 3$ and $G$ is 3-connected:</h4>
+
+<p>Because $G$ is not complete, there exist three vertices $u, v, w \in V(G)$ such that $\{u, v\} \in E$, $\{v, w\} \in E$, but $\{u, w\} \notin E$ (a 2-path without a chord). Consider $H = G \setminus \{u, w\}$. Since $G$ is 3-connected, $H$ is connected. Construct a spanning tree $T$ of $H$ rooted at $v$. Order the vertices of $H$ in reverse breadth-first/depth-first order starting from the leaves of $T$ towards the root $v$:</p>
+
+<ul>
+
+  <li>Let $v_n = v$ (the root).</li>
+
+  <li>Let $v_1 = u$ and $v_2 = w$ (the two non-adjacent vertices).</li>
+
+  <li>Let $v_3, v_4, \dots, v_{n-1}$ be the remaining vertices of $H$ in reverse topological order along $T$.</li>
+
+</ul>
+
+<p>Now execute greedy coloring on this vertex ordering $v_1, v_2, \dots, v_n$:</p>
+
+<ul>
+
+  <li>Color $v_1 = u$ with color 1.</li>
+
+  <li>Color $v_2 = w$ with color 1 (valid since $\{u, w\} \notin E$!).</li>
+
+  <li>For each $i = 3, 4, \dots, n-1$: vertex $v_i$ has at least one forward neighbor in the tree $T$ that appears after $v_i$ in the ordering.</li>
+
+</ul>
+
+<p>Therefore, $v_i$ has at most $\deg(v_i) - 1 \le \Delta - 1$ neighbors colored before it. Thus at least one of the $\Delta$ colors $\{1, 2, \dots, \Delta\}$ is free for $v_i$.</p>
+
+<ul>
+
+  <li>Finally, consider the root $v_n = v$:</li>
+
+</ul>
+
+<p>$v$ has at most $\Delta$ neighbors in total. Crucially, two of its neighbors are $u$ and $w$, both of which were assigned the <strong>same color 1</strong>! Therefore, the neighbors of $v$ consume at most $\Delta - 1$ distinct colors! At least one color in $\{1, 2, \dots, \Delta\}$ remains available for $v_n = v$.</p>
+
+<p>Greedy coloring terminates with a proper $\Delta$-coloring of $G$. $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<h4>4. The Five-Color and Four-Color Theorems for Planar Graphs</h4>
+
+<p>The famous Four Color Conjecture was posed by Guthrie in 1852, incorrectly proved by Kempe in 1879, refuted by Heawood in 1890 who salvaged the Five Color Theorem, and finally established by Appel and Haken in 1976 using 1,936 reducible computer configurations:</p>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 8.3 (Heawood's Five-Color Theorem, 1890):</strong> Every planar graph $G$ is 5-colorable: $\chi(G) \le 5$.</p>
+</blockquote>
+
+<h5>Full Formal Proof (Kempe Chain Induction):</h5>
+
+<p>We proceed by induction on $n = |V(G)|$:</p>
+
+<h4>1. Base Case: For $n \le 5$, the result is trivial since $n$ vertices require at most $n \le 5$ colors.</h4>
+
+<h4>2. Inductive Step: Assume every planar graph with fewer than $n$ vertices is 5-colorable.</h4>
+
+<p>Let $G$ be a planar graph with $n$ vertices. By Corollary 7.3, every planar graph has a vertex $v$ with degree $\deg(v) \le 5$. Consider $G - v$, which has $n - 1$ vertices and is planar. By the inductive hypothesis, $G - v$ has a proper 5-coloring $c: V(G - v) \to \{1, 2, 3, 4, 5\}$.</p>
+
+<ol>
+
+  <li>If $\deg(v) \le 4$, or if the neighbors of $v$ use at most 4 distinct colors, assign an unused color in $\{1, 2, 3, 4, 5\}$ to $v$.</li>
+
+  <li><strong>The Critical Case $\deg(v) = 5$:</strong></li>
+
+</ol>
+
+<p>Suppose the 5 neighbors $v_1, v_2, v_3, v_4, v_5$ of $v$ arranged clockwise around $v$ in a planar embedding receive 5 distinct colors:</p>
+
+<div class="math-display">$$c(v_i) = i \quad \text{for } i = 1, 2, 3, 4, 5$$</div>
+
+<p>Define the <strong>Kempe chain</strong> $H_{1, 3}$ as the subgraph of $G - v$ induced by all vertices colored with color 1 or color 3.</p>
+
+<ul>
+
+  <li><strong>Subcase A:</strong> $v_1$ and $v_3$ belong to different connected components of $H_{1, 3}$.</li>
+
+</ul>
+
+<p>In the component containing $v_1$, interchange colors 1 and 3 (swap $1 \leftrightarrow 3$). Since no vertex in this component is adjacent to a vertex of color 1 or 3 outside the component, this remains a valid proper coloring of $G - v$. Now $v_1$ has color 3, and $v_3$ still has color 3. Color 1 is no longer used by any neighbor of $v$! Assign color 1 to $v$.</p>
+
+<ul>
+
+  <li><strong>Subcase B:</strong> $v_1$ and $v_3$ belong to the same connected component of $H_{1, 3}$.</li>
+
+</ul>
+
+<p>Then there exists an alternating path $P_{1, 3}$ connecting $v_1$ and $v_3$ in $H_{1, 3}$. Together with edges $\{v, v_1\}$ and $\{v, v_3\}$, this forms a Jordan curve $C = P_{1, 3} \cup \{v_1, v\} \cup \{v, v_3\}$ in the plane! Crucially, $v_2$ lies in the interior of $C$, while $v_4$ lies in the exterior of $C$ (or vice versa)!</p>
+
+<p>Now consider the Kempe chain $H_{2, 4}$ induced by colors 2 and 4. Any path in $H_{2, 4}$ connecting $v_2$ and $v_4$ would have to cross the Jordan curve $C$! Since the drawing is planar, vertices of $H_{2, 4}$ cannot cross edges of $C$ without intersecting them. Furthermore, vertices on $C$ have colors in $\{1, 3\}$, which are disjoint from $\{2, 4\}$. Therefore, <strong>no path in $H_{2, 4}$ can connect $v_2$ and $v_4$</strong>! $v_2$ and $v_4$ MUST belong to different connected components of $H_{2, 4}$!</p>
+
+<p>Interchange colors 2 and 4 in the component containing $v_2$. Now $v_2$ receives color 4, color 2 is vacated around $v$, and we can safely color $v$ with color 2. In all cases, $G$ is properly 5-colored. $\blacksquare$</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="u8-sec2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.2</span>
+            <span>Chromatic Polynomials $P(G, k)$ &amp; Deletion-Contraction Recurrence</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Algebraic Chromatic Polynomials</h4>
+
+<p>Introduced by George David Birkhoff in 1912 to tackle the Four Color Problem, the chromatic polynomial translates coloring combinatorics into commutative algebra.</p>
+
+<blockquote class="math-callout">
+<p><strong>Definition 8.3 (Chromatic Polynomial $P(G, k)$):</strong> Let $G = (V, E)$ be a simple graph and $k \in \mathbb{N}$ a positive integer. The <strong>chromatic polynomial</strong> $P(G, k)$ (also written $\pi_G(k)$) is the function that counts the number of distinct proper vertex colorings of $G$ using at most $k$ colors:</p>
+</blockquote>
+
+<div class="math-display">$$P(G, k) = |\{ c: V \to \{1, 2, \dots, k\} : c \text{ is a proper coloring} \}|$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>2. Standard Families of Chromatic Polynomials</h4>
+
+<h4>1. Empty Graph $\bar{K}_n$ ($n$ isolated vertices, $E = \emptyset$):</h4>
+
+<p>Each of the $n$ vertices can be colored independently in $k$ ways:</p>
+
+<div class="math-display">$$P(\bar{K}_n, k) = k^n$$</div>
+
+<h4>2. Complete Graph $K_n$:</h4>
+
+<p>First vertex has $k$ choices, second has $k-1$, and the $i$-th has $k - i + 1$:</p>
+
+<div class="math-display">$$P(K_n, k) = k(k-1)(k-2)\cdots(k-n+1) = k_{(n)}$$</div>
+
+<p>(the falling factorial).</p>
+
+<h4>3. Tree $T_n$ ($n$ vertices, $n-1$ edges):</h4>
+
+<p>Root the tree at $r$. Color $r$ in $k$ ways. Every subsequent vertex in a topological ordering has exactly one colored parent, leaving $k-1$ available choices:</p>
+
+<div class="math-display">$$P(T_n, k) = k (k-1)^{n-1}$$</div>
+
+<p><em>(Notice that all trees on $n$ vertices share identical chromatic polynomials!)</em></p>
+
+<hr class="section-divider-hr">
+
+<h4>3. The Fundamental Deletion-Contraction Recurrence</h4>
+
+<p>The central computational theorem for chromatic polynomials is the <strong>Deletion-Contraction Theorem</strong>:</p>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 8.4 (Deletion-Contraction Recurrence):</strong> Let $G = (V, E)$ be a simple graph and let $e = \{u, v\} \in E$ be an edge. Let $G - e$ denote the graph obtained by deleting $e$, and $G / e$ denote the graph obtained by contracting edge $e$ (identifying $u$ and $v$ and removing multiple edges). Then for all integers $k$:</p>
+</blockquote>
+
+<div class="math-display">$$P(G, k) = P(G - e, k) - P(G / e, k)$$</div>
+
+<h5>Complete Formal Proof:</h5>
+
+<p>Let $C(G - e)$ denote the set of all proper $k$-colorings of $G - e$. Partition $C(G - e)$ into two disjoint subsets based on whether the endpoints $u$ and $v$ of $e$ receive different colors or the same color:</p>
+
+<div class="math-display">$$C(G - e) = C_{\text{diff}} \cup C_{\text{same}}$$</div>
+
+<h4>1. Case 1 ($c(u) \ne c(v)$):</h4>
+
+<p>If $c(u) \ne c(v)$, then the coloring $c$ does not violate the edge condition on $e = \{u, v\}$. Therefore, $c$ is a proper $k$-coloring of the original graph $G = (G - e) + e$. Conversely, every proper coloring of $G$ is a coloring of $G - e$ in which $c(u) \ne c(v)$. Hence:</p>
+
+<div class="math-display">$$|C_{\text{diff}}| = P(G, k)$$</div>
+
+<h4>2. Case 2 ($c(u) = c(v)$):</h4>
+
+<p>If $c(u) = c(v)$, we can collapse vertices $u$ and $v$ into a single composite vertex $w = \{u, v\}$ without altering color assignments. The coloring $c$ is a valid proper coloring of the contracted graph $G / e$. Conversely, every proper $k$-coloring of $G / e$ lifts uniquely to a proper coloring of $G - e$ in which $u$ and $v$ have the exact same color. Hence:</p>
+
+<div class="math-display">$$|C_{\text{same}}| = P(G / e, k)$$</div>
+
+<p>Summing the two disjoint subsets:</p>
+
+<div class="math-display">$$P(G - e, k) = |C_{\text{diff}}| + |C_{\text{same}}| = P(G, k) + P(G / e, k)$$</div>
+
+<p>Rearranging yields:</p>
+
+<div class="math-display">$$P(G, k) = P(G - e, k) - P(G / e, k) \quad \blacksquare$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>4. Chromatic Polynomial of Cycles $C_n$</h4>
+
+<p>Applying deletion-contraction to a cycle edge $e \in E(C_n)$:</p>
+
+<ul>
+
+  <li>$C_n - e \cong P_n$ (a path on $n$ vertices, which is a tree, so $P(P_n, k) = k(k-1)^{n-1}$).</li>
+
+  <li>$C_n / e \cong C_{n-1}$ (contracting one edge of an $n$-cycle produces an $(n-1)$-cycle).</li>
+
+</ul>
+
+<p>Therefore:</p>
+
+<div class="math-display">$$P(C_n, k) = k(k-1)^{n-1} - P(C_{n-1}, k)$$</div>
+
+<p>By induction from the base case $P(C_3, k) = P(K_3, k) = k(k-1)(k-2) = (k-1)^3 - (k-1)$:</p>
+
+<div class="math-display">$$P(C_n, k) = (k-1)^n + (-1)^n(k-1)$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>5. Universal Algebraic Properties of $P(G, k)$</h4>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 8.5 (Properties of Chromatic Polynomials):</strong> Let $G$ be a graph with $n$ vertices, $m$ edges, and $c$ connected components. Then $P(G, k)$ is a polynomial in $k$ satisfying:</p>
+<ol>
+  <li>$\deg(P(G, k)) = n$.</li>
+  <li>The leading coefficient is $1$ (monic: $P(G, k) = k^n - m k^{n-1} + \dots$).</li>
+  <li>The coefficient of $k^{n-1}$ is exactly $-m = -|E|$.</li>
+  <li>The signs of the coefficients strictly alternate.</li>
+  <li>The smallest power of $k$ with a non-zero coefficient is $k^c$, so $P(G, k)$ has a root of multiplicity $c$ at $k = 0$.</li>
+  <li>$\chi(G)$ is the smallest positive integer $k$ such that $P(G, k) &gt; 0$.</li>
+</ol>
+</blockquote>
+        </div>
+        
+      </section><section class="textbook-section-card" id="u8-sec3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.3</span>
+            <span>Edge Coloring, Chromatic Index $\chi'(G)$ &amp; Vizing's Theorem</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Proper Edge Coloring and Chromatic Index</h4>
+
+<p>Rather than coloring vertices, we can assign colors to the edges of a network such that concurrently active links never share common terminals.</p>
+
+<blockquote class="math-callout">
+<p><strong>Definition 8.4 (Edge Coloring &amp; Chromatic Index $\chi'(G)$):</strong></p>
+<ol>
+  <li>A <strong>proper edge $k$-coloring</strong> of $G = (V, E)$ is a function $c': E \to \{1, 2, \dots, k\}$ such that any two edges sharing a common endpoint receive distinct colors:</li>
+</ol>
+</blockquote>
+
+<div class="math-display">$$\forall e_1, e_2 \in E, \ e_1 \cap e_2 \ne \emptyset \implies c'(e_1) \ne c'(e_2)$$</div>
+
+<blockquote class="math-callout">
+<ol>
+  <li>The <strong>chromatic index</strong> (or edge chromatic number) $\chi'(G)$ is the minimum number of colors needed for a proper edge coloring:</li>
+</ol>
+</blockquote>
+
+<div class="math-display">$$\chi'(G) = \min \{ k : G \text{ has a proper edge } k\text{-coloring} \}$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>2. Trivial Degree Bound</h4>
+
+<p>At any vertex $v$, all $\deg(v)$ edges incident to $v$ must receive mutually distinct colors. Therefore:</p>
+
+<div class="math-display">$$\chi'(G) \ge \max_{v \in V} \deg(v) = \Delta(G)$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>3. König's Line Coloring Theorem for Bipartite Graphs (1916)</h4>
+
+<p>For bipartite graphs, this trivial lower bound is always exact:</p>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 8.6 (König's Theorem on Edge Coloring, 1916):</strong> If $G$ is a bipartite graph with maximum degree $\Delta$, then:</p>
+</blockquote>
+
+<div class="math-display">$$\chi'(G) = \Delta(G)$$</div>
+
+<h5>Formal Proof (by Induction on Number of Edges):</h5>
+
+<h4>1. Base Case: For $|E| = 1$, $\Delta = 1$ and $\chi' = 1$.</h4>
+
+<h4>2. Inductive Step: Suppose every bipartite graph with fewer than $m$ edges has $\chi' = \Delta$.</h4>
+
+<p>Let $G$ have $m$ edges and maximum degree $\Delta$. Remove an edge $e = \{u, v\}$. In $G - e$, the maximum degree is $\le \Delta$. By the inductive hypothesis, $G - e$ has a proper edge coloring using $\Delta$ colors $\{1, 2, \dots, \Delta\}$.</p>
+
+<p>In this coloring of $G - e$:</p>
+
+<ul>
+
+  <li>$\deg_{G-e}(u) \le \Delta - 1$, so there is at least one color $\alpha \in \{1, \dots, \Delta\}$ missing at $u$.</li>
+
+  <li>$\deg_{G-e}(v) \le \Delta - 1$, so there is at least one color $\beta \in \{1, \dots, \Delta\}$ missing at $v$.</li>
+
+</ul>
+
+<ul>
+
+  <li>If $\alpha = \beta$: assign color $\alpha$ to edge $e$. This extends to a valid coloring of $G$.</li>
+
+  <li>If $\alpha \ne \beta$: color $\alpha$ is missing at $u$, and color $\beta$ is missing at $v$.</li>
+
+</ul>
+
+<p>Consider the maximal alternating path $P$ starting at $u$ consisting of edges alternately colored $\beta$ and $\alpha$. Because $G$ is bipartite, $P$ cannot loop back to $u$ (no odd cycles). Furthermore, because $\beta$ is missing at $v$, $P$ cannot end at $v$ with an edge of color $\beta$. Therefore, path $P$ does not reach vertex $v$!</p>
+
+<p>Swap colors $\alpha \leftrightarrow \beta$ along path $P$:</p>
+
+<ul>
+
+  <li>This preserves valid edge coloring everywhere.</li>
+
+  <li>At vertex $u$, the first edge of $P$ had color $\beta$, which now becomes $\alpha$.</li>
+
+  <li>Color $\beta$ is now missing at $u$ as well as at $v$!</li>
+
+  <li>Assign color $\beta$ to edge $e = \{u, v\}$.</li>
+
+</ul>
+
+<p>We have obtained a valid $\Delta$-edge coloring of $G$. Thus $\chi'(G) = \Delta$. $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<h4>4. Vizing's Theorem (1964)</h4>
+
+<p>For general simple graphs, the chromatic index is constrained within a remarkably narrow window:</p>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 8.7 (Vizing's Theorem, 1964):</strong> For any simple graph $G$ with maximum degree $\Delta$:</p>
+</blockquote>
+
+<div class="math-display">$$\Delta(G) \le \chi'(G) \le \Delta(G) + 1$$</div>
+
+<p>Graphs fall into two universal structural classes:</p>
+
+<ul>
+
+  <li><strong>Class 1 Graphs:</strong> $\chi'(G) = \Delta(G)$ (e.g. bipartite graphs, complete graphs $K_{2n}$).</li>
+
+  <li><strong>Class 2 Graphs:</strong> $\chi'(G) = \Delta(G) + 1$ (e.g. odd cycles $C_{2k+1}$, complete graphs $K_{2n+1}$, Petersen graph).</li>
+
+</ul>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 8.8 (Chromatic Index of Complete Graphs):</strong></p>
+</blockquote>
+
+<div class="math-display">$$\chi'(K_n) = \begin{cases} n - 1 &amp; \text{if } n \text{ is even (Class 1)} \\ n &amp; \text{if } n \text{ is odd (Class 2)} \end{cases}$$</div>
+        </div>
+        
+      </section><section class="textbook-section-card" id="u8-sec4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.4</span>
+            <span>Network Flows, Residual Networks &amp; Max-Flow Min-Cut Theorem</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Flow Networks and Feasibility Conditions</h4>
+
+<p>Formulated by Lester R. Ford and Delbert R. Fulkerson in 1956, network flow theory provides the computational foundation for logistics, transportation, telecommunications, and combinatorial optimization.</p>
+
+<blockquote class="math-callout">
+<p><strong>Definition 8.5 (Flow Network):</strong> A <strong>flow network</strong> is a directed graph $D = (V, E)$ with:</p>
+<ol>
+  <li>A designated <strong>source</strong> vertex $s \in V$ with indegree 0 (or net supply).</li>
+  <li>A designated <strong>sink</strong> vertex $t \in V$ with outdegree 0 (or net demand).</li>
+  <li>A non-negative capacity function $c: E \to \mathbb{R}_{\ge 0}$ assigning a maximum throughput $c(u, v)$ to each directed edge $(u, v) \in E$.</li>
+</ol>
+</blockquote>
+
+<blockquote class="math-callout">
+<p><strong>Definition 8.6 (Feasible Flow):</strong> A <strong>flow</strong> is a function $f: E \to \mathbb{R}_{\ge 0}$ satisfying:</p>
+<ol>
+  <li><strong>Capacity Constraint:</strong></li>
+</ol>
+</blockquote>
+
+<div class="math-display">$$0 \le f(u, v) \le c(u, v) \quad \forall (u, v) \in E$$</div>
+
+<blockquote class="math-callout">
+<ol>
+  <li><strong>Flow Conservation (Kirchhoff's Current Law):</strong></li>
+</ol>
+</blockquote>
+
+<div class="math-display">$$\sum_{w \in V : (w, u) \in E} f(w, u) = \sum_{w \in V : (u, w) \in E} f(u, w) \quad \forall u \in V \setminus \{s, t\}$$</div>
+
+<p>The total <strong>value of the flow</strong>, denoted $|f|$, is the net flow leaving the source:</p>
+
+<div class="math-display">$$|f| = \sum_{v : (s, v) \in E} f(s, v) - \sum_{v : (v, s) \in E} f(v, s)$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>2. Residual Networks and Augmenting Paths</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 8.7 (Residual Capacity and Residual Network):</strong> Given a flow $f$ in network $D = (V, E)$, the <strong>residual network</strong> $D_f = (V, E_f)$ defines the available capacity on existing edges and reverse flow cancellation:</p>
+<ul>
+  <li><strong>Forward edge residual:</strong> $c_f(u, v) = c(u, v) - f(u, v)$ (capacity to push more flow).</li>
+  <li><strong>Backward edge residual:</strong> $c_f(v, u) = f(u, v)$ (capacity to cancel existing flow).</li>
+</ul>
+<p>An edge $(u, v)$ belongs to $E_f$ if and only if $c_f(u, v) &gt; 0$.</p>
+</blockquote>
+
+<p>An <strong>augmenting path</strong> is a simple directed path from source $s$ to sink $t$ in the residual network $D_f$. The <strong>bottleneck capacity</strong> of an augmenting path $P$ is:</p>
+
+<div class="math-display">$$\gamma(P) = \min_{(u, v) \in P} c_f(u, v) &gt; 0$$</div>
+
+<p>Pushing $\gamma(P)$ flow along $P$ increases total flow $|f|$ by exactly $\gamma(P)$.</p>
+
+<hr class="section-divider-hr">
+
+<h4>3. Cuts in Flow Networks and Weak Duality</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 8.8 ($s$-$t$ Cut and Cut Capacity):</strong> An <strong>$s$-$t$ cut</strong> is a partition of vertices $V = S \cup T$ such that $s \in S$, $t \in T$, and $S \cap T = \emptyset$. The <strong>capacity of the cut</strong>, denoted $C(S, T)$, is the sum of capacities of edges directed from $S$ into $T$:</p>
+</blockquote>
+
+<div class="math-display">$$C(S, T) = \sum_{u \in S, v \in T, (u, v) \in E} c(u, v)$$</div>
+
+<blockquote class="math-callout">
+<p><strong>Lemma 8.1 (Weak Duality of Network Flows):</strong> For any feasible flow $f$ and any $s$-$t$ cut $(S, T)$:</p>
+</blockquote>
+
+<div class="math-display">$$|f| \le C(S, T)$$</div>
+
+<h5>Proof:</h5>
+
+<p>Summing the flow conservation equations over all vertices $u \in S$:</p>
+
+<div class="math-display">$$\sum_{u \in S} \left( \sum_{v \in V} f(u, v) - \sum_{v \in V} f(v, u) \right) = |f|$$</div>
+
+<p>Edges with both endpoints in $S$ cancel in the summation:</p>
+
+<div class="math-display">$$|f| = \sum_{u \in S, v \in T} f(u, v) - \sum_{u \in S, v \in T} f(v, u) \le \sum_{u \in S, v \in T} f(u, v) \le \sum_{u \in S, v \in T} c(u, v) = C(S, T) \quad \blacksquare$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>4. The Max-Flow Min-Cut Theorem (Ford &amp; Fulkerson, 1956)</h4>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 8.9 (Max-Flow Min-Cut Theorem):</strong> In any flow network $D = (V, E)$ with source $s$, sink $t$, and non-negative capacities $c$, the maximum value of an $s$-$t$ flow is equal to the minimum capacity of an $s$-$t$ cut:</p>
+</blockquote>
+
+<div class="math-display">$$\max_f |f| = \min_{(S, T)} C(S, T)$$</div>
+
+<h5>Complete Formal Proof:</h5>
+
+<p>We prove the equivalence of the following three statements:</p>
+
+<ol>
+
+  <li>$f$ is a maximum flow in $D$.</li>
+
+  <li>The residual network $D_f$ contains no augmenting path from $s$ to $t$.</li>
+
+  <li>There exists an $s$-$t$ cut $(S, T)$ such that $|f| = C(S, T)$.</li>
+
+</ol>
+
+<ul>
+
+  <li><strong>(1 $\implies$ 2):</strong> If $D_f$ contained an augmenting path $P$, we could augment $f$ along $P$ by bottleneck $\gamma(P) &gt; 0$, yielding a flow $f'$ with value $|f'| = |f| + \gamma(P) &gt; |f|$, contradicting the maximality of $f$.</li>
+
+  <li><strong>(2 $\implies$ 3):</strong> Suppose $D_f$ contains no augmenting path from $s$ to $t$.</li>
+
+</ul>
+
+<p>Define $S$ as the set of all vertices reachable from $s$ via directed paths in the residual network $D_f$:</p>
+
+<div class="math-display">$$S = \{ v \in V : \exists \text{ path from } s \text{ to } v \text{ in } D_f \}$$</div>
+
+<p>Let $T = V \setminus S$. Clearly $s \in S$. Since there is no augmenting path to $t$ in $D_f$, $t \notin S$, so $t \in T$. Thus $(S, T)$ is a valid $s$-$t$ cut.</p>
+
+<p>Now examine any edge $(u, v) \in E$ with $u \in S$ and $v \in T$:</p>
+
+<ul>
+
+  <li>If $f(u, v) &lt; c(u, v)$, then $c_f(u, v) = c(u, v) - f(u, v) &gt; 0$, meaning $(u, v) \in E_f$.</li>
+
+</ul>
+
+<p>Then since $u \in S$, $v$ would also be reachable from $s$ in $D_f$, placing $v \in S$, contradiction! Therefore, $f(u, v) = c(u, v)$ for all $u \in S, v \in T$.</p>
+
+<p>Similarly, examine any edge $(v, u) \in E$ with $v \in T$ and $u \in S$:</p>
+
+<ul>
+
+  <li>If $f(v, u) &gt; 0$, then backward residual $c_f(u, v) = f(v, u) &gt; 0$, meaning $(u, v) \in E_f$.</li>
+
+</ul>
+
+<p>Again $v$ would be reachable in $D_f$, placing $v \in S$, contradiction! Therefore, $f(v, u) = 0$ for all $v \in T, u \in S$.</p>
+
+<p>Substituting into the net flow equation across $(S, T)$:</p>
+
+<div class="math-display">$$|f| = \sum_{u \in S, v \in T} f(u, v) - \sum_{v \in T, u \in S} f(v, u) = \sum_{u \in S, v \in T} c(u, v) - 0 = C(S, T)$$</div>
+
+<ul>
+
+  <li><strong>(3 $\implies$ 1):</strong> By Weak Duality (Lemma 8.1), $|f'| \le C(S, T)$ for every feasible flow $f'$.</li>
+
+</ul>
+
+<p>If $|f| = C(S, T)$, no flow can exceed $|f|$, hence $f$ is maximal. $\blacksquare$</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_gt_coloring_flows"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u8-sec5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.5</span>
+            <span>Bipartite Matching, Hall's Marriage Theorem &amp; Operations Research Applications</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Matchings in Bipartite Graphs</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 8.9 (Matching and Maximum Matching):</strong> Let $G = (V, E)$ be an undirected graph.</p>
+<ol>
+  <li>A <strong>matching</strong> $M \subseteq E$ is a set of pairwise non-adjacent edges (no two edges share a common vertex).</li>
+  <li>A vertex $v$ is <strong>saturated</strong> (or covered) by $M$ if some edge in $M$ is incident to $v$.</li>
+  <li>A matching $M$ is <strong>maximum</strong> if $|M| \ge |M'|$ for all matchings $M'$.</li>
+  <li>A matching $M$ is <strong>perfect</strong> if it saturates every vertex of $G$.</li>
+</ol>
+</blockquote>
+
+<hr class="section-divider-hr">
+
+<h4>2. Hall's Marriage Theorem (1935)</h4>
+
+<p>Philip Hall established the definitive necessary and sufficient condition for the existence of a matching saturating one side of a bipartite graph:</p>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 8.10 (Hall's Marriage Theorem, 1935):</strong> Let $G = (X \cup Y, E)$ be a bipartite graph with bipartition sets $X$ and $Y$. For any subset $S \subseteq X$, let $N(S) = \bigcup_{v \in S} N(v) \subseteq Y$ denote the open neighborhood of $S$. Then $G$ has a matching saturating every vertex in $X$ if and only if <strong>Hall's Condition</strong> holds:</p>
+</blockquote>
+
+<div class="math-display">$$\forall S \subseteq X, \quad |N(S)| \ge |S|$$</div>
+
+<h5>Complete Formal Proof via Network Flows and Max-Flow Min-Cut:</h5>
+
+<h4>1. Necessity ($\implies$):</h4>
+
+<p>Suppose there exists a matching $M$ saturating all vertices in $X$. Let $S \subseteq X$. Each vertex $u \in S$ is matched by $M$ to a distinct vertex $v_u \in Y$. Because $M \subseteq E$, each $v_u$ is a neighbor of $u$, so $\{v_u : u \in S\} \subseteq N(S)$. Since all $v_u$ are distinct, $|N(S)| \ge |\{v_u : u \in S\}| = |S|$. Hall's condition is strictly necessary.</p>
+
+<h4>2. Sufficiency ($\impliedby$):</h4>
+
+<p>Assume Hall's Condition $|N(S)| \ge |S|$ holds for all $S \subseteq X$. Construct a flow network $D = (V', E')$ as follows:</p>
+
+<ul>
+
+  <li>Add a source vertex $s$ and a sink vertex $t$: $V' = \{s, t\} \cup X \cup Y$.</li>
+
+  <li>Add directed edges $(s, x)$ for all $x \in X$, each with capacity $c(s, x) = 1$.</li>
+
+  <li>For every edge $\{x, y\} \in E$ with $x \in X, y \in Y$, add directed edge $(x, y)$ with capacity $c(x, y) = \infty$.</li>
+
+  <li>Add directed edges $(y, t)$ for all $y \in Y$, each with capacity $c(y, t) = 1$.</li>
+
+</ul>
+
+<p>By the Integrality Theorem for Network Flows, the maximum flow value $|f^*|$ equals the size of the maximum bipartite matching in $G$. A matching saturating $X$ exists if and only if $|f^*| = |X|$.</p>
+
+<p>Suppose for contradiction that $|f^*| &lt; |X|$. By the Max-Flow Min-Cut Theorem (Theorem 8.9), there exists an $s$-$t$ cut $(S', T')$ with capacity:</p>
+
+<div class="math-display">$$C(S', T') = |f^*| &lt; |X|$$</div>
+
+<p>Let $S_X = S' \cap X$ and $S_Y = S' \cap Y$. Edges crossing the cut from $S'$ to $T'$ consist of:</p>
+
+<ul>
+
+  <li>Edges from $s$ to $X \cap T'$: there are $|X \setminus S_X| = |X| - |S_X|$ such edges, each of capacity 1.</li>
+
+  <li>Edges from $S_X$ to $Y \cap T'$: if any edge $\{x, y\}$ has $x \in S_X$ and $y \in T'$, its capacity is $\infty$, making $C(S', T') = \infty$, which contradicts $C(S', T') &lt; |X|$.</li>
+
+</ul>
+
+<p>Therefore, NO edges can go from $S_X$ to $Y \cap T'$, which means $N(S_X) \subseteq S_Y$!</p>
+
+<ul>
+
+  <li>Edges from $S_Y$ to $t$: there are $|S_Y|$ such edges, each of capacity 1.</li>
+
+</ul>
+
+<p>Summing the cut capacity:</p>
+
+<div class="math-display">$$C(S', T') = (|X| - |S_X|) + |S_Y|$$</div>
+
+<p>Since $N(S_X) \subseteq S_Y$, we have $|S_Y| \ge |N(S_X)|$:</p>
+
+<div class="math-display">$$C(S', T') \ge |X| - |S_X| + |N(S_X)|$$</div>
+
+<p>By Hall's Condition applied to the subset $S_X \subseteq X$, we have $|N(S_X)| \ge |S_X|$:</p>
+
+<div class="math-display">$$C(S', T') \ge |X| - |S_X| + |S_X| = |X|$$</div>
+
+<p>This contradicts $C(S', T') &lt; |X|$!</p>
+
+<p>Therefore, the minimum cut capacity must be at least $|X|$. Hence $|f^*| = |X|$, and an integral flow of value $|X|$ exists, providing a matching that saturates every vertex in $X$. $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<h4>3. Operations Research Applications</h4>
+
+<p>The Max-Flow Min-Cut and Matching frameworks govern industrial optimization:</p>
+
+<h4>1. Birkhoff-von Neumann Theorem: Every doubly stochastic matrix is a convex combination of permutation matrices.</h4>
+
+<h4>2. Airline Crew &amp; Job Scheduling: Matching flights to crews subject to qualification constraints.</h4>
+
+<h4>3. Image Segmentation: Min-cut graph cuts partition pixels into foreground and background.</h4>
+
+<h4>4. Stable Marriage &amp; Gale-Shapley Algorithm: Matching medical residents to hospitals under preference rankings.</h4>
+        </div>
+        
+      </section></div>
+
+          <!-- Interactive Simulations Mounting Section -->
+          <div class="sim-section-wrapper" id="sim-section-wrap" style="display: none; margin-top: 3rem;">
+            <div class="section-divider">
+              <span class="divider-label">Interactive Computational Laboratory</span>
+            </div>
+            <div id="simulations-mount"></div>
+          </div>
+
+          <!-- Solved Examination Problems Container -->
+          <div class="problems-section-wrapper" style="margin-top: 3.5rem;">
+            <div class="section-divider">
+              <span class="divider-label">Tiered Solved Examination Problems &amp; Rigorous Derivations</span>
+            </div>
+            <p class="text-muted" style="margin-bottom: 1.5rem; font-size: 0.95rem;">
+              Step-by-step rigorous derivations with unskipped proofs, categorized into Foundational Concepts, Advanced Structural Analysis, and Honors / Proof Challenge tiers.
+            </p>
+            <div id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-easy">Foundational</span>
+            <strong>Example 8.1: Chromatic Number Calculation &amp; Welsh-Powell Greedy Coloring</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Consider a graph $G = (V, E)$ with 7 vertices $V = \{v_1, v_2, v_3, v_4, v_5, v_6, v_7\}$ having vertex degrees:</p>
+
+<div class="math-display">$$\deg(v_1) = 5, \quad \deg(v_2) = 4, \quad \deg(v_3) = 4, \quad \deg(v_4) = 3, \quad \deg(v_5) = 3, \quad \deg(v_6) = 2, \quad \deg(v_7) = 1$$</div>
+
+<p>Edges are:</p>
+
+<div class="math-display">$$\{v_1, v_2\}, \{v_1, v_3\}, \{v_1, v_4\}, \{v_1, v_5\}, \{v_1, v_6\}, \{v_2, v_3\}, \{v_2, v_4\}, \{v_2, v_7\}, \{v_3, v_5\}, \{v_4, v_5\}, \{v_5, v_6\}$$</div>
+
+<ol>
+
+  <li>Apply the <strong>Welsh-Powell Algorithm</strong> to find an upper bound on $\chi(G)$.</li>
+
+  <li>Determine the exact chromatic number $\chi(G)$ by identifying the largest clique $\omega(G)$.</li>
+
+  <li>Compare the result with Brooks' Theorem bound.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p8-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p8-1">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Part 1: Welsh-Powell Greedy Algorithm Execution</strong></p>
+
+<p><strong>Step 1: Order vertices by descending degree:</strong></p>
+
+<div class="math-display">$$\text{Order: } v_1 (\deg 5), \quad v_2 (\deg 4), \quad v_3 (\deg 4), \quad v_4 (\deg 3), \quad v_5 (\deg 3), \quad v_6 (\deg 2), \quad v_7 (\deg 1)$$</div>
+
+<p><strong>Step 2: Assign Color 1 (Red):</strong></p>
+
+<ul>
+
+  <li>Color $v_1$ with <strong>Color 1</strong>.</li>
+
+  <li>Neighbors of $v_1$: $\{v_2, v_3, v_4, v_5, v_6\}$.</li>
+
+  <li>$v_2, v_3, v_4, v_5, v_6$ are adjacent to $v_1$, so none can receive Color 1.</li>
+
+  <li>Next vertex not adjacent to $v_1$ is $v_7$. Edge $\{v_1, v_7\} \notin E$.</li>
+
+  <li>Assign $v_7$ with <strong>Color 1</strong>.</li>
+
+  <li>Vertices colored with Color 1: $\{v_1, v_7\}$.</li>
+
+</ul>
+
+<p><strong>Step 3: Assign Color 2 (Blue):</strong></p>
+
+<ul>
+
+  <li>First uncolored vertex in the list is $v_2$. Color $v_2$ with <strong>Color 2</strong>.</li>
+
+  <li>Neighbors of $v_2$: $\{v_1, v_3, v_4, v_7\}$.</li>
+
+  <li>Check remaining uncolored vertices in order:</li>
+
+  <li>$v_3$: adjacent to $v_2$, skip.</li>
+
+  <li>$v_4$: adjacent to $v_2$, skip.</li>
+
+  <li>$v_5$: not adjacent to $v_2$ ($\{v_2, v_5\} \notin E$). Assign $v_5$ with <strong>Color 2</strong>!</li>
+
+  <li>$v_6$: adjacent to $v_5$, so check if adjacent to $v_2$. $\{v_2, v_6\} \notin E$, but $v_6$ is adjacent to $v_5$ which already has Color 2, skip.</li>
+
+  <li>Vertices colored with Color 2: $\{v_2, v_5\}$.</li>
+
+</ul>
+
+<p><strong>Step 4: Assign Color 3 (Green):</strong></p>
+
+<ul>
+
+  <li>First uncolored vertex is $v_3$. Color $v_3$ with <strong>Color 3</strong>.</li>
+
+  <li>Neighbors of $v_3$: $\{v_1, v_2, v_5\}$.</li>
+
+  <li>Check remaining uncolored vertices:</li>
+
+  <li>$v_4$: $\{v_3, v_4\} \notin E$. Assign $v_4$ with <strong>Color 3</strong>!</li>
+
+  <li>$v_6$: $\{v_3, v_6\} \notin E$ and $\{v_4, v_6\} \notin E$. Assign $v_6$ with <strong>Color 3</strong>!</li>
+
+  <li>Vertices colored with Color 3: $\{v_3, v_4, v_6\}$.</li>
+
+</ul>
+
+<p>All 7 vertices are colored:</p>
+
+<ul>
+
+  <li>Color 1: $\{v_1, v_7\}$</li>
+
+  <li>Color 2: $\{v_2, v_5\}$</li>
+
+  <li>Color 3: $\{v_3, v_4, v_6\}$</li>
+
+</ul>
+
+<p>Welsh-Powell gives an upper bound: $\chi(G) \le 3$.</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 2: Exact Chromatic Number $\chi(G)$</strong></p>
+
+<p>Observe the triangle induced by $\{v_1, v_2, v_3\}$:</p>
+
+<ul>
+
+  <li>$\{v_1, v_2\} \in E$, $\{v_2, v_3\} \in E$, $\{v_1, v_3\} \in E$.</li>
+
+</ul>
+
+<p>This is a clique of size 3: $K_3 \subseteq G$, so $\omega(G) \ge 3$. By Theorem 8.1:</p>
+
+<div class="math-display">$$\chi(G) \ge \omega(G) \ge 3$$</div>
+
+<p>Since we found an explicit valid 3-coloring, we have:</p>
+
+<div class="math-display">$$3 \le \chi(G) \le 3 \implies \chi(G) = 3$$</div>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 3: Comparison with Brooks' Theorem Bound</strong></p>
+
+<ul>
+
+  <li>Maximum degree $\Delta(G) = \deg(v_1) = 5$.</li>
+
+  <li>$G$ is not a complete graph ($n = 7 \ne \Delta + 1 = 6$) and not an odd cycle ($\Delta = 5 \ne 2$).</li>
+
+  <li>Brooks' Theorem states $\chi(G) \le \Delta(G) = 5$.</li>
+
+</ul>
+
+<p>Our exact chromatic number $\chi(G) = 3$ easily satisfies $\chi(G) \le 5$. $\blacksquare$</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-medium">Advanced</span>
+            <strong>Example 8.2: Chromatic Polynomial Computation for the Wheel Graph $W_5$</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>The wheel graph $W_n = C_{n-1} * K_1$ is obtained by joining a central apex vertex $w$ to all vertices of an outer cycle $C_{n-1}$. Consider the wheel graph $W_5$ with 5 vertices (an apex connected to a 4-cycle $C_4$).</p>
+
+<ol>
+
+  <li>Compute the chromatic polynomial $P(W_5, k)$ using the apex reduction method.</li>
+
+  <li>Determine $P(W_5, k)$ via Deletion-Contraction on an outer cycle edge.</li>
+
+  <li>Find the number of valid proper 3-colorings and 4-colorings of $W_5$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p8-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p8-2">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Part 1: Apex Reduction Method</strong></p>
+
+<p>In the wheel graph $W_5 = C_4 * K_1$, the apex vertex $w$ is adjacent to every vertex of the outer cycle $C_4$. In any proper $k$-coloring of $W_5$:</p>
+
+<ol>
+
+  <li>The apex vertex $w$ can be assigned any of the $k$ available colors.</li>
+
+  <li>Once $w$ is assigned color $c(w)$, all 4 cycle vertices $\{v_1, v_2, v_3, v_4\}$ are adjacent to $w$ and cannot use color $c(w)$.</li>
+
+  <li>Therefore, the cycle vertices must be properly colored using the remaining $k - 1$ available colors.</li>
+
+  <li>The number of proper colorings of an outer cycle $C_4$ using $k - 1$ colors is precisely $P(C_4, k - 1)$.</li>
+
+</ol>
+
+<p>Using the cycle formula from Section 8.2:</p>
+
+<div class="math-display">$$P(C_4, m) = (m-1)^4 + (-1)^4(m-1) = (m-1)^4 + (m-1)$$</div>
+
+<p>Substitute $m = k - 1$:</p>
+
+<div class="math-display">$$P(C_4, k - 1) = ((k-1) - 1)^4 + ((k-1) - 1) = (k - 2)^4 + (k - 2)$$</div>
+
+<p>Factoring out $(k - 2)$:</p>
+
+<div class="math-display">$$P(C_4, k - 1) = (k - 2) \left[ (k - 2)^3 + 1 \right]$$</div>
+
+<p>Now multiply by the $k$ choices for the apex:</p>
+
+<div class="math-display">$$P(W_5, k) = k (k - 2) \left[ (k - 2)^3 + 1 \right] = k (k - 2) \left[ k^3 - 6k^2 + 12k - 8 + 1 \right]$$</div>
+
+<div class="math-display">$$P(W_5, k) = k (k - 2) (k^3 - 6k^2 + 12k - 7)$$</div>
+
+<p>Expanding completely:</p>
+
+<div class="math-display">$$k (k-2) (k^3 - 6k^2 + 12k - 7) = (k^2 - 2k)(k^3 - 6k^2 + 12k - 7)$$</div>
+
+<div class="math-display">$$= k^5 - 6k^4 + 12k^3 - 7k^2 - 2k^4 + 12k^3 - 24k^2 + 14k$$</div>
+
+<div class="math-display">$$P(W_5, k) = k^5 - 8k^4 + 24k^3 - 31k^2 + 14k$$</div>
+
+<p>Notice:</p>
+
+<ul>
+
+  <li>Degree is 5 (matches $|V| = 5$).</li>
+
+  <li>Monic leading coefficient is 1.</li>
+
+  <li>Coefficient of $k^4$ is $-8$, which matches $-|E| = -(4 + 4) = -8$!</li>
+
+</ul>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 2: Verification via Deletion-Contraction</strong></p>
+
+<p>Let $e$ be an edge of the outer 4-cycle $C_4$:</p>
+
+<div class="math-display">$$P(W_5, k) = P(W_5 - e, k) - P(W_5 / e, k)$$</div>
+
+<ul>
+
+  <li>In $W_5 - e$, removing an outer edge turns the outer cycle into a path $P_4$.</li>
+
+</ul>
+
+<p>With apex $w$ receiving $k$ choices, $P_4$ has $P(P_4, k - 1) = (k-1)(k-2)^3$ colorings:</p>
+
+<div class="math-display">$$P(W_5 - e, k) = k(k-1)(k-2)^3$$</div>
+
+<ul>
+
+  <li>In $W_5 / e$, contracting an edge of $C_4$ turns $C_4$ into $C_3 \cong K_3$.</li>
+
+</ul>
+
+<p>Thus $W_5 / e \cong K_4$.</p>
+
+<div class="math-display">$$P(W_5 / e, k) = P(K_4, k) = k(k-1)(k-2)(k-3)$$</div>
+
+<ul>
+
+  <li>Subtracting:</li>
+
+</ul>
+
+<div class="math-display">$$P(W_5, k) = k(k-1)(k-2)^3 - k(k-1)(k-2)(k-3)$$</div>
+
+<div class="math-display">$$= k(k-1)(k-2) \left[ (k-2)^2 - (k-3) \right]$$</div>
+
+<div class="math-display">$$= k(k-1)(k-2) \left[ k^2 - 4k + 4 - k + 3 \right]$$</div>
+
+<div class="math-display">$$= k(k-1)(k-2) (k^2 - 5k + 7)$$</div>
+
+<div class="math-display">$$= (k^3 - 3k^2 + 2k)(k^2 - 5k + 7) = k^5 - 8k^4 + 24k^3 - 31k^2 + 14k$$</div>
+
+<p>Both methods match perfectly!</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 3: Evaluation for $k = 3$ and $k = 4$</strong></p>
+
+<ul>
+
+  <li>For $k = 3$:</li>
+
+</ul>
+
+<div class="math-display">$$P(W_5, 3) = 3(3-1)(3-2)(3^2 - 5(3) + 7) = 3(2)(1)(9 - 15 + 7) = 6(1) = 6$$</div>
+
+<p>There are exactly <strong>6 proper 3-colorings</strong> of $W_5$.</p>
+
+<ul>
+
+  <li>For $k = 4$:</li>
+
+</ul>
+
+<div class="math-display">$$P(W_5, 4) = 4(4-1)(4-2)(4^2 - 5(4) + 7) = 4(3)(2)(16 - 20 + 7) = 24(3) = 72$$</div>
+
+<p>There are exactly <strong>72 proper 4-colorings</strong> of $W_5$. $\blacksquare$</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Honors / Proof Challenge</span>
+            <strong>Example 8.3: Complete Formal Proof of the Max-Flow Min-Cut and Menger Equivalence</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <ol>
+
+  <li>Provide the complete formal proof that the Max-Flow Min-Cut Theorem (Theorem 8.9) with unit capacities implies the edge form of Menger's Theorem (Theorem 4.6): in any directed multigraph, the maximum number of edge-disjoint paths from $s$ to $t$ equals the minimum size of an edge cut separating $s$ and $t$.</li>
+
+  <li>Prove the Integrality Theorem for Network Flows: if all edge capacities $c(u, v)$ are non-negative integers, then there exists a maximum flow $f^<em>$ such that $f^</em>(u, v) \in \mathbb{Z}$ for all edges $(u, v) \in E$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p8-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p8-3">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Part 1: Duality Proof — Max-Flow Min-Cut Implies Edge-Menger Theorem</strong></p>
+
+<p>Let $D = (V, E)$ be a directed graph, and let $s, t \in V$ be distinct vertices. Assign capacity $c(e) = 1$ to every directed edge $e \in E$.</p>
+
+<p><strong>1. Step 1: Max-Flow in the Unit Network:</strong> By the Integrality Theorem (Part 2), since every capacity $c(e) \in \{1\}$, there exists a maximum flow $f^*$ such that:</p>
+
+<div class="math-display">$$f^*(e) \in \{0, 1\} \quad \forall e \in E$$</div>
+
+<p>Let $k = |f^*|$ be the maximum flow value.</p>
+
+<p><strong>2. Step 2: Flow Decomposition into Edge-Disjoint Paths:</strong> Let $E^<em> = \{ e \in E : f^</em>(e) = 1 \}$ be the set of saturated edges. Because flow is conserved at every vertex $v \notin \{s, t\}$, the in-degree and out-degree within the subgraph $(V, E^*)$ satisfy:</p>
+
+<div class="math-display">$$\deg_{\text{in}}^*(v) = \deg_{\text{out}}^*(v) \quad \forall v \ne s, t$$</div>
+
+<p>While at $s$: $\deg_{\text{out}}^<em>(s) - \deg_{\text{in}}^</em>(s) = k$, and at $t$: $\deg_{\text{in}}^<em>(t) - \deg_{\text{out}}^</em>(t) = k$.</p>
+
+<p>By the Flow Decomposition Theorem: Any non-negative circulatory/acyclic integer flow can be decomposed into a sum of directed path flows and directed cycle flows. Removing any directed cycles leaves exactly $k$ directed paths $P_1, P_2, \dots, P_k$ from $s$ to $t$. Because each edge $e$ has $f^*(e) \le 1$, no edge can belong to more than one path $P_i$. Therefore, $P_1, P_2, \dots, P_k$ are <strong>mutually edge-disjoint directed paths</strong> from $s$ to $t$! Hence:</p>
+
+<div class="math-display">$$\text{Max number of edge-disjoint } s\text{-}t \text{ paths} \ge k = |f^*|$$</div>
+
+<p>Conversely, if there exist $p$ edge-disjoint paths from $s$ to $t$, sending 1 unit of flow along each path yields a feasible flow of value $p$, so $|f^*| \ge p$. Thus:</p>
+
+<div class="math-display">$$\text{Max number of edge-disjoint } s\text{-}t \text{ paths} = |f^*|$$</div>
+
+<p><strong>3. Step 3: Equivalence with Min-Cut:</strong> By the Max-Flow Min-Cut Theorem (Theorem 8.9):</p>
+
+<div class="math-display">$$|f^*| = \min_{(S, T)} C(S, T)$$</div>
+
+<p>For any $s$-$t$ cut $(S, T)$ with $s \in S, t \in T$, the cut capacity is:</p>
+
+<div class="math-display">$$C(S, T) = \sum_{u \in S, v \in T, (u, v) \in E} c(u, v) = \sum_{u \in S, v \in T, (u, v) \in E} 1 = |\delta^+(S)|$$</div>
+
+<p>where $\delta^+(S)$ is the set of directed edges directed from $S$ to $T$. Deleting $\delta^+(S)$ removes all paths from $s$ to $t$, so $\delta^+(S)$ is an edge cut separating $s$ and $t$. Therefore:</p>
+
+<div class="math-display">$$\min_{(S, T)} C(S, T) = \text{Min size of an edge cut separating } s \text{ from } t$$</div>
+
+<p>Combining the equalities:</p>
+
+<div class="math-display">$$\text{Max edge-disjoint paths} = |f^*| = \min_{(S, T)} C(S, T) = \text{Min size of edge cut}$$</div>
+
+<p>This proves Menger's Theorem (Theorem 4.6) as an exact corollary of Max-Flow Min-Cut duality! $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 2: Complete Proof of the Integrality Theorem</strong></p>
+
+<p>Let $D = (V, E)$ be a network where $c(e) \in \mathbb{Z}_{\ge 0}$ for all $e \in E$.</p>
+
+<p>We prove by induction on the number of augmentations in the Ford-Fulkerson algorithm:</p>
+
+<h4>1. Base Case: Initialize flow $f_0(e) = 0$ for all $e \in E$.</h4>
+
+<p>Clearly $f_0(e) \in \mathbb{Z}$ for all $e \in E$, and $|f_0| = 0 \in \mathbb{Z}$.</p>
+
+<h4>2. Inductive Step:</h4>
+
+<p>Assume after $k$ augmentations, the current flow $f_k$ is integer-valued: $f_k(e) \in \mathbb{Z}$ for all $e \in E$. In the residual network $D_{f_k}$:</p>
+
+<ul>
+
+  <li>Residual capacity for forward edge: $c_{f_k}(u, v) = c(u, v) - f_k(u, v) \in \mathbb{Z}$.</li>
+
+  <li>Residual capacity for backward edge: $c_{f_k}(v, u) = f_k(u, v) \in \mathbb{Z}$.</li>
+
+</ul>
+
+<p>All residual capacities in $D_{f_k}$ are non-negative integers!</p>
+
+<p>If no augmenting path exists from $s$ to $t$, the algorithm terminates, and $f_k$ is an integer maximum flow. If an augmenting path $P$ exists: The bottleneck capacity is:</p>
+
+<div class="math-display">$$\gamma(P) = \min_{e \in P} c_{f_k}(e)$$</div>
+
+<p>Since the minimum of a finite set of positive integers is a positive integer, $\gamma(P) \in \mathbb{Z}^+ \ge 1$.</p>
+
+<p>The updated flow $f_{k+1}$ satisfies:</p>
+
+<div class="math-display">$$f_{k+1}(e) = \begin{cases} f_k(e) + \gamma(P) &amp; \text{if } e \text{ is a forward edge on } P \\ f_k(e) - \gamma(P) &amp; \text{if } e \text{ is a backward edge on } P \\ f_k(e) &amp; \text{otherwise} \end{cases}$$</div>
+
+<p>Since integers are closed under addition and subtraction, $f_{k+1}(e) \in \mathbb{Z}$ for all $e \in E$. Furthermore, the flow value increases by at least 1:</p>
+
+<div class="math-display">$$|f_{k+1}| = |f_k| + \gamma(P) \ge |f_k| + 1$$</div>
+
+<p>Since $|f| \le C(\{s\}, V \setminus \{s\}) &lt; \infty$, the algorithm must terminate in finitely many iterations. Upon termination, $f^*$ is an integer maximum flow. $\blacksquare$</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer">
+            <div class="reader-trust-links">
+              <a href="index" class="reader-trust-link">← All Academic Departments</a>
+              <a href="reader" class="reader-trust-link">Quantum Mechanics I</a>
+              <a href="mechanics" class="reader-trust-link">Mechanics</a>
+              <a href="electrodynamics" class="reader-trust-link">Electrodynamics</a>
+              <a href="optics" class="reader-trust-link">Wave Optics</a>
+              <a href="statistical-mechanics" class="reader-trust-link">Statistical Mechanics</a>
+              <a href="properties-of-matter" class="reader-trust-link">Properties of Matter</a>
+              <a href="electricity-magnetism" class="reader-trust-link">Electricity &amp; Magnetism</a>
+              <a href="thermal-physics" class="reader-trust-link">Thermal Physics</a>
+              <a href="classical-mechanics" class="reader-trust-link">Classical Mechanics</a>
+              <a href="basic-electronics" class="reader-trust-link">Basic Electronics</a>
+              <a href="atomic-molecular-physics" class="reader-trust-link">Atomic &amp; Molecular Physics</a>
+              <a href="solid-state-physics" class="reader-trust-link">Solid State Physics</a>
+              <a href="nuclear-physics" class="reader-trust-link">Nuclear Physics</a>
+              <a href="digital-electronics" class="reader-trust-link">Digital Electronics</a>
+              <a href="quantum-mechanics-2" class="reader-trust-link">Quantum Mechanics II</a>
+              <a href="astrophysics" class="reader-trust-link">Astrophysics</a>
+              <a href="plasma-physics" class="reader-trust-link">Plasma Physics</a>
+              <a href="solid-state-physics-2" class="reader-trust-link">Solid State Physics II</a>
+              <a href="nuclear-physics-2" class="reader-trust-link">Nuclear Physics II</a>
+              <a href="reactor-physics" class="reader-trust-link">Reactor Physics</a>
+              <a href="calculus-1" class="reader-trust-link">Calculus I</a>
+              <a href="geometry-2d" class="reader-trust-link">Two-Dimensional Geometry</a>
+              <a href="basic-algebra" class="reader-trust-link">Basic Algebra</a>
+              <a href="calculus-2" class="reader-trust-link">Calculus II</a>
+              <a href="geometry-3d" class="reader-trust-link">3D &amp; Vector Geometry</a>
+              <a href="calculus-3" class="reader-trust-link">Calculus III</a>
+              <a href="linear-algebra" class="reader-trust-link">Linear Algebra</a>
+              <a href="ordinary-differential-equations-1" class="reader-trust-link">Differential Equations I</a>
+              <a href="ordinary-differential-equations-2" class="reader-trust-link">Differential Equations II</a>
+              <a href="complex-analysis" class="reader-trust-link">Complex Analysis</a>
+              <a href="numerical-analysis" class="reader-trust-link">Numerical Analysis</a>
+              <a href="abstract-algebra" class="reader-trust-link">Abstract Algebra</a>
+              <a href="graph-theory" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Graph Theory</a>
+              <a href="real-analysis" class="reader-trust-link">Real Analysis</a>
+              <a href="differential-geometry" class="reader-trust-link">Differential Geometry</a>
+              <a href="number-theory" class="reader-trust-link">Theory of Numbers</a>
+              <a href="topology" class="reader-trust-link">General Topology</a>
+              <a href="partial-differential-equations" class="reader-trust-link">Partial Differential Equations</a>
+              <a href="discrete-mathematics" class="reader-trust-link">Discrete Mathematics</a>
+              <a href="about" class="reader-trust-link">About &amp; Editorial</a>
+              <a href="privacy" class="reader-trust-link">Privacy Policy</a>
+              <a href="terms" class="reader-trust-link">Terms of Service</a>
+              <a href="https://discord.gg/tBBKtvFJzW" target="_blank" rel="noopener noreferrer" class="reader-trust-link" style="color: #a5b4fc;">💬 Discord Community</a>
+              <a href="mailto:shahriyarkarimsiam@gmail.com" class="reader-trust-link">Contact (shahriyarkarimsiam@gmail.com)</a>
+            </div>
+            <p class="reader-trust-copy">© 2026 OpenSTEM Global Academic Press • Free Open-Access Academic Library • Peer-Reviewed University Textbooks</p>
+          </footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="graph-theory-chapter-7">← Previous chapter</a><a href="graph-theory">Book contents</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="graph-theory-sims.js?v=20261008_v2"></script>
+  <script src="graph-theory-data.js?v=20261008_v2"></script>
+  <script src="app.js?v=20261011_reader_catalog_v1"></script>
+
+
+</body></html>

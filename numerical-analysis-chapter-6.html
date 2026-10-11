@@ -1,0 +1,670 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Unit 6: Convergence &amp; Error Analysis for Initial Value Problems | Numerical Analysis &amp; Computational Methods | OpenSTEM Library</title>
+  <meta name="description" content="Rigorous framework of Local Truncation Error (LTE) versus Global Truncation Error (GTE), consistency, discrete Gronwall inequality, global convergence theorem for Lipschitz vector fields, and step-size adaptation.">
+  <meta name="keywords" content="Numerical Analysis, Computational Methods, Floating Point Error, IEEE 754, Bisection Method, Regula Falsi, Newton-Raphson, Aitken Delta Squared, Polynomial Interpolation, Lagrange Interpolation, Newton Divided Differences, Chebyshev Nodes, Runge Phenomenon, Numerical Differentiation, Richardson Extrapolation, Simpson Rule, Weddle Rule, Gaussian Quadrature, Gauss-Legendre, LU Decomposition, Cholesky Factorization, Jacobi Method, Gauss-Seidel, SOR Method, Picard Iteration, Runge-Kutta, RK4, Butcher Tableau, Local Truncation Error, Global Truncation Error, Discrete Gronwall Inequality, Adaptive Step Size, Dahlquist Test Equation, Absolute Stability Region, Stiff Differential Equations, A-Stability, L-Stability, Linear Multistep Methods, Adams-Bashforth, Adams-Moulton, Predictor-Corrector, BDF, Dahlquist Root Condition, Dahlquist Barriers, Boundary Value Problems, Linear Shooting Method, Nonlinear Shooting Method, Variational Sensitivity Equations, Finite Difference Method, Tridiagonal Matrix Algorithm, Thomas Algorithm">
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/numerical-analysis-chapter-6">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Numerical Analysis &amp; Computational Methods: Algorithms, Error Analysis, Quadrature, Linear Systems &amp; Differential Equations | OpenSTEM Digital Academic Press">
+  <meta property="og:description" content="Exhaustive university honors textbook with 8 chapters, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
+  <meta property="og:image" content="https://openstemlibrary.org/logo.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Numerical Analysis & Computational Methods: Algorithms, Error Analysis, Quadrature, Linear Systems & Differential Equations","description":"Comprehensive university honors curriculum covering algorithmic numerical approximations, IEEE floating-point error theory, bracketing and open root-finding, polynomial interpolation and Runge's phenomenon, numerical differentiation and high-order Gaussian quadrature, direct and iterative numerical linear algebra, single-step and multi-step ODE initial value solvers, Dahlquist absolute stability theory, stiff differential equations, and shooting and finite difference boundary value algorithms.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Digital Academic Press","url":"https://openstemlibrary.org"},"educationalLevel":"Undergraduate B.Sc. Honors & STEM Foundation","isAccessibleForFree":true}</script>
+
+  <!-- Google Fonts: Inter, Fira Code & Newsreader -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261011_reader_catalog_v1">
+  <!-- Google AdSense Official Script -->
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4546869673631824" crossorigin="anonymous"></script>
+</head>
+<body data-book-path="numerical-analysis.html" data-chapter-index="5">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Numerical Analysis</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search root-finding, interpolation, RK4, stiff ODEs, shooting..." class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="numerical-analysis" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Unit 1: Non-Linear Equations in a Single Variable &amp; Foundations of Numerical Error</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="numerical-analysis-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Unit 2: Polynomial Interpolation, Finite Differences &amp; Approximation Theory</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="numerical-analysis-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Unit 3: Numerical Differentiation, Richardson Extrapolation &amp; Advanced Quadrature</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="numerical-analysis-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Unit 4: Numerical Linear Algebra &amp; Multi-Variable Non-Linear Systems</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="numerical-analysis-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Unit 5: Initial Value Problems for Ordinary Differential Equations: Single-Step Methods</span></a></li><li class="unit-nav-item active" data-unit-index="5"><a href="numerical-analysis-chapter-6" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Unit 6: Convergence &amp; Error Analysis for Initial Value Problems</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="numerical-analysis-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Unit 7: Absolute Stability Analysis, Stiff Differential Equations &amp; Linear Multi-Step Methods</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="numerical-analysis-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Unit 8: Boundary Value Problems for Ordinary Differential Equations: Shooting &amp; Finite Differences</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Mathematics / Computational Mathematics</span>
+          <span class="badge-pill badge-credits">Numerical Analysis &amp; Computational Methods</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">
+            🔒 <span>In-Browser Protected • Direct Download Disabled</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 6 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Unit 6: Convergence &amp; Error Analysis for Initial Value Problems</h1>
+            <p class="unit-desc-lead" id="unit-desc">Rigorous framework of Local Truncation Error (LTE) versus Global Truncation Error (GTE), consistency, discrete Gronwall inequality, global convergence theorem for Lipschitz vector fields, and step-size adaptation.</p>
+          </header>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="u6-sec1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.1</span>
+            <span>Local Truncation Error (LTE), Consistency &amp; Global Truncation Error (GTE)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. General One-Step Numerical Integrator</h4>
+
+<p>Any autonomous or non-autonomous one-step method can be expressed in the canonical form:</p>
+
+<div class="math-display">$$y_{n+1} = y_n + h \Phi(t_n, y_n; h)$$</div>
+
+<p>where $\Phi: [t_0, T] \times \mathbb{R}^d \times [0, h_0] \to \mathbb{R}^d$ is the continuous <strong>increment function</strong>.</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Formal Definitions of Error and Consistency</h4>
+
+<p>Let $y(t)$ denote the exact analytical solution of the IVP $y' = f(t, y), y(t_0) = y_0$.</p>
+
+<h5>Definition 1: Local Truncation Error (LTE)</h5>
+
+<p>The local truncation error $d_{n+1}$ (or residual defect) is the error introduced in a single step starting from the exact trajectory:</p>
+
+<div class="math-display">$$d_{n+1} = y(t_{n+1}) - \left[ y(t_n) + h \Phi(t_n, y(t_n); h) \right]$$</div>
+
+<p>The <strong>local truncation error per unit step</strong> is defined by:</p>
+
+<div class="math-display">$$\tau_n(h) = \frac{d_{n+1}}{h} = \frac{y(t_{n+1}) - y(t_n)}{h} - \Phi(t_n, y(t_n); h)$$</div>
+
+<h5>Definition 2: Consistency</h5>
+
+<p>A numerical method is said to be <strong>consistent</strong> with the ODE if the local truncation error per unit step vanishes as $h \to 0$:</p>
+
+<div class="math-display">$$\lim_{h \to 0} \max_{0 \le n \le N-1} \|\tau_n(h)\| = 0$$</div>
+
+<p>Since $\lim_{h \to 0} \frac{y(t_{n+1}) - y(t_n)}{h} = y'(t_n) = f(t_n, y(t_n))$, consistency is mathematically equivalent to:</p>
+
+<div class="math-display">$$\Phi(t, y; 0) = f(t, y) \quad \forall (t, y)$$</div>
+
+<h5>Definition 3: Order of Consistency</h5>
+
+<p>A numerical method has <strong>order of consistency $p$</strong> if there exists a constant $C &gt; 0$ such that:</p>
+
+<div class="math-display">$$\|\tau_n(h)\| \le C h^p \iff \|d_{n+1}\| \le C h^{p+1}$$</div>
+
+<p>as $h \to 0$ for all sufficiently smooth solutions $y(t)$.</p>
+
+<hr class="section-divider-hr">
+
+<h4>3. Global Truncation Error (GTE)</h4>
+
+<h5>Definition 4: Global Error</h5>
+
+<p>The true global error at grid point $t_n = t_0 + n h$ is the accumulated difference:</p>
+
+<div class="math-display">$$e_n = y(t_n) - y_n$$</div>
+
+<p>A numerical method is <strong>convergent of order $p$</strong> if:</p>
+
+<div class="math-display">$$\max_{0 \le n \le N} \|e_n\| = \mathcal{O}(h^p) \quad \text{as } h \to 0 \text{ with } N h = T - t_0$$</div>
+
+<p><em>The fundamental question of numerical analysis:</em> Under what mathematical conditions does local consistency of order $p$ ($\tau = \mathcal{O}(h^p)$) guarantee global convergence of order $p$ ($\|e_n\| = \mathcal{O}(h^p)$)?</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_na_convergence_order"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u6-sec2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.2</span>
+            <span>The Discrete Gronwall Lemma &amp; Proof of Global Convergence</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. The Discrete Gronwall Inequality</h4>
+
+<p>The fundamental analytical tool for proving convergence in difference equations is the discrete analog of the Gronwall-Bellman inequality.</p>
+
+<blockquote class="math-callout">
+<p><strong>Lemma (Discrete Gronwall Inequality):</strong> Let $\{z_n\}_{n=0}^N$ be a sequence of non-negative real numbers satisfying:</p>
+</blockquote>
+
+<div class="math-display">$$z_{n+1} \le (1 + A) z_n + B, \quad \forall n = 0, 1, \dots, N-1$$</div>
+
+<blockquote class="math-callout">
+<p>where $A &gt; 0$ and $B \ge 0$. Then:</p>
+</blockquote>
+
+<div class="math-display">$$z_n \le e^{n A} z_0 + B \frac{e^{n A} - 1}{A}, \quad \forall n = 0, 1, \dots, N$$</div>
+
+<h5>Proof:</h5>
+
+<p>Unrolling the recursion:</p>
+
+<div class="math-display">$$\begin{aligned} z_1 &amp;\le (1 + A) z_0 + B \\ z_2 &amp;\le (1 + A)^2 z_0 + B [1 + (1 + A)] \\ &amp;\;\;\vdots \\ z_n &amp;\le (1 + A)^n z_0 + B \sum_{k=0}^{n-1} (1 + A)^k \end{aligned}$$</div>
+
+<p>Summing the geometric progression $\sum_{k=0}^{n-1} (1 + A)^k = \frac{(1 + A)^n - 1}{A}$:</p>
+
+<div class="math-display">$$z_n \le (1 + A)^n z_0 + B \frac{(1 + A)^n - 1}{A}$$</div>
+
+<p>Using the elementary inequality $1 + A \le e^A$ for all $A \ge 0$, we have $(1 + A)^n \le e^{n A}$. Substituting this yields the result. $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. The Global Convergence Theorem</h4>
+
+<blockquote class="math-callout">
+<p><strong>Theorem (Convergence of One-Step Methods):</strong> Consider the IVP $y' = f(t, y), y(t_0) = y_0$ on $[t_0, T]$. Assume:</p>
+<ol>
+  <li>The increment function $\Phi(t, y; h)$ is Lipschitz continuous in $y$ with Lipschitz constant $L_\Phi$:</li>
+</ol>
+</blockquote>
+
+<div class="math-display">$$\|\Phi(t, u; h) - \Phi(t, v; h)\| \le L_\Phi \|u - v\|$$</div>
+
+<blockquote class="math-callout">
+<ol>
+  <li>The method is consistent of order $p$: $\|\tau_n(h)\| \le C h^p$.</li>
+  <li>The initial error satisfies $\|e_0\| = \|y(t_0) - y_0\| \le C_0 h^p$.</li>
+</ol>
+<p>Then the global truncation error satisfies:</p>
+</blockquote>
+
+<div class="math-display">$$\|e_n\| \le e^{L_\Phi (t_n - t_0)} \|e_0\| + \frac{C h^p}{L_\Phi} \left( e^{L_\Phi (t_n - t_0)} - 1 \right) = \mathcal{O}(h^p)$$</div>
+
+<blockquote class="math-callout">
+<p>for all $n \le N = (T - t_0)/h$.</p>
+</blockquote>
+
+<h5>Proof:</h5>
+
+<p>By definition of the numerical method and exact solution:</p>
+
+<div class="math-display">$$y_{n+1} = y_n + h \Phi(t_n, y_n; h)$$</div>
+
+<div class="math-display">$$y(t_{n+1}) = y(t_n) + h \Phi(t_n, y(t_n); h) + h \tau_n(h)$$</div>
+
+<p>Subtracting the numerical scheme from the exact expansion:</p>
+
+<div class="math-display">$$e_{n+1} = e_n + h \left[ \Phi(t_n, y(t_n); h) - \Phi(t_n, y_n; h) \right] + h \tau_n(h)$$</div>
+
+<p>Applying the triangle inequality and Lipschitz property of $\Phi$:</p>
+
+<div class="math-display">$$\|e_{n+1}\| \le \|e_n\| + h L_\Phi \|e_n\| + h \|\tau_n(h)\| = (1 + h L_\Phi) \|e_n\| + C h^{p+1}$$</div>
+
+<p>Set $z_n = \|e_n\|$, $A = h L_\Phi$, and $B = C h^{p+1}$ in the Discrete Gronwall Lemma:</p>
+
+<div class="math-display">$$\|e_n\| \le e^{n h L_\Phi} \|e_0\| + C h^{p+1} \frac{e^{n h L_\Phi} - 1}{h L_\Phi}$$</div>
+
+<p>Since $n h = t_n - t_0$:</p>
+
+<div class="math-display">$$\|e_n\| \le e^{L_\Phi (t_n - t_0)} \|e_0\| + \frac{C h^p}{L_\Phi} \left( e^{L_\Phi (t_n - t_0)} - 1 \right)$$</div>
+
+<p>As $h \to 0$, $\|e_n\| \to 0$ uniformly on $[t_0, T]$. This proves unconditional global convergence of order $p$. $\blacksquare$</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_na_convergence_order"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u6-sec3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.3</span>
+            <span>Propagation of Round-Off Errors &amp; Optimal Step Size Selection</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Interplay of Truncation Error and Round-Off Error</h4>
+
+<p>In finite-precision floating-point arithmetic (IEEE 754), each evaluation of the increment function introduces a round-off error $\epsilon_n \in \mathbb{R}^d$, bounded by machine epsilon:</p>
+
+<div class="math-display">$$\|\epsilon_n\| \le \epsilon_{\text{mach}} \approx 1.11 \times 10^{-16} \text{ (double precision)}$$</div>
+
+<p>The actual computed sequence $\{\tilde{y}_n\}$ satisfies:</p>
+
+<div class="math-display">$$\tilde{y}_{n+1} = \tilde{y}_n + h \Phi(t_n, \tilde{y}_n; h) + \epsilon_n$$</div>
+
+<p>The total computational error $\tilde{e}_n = y(t_n) - \tilde{y}_n$ combines truncation error and floating-point round-off:</p>
+
+<div class="math-display">$$\|\tilde{e}_{n+1}\| \le (1 + h L) \|\tilde{e}_n\| + C h^{p+1} + \epsilon_{\text{mach}}$$</div>
+
+<p>Applying Gronwall's inequality:</p>
+
+<div class="math-display">$$\|\tilde{e}_n\| \le \frac{e^{L(T - t_0)} - 1}{L} \left( C h^p + \frac{\epsilon_{\text{mach}}}{h} \right)$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>2. The Optimal Step Size Trade-Off</h4>
+
+<p>The total error bound as a function of step size $h$ is:</p>
+
+<div class="math-display">$$\mathcal{E}(h) = C_1 h^p + \frac{C_2 \epsilon_{\text{mach}}}{h}$$</div>
+
+<ul>
+
+  <li>For large $h$, truncation error $C_1 h^p$ dominates.</li>
+
+  <li>For small $h$, round-off error $\frac{C_2 \epsilon_{\text{mach}}}{h}$ blows up as $\mathcal{O}(h^{-1})$ due to accumulation across $N = \mathcal{O}(h^{-1})$ steps!</li>
+
+</ul>
+
+<h5>Minimizing Total Error:</h5>
+
+<p>Differentiating $\mathcal{E}(h)$ with respect to $h$ and equating to zero:</p>
+
+<div class="math-display">$$\frac{d\mathcal{E}}{dh} = p C_1 h^{p-1} - \frac{C_2 \epsilon_{\text{mach}}}{h^2} = 0 \implies h_{\text{optimal}} = \left( \frac{C_2 \epsilon_{\text{mach}}}{p C_1} \right)^{\frac{1}{p+1}}$$</div>
+
+<p>| Method | Order $p$ | Scaling of $h_{\text{opt}}$ | Approximate $h_{\text{opt}}$ (Double Prec.) | | :--- | :--- | :--- | :--- | | Forward Euler | $p = 1$ | $\sim \sqrt{\epsilon_{\text{mach}}}$ | $\sim 10^{-8}$ | | Heun / RK2 | $p = 2$ | $\sim \epsilon_{\text{mach}}^{1/3}$ | $\sim 10^{-5.3}$ | | Classical RK4 | $p = 4$ | $\sim \epsilon_{\text{mach}}^{1/5}$ | $\sim 10^{-3.2}$ |</p>
+
+<p>This confirms why higher-order methods are so computationally superior: RK4 reaches near-machine accuracy with step sizes around $10^{-3}$, while Euler would require $10^8$ steps and suffer devastating round-off accumulation.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_na_convergence_order"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u6-sec4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.4</span>
+            <span>Adaptive Step-Size Control &amp; Embedded Runge-Kutta Pairs</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Step Doubling (Richardson Extrapolation)</h4>
+
+<p>To dynamically adapt $h$ to maintain a user-specified tolerance $\text{TOL}$, we need an accurate local error estimate $E_n \approx d_{n+1}$. In <strong>step doubling</strong>:</p>
+
+<ol>
+
+  <li>Take one step of size $2h$ from $t_n$ to get $y^{(1)}$.</li>
+
+  <li>Take two steps of size $h$ from $t_n$ to get $y^{(2)}$.</li>
+
+</ol>
+
+<p>Assuming order $p$, the local errors satisfy:</p>
+
+<div class="math-display">$$y(t_n + 2h) - y^{(1)} = C (2h)^{p+1} + \mathcal{O}(h^{p+2}) = 2^{p+1} C h^{p+1}$$</div>
+
+<div class="math-display">$$y(t_n + 2h) - y^{(2)} = 2 C h^{p+1} + \mathcal{O}(h^{p+2})$$</div>
+
+<p>Subtracting the two solutions isolates the local error:</p>
+
+<div class="math-display">$$y^{(2)} - y^{(1)} = (2^{p+1} - 2) C h^{p+1} \implies \text{Error Estimate: } E_n = \frac{\|y^{(2)} - y^{(1)}\|}{2^p - 1}$$</div>
+
+<p><em>Cost:</em> Requires $3$ times the work per accepted step!</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Embedded Runge-Kutta Pairs (Fehlberg, Dormand-Prince)</h4>
+
+<p>Erwin Fehlberg (1969) realized that two Runge-Kutta methods of orders $p$ and $p+1$ (or $p$ and $p-1$) can be constructed that <strong>share the exact same stage evaluations $\{k_i\}$</strong>:</p>
+
+<div class="math-display">$$\begin{aligned} y_{n+1} &amp;= y_n + h \sum_{i=1}^s b_i k_i \quad (\text{Order } p) \\ \hat{y}_{n+1} &amp;= y_n + h \sum_{i=1}^s \hat{b}_i k_i \quad (\text{Order } p+1) \end{aligned}$$</div>
+
+<p>The local truncation error estimate is computed for <strong>zero additional function evaluations</strong>:</p>
+
+<div class="math-display">$$E_{n+1} = \|\hat{y}_{n+1} - y_{n+1}\| = h \left\| \sum_{i=1}^s (\hat{b}_i - b_i) k_i \right\|$$</div>
+
+<h5>The Adaptive Step-Size Update Law:</h5>
+
+<p>If $E_{n+1} \le \text{TOL}$, the step is <strong>accepted</strong>. If $E_{n+1} &gt; \text{TOL}$, the step is <strong>rejected</strong> and repeated. In either case, the optimal next step size $h_{\text{new}}$ is governed by the asymptotic scaling $E \propto h^{p+1}$:</p>
+
+<div class="math-display">$$h_{\text{new}} = h \cdot \min\left( \text{fac}_{\max}, \, \max\left( \text{fac}_{\min}, \, S \left( \frac{\text{TOL}}{E_{n+1}} \right)^{\frac{1}{p+1}} \right) \right)$$</div>
+
+<p>where $S \approx 0.85 - 0.90$ is a conservative safety factor, and $\text{fac}_{\min} \approx 0.2, \text{fac}_{\max} \approx 5.0$ prevent erratic step fluctuations.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_na_convergence_order"></div>
+          </div>
+        
+      </section></div>
+
+          <!-- Tiered Solved Practice Problems Section -->
+          <div class="practice-problems-section">
+            <div class="prob-sec-header">
+              <h2 class="prob-sec-title">Tiered Solved Practice Problems &amp; Examination Proofs</h2>
+              <p class="prob-sec-desc">Comprehensive analytical derivations, multi-tier solutions (Foundational, Intermediate Algorithmic, and Honors/Proof Challenge) with complete line-by-line verification.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-easy">Tier 1: Foundational Concept</span>
+            <strong>Example 6.1: Consistency and Local Truncation Error of a Multi-Stage Increment Function</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Consider the explicit one-step method:</p>
+
+<div class="math-display">$$y_{n+1} = y_n + h \left[ \frac{1}{4} f(t_n, y_n) + \frac{3}{4} f\left(t_n + \frac{2}{3} h, y_n + \frac{2}{3} h f(t_n, y_n)\right) \right]$$</div>
+
+<ol>
+
+  <li>Identify the increment function $\Phi(t, y; h)$ and prove whether the method is consistent with $y' = f(t, y)$. 2. Expand $\Phi(t, y; h)$ in powers of $h$ and determine the order of consistency $p$ and the principal local truncation error term.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-na-prob-6-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-na-prob-6-1">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Step 1: Increment Function and Consistency</strong> The increment function is:</p>
+
+<div class="math-display">$$\Phi(t, y; h) = \frac{1}{4} f(t, y) + \frac{3}{4} f\left(t + \frac{2}{3} h, \, y + \frac{2}{3} h f(t, y)\right)$$</div>
+
+<p>Setting $h = 0$:</p>
+
+<div class="math-display">$$\Phi(t, y; 0) = \frac{1}{4} f(t, y) + \frac{3}{4} f(t, y) = \left( \frac{1}{4} + \frac{3}{4} \right) f(t, y) = f(t, y)$$</div>
+
+<p>Since $\Phi(t, y; 0) \equiv f(t, y)$, the method is <strong>strictly consistent</strong>.</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Step 2: Taylor Expansion of $\Phi$ and Order Determination</strong> Expand the second evaluation using bivariate Taylor series:</p>
+
+<div class="math-display">$$f\left(t + \frac{2}{3} h, \, y + \frac{2}{3} h f\right) = f + \frac{2}{3} h f_t + \frac{2}{3} h f f_y + \frac{1}{2} \left( \frac{4}{9} h^2 f_{tt} + \frac{8}{9} h^2 f f_{ty} + \frac{4}{9} h^2 f^2 f_{yy} \right) + \mathcal{O}(h^3)$$</div>
+
+<p>Substitute into $\Phi(t, y; h)$:</p>
+
+<div class="math-display">$$\begin{aligned} \Phi(t, y; h) &amp;= \frac{1}{4} f + \frac{3}{4} \left[ f + \frac{2}{3} h (f_t + f f_y) + \frac{2}{9} h^2 (f_{tt} + 2 f f_{ty} + f^2 f_{yy}) + \mathcal{O}(h^3) \right] \\ &amp;= f + \frac{1}{2} h (f_t + f f_y) + \frac{1}{6} h^2 (f_{tt} + 2 f f_{ty} + f^2 f_{yy}) + \mathcal{O}(h^3) \end{aligned}$$</div>
+
+<p>Now compare with the true Taylor expansion of the exact solution:</p>
+
+<div class="math-display">$$\frac{y(t + h) - y(t)}{h} = y' + \frac{h}{2} y'' + \frac{h^2}{6} y''' + \mathcal{O}(h^3)$$</div>
+
+<p>where:</p>
+
+<div class="math-display">$$y' = f$$</div>
+
+<div class="math-display">$$y'' = f_t + f f_y$$</div>
+
+<div class="math-display">$$y''' = (f_{tt} + 2 f f_{ty} + f^2 f_{yy}) + f_y (f_t + f f_y)$$</div>
+
+<p>Compute the local truncation error per unit step:</p>
+
+<div class="math-display">$$\begin{aligned} \tau(h) &amp;= \frac{y(t + h) - y(t)}{h} - \Phi(t, y; h) \\ &amp;= \left[ f - f \right] + h \left[ \frac{1}{2} (f_t + f f_y) - \frac{1}{2} (f_t + f f_y) \right] \\ &amp;\quad + h^2 \left[ \frac{1}{6} y''' - \frac{1}{6} (f_{tt} + 2 f f_{ty} + f^2 f_{yy}) \right] + \mathcal{O}(h^3) \\ &amp;= \frac{h^2}{6} f_y (f_t + f f_y) + \mathcal{O}(h^3) \end{aligned}$$</div>
+
+<p>Since $\tau(h) = \mathcal{O}(h^2)$ and does not vanish for general $f$, the method has <strong>order of consistency $p = 2$</strong> (second-order accuracy, matching Ralston's RK2 method).</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-medium">Tier 2: Advanced Algorithmic</span>
+            <strong>Example 6.2: Adaptive Step-Size Controller: Rejection, Acceptance and Scaling</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An embedded Runge-Kutta pair of orders 4 and 5 (such as RKF45) is applied to an IVP with user tolerance $\text{TOL} = 1.0 \times 10^{-5}$ and safety factor $S = 0.9$. 1. At step $n$, using current step size $h_n = 0.1$, the 4th-order solution is $y_{n+1} = 2.451820$ and the 5th-order solution is $\hat{y}_{n+1} = 2.451892$. Determine if the step is accepted or rejected, and compute the adjusted step size $h_{n+1}$. 2. If at the next accepted step the estimated error drops to $E = 1.2 \times 10^{-7}$, compute the accelerated step size proposed for the subsequent interval.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-na-prob-6-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-na-prob-6-2">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Step 1: Analysis at $h_n = 0.1$</strong> Compute the local error estimate:</p>
+
+<div class="math-display">$$E = |\hat{y}_{n+1} - y_{n+1}| = |2.451892 - 2.451820| = 0.000072 = 7.2 \times 10^{-5}$$</div>
+
+<p>Compare with tolerance:</p>
+
+<div class="math-display">$$\text{TOL} = 1.0 \times 10^{-5}$$</div>
+
+<p>Since $E = 7.2 \times 10^{-5} &gt; 1.0 \times 10^{-5}$, the error violates tolerance. Therefore, the step is <strong>REJECTED</strong> and must be recomputed!</p>
+
+<p>Compute the scaled step size:</p>
+
+<div class="math-display">$$h_{\text{retry}} = h_n \cdot S \left( \frac{\text{TOL}}{E} \right)^{1/5} = 0.1 \cdot 0.9 \left( \frac{1.0 \times 10^{-5}}{7.2 \times 10^{-5}} \right)^{0.2} = 0.09 \cdot \left( \frac{1}{7.2} \right)^{0.2}$$</div>
+
+<p>Evaluating:</p>
+
+<div class="math-display">$$\left( \frac{1}{7.2} \right)^{0.2} \approx 0.6756$$</div>
+
+<div class="math-display">$$h_{\text{retry}} = 0.09 \times 0.6756 \approx 0.0608$$</div>
+
+<p>The solver shrinks the step size to $h \approx 0.0608$ and repeats the step from $t_n$.</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Step 2: Analysis when $E = 1.2 \times 10^{-7}$</strong> Assuming current step size is $h = 0.0608$: Since $E = 1.2 \times 10^{-7} \le 1.0 \times 10^{-5}$, the step is <strong>ACCEPTED</strong>.</p>
+
+<p>Compute the expanded step size for the subsequent step:</p>
+
+<div class="math-display">$$h_{\text{next}} = h \cdot S \left( \frac{\text{TOL}}{E} \right)^{1/5} = 0.0608 \cdot 0.9 \left( \frac{1.0 \times 10^{-5}}{1.2 \times 10^{-7}} \right)^{0.2} = 0.05472 \cdot \left( 83.333 \right)^{0.2}$$</div>
+
+<p>Evaluating:</p>
+
+<div class="math-display">$$(83.333)^{0.2} \approx 2.418$$</div>
+
+<div class="math-display">$$h_{\text{next}} = 0.05472 \times 2.418 \approx 0.1323$$</div>
+
+<p>The solver successfully expands the step size from $0.0608$ to $0.1323$ (an increase of $\approx 2.17\times$), maximizing execution efficiency without sacrificing accuracy.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Tier 3: Honors / Proof Challenge</span>
+            <strong>Example 6.3: Comprehensive Proof of the Discrete Gronwall Inequality</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Let $\{z_n\}_{n=0}^N$ be a sequence of real numbers satisfying the linear recurrence:</p>
+
+<div class="math-display">$$z_{n+1} \le (1 + A) z_n + B, \quad n \ge 0$$</div>
+
+<p>where $A &gt; 0$ and $B \ge 0$. 1. Prove by induction that:</p>
+
+<div class="math-display">$$z_n \le (1 + A)^n z_0 + B \frac{(1 + A)^n - 1}{A}, \quad \forall n \ge 0$$</div>
+
+<ol>
+
+  <li>Using the convexity of $e^x$, prove that $(1 + A)^n \le e^{n A}$ for all $A \ge 0$ and establish the exponential upper bound:</li>
+
+</ol>
+
+<div class="math-display">$$z_n \le e^{n A} z_0 + \frac{B}{A} (e^{n A} - 1)$$</div>
+
+<ol>
+
+  <li>Apply this bound to Forward Euler for $y' = \lambda y, y(0) = 1$ to demonstrate the precise growth of global error.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-na-prob-6-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-na-prob-6-3">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Part 1: Proof of Algebraic Bound by Mathematical Induction</strong></p>
+
+<p><strong>Base Case ($n = 0$):</strong> For $n = 0$:</p>
+
+<div class="math-display">$$(1 + A)^0 z_0 + B \frac{(1 + A)^0 - 1}{A} = 1 \cdot z_0 + B \frac{1 - 1}{A} = z_0$$</div>
+
+<p>Since $z_0 \le z_0$, the base case holds with equality.</p>
+
+<p><strong>Inductive Step:</strong> Assume the hypothesis holds for $n = k$:</p>
+
+<div class="math-display">$$z_k \le (1 + A)^k z_0 + B \frac{(1 + A)^k - 1}{A}$$</div>
+
+<p>We must show it holds for $n = k + 1$. From the given recurrence:</p>
+
+<div class="math-display">$$z_{k+1} \le (1 + A) z_k + B$$</div>
+
+<p>Substituting the inductive hypothesis:</p>
+
+<div class="math-display">$$\begin{aligned} z_{k+1} &amp;\le (1 + A) \left[ (1 + A)^k z_0 + B \frac{(1 + A)^k - 1}{A} \right] + B \\ &amp;= (1 + A)^{k+1} z_0 + B \left[ \frac{(1 + A)^{k+1} - (1 + A)}{A} + 1 \right] \\ &amp;= (1 + A)^{k+1} z_0 + B \left[ \frac{(1 + A)^{k+1} - 1 - A + A}{A} \right] \\ &amp;= (1 + A)^{k+1} z_0 + B \frac{(1 + A)^{k+1} - 1}{A} \end{aligned}$$</div>
+
+<p>This completes the induction. Hence the inequality holds for all $n \ge 0$. $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 2: Exponential Upper Bound</strong></p>
+
+<p>By Taylor's theorem, for any $x \ge 0$:</p>
+
+<div class="math-display">$$e^x = 1 + x + \frac{x^2}{2} e^\xi \ge 1 + x \quad (\xi \in [0, x])$$</div>
+
+<p>Setting $x = A \ge 0$, we have $1 + A \le e^A$. Raising both sides to the non-negative integer power $n$:</p>
+
+<div class="math-display">$$(1 + A)^n \le (e^A)^n = e^{n A}$$</div>
+
+<p>Substituting this into the algebraic bound from Part 1:</p>
+
+<div class="math-display">$$z_n \le (1 + A)^n z_0 + \frac{B}{A} [(1 + A)^n - 1] \le e^{n A} z_0 + \frac{B}{A} (e^{n A} - 1)$$</div>
+
+<p>This proves the continuous exponential Gronwall bound. $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 3: Application to Forward Euler Global Error</strong></p>
+
+<p>For $y' = \lambda y$ with Lipschitz constant $L = |\lambda|$, Forward Euler has LTE:</p>
+
+<div class="math-display">$$d_{n+1} = \frac{h^2}{2} y''(\xi_n) = \frac{h^2}{2} \lambda^2 e^{\lambda \xi_n} \le \frac{h^2}{2} M_2$$</div>
+
+<p>where $M_2 = \max_{t \in [0, T]} |y''(t)|$. The error recurrence is:</p>
+
+<div class="math-display">$$|e_{n+1}| \le (1 + h |\lambda|) |e_n| + \frac{h^2}{2} M_2$$</div>
+
+<p>Here $A = h |\lambda|$ and $B = \frac{h^2}{2} M_2$. Since $e_0 = 0$, applying the Gronwall bound at $t_n = n h$:</p>
+
+<div class="math-display">$$|e_n| \le \frac{B}{A} (e^{n A} - 1) = \frac{\frac{h^2}{2} M_2}{h |\lambda|} \left( e^{n h |\lambda|} - 1 \right) = h \left[ \frac{M_2}{2 |\lambda|} \left( e^{|\lambda| t_n} - 1 \right) \right]$$</div>
+
+<p>This proves conclusively that:</p>
+
+<ol>
+
+  <li>The global error is strictly linear in $h$: $|e_n| = \mathcal{O}(h)$.</li>
+
+  <li>The error growth constant scales exponentially with the length of the time integration interval $e^{|\lambda| T}$, showing why long-time integration requires specialized symplectic or higher-order methods.</li>
+
+</ol></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer">
+            <div class="reader-trust-links">
+              <a href="index" class="reader-trust-link">← All Academic Departments</a>
+              <a href="reader" class="reader-trust-link">Quantum Mechanics I</a>
+              <a href="mechanics" class="reader-trust-link">Mechanics</a>
+              <a href="electrodynamics" class="reader-trust-link">Electrodynamics</a>
+              <a href="optics" class="reader-trust-link">Wave Optics</a>
+              <a href="statistical-mechanics" class="reader-trust-link">Statistical Mechanics</a>
+              <a href="properties-of-matter" class="reader-trust-link">Properties of Matter</a>
+              <a href="electricity-magnetism" class="reader-trust-link">Electricity &amp; Magnetism</a>
+              <a href="thermal-physics" class="reader-trust-link">Thermal Physics</a>
+              <a href="classical-mechanics" class="reader-trust-link">Classical Mechanics</a>
+              <a href="basic-electronics" class="reader-trust-link">Basic Electronics</a>
+              <a href="atomic-molecular-physics" class="reader-trust-link">Atomic &amp; Molecular Physics</a>
+              <a href="solid-state-physics" class="reader-trust-link">Solid State Physics</a>
+              <a href="nuclear-physics" class="reader-trust-link">Nuclear Physics</a>
+              <a href="digital-electronics" class="reader-trust-link">Digital Electronics</a>
+              <a href="quantum-mechanics-2" class="reader-trust-link">Quantum Mechanics II</a>
+              <a href="astrophysics" class="reader-trust-link">Astrophysics</a>
+              <a href="plasma-physics" class="reader-trust-link">Plasma Physics</a>
+              <a href="solid-state-physics-2" class="reader-trust-link">Solid State Physics II</a>
+              <a href="nuclear-physics-2" class="reader-trust-link">Nuclear Physics II</a>
+              <a href="reactor-physics" class="reader-trust-link">Reactor Physics</a>
+              <a href="calculus-1" class="reader-trust-link">Calculus I</a>
+              <a href="geometry-2d" class="reader-trust-link">Two-Dimensional Geometry</a>
+              <a href="basic-algebra" class="reader-trust-link">Basic Algebra</a>
+              <a href="calculus-2" class="reader-trust-link">Calculus II</a>
+              <a href="geometry-3d" class="reader-trust-link">3D &amp; Vector Geometry</a>
+              <a href="calculus-3" class="reader-trust-link">Calculus III</a>
+              <a href="linear-algebra" class="reader-trust-link">Linear Algebra</a>
+              <a href="ordinary-differential-equations-1" class="reader-trust-link">Differential Equations I</a>
+              <a href="ordinary-differential-equations-2" class="reader-trust-link">Differential Equations II</a>
+              <a href="complex-analysis" class="reader-trust-link">Complex Analysis</a>
+              <a href="numerical-analysis" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Numerical Analysis</a>
+              <a href="abstract-algebra" class="reader-trust-link">Abstract Algebra</a>
+              <a href="graph-theory" class="reader-trust-link">Graph Theory</a>
+              <a href="real-analysis" class="reader-trust-link">Real Analysis</a>
+              <a href="differential-geometry" class="reader-trust-link">Differential Geometry</a>
+              <a href="number-theory" class="reader-trust-link">Theory of Numbers</a>
+              <a href="topology" class="reader-trust-link">General Topology</a>
+              <a href="partial-differential-equations" class="reader-trust-link">Partial Differential Equations</a>
+              <a href="discrete-mathematics" class="reader-trust-link">Discrete Mathematics</a>
+              <a href="about" class="reader-trust-link">About &amp; Editorial</a>
+              <a href="privacy" class="reader-trust-link">Privacy Policy</a>
+              <a href="terms" class="reader-trust-link">Terms of Service</a>
+              <a href="https://discord.gg/tBBKtvFJzW" target="_blank" rel="noopener noreferrer" class="reader-trust-link" style="color: #a5b4fc;">💬 Discord Community</a>
+              <a href="mailto:shahriyarkarimsiam@gmail.com" class="reader-trust-link">Contact (shahriyarkarimsiam@gmail.com)</a>
+            </div>
+            <p class="reader-trust-copy">© 2026 OpenSTEM Global Academic Press • Free Open-Access Academic Library • Peer-Reviewed University Textbooks</p>
+          </footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="numerical-analysis-chapter-5">← Previous chapter</a><a href="numerical-analysis">Book contents</a><a href="numerical-analysis-chapter-7">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="numerical-analysis-sims.js?v=20261007_v1"></script>
+  <script src="numerical-analysis-data.js?v=20261007_v1"></script>
+  <script src="app.js?v=20261011_reader_catalog_v1"></script>
+
+
+</body></html>

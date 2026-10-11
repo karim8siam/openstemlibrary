@@ -1,0 +1,863 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Unit 6: Directed Graphs, Tournaments, DAGs &amp; Topological Sorting | Graph Theory: Structures, Algorithms &amp; Flows | OpenSTEM Library</title>
+  <meta name="description" content="Comprehensive theory of directed graphs (digraphs): in-degree and out-degree balance, digraph connectedness (weak, unilateral, strong), strongly connected components (SCCs) and Tarjan/Kosaraju algorithms, Eulerian digraphs, tournaments and Landau's theorem, Directed Acyclic Graphs (DAGs), decyclization, and Kahn's topological sorting algorithm.">
+  <meta name="keywords" content="Graph Theory, Eulerian Graphs, Hamiltonian Cycles, Trees, Spanning Trees, Kruskal Algorithm, Prim Algorithm, Cayley Formula, Prüfer Sequence, Connectivity, Cut-Sets, Whitney Inequality, Menger Theorem, Incidence Matrix, Adjacency Matrix, Graph Laplacian, Kirchhoff Matrix Tree Theorem, Directed Graphs, Tournaments, Landau Theorem, DAG, Topological Sort, Kahn Algorithm, Planar Graphs, Euler Polyhedral Formula, Kuratowski Theorem, Wagner Theorem, Dual Graphs, Vertex Coloring, Chromatic Number, Brooks Theorem, Five Color Theorem, Four Color Theorem, Chromatic Polynomial, Deletion-Contraction Recurrence, Edge Coloring, Chromatic Index, Vizing Theorem, Network Flows, Residual Network, Max-Flow Min-Cut Theorem, Ford-Fulkerson Algorithm, Bipartite Matching, Hall Marriage Theorem">
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/graph-theory-chapter-6">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Graph Theory: Structures, Algorithms, Algebraic Representations &amp; Network Flows | OpenSTEM Digital Academic Press">
+  <meta property="og:description" content="Exhaustive university honors textbook with 8 chapters, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
+  <meta property="og:image" content="https://openstemlibrary.com/logo.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+
+  <!-- Schema.org Educational Course JSON-LD (Strictly Zero Course Numbers) -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Graph Theory: Structures, Algorithms, Algebraic Representations & Network Flows","description":"Comprehensive university honors curriculum covering graph structures, degree sequences, Handshaking theorems, Havel-Hakimi criterion, isomorphism invariants, Eulerian trails, Fleury's algorithm, Hamiltonian cycles, Dirac and Ore theorems, tree metrics, Jordan center theorem, Cayley's formula, Prüfer sequences, Kruskal and Prim MST, connectivity, cut-sets, Whitney inequality, Menger's theorems, incidence, circuit, cut-set and Laplacian matrices, Kirchhoff's Matrix Tree Theorem, directed graphs, tournaments, DAGs, topological sorting, planar graphs, Euler's formula, Kuratowski and Wagner theorems, geometric duality, vertex coloring, Brooks' theorem, Five-Color theorem, chromatic polynomials, edge coloring, Vizing's theorem, network flows, and Hall's Marriage Theorem.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Digital Academic Press","url":"https://openstemlibrary.com"},"educationalLevel":"Undergraduate B.Sc. Honors & STEM Foundation","isAccessibleForFree":true}</script>
+
+  <!-- Google Fonts: Inter, Fira Code & Newsreader -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261011_reader_catalog_v1">
+  <!-- Google AdSense Official Script -->
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4546869673631824" crossorigin="anonymous"></script>
+</head>
+<body data-book-path="graph-theory.html" data-chapter-index="5">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Graph Theory</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search trees, Eulerian, Menger, planar, coloring, flows, spectra..." class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="graph-theory" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Unit 1: Foundations of Graph Theory, Degree Sequences &amp; Handshaking Theorems</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="graph-theory-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Unit 2: Walks, Paths, Circuits, Eulerian Graphs &amp; Hamiltonian Cycles</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="graph-theory-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Unit 3: Trees, Spanning Trees, Center Theorems &amp; Tree Metric Algorithms</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="graph-theory-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Unit 4: Connectivity, Cut-Sets, Fundamental Circuits &amp; Menger's Theorem</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="graph-theory-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Unit 5: Algebraic Graph Theory: Incidence, Circuit, Cut-Set &amp; Laplacian Matrices</span></a></li><li class="unit-nav-item active" data-unit-index="5"><a href="graph-theory-chapter-6" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Unit 6: Directed Graphs, Tournaments, DAGs &amp; Topological Sorting</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="graph-theory-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Unit 7: Planar Graphs, Euler's Formula, Kuratowski's Theorem &amp; Duality</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="graph-theory-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Unit 8: Graph Coloring, Chromatic Polynomials &amp; Network Flows</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Mathematics / Pure &amp; Applied</span>
+          <span class="badge-pill badge-credits">Graph Theory: Structures, Algorithms &amp; Flows</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">
+            🔒 <span>In-Browser Protected • Direct Download Disabled</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 6 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Unit 6: Directed Graphs, Tournaments, DAGs &amp; Topological Sorting</h1>
+            <p class="unit-desc-lead" id="unit-desc">Comprehensive theory of directed graphs (digraphs): in-degree and out-degree balance, digraph connectedness (weak, unilateral, strong), strongly connected components (SCCs) and Tarjan/Kosaraju algorithms, Eulerian digraphs, tournaments and Landau's theorem, Directed Acyclic Graphs (DAGs), decyclization, and Kahn's topological sorting algorithm.</p>
+          </header>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="u6-sec1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.1</span>
+            <span>Digraph Axioms, In/Out-Degrees &amp; Directed Handshaking</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Axiomatic Definition of a Directed Graph (Digraph)</h4>
+
+<p>A directed graph introduces orientation to relationships, reflecting asymmetry such as one-way roads, prerequisite structures, or state transitions.</p>
+
+<blockquote class="math-callout">
+<p><strong>Definition 6.1 (Directed Graph / Digraph):</strong> A <strong>directed graph</strong> (or digraph) $D = (V, E)$ consists of:</p>
+<ol>
+  <li>A non-empty set of vertices $V(D) = \{v_1, \dots, v_n\}$.</li>
+  <li>A set of <strong>directed edges</strong> (or arcs) $E(D) = \{e_1, \dots, e_m\}$, where each arc $e$ is an <strong>ordered pair</strong> of vertices:</li>
+</ol>
+</blockquote>
+
+<div class="math-display">$$e = (u, v) \in V \times V$$</div>
+
+<blockquote class="math-callout">
+<p>Vertex $u$ is called the <strong>initial vertex</strong> (or tail), and $v$ is called the <strong>terminal vertex</strong> (or head). We say $e$ is directed from $u$ to $v$.</p>
+</blockquote>
+
+<ul>
+
+  <li>A <strong>self-loop</strong> in a digraph is an arc of the form $(u, u)$.</li>
+
+  <li>A <strong>simple digraph</strong> contains no self-loops and no duplicate directed edges $(u, v)$ with identical orientation.</li>
+
+  <li>The <strong>underlying undirected graph</strong> of $D$, denoted $U(D)$, is obtained by replacing each directed arc $(u, v)$ with an undirected edge $\{u, v\}$ and consolidating multiple edges.</li>
+
+</ul>
+
+<hr class="section-divider-hr">
+
+<h4>2. In-Degrees, Out-Degrees &amp; The Digraph Handshaking Theorem</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 6.2 (In-Degree and Out-Degree):</strong> For any vertex $v \in V(D)$:</p>
+<ol>
+  <li>The <strong>out-degree</strong> $d^+(v)$ (or $\deg^+(v)$) is the number of arcs directed away from $v$:</li>
+</ol>
+</blockquote>
+
+<div class="math-display">$$d^+(v) = |\{ u \in V : (v, u) \in E \}|$$</div>
+
+<blockquote class="math-callout">
+<ol>
+  <li>The <strong>in-degree</strong> $d^-(v)$ (or $\deg^-(v)$) is the number of arcs directed into $v$:</li>
+</ol>
+</blockquote>
+
+<div class="math-display">$$d^-(v) = |\{ u \in V : (u, v) \in E \}|$$</div>
+
+<blockquote class="math-callout">
+<ol>
+  <li>The <strong>total degree</strong> of $v$ is $\deg(v) = d^+(v) + d^-(v)$.</li>
+  <li>A vertex with $d^-(v) = 0$ is called a <strong>source</strong>; a vertex with $d^+(v) = 0$ is called a <strong>sink</strong>.</li>
+</ol>
+</blockquote>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 6.1 (The Directed Handshaking Theorem):</strong> In any directed graph $D = (V, E)$, the sum of the out-degrees equals the sum of the in-degrees, and both equal the total number of arcs:</p>
+</blockquote>
+
+<div class="math-display">$$\sum_{v \in V} d^+(v) = \sum_{v \in V} d^-(v) = |E|$$</div>
+
+<h5>Proof:</h5>
+
+<p>Every directed arc $e = (u, v) \in E$ has exactly one initial vertex $u$ and exactly one terminal vertex $v$. Therefore, each arc contributes exactly 1 to $\sum d^+(v)$ (at its tail) and exactly 1 to $\sum d^-(v)$ (at its head). Summing across all $m = |E|$ arcs proves the identity. $\blacksquare$</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="u6-sec2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.2</span>
+            <span>Connectedness Levels &amp; Strongly Connected Components (SCCs)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Hierarchy of Connectedness in Digraphs</h4>
+
+<p>Because edges in a digraph can only be traversed in the forward direction, connectivity is nuanced into three hierarchical levels:</p>
+
+<blockquote class="math-callout">
+<p><strong>Definition 6.3 (Connectedness Categories):</strong> Let $D = (V, E)$ be a digraph.</p>
+<ol>
+  <li><strong>Weakly Connected:</strong> $D$ is weakly connected if its underlying undirected graph $U(D)$ is connected.</li>
+  <li><strong>Unilaterally Connected:</strong> $D$ is unilaterally connected if for every pair of distinct vertices $u, v \in V$, there exists a directed path from $u$ to $v$ <strong>OR</strong> a directed path from $v$ to $u$.</li>
+  <li><strong>Strongly Connected (Strong):</strong> $D$ is strongly connected if for every pair of distinct vertices $u, v \in V$, there exists a directed path from $u$ to $v$ <strong>AND</strong> a directed path from $v$ to $u$.</li>
+</ol>
+</blockquote>
+
+<div class="math-display">$$\text{Strongly Connected} \implies \text{Unilaterally Connected} \implies \text{Weakly Connected}$$</div>
+
+<p>None of the reverse implications hold in general.</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Strongly Connected Components (SCCs)</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 6.4 (SCC):</strong> A <strong>strongly connected component (SCC)</strong> of a digraph $D$ is a maximal strongly connected subgraph of $D$.</p>
+</blockquote>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 6.2 (Strong Connectivity Equivalence Relation):</strong> The relation $u \approx v \iff (u \leadsto v \text{ and } v \leadsto u)$ is an equivalence relation on $V(D)$. The equivalence classes are the vertex sets of the strongly connected components.</p>
+</blockquote>
+
+<h5>The Condensation Digraph:</h5>
+
+<p>Shrinking each SCC into a single super-vertex yields the <strong>condensation</strong> of $D$, denoted $D^*$. The condensation $D^*$ is <strong>always a Directed Acyclic Graph (DAG)</strong>.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="u6-sec3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.3</span>
+            <span>Eulerian Digraphs &amp; De Bruijn Sequences</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Characterization of Eulerian Digraphs</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 6.5 (Eulerian Digraph):</strong> A directed graph $D$ is <strong>Eulerian</strong> if it contains a closed directed trail that traverses <strong>every directed arc of $D$ exactly once</strong> (a directed Euler circuit).</p>
+</blockquote>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 6.3 (Eulerian Digraph Theorem):</strong> A weakly connected digraph $D$ is Eulerian if and only if it is <strong>balanced</strong> at every vertex:</p>
+</blockquote>
+
+<div class="math-display">$$d^+(v) = d^-(v), \quad \forall v \in V(D)$$</div>
+
+<h5>Proof:</h5>
+
+<ul>
+
+  <li>$(\implies)$ In any directed Euler circuit, each entry into $v$ via an incoming arc must be paired with an immediate departure via an outgoing arc. Thus $d^+(v) = d^-(v)$.</li>
+
+  <li>$(\impliedby)$ If $d^+(v) = d^-(v) \ge 1$ everywhere, start at any vertex $v_0$ and follow outgoing arcs. Since out-degree equals in-degree, we can never get stuck until returning to $v_0$, producing a directed cycle. Removing this cycle preserves balance. Splicing components together as in Theorem 2.2 produces an Euler circuit. $\blacksquare$</li>
+
+</ul>
+
+<hr class="section-divider-hr">
+
+<h4>2. De Bruijn Sequences</h4>
+
+<p>A <strong>De Bruijn sequence</strong> $B(k, n)$ of order $n$ on an alphabet of size $k$ is a cyclic sequence of length $k^n$ in which every possible substring of length $n$ appears exactly once as a contiguous block! De Bruijn sequences are constructed as Eulerian circuits in the <strong>De Bruijn graph</strong>, where vertices are strings of length $n - 1$ and directed edges represent string overlaps of length $n$.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="u6-sec4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.4</span>
+            <span>Tournaments, Rédei's Theorem &amp; Landau's Score Theorem</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Definition of Tournaments</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 6.6 (Tournament):</strong> A <strong>tournament</strong> $T_n$ is an orientation of a complete graph $K_n$. That is, for every pair of distinct vertices $u, v \in V(T_n)$, there is <strong>exactly one</strong> directed arc between them: either $(u, v) \in E$ or $(v, u) \in E$, but not both. A tournament models a round-robin competition where every player plays every other player and ties are impossible.</p>
+</blockquote>
+
+<hr class="section-divider-hr">
+
+<h4>2. Rédei's Theorem on Hamiltonian Paths</h4>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 6.4 (Rédei's Theorem, 1934):</strong> Every tournament contains a <strong>directed Hamiltonian path</strong>.</p>
+</blockquote>
+
+<h5>Complete Formal Proof (by induction on $n$):</h5>
+
+<ul>
+
+  <li><strong>Base Case ($n = 1, 2$):</strong> $T_1$ is a single vertex. $T_2$ has one arc $(u, v)$, which is a path of length 1 visiting both vertices. Holds.</li>
+
+  <li><strong>Inductive Step:</strong> Assume every tournament on $n - 1$ vertices contains a directed Hamiltonian path.</li>
+
+</ul>
+
+<p>Let $T$ be a tournament on $n$ vertices. Choose any vertex $v \in V(T)$, and consider the sub-tournament $T' = T - v$ on $n - 1$ vertices. By the induction hypothesis, $T'$ contains a directed Hamiltonian path:</p>
+
+<div class="math-display">$$P = (u_1, u_2, \dots, u_{n-1})$$</div>
+
+<p>Now consider the position of vertex $v$ relative to path $P$:</p>
+
+<ul>
+
+  <li><strong>Case 1:</strong> $(v, u_1) \in E(T)$.</li>
+
+</ul>
+
+<p>Then $(v, u_1, u_2, \dots, u_{n-1})$ is a directed Hamiltonian path in $T$.</p>
+
+<ul>
+
+  <li><strong>Case 2:</strong> $(u_{n-1}, v) \in E(T)$.</li>
+
+</ul>
+
+<p>Then $(u_1, u_2, \dots, u_{n-1}, v)$ is a directed Hamiltonian path in $T$.</p>
+
+<ul>
+
+  <li><strong>Case 3:</strong> Neither Case 1 nor Case 2 holds.</li>
+
+</ul>
+
+<p>Then $(u_1, v) \in E(T)$ and $(v, u_{n-1}) \in E(T)$. As we travel along $P$ from $u_1$ to $u_{n-1}$, the arcs from the path vertices to $v$ start by pointing toward $v$ and end by pointing away from $v$. Therefore, there must exist an index $i \in \{1, 2, \dots, n - 2\}$ such that:</p>
+
+<div class="math-display">$$(u_i, v) \in E(T) \quad \text{and} \quad (v, u_{i+1}) \in E(T)$$</div>
+
+<p>We can insert $v$ directly between $u_i$ and $u_{i+1}$ on the path:</p>
+
+<div class="math-display">$$P_{\text{new}} = (u_1, \dots, u_i, v, u_{i+1}, \dots, u_{n-1})$$</div>
+
+<p>This is a valid directed path visiting all $n$ vertices of $T$. Thus every tournament has a directed Hamiltonian path. $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<h4>3. Landau's Theorem on Tournament Score Sequences</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 6.7 (Score Sequence):</strong> The <strong>score sequence</strong> of a tournament $T_n$ is the sequence of out-degrees sorted in non-decreasing order: $s = (s_1 \le s_2 \le \dots \le s_n)$.</p>
+</blockquote>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 6.5 (Landau's Theorem, 1953):</strong> A non-decreasing sequence of non-negative integers $(s_1, s_2, \dots, s_n)$ is the score sequence of a tournament on $n$ vertices if and only if:</p>
+<ol>
+  <li>$\sum_{i=1}^k s_i \ge \binom{k}{2}$ for all $1 \le k \le n - 1$.</li>
+  <li>$\sum_{i=1}^n s_i = \binom{n}{2}$.</li>
+</ol>
+</blockquote>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_gt_digraph_dag"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u6-sec5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.5</span>
+            <span>Directed Acyclic Graphs (DAGs), Decyclization &amp; Topological Sorting</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Directed Acyclic Graphs (DAGs)</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 6.8 (DAG):</strong> A <strong>Directed Acyclic Graph (DAG)</strong> is a directed graph containing <strong>no directed cycles</strong>.</p>
+</blockquote>
+
+<p>DAGs model dependency networks, task scheduling, compilation order, and causal relationships.</p>
+
+<blockquote class="math-callout">
+<p><strong>Lemma 6.1 (Every Finite DAG Contains a Source and a Sink):</strong> Every finite DAG contains at least one vertex with in-degree 0 (a source) and at least one vertex with out-degree 0 (a sink).</p>
+</blockquote>
+
+<h5>Proof:</h5>
+
+<p>Pick any vertex $v_1 \in V$. If $d^+(v_1) = 0$, $v_1$ is a sink. Otherwise, choose an outgoing arc $(v_1, v_2)$. If $d^+(v_2) = 0$, $v_2$ is a sink. Repeat this process. Since the graph is finite and contains no directed cycles, we can never repeat a vertex. Thus the path must eventually terminate at some vertex $v_k$ with no outgoing arcs ($d^+(v_k) = 0$). Hence $v_k$ is a sink. A symmetric backwards search establishes the existence of a source. $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Topological Sorting</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 6.9 (Topological Sort):</strong> A <strong>topological sort</strong> (or topological ordering) of a directed graph $D = (V, E)$ is a linear ordering of its vertices $v_{\pi(1)}, v_{\pi(2)}, \dots, v_{\pi(n)}$ such that for every directed arc $(u, v) \in E$, $u$ appears before $v$ in the ordering:</p>
+</blockquote>
+
+<div class="math-display">$$(u, v) \in E \implies \pi(u) &lt; \pi(v)$$</div>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 6.6 (Topological Sort Existence Theorem):</strong> A directed graph $D$ admits a topological sort if and only if $D$ is a <strong>DAG</strong>.</p>
+</blockquote>
+
+<h5>Kahn's Algorithm for Topological Sort ($\mathcal{O}(|V| + |E|)$):</h5>
+
+<ol>
+
+  <li>Compute the in-degree $d^-(v)$ for every vertex $v \in V$.</li>
+
+  <li>Initialize a queue $Q$ with all vertices having $d^-(v) = 0$ (all sources).</li>
+
+  <li>Initialize an empty list $L = []$.</li>
+
+  <li>While $Q$ is not empty:</li>
+
+</ol>
+
+<ul>
+
+  <li>Dequeue a vertex $u$ from $Q$.</li>
+
+  <li>Append $u$ to $L$.</li>
+
+  <li>For each outgoing neighbor $v$ of $u$ (arc $(u, v) \in E$):</li>
+
+  <li>Decrement $d^-(v) \leftarrow d^-(v) - 1$.</li>
+
+  <li>If $d^-(v) == 0$, enqueue $v$ into $Q$.</li>
+
+</ul>
+
+<ol>
+
+  <li>If $|L| = |V|$, $L$ is a valid topological ordering!</li>
+
+</ol>
+
+<p>If $|L| &lt; |V|$, the graph contains a directed cycle (not a DAG).</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Interactive Simulations Mounting Section -->
+          <div class="sim-section-wrapper" id="sim-section-wrap" style="display: none; margin-top: 3rem;">
+            <div class="section-divider">
+              <span class="divider-label">Interactive Computational Laboratory</span>
+            </div>
+            <div id="simulations-mount"></div>
+          </div>
+
+          <!-- Solved Examination Problems Container -->
+          <div class="problems-section-wrapper" style="margin-top: 3.5rem;">
+            <div class="section-divider">
+              <span class="divider-label">Tiered Solved Examination Problems &amp; Rigorous Derivations</span>
+            </div>
+            <p class="text-muted" style="margin-bottom: 1.5rem; font-size: 0.95rem;">
+              Step-by-step rigorous derivations with unskipped proofs, categorized into Foundational Concepts, Advanced Structural Analysis, and Honors / Proof Challenge tiers.
+            </p>
+            <div id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-easy">Foundational</span>
+            <strong>Example 6.1: Connectivity Level Classification &amp; Eulerian Digraph Verification</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <ol>
+
+  <li>Consider a digraph on 4 vertices with arcs: $E = \{(1, 2), (2, 3), (3, 4), (4, 2)\}$. Determine whether this digraph is weakly connected, unilaterally connected, or strongly connected. 2. A directed graph $D$ has in-degrees $d^- = (2, 1, 3, 2)$ for vertices $v_1, v_2, v_3, v_4$. If $D$ is Eulerian, determine the out-degrees of all vertices and the total number of arcs.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p6-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p6-1">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Part 1: Connectivity Analysis</strong></p>
+
+<p>Vertices: $\{1, 2, 3, 4\}$. Arcs: $(1, 2), (2, 3), (3, 4), (4, 2)$.</p>
+
+<p>Let us test the connectivity categories:</p>
+
+<h4>1. Is it Weakly Connected?</h4>
+
+<p>The underlying undirected graph has edges $\{1, 2\}, \{2, 3\}, \{3, 4\}$. Vertices $2, 3, 4$ form a triangle, and vertex 1 is connected to 2. The underlying graph is connected. Therefore, $D$ is <strong>weakly connected</strong>.</p>
+
+<h4>2. Is it Unilaterally Connected?</h4>
+
+<p>We check if for every pair $\{u, v\}$, there is a directed path $u \leadsto v$ OR $v \leadsto u$:</p>
+
+<ul>
+
+  <li>Between 1 and 2: path $1 \to 2$.</li>
+
+  <li>Between 1 and 3: path $1 \to 2 \to 3$.</li>
+
+  <li>Between 1 and 4: path $1 \to 2 \to 3 \to 4$.</li>
+
+  <li>Between 2 and 3: path $2 \to 3$.</li>
+
+  <li>Between 2 and 4: path $2 \to 3 \to 4$.</li>
+
+  <li>Between 3 and 4: path $3 \to 4$.</li>
+
+</ul>
+
+<p>For every pair of distinct vertices, there exists a directed path in at least one direction! Therefore, $D$ is <strong>unilaterally connected</strong>.</p>
+
+<h4>3. Is it Strongly Connected?</h4>
+
+<p>Vertex 1 has in-degree $d^-(1) = 0$ (no arcs enter vertex 1). Therefore, no vertex in $\{2, 3, 4\}$ can reach vertex 1! There is no path from 2 to 1, no path from 3 to 1, and no path from 4 to 1. Therefore, $D$ is <strong>NOT strongly connected</strong>.</p>
+
+<p><strong>Conclusion:</strong> The digraph is <strong>unilaterally connected</strong> (and weakly connected), but not strongly connected.</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 2: Eulerian Digraph In/Out-Degrees</strong></p>
+
+<p>We are given the in-degrees:</p>
+
+<div class="math-display">$$d^-(v_1) = 2, \quad d^-(v_2) = 1, \quad d^-(v_3) = 3, \quad d^-(v_4) = 2$$</div>
+
+<p>By Theorem 6.3 (Eulerian Digraph Theorem), a digraph is Eulerian if and only if it is weakly connected and <strong>in-degree equals out-degree for every vertex</strong>:</p>
+
+<div class="math-display">$$d^+(v_i) = d^-(v_i), \quad \forall i \in \{1, 2, 3, 4\}$$</div>
+
+<p>Therefore, the out-degrees must be:</p>
+
+<div class="math-display">$$d^+(v_1) = 2, \quad d^+(v_2) = 1, \quad d^+(v_3) = 3, \quad d^+(v_4) = 2$$</div>
+
+<p>The total number of directed arcs is given by the Directed Handshaking Theorem (Theorem 6.1):</p>
+
+<div class="math-display">$$|E| = \sum_{i=1}^4 d^-(v_i) = 2 + 1 + 3 + 2 = 8 \quad \blacksquare$$</div></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-medium">Advanced</span>
+            <strong>Example 6.2: Kahn's Topological Sort Execution &amp; Tournament Path Construction</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <ol>
+
+  <li>Consider the task dependency DAG with vertices $A, B, C, D, E, F$ and directed arcs: $(A, B), (A, C), (B, D), (C, D), (C, E), (D, F), (E, F)$. Execute Kahn's algorithm step-by-step to find a valid topological ordering. 2. A tournament $T_4$ has vertices $\{1, 2, 3, 4\}$ and arcs: $(1, 2), (2, 3), (3, 1), (1, 4), (2, 4), (4, 3)$. Find an explicit directed Hamiltonian path in $T_4$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p6-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p6-2">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Part 1: Kahn's Algorithm on Dependency DAG</strong></p>
+
+<p>Vertices: $\{A, B, C, D, E, F\}$. Arcs: $(A, B), (A, C), (B, D), (C, D), (C, E), (D, F), (E, F)$.</p>
+
+<p>Compute initial in-degrees $d^-$:</p>
+
+<ul>
+
+  <li>$d^-(A) = 0$</li>
+
+  <li>$d^-(B) = 1$ (from $A$)</li>
+
+  <li>$d^-(C) = 1$ (from $A$)</li>
+
+  <li>$d^-(D) = 2$ (from $B, C$)</li>
+
+  <li>$d^-(E) = 1$ (from $C$)</li>
+
+  <li>$d^-(F) = 2$ (from $D, E$)</li>
+
+</ul>
+
+<p><strong>Step-by-Step Execution:</strong></p>
+
+<h4>1. Queue initialization: $Q = [A]$ (since $d^-(A) = 0$). Output list $L = []$.</h4>
+
+<h4>2. Dequeue $A$:</h4>
+
+<ul>
+
+  <li>Append $A$ to $L$: $L = [A]$.</li>
+
+  <li>Outgoing arcs from $A$: $(A, B)$ and $(A, C)$.</li>
+
+  <li>Decrement: $d^-(B) = 1 - 1 = 0 \implies$ Enqueue $B$.</li>
+
+  <li>Decrement: $d^-(C) = 1 - 1 = 0 \implies$ Enqueue $C$.</li>
+
+  <li>Queue: $Q = [B, C]$.</li>
+
+</ul>
+
+<h4>3. Dequeue $B$:</h4>
+
+<ul>
+
+  <li>Append $B$ to $L$: $L = [A, B]$.</li>
+
+  <li>Outgoing arc from $B$: $(B, D)$.</li>
+
+  <li>Decrement: $d^-(D) = 2 - 1 = 1$. (Not 0, do not enqueue).</li>
+
+  <li>Queue: $Q = [C]$.</li>
+
+</ul>
+
+<h4>4. Dequeue $C$:</h4>
+
+<ul>
+
+  <li>Append $C$ to $L$: $L = [A, B, C]$.</li>
+
+  <li>Outgoing arcs from $C$: $(C, D)$ and $(C, E)$.</li>
+
+  <li>Decrement: $d^-(D) = 1 - 1 = 0 \implies$ Enqueue $D$.</li>
+
+  <li>Decrement: $d^-(E) = 1 - 1 = 0 \implies$ Enqueue $E$.</li>
+
+  <li>Queue: $Q = [D, E]$.</li>
+
+</ul>
+
+<h4>5. Dequeue $D$:</h4>
+
+<ul>
+
+  <li>Append $D$ to $L$: $L = [A, B, C, D]$.</li>
+
+  <li>Outgoing arc from $D$: $(D, F)$.</li>
+
+  <li>Decrement: $d^-(F) = 2 - 1 = 1$.</li>
+
+  <li>Queue: $Q = [E]$.</li>
+
+</ul>
+
+<h4>6. Dequeue $E$:</h4>
+
+<ul>
+
+  <li>Append $E$ to $L$: $L = [A, B, C, D, E]$.</li>
+
+  <li>Outgoing arc from $E$: $(E, F)$.</li>
+
+  <li>Decrement: $d^-(F) = 1 - 1 = 0 \implies$ Enqueue $F$.</li>
+
+  <li>Queue: $Q = [F]$.</li>
+
+</ul>
+
+<h4>7. Dequeue $F$:</h4>
+
+<ul>
+
+  <li>Append $F$ to $L$: $L = [A, B, C, D, E, F]$.</li>
+
+  <li>No outgoing arcs.</li>
+
+  <li>Queue empty.</li>
+
+</ul>
+
+<p>All 6 vertices are ordered:</p>
+
+<div class="math-display">$$\text{Topological Order: } A \to B \to C \to D \to E \to F$$</div>
+
+<p><em>(Another valid order is $A \to C \to B \to D \to E \to F$ depending on queue tie-breaking).</em></p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 2: Finding a Hamiltonian Path in $T_4$</strong></p>
+
+<p>Vertices: $\{1, 2, 3, 4\}$. Arcs: $(1, 2), (2, 3), (3, 1), (1, 4), (2, 4), (4, 3)$. Notice that $\{1, 2, 3\}$ forms a directed cycle: $1 \to 2 \to 3 \to 1$. We also have:</p>
+
+<ul>
+
+  <li>Arc from 2 to 4: $(2, 4)$.</li>
+
+  <li>Arc from 4 to 3: $(4, 3)$.</li>
+
+  <li>Arc from 3 to 1: $(3, 1)$.</li>
+
+</ul>
+
+<p>Construct the path:</p>
+
+<div class="math-display">$$1 \xrightarrow{(1, 2)} 2 \xrightarrow{(2, 4)} 4 \xrightarrow{(4, 3)} 3$$</div>
+
+<p>Let us check each step:</p>
+
+<ol>
+
+  <li>$(1, 2) \in E$ (given).</li>
+
+  <li>$(2, 4) \in E$ (given).</li>
+
+  <li>$(4, 3) \in E$ (given).</li>
+
+</ol>
+
+<p>This directed path visits vertices $(1, 2, 4, 3)$—all 4 vertices of $T_4$ exactly once! Therefore, $P = (1, 2, 4, 3)$ is a valid directed Hamiltonian path in $T_4$. $\blacksquare$</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Honors / Proof Challenge</span>
+            <strong>Example 6.3: Complete Formal Proof of Landau's Theorem on Tournament Scores</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Provide a complete, mathematically rigorous proof of Landau's Theorem (Theorem 6.5): A non-decreasing sequence of non-negative integers $s_1 \le s_2 \le \dots \le s_n$ is the score sequence of a tournament on $n$ vertices if and only if $\sum_{i=1}^k s_i \ge \binom{k}{2}$ for all $1 \le k \le n - 1$, and $\sum_{i=1}^n s_i = \binom{n}{2}$.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p6-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p6-3">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Complete Proof of Landau's Theorem (Theorem 6.5)</strong></p>
+
+<p>Let $s = (s_1 \le s_2 \le \dots \le s_n)$ be a sequence of non-negative integers.</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 1: Proof of Necessity $(\implies)$</strong> Suppose $s$ is the score sequence of a tournament $T$ with vertices $V = \{v_1, v_2, \dots, v_n\}$ labeled such that $d^+(v_i) = s_i$.</p>
+
+<h4>1. Total Edge Identity ($k = n$):</h4>
+
+<p>In a tournament on $n$ vertices, there is exactly one directed arc between every pair of vertices. The total number of edges is:</p>
+
+<div class="math-display">$$|E| = \binom{n}{2}$$</div>
+
+<p>By the Directed Handshaking Theorem (Theorem 6.1):</p>
+
+<div class="math-display">$$\sum_{i=1}^n s_i = \sum_{i=1}^n d^+(v_i) = |E| = \binom{n}{2}$$</div>
+
+<p>Condition (2) is verified!</p>
+
+<h4>2. Partial Sum Inequality ($1 \le k \le n - 1$):</h4>
+
+<p>Let $K = \{v_1, v_2, \dots, v_k\}$ be the set of the first $k$ vertices (having the smallest scores). Consider the sub-tournament $T[K]$ induced by these $k$ vertices. Inside $T[K]$, there are $\binom{k}{2}$ directed arcs between pairs of vertices in $K$. For each arc in $T[K]$, its tail lies in $K$, so it contributes to the out-degree of some vertex in $K$. In addition, vertices in $K$ may have outgoing arcs pointing to vertices outside $K$ (in $V \setminus K$). Therefore:</p>
+
+<div class="math-display">$$\sum_{i=1}^k s_i = \sum_{v \in K} d^+(v) = (\text{arcs within } K) + (\text{arcs from } K \text{ to } V \setminus K) = \binom{k}{2} + |E(K, V \setminus K)|$$</div>
+
+<p>Since the number of arcs pointing from $K$ to $V \setminus K$ is non-negative ($|E(K, V \setminus K)| \ge 0$):</p>
+
+<div class="math-display">$$\sum_{i=1}^k s_i \ge \binom{k}{2}$$</div>
+
+<p>This holds for all $k \in \{1, 2, \dots, n - 1\}$. Hence the conditions are strictly necessary.</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 2: Proof of Sufficiency $(\impliedby)$</strong> Assume $s = (s_1 \le s_2 \le \dots \le s_n)$ satisfies: (1) $\sum_{i=1}^k s_i \ge \binom{k}{2}$ for all $1 \le k \le n - 1$. (2) $\sum_{i=1}^n s_i = \binom{n}{2}$.</p>
+
+<p>We construct a tournament $T$ realizing $s$ using a <strong>Max-Flow Network Construction</strong>: Construct a flow network $N = (V^<em>, E^</em>)$ with:</p>
+
+<ul>
+
+  <li>Source $S$ and sink $T^*$.</li>
+
+  <li>A middle layer of $\binom{n}{2}$ match nodes $M = \{ (i, j) : 1 \le i &lt; j \le n \}$.</li>
+
+  <li>A layer of $n$ player nodes $P = \{ p_1, p_2, \dots, p_n \}$.</li>
+
+</ul>
+
+<p><strong>Edge Capacities:</strong></p>
+
+<ol>
+
+  <li>Connect source $S$ to each match node $(i, j)$ with capacity $c(S, (i, j)) = 1$.</li>
+
+</ol>
+
+<p>(Total source capacity $= \binom{n}{2}$).</p>
+
+<ol>
+
+  <li>Connect each match node $(i, j)$ to player $p_i$ and player $p_j$, each with capacity $1$.</li>
+
+</ol>
+
+<p>(Directing flow from $(i, j)$ to $p_i$ means player $i$ beats player $j$).</p>
+
+<ol>
+
+  <li>Connect each player node $p_i$ to sink $T^<em>$ with capacity $c(p_i, T^</em>) = s_i$.</li>
+
+</ol>
+
+<p>(Total sink capacity $= \sum_{i=1}^n s_i = \binom{n}{2}$).</p>
+
+<p>A valid tournament with score sequence $s$ exists if and only if there is a feasible flow of value:</p>
+
+<div class="math-display">$$F = \binom{n}{2}$$</div>
+
+<p>By the Max-Flow Min-Cut Theorem (Theorem 8.5), a maximum flow of value $\binom{n}{2}$ exists if and only if <strong>every cut separating $S$ from $T^*$ has capacity $\ge \binom{n}{2}$</strong>.</p>
+
+<p>Consider any cut $(A, B)$ with $S \in A$ and $T^* \in B$. Let $P_B = P \cap B$ be the set of player nodes assigned to $B$, and let $k = |P_B|$. The cut capacity is minimized when match nodes $(i, j)$ are in $A$ if both $p_i, p_j \in A$, and in $B$ otherwise. The capacity evaluates to:</p>
+
+<div class="math-display">$$\text{cap}(A, B) = \binom{n}{2} - \binom{k}{2} + \sum_{p_i \in P_B} s_i$$</div>
+
+<p>To ensure $\text{cap}(A, B) \ge \binom{n}{2}$, we require:</p>
+
+<div class="math-display">$$\sum_{p_i \in P_B} s_i \ge \binom{k}{2}$$</div>
+
+<p>Since $s_1 \le s_2 \le \dots \le s_n$, the sum $\sum_{p_i \in P_B} s_i$ over any subset of $k$ players is minimized when $P_B$ consists of the $k$ players with the smallest scores:</p>
+
+<div class="math-display">$$\sum_{p_i \in P_B} s_i \ge \sum_{i=1}^k s_i$$</div>
+
+<p>By condition (1), $\sum_{i=1}^k s_i \ge \binom{k}{2}$! Therefore, every cut has capacity $\ge \binom{n}{2}$. By the Max-Flow Min-Cut Theorem, a maximum flow of $\binom{n}{2}$ exists. Because all edge capacities are integers, the Integrality Theorem guarantees an integer flow where each match node $(i, j)$ routes its 1 unit of flow to either $p_i$ or $p_j$. This integer flow explicitly defines a tournament with out-degrees $(s_1, \dots, s_n)$. This completes the proof of Landau's Theorem. $\blacksquare$</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer">
+            <div class="reader-trust-links">
+              <a href="index" class="reader-trust-link">← All Academic Departments</a>
+              <a href="reader" class="reader-trust-link">Quantum Mechanics I</a>
+              <a href="mechanics" class="reader-trust-link">Mechanics</a>
+              <a href="electrodynamics" class="reader-trust-link">Electrodynamics</a>
+              <a href="optics" class="reader-trust-link">Wave Optics</a>
+              <a href="statistical-mechanics" class="reader-trust-link">Statistical Mechanics</a>
+              <a href="properties-of-matter" class="reader-trust-link">Properties of Matter</a>
+              <a href="electricity-magnetism" class="reader-trust-link">Electricity &amp; Magnetism</a>
+              <a href="thermal-physics" class="reader-trust-link">Thermal Physics</a>
+              <a href="classical-mechanics" class="reader-trust-link">Classical Mechanics</a>
+              <a href="basic-electronics" class="reader-trust-link">Basic Electronics</a>
+              <a href="atomic-molecular-physics" class="reader-trust-link">Atomic &amp; Molecular Physics</a>
+              <a href="solid-state-physics" class="reader-trust-link">Solid State Physics</a>
+              <a href="nuclear-physics" class="reader-trust-link">Nuclear Physics</a>
+              <a href="digital-electronics" class="reader-trust-link">Digital Electronics</a>
+              <a href="quantum-mechanics-2" class="reader-trust-link">Quantum Mechanics II</a>
+              <a href="astrophysics" class="reader-trust-link">Astrophysics</a>
+              <a href="plasma-physics" class="reader-trust-link">Plasma Physics</a>
+              <a href="solid-state-physics-2" class="reader-trust-link">Solid State Physics II</a>
+              <a href="nuclear-physics-2" class="reader-trust-link">Nuclear Physics II</a>
+              <a href="reactor-physics" class="reader-trust-link">Reactor Physics</a>
+              <a href="calculus-1" class="reader-trust-link">Calculus I</a>
+              <a href="geometry-2d" class="reader-trust-link">Two-Dimensional Geometry</a>
+              <a href="basic-algebra" class="reader-trust-link">Basic Algebra</a>
+              <a href="calculus-2" class="reader-trust-link">Calculus II</a>
+              <a href="geometry-3d" class="reader-trust-link">3D &amp; Vector Geometry</a>
+              <a href="calculus-3" class="reader-trust-link">Calculus III</a>
+              <a href="linear-algebra" class="reader-trust-link">Linear Algebra</a>
+              <a href="ordinary-differential-equations-1" class="reader-trust-link">Differential Equations I</a>
+              <a href="ordinary-differential-equations-2" class="reader-trust-link">Differential Equations II</a>
+              <a href="complex-analysis" class="reader-trust-link">Complex Analysis</a>
+              <a href="numerical-analysis" class="reader-trust-link">Numerical Analysis</a>
+              <a href="abstract-algebra" class="reader-trust-link">Abstract Algebra</a>
+              <a href="graph-theory" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Graph Theory</a>
+              <a href="real-analysis" class="reader-trust-link">Real Analysis</a>
+              <a href="differential-geometry" class="reader-trust-link">Differential Geometry</a>
+              <a href="number-theory" class="reader-trust-link">Theory of Numbers</a>
+              <a href="topology" class="reader-trust-link">General Topology</a>
+              <a href="partial-differential-equations" class="reader-trust-link">Partial Differential Equations</a>
+              <a href="discrete-mathematics" class="reader-trust-link">Discrete Mathematics</a>
+              <a href="about" class="reader-trust-link">About &amp; Editorial</a>
+              <a href="privacy" class="reader-trust-link">Privacy Policy</a>
+              <a href="terms" class="reader-trust-link">Terms of Service</a>
+              <a href="https://discord.gg/tBBKtvFJzW" target="_blank" rel="noopener noreferrer" class="reader-trust-link" style="color: #a5b4fc;">💬 Discord Community</a>
+              <a href="mailto:shahriyarkarimsiam@gmail.com" class="reader-trust-link">Contact (shahriyarkarimsiam@gmail.com)</a>
+            </div>
+            <p class="reader-trust-copy">© 2026 OpenSTEM Global Academic Press • Free Open-Access Academic Library • Peer-Reviewed University Textbooks</p>
+          </footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="graph-theory-chapter-5">← Previous chapter</a><a href="graph-theory">Book contents</a><a href="graph-theory-chapter-7">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="graph-theory-sims.js?v=20261008_v2"></script>
+  <script src="graph-theory-data.js?v=20261008_v2"></script>
+  <script src="app.js?v=20261011_reader_catalog_v1"></script>
+
+
+</body></html>

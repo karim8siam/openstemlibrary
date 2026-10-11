@@ -1,0 +1,548 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Operational Amplifiers (Op-Amps) &amp; Linear Analog Computing | Basic Electronics: Devices, Circuits &amp; Systems | OpenSTEM Library</title>
+  <meta name="description" content="Comprehensive mathematical exposition of operational amplifiers: ideal characteristics vs. practical silicon limits; the Virtual Ground theorem; inverting, non-inverting, and buffer topologies; summing adders, difference subtractors, and high-CMRR 3-op-amp instrumentation amplifiers; exact derivations and stability criteria for practical analog integrators and differentiators.">
+  <meta name="keywords" content="Basic Electronics Textbook, Semiconductor Physics, Shockley Diode, Bridge Rectifier, Smoothing Filters, Zener Regulators, BJT Common Emitter, JFET, MOSFET, SCR, UJT Oscillator, Triac, Multistage Amplifiers, Class B Push-Pull, Colpitts Oscillator, Wien Bridge, Amplitude Modulation, Superheterodyne Receiver, Operational Amplifiers, Schmitt Trigger, Active Filters">
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/basic-electronics-chapter-7">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/basic-electronics-chapter-7">
+  <meta property="og:title" content="Basic Electronics &amp; Analog Circuits | OpenSTEM Textbook">
+  <meta property="og:description" content="University-standard course with 8 exhaustive chapters, complete mathematical derivations, 24 solved university exam problems, and real-time interactive circuit simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Basic Electronics: Semiconductor Devices, Analog Circuits &amp; Systems">
+  <meta name="twitter:description" content="Free university digital textbook covering semiconductor diodes, rectifiers, filters, BJT, FET, power thyristors, amplifiers, feedback oscillators, modulation, and operational ampli...">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Basic Electronics: Semiconductor Devices, Analog Circuits & Systems","description":"Comprehensive university curriculum covering solid-state semiconductors, diode circuits, transistor biasing, power electronics, feedback oscillators, communications, and operational amplifier design.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Digital Academic Press","url":"https://openstemlibrary.com"},"educationalLevel":"Undergraduate B.Sc. Honors & Engineering","isAccessibleForFree":true}</script>
+
+  
+  <!-- Schema.org Breadcrumb Navigation -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Department of Electrical & Computer Engineering","item":"https://openstemlibrary.com/#engineering-department"},{"@type":"ListItem","position":3,"name":"Basic Electronics: Semiconductor Devices, Analog Circuits & Systems","item":"https://openstemlibrary.com/basic-electronics"}]}</script>
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261011_reader_catalog_v1">
+  <!-- Google AdSense Official Script -->
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4546869673631824" crossorigin="anonymous"></script>
+</head>
+<body data-book-path="basic-electronics.html" data-chapter-index="6">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Basic Electronics</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search topics, equations..." class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="basic-electronics" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Semiconductor Diodes, Rectifiers &amp; Filter Circuits</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="basic-electronics-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Transistors: BJT, JFET &amp; MOSFET Biasing Circuits</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="basic-electronics-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Power Electronics: Thyristors, UJT &amp; Phase Control</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="basic-electronics-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Transistor Amplifiers: Small-Signal, Multistage &amp; Power Stages</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="basic-electronics-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Feedback in Amplifiers &amp; Waveform Oscillators</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="basic-electronics-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Modulation, Demodulation &amp; Superheterodyne Radio Communication</span></a></li><li class="unit-nav-item active" data-unit-index="6"><a href="basic-electronics-chapter-7" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Operational Amplifiers (Op-Amps) &amp; Linear Analog Computing</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="basic-electronics-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Nonlinear Op-Amp Circuits, Schmitt Triggers &amp; Active Filters</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Physics / Electronics</span>
+          <span class="badge-pill badge-credits">Basic Electronics</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">
+            🔒 <span>In-Browser Protected • Direct Download Disabled</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 7 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Operational Amplifiers (Op-Amps) &amp; Linear Analog Computing</h1>
+            <p class="unit-desc-lead" id="unit-desc">Comprehensive mathematical exposition of operational amplifiers: ideal characteristics vs. practical silicon limits; the Virtual Ground theorem; inverting, non-inverting, and buffer topologies; summing adders, difference subtractors, and high-CMRR 3-op-amp instrumentation amplifiers; exact derivations and stability criteria for practical analog integrators and differentiators.</p>
+          </header>
+
+          <!-- Textbook Sections Container -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="u7-sec1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.1</span>
+            <span>Ideal Op-Amp Model, 741 Architecture &amp; Virtual Ground Concept</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Ideal Op-Amp Characteristics vs. Practical 741 IC</h4>
+<p>An Operational Amplifier (Op-Amp) is a direct-coupled, high-gain differential voltage amplifier. The ideal op-amp model provides an indispensable mathematical abstraction for circuit analysis:</p>
+<table class="data-table" style="width:100%; border-collapse:collapse; margin:16px 0;">
+<thead>
+<tr style="background:rgba(255,255,255,0.05); text-align:left;">
+<th style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Parameter</th>
+<th style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Ideal Value</th>
+<th style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Typical Practical IC (uA741)</th>
+<th style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Physical Implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);"><strong>Open-Loop Voltage Gain ($A_{OL}$)</strong></td>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">$A_{OL} \to \infty$</td>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">$2 \times 10^5$ ($106\,\text{dB}$)</td>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Differential input voltage is forced to near zero</td>
+</tr>
+<tr>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);"><strong>Input Impedance ($R_{in}$)</strong></td>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">$R_{in} \to \infty$</td>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">$2\,\text{M}\Omega$ (BJT) / $10^{12}\,\Omega$ (FET)</td>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Draws zero current from driving source ($I^+ = I^- = 0$)</td>
+</tr>
+<tr>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);"><strong>Output Impedance ($R_{out}$)</strong></td>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">$R_{out} = 0$</td>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">$75\,\Omega$</td>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Can drive any load resistance without terminal voltage drop</td>
+</tr>
+<tr>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);"><strong>Bandwidth ($BW$)</strong></td>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">$BW \to \infty$</td>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">$1\,\text{MHz}$ (Unity Gain $f_T$)</td>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Amplifies signals uniformly from DC to high frequencies</td>
+</tr>
+<tr>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);"><strong>Input Offset Voltage ($V_{os}$)</strong></td>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">$V_{os} = 0$</td>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">$1\text{ to }5\,\text{mV}$</td>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">$V_o = 0$ when differential input is strictly zero</td>
+</tr>
+<tr>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);"><strong>CMRR</strong></td>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">$\text{CMRR} \to \infty$</td>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">$90\,\text{dB}$</td>
+<td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Completely rejects common-mode noise and interference</td>
+</tr>
+</tbody>
+</table>
+
+<h4>2. The Golden Rules &amp; Virtual Ground Principle</h4>
+<p>In any linear op-amp circuit operating under <strong>negative feedback</strong> where output remains unclipped between the supply rails ($-V_{EE} &lt; V_o &lt; +V_{CC}$), two fundamental axioms (the <em>Golden Rules</em>) govern behavior:
+</p><ol>
+<li><strong>Axiom 1 (Virtual Short):</strong> The voltage difference between the inverting input ($-$) and non-inverting input ($+$) is infinitesimally small:
+<div class="math-display">
+$$V_d = V^+ - V^- = \frac{V_o}{A_{OL}} \xrightarrow{A_{OL} \to \infty} 0 \implies V^- = V^+$$
+</div>
+When the non-inverting terminal is connected to physical ground ($V^+ = 0$), the inverting terminal is held at ground potential ($V^- = 0$) by the feedback loop. This node is termed a <strong>Virtual Ground</strong>: it has the potential of ground ($0\,\text{V}$), yet no current can flow directly to physical earth through the terminal.</li>
+<li><strong>Axiom 2 (Zero Input Bias Current):</strong> Because input impedance is infinite ($R_{in} \to \infty$), no current enters either input terminal:
+<div class="math-display">
+$$I^+ = I^- = 0$$
+</div>
+All incoming signal currents are forced entirely into the feedback loop.</li>
+</ol>
+<p></p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="u7-sec2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.2</span>
+            <span>Fundamental Closed-Loop Configurations: Inverting, Non-Inverting &amp; Buffer</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Inverting Amplifier Configuration</h4>
+<p>In the inverting amplifier, input voltage $v_{in}$ is applied through resistor $R_1$ to the inverting terminal ($-$), with feedback resistor $R_f$ connected from output $v_o$ back to the inverting terminal. The non-inverting terminal ($+$) is tied to ground ($V^+ = 0$).</p>
+<p>By Axiom 1, $V^- = V^+ = 0\,\text{V}$ (virtual ground). Applying Kirchhoff's Current Law at the inverting summing node:</p>
+<div class="math-display">
+$$I_1 = I_f + I^-$$
+</div>
+<p>Since $I^- = 0$, $I_1 = I_f$:</p>
+<div class="math-display">
+$$\frac{v_{in} - V^-}{R_1} = \frac{V^- - v_o}{R_f} \implies \frac{v_{in} - 0}{R_1} = \frac{0 - v_o}{R_f}$$
+</div>
+<p>Solving for the closed-loop voltage gain $A_v$:</p>
+<div class="math-display">
+$$A_v = \frac{v_o}{v_{in}} = - \frac{R_f}{R_1}$$
+</div>
+<p>The input impedance seen by the source is strictly $Z_{in} = R_1$. Output impedance is $Z_{out} \approx 0$.</p>
+
+<h4>2. Non-Inverting Amplifier Configuration</h4>
+<p>In the non-inverting amplifier, input voltage $v_{in}$ is applied directly to the high-impedance non-inverting terminal ($+$), so $V^+ = v_{in}$. Resistors $R_1$ and $R_f$ form a voltage divider from output $v_o$ to ground, feeding the inverting node.</p>
+<p>By Axiom 1, $V^- = V^+ = v_{in}$. Applying KCL at the inverting node:</p>
+<div class="math-display">
+$$\frac{0 - V^-}{R_1} + \frac{v_o - V^-}{R_f} = 0 \implies \frac{v_o - v_{in}}{R_f} = \frac{v_{in}}{R_1}$$
+</div>
+<div class="math-display">
+$$v_o = v_{in} \left( 1 + \frac{R_f}{R_1} \right)$$
+</div>
+<p>Thus, the non-inverting gain is always positive and strictly $\ge 1$:</p>
+<div class="math-display">
+$$A_v = \frac{v_o}{v_{in}} = 1 + \frac{R_f}{R_1}$$
+</div>
+<p>Input impedance is extremely high ($Z_{in} \approx R_{in} (1 + A_{OL}\beta) \sim 10^{9}\,\Omega$ for BJT), preventing any loading on preceding stages.</p>
+
+<h4>3. Voltage Follower (Unity-Gain Buffer)</h4>
+<p>Setting $R_f = 0$ (direct short from output to inverting terminal) and $R_1 = \infty$ (open circuit):</p>
+<div class="math-display">
+$$A_v = 1 + \frac{0}{\infty} = 1 \implies v_o = v_{in}$$
+</div>
+<p>The voltage follower provides unity voltage gain, zero phase shift, astronomical input impedance ($Z_{in} \to \infty$), and near-zero output impedance ($Z_{out} \to 0$). It acts as the universal impedance-matching buffer, isolating sensitive high-impedance sensors (such as pH glass electrodes or piezoelectric transducers) from low-impedance measuring loads.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-opamp-inverting-noninverting-sim"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u7-sec3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.3</span>
+            <span>Linear Operations: Summing Adder &amp; Difference Amplifier</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Inverting Summing Amplifier (Analog Adder)</h4>
+<p>Multiple input voltages $v_1, v_2, \dots, v_n$ are connected through respective resistors $R_1, R_2, \dots, R_n$ to the common inverting virtual ground node. Applying KCL:</p>
+<div class="math-display">
+$$I_1 + I_2 + \dots + I_n = I_f$$
+</div>
+<div class="math-display">
+$$\frac{v_1 - 0}{R_1} + \frac{v_2 - 0}{R_2} + \dots + \frac{v_n - 0}{R_n} = \frac{0 - v_o}{R_f}$$
+</div>
+<p>Solving for output voltage $v_o$:</p>
+<div class="math-display">
+$$v_o = - \left( \frac{R_f}{R_1} v_1 + \frac{R_f}{R_2} v_2 + \dots + \frac{R_f}{R_n} v_n \right)$$
+</div>
+<p>If all input resistors are chosen equal ($R_1 = R_2 = \dots = R_n = R$):</p>
+<div class="math-display">
+$$v_o = - \frac{R_f}{R} (v_1 + v_2 + \dots + v_n)$$
+</div>
+<p>By selecting binary-weighted resistor values ($R, 2R, 4R, 8R$), the summing amplifier operates as a digital-to-analog converter (DAC).</p>
+
+<h4>2. Difference Subtractor Amplifier</h4>
+<p>The difference amplifier rejects common-mode voltages and amplifies the differential voltage between two signals $v_1$ and $v_2$. Applying superposition or voltage division:</p>
+<p>At non-inverting terminal ($+$): $V^+ = v_2 \left( \frac{R_4}{R_3 + R_4} \right)$.</p>
+<p>At inverting terminal ($-$), using virtual short $V^- = V^+$ and nodal analysis:</p>
+<div class="math-display">
+$$v_o = - \frac{R_2}{R_1} v_1 + \left( 1 + \frac{R_2}{R_1} \right) \left( \frac{R_4}{R_3 + R_4} \right) v_2$$
+</div>
+<p>Setting the bridge balance condition $\frac{R_2}{R_1} = \frac{R_4}{R_3}$:</p>
+<div class="math-display">
+$$v_o = \frac{R_2}{R_1} (v_2 - v_1)$$
+</div>
+<p>The circuit precisely subtracts $v_1$ from $v_2$ with differential gain $A_d = R_2 / R_1$. Any common-mode noise present equally on both leads cancels out.</p>
+
+<h4>3. Three-Op-Amp Instrumentation Amplifier</h4>
+<p>While the single op-amp difference amplifier is simple, its input impedances are low and asymmetrical ($Z_{in1} = R_1$, $Z_{in2} = R_3 + R_4$).</p>
+<p>The <strong>Three-Op-Amp Instrumentation Amplifier</strong> overcomes this by placing two non-inverting buffers ($A_1, A_2$) before the differential stage ($A_3$). Differential gain is set by a single variable gain resistor $R_G$:</p>
+<div class="math-display">
+$$A_d = \left( 1 + \frac{2 R_1}{R_G} \right) \left( \frac{R_3}{R_2} \right)$$
+</div>
+<p>Common-mode signals pass through the input buffers with unity gain ($A_{cm,1} = 1$) while differential signals are heavily amplified, yielding common-mode rejection ratios exceeding $120\,\text{dB}$ with gigohm input impedances.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="u7-sec4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.4</span>
+            <span>Analog Integrator &amp; Differentiator: Ideal vs. Practical Frequency Response</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Ideal Op-Amp Integrator</h4>
+<p>Replacing the feedback resistor $R_f$ with a capacitor $C$ in an inverting configuration yields an integrator. By virtual ground ($V^- = 0$):</p>
+<div class="math-display">
+$$i_{in}(t) = \frac{v_{in}(t)}{R}, \quad i_f(t) = C \frac{d(0 - v_o)}{dt} = - C \frac{d v_o}{dt}$$
+</div>
+<p>Equating currents $i_{in} = i_f$ and integrating from $t = 0$ to $t$:</p>
+<div class="math-display">
+$$v_o(t) = - \frac{1}{R C} \int_{0}^{t} v_{in}(\tau)\, d\tau + v_o(0)$$
+</div>
+<p>In Laplace transform domain:</p>
+<div class="math-display">
+$$H(s) = \frac{V_o(s)}{V_{in}(s)} = - \frac{1}{s R C}$$
+</div>
+<p><strong>The DC Drift/Saturation Problem:</strong> At DC ($s \to 0$ or $\omega = 0$), capacitor impedance is infinite ($X_C \to \infty$). The op-amp operates open-loop with astronomical DC gain $A_{OL} \sim 10^5$. Any minuscule input offset voltage $V_{os}$ or bias current $I_B$ charges the capacitor continually, driving the op-amp into saturation at $\pm V_{sat}$ within seconds!</p>
+
+<h4>2. Practical (Lossy) Integrator</h4>
+<p>To prevent DC saturation, a large stabilizing resistor $R_f$ (typically $10 R$ to $100 R$) is placed in parallel with $C$. The transfer function becomes:</p>
+<div class="math-display">
+$$H(s) = - \frac{R_f \parallel \frac{1}{sC}}{R} = - \frac{ \frac{R_f}{1 + s R_f C} }{R} = - \frac{R_f / R}{1 + s R_f C}$$
+</div>
+<p>At DC ($\omega = 0$), the gain is securely clamped to a finite value $A_{dc} = - R_f / R$.</p>
+<p>The lower corner frequency separating amplifier behavior from true integration is:</p>
+<div class="math-display">
+$$f_L = \frac{1}{2\pi R_f C}$$
+</div>
+<p>For input frequencies $f \gg f_L$ (at least $10 f_L$), the capacitor impedance dominates $R_f$, and the circuit performs pure integration with a $-20\,\text{dB/decade}$ roll-off.</p>
+
+<h4>3. Ideal vs. Practical Differentiator</h4>
+<p>Inverting the positions—placing $C$ at input and $R$ in feedback—produces an ideal differentiator:</p>
+<div class="math-display">
+$$v_o(t) = - R C \frac{d v_{in}}{dt}$$
+</div>
+<div class="math-display">
+$$H(s) = - s R C \implies |H(j\omega)| = \omega R C$$
+</div>
+<p><strong>The Noise and Instability Problem:</strong> Gain $|H(j\omega)|$ increases linearly with frequency at $+20\,\text{dB/decade}$ indefinitely! High-frequency thermal noise, radio pickup, and power transients are amplified enormously, overwhelming the desired signal and causing parasitic oscillations.</p>
+<p><strong>Practical Differentiator:</strong> A small resistor $R_1$ is added in series with $C$, and a small capacitor $C_f$ is placed in parallel with $R_f$. The high-frequency cutoff is set to:</p>
+<div class="math-display">
+$$f_H = \frac{1}{2\pi R_1 C} = \frac{1}{2\pi R_f C_f}$$
+</div>
+<p>For frequencies $f \ll f_H$, the circuit differentiates cleanly; for frequencies $f &gt; f_H$, the response rolls off at $-20\,\text{dB/decade}$, guaranteeing total high-frequency noise immunity and closed-loop stability.</p>
+        </div>
+        
+      </section></div><div id="problems-mount"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.1: Design of Analog Computing Linear Combination Circuit</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Using standard op-amps operating with dual $\pm 15\text{ V}$ supplies and resistors in the range $10\text{ k}\Omega$ to $100\text{ k}\Omega$, design a summing amplifier circuit to produce an output voltage: $v_o = - (3 v_1 + 5 v_2 - 2 v_3)$. (a) Draw the schematic diagram using inverting amplifier stages. (b) Calculate the precise values for all resistors ($R_1, R_2, R_3, R_f$). (c) Determine the maximum allowable positive and negative excursions of input voltages before the output clips at $\pm 13.5\text{ V}$.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-u7-prob1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-u7-prob1">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Step 1: Circuit Topology Architecture</strong></p>
+<p>Because an inverting summing amplifier produces an inverted sum $- (\sum k_i v_i)$, we can invert $v_1$ and $v_3$ first using inverting unity/gain stages, or invert the output of a summing amplifier:</p>
+<p>Rewrite $v_o$ in terms of an inverting sum:</p>
+<div class="math-display">
+$$v_o = - [ -4 v_1 + 2 v_2 - 5 v_3 ] = - [ 2 v_2 - (4 v_1 + 5 v_3) ]$$
+</div>
+<p>Alternatively, use a two-stage configuration:
+Stage 1: Invert $v_2$ using a unity-gain inverting amplifier: $v_2' = - v_2$.
+Stage 2: Feed $v_1, v_2', v_3$ into a four-input summing inverter where:</p>
+<div class="math-display">
+$$v_o = - \left( - \frac{R_f}{R_1} v_1 + \frac{R_f}{R_2} v_2' - \frac{R_f}{R_3} v_3 \right) \dots$$
+</div>
+<p>The cleanest approach:
+1. Invert $v_1$ and $v_3$ with unity gain: $v_1^* = -v_1$, $v_3^* = -v_3$.
+2. Sum $v_1^*, v_2, v_3^*$ into a standard inverting adder with feedback resistor $R_f = 100\,\text{k}\Omega$:</p>
+<div class="math-display">
+$$v_o = - \left( \frac{R_f}{R_1} v_1^* + \frac{R_f}{R_2} v_2 + \frac{R_f}{R_3} v_3^* \right) = - \left( -\frac{R_f}{R_1} v_1 + \frac{R_f}{R_2} v_2 - \frac{R_f}{R_3} v_3 \right) = \frac{R_f}{R_1} v_1 - \frac{R_f}{R_2} v_2 + \frac{R_f}{R_3} v_3$$
+</div>
+
+<p><strong>Step 2: Calculate Resistor Values for Stage 2 ($R_f = 100\,\text{k}\Omega$)</strong></p>
+<div class="math-display">
+$$\frac{R_f}{R_1} = 4 \implies R_1 = \frac{100\,\text{k}\Omega}{4} = 25\,\text{k}\Omega$$
+</div>
+<div class="math-display">
+$$\frac{R_f}{R_2} = 2 \implies R_2 = \frac{100\,\text{k}\Omega}{2} = 50\,\text{k}\Omega$$
+</div>
+<div class="math-display">
+$$\frac{R_f}{R_3} = 5 \implies R_3 = \frac{100\,\text{k}\Omega}{5} = 20\,\text{k}\Omega$$
+</div>
+<p>All resistors are standard values and fit comfortably within the specified $10\,\text{k}\Omega - 100\,\text{k}\Omega$ range.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.2: Three-Op-Amp Instrumentation Amplifier Gain &amp; CMRR Analysis</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A biomedical electrocardiogram (ECG) data acquisition system uses a 3-op-amp instrumentation amplifier with $R_1 = 25\text{ k}\Omega$, gain-setting resistor $R_G = 1.0\text{ k}\Omega$, and differential stage matched resistors $R_2 = R_3 = 50\text{ k}\Omega$. (a) Derive and calculate the differential voltage gain $A_d$. (b) If the input terminals receive a differential bio-potential signal $v_d = 2.0\text{ mV}$ superimposed on a $50\text{ Hz}$ power line common-mode noise voltage $v_{cm} = 2.0\text{ V}$, calculate the output voltage if the op-amps have an intrinsic CMRR of $90\text{ dB}$. (c) Explain why this instrumentation topology is superior to a single op-amp differential amplifier.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-u7-prob2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-u7-prob2">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Step 1: Calculate Differential Voltage Gain $A_d$</strong></p>
+<p>Using the instrumentation amplifier gain formula:</p>
+<div class="math-display">
+$$A_d = \left( 1 + \frac{2 R_1}{R_G} \right) \times \left( \frac{R_3}{R_2} \right)$$
+</div>
+<div class="math-display">
+$$1 + \frac{2(25\,\text{k}\Omega)}{1.0\,\text{k}\Omega} = 1 + \frac{50}{1} = 51$$
+</div>
+<div class="math-display">
+$$\frac{R_3}{R_2} = \frac{100\,\text{k}\Omega}{10\,\text{k}\Omega} = 10$$
+</div>
+<div class="math-display">
+$$A_d = 51 \times 10 = 510$$
+</div>
+
+<p><strong>Step 2: Calculate Differential Output Voltage</strong></p>
+<div class="math-display">
+$$V_{o,d} = A_d \times V_d = 510 \times 2.5\,\text{mV} = 1275\,\text{mV} = 1.275\,\text{V}$$
+</div>
+
+<p><strong>Step 3: Calculate Common-Mode Gain $A_{cm}$ and CMRR</strong></p>
+<div class="math-display">
+$$A_{cm} = \frac{V_{o,cm}}{V_{cm}} = \frac{2.4\,\text{mV}}{1.2\,\text{V}} = \frac{2.4 \times 10^{-3}}{1.2} = 2.0 \times 10^{-3}$$
+</div>
+<div class="math-display">
+$$\text{CMRR} = \frac{A_d}{|A_{cm}|} = \frac{510}{2.0 \times 10^{-3}} = 255,000$$
+</div>
+<div class="math-display">
+$$\text{CMRR}(\text{dB}) = 20 \log_{10}(255,000) \approx 20 \times 5.4065 = 108.13\,\text{dB}$$
+</div>
+<p>The amplifier attenuates the 1.2 V hum to negligible levels while cleanly boosting the tiny 2.5 mV heart signal to 1.275 V.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.3: Practical Analog Integrator Waveform &amp; Frequency Response</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A practical op-amp integrator has $R = 10\text{ k}\Omega$, $C = 0.01\ \mu\text{F}$, and feedback stabilizing resistor $R_f = 100\text{ k}\Omega$. (a) Determine the lower cutoff 3-dB frequency $f_L$ below which integration degrades into inverting amplification. (b) Calculate the DC gain of the circuit. (c) If a square wave input of frequency $f = 10\text{ kHz}$ and peak-to-peak amplitude $2.0\text{ V}$ (zero DC offset) is applied, sketch the output waveform and compute its peak-to-peak amplitude.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-u7-prob3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-u7-prob3">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Step 1: Calculate DC Gain and Corner Frequency $f_L$</strong></p>
+<div class="math-display">
+$$A_{dc} = - \frac{R_f}{R} = - \frac{100\,\text{k}\Omega}{10\,\text{k}\Omega} = -10 \quad (20\,\text{dB})$$
+</div>
+<div class="math-display">
+$$f_L = \frac{1}{2\pi R_f C} = \frac{1}{2\pi \times 10^5\,\Omega \times 10^{-8}\,\text{F}} = \frac{1}{2\pi \times 10^{-3}} = \frac{1000}{6.2832} \approx 159.15\,\text{Hz}$$
+</div>
+
+<p><strong>Step 2: Integration Validity Check</strong></p>
+<p>The input frequency is $f = 5000\,\text{Hz}$. Since $f / f_L = 5000 / 159.15 \approx 31.4 \gg 10$, the input operates well into the pure integration $-20\,\text{dB/decade}$ band.</p>
+
+<p><strong>Step 3: Output Waveform Shape &amp; Amplitude</strong></p>
+<p>The integral of a symmetrical square wave is a symmetrical triangular wave. For a square wave of frequency $f = 5\,\text{kHz}$, the half-period duration is:</p>
+<div class="math-display">
+$$\frac{T}{2} = \frac{1}{2 \times 5000\,\text{s}} = 0.1\,\text{ms} = 100\,\mu\text{s}$$
+</div>
+<p>During the positive half-cycle ($v_{in} = +2\,\text{V}$), output ramps downward linearly with constant slope:</p>
+<div class="math-display">
+$$\frac{dv_o}{dt} = - \frac{v_{in}}{R C} = - \frac{2\,\text{V}}{(10^4\,\Omega)(10^{-8}\,\text{F})} = - \frac{2}{10^{-4}} = -20,000\,\text{V/s}$$
+</div>
+<p>The change in output voltage during this half-period is the peak-to-peak triangular amplitude $\Delta V_{o,pp}$:</p>
+<div class="math-display">
+$$\Delta V_{o,pp} = \left| \frac{dv_o}{dt} \right| \times \frac{T}{2} = (20,000\,\text{V/s}) \times (100 \times 10^{-6}\,\text{s}) = 2.0\,\text{V}$$
+</div>
+<p>The output is an unclipped, pure triangular wave of $2.0\,\text{V}$ peak-to-peak ($\pm 1.0\,\text{V}$ peak).</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+
+          <!-- Solved University Exam Problems Section -->
+          <section class="solved-problems-section" id="solved-problems-section">
+            <div class="solved-section-header">
+              <div class="solved-badge">EXAM SUCCESS WORKSHOP</div>
+              <h3 class="solved-title">Solved University Examination Problems</h3>
+              <p class="solved-desc">Step-by-step mathematical solutions to classic university honors examination questions.</p>
+            </div>
+            <div class="problem-cards-list" id="problem-cards-list">
+
+
+
+
+            </div>
+          </section>
+
+                  <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer">
+            <div class="reader-trust-links">
+              <a href="index" class="reader-trust-link">← All Academic Departments</a>
+              <a href="reader" class="reader-trust-link">Quantum Mechanics I</a>
+              <a href="mechanics" class="reader-trust-link">Mechanics</a>
+              <a href="electrodynamics" class="reader-trust-link">Electrodynamics</a>
+              <a href="optics" class="reader-trust-link">Wave Optics</a>
+              <a href="statistical-mechanics" class="reader-trust-link">Statistical Mechanics</a>
+              <a href="properties-of-matter" class="reader-trust-link">Properties of Matter</a>
+              <a href="electricity-magnetism" class="reader-trust-link">Electricity &amp; Magnetism</a>
+              <a href="thermal-physics" class="reader-trust-link">Thermal Physics</a>
+              <a href="classical-mechanics" class="reader-trust-link">Classical Mechanics</a>
+              <a href="basic-electronics" class="reader-trust-link">Basic Electronics</a>
+              <a href="atomic-molecular-physics" class="reader-trust-link">Atomic &amp; Molecular Physics</a>
+              <a href="solid-state-physics" class="reader-trust-link">Solid State Physics</a>
+              <a href="nuclear-physics" class="reader-trust-link">Nuclear Physics</a>
+              <a href="digital-electronics" class="reader-trust-link">Digital Electronics</a>
+              <a href="quantum-mechanics-2" class="reader-trust-link">Quantum Mechanics II</a>
+              <a href="astrophysics" class="reader-trust-link">Astrophysics</a>
+              <a href="plasma-physics" class="reader-trust-link">Plasma Physics</a>
+              <a href="solid-state-physics-2" class="reader-trust-link">Solid State Physics II</a>
+              <a href="nuclear-physics-2" class="reader-trust-link">Nuclear Physics II</a>
+              <a href="reactor-physics" class="reader-trust-link">Reactor Physics</a>
+              <a href="calculus-1" class="reader-trust-link">Calculus I</a>
+              <a href="geometry-2d" class="reader-trust-link">Two-Dimensional Geometry</a>
+              <a href="basic-algebra" class="reader-trust-link">Basic Algebra</a>
+              <a href="calculus-2" class="reader-trust-link">Calculus II</a>
+              <a href="geometry-3d" class="reader-trust-link">3D &amp; Vector Geometry</a>
+              <a href="calculus-3" class="reader-trust-link">Calculus III</a>
+              <a href="linear-algebra" class="reader-trust-link">Linear Algebra</a>
+              <a href="about" class="reader-trust-link">About &amp; Editorial</a>
+              <a href="privacy" class="reader-trust-link">Privacy Policy</a>
+              <a href="terms" class="reader-trust-link">Terms of Service</a>
+              <a href="https://discord.gg/tBBKtvFJzW" target="_blank" rel="noopener noreferrer" class="reader-trust-link" style="color: #a5b4fc;">💬 Discord Community</a>
+              <a href="mailto:shahriyarkarimsiam@gmail.com" class="reader-trust-link">Contact (shahriyarkarimsiam@gmail.com)</a>
+            </div>
+            <p class="reader-trust-copy">© 2026 OpenSTEM Global Academic Press • Free Open-Access Academic Library • Peer-Reviewed University Textbooks</p>
+          </footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="basic-electronics-chapter-6">← Previous chapter</a><a href="basic-electronics">Book contents</a><a href="basic-electronics-chapter-8">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="basic-electronics-sims.js?v=20261004_v10"></script>
+  <script src="basic-electronics-data.js?v=20261004_v10"></script>
+  <script src="app.js?v=20261011_reader_catalog_v1"></script>
+
+
+</body></html>

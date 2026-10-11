@@ -12,6 +12,16 @@ document.addEventListener("DOMContentLoaded", () => {
   renderCourses();
   initSearchInput();
   initEmailClipboard();
+  initDepartmentLinks();
+  window.addEventListener('hashchange', initDepartmentLinks);
+
+  function initDepartmentLinks() {
+    const match = location.hash.match(/^#dept-(.+)$/);
+    if (match && catalog.departments.some(d => d.id === match[1])) {
+      selectDept(match[1]);
+      document.getElementById(`dept-${match[1]}`)?.scrollIntoView({block: 'start'});
+    }
+  }
 
   // 1. Render Department Tabs with dynamic book counts
   function renderDepartmentFilters() {
@@ -33,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     allBtn.className = `dept-pill-btn ${activeDeptFilter === "all" ? 'active' : ''}`;
     allBtn.dataset.dept = "all";
     allBtn.setAttribute("aria-label", "Filter by all subjects");
+    allBtn.setAttribute("aria-pressed", String(activeDeptFilter === 'all'));
     allBtn.innerText = `🌐 All Subjects (${totalBooks})`;
     allBtn.addEventListener("click", () => selectDept("all"));
     tabsContainer.appendChild(allBtn);
@@ -44,6 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.className = `dept-pill-btn ${activeDeptFilter === dept.id ? 'active' : ''}`;
       btn.dataset.dept = dept.id;
       btn.setAttribute("aria-label", `Filter by ${dept.name} department`);
+      btn.setAttribute("aria-pressed", String(activeDeptFilter === dept.id));
       btn.innerText = `${dept.icon} ${dept.name} (${availCount})`;
       btn.addEventListener("click", () => selectDept(dept.id));
       tabsContainer.appendChild(btn);
@@ -54,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     activeDeptFilter = deptId;
     document.querySelectorAll(".dept-pill-btn").forEach(btn => {
       btn.classList.toggle("active", btn.dataset.dept === deptId);
+      btn.setAttribute('aria-pressed', String(btn.dataset.dept === deptId));
     });
     renderCourses();
   }
@@ -135,19 +148,24 @@ document.addEventListener("DOMContentLoaded", () => {
               ${badgeLabel}
             </span>
           </div>
-          <h3 class="course-title">${c.title}</h3>
-          ${c.subtitle ? `<div style="font-size:0.85rem; color:#38bdf8; font-weight:600; margin-top:-0.4rem; margin-bottom:0.75rem;">${c.subtitle}</div>` : ''}
-          <p class="course-description">${c.description}</p>
+          <h3 class="course-title"><a href="${c.url.replace(/\.html$/, '')}">${c.title}</a></h3>
+          <p class="course-description course-preview">${c.description}</p>
           <div class="course-stats-bar">
             <span class="stat-item">⚡ <strong>Interactive Simulations</strong></span>
             <span class="stat-item">📝 <strong>Solved Problem Sets</strong></span>
             <span class="stat-item">🌐 <strong>100% Free</strong></span>
           </div>
-          <div class="course-topics-tags">
-            ${topicsHtml}
-          </div>
+          <details class="course-details">
+            <summary>Overview &amp; chapter topics</summary>
+            <div class="course-details-content">
+              <p class="course-full-title">${c.title}</p>
+              ${c.subtitle ? `<p class="course-subtitle">${c.subtitle}</p>` : ''}
+              <p class="course-description">${c.description}</p>
+              <div class="course-topics-tags">${topicsHtml}</div>
+            </div>
+          </details>
           ${isAvailable ? `
-            <a href="${c.url}" class="btn-open-course primary" title="Read ${c.title} Online" aria-label="Read ${c.title} textbook and simulations">
+            <a href="${c.url.replace(/\.html$/, '')}" class="btn-open-course primary" title="Read ${c.title} Online" aria-label="Read ${c.title} textbook and simulations">
               <span>Read Textbook & Simulations</span>
               <span>→</span>
             </a>

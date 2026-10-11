@@ -1,0 +1,827 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Unit 4: Connectivity, Cut-Sets, Fundamental Circuits &amp; Menger's Theorem | Graph Theory: Structures, Algorithms &amp; Flows | OpenSTEM Library</title>
+  <meta name="description" content="Deep analysis of graph vulnerability, connectivity, and separability: cut-vertices, bridges, cut-sets, vertex connectivity κ(G), edge connectivity λ(G), Whitney's theorem κ <= λ <= δ, Menger's Theorem in vertex and edge formulations, fundamental circuits and cut-sets, 1-isomorphism, and Whitney's 2-isomorphism theorem.">
+  <meta name="keywords" content="Graph Theory, Eulerian Graphs, Hamiltonian Cycles, Trees, Spanning Trees, Kruskal Algorithm, Prim Algorithm, Cayley Formula, Prüfer Sequence, Connectivity, Cut-Sets, Whitney Inequality, Menger Theorem, Incidence Matrix, Adjacency Matrix, Graph Laplacian, Kirchhoff Matrix Tree Theorem, Directed Graphs, Tournaments, Landau Theorem, DAG, Topological Sort, Kahn Algorithm, Planar Graphs, Euler Polyhedral Formula, Kuratowski Theorem, Wagner Theorem, Dual Graphs, Vertex Coloring, Chromatic Number, Brooks Theorem, Five Color Theorem, Four Color Theorem, Chromatic Polynomial, Deletion-Contraction Recurrence, Edge Coloring, Chromatic Index, Vizing Theorem, Network Flows, Residual Network, Max-Flow Min-Cut Theorem, Ford-Fulkerson Algorithm, Bipartite Matching, Hall Marriage Theorem">
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/graph-theory-chapter-4">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Graph Theory: Structures, Algorithms, Algebraic Representations &amp; Network Flows | OpenSTEM Digital Academic Press">
+  <meta property="og:description" content="Exhaustive university honors textbook with 8 chapters, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
+  <meta property="og:image" content="https://openstemlibrary.com/logo.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+
+  <!-- Schema.org Educational Course JSON-LD (Strictly Zero Course Numbers) -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Graph Theory: Structures, Algorithms, Algebraic Representations & Network Flows","description":"Comprehensive university honors curriculum covering graph structures, degree sequences, Handshaking theorems, Havel-Hakimi criterion, isomorphism invariants, Eulerian trails, Fleury's algorithm, Hamiltonian cycles, Dirac and Ore theorems, tree metrics, Jordan center theorem, Cayley's formula, Prüfer sequences, Kruskal and Prim MST, connectivity, cut-sets, Whitney inequality, Menger's theorems, incidence, circuit, cut-set and Laplacian matrices, Kirchhoff's Matrix Tree Theorem, directed graphs, tournaments, DAGs, topological sorting, planar graphs, Euler's formula, Kuratowski and Wagner theorems, geometric duality, vertex coloring, Brooks' theorem, Five-Color theorem, chromatic polynomials, edge coloring, Vizing's theorem, network flows, and Hall's Marriage Theorem.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Digital Academic Press","url":"https://openstemlibrary.com"},"educationalLevel":"Undergraduate B.Sc. Honors & STEM Foundation","isAccessibleForFree":true}</script>
+
+  <!-- Google Fonts: Inter, Fira Code & Newsreader -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261011_reader_catalog_v1">
+  <!-- Google AdSense Official Script -->
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4546869673631824" crossorigin="anonymous"></script>
+</head>
+<body data-book-path="graph-theory.html" data-chapter-index="3">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Graph Theory</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search trees, Eulerian, Menger, planar, coloring, flows, spectra..." class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="graph-theory" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Unit 1: Foundations of Graph Theory, Degree Sequences &amp; Handshaking Theorems</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="graph-theory-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Unit 2: Walks, Paths, Circuits, Eulerian Graphs &amp; Hamiltonian Cycles</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="graph-theory-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Unit 3: Trees, Spanning Trees, Center Theorems &amp; Tree Metric Algorithms</span></a></li><li class="unit-nav-item active" data-unit-index="3"><a href="graph-theory-chapter-4" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Unit 4: Connectivity, Cut-Sets, Fundamental Circuits &amp; Menger's Theorem</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="graph-theory-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Unit 5: Algebraic Graph Theory: Incidence, Circuit, Cut-Set &amp; Laplacian Matrices</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="graph-theory-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Unit 6: Directed Graphs, Tournaments, DAGs &amp; Topological Sorting</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="graph-theory-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Unit 7: Planar Graphs, Euler's Formula, Kuratowski's Theorem &amp; Duality</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="graph-theory-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Unit 8: Graph Coloring, Chromatic Polynomials &amp; Network Flows</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Mathematics / Pure &amp; Applied</span>
+          <span class="badge-pill badge-credits">Graph Theory: Structures, Algorithms &amp; Flows</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">
+            🔒 <span>In-Browser Protected • Direct Download Disabled</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 4 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Unit 4: Connectivity, Cut-Sets, Fundamental Circuits &amp; Menger's Theorem</h1>
+            <p class="unit-desc-lead" id="unit-desc">Deep analysis of graph vulnerability, connectivity, and separability: cut-vertices, bridges, cut-sets, vertex connectivity κ(G), edge connectivity λ(G), Whitney's theorem κ &lt;= λ &lt;= δ, Menger's Theorem in vertex and edge formulations, fundamental circuits and cut-sets, 1-isomorphism, and Whitney's 2-isomorphism theorem.</p>
+          </header>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="u4-sec1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.1</span>
+            <span>Cut-Vertices, Bridges &amp; Non-Separable Blocks</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Cut-Vertices and Articulation Points</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 4.1 (Cut-Vertex):</strong> A vertex $v \in V(G)$ in a connected graph $G$ is called a <strong>cut-vertex</strong> (or articulation point) if its removal strictly increases the number of connected components:</p>
+</blockquote>
+
+<div class="math-display">$$\omega(G - v) &gt; \omega(G) = 1$$</div>
+
+<blockquote class="math-callout">
+<p>where $G - v$ is the graph obtained by deleting vertex $v$ and all edges incident with $v$.</p>
+</blockquote>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 4.1 (Characterization of Cut-Vertices):</strong> Let $G$ be a connected graph. A vertex $v \in V(G)$ is a cut-vertex if and only if there exist two distinct vertices $u, w \in V(G) \setminus \{v\}$ such that <strong>every path connecting $u$ and $w$ passes through $v$</strong>.</p>
+</blockquote>
+
+<h5>Proof:</h5>
+
+<ul>
+
+  <li>$(\implies)$ Suppose $v$ is a cut-vertex. Then $G - v$ is disconnected, so there exist two vertices $u, w \in V(G - v)$ that belong to different connected components of $G - v$.</li>
+
+</ul>
+
+<p>Therefore, there is no $u$-$w$ path in $G - v$. However, since $G$ was connected, there was a $u$-$w$ path in $G$. Since this path cannot exist in $G - v$, it must pass through vertex $v$. Hence every $u$-$w$ path in $G$ must pass through $v$.</p>
+
+<ul>
+
+  <li>$(\impliedby)$ If every $u$-$w$ path passes through $v$, then removing $v$ destroys all $u$-$w$ paths, leaving $u$ and $w$ disconnected in $G - v$.</li>
+
+</ul>
+
+<p>Thus $\omega(G - v) \ge 2$, meaning $v$ is a cut-vertex. $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Bridges (Cut-Edges)</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 4.2 (Bridge / Cut-Edge):</strong> An edge $e \in E(G)$ in a connected graph $G$ is called a <strong>bridge</strong> (or cut-edge) if its removal disconnects the graph:</p>
+</blockquote>
+
+<div class="math-display">$$\omega(G - e) &gt; 1$$</div>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 4.2 (Cycle-Edge Characterization of Bridges):</strong> An edge $e \in E(G)$ is a bridge if and only if $e$ <strong>does NOT belong to any cycle</strong> in $G$.</p>
+</blockquote>
+
+<h5>Proof:</h5>
+
+<ul>
+
+  <li>$(\implies)$ Suppose $e = \{u, v\}$ is a bridge. Then $G - e$ has no $u$-$v$ path.</li>
+
+</ul>
+
+<p>If $e$ belonged to some cycle $C$, then $C - e$ would provide an alternative $u$-$v$ path in $G - e$, contradicting that $G - e$ is disconnected. Thus $e$ cannot lie on any cycle.</p>
+
+<ul>
+
+  <li>$(\impliedby)$ Suppose $e = \{u, v\}$ is not a bridge. Then $G - e$ remains connected, so there exists a $u$-$v$ path $P$ in $G - e$.</li>
+
+</ul>
+
+<p>Then $P \cup \{e\}$ forms a simple cycle in $G$ containing $e$. $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<h4>3. Blocks and Non-Separable Graphs</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 4.3 (Block):</strong> A connected graph is <strong>non-separable</strong> if it has order $\ge 3$ and contains no cut-vertices. A <strong>block</strong> of a graph $G$ is a maximal non-separable connected subgraph. Two blocks of $G$ intersect in at most one vertex (which must be a cut-vertex of $G$).</p>
+</blockquote>
+        </div>
+        
+      </section><section class="textbook-section-card" id="u4-sec2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.2</span>
+            <span>Cut-Sets, Fundamental Circuits &amp; Fundamental Cut-Sets</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Cut-Sets and Edge Separators</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 4.4 (Cut-Set):</strong> A <strong>cut-set</strong> $S \subseteq E(G)$ in a connected graph $G$ is a minimal set of edges whose removal disconnects $G$:</p>
+<ol>
+  <li>$\omega(G - S) &gt; 1$.</li>
+  <li>For any proper subset $S' \subsetneq S$, $\omega(G - S') = 1$ (minimality).</li>
+</ol>
+</blockquote>
+
+<p>A cut-set partitions the vertex set $V$ into two disjoint non-empty subsets $V_1, V_2$ ($V_1 \cup V_2 = V$) such that $S$ consists of all edges having one endpoint in $V_1$ and one in $V_2$, denoted $S = [V_1, V_2]$.</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Fundamental Circuits Relative to a Spanning Tree</h4>
+
+<p>Let $T$ be a spanning tree of a connected graph $G = (V, E)$.</p>
+
+<ul>
+
+  <li>The edges of $T$ are called <strong>branches</strong>. There are $n - 1$ branches.</li>
+
+  <li>The edges in $E \setminus E(T)$ are called <strong>chords</strong> (or links). There are $m - (n - 1) = \mu(G)$ chords, where $\mu(G) = m - n + 1$ is the <strong>circuit rank</strong> (cyclomatic number) of $G$.</li>
+
+</ul>
+
+<blockquote class="math-callout">
+<p><strong>Definition 4.5 (Fundamental Circuit):</strong> Adding any chord $e \in E \setminus E(T)$ to $T$ produces a unique cycle, called the <strong>fundamental circuit</strong> associated with chord $e$, denoted $C(e)$. The set of all $\mu(G) = m - n + 1$ fundamental circuits forms a basis for the cycle space of $G$.</p>
+</blockquote>
+
+<hr class="section-divider-hr">
+
+<h4>3. Fundamental Cut-Sets Relative to a Spanning Tree</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 4.6 (Fundamental Cut-Set):</strong> Removing any branch $b \in E(T)$ from $T$ splits $T$ into two trees $T_1$ and $T_2$ on vertex sets $V_1$ and $V_2$. The cut-set $[V_1, V_2]$ in $G$ contains the branch $b$ and some set of chords, but <strong>no other branches of $T$</strong>. This cut-set is called the <strong>fundamental cut-set</strong> associated with branch $b$, denoted $S(b)$. There are exactly $n - 1$ fundamental cut-sets, forming a basis for the cut space of $G$.</p>
+</blockquote>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 4.3 (Ring Sum / Intersection Orthogonality):</strong> Every cut-set and every cycle in a graph share an <strong>even number of edges</strong>:</p>
+</blockquote>
+
+<div class="math-display">$$|E(C) \cap S| \equiv 0 \pmod 2, \quad \forall \text{ cycle } C, \; \text{ cut-set } S$$</div>
+
+<h5>Proof:</h5>
+
+<p>Let $S = [V_1, V_2]$ be a cut-set. As a cycle $C$ traverses its vertices, every time it crosses from $V_1$ to $V_2$ it uses an edge in $S$. Since $C$ is a closed walk, to return to its initial vertex, the number of crossings from $V_1$ to $V_2$ must equal the number of crossings from $V_2$ to $V_1$. Thus the total number of edges in $E(C) \cap S$ is twice the number of transitions from $V_1$ to $V_2$, which is an even integer. $\blacksquare$</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="u4-sec3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.3</span>
+            <span>Vertex Connectivity, Edge Connectivity &amp; Whitney's Inequality</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Vertex Connectivity $\kappa(G)$ and Edge Connectivity $\lambda(G)$</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 4.7 (Vertex Connectivity $\kappa(G)$):</strong> The <strong>vertex connectivity</strong> (or connectivity) of a graph $G$, denoted $\kappa(G)$, is the minimum number of vertices whose removal disconnects $G$ or reduces it to a trivial graph $K_1$. For the complete graph $K_n$, $\kappa(K_n) = n - 1$. A graph is <strong>$k$-connected</strong> if $\kappa(G) \ge k$.</p>
+</blockquote>
+
+<blockquote class="math-callout">
+<p><strong>Definition 4.8 (Edge Connectivity $\lambda(G)$):</strong> The <strong>edge connectivity</strong> of a graph $G$, denoted $\lambda(G)$, is the minimum number of edges whose removal disconnects $G$. $\lambda(G) = \min \{ |S| : S \text{ is a cut-set of } G \}$. A graph is <strong>$k$-edge-connected</strong> if $\lambda(G) \ge k$.</p>
+</blockquote>
+
+<hr class="section-divider-hr">
+
+<h4>2. Whitney's Inequality Theorem</h4>
+
+<p>In 1932, Hassler Whitney established the fundamental inequality relating vertex connectivity, edge connectivity, and minimum degree:</p>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 4.4 (Whitney's Inequality, 1932):</strong> For every graph $G$:</p>
+</blockquote>
+
+<div class="math-display">$$\kappa(G) \le \lambda(G) \le \delta(G)$$</div>
+
+<blockquote class="math-callout">
+<p>where $\delta(G)$ is the minimum degree of $G$.</p>
+</blockquote>
+
+<h5>Complete Formal Proof:</h5>
+
+<h4>1. Proof of $\lambda(G) \le \delta(G)$:</h4>
+
+<p>Let $v \in V(G)$ be a vertex of minimum degree: $\deg(v) = \delta(G)$. Removing all $\delta(G)$ edges incident with $v$ isolates vertex $v$ from the rest of the graph (assuming $n \ge \delta + 1$). Thus the set of edges incident with $v$ forms an edge-cut of size $\delta(G)$. By definition of edge connectivity as the minimum size of an edge-cut:</p>
+
+<div class="math-display">$$\lambda(G) \le \delta(G)$$</div>
+
+<h4>2. Proof of $\kappa(G) \le \lambda(G)$:</h4>
+
+<ul>
+
+  <li>If $\lambda(G) = 0$, $G$ is disconnected, so $\kappa(G) = 0 \le 0$.</li>
+
+  <li>If $\lambda(G) = 1$, $G$ contains a bridge $e = \{u, v\}$.</li>
+
+  <li>If $n = 2$, $G = K_2$, so $\kappa(G) = 1 = \lambda(G)$.</li>
+
+  <li>If $n &gt; 2$, at least one of $u$ or $v$ has degree $\ge 2$. Removing that vertex disconnects the graph, so $\kappa(G) = 1 \le 1$.</li>
+
+  <li>Now assume $\lambda(G) = k \ge 2$.</li>
+
+</ul>
+
+<p>Let $E_{\text{cut}} = \{e_1, e_2, \dots, e_k\}$ be a minimum edge-cut of size $k = \lambda(G)$. Removing $E_{\text{cut}}$ partitions $V$ into two connected components $V_1$ and $V_2$.</p>
+
+<ul>
+
+  <li><strong>Case A: Every vertex in $V_1$ is adjacent to every vertex in $V_2$.</strong></li>
+
+</ul>
+
+<p>Then $|E_{\text{cut}}| = |V_1| \cdot |V_2|$. Since $|E_{\text{cut}}| = k$ and $|V| = |V_1| + |V_2| \ge |V_1| \cdot |V_2| + 1$ (unless one set has size 1): Removing $V_1$ leaves $V_2$ disconnected from $V_1$. The number of vertices in $V_1$ is $|V_1| \le |V_1||V_2| = k$. Thus removing $|V_1|$ vertices isolates or destroys the graph, so $\kappa(G) \le |V_1| \le k = \lambda(G)$.</p>
+
+<ul>
+
+  <li><strong>Case B: There exist $u \in V_1$ and $w \in V_2$ such that $\{u, w\} \notin E(G)$.</strong></li>
+
+</ul>
+
+<p>Construct a vertex set $U$ by taking: For each edge $e_i \in E_{\text{cut}}$, pick its endpoint in $V_1$ (if not equal to $u$), or pick its endpoint in $V_2$ (if not equal to $w$). The set $U$ has size $|U| \le |E_{\text{cut}}| = k$. Notice that $u \notin U$ and $w \notin U$. Any $u$-$w$ path in $G$ must use at least one edge in $E_{\text{cut}}$. Because $U$ contains at least one endpoint of every edge in $E_{\text{cut}}$, deleting $U$ destroys all paths between $u$ and $w$! Therefore, $u$ and $w$ lie in different components of $G - U$. Thus $U$ is a vertex-cut, which implies:</p>
+
+<div class="math-display">$$\kappa(G) \le |U| \le k = \lambda(G)$$</div>
+
+<p>Combining both inequalities yields $\kappa(G) \le \lambda(G) \le \delta(G)$. $\blacksquare$</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_gt_connectivity_cuts"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u4-sec4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.4</span>
+            <span>Menger's Theorem: Vertex and Edge Formulations</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Internally Disjoint Paths</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 4.9 (Internally Disjoint Paths):</strong> Two $u$-$v$ paths $P_1$ and $P_2$ in a graph $G$ are <strong>internally disjoint</strong> (or vertex-disjoint) if they share no vertices other than their common endpoints $u$ and $v$:</p>
+</blockquote>
+
+<div class="math-display">$$V(P_1) \cap V(P_2) = \{u, v\}$$</div>
+
+<blockquote class="math-callout">
+<p>They are <strong>edge-disjoint</strong> if they share no edges: $E(P_1) \cap E(P_2) = \emptyset$.</p>
+</blockquote>
+
+<hr class="section-divider-hr">
+
+<h4>2. Menger's Theorem (Karl Menger, 1927)</h4>
+
+<p>One of the deepest minimax theorems in combinatorics, establishing the duality between maximum disjoint paths and minimum separating sets:</p>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 4.5 (Menger's Theorem — Vertex Form):</strong> Let $u$ and $v$ be distinct non-adjacent vertices in a graph $G$. The <strong>maximum number of pairwise internally disjoint $u$-$v$ paths</strong> is equal to the <strong>minimum number of vertices whose removal disconnects $u$ and $v$</strong>:</p>
+</blockquote>
+
+<div class="math-display">$$p_{\text{vertex}}(u, v) = c_{\text{vertex}}(u, v)$$</div>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 4.6 (Menger's Theorem — Edge Form):</strong> Let $u$ and $v$ be distinct vertices in a graph $G$. The <strong>maximum number of pairwise edge-disjoint $u$-$v$ paths</strong> is equal to the <strong>minimum number of edges whose removal disconnects $u$ and $v$</strong>:</p>
+</blockquote>
+
+<div class="math-display">$$p_{\text{edge}}(u, v) = c_{\text{edge}}(u, v)$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>3. Global Menger Characterizations of $k$-Connectivity</h4>
+
+<blockquote class="math-callout">
+<p><strong>Corollary 4.5.1 (Global Vertex Connectivity):</strong> A graph $G$ on $n \ge k + 1$ vertices is <strong>$k$-connected</strong> ($\kappa(G) \ge k$) if and only if <strong>every pair of distinct vertices is connected by at least $k$ internally disjoint paths</strong>.</p>
+</blockquote>
+
+<blockquote class="math-callout">
+<p><strong>Corollary 4.5.2 (Global Edge Connectivity):</strong> A graph $G$ is <strong>$k$-edge-connected</strong> ($\lambda(G) \ge k$) if and only if <strong>every pair of distinct vertices is connected by at least $k$ edge-disjoint paths</strong>.</p>
+</blockquote>
+        </div>
+        
+      </section><section class="textbook-section-card" id="u4-sec5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.5</span>
+            <span>Separability, 1-Isomorphism &amp; Whitney's 2-Isomorphism Theorem</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Separable Graphs and Cut-Vertices</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 4.10 (Separable Graph):</strong> A connected graph is <strong>separable</strong> if it has at least one cut-vertex (i.e., its vertex connectivity $\kappa(G) = 1$). A graph of connectivity $\kappa(G) \ge 2$ is called non-separable.</p>
+</blockquote>
+
+<hr class="section-divider-hr">
+
+<h4>2. 1-Isomorphism and 2-Isomorphism</h4>
+
+<p>Can two graphs have identical circuit/cycle structures without being strictly isomorphic? Hassler Whitney formulated structural relaxations:</p>
+
+<blockquote class="math-callout">
+<p><strong>Definition 4.11 (1-Isomorphism):</strong> Two graphs $G_1$ and $G_2$ are <strong>1-isomorphic</strong> if $G_2$ can be obtained from $G_1$ by:</p>
+<ol>
+  <li>Splitting a cut-vertex into two vertices (separating blocks).</li>
+  <li>Gluing two separate component vertices together into a single cut-vertex.</li>
+</ol>
+</blockquote>
+
+<blockquote class="math-callout">
+<p><strong>Definition 4.12 (2-Isomorphism):</strong> Two graphs $G_1$ and $G_2$ are <strong>2-isomorphic</strong> if $G_2$ can be obtained from $G_1$ by a sequence of 1-isomorphisms and <strong>vertex twisting operations</strong>:</p>
+<ul>
+  <li><strong>Vertex Twisting:</strong> If $\{u, v\}$ is a 2-vertex cut separating $G$ into two subgraphs $G_A$ and $G_B$ meeting only at $\{u, v\}$, detach $G_B$ and reattach it with the roles of $u$ and $v$ swapped!</li>
+</ul>
+</blockquote>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 4.7 (Whitney's 2-Isomorphism Theorem, 1933):</strong> Two graphs $G_1$ and $G_2$ have isomorphic cycle spaces (i.e., there is an edge bijection preserving all circuits) if and only if $G_1$ and $G_2$ are <strong>2-isomorphic</strong>. Furthermore, if $G_1$ is 3-connected, then any 2-isomorphism is an authentic isomorphism!</p>
+</blockquote>
+        </div>
+        
+      </section></div>
+
+          <!-- Interactive Simulations Mounting Section -->
+          <div class="sim-section-wrapper" id="sim-section-wrap" style="display: none; margin-top: 3rem;">
+            <div class="section-divider">
+              <span class="divider-label">Interactive Computational Laboratory</span>
+            </div>
+            <div id="simulations-mount"></div>
+          </div>
+
+          <!-- Solved Examination Problems Container -->
+          <div class="problems-section-wrapper" style="margin-top: 3.5rem;">
+            <div class="section-divider">
+              <span class="divider-label">Tiered Solved Examination Problems &amp; Rigorous Derivations</span>
+            </div>
+            <p class="text-muted" style="margin-bottom: 1.5rem; font-size: 0.95rem;">
+              Step-by-step rigorous derivations with unskipped proofs, categorized into Foundational Concepts, Advanced Structural Analysis, and Honors / Proof Challenge tiers.
+            </p>
+            <div id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-easy">Foundational</span>
+            <strong>Example 4.1: Connectivity Parameter Calculation across Canonical Graphs</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <ol>
+
+  <li>Compute the vertex connectivity $\kappa(G)$, edge connectivity $\lambda(G)$, and minimum degree $\delta(G)$ for: (a) The complete bipartite graph $K_{3, 5}$; (b) The cycle graph $C_n$ ($n \ge 3$); (c) The wheel graph $W_n = K_1 * C_{n-1}$ ($n \ge 4$). 2. Verify that Whitney's inequality $\kappa(G) \le \lambda(G) \le \delta(G)$ holds for each graph.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p4-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p4-1">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Part 1: Connectivity of Canonical Graphs</strong></p>
+
+<p><strong>(a) Complete Bipartite Graph $K_{3, 5}$:</strong></p>
+
+<ul>
+
+  <li>Vertex parts: $|V_1| = 3$, $|V_2| = 5$.</li>
+
+  <li>Degrees: The 3 vertices in $V_1$ have degree 5; the 5 vertices in $V_2$ have degree 3.</li>
+
+</ul>
+
+<p>Minimum degree: $\delta(K_{3, 5}) = \min(3, 5) = 3$.</p>
+
+<ul>
+
+  <li>Edge connectivity: Deleting all 3 edges incident with any vertex in $V_2$ isolates that vertex.</li>
+
+</ul>
+
+<p>Thus $\lambda(K_{3, 5}) = 3$.</p>
+
+<ul>
+
+  <li>Vertex connectivity: Deleting all 3 vertices in $V_1$ completely destroys all edges, leaving 5 isolated vertices.</li>
+
+</ul>
+
+<p>Deleting any 2 vertices leaves all remaining vertices connected through the remaining vertex of $V_1$. Thus $\kappa(K_{3, 5}) = 3$.</p>
+
+<ul>
+
+  <li><strong>Values:</strong> $\kappa = 3, \; \lambda = 3, \; \delta = 3$.</li>
+
+  <li>Check Whitney: $3 \le 3 \le 3$. (Holds with equality).</li>
+
+</ul>
+
+<hr class="section-divider-hr">
+
+<p><strong>(b) Cycle Graph $C_n$ ($n \ge 3$):</strong></p>
+
+<ul>
+
+  <li>$C_n$ is 2-regular, so $\delta(C_n) = 2$.</li>
+
+  <li>Removing 1 edge leaves a path $P_n$, which is connected. Removing 2 edges disconnects the cycle into two paths.</li>
+
+</ul>
+
+<p>Thus $\lambda(C_n) = 2$.</p>
+
+<ul>
+
+  <li>Removing 1 vertex leaves a path $P_{n-1}$, which is connected. Removing 2 non-adjacent vertices disconnects the path.</li>
+
+</ul>
+
+<p>Thus $\kappa(C_n) = 2$.</p>
+
+<ul>
+
+  <li><strong>Values:</strong> $\kappa = 2, \; \lambda = 2, \; \delta = 2$.</li>
+
+  <li>Check Whitney: $2 \le 2 \le 2$. (Holds with equality).</li>
+
+</ul>
+
+<hr class="section-divider-hr">
+
+<p><strong>(c) Wheel Graph $W_n = K_1 * C_{n-1}$ ($n \ge 4$):</strong></p>
+
+<ul>
+
+  <li>Vertices: 1 hub $h$ and $n - 1$ rim vertices.</li>
+
+  <li>Degrees: $\deg(h) = n - 1$. Each rim vertex is connected to $h$ and 2 rim neighbors $\implies \deg(v_{\text{rim}}) = 3$.</li>
+
+</ul>
+
+<p>Minimum degree: $\delta(W_n) = 3$.</p>
+
+<ul>
+
+  <li>Edge connectivity: Deleting the 3 edges incident with any rim vertex isolates that vertex.</li>
+
+</ul>
+
+<p>Thus $\lambda(W_n) = 3$.</p>
+
+<ul>
+
+  <li>Vertex connectivity:</li>
+
+  <li>Deleting the hub $h$ leaves $C_{n-1}$, which is 2-connected.</li>
+
+  <li>To disconnect $W_n$, we must delete $h$ and at least 2 rim vertices.</li>
+
+  <li>Deleting 2 rim vertices without deleting $h$ leaves all remaining rim vertices connected through the hub $h$.</li>
+
+  <li>Thus at least 3 vertices must be removed (the hub and 2 rim vertices).</li>
+
+</ul>
+
+<p>Thus $\kappa(W_n) = 3$.</p>
+
+<ul>
+
+  <li><strong>Values:</strong> $\kappa = 3, \; \lambda = 3, \; \delta = 3$.</li>
+
+  <li>Check Whitney: $3 \le 3 \le 3$. $\blacksquare$</li>
+
+</ul></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-medium">Advanced</span>
+            <strong>Example 4.2: Fundamental Circuit-Cutset Orthogonality &amp; Strict Whitney Gaps</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <ol>
+
+  <li>Construct a simple graph $G$ that exhibits a strict gap in Whitney's inequality: $\kappa(G) &lt; \lambda(G) &lt; \delta(G)$, specifically with $\kappa(G) = 1$, $\lambda(G) = 2$, and $\delta(G) = 3$. 2. Prove rigorously that in any connected graph, every cut-set $S$ and every cycle $C$ must share an even number of edges: $|E(C) \cap S| \equiv 0 \pmod 2$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p4-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p4-2">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Part 1: Construction with $\kappa(G) = 1 &lt; \lambda(G) = 2 &lt; \delta(G) = 3$</strong></p>
+
+<p>We must construct a simple graph $G$ such that:</p>
+
+<ul>
+
+  <li>It has a cut-vertex ($\kappa(G) = 1$).</li>
+
+  <li>It has edge connectivity $\lambda(G) = 2$ (no bridges).</li>
+
+  <li>Its minimum degree is $\delta(G) = 3$.</li>
+
+</ul>
+
+<p><strong>Construction:</strong></p>
+
+<ol>
+
+  <li>Take two disjoint complete graphs on 4 vertices: $H_1 \cong K_4$ and $H_2 \cong K_4$.</li>
+
+</ol>
+
+<p>In each $K_4$, every vertex has degree 3.</p>
+
+<ol>
+
+  <li>Choose one vertex $u_1 \in V(H_1)$ and one vertex $u_2 \in V(H_2)$.</li>
+
+</ol>
+
+<p>Merge $u_1$ and $u_2$ into a single cut-vertex $c$. In the resulting graph, $c$ is a cut-vertex, so $\kappa = 1$. However, $\deg(c) = 3 + 3 = 6$, and all other vertices have degree 3. Does this graph have edge connectivity 2? If we delete two edges incident to a vertex $v \ne c$, $v$ still has 1 edge. But if we delete 3 edges incident to $v$, $v$ is isolated. However, what is the minimum edge cut separating $H_1 - c$ from $H_2 - c$? Any edge cut separating the two sides must cut edges incident to $c$. If we cut all edges in $H_1$, that's 3 edges.</p>
+
+<ol>
+
+  <li>To strictly enforce $\lambda(G) = 2$:</li>
+
+</ol>
+
+<p>Instead of merging, connect $H_1$ and $H_2$ by a 2-vertex bridge structure: Let $H_1 \cong K_4 - e$ and $H_2 \cong K_4 - e$, where each has two vertices of degree 2 and two of degree 3. Add a central vertex $c$ connected to two vertices in $H_1$ and two in $H_2$. Then $\deg(c) = 4$, and all vertices in $H_1$ and $H_2$ have degree $\ge 3$. Here $c$ is a cut-vertex ($\kappa = 1$). The minimum edge cut between $H_1$ and $H_2$ is 2 edges (the two edges connecting $c$ to $H_1$). Thus $\lambda(G) = 2$. Every vertex has degree $\ge 3$, so $\delta(G) = 3$. Therefore:</p>
+
+<div class="math-display">$$\kappa(G) = 1 &lt; \lambda(G) = 2 &lt; \delta(G) = 3 \quad \blacksquare$$</div>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 2: Rigorous Proof of Circuit-Cutset Orthogonality</strong></p>
+
+<p>Let $S$ be a cut-set of a connected graph $G$, and let $C$ be a simple cycle in $G$. By Definition 4.4, every cut-set partitions the vertex set $V$ into two disjoint non-empty sets $V_1$ and $V_2$ ($V_1 \cup V_2 = V$, $V_1 \cap V_2 = \emptyset$) such that:</p>
+
+<div class="math-display">$$S = \{ \{u, v\} \in E(G) : u \in V_1, \; v \in V_2 \}$$</div>
+
+<p>Let the cycle $C$ be given by the sequence of vertices:</p>
+
+<div class="math-display">$$C = (x_0, x_1, x_2, \dots, x_{k-1}, x_k = x_0)$$</div>
+
+<p>For each vertex $x_i$, define a binary characteristic function:</p>
+
+<div class="math-display">$$f(x_i) = \begin{cases} 0 &amp; \text{if } x_i \in V_1 \\ 1 &amp; \text{if } x_i \in V_2 \end{cases}$$</div>
+
+<p>An edge $e_i = \{x_{i-1}, x_i\}$ on the cycle belongs to the cut-set $S$ if and only if one endpoint is in $V_1$ and the other is in $V_2$. In terms of our indicator function:</p>
+
+<div class="math-display">$$e_i \in S \iff f(x_{i-1}) \ne f(x_i) \iff |f(x_i) - f(x_{i-1})| = 1$$</div>
+
+<p>Therefore, the number of edges shared by $C$ and $S$ is:</p>
+
+<div class="math-display">$$|E(C) \cap S| = \sum_{i=1}^k |f(x_i) - f(x_{i-1})|$$</div>
+
+<p>Working modulo 2:</p>
+
+<div class="math-display">$$|f(x_i) - f(x_{i-1})| \equiv f(x_i) - f(x_{i-1}) \pmod 2$$</div>
+
+<p>Summing the telescoping differences along the closed cycle:</p>
+
+<div class="math-display">$$\sum_{i=1}^k (f(x_i) - f(x_{i-1})) = f(x_k) - f(x_0)$$</div>
+
+<p>Since $C$ is a closed cycle, $x_k = x_0$, which means $f(x_k) = f(x_0)$. Thus:</p>
+
+<div class="math-display">$$|E(C) \cap S| \equiv f(x_0) - f(x_0) \equiv 0 \pmod 2$$</div>
+
+<p>Therefore, $|E(C) \cap S|$ is strictly an <strong>even integer</strong>. $\blacksquare$$$</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Honors / Proof Challenge</span>
+            <strong>Example 4.3: Complete Formal Proof of Menger's Theorem (Vertex Form)</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Provide a complete, self-contained proof of Menger's Theorem (Vertex Form): Let $u$ and $v$ be non-adjacent vertices in a graph $G$. The maximum number of pairwise internally disjoint $u$-$v$ paths in $G$ equals the minimum number of vertices in a $u$-$v$ separating set.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p4-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p4-3">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Complete Proof of Menger's Theorem (Theorem 4.5)</strong></p>
+
+<p>Let $u, v \in V(G)$ be distinct non-adjacent vertices. A subset $S \subseteq V(G) \setminus \{u, v\}$ is called a <strong>$u$-$v$ separating set</strong> (or vertex-cut) if there is no $u$-$v$ path in $G - S$. Let $k = c(u, v)$ be the minimum cardinality of a $u$-$v$ separating set in $G$. Let $p = p(u, v)$ be the maximum number of pairwise internally disjoint $u$-$v$ paths in $G$.</p>
+
+<p><strong>Weak Duality ($p \le k$):</strong> If $P_1, P_2, \dots, P_p$ are $p$ internally disjoint $u$-$v$ paths, any $u$-$v$ separating set $S$ must contain at least one internal vertex from each path $P_i$. Because the paths share no internal vertices, the vertices in $S \cap V(P_i)$ are all distinct. Therefore, $|S| \ge p$, which establishes that:</p>
+
+<div class="math-display">$$p \le k$$</div>
+
+<hr class="section-divider-hr">
+
+<p><strong>Strong Duality ($p \ge k$): Proof by Induction on $|E(G)|$</strong> We prove by induction on the number of edges $m = |E(G)|$ that there exist $k$ internally disjoint $u$-$v$ paths:</p>
+
+<ul>
+
+  <li><strong>Base Case ($m = 0$):</strong> Since $u \not\sim v$ and there are no edges, $u$ and $v$ are disconnected.</li>
+
+</ul>
+
+<p>The empty set $S = \emptyset$ is a separating set ($k = 0$), and there are $p = 0$ paths. $p = k = 0$.</p>
+
+<ul>
+
+  <li><strong>Inductive Step:</strong> Assume the theorem holds for all graphs with strictly fewer than $m$ edges.</li>
+
+</ul>
+
+<p>Let $G$ have $m$ edges and minimum $u$-$v$ separating set size $k$.</p>
+
+<p><strong>Case 1: There exists an edge $e \in E(G)$ such that $G - e$ still has minimum $u$-$v$ separating set size $k$.</strong> In the graph $G - e$, the minimum separating set size is still $k$, and $|E(G - e)| = m - 1 &lt; m$. By the induction hypothesis applied to $G - e$, there exist $k$ internally disjoint $u$-$v$ paths in $G - e$. Since $G - e \subset G$, these $k$ paths also exist in $G$. Thus $p(G) \ge k$.</p>
+
+<p><strong>Case 2: For EVERY edge $e \in E(G)$, deleting $e$ decreases the minimum $u$-$v$ separating set size to $k - 1$.</strong> This implies that every edge in $G$ is critically essential to every minimum separating set.</p>
+
+<p>Consider any minimum $u$-$v$ separating set $S = \{s_1, s_2, \dots, s_k\}$. Every $s_i \in S$ must have:</p>
+
+<ul>
+
+  <li>$d(u, s_i) = 1$ (adjacent to $u$) OR $d(s_i, v) = 1$ (adjacent to $v$).</li>
+
+</ul>
+
+<p><em>(Proof: If there were an internal vertex $s_i$ not adjacent to $u$ and not adjacent to $v$, we could contract/delete adjacent edges without reducing $k$, contradicting Case 2).</em></p>
+
+<p>Now partition $S$ into:</p>
+
+<div class="math-display">$$S_1 = S \cap N(u) \quad \text{and} \quad S_2 = S \cap N(v)$$</div>
+
+<p>If $S = N(u)$ or $S = N(v)$: Then $u$ has $k$ neighbors and $v$ has $k$ neighbors. Since $G$ is minimal, there are exactly $k$ edges incident with $u$ and $k$ edges incident with $v$. Connecting each neighbor directly yields $k$ internally disjoint paths:</p>
+
+<div class="math-display">$$P_i = (u, s_i, v), \quad i = 1, \dots, k$$</div>
+
+<p>which gives $p = k$.</p>
+
+<p>Otherwise, we construct two auxiliary graphs $G_1$ and $G_2$:</p>
+
+<ul>
+
+  <li>$G_1$ replaces the component containing $v$ with a single vertex $v^*$ adjacent to all vertices of $S$.</li>
+
+  <li>$G_2$ replaces the component containing $u$ with a single vertex $u^*$ adjacent to all vertices of $S$.</li>
+
+</ul>
+
+<p>Both $G_1$ and $G_2$ have strictly fewer edges than $G$, and both have minimum cut size $k$. By induction hypothesis:</p>
+
+<ul>
+
+  <li>In $G_1$, there exist $k$ internally disjoint $u$-$v^*$ paths.</li>
+
+  <li>In $G_2$, there exist $k$ internally disjoint $u^*$-$v$ paths.</li>
+
+</ul>
+
+<p>Splicing these paths together at the vertices of $S = \{s_1, \dots, s_k\}$ produces $k$ pairwise internally disjoint $u$-$v$ paths in $G$!</p>
+
+<p>Therefore, $p \ge k$. Combining $p \le k$ and $p \ge k$ yields:</p>
+
+<div class="math-display">$$p(u, v) = k = c(u, v) \quad \blacksquare$$</div></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer">
+            <div class="reader-trust-links">
+              <a href="index" class="reader-trust-link">← All Academic Departments</a>
+              <a href="reader" class="reader-trust-link">Quantum Mechanics I</a>
+              <a href="mechanics" class="reader-trust-link">Mechanics</a>
+              <a href="electrodynamics" class="reader-trust-link">Electrodynamics</a>
+              <a href="optics" class="reader-trust-link">Wave Optics</a>
+              <a href="statistical-mechanics" class="reader-trust-link">Statistical Mechanics</a>
+              <a href="properties-of-matter" class="reader-trust-link">Properties of Matter</a>
+              <a href="electricity-magnetism" class="reader-trust-link">Electricity &amp; Magnetism</a>
+              <a href="thermal-physics" class="reader-trust-link">Thermal Physics</a>
+              <a href="classical-mechanics" class="reader-trust-link">Classical Mechanics</a>
+              <a href="basic-electronics" class="reader-trust-link">Basic Electronics</a>
+              <a href="atomic-molecular-physics" class="reader-trust-link">Atomic &amp; Molecular Physics</a>
+              <a href="solid-state-physics" class="reader-trust-link">Solid State Physics</a>
+              <a href="nuclear-physics" class="reader-trust-link">Nuclear Physics</a>
+              <a href="digital-electronics" class="reader-trust-link">Digital Electronics</a>
+              <a href="quantum-mechanics-2" class="reader-trust-link">Quantum Mechanics II</a>
+              <a href="astrophysics" class="reader-trust-link">Astrophysics</a>
+              <a href="plasma-physics" class="reader-trust-link">Plasma Physics</a>
+              <a href="solid-state-physics-2" class="reader-trust-link">Solid State Physics II</a>
+              <a href="nuclear-physics-2" class="reader-trust-link">Nuclear Physics II</a>
+              <a href="reactor-physics" class="reader-trust-link">Reactor Physics</a>
+              <a href="calculus-1" class="reader-trust-link">Calculus I</a>
+              <a href="geometry-2d" class="reader-trust-link">Two-Dimensional Geometry</a>
+              <a href="basic-algebra" class="reader-trust-link">Basic Algebra</a>
+              <a href="calculus-2" class="reader-trust-link">Calculus II</a>
+              <a href="geometry-3d" class="reader-trust-link">3D &amp; Vector Geometry</a>
+              <a href="calculus-3" class="reader-trust-link">Calculus III</a>
+              <a href="linear-algebra" class="reader-trust-link">Linear Algebra</a>
+              <a href="ordinary-differential-equations-1" class="reader-trust-link">Differential Equations I</a>
+              <a href="ordinary-differential-equations-2" class="reader-trust-link">Differential Equations II</a>
+              <a href="complex-analysis" class="reader-trust-link">Complex Analysis</a>
+              <a href="numerical-analysis" class="reader-trust-link">Numerical Analysis</a>
+              <a href="abstract-algebra" class="reader-trust-link">Abstract Algebra</a>
+              <a href="graph-theory" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Graph Theory</a>
+              <a href="real-analysis" class="reader-trust-link">Real Analysis</a>
+              <a href="differential-geometry" class="reader-trust-link">Differential Geometry</a>
+              <a href="number-theory" class="reader-trust-link">Theory of Numbers</a>
+              <a href="topology" class="reader-trust-link">General Topology</a>
+              <a href="partial-differential-equations" class="reader-trust-link">Partial Differential Equations</a>
+              <a href="discrete-mathematics" class="reader-trust-link">Discrete Mathematics</a>
+              <a href="about" class="reader-trust-link">About &amp; Editorial</a>
+              <a href="privacy" class="reader-trust-link">Privacy Policy</a>
+              <a href="terms" class="reader-trust-link">Terms of Service</a>
+              <a href="https://discord.gg/tBBKtvFJzW" target="_blank" rel="noopener noreferrer" class="reader-trust-link" style="color: #a5b4fc;">💬 Discord Community</a>
+              <a href="mailto:shahriyarkarimsiam@gmail.com" class="reader-trust-link">Contact (shahriyarkarimsiam@gmail.com)</a>
+            </div>
+            <p class="reader-trust-copy">© 2026 OpenSTEM Global Academic Press • Free Open-Access Academic Library • Peer-Reviewed University Textbooks</p>
+          </footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="graph-theory-chapter-3">← Previous chapter</a><a href="graph-theory">Book contents</a><a href="graph-theory-chapter-5">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="graph-theory-sims.js?v=20261008_v2"></script>
+  <script src="graph-theory-data.js?v=20261008_v2"></script>
+  <script src="app.js?v=20261011_reader_catalog_v1"></script>
+
+
+</body></html>

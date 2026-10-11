@@ -1,0 +1,941 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Unit 7: Trees, Spanning Trees &amp; Shortest Path Algorithms | Discrete Mathematics: Reasoning, Combinatorics &amp; Network Flows | OpenSTEM Library</title>
+  <meta name="description" content="Acyclic graph structures and network path optimization: axiomatic characterizations of trees, Cayley's theorem for labeled trees, rooted trees and Huffman optimal prefix codes, the Cut and Cycle properties of Minimum Spanning Trees (MST), Kruskal's greedy algorithm with Disjoint Set Union (DSU) vs Prim's priority queue algorithm, Dijkstra's single-source shortest path algorithm, and the Floyd-Warshall dynamic programming all-pairs shortest path matrix reduction.">
+  <meta name="keywords" content="Discrete Mathematics, Mathematical Reasoning, Propositional Logic, Predicate Calculus, Mathematical Induction, Well Ordering Principle, Hoare Logic, Loop Invariants, Combinatorics, Pigeonhole Principle, Principle of Inclusion Exclusion, Recurrence Relations, Master Theorem, Generating Functions, Catalan Numbers, Binary Relations, Posets, Hasse Diagrams, Lattices, Boolean Algebra, Karnaugh Maps, Graph Theory, Handshaking Lemma, Eulerian Trails, Hamiltonian Cycles, Trees, Cayley Formula, Minimum Spanning Tree, Kruskal Algorithm, Prim Algorithm, Dijkstra Algorithm, Floyd Warshall Algorithm, Network Flows, Max-Flow Min-Cut Theorem, Ford Fulkerson, Edmonds Karp">
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/discrete-mathematics-chapter-7">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Discrete Mathematics: Mathematical Reasoning, Combinatorics, Graph Algorithms &amp; Network Flows | OpenSTEM Digital Academic Press">
+  <meta property="og:description" content="Exhaustive university honors textbook with 8 chapters, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
+  <meta property="og:image" content="https://openstemlibrary.com/logo.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+
+  <!-- Schema.org Educational Course JSON-LD (Strictly Zero Course Numbers) -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Discrete Mathematics: Mathematical Reasoning, Combinatorics, Graph Algorithms & Network Flows","description":"Comprehensive university honors curriculum covering formal logic, inference, proof techniques, mathematical induction, program correctness, enumerative combinatorics, pigeonhole principle, recurrence relations, generating functions, relations, posets, Boolean algebra, graph algorithms, trees, spanning trees, shortest paths, and network flows.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Digital Academic Press","url":"https://openstemlibrary.com"},"educationalLevel":"Undergraduate B.Sc. Honors & STEM Foundation","isAccessibleForFree":true}</script>
+
+  <!-- Google Fonts: Inter, Fira Code & Newsreader -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261011_reader_catalog_v1">
+  <!-- Google AdSense Official Script -->
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4546869673631824" crossorigin="anonymous"></script>
+</head>
+<body data-book-path="discrete-mathematics.html" data-chapter-index="6">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Discrete Mathematics</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search logic, induction, combinatorics, recurrences, posets, graphs, trees, max-flow..." class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="discrete-mathematics" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Unit 1: Propositional &amp; Predicate Logic, Inference &amp; Formal Proof Techniques</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="discrete-mathematics-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Unit 2: Mathematical Induction, Well-Ordering &amp; Program Verification</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="discrete-mathematics-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Unit 3: Combinatorial Analysis, Pigeonhole Principle &amp; Inclusion-Exclusion</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="discrete-mathematics-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Unit 4: Recurrence Relations, Generating Functions &amp; Divide-and-Conquer</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="discrete-mathematics-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Unit 5: Relations, Posets, Lattices &amp; Boolean Algebra</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="discrete-mathematics-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Unit 6: Graph Theory: Connectivity, Eulerian Circuits &amp; Hamiltonian Cycles</span></a></li><li class="unit-nav-item active" data-unit-index="6"><a href="discrete-mathematics-chapter-7" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Unit 7: Trees, Spanning Trees &amp; Shortest Path Algorithms</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="discrete-mathematics-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Unit 8: Network Flows, Max-Flow Min-Cut Theorem &amp; Combinatorial Optimization</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Mathematics / Discrete Mathematics</span>
+          <span class="badge-pill badge-credits">Combinatorics, Graph Theory &amp; Algorithms</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">
+            🔒 <span>In-Browser Protected • Direct Download Disabled</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 7 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Unit 7: Trees, Spanning Trees &amp; Shortest Path Algorithms</h1>
+            <p class="unit-desc-lead" id="unit-desc">Acyclic graph structures and network path optimization: axiomatic characterizations of trees, Cayley's theorem for labeled trees, rooted trees and Huffman optimal prefix codes, the Cut and Cycle properties of Minimum Spanning Trees (MST), Kruskal's greedy algorithm with Disjoint Set Union (DSU) vs Prim's priority queue algorithm, Dijkstra's single-source shortest path algorithm, and the Floyd-Warshall dynamic programming all-pairs shortest path matrix reduction.</p>
+          </header>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec7-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.1</span>
+            <span>Tree Characterizations, Centers, Radii &amp; Cayley's Formula</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Equivalent Characterizations of Trees</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 7.1 (Tree):</strong> A <strong>tree</strong> $T$ is an undirected graph that is connected and contains no simple cycles (acyclic). A <strong>forest</strong> is a disjoint union of trees.</p>
+</blockquote>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 7.1 (The Six Equivalent Tree Theorems):</strong> Let $G = (V, E)$ be an undirected graph of order $|V| = n \ge 1$. The following statements are mathematically equivalent:</p>
+<ol>
+  <li>$G$ is a tree (connected and acyclic).</li>
+  <li>Between any two distinct vertices in $G$, there exists a <strong>unique simple path</strong>.</li>
+  <li>$G$ is connected, and removing any edge disconnects $G$ (every edge is a bridge).</li>
+  <li>$G$ is minimally connected (adding any edge creates a unique cycle).</li>
+  <li>$G$ is connected and has exactly $|E| = n - 1$ edges.</li>
+  <li>$G$ is acyclic and has exactly $|E| = n - 1$ edges.</li>
+</ol>
+</blockquote>
+
+<hr class="section-divider-hr">
+
+<h4>2. Eccentricity, Center, and Jordan's Theorem</h4>
+
+<p>For any vertex $v \in V(T)$, its <strong>eccentricity</strong> is the maximum distance to any other vertex:</p>
+
+<div class="math-display">$$\epsilon(v) = \max_{u \in V} d(v, u)$$</div>
+
+<ul>
+
+  <li>The <strong>radius</strong> is $R(T) = \min_{v \in V} \epsilon(v)$.</li>
+
+  <li>The <strong>diameter</strong> is $D(T) = \max_{v \in V} \epsilon(v)$.</li>
+
+  <li>The <strong>center</strong> of $T$ is the set of vertices achieving the minimum eccentricity:</li>
+
+</ul>
+
+<div class="math-display">$$\text{Center}(T) = \{v \in V \mid \epsilon(v) = R(T)\}$$</div>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 7.2 (Jordan's Theorem, 1869):</strong> Every tree $T$ has a center consisting of either a <strong>single vertex</strong> or <strong>two adjacent vertices</strong>. <em>Proof:</em> Pruning all leaves of $T$ simultaneously reduces the eccentricity of every non-leaf vertex by exactly 1. Repeating leaf pruning preserves the center until either a single vertex $K_1$ or two adjacent vertices $K_2$ remain. $\blacksquare$</p>
+</blockquote>
+
+<hr class="section-divider-hr">
+
+<h4>3. Cayley's Labeled Tree Enumeration Formula</h4>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 7.3 (Cayley's Formula):</strong> The number of labeled trees on $n$ vertices $\{1, 2, \dots, n\}$ is:</p>
+</blockquote>
+
+<div class="math-display">$$T_n = n^{n - 2}$$</div>
+
+<p><em>Proof via Prüfer Sequences (Bijective Proof):</em></p>
+
+<ul>
+
+  <li>Heinz Prüfer (1918) established a bijection between labeled trees on $n$ vertices and sequences of length $n - 2$ with entries from $\{1, 2, \dots, n\}$.</li>
+
+  <li>At each step, find the leaf with the smallest label, record the label of its unique neighbor, and remove the leaf. Repeat $n - 2$ times.</li>
+
+  <li>Since there are $n$ choices for each of the $n - 2$ positions in the sequence, there are exactly $n^{n-2}$ distinct sequences, proving Cayley's formula. $\blacksquare$</li>
+
+</ul>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec7-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.2</span>
+            <span>Rooted Trees, Traversals &amp; Huffman Optimal Prefix Coding</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Rooted Trees and Hierarchies</h4>
+
+<p>A <strong>rooted tree</strong> is a tree in which a designated vertex $r$ is distinguished as the <strong>root</strong>.</p>
+
+<ul>
+
+  <li>Every edge is directed away from the root.</li>
+
+  <li>If $(u, v)$ is a directed edge, $u$ is the <strong>parent</strong> and $v$ is the <strong>child</strong>.</li>
+
+  <li>Vertices with no children are <strong>leaves</strong> (external nodes).</li>
+
+  <li>The <strong>depth</strong> of $v$ is the path length from $r$ to $v$. The <strong>height</strong> of $T$ is the maximum depth.</li>
+
+</ul>
+
+<h5>Systematic Traversals (Binary Trees):</h5>
+
+<h4>1. Pre-order: Visit Root $\to$ Traverse Left Subtree $\to$ Traverse Right Subtree.</h4>
+
+<h4>2. In-order: Traverse Left Subtree $\to$ Visit Root $\to$ Traverse Right Subtree.</h4>
+
+<h4>3. Post-order: Traverse Left Subtree $\to$ Traverse Right Subtree $\to$ Visit Root.</h4>
+
+<hr class="section-divider-hr">
+
+<h4>2. Huffman's Optimal Prefix Coding Algorithm</h4>
+
+<p>Given an alphabet $\Sigma = \{a_1, \dots, a_n\}$ with symbol frequencies $w_1, \dots, w_n$, we seek a prefix-free binary code minimizing the <strong>expected code length</strong>:</p>
+
+<div class="math-display">$$L(C) = \sum_{i=1}^n w_i \cdot \text{length}(c_i)$$</div>
+
+<blockquote class="math-callout">
+<p><strong>Greedy Algorithm (David Huffman, 1952):</strong></p>
+<ol>
+  <li>Insert all $n$ symbol leaf nodes into a min-priority queue keyed by frequency $w_i$.</li>
+  <li>While the priority queue contains more than one node:</li>
+</ol>
+<ul>
+  <li>Extract the two nodes $u, v$ with the lowest frequencies.</li>
+  <li>Create a new parent node $z$ with weight $w(z) = w(u) + w(v)$.</li>
+  <li>Set $u$ as the left child (bit 0) and $v$ as the right child (bit 1).</li>
+  <li>Insert $z$ back into the priority queue.</li>
+</ul>
+<ol>
+  <li>The single remaining node is the root of the optimal prefix tree. Runs in $O(n \log n)$ time.</li>
+</ol>
+</blockquote>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec7-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.3</span>
+            <span>Minimum Spanning Trees: Cut Property, Kruskal's &amp; Prim's Algorithms</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. The Minimum Spanning Tree (MST) Problem</h4>
+
+<p>Let $G = (V, E)$ be a connected undirected graph with a real-valued edge weight function $w: E \to \mathbb{R}$. A <strong>spanning tree</strong> $T \subseteq E$ is an acyclic subgraph connecting all $n$ vertices with $n - 1$ edges. The <strong>Minimum Spanning Tree (MST)</strong> minimizes the total edge weight:</p>
+
+<div class="math-display">$$w(T) = \sum_{e \in T} w(e)$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>2. Fundamental Properties of MSTs</h4>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 7.4 (The Cut Property):</strong> Let $S \subset V$ be any proper subset of vertices, and let $(S, V \setminus S)$ be the cut separating $S$ from its complement. If edge $e = \{u, v\}$ is a <strong>strictly minimum-weight edge</strong> crossing the cut ($u \in S, v \in V \setminus S$), then $e$ <strong>must belong to every MST</strong> of $G$.</p>
+</blockquote>
+
+<p><em>Proof by Exchange Argument:</em> Let $T$ be an MST that does not contain $e$. Adding $e$ to $T$ creates a unique cycle $C$. Since $u \in S$ and $v \in V \setminus S$, the cycle $C$ must cross the cut at least once more via another edge $e' \ne e$ with $e' \in T$. Consider the replacement tree $T' = (T \setminus \{e'\}) \cup \{e\}$. The new tree $T'$ is connected and has $n-1$ edges, so it is a valid spanning tree. Its total weight is:</p>
+
+<div class="math-display">$$w(T') = w(T) - w(e') + w(e)$$</div>
+
+<p>Since $e$ is the strictly minimum weight edge crossing the cut, $w(e) &lt; w(e')$, so $w(T') &lt; w(T)$, contradicting the optimality of $T$. Thus $e$ must belong to $T$. $\blacksquare$</p>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 7.5 (The Cycle Property):</strong> For any simple cycle $C$ in $G$, the strictly heaviest edge on $C$ <strong>cannot belong to any MST</strong>.</p>
+</blockquote>
+
+<hr class="section-divider-hr">
+
+<h4>3. Comparison of Greedy MST Algorithms</h4>
+
+<p>| Feature | Kruskal's Algorithm | Prim's Algorithm | | :--- | :--- | :--- | | <strong>Strategy</strong> | Edge-centric: global greedy edge sorting | Vertex-centric: grows a single tree component | | <strong>Data Structure</strong> | Disjoint Set Union (DSU with rank &amp; path compression) | Min-Heap / Binary Priority Queue | | <strong>Time Complexity</strong> | $O(|E| \log |E|) = O(|E| \log |V|)$ | $O(|E| \log |V|)$ (or $O(|E| + |V| \log |V|)$ with Fibonacci heap) | | <strong>Optimal For</strong> | Sparse graphs ($|E| \approx |V|$) | Dense graphs ($|E| \approx |V|^2$) |</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_dm_mst_kruskal_prim"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec7-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.4</span>
+            <span>Single-Source Shortest Paths: Dijkstra's Priority Queue Algorithm</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. The Shortest Path Problem</h4>
+
+<p>Given a directed or undirected graph $G = (V, E)$ with non-negative edge weights $w(u, v) \ge 0$ and a source vertex $s \in V$, find the shortest path distance $\delta(s, v)$ from $s$ to every vertex $v \in V$.</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Dijkstra's Algorithm (Greedy Relaxation)</h4>
+
+<p>Dijkstra's algorithm maintains:</p>
+
+<ul>
+
+  <li>Distance estimates $d[v]$ for each $v \in V$ (initialized to $d[s] = 0$ and $d[v] = \infty$ for $v \ne s$).</li>
+
+  <li>A set $S$ of vertices whose final shortest-path weights have already been determined.</li>
+
+  <li>A priority queue $Q$ containing vertices in $V \setminus S$ keyed by $d[v]$.</li>
+
+</ul>
+
+<p>```text Algorithm Dijkstra(G, w, s):</p>
+
+<ol>
+
+  <li>For each v in V: d[v] := infinity, parent[v] := null</li>
+
+  <li>d[s] := 0; Insert all v in V into min-priority queue Q</li>
+
+  <li>While Q is not empty:</li>
+
+  <li>u := Extract-Min(Q)</li>
+
+  <li>S := S union {u}</li>
+
+  <li>For each neighbor v of u:</li>
+
+  <li>If d[u] + w(u, v) &lt; d[v]:    // Edge Relaxation</li>
+
+  <li>d[v] := d[u] + w(u, v)</li>
+
+  <li>parent[v] := u</li>
+
+  <li>Decrease-Key(Q, v, d[v])</li>
+
+</ol>
+
+<p>```</p>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 7.6 (Correctness Invariant of Dijkstra):</strong> Whenever a vertex $u$ is extracted from the priority queue ($u \in S$), its distance estimate is exact:</p>
+</blockquote>
+
+<div class="math-display">$$d[u] = \delta(s, u)$$</div>
+
+<blockquote class="math-callout">
+<p><em>Proof:</em> Assume for contradiction that $u$ is the first vertex extracted with $d[u] &gt; \delta(s, u)$. Consider the true shortest path $P$ from $s$ to $u$. Let $(x, y)$ be the first edge on $P$ that leaves $S$ (so $x \in S$ and $y \notin S$). Because $x \in S$ was extracted earlier, $d[x] = \delta(s, x)$. Relaxing $(x, y)$ set $d[y] = \delta(s, y)$. Since all edge weights are <strong>non-negative</strong> ($w \ge 0$), subpaths have non-decreasing lengths:</p>
+</blockquote>
+
+<div class="math-display">$$d[y] = \delta(s, y) \le \delta(s, u) &lt; d[u]$$</div>
+
+<blockquote class="math-callout">
+<p>Thus $d[y] &lt; d[u]$, which means the priority queue must have extracted $y$ before $u$, contradicting that $u$ was extracted! $\blacksquare$</p>
+</blockquote>
+
+<blockquote class="math-callout">
+<p><strong>Critical Warning on Negative Weights:</strong> If any edge weight $w(e) &lt; 0$, Dijkstra's greedy invariant fails, and the algorithm can yield completely incorrect shortest path values.</p>
+</blockquote>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec7-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.5</span>
+            <span>All-Pairs Shortest Paths: Floyd-Warshall &amp; Bellman-Ford Algorithms</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. The Floyd-Warshall Dynamic Programming Algorithm</h4>
+
+<p>Finds the shortest paths between <strong>all pairs</strong> of vertices $(i, j)$ in $O(|V|^3)$ time, accommodating negative edge weights provided there are no negative-weight cycles.</p>
+
+<h5>Dynamic Programming Formulation:</h5>
+
+<p>Let $d_{i,j}^{(k)}$ denote the shortest path distance from $i$ to $j$ using only intermediate vertices from the subset $\{1, 2, \dots, k\}$.</p>
+
+<ul>
+
+  <li><strong>Base Case ($k=0$):</strong></li>
+
+</ul>
+
+<div class="math-display">$$d_{i,j}^{(0)} = \begin{cases} 0 &amp; \text{if } i = j \\ w(i, j) &amp; \text{if } (i, j) \in E \\ \infty &amp; \text{otherwise} \end{cases}$$</div>
+
+<ul>
+
+  <li><strong>State Transition ($k \ge 1$):</strong></li>
+
+</ul>
+
+<div class="math-display">$$d_{i,j}^{(k)} = \min\left( d_{i,j}^{(k-1)}, \; d_{i,k}^{(k-1)} + d_{k,j}^{(k-1)} \right)$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>2. Negative Cycle Detection</h4>
+
+<p>A <strong>negative cycle</strong> is a cycle whose total edge weight is strictly negative. If a negative cycle is reachable from $i$ to $j$, distances can be decreased indefinitely to $-\infty$.</p>
+
+<ul>
+
+  <li><strong>Floyd-Warshall:</strong> A negative cycle exists if and only if any diagonal entry becomes negative:</li>
+
+</ul>
+
+<div class="math-display">$$\exists i \in V, \quad d_{i,i}^{(n)} &lt; 0$$</div>
+
+<ul>
+
+  <li><strong>Bellman-Ford Algorithm:</strong> Solves single-source shortest paths in $O(|V| \cdot |E|)$ time by relaxing all edges $|V| - 1$ times. A $|V|$-th relaxation pass that further decreases any distance signals the presence of a reachable negative-weight cycle.</li>
+
+</ul>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Tiered Solved Examination Problems -->
+          <div class="unit-problems-section" id="unit-problems">
+            <div class="problems-header">
+              <h2 class="problems-main-title">Rigorous Tiered Solved Examination Problems</h2>
+              <p class="problems-subtitle">Step-by-step unskipped derivations, complete proofs, and verification across Foundational, Advanced, and Honors tiers.</p>
+            </div>
+            <div id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-easy">Foundational Level</span>
+            <strong>Example 7.1: Problem 7.1: Characterization of Trees and Edge-Count Induction</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Let $G = (V, E)$ be an undirected graph with $n$ vertices.</p>
+
+<ol>
+
+  <li>Prove by mathematical induction on $n$ that if $G$ is a connected graph with no simple cycles (a tree), then $G$ has exactly $n - 1$ edges:</li>
+
+</ol>
+
+<div class="math-display">$$|E| = |V| - 1$$</div>
+
+<ol>
+
+  <li>Prove that in every tree with $n \ge 2$ vertices, there exist at least <strong>two vertices of degree 1</strong> (leaves).</li>
+
+  <li>Prove that removing an edge from a tree produces a disconnected graph with exactly two connected components.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p7-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p7-1">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><h4>1. Proof that a Tree on $n$ Vertices has $n-1$ Edges</h4>
+
+<p>We prove by mathematical induction on $n = |V|$:</p>
+
+<ul>
+
+  <li><strong>Base Case ($n=1$):</strong> A tree on 1 vertex contains no edges: $|E| = 0 = 1 - 1$. The formula holds.</li>
+
+  <li><strong>Inductive Step:</strong> Assume that every tree on $k$ vertices has $k - 1$ edges for $k \ge 1$.</li>
+
+</ul>
+
+<p>Let $T$ be a tree on $k + 1 \ge 2$ vertices. Since $T$ is acyclic and finite, start at any vertex and follow edges without backtracking. Because $T$ has no cycles, vertices cannot be revisited, so the path must terminate at a vertex $v$ with no other incident edges, meaning $\deg(v) = 1$ (a leaf). Consider the subgraph $T' = T - v$ formed by removing leaf $v$ and its single incident edge $e$.</p>
+
+<ul>
+
+  <li>$T'$ remains acyclic (removing a vertex cannot create cycles).</li>
+
+  <li>$T'$ remains connected (any path between vertices other than $v$ did not pass through $v$ because $v$ had degree 1).</li>
+
+</ul>
+
+<p>Thus $T'$ is a tree on $(k + 1) - 1 = k$ vertices! By the inductive hypothesis, $T'$ has $k - 1$ edges. The original tree $T$ has:</p>
+
+<div class="math-display">$$|E(T)| = |E(T')| + 1 = (k - 1) + 1 = k = (k + 1) - 1$$</div>
+
+<p>This completes the inductive step. By mathematical induction, every tree on $n$ vertices has $n - 1$ edges.</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Existence of at Least Two Leaves</h4>
+
+<p>Let $T$ have $n \ge 2$ vertices. Since $T$ is connected, no vertex can have degree 0 ($\deg(v) \ge 1$ for all $v$). By Euler's Handshaking lemma:</p>
+
+<div class="math-display">$$\sum_{v \in V} \deg(v) = 2|E| = 2(n - 1) = 2n - 2$$</div>
+
+<p>Suppose for contradiction that $T$ has at most one leaf ($\le 1$ vertex of degree 1). Then at least $n - 1$ vertices have degree $\ge 2$:</p>
+
+<div class="math-display">$$\sum_{v \in V} \deg(v) \ge 1 \cdot 1 + (n - 1) \cdot 2 = 1 + 2n - 2 = 2n - 1$$</div>
+
+<p>This implies $2n - 2 \ge 2n - 1 \implies -2 \ge -1$, an absurd contradiction! Therefore, $T$ must contain at least <strong>two vertices of degree 1</strong> (leaves).</p>
+
+<hr class="section-divider-hr">
+
+<h4>3. Removal of an Edge Creates Exactly Two Components</h4>
+
+<p>Let $e = \{u, v\} \in E(T)$.</p>
+
+<ol>
+
+  <li>In $T$, there is a unique simple path between $u$ and $v$ (which is the single edge $e$).</li>
+
+  <li>In $T - e$, there is no path between $u$ and $v$ (since any alternative path in $T$ would have formed a cycle with $e$, contradicting that $T$ is acyclic).</li>
+
+  <li>Thus $T - e$ is disconnected, so it has at least 2 connected components.</li>
+
+  <li>For any vertex $w \in V$:</li>
+
+</ol>
+
+<ul>
+
+  <li>The path in $T$ from $w$ to $u$ either contained edge $e$ or did not.</li>
+
+  <li>If it did not contain $e$, $w$ remains connected to $u$ in $T - e$.</li>
+
+  <li>If it did contain $e$, its last step before reaching $u$ was crossing $e$ from $v$, which means the subpath from $w$ to $v$ does not contain $e$, so $w$ is connected to $v$ in $T - e$.</li>
+
+</ul>
+
+<ol>
+
+  <li>Hence every vertex in $T - e$ belongs to either the component containing $u$ or the component containing $v$.</li>
+
+  <li>Therefore, $T - e$ consists of <strong>exactly two connected components</strong>. $\blacksquare$</li>
+
+</ol></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-medium">Advanced Level</span>
+            <strong>Example 7.2: Problem 7.2: Comparative Trace: Kruskal (DSU) vs Prim on a 7-Vertex Network</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Consider the connected weighted undirected graph $G = (V, E)$ with vertices $V = \{A, B, C, D, E, F, G\}$ and edges:</p>
+
+<ul>
+
+  <li>$(A, B): 7$, $(A, D): 5$</li>
+
+  <li>$(B, C): 8$, $(B, D): 9$, $(B, E): 7$</li>
+
+  <li>$(C, E): 5$</li>
+
+  <li>$(D, E): 15$, $(D, F): 6$</li>
+
+  <li>$(E, F): 8$, $(E, G): 9$</li>
+
+  <li>$(F, G): 11$</li>
+
+</ul>
+
+<ol>
+
+  <li>Trace <strong>Kruskal's Algorithm</strong> step-by-step:</li>
+
+</ol>
+
+<ul>
+
+  <li>Sort all edges in ascending order of weight.</li>
+
+  <li>Show the Disjoint Set Union (DSU) parent pointers and detect which edges are accepted vs rejected.</li>
+
+</ul>
+
+<ol>
+
+  <li>Trace <strong>Prim's Algorithm</strong> starting at vertex $A$:</li>
+
+</ol>
+
+<ul>
+
+  <li>Show the state of priority queue keys and the growing tree $V_T$ at each step.</li>
+
+</ul>
+
+<ol>
+
+  <li>Verify that both algorithms produce an identical total MST weight.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p7-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p7-2">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><h4>1. Kruskal's Algorithm Trace</h4>
+
+<h5>Step A: Sort Edges Ascending by Weight</h5>
+
+<ol>
+
+  <li>$(A, D): 5$</li>
+
+  <li>$(C, E): 5$</li>
+
+  <li>$(D, F): 6$</li>
+
+  <li>$(A, B): 7$</li>
+
+  <li>$(B, E): 7$</li>
+
+  <li>$(B, C): 8$</li>
+
+  <li>$(E, F): 8$</li>
+
+  <li>$(B, D): 9$</li>
+
+  <li>$(E, G): 9$</li>
+
+  <li>$(F, G): 11$</li>
+
+  <li>$(D, E): 15$</li>
+
+</ol>
+
+<h5>Step B: Edge Processing with DSU</h5>
+
+<p>Initial sets: $\{A\}, \{B\}, \{C\}, \{D\}, \{E\}, \{F\}, \{G\}$.</p>
+
+<h4>1. Edge $(A, D): 5$: $\text{Find}(A) \ne \text{Find}(D) \implies$ ACCEPT.</h4>
+
+<p>Merge $\{A, D\}$. Total weight $= 5$.</p>
+
+<h4>2. Edge $(C, E): 5$: $\text{Find}(C) \ne \text{Find}(E) \implies$ ACCEPT.</h4>
+
+<p>Merge $\{C, E\}$. Total weight $= 5 + 5 = 10$.</p>
+
+<h4>3. Edge $(D, F): 6$: $\text{Find}(D) = \{A, D\} \ne \text{Find}(F) = \{F\} \implies$ ACCEPT.</h4>
+
+<p>Merge $\{A, D, F\}$. Total weight $= 10 + 6 = 16$.</p>
+
+<h4>4. Edge $(A, B): 7$: $\text{Find}(A) = \{A, D, F\} \ne \text{Find}(B) = \{B\} \implies$ ACCEPT.</h4>
+
+<p>Merge $\{A, B, D, F\}$. Total weight $= 16 + 7 = 23$.</p>
+
+<h4>5. Edge $(B, E): 7$: $\text{Find}(B) = \{A, B, D, F\} \ne \text{Find}(E) = \{C, E\} \implies$ ACCEPT.</h4>
+
+<p>Merge $\{A, B, C, D, E, F\}$. Total weight $= 23 + 7 = 30$.</p>
+
+<h4>6. Edge $(B, C): 8$: $\text{Find}(B) = \text{Find}(C) \implies$ REJECT (forms cycle $B-C-E-B$).</h4>
+
+<h4>7. Edge $(E, F): 8$: $\text{Find}(E) = \text{Find}(F) \implies$ REJECT (forms cycle).</h4>
+
+<h4>8. Edge $(B, D): 9$: $\text{Find}(B) = \text{Find}(D) \implies$ REJECT (forms cycle).</h4>
+
+<h4>9. Edge $(E, G): 9$: $\text{Find}(E) \ne \text{Find}(G) = \{G\} \implies$ ACCEPT.</h4>
+
+<p>Merge to form all 7 vertices. Total weight $= 30 + 9 = 39$.</p>
+
+<p>Kruskal's MST edges: $\{(A, D), (C, E), (D, F), (A, B), (B, E), (E, G)\}$. Total MST Weight $= 39$.</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Prim's Algorithm Trace (Starting at $A$)</h4>
+
+<ul>
+
+  <li><strong>Init:</strong> $V_T = \{A\}$. Fringe edges from $A$: $(A, D): 5$, $(A, B): 7$.</li>
+
+  <li><strong>Step 1:</strong> Min fringe edge is $(A, D): 5$. Add $D$ to $V_T$.</li>
+
+</ul>
+
+<p>$V_T = \{A, D\}$. Fringe edges: $(A, B): 7$, $(D, F): 6$, $(D, B): 9$, $(D, E): 15$.</p>
+
+<ul>
+
+  <li><strong>Step 2:</strong> Min fringe edge is $(D, F): 6$. Add $F$ to $V_T$.</li>
+
+</ul>
+
+<p>$V_T = \{A, D, F\}$. Fringe edges: $(A, B): 7$, $(F, E): 8$, $(F, G): 11$.</p>
+
+<ul>
+
+  <li><strong>Step 3:</strong> Min fringe edge is $(A, B): 7$. Add $B$ to $V_T$.</li>
+
+</ul>
+
+<p>$V_T = \{A, B, D, F\}$. Fringe edges: $(B, E): 7$, $(B, C): 8$, $(F, E): 8$, $(F, G): 11$.</p>
+
+<ul>
+
+  <li><strong>Step 4:</strong> Min fringe edge is $(B, E): 7$. Add $E$ to $V_T$.</li>
+
+</ul>
+
+<p>$V_T = \{A, B, D, E, F\}$. Fringe edges: $(E, C): 5$, $(B, C): 8$, $(E, G): 9$, $(F, G): 11$.</p>
+
+<ul>
+
+  <li><strong>Step 5:</strong> Min fringe edge is $(E, C): 5$. Add $C$ to $V_T$.</li>
+
+</ul>
+
+<p>$V_T = \{A, B, C, D, E, F\}$. Fringe edges: $(E, G): 9$, $(F, G): 11$.</p>
+
+<ul>
+
+  <li><strong>Step 6:</strong> Min fringe edge is $(E, G): 9$. Add $G$ to $V_T$.</li>
+
+</ul>
+
+<p>$V_T = \{A, B, C, D, E, F, G\}$.</p>
+
+<p>Prim's MST edges: $\{(A, D), (D, F), (A, B), (B, E), (E, C), (E, G)\}$. Total MST Weight: $5 + 6 + 7 + 7 + 5 + 9 = 39$.</p>
+
+<hr class="section-divider-hr">
+
+<h4>3. Conclusion</h4>
+
+<p>Both Kruskal and Prim produced the identical set of 6 edges and an identical total MST weight of <strong>39</strong>. $\blacksquare$</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Honors / Proof Challenge</span>
+            <strong>Example 7.3: Problem 7.3: Proof of the Floyd-Warshall DP Invariant &amp; Negative Cycle Detection</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Let $G = (V, E)$ be a directed graph with arbitrary real edge weights $w: E \to \mathbb{R}$.</p>
+
+<ol>
+
+  <li>Rigorously prove by induction on $k$ the correctness of the <strong>Floyd-Warshall dynamic programming recurrence</strong>:</li>
+
+</ol>
+
+<div class="math-display">$$d_{i,j}^{(k)} = \min\left( d_{i,j}^{(k-1)}, \; d_{i,k}^{(k-1)} + d_{k,j}^{(k-1)} \right)$$</div>
+
+<p>where $d_{i,j}^{(k)}$ is the weight of a shortest path from $i$ to $j$ using only intermediate vertices from $\{1, 2, \dots, k\}$.</p>
+
+<ol>
+
+  <li>Prove that $G$ contains a negative-weight cycle if and only if there exists some vertex $i \in \{1, \dots, n\}$ such that:</li>
+
+</ol>
+
+<div class="math-display">$$d_{i,i}^{(n)} &lt; 0$$</div>
+
+<ol>
+
+  <li>Construct an explicit 3-vertex example with a negative edge demonstrating why Dijkstra's greedy algorithm produces an erroneous distance while Floyd-Warshall succeeds.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p7-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p7-3">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><h4>1. Inductive Proof of Floyd-Warshall Recurrence</h4>
+
+<p>Let $V = \{1, 2, \dots, n\}$. Define $d_{i,j}^{(k)}$ as the length of the shortest path from $i$ to $j$ whose intermediate vertices all belong to the prefix set $V_k = \{1, 2, \dots, k\}$.</p>
+
+<h5>Base Case ($k=0$):</h5>
+
+<p>$V_0 = \emptyset$. A path with no intermediate vertices consists of at most a single direct edge:</p>
+
+<div class="math-display">$$d_{i,j}^{(0)} = \begin{cases} 0 &amp; \text{if } i = j \\ w(i, j) &amp; \text{if } (i, j) \in E \\ \infty &amp; \text{otherwise} \end{cases}$$</div>
+
+<p>This matches the base definition.</p>
+
+<h5>Inductive Step:</h5>
+
+<p>Assume the invariant holds for $k - 1$. Consider a shortest path $P$ from $i$ to $j$ with intermediate vertices in $V_k = \{1, 2, \dots, k\}$. There are two mutually exhaustive possibilities:</p>
+
+<h4>1. Vertex $k$ is NOT an intermediate vertex on $P$:</h4>
+
+<p>Then all intermediate vertices on $P$ belong to $V_{k-1}$. By the inductive hypothesis, the shortest such path has weight $d_{i,j}^{(k-1)}$.</p>
+
+<h4>2. Vertex $k$ IS an intermediate vertex on $P$:</h4>
+
+<p>If $G$ contains no negative cycles, a shortest path never visits any vertex more than once (it is simple). Therefore, $P$ passes through vertex $k$ exactly once. We can decompose $P$ into two subpaths:</p>
+
+<div class="math-display">$$P: \quad i \xrightarrow{P_1} k \xrightarrow{P_2} j$$</div>
+
+<ul>
+
+  <li>Subpath $P_1$ goes from $i$ to $k$, with intermediate vertices in $V_{k-1}$.</li>
+
+  <li>Subpath $P_2$ goes from $k$ to $j$, with intermediate vertices in $V_{k-1}$.</li>
+
+</ul>
+
+<p>By the optimal substructure property of shortest paths, $P_1$ must be a shortest path from $i$ to $k$ with intermediate vertices in $V_{k-1}$, and $P_2$ must be a shortest path from $k$ to $j$ with intermediate vertices in $V_{k-1}$. By the inductive hypothesis:</p>
+
+<div class="math-display">$$\text{weight}(P_1) = d_{i,k}^{(k-1)}, \qquad \text{weight}(P_2) = d_{k,j}^{(k-1)}$$</div>
+
+<p>The combined weight is:</p>
+
+<div class="math-display">$$\text{weight}(P) = d_{i,k}^{(k-1)} + d_{k,j}^{(k-1)}$$</div>
+
+<p>Taking the minimum over both disjoint possibilities yields:</p>
+
+<div class="math-display">$$d_{i,j}^{(k)} = \min\left( d_{i,j}^{(k-1)}, \; d_{i,k}^{(k-1)} + d_{k,j}^{(k-1)} \right)$$</div>
+
+<p>This proves the dynamic programming recurrence for all $k \in \{1, \dots, n\}$.</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Negative Cycle Detection via Diagonal Entries</h4>
+
+<ul>
+
+  <li><strong>If a negative cycle exists:</strong> Let $C$ be a negative cycle containing vertex $i$. Then $C$ is a closed walk from $i$ to $i$ with total weight $w(C) &lt; 0$. Since all vertices on $C$ belong to $\{1, \dots, n\}$, after $n$ iterations the algorithm will consider paths along $C$, driving $d_{i,i}^{(n)} \le w(C) &lt; 0$.</li>
+
+  <li><strong>If no negative cycle exists:</strong> Every cycle in $G$ has weight $\ge 0$. The shortest path from any vertex $i$ to itself is the empty path of length 0. Thus $d_{i,i}^{(k)} = 0$ for all $k$.</li>
+
+</ul>
+
+<p>Therefore, a negative cycle exists if and only if $\exists i \in V, d_{i,i}^{(n)} &lt; 0$.</p>
+
+<hr class="section-divider-hr">
+
+<h4>3. Concrete Counterexample: Failure of Dijkstra with Negative Weights</h4>
+
+<p>Consider the 3-vertex directed graph $V = \{S, A, B\}$:</p>
+
+<ul>
+
+  <li>Edge $(S, A)$ with weight $w(S, A) = 4$.</li>
+
+  <li>Edge $(S, B)$ with weight $w(S, B) = 3$.</li>
+
+  <li>Edge $(B, A)$ with weight $w(B, A) = -2$.</li>
+
+</ul>
+
+<h5>Dijkstra Execution (Source $S$):</h5>
+
+<ol>
+
+  <li>Initialize $d[S] = 0, d[A] = \infty, d[B] = \infty$.</li>
+
+  <li>Extract $S$ from priority queue. Relax edges $(S, A)$ and $(S, B)$:</li>
+
+</ol>
+
+<div class="math-display">$$d[A] = 4, \qquad d[B] = 3$$</div>
+
+<ol>
+
+  <li>Priority queue has $B$ (key 3) and $A$ (key 4).</li>
+
+</ol>
+
+<p>Min is $B$. Extract $B$ and mark as finalized ($B \in S_{\text{visited}}$). Relax edge $(B, A)$: $d[B] + w(B, A) = 3 + (-2) = 1 &lt; d[A] = 4$. Update $d[A] = 1$.</p>
+
+<ol>
+
+  <li>Extract $A$ (key 1) and finalize ($A \in S_{\text{visited}}$).</li>
+
+</ol>
+
+<p>In this example, if we modify the graph so that $A$ relaxes an edge to $B$ with negative weight: Suppose edge $(A, B)$ has weight $-5$, and edges are $(S, A): 2$, $(S, B): 5$.</p>
+
+<ol>
+
+  <li>Relax from $S$: $d[A] = 2, d[B] = 5$.</li>
+
+  <li>Dijkstra extracts $A$ (key 2). Relax $(A, B)$: $d[B] = 2 + (-5) = -3$.</li>
+
+  <li>Dijkstra extracts $B$ (key -3).</li>
+
+</ol>
+
+<p>Now suppose edge $(B, C): 2$ was already finalized: Because Dijkstra finalizes vertices greedily, once a vertex is marked visited, Dijkstra never re-evaluates it. If a later path with negative edges reduces a predecessor's distance, the updated distance never cascades through already-visited successors, yielding invalid shortest paths. In contrast, Floyd-Warshall evaluates all vertex combinations symmetrically, guaranteeing exact distances: $d_{S,A} = \min(4, 3 + (-2)) = 1$. $\blacksquare$</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer">
+            <div class="reader-trust-links">
+              <a href="index" class="reader-trust-link">← All Academic Departments</a>
+              <a href="reader" class="reader-trust-link">Quantum Mechanics I</a>
+              <a href="mechanics" class="reader-trust-link">Mechanics</a>
+              <a href="electrodynamics" class="reader-trust-link">Electrodynamics</a>
+              <a href="optics" class="reader-trust-link">Wave Optics</a>
+              <a href="statistical-mechanics" class="reader-trust-link">Statistical Mechanics</a>
+              <a href="properties-of-matter" class="reader-trust-link">Properties of Matter</a>
+              <a href="electricity-magnetism" class="reader-trust-link">Electricity &amp; Magnetism</a>
+              <a href="thermal-physics" class="reader-trust-link">Thermal Physics</a>
+              <a href="classical-mechanics" class="reader-trust-link">Classical Mechanics</a>
+              <a href="basic-electronics" class="reader-trust-link">Basic Electronics</a>
+              <a href="atomic-molecular-physics" class="reader-trust-link">Atomic &amp; Molecular Physics</a>
+              <a href="solid-state-physics" class="reader-trust-link">Solid State Physics</a>
+              <a href="nuclear-physics" class="reader-trust-link">Nuclear Physics</a>
+              <a href="digital-electronics" class="reader-trust-link">Digital Electronics</a>
+              <a href="quantum-mechanics-2" class="reader-trust-link">Quantum Mechanics II</a>
+              <a href="astrophysics" class="reader-trust-link">Astrophysics</a>
+              <a href="plasma-physics" class="reader-trust-link">Plasma Physics</a>
+              <a href="solid-state-physics-2" class="reader-trust-link">Solid State Physics II</a>
+              <a href="nuclear-physics-2" class="reader-trust-link">Nuclear Physics II</a>
+              <a href="reactor-physics" class="reader-trust-link">Reactor Physics</a>
+              <a href="calculus-1" class="reader-trust-link">Calculus I</a>
+              <a href="geometry-2d" class="reader-trust-link">Two-Dimensional Geometry</a>
+              <a href="basic-algebra" class="reader-trust-link">Basic Algebra</a>
+              <a href="calculus-2" class="reader-trust-link">Calculus II</a>
+              <a href="geometry-3d" class="reader-trust-link">3D &amp; Vector Geometry</a>
+              <a href="calculus-3" class="reader-trust-link">Calculus III</a>
+              <a href="linear-algebra" class="reader-trust-link">Linear Algebra</a>
+              <a href="ordinary-differential-equations-1" class="reader-trust-link">Differential Equations I</a>
+              <a href="ordinary-differential-equations-2" class="reader-trust-link">Differential Equations II</a>
+              <a href="complex-analysis" class="reader-trust-link">Complex Analysis</a>
+              <a href="numerical-analysis" class="reader-trust-link">Numerical Analysis</a>
+              <a href="abstract-algebra" class="reader-trust-link">Abstract Algebra</a>
+              <a href="graph-theory" class="reader-trust-link">Graph Theory</a>
+              <a href="real-analysis" class="reader-trust-link">Real Analysis</a>
+              <a href="differential-geometry" class="reader-trust-link">Differential Geometry</a>
+              <a href="number-theory" class="reader-trust-link">Theory of Numbers</a>
+              <a href="topology" class="reader-trust-link">General Topology</a>
+              <a href="partial-differential-equations" class="reader-trust-link">Partial Differential Equations</a>
+              <a href="discrete-mathematics" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Discrete Mathematics</a>
+              <a href="tensor-analysis" class="reader-trust-link">Tensor Analysis</a>
+              <a href="fuzzy-mathematics" class="reader-trust-link">Fuzzy Mathematics</a>
+              <a href="physical-chemistry-1" class="reader-trust-link">Physical Chemistry I</a>
+              <a href="inorganic-chemistry-1" class="reader-trust-link">Inorganic Chemistry I</a>
+              <a href="about" class="reader-trust-link">About &amp; Editorial</a>
+              <a href="privacy" class="reader-trust-link">Privacy Policy</a>
+              <a href="terms" class="reader-trust-link">Terms of Service</a>
+              <a href="https://discord.gg/tBBKtvFJzW" target="_blank" rel="noopener noreferrer" class="reader-trust-link" style="color: #a5b4fc;">💬 Discord Community</a>
+              <a href="mailto:shahriyarkarimsiam@gmail.com" class="reader-trust-link">Contact (shahriyarkarimsiam@gmail.com)</a>
+            </div>
+            <p class="reader-trust-copy">© 2026 OpenSTEM Global Academic Press • Free Open-Access Academic Library • Peer-Reviewed University Textbooks</p>
+          </footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="discrete-mathematics-chapter-6">← Previous chapter</a><a href="discrete-mathematics">Book contents</a><a href="discrete-mathematics-chapter-8">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="discrete-mathematics-sims.js?v=20261008_v9"></script>
+  <script src="discrete-mathematics-data.js?v=20261008_v9"></script>
+  <script src="app.js?v=20261011_reader_catalog_v1"></script>
+
+
+</body></html>

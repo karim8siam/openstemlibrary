@@ -1,0 +1,483 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Counters, Shift Registers &amp; Combinational MSI Subsystems | Digital Electronics: Combinational &amp; Sequential Systems | OpenSTEM Library</title>
+  <meta name="description" content="Comprehensive design and operational analysis of medium-scale integrated (MSI) digital building blocks: asynchronous (ripple) up/down counters, propagation delay accumulation, and MOD-N reset truncation; systematic synchronous counter synthesis via excitation tables, state transition graphs, and lockout protection; shift register architectures (SISO, SIPO, PISO, PIPO, universal bidirectional), Ring and Johnson twisted counters; decoders (3-to-8, BCD-to-7-segment), priority encoders, multiplexers as universal logic modules, and demultiplexers.">
+  <meta name="keywords" content="Digital Electronics Textbook, Number Systems, Gray Code, Hamming Code SEC-DED, Boolean Algebra, De Morgan Laws, Logic Gates, Universal NAND NOR, TTL Totem-Pole, CMOS Inverter, Karnaugh Map K-Map, Quine-McCluskey, 1s 2s Complement, Full Adder, Carry Lookahead Adder, BCD Adder, SR Latch, D Flip-Flop, JK Flip-Flop, Race-Around Condition, 555 Timer, Multivibrators, Ripple Counter, Synchronous Counter, Shift Register, Johnson Counter, Decoders, Multiplexers, R-2R Ladder DAC, Flash ADC, SAR ADC, Dual-Slope ADC, SRAM 6T, DRAM 1T-1C, Flash Memory, Czochralski Silicon, Deal-Grove Oxidation, Photolithography, Ion Implantation, CMOS Fabrication">
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/digital-electronics-chapter-5">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/digital-electronics-chapter-5">
+  <meta property="og:title" content="Digital Electronics | OpenSTEM Digital Textbook">
+  <meta property="og:description" content="University-standard course with 8 exhaustive chapters, complete mathematical derivations, 24 solved university exam problems, and 16 real-time interactive digital electronics simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Digital Electronics: Combinational &amp; Sequential Systems, Data Converters, Memory &amp; VLSI Fabrication">
+  <meta name="twitter:description" content="Free university digital textbook covering number systems, weighted codes, Hamming error correction, Boolean algebra, logic gates, semiconductor logic families (TTL, CMOS), Karnaugh...">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Digital Electronics: Combinational & Sequential Systems, Data Converters, Memory & VLSI Fabrication","description":"Comprehensive university curriculum covering number systems, Boolean algebra, logic families, combinational logic design, sequential circuits, data converters, semiconductor memory, and integrated circuit microfabrication.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Digital Academic Press","url":"https://openstemlibrary.com"},"educationalLevel":"Undergraduate B.Sc. Honors & Graduate","isAccessibleForFree":true}</script>
+
+  
+  <!-- Schema.org Breadcrumb Navigation -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Department of Electrical & Computer Engineering","item":"https://openstemlibrary.com/#engineering-department"},{"@type":"ListItem","position":3,"name":"Digital Electronics: Combinational & Sequential Systems, Data Converters, Memory & VLSI Fabrication","item":"https://openstemlibrary.com/digital-electronics"}]}</script>
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261011_reader_catalog_v1">
+  <!-- Google AdSense Official Script -->
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4546869673631824" crossorigin="anonymous"></script>
+</head>
+<body data-book-path="digital-electronics.html" data-chapter-index="4">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Digital Electronics</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search topics, gates, equations..." class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="digital-electronics" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Number Systems, Weighted Codes &amp; Error-Correction Codes</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="digital-electronics-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Boolean Algebra, Logic Gates &amp; Semiconductor Logic Families</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="digital-electronics-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Combinational Optimization, K-Maps &amp; Arithmetic Circuits</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="digital-electronics-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Latches, Flip-Flops &amp; Multivibrator Timing Circuits</span></a></li><li class="unit-nav-item active" data-unit-index="4"><a href="digital-electronics-chapter-5" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Counters, Shift Registers &amp; Combinational MSI Subsystems</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="digital-electronics-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Data Conversion Systems: Digital-to-Analog &amp; Analog-to-Digital</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="digital-electronics-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Semiconductor Memory Architectures: SRAM, DRAM &amp; Non-Volatile</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="digital-electronics-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Integrated Circuit (IC) Technology &amp; Silicon VLSI Microfabrication</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Physics / Electronics &amp; Microelectronics</span>
+          <span class="badge-pill badge-credits">Digital Electronics I</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">
+            🔒 <span>In-Browser Protected • Direct Download Disabled</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 5 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Counters, Shift Registers &amp; Combinational MSI Subsystems</h1>
+            <p class="unit-desc-lead" id="unit-desc">Comprehensive design and operational analysis of medium-scale integrated (MSI) digital building blocks: asynchronous (ripple) up/down counters, propagation delay accumulation, and MOD-N reset truncation; systematic synchronous counter synthesis via excitation tables, state transition graphs, and lockout protection; shift register architectures (SISO, SIPO, PISO, PIPO, universal bidirectional), Ring and Johnson twisted counters; decoders (3-to-8, BCD-to-7-segment), priority encoders, multiplexers as universal logic modules, and demultiplexers.</p>
+          </header>
+
+          <!-- Textbook Sections Container -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="dig-5-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.1</span>
+            <span>Asynchronous (Ripple) Counters &amp; MOD-N Truncation</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Working Principle of Asynchronous (Ripple) Counters</h4>
+<p>An <strong>asynchronous counter</strong> (or ripple counter) consists of a cascade of toggle flip-flops (T or JK flip-flops with $J=K=1$) where only the first flip-flop ($FF_0$) is clocked by the external master clock. Each subsequent flip-flop $FF_{i+1}$ is clocked by the output ($Q_i$ or $\bar{Q}_i$) of the preceding stage:</p>
+<ul>
+<li><strong>Negative Edge-Triggered Up-Counter:</strong> Clocking $FF_{i+1}$ from output $Q_i$ causes $FF_{i+1}$ to toggle whenever $Q_i$ transitions from $1 \to 0$, creating a standard binary count sequence ($0, 1, 2, \dots, 2^n - 1$).</li>
+<li><strong>Negative Edge-Triggered Down-Counter:</strong> Clocking $FF_{i+1}$ from inverted output $\bar{Q}_i$ creates a downward counting sequence ($2^n - 1, \dots, 1, 0$).</li>
+</ul>
+
+<h4>2. Propagation Delay Accumulation &amp; Maximum Operating Frequency</h4>
+<p>Because each flip-flop must wait for the preceding stage to settle, the total propagation delay accumulates linearly with the number of stages $n$:</p>
+<div class="math-display">
+$$t_{\text{total}} = n \cdot t_{pd}$$
+</div>
+<p>To avoid false count sampling, the clock period $T_{\text{clk}}$ must be strictly greater than this accumulated delay:</p>
+<div class="math-display">
+$$T_{\text{clk}} \ge n \cdot t_{pd} + t_s \implies f_{\text{max}} \le \frac{1}{n \cdot t_{pd} + t_s}$$
+</div>
+<p>For an 8-bit ripple counter with $t_{pd} = 15\text{ ns}$, $t_{\text{total}} = 120\text{ ns}$, capping clock speed below $8.3\text{ MHz}$. During the transient settling window, intermediate invalid states produce severe false output "glitches".</p>
+
+<h4>3. Truncated Modulus Counters (MOD-N Counters)</h4>
+<p>An $n$-stage binary counter naturally recycles after $2^n$ counts (natural modulus $MOD = 2^n$). To construct a counter with an arbitrary modulus $N &lt; 2^n$ (e.g., a <strong>decade / BCD counter</strong> with $MOD = 10$ using $n = 4$ flip-flops):</p>
+<ol>
+<li>Identify the binary representation of target modulus $N$. For $N = 10_{10} = 1010_2$, bits $Q_3 = 1$ and $Q_1 = 1$.</li>
+<li>Connect $Q_3$ and $Q_1$ to the inputs of an asynchronous NAND gate, and connect the NAND output to the active-LOW asynchronous Clear ($\overline{CLR}$) pins of all four flip-flops.</li>
+<li>As soon as the counter reaches state $1010_2$, the NAND gate output goes LOW, instantaneously resetting all flip-flops to $0000_2$. The state $1010_2$ persists for only a few nanoseconds (the clear propagation delay), yielding a stable 10-state sequence ($0$ through $9$).</li>
+</ol>
+        </div>
+        
+      </section><section class="textbook-section-card" id="dig-5-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.2</span>
+            <span>Synchronous Counter Synthesis &amp; State Machine Design</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. The Synchronous Architecture Advantage</h4>
+<p>In a <strong>synchronous counter</strong>, all flip-flops are connected to the <strong>same common master clock signal</strong>. All state transitions occur simultaneously across all stages at the active clock edge. Propagation delay is independent of counter bit length, being limited solely to a single flip-flop delay plus one combinational gating level:</p>
+<div class="math-display">
+$$f_{\text{max, sync}} = \frac{1}{t_{pd, FF} + t_{pd, \text{gate}} + t_{su}}$$
+</div>
+
+<h4>2. Formal Step-by-Step Synthesis Algorithm</h4>
+<ol>
+<li><strong>State Diagram &amp; State Transition Table:</strong> Formulate the sequence of present states $Q_n$ and required next states $Q_{n+1}$.</li>
+<li><strong>Select Flip-Flop Type:</strong> Typically JK or D flip-flops. Reference the <strong>Excitation Table</strong>:
+<div class="table-responsive">
+<table class="table table-bordered">
+<thead>
+<tr><th>Transition ($Q_n \to Q_{n+1}$)</th><th>Required $J$</th><th>Required $K$</th><th>Required $D$</th><th>Required $T$</th></tr>
+</thead>
+<tbody>
+<tr><td>$0 \to 0$</td><td>$0$</td><td>$\times$</td><td>$0$</td><td>$0$</td></tr>
+<tr><td>$0 \to 1$</td><td>$1$</td><td>$\times$</td><td>$1$</td><td>$1$</td></tr>
+<tr><td>$1 \to 0$</td><td>$\times$</td><td>$1$</td><td>$0$</td><td>$1$</td></tr>
+<tr><td>$1 \to 1$</td><td>$\times$</td><td>$0$</td><td>$1$</td><td>$0$</td></tr>
+</tbody>
+</table>
+</div></li>
+<li><strong>K-Map Derivation of Flip-Flop Excitation Inputs:</strong> Plot $J_i, K_i$ (or $D_i$) as functions of present state variables $Q_k$, exploiting Don't Care states to obtain minimal Boolean equations.</li>
+<li><strong>Lockout Verification:</strong> Analyze unassigned or unused states. If electrical noise drops the counter into an unused state, it must self-recover back to the valid sequence within a finite number of clock cycles rather than circulating indefinitely in a parasitic <strong>lockout cycle</strong>.</li>
+</ol>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-dig-synchronous-counter-sim"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="dig-5-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.3</span>
+            <span>Shift Registers: SISO, SIPO, PISO, PIPO, Ring &amp; Johnson</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Shift Register Functional Topologies</h4>
+<p>A <strong>shift register</strong> is an array of cascaded flip-flops configured such that stored binary data moves laterally by one bit position on each clock pulse. The four fundamental operational topologies are:</p>
+<ol>
+<li><strong>Serial-In Serial-Out (SISO):</strong> Data bits enter sequentially one bit per clock pulse and exit sequentially from the final stage. Requires $n$ clock cycles to load and $n$ clock cycles to read out an $n$-bit word. Acts as an accurate time delay line.</li>
+<li><strong>Serial-In Parallel-Out (SIPO):</strong> Data is shifted in serially; once filled after $n$ clock pulses, all $n$ bits are read out simultaneously in parallel. Fundamental to UART serial communication receivers.</li>
+<li><strong>Parallel-In Serial-Out (PISO):</strong> Data is loaded in parallel simultaneously via combinational steering gates, then shifted out serially one bit at a time. Fundamental to UART serial communication transmitters.</li>
+<li><strong>Parallel-In Parallel-Out (PIPO):</strong> Universal high-speed buffer register. Loads and reads $n$ bits simultaneously in a single clock cycle.</li>
+</ol>
+
+<h4>2. The Universal Bidirectional Shift Register</h4>
+<p>A 4-bit Universal Shift Register (e.g., standard 74HC194 IC) incorporates four 4-to-1 multiplexers at the inputs of each D flip-flop, controlled by two mode select lines $(S_1, S_0)$:</p>
+<ul>
+<li>$S_1 S_0 = 00$: <strong>Hold / No Change</strong> ($D_i = Q_i$).</li>
+<li>$S_1 S_0 = 01$: <strong>Shift Right</strong> ($D_i = Q_{i-1}$, with $D_3 = \text{Serial Input Right}$).</li>
+<li>$S_1 S_0 = 10$: <strong>Shift Left</strong> ($D_i = Q_{i+1}$, with $D_0 = \text{Serial Input Left}$).</li>
+<li>$S_1 S_0 = 11$: <strong>Parallel Load</strong> ($D_i = I_i$).</li>
+</ul>
+
+<h4>3. Cyclic Shift Counters: Ring &amp; Johnson Counters</h4>
+<ol>
+<li><strong>Ring Counter:</strong> Formed by circulating the serial output of the final stage directly back into the serial input of the first stage ($D_0 = Q_{n-1}$):
+<div class="math-display">
+$$\text{Initial State: } 1000_2 \longrightarrow 0100_2 \longrightarrow 0010_2 \longrightarrow 0001_2 \longrightarrow 1000_2$$
+</div>
+A single circulating '1' decodes directly into $n$ mutually exclusive timing pulses with <strong>zero decoding gates</strong>, but utilizes only $n$ states out of $2^n$ available states ($MOD = n$).</li>
+<li><strong>Johnson (Twisted Ring / Moebius) Counter:</strong> Formed by feeding back the <em>inverted</em> output of the final stage into the first stage ($D_0 = \bar{Q}_{n-1}$):
+<div class="math-display">
+$$\text{States: } 0000 \to 1000 \to 1100 \to 1110 \to 1111 \to 0111 \to 0011 \to 0001 \to 0000$$
+</div>
+An $n$-stage Johnson counter produces $2n$ states ($MOD = 2n$). Adjacent states differ by only a single bit (unit distance), enabling completely glitch-free decoding with simple 2-input AND gates.</li>
+</ol>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-dig-shift-register-ring-sim"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="dig-5-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.4</span>
+            <span>Decoders, Encoders &amp; BCD-to-7-Segment Display Drivers</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Binary Decoders</h4>
+<p>A <strong>decoder</strong> is an MSI combinational circuit with $n$ input lines and up to $2^n$ unique output lines. It decodes an $n$-bit binary input code by activating exactly one output line corresponding to that input minterm:</p>
+<ul>
+<li><strong>3-to-8 Line Decoder (74138 IC):</strong> Three inputs $(A_2, A_1, A_0)$ select one of 8 active-LOW outputs ($\bar{Y}_0$ through $\bar{Y}_7$). Contains active-LOW enable inputs ($\bar{E}_1, \bar{E}_2, E_3$) used to cascade multiple decoders into large memory address decoding trees.</li>
+<li><strong>Universal Logic Realization:</strong> Because each output of an active-LOW decoder produces an individual minterm $\bar{m}_i = \overline{A B C}$, any arbitrary Boolean function in SOP form can be implemented simply by feeding the appropriate decoder outputs into an external NAND gate (since $\overline{\bar{m}_1 \cdot \bar{m}_4} = m_1 + m_4$).</li>
+</ul>
+
+<h4>2. Encoders &amp; Priority Encoders</h4>
+<p>An <strong>encoder</strong> performs the inverse operation: it accepts $2^n$ input lines (where only one line is asserted at any time) and outputs an $n$-bit binary code. If multiple inputs can be asserted simultaneously, standard encoders fail.</p>
+<p>A <strong>Priority Encoder (e.g., 74148 IC)</strong> resolves input contention by asserting the binary code of the <strong>highest-priority active input</strong>, ignoring all lower-priority inputs. It also generates an active Group Select ($GS$) signal indicating whether any valid input is active, forming the foundation of CPU interrupt request (IRQ) controllers.</p>
+
+<h4>3. BCD-to-7-Segment Display Drivers (7447 IC)</h4>
+<p>Drives numerical LED/LCD displays containing seven planar segments labeled $a, b, c, d, e, f, g$. Translates 4-bit BCD input $(D, C, B, A)$ into 7 segment drive signals. For common-anode LED displays, the 7447 provides open-collector active-LOW outputs ($a=0$ lights the segment), incorporating lamp test ($LT$) and automatic zero-blanking inputs ($RBI, RBO$).</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="dig-5-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.5</span>
+            <span>Multiplexers (MUX) &amp; Demultiplexers (DEMUX)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Multiplexers (Data Selectors)</h4>
+<p>A <strong>Multiplexer (MUX)</strong> is a combinational switching subsystem that directs binary information from one of $2^n$ data input channels ($I_0, I_1, \dots, I_{2^n-1}$) to a single output line $Y$, selected by $n$ control select lines ($S_{n-1}, \dots, S_0$):</p>
+<div class="math-display">
+$$Y = \sum_{k=0}^{2^n-1} m_k(S) \cdot I_k = \bar{S}_1 \bar{S}_0 I_0 + \bar{S}_1 S_0 I_1 + S_1 \bar{S}_0 I_2 + S_1 S_0 I_3 \quad (\text{4-to-1 MUX})$$
+</div>
+
+<h4>2. Implementing Arbitrary Logic Functions Using Multiplexers</h4>
+<p>A $2^n$-to-1 multiplexer can implement <strong>any arbitrary Boolean function of $n+1$ variables</strong> without requiring any external logic gates:</p>
+<ol>
+<li>Assign $n$ variables to the MUX select lines $(S_{n-1}, \dots, S_0)$.</li>
+<li>Express the remaining $(n+1)$-th variable $Z$ as the data input $I_k$ for each select combination. For each minterm pair, $I_k$ will evaluate to either $0$, $1$, $Z$, or $\bar{Z}$.</li>
+</ol>
+<p>Multiplexers thus function as universal, software-configurable look-up tables (LUTs), forming the core logic fabric of modern Field-Programmable Gate Arrays (FPGAs).</p>
+
+<h4>3. Demultiplexers (DEMUX)</h4>
+<p>A <strong>Demultiplexer</strong> takes a single data input line and routes it to one of $2^n$ output lines selected by $n$ address lines. A binary decoder with an enable input is functionally identical to a demultiplexer (the enable acts as the serial data input).</p>
+        </div>
+        
+      </section></div><div id="problems-mount"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 5.1: Design of a Synchronous MOD-6 Counter Using JK Flip-Flops</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Design a synchronous counter that counts through the cyclic sequence: $0 \to 1 \to 2 \to 3 \to 4 \to 5 \to 0$ using three JK flip-flops ($Q_2, Q_1, Q_0$). (a) Construct the state transition table and list the required $J$ and $K$ excitations for all three flip-flops. (b) Derive the minimal Boolean excitation equations using 3-variable K-maps. (c) Analyze the unused states $6$ ($110_2$) and $7$ ($111_2$) and verify whether the counter is self-correcting (lockout-free).</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-dig-p-5-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-dig-p-5-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1: Construct the State Transition &amp; Excitation Table</div>
+              <div class="step-math">$$\begin{matrix} Q_2 Q_1 Q_0 &amp; Q_2^+ Q_1^+ Q_0^+ &amp; J_2 &amp; K_2 &amp; J_1 &amp; K_1 &amp; J_0 &amp; K_0 \\ \hline 000 &amp; 001 &amp; 0 &amp; \times &amp; 0 &amp; \times &amp; 1 &amp; \times \\ 001 &amp; 010 &amp; 0 &amp; \times &amp; 1 &amp; \times &amp; \times &amp; 1 \\ 010 &amp; 011 &amp; 0 &amp; \times &amp; \times &amp; 0 &amp; 1 &amp; \times \\ 011 &amp; 100 &amp; 1 &amp; \times &amp; \times &amp; 1 &amp; \times &amp; 1 \\ 100 &amp; 101 &amp; \times &amp; 0 &amp; 0 &amp; \times &amp; 1 &amp; \times \\ 101 &amp; 000 &amp; \times &amp; 1 &amp; 0 &amp; \times &amp; \times &amp; 1 \end{matrix}$$</div>
+              <div class="step-explanation"><p>Map valid transitions (0 to 5) to JK excitation rules: 0-&gt;0: (0,x); 0-&gt;1: (1,x); 1-&gt;0: (x,1); 1-&gt;1: (x,0).</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2: Derive Minimized K-Map Equations for Flip-Flop 0</div>
+              <div class="step-math">$$J_0: \text{cells } 0, 2, 4 = 1; \ 1, 3, 5 = \times \implies J_0 = 1. \quad K_0: \text{cells } 1, 3, 5 = 1; \ 0, 2, 4 = \times \implies K_0 = 1$$</div>
+              <div class="step-explanation"><p>Flip-flop 0 toggles on every single clock pulse: J0 = 1, K0 = 1.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3: Derive Equations for Flip-Flop 1 and Flip-Flop 2</div>
+              <div class="step-math">$$J_1 = \bar{Q}_2 Q_0, \quad K_1 = Q_0. \qquad J_2 = Q_1 Q_0, \quad K_2 = Q_0$$</div>
+              <div class="step-explanation"><p>Plot K-maps with unused states 6 and 7 as Don't Cares (x).</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 4: Lockout Analysis for Unused State 6 (110)</div>
+              <div class="step-math">$$\text{For } Q = 110_2: J_2 = 0, K_2 = 0 \implies Q_2^+=1; \quad J_1 = 0, K_1 = 0 \implies Q_1^+=1; \quad J_0=1, K_0=1 \implies Q_0^+=1 \implies 110 \to 111$$</div>
+              <div class="step-explanation"><p>State 6 transitions to State 7 on next clock pulse.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 5: Lockout Analysis for Unused State 7 (111)</div>
+              <div class="step-math">$$\text{For } Q = 111_2: J_2=1, K_2=1 \implies Q_2^+=0; \quad J_1=0, K_1=1 \implies Q_1^+=0; \quad J_0=1, K_0=1 \implies Q_0^+=0 \implies 111 \to 000!$$</div>
+              <div class="step-explanation"><p>State 7 transitions directly to valid state 000. Both unused states self-recover within 2 clock cycles: the design is completely lockout-free.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>J_0 = K_0 = 1; \quad J_1 = \bar{Q}_2 Q_0, \ K_1 = Q_0; \quad J_2 = Q_1 Q_0, \ K_2 = Q_0 \quad (\text{Self-Correcting, Lockout-Free})</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 5.2: Universal Shift Register State Transitions and Timing Sequence</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A 4-bit Universal Shift Register initially holds binary data $Q_3 Q_2 Q_1 Q_0 = 1010_2$. The register is clocked with the following control mode sequence: (1) One clock pulse with $S_1 S_0 = 01$ and Serial Input Right $SIR = 1$; (2) One clock pulse with $S_1 S_0 = 10$ and Serial Input Left $SIL = 0$; (3) One clock pulse with $S_1 S_0 = 11$ and Parallel Inputs $I = 1100_2$. Determine the register contents after each operational step.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-dig-p-5-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-dig-p-5-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1: Initial State</div>
+              <div class="step-math">$$Q^{(0)} = 1010_2$$</div>
+              <div class="step-explanation"><p>Register holds 1010.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2: Clock Pulse 1 - Shift Right (S1 S0 = 01)</div>
+              <div class="step-math">$$\text{Bits shift right: } Q_3 \leftarrow SIR = 1, \quad Q_2 \leftarrow Q_3 = 1, \quad Q_1 \leftarrow Q_2 = 0, \quad Q_0 \leftarrow Q_1 = 1 \implies Q^{(1)} = 1101_2$$</div>
+              <div class="step-explanation"><p>Previous LSB (0) is shifted out and lost; SIR=1 shifts into MSB.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3: Clock Pulse 2 - Shift Left (S1 S0 = 10)</div>
+              <div class="step-math">$$\text{Bits shift left: } Q_3 \leftarrow Q_2 = 1, \quad Q_2 \leftarrow Q_1 = 0, \quad Q_1 \leftarrow Q_0 = 1, \quad Q_0 \leftarrow SIL = 0 \implies Q^{(2)} = 1010_2$$</div>
+              <div class="step-explanation"><p>Previous MSB (1) is shifted out; SIL=0 shifts into LSB.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 4: Clock Pulse 3 - Parallel Load (S1 S0 = 11)</div>
+              <div class="step-math">$$Q \leftarrow I \implies Q^{(3)} = 1100_2$$</div>
+              <div class="step-explanation"><p>Parallel data 1100 is loaded directly into all four stages simultaneously in one clock cycle.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Q^{(1)} = 1101_2 \quad (\text{Shift Right}), \quad Q^{(2)} = 1010_2 \quad (\text{Shift Left}), \quad Q^{(3)} = 1100_2 \quad (\text{Parallel Load})</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 5.3: Synthesis of a 4-Variable Boolean Function Using an 8-to-1 Multiplexer</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Implement the 4-variable Boolean function $F(A, B, C, D) = \sum m(1, 3, 4, 11, 12, 13, 14, 15)$ using a single 8-to-1 multiplexer (e.g., 74151). Assign variables $A, B, C$ to select lines $S_2, S_1, S_0$ and derive the required logic connections for data inputs $I_0$ through $I_7$ in terms of variable $D$, $0$, or $1$.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-dig-p-5-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-dig-p-5-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1: Construct MUX Partitioning Table</div>
+              <div class="step-math">$$\begin{matrix} \text{Select } ABC &amp; \text{Minterm } D=0 &amp; \text{Minterm } D=1 &amp; \text{Required } I_k \\ \hline 000 \ (0) &amp; m_0 (0) &amp; m_1 (1) &amp; I_0 = D \\ 001 \ (1) &amp; m_2 (0) &amp; m_3 (1) &amp; I_1 = D \\ 010 \ (2) &amp; m_4 (1) &amp; m_5 (0) &amp; I_2 = \bar{D} \\ 011 \ (3) &amp; m_6 (0) &amp; m_7 (0) &amp; I_3 = 0 \\ 100 \ (4) &amp; m_8 (0) &amp; m_9 (0) &amp; I_4 = 0 \\ 101 \ (5) &amp; m_{10} (0) &amp; m_{11} (1) &amp; I_5 = D \\ 110 \ (6) &amp; m_{12} (1) &amp; m_{13} (1) &amp; I_6 = 1 \\ 111 \ (7) &amp; m_{14} (1) &amp; m_{15} (1) &amp; I_7 = 1 \end{matrix}$$</div>
+              <div class="step-explanation"><p>Group minterms in pairs of D=0 and D=1 for each select combination.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2: Evaluate Each Data Line</div>
+              <div class="step-math">$$I_0 = D, \quad I_1 = D, \quad I_2 = \bar{D}, \quad I_3 = 0, \quad I_4 = 0, \quad I_5 = D, \quad I_6 = 1, \quad I_7 = 1$$</div>
+              <div class="step-explanation"><p>If only D=1 is in minterm list: I_k = D. If both are 1: I_k = 1. If only D=0 is 1: I_k = D_bar. If neither: I_k = 0.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3: Hardware Implementation</div>
+              <div class="step-math">$$S_2 = A, \ S_1 = B, \ S_0 = C; \quad I_0, I_1, I_5 \leftarrow D; \quad I_2 \leftarrow \bar{D}; \quad I_3, I_4 \leftarrow \text{GND}; \quad I_6, I_7 \leftarrow V_{CC}$$</div>
+              <div class="step-explanation"><p>A single 8-to-1 MUX and one inverter for D_bar implements the complete 4-variable function.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>S_2=A, S_1=B, S_0=C; \quad I_0=I_1=I_5=D, \ I_2=\bar{D}, \ I_3=I_4=0, \ I_6=I_7=1</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+
+          <!-- Solved University Exam Problems Section -->
+          <section class="solved-problems-section" id="solved-problems-section">
+            <div class="solved-section-header">
+              <div class="solved-badge">EXAM SUCCESS WORKSHOP</div>
+              <h3 class="solved-title">Solved University Examination Problems</h3>
+              <p class="solved-desc">Step-by-step mathematical solutions to classic university honors examination questions.</p>
+            </div>
+            <div class="problem-cards-list" id="problem-cards-list">
+
+
+
+
+            </div>
+          </section>
+
+                  <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer">
+            <div class="reader-trust-links">
+              <a href="index" class="reader-trust-link">← All Academic Departments</a>
+              <a href="reader" class="reader-trust-link">Quantum Mechanics I</a>
+              <a href="mechanics" class="reader-trust-link">Mechanics</a>
+              <a href="electrodynamics" class="reader-trust-link">Electrodynamics</a>
+              <a href="optics" class="reader-trust-link">Wave Optics</a>
+              <a href="statistical-mechanics" class="reader-trust-link">Statistical Mechanics</a>
+              <a href="properties-of-matter" class="reader-trust-link">Properties of Matter</a>
+              <a href="electricity-magnetism" class="reader-trust-link">Electricity &amp; Magnetism</a>
+              <a href="thermal-physics" class="reader-trust-link">Thermal Physics</a>
+              <a href="classical-mechanics" class="reader-trust-link">Classical Mechanics</a>
+              <a href="basic-electronics" class="reader-trust-link">Basic Electronics</a>
+              <a href="atomic-molecular-physics" class="reader-trust-link">Atomic &amp; Molecular Physics</a>
+              <a href="solid-state-physics" class="reader-trust-link">Solid State Physics</a>
+              <a href="nuclear-physics" class="reader-trust-link">Nuclear Physics</a>
+              <a href="digital-electronics" class="reader-trust-link">Digital Electronics</a>
+              <a href="quantum-mechanics-2" class="reader-trust-link">Quantum Mechanics II</a>
+              <a href="astrophysics" class="reader-trust-link">Astrophysics</a>
+              <a href="plasma-physics" class="reader-trust-link">Plasma Physics</a>
+              <a href="solid-state-physics-2" class="reader-trust-link">Solid State Physics II</a>
+              <a href="nuclear-physics-2" class="reader-trust-link">Nuclear Physics II</a>
+              <a href="reactor-physics" class="reader-trust-link">Reactor Physics</a>
+              <a href="calculus-1" class="reader-trust-link">Calculus I</a>
+              <a href="geometry-2d" class="reader-trust-link">Two-Dimensional Geometry</a>
+              <a href="basic-algebra" class="reader-trust-link">Basic Algebra</a>
+              <a href="calculus-2" class="reader-trust-link">Calculus II</a>
+              <a href="geometry-3d" class="reader-trust-link">3D &amp; Vector Geometry</a>
+              <a href="calculus-3" class="reader-trust-link">Calculus III</a>
+              <a href="linear-algebra" class="reader-trust-link">Linear Algebra</a>
+              <a href="about" class="reader-trust-link">About &amp; Editorial</a>
+              <a href="privacy" class="reader-trust-link">Privacy Policy</a>
+              <a href="terms" class="reader-trust-link">Terms of Service</a>
+              <a href="https://discord.gg/tBBKtvFJzW" target="_blank" rel="noopener noreferrer" class="reader-trust-link" style="color: #a5b4fc;">💬 Discord Community</a>
+              <a href="mailto:shahriyarkarimsiam@gmail.com" class="reader-trust-link">Contact (shahriyarkarimsiam@gmail.com)</a>
+            </div>
+            <p class="reader-trust-copy">© 2026 OpenSTEM Global Academic Press • Free Open-Access Academic Library • Peer-Reviewed University Textbooks</p>
+          </footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="digital-electronics-chapter-4">← Previous chapter</a><a href="digital-electronics">Book contents</a><a href="digital-electronics-chapter-6">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="digital-electronics-sims.js?v=20261005_v14"></script>
+  <script src="digital-electronics-data.js?v=20261005_v14"></script>
+  <script src="app.js?v=20261011_reader_catalog_v1"></script>
+
+
+</body></html>

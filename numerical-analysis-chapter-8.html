@@ -1,0 +1,796 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Unit 8: Boundary Value Problems for Ordinary Differential Equations: Shooting &amp; Finite Differences | Numerical Analysis &amp; Computational Methods | OpenSTEM Library</title>
+  <meta name="description" content="Mathematical formulation of two-point boundary value problems (BVPs), linear shooting via superposition, nonlinear shooting via Newton-Raphson and sensitivity variational equations, Finite Difference Methods (FDM), tridiagonal linear systems, and the Thomas algorithm (TDMA).">
+  <meta name="keywords" content="Numerical Analysis, Computational Methods, Floating Point Error, IEEE 754, Bisection Method, Regula Falsi, Newton-Raphson, Aitken Delta Squared, Polynomial Interpolation, Lagrange Interpolation, Newton Divided Differences, Chebyshev Nodes, Runge Phenomenon, Numerical Differentiation, Richardson Extrapolation, Simpson Rule, Weddle Rule, Gaussian Quadrature, Gauss-Legendre, LU Decomposition, Cholesky Factorization, Jacobi Method, Gauss-Seidel, SOR Method, Picard Iteration, Runge-Kutta, RK4, Butcher Tableau, Local Truncation Error, Global Truncation Error, Discrete Gronwall Inequality, Adaptive Step Size, Dahlquist Test Equation, Absolute Stability Region, Stiff Differential Equations, A-Stability, L-Stability, Linear Multistep Methods, Adams-Bashforth, Adams-Moulton, Predictor-Corrector, BDF, Dahlquist Root Condition, Dahlquist Barriers, Boundary Value Problems, Linear Shooting Method, Nonlinear Shooting Method, Variational Sensitivity Equations, Finite Difference Method, Tridiagonal Matrix Algorithm, Thomas Algorithm">
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/numerical-analysis-chapter-8">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Numerical Analysis &amp; Computational Methods: Algorithms, Error Analysis, Quadrature, Linear Systems &amp; Differential Equations | OpenSTEM Digital Academic Press">
+  <meta property="og:description" content="Exhaustive university honors textbook with 8 chapters, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
+  <meta property="og:image" content="https://openstemlibrary.org/logo.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Numerical Analysis & Computational Methods: Algorithms, Error Analysis, Quadrature, Linear Systems & Differential Equations","description":"Comprehensive university honors curriculum covering algorithmic numerical approximations, IEEE floating-point error theory, bracketing and open root-finding, polynomial interpolation and Runge's phenomenon, numerical differentiation and high-order Gaussian quadrature, direct and iterative numerical linear algebra, single-step and multi-step ODE initial value solvers, Dahlquist absolute stability theory, stiff differential equations, and shooting and finite difference boundary value algorithms.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Digital Academic Press","url":"https://openstemlibrary.org"},"educationalLevel":"Undergraduate B.Sc. Honors & STEM Foundation","isAccessibleForFree":true}</script>
+
+  <!-- Google Fonts: Inter, Fira Code & Newsreader -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261011_reader_catalog_v1">
+  <!-- Google AdSense Official Script -->
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4546869673631824" crossorigin="anonymous"></script>
+</head>
+<body data-book-path="numerical-analysis.html" data-chapter-index="7">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Numerical Analysis</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search root-finding, interpolation, RK4, stiff ODEs, shooting..." class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="numerical-analysis" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Unit 1: Non-Linear Equations in a Single Variable &amp; Foundations of Numerical Error</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="numerical-analysis-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Unit 2: Polynomial Interpolation, Finite Differences &amp; Approximation Theory</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="numerical-analysis-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Unit 3: Numerical Differentiation, Richardson Extrapolation &amp; Advanced Quadrature</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="numerical-analysis-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Unit 4: Numerical Linear Algebra &amp; Multi-Variable Non-Linear Systems</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="numerical-analysis-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Unit 5: Initial Value Problems for Ordinary Differential Equations: Single-Step Methods</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="numerical-analysis-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Unit 6: Convergence &amp; Error Analysis for Initial Value Problems</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="numerical-analysis-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Unit 7: Absolute Stability Analysis, Stiff Differential Equations &amp; Linear Multi-Step Methods</span></a></li><li class="unit-nav-item active" data-unit-index="7"><a href="numerical-analysis-chapter-8" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Unit 8: Boundary Value Problems for Ordinary Differential Equations: Shooting &amp; Finite Differences</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Mathematics / Computational Mathematics</span>
+          <span class="badge-pill badge-credits">Numerical Analysis &amp; Computational Methods</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">
+            🔒 <span>In-Browser Protected • Direct Download Disabled</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 8 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Unit 8: Boundary Value Problems for Ordinary Differential Equations: Shooting &amp; Finite Differences</h1>
+            <p class="unit-desc-lead" id="unit-desc">Mathematical formulation of two-point boundary value problems (BVPs), linear shooting via superposition, nonlinear shooting via Newton-Raphson and sensitivity variational equations, Finite Difference Methods (FDM), tridiagonal linear systems, and the Thomas algorithm (TDMA).</p>
+          </header>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="u8-sec1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.1</span>
+            <span>Mathematical Formulation of Two-Point BVPs &amp; Boundary Conditions</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Two-Point Boundary Value Problems (BVPs)</h4>
+
+<p>In contrast to Initial Value Problems (IVPs) where all auxiliary conditions are specified at a single point $t_0$, <strong>Boundary Value Problems (BVPs)</strong> specify physical constraints at two or more distinct spatial endpoints $x = a$ and $x = b$.</p>
+
+<p>A general second-order ODE on $x \in [a, b]$ is given by:</p>
+
+<div class="math-display">$$y'' = f(x, y, y'), \quad a \le x \le b$$</div>
+
+<p>subject to boundary conditions at both endpoints.</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Classification of Boundary Conditions</h4>
+
+<p>Boundary conditions are categorized based on function values and spatial derivatives:</p>
+
+<h5>1. Dirichlet Boundary Conditions (First Kind):</h5>
+
+<p>Fixed values of the state variable at the endpoints:</p>
+
+<div class="math-display">$$y(a) = \alpha, \qquad y(b) = \beta$$</div>
+
+<p><em>Physical Example:</em> Prescribed temperatures at the ends of a conducting metal rod.</p>
+
+<h5>2. Neumann Boundary Conditions (Second Kind):</h5>
+
+<p>Fixed values of the outward flux or derivative:</p>
+
+<div class="math-display">$$y'(a) = \alpha, \qquad y'(b) = \beta$$</div>
+
+<p><em>Physical Example:</em> Insulated adiabatic rod ends (zero heat flux: $y'(a) = 0$).</p>
+
+<h5>3. Robin / Mixed Boundary Conditions (Third Kind):</h5>
+
+<p>Linear combinations of state values and derivatives:</p>
+
+<div class="math-display">$$\begin{aligned} a_0 y(a) - a_1 y'(a) &amp;= \alpha \\ b_0 y(b) + b_1 y'(b) &amp;= \beta \end{aligned}$$</div>
+
+<p>with $a_0, a_1, b_0, b_1 \ge 0$ and $a_0 + a_1 &gt; 0, b_0 + b_1 &gt; 0$. <em>Physical Example:</em> Newton's law of cooling / convective heat transfer at the boundary.</p>
+
+<hr class="section-divider-hr">
+
+<h4>3. Existence and Uniqueness for Second-Order BVPs</h4>
+
+<p>Unlike IVPs where Picard's theorem ensures existence locally, BVPs can have <strong>no solutions</strong>, a <strong>unique solution</strong>, or <strong>infinitely many solutions</strong> (e.g., resonance in vibrating beams).</p>
+
+<blockquote class="math-callout">
+<p><strong>Theorem (Existence and Uniqueness for BVPs):</strong> Consider the Dirichlet BVP $y'' = f(x, y, y'), y(a) = \alpha, y(b) = \beta$ on $[a, b]$. Suppose $f$ is continuous on $D = [a, b] \times \mathbb{R}^2$ and satisfies:</p>
+<ol>
+  <li>$\dfrac{\partial f}{\partial y}(x, y, y') &gt; 0$ for all $(x, y, y') \in D$.</li>
+  <li>There exists a constant $M &gt; 0$ such that $\left|\dfrac{\partial f}{\partial y'}(x, y, y')\right| \le M$ on $D$.</li>
+</ol>
+<p>Then the boundary value problem has a <strong>unique solution</strong> $y \in C^2([a, b])$. <em>Significance of Condition 1:</em> Positivity $\partial f / \partial y &gt; 0$ prevents eigenvalues from crossing zero, ruling out resonant standing wave states.</p>
+</blockquote>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_na_bvp_shooting"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u8-sec2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.2</span>
+            <span>The Linear Shooting Method: Superposition of Particular &amp; Homogeneous Solutions</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Transformation into Two Initial Value Problems</h4>
+
+<p>Consider a general linear second-order two-point BVP:</p>
+
+<div class="math-display">$$y'' = p(x) y' + q(x) y + r(x), \quad x \in [a, b]$$</div>
+
+<p>with Dirichlet boundary conditions $y(a) = \alpha, y(b) = \beta$.</p>
+
+<p>By the principle of linear superposition, the general solution can be written as:</p>
+
+<div class="math-display">$$y(x) = y_1(x) + c \, y_2(x)$$</div>
+
+<p>where:</p>
+
+<ol>
+
+  <li>$y_1(x)$ solves the <strong>non-homogeneous IVP</strong>:</li>
+
+</ol>
+
+<div class="math-display">$$\begin{cases} y_1'' = p(x) y_1' + q(x) y_1 + r(x) \\ y_1(a) = \alpha \\ y_1'(a) = 0 \end{cases}$$</div>
+
+<ol>
+
+  <li>$y_2(x)$ solves the <strong>homogeneous IVP</strong>:</li>
+
+</ol>
+
+<div class="math-display">$$\begin{cases} y_2'' = p(x) y_2' + q(x) y_2 \\ y_2(a) = 0 \\ y_2'(a) = 1 \end{cases}$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>2. Determining the Superposition Coefficient</h4>
+
+<p>By construction, at the initial boundary $x = a$:</p>
+
+<div class="math-display">$$y(a) = y_1(a) + c \, y_2(a) = \alpha + c \cdot 0 = \alpha$$</div>
+
+<p>which matches the left boundary condition automatically for any choice of $c \in \mathbb{R}$!</p>
+
+<p>To satisfy the right boundary condition $y(b) = \beta$:</p>
+
+<div class="math-display">$$y(b) = y_1(b) + c \, y_2(b) = \beta$$</div>
+
+<p>Assuming $y_2(b) \ne 0$ (which holds whenever $q(x) &gt; 0$), we solve directly for $c$:</p>
+
+<div class="math-display">$$c = \frac{\beta - y_1(b)}{y_2(b)}$$</div>
+
+<h5>Computational Algorithm:</h5>
+
+<ol>
+
+  <li>Convert the two second-order IVPs into two 2D first-order IVP systems.</li>
+
+  <li>Integrate both systems from $x = a$ to $x = b$ using high-order single-step methods (e.g. classical RK4).</li>
+
+  <li>Extract terminal values $y_1(b)$ and $y_2(b)$.</li>
+
+  <li>Compute $c = \frac{\beta - y_1(b)}{y_2(b)}$.</li>
+
+  <li>The initial slope is given directly by:</li>
+
+</ol>
+
+<div class="math-display">$$y'(a) = y_1'(a) + c \, y_2'(a) = 0 + c(1) = c$$</div>
+
+<ol>
+
+  <li>Synthesize the complete spatial solution:</li>
+
+</ol>
+
+<div class="math-display">$$y(x_n) = y_1(x_n) + c \, y_2(x_n)$$</div>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_na_bvp_shooting"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u8-sec3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.3</span>
+            <span>The Nonlinear Shooting Method: Variational Equations &amp; Newton-Raphson</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Conceptual Framework of Nonlinear Shooting</h4>
+
+<p>For a nonlinear BVP:</p>
+
+<div class="math-display">$$\begin{cases} y'' = f(x, y, y'), \quad x \in [a, b] \\ y(a) = \alpha, \quad y(b) = \beta \end{cases}$$</div>
+
+<p>superposition fails because the governing equation is nonlinear.</p>
+
+<p>Instead, introduce an unknown initial slope parameter $s \in \mathbb{R}$ and define the parameter-dependent IVP:</p>
+
+<div class="math-display">$$\begin{cases} y'' = f(x, y, y') \\ y(a) = \alpha \\ y'(a) = s \end{cases}$$</div>
+
+<p>Let $y(x; s)$ denote the solution to this IVP. We seek a value of $s$ such that the trajectory hits the target $\beta$ at the right boundary:</p>
+
+<div class="math-display">$$F(s) \equiv y(b; s) - \beta = 0$$</div>
+
+<p>This is a scalar root-finding problem for $s$!</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Newton-Raphson Iteration &amp; Variational Sensitivity Equations</h4>
+
+<p>Applying Newton-Raphson to $F(s) = 0$:</p>
+
+<div class="math-display">$$s^{(k+1)} = s^{(k)} - \frac{F(s^{(k)})}{F'(s^{(k)})} = s^{(k)} - \frac{y(b; s^{(k)}) - \beta}{\frac{\partial y}{\partial s}(b; s^{(k)})}$$</div>
+
+<p>To compute the derivative $\frac{\partial y}{\partial s}(x; s)$, define the <strong>variational sensitivity function</strong>:</p>
+
+<div class="math-display">$$z(x; s) \equiv \frac{\partial y}{\partial s}(x; s)$$</div>
+
+<p>Differentiating the governing ODE $y'' = f(x, y, y')$ with respect to the initial slope $s$:</p>
+
+<div class="math-display">$$\frac{\partial}{\partial s} \left( y'' \right) = \frac{\partial f}{\partial y} \frac{\partial y}{\partial s} + \frac{\partial f}{\partial y'} \frac{\partial y'}{\partial s}$$</div>
+
+<p>Assuming smooth partial derivatives, interchange order of differentiation:</p>
+
+<div class="math-display">$$\frac{d^2 z}{dx^2} = f_y(x, y(x), y'(x)) z + f_{y'}(x, y(x), y'(x)) z'$$</div>
+
+<p>with initial conditions obtained by differentiating the boundary constraints:</p>
+
+<div class="math-display">$$z(a) = \frac{\partial y}{\partial s}(a) = \frac{\partial \alpha}{\partial s} = 0$$</div>
+
+<div class="math-display">$$z'(a) = \frac{\partial y'}{\partial s}(a) = \frac{\partial s}{\partial s} = 1$$</div>
+
+<h5>Coupled 4D System for Nonlinear Shooting:</h5>
+
+<p>At each Newton iteration, integrate the coupled system of 4 first-order ODEs simultaneously from $x = a$ to $x = b$:</p>
+
+<div class="math-display">$$\begin{cases} y_1' = y_2, &amp; y_1(a) = \alpha \\ y_2' = f(x, y_1, y_2), &amp; y_2(a) = s^{(k)} \\ z_1' = z_2, &amp; z_1(a) = 0 \\ z_2' = f_y(x, y_1, y_2) z_1 + f_{y'}(x, y_1, y_2) z_2, &amp; z_2(a) = 1 \end{cases}$$</div>
+
+<p>Then update:</p>
+
+<div class="math-display">$$s^{(k+1)} = s^{(k)} - \frac{y_1(b) - \beta}{z_1(b)}$$</div>
+
+<p>Repeat until $|y_1(b) - \beta| &lt; \text{TOL}$.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_na_bvp_shooting"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u8-sec4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.4</span>
+            <span>Finite Difference Methods: Discretization, Tridiagonal Systems &amp; Thomas Algorithm</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Discretization of the Domain</h4>
+
+<p>Instead of integrating forward in space like shooting methods, <strong>Finite Difference Methods (FDM)</strong> discretize the spatial domain $[a, b]$ simultaneously into $N$ subintervals of width $h = \frac{b - a}{N}$:</p>
+
+<div class="math-display">$$x_i = a + i h, \quad i = 0, 1, \dots, N$$</div>
+
+<p>Let $w_i \approx y(x_i)$ denote the discrete numerical approximations.</p>
+
+<p>Using second-order centered difference approximations:</p>
+
+<div class="math-display">$$y'(x_i) = \frac{w_{i+1} - w_{i-1}}{2h} - \frac{h^2}{6} y'''(\xi_i)$$</div>
+
+<div class="math-display">$$y''(x_i) = \frac{w_{i+1} - 2w_i + w_{i-1}}{h^2} - \frac{h^2}{12} y^{(4)}(\eta_i)$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>2. The Linear Tridiagonal System</h4>
+
+<p>Consider the linear BVP:</p>
+
+<div class="math-display">$$y'' = p(x) y' + q(x) y + r(x), \quad y(a) = \alpha, \quad y(b) = \beta$$</div>
+
+<p>Substituting centered differences at interior grid points $i = 1, 2, \dots, N-1$:</p>
+
+<div class="math-display">$$\frac{w_{i+1} - 2w_i + w_{i-1}}{h^2} = p(x_i) \left( \frac{w_{i+1} - w_{i-1}}{2h} \right) + q(x_i) w_i + r(x_i)$$</div>
+
+<p>Multiplying through by $-h^2$ and collecting terms:</p>
+
+<div class="math-display">$$-\left( 1 + \frac{h}{2} p(x_i) \right) w_{i-1} + \left( 2 + h^2 q(x_i) \right) w_i - \left( 1 - \frac{h}{2} p(x_i) \right) w_{i+1} = -h^2 r(x_i)$$</div>
+
+<p>Set:</p>
+
+<div class="math-display">$$a_i = -\left( 1 + \frac{h}{2} p_i \right), \quad d_i = 2 + h^2 q_i, \quad c_i = -\left( 1 - \frac{h}{2} p_i \right), \quad b_i = -h^2 r_i$$</div>
+
+<p>This forms an $(N-1) \times (N-1)$ tridiagonal linear system:</p>
+
+<div class="math-display">$$\begin{bmatrix} d_1 &amp; c_1 &amp; &amp; &amp; 0 \\ a_2 &amp; d_2 &amp; c_2 &amp; &amp; \\ &amp; a_3 &amp; d_3 &amp; \ddots &amp; \\ &amp; &amp; \ddots &amp; \ddots &amp; c_{N-2} \\ 0 &amp; &amp; &amp; a_{N-1} &amp; d_{N-1} \end{bmatrix} \begin{bmatrix} w_1 \\ w_2 \\ w_3 \\ \vdots \\ w_{N-1} \end{bmatrix} = \begin{bmatrix} b_1 - a_1 \alpha \\ b_2 \\ b_3 \\ \vdots \\ b_{N-1} - c_{N-1} \beta \end{bmatrix}$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>3. The Thomas Algorithm (TDMA)</h4>
+
+<p>The Tridiagonal Matrix Algorithm (TDMA) is a specialized $\mathcal{O}(N)$ Gaussian elimination method that bypasses the general $\mathcal{O}(N^3)$ complexity:</p>
+
+<h4>1. Forward Sweep (Eliminate lower diagonal $a_i$):</h4>
+
+<div class="math-display">$$\begin{aligned}    c_1' &amp;= \frac{c_1}{d_1}, \quad d_1^* = \frac{b_1^*}{d_1} \\    c_i' &amp;= \frac{c_i}{d_i - a_i c_{i-1}'}, \quad d_i^* = \frac{b_i^* - a_i d_{i-1}^*}{d_i - a_i c_{i-1}'} \quad (i = 2, \dots, N-1)    \end{aligned}$$</div>
+
+<h4>2. Backward Substitution:</h4>
+
+<div class="math-display">$$\begin{aligned}    w_{N-1} &amp;= d_{N-1}^* \\    w_i &amp;= d_i^* - c_i' w_{i+1} \quad (i = N-2, N-3, \dots, 1)    \end{aligned}$$</div>
+
+<p><em>Total Operation Count:</em> Exactly $5(N-1)$ additions and multiplications—massively faster and numerically stable whenever $q(x) &gt; 0$ (strict diagonal dominance).</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_na_bvp_shooting"></div>
+          </div>
+        
+      </section></div>
+
+          <!-- Tiered Solved Practice Problems Section -->
+          <div class="practice-problems-section">
+            <div class="prob-sec-header">
+              <h2 class="prob-sec-title">Tiered Solved Practice Problems &amp; Examination Proofs</h2>
+              <p class="prob-sec-desc">Comprehensive analytical derivations, multi-tier solutions (Foundational, Intermediate Algorithmic, and Honors/Proof Challenge) with complete line-by-line verification.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-easy">Tier 1: Foundational Concept</span>
+            <strong>Example 8.1: Analytical Superposition in the Linear Shooting Method</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Consider the linear two-point BVP:</p>
+
+<div class="math-display">$$y'' - 4y = 0, \quad x \in [0, 1], \quad y(0) = 1, \quad y(1) = 3$$</div>
+
+<ol>
+
+  <li>Find the exact analytical solutions $y_1(x)$ and $y_2(x)$ to the corresponding non-homogeneous and homogeneous IVPs. 2. Calculate the exact initial slope $s = y'(0)$ via shooting superposition. 3. Verify that the synthesized solution satisfies $y(1) = 3$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-na-prob-8-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-na-prob-8-1">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Step 1: Solve the Two IVPs Analytically</strong> The characteristic equation is $r^2 - 4 = 0 \implies r = \pm 2$. General solution form: $y(x) = A \cosh(2x) + B \sinh(2x)$.</p>
+
+<h4>1. First IVP ($y_1$):</h4>
+
+<div class="math-display">$$\begin{cases} y_1'' - 4y_1 = 0 \\ y_1(0) = 1 \\ y_1'(0) = 0 \end{cases}$$</div>
+
+<p>$y_1(0) = A = 1$. $y_1'(x) = 2A \sinh(2x) + 2B \cosh(2x) \implies y_1'(0) = 2B = 0 \implies B = 0$. Thus:</p>
+
+<div class="math-display">$$y_1(x) = \cosh(2x)$$</div>
+
+<h4>2. Second IVP ($y_2$):</h4>
+
+<div class="math-display">$$\begin{cases} y_2'' - 4y_2 = 0 \\ y_2(0) = 0 \\ y_2'(0) = 1 \end{cases}$$</div>
+
+<p>$y_2(0) = A = 0$. $y_2'(0) = 2B = 1 \implies B = \frac{1}{2}$. Thus:</p>
+
+<div class="math-display">$$y_2(x) = \frac{1}{2} \sinh(2x)$$</div>
+
+<hr class="section-divider-hr">
+
+<p><strong>Step 2: Superposition and Initial Slope Calculation</strong> Evaluate both solutions at the terminal point $x = 1$:</p>
+
+<div class="math-display">$$y_1(1) = \cosh(2) \approx 3.7621957$$</div>
+
+<div class="math-display">$$y_2(1) = \frac{1}{2} \sinh(2) \approx \frac{1}{2}(3.6268604) = 1.8134302$$</div>
+
+<p>The target boundary condition is $y(1) = \beta = 3$. Set $y(1) = y_1(1) + c \, y_2(1) = 3$:</p>
+
+<div class="math-display">$$c = \frac{3 - y_1(1)}{y_2(1)} = \frac{3 - \cosh(2)}{\frac{1}{2}\sinh(2)} = \frac{2(3 - \cosh(2))}{\sinh(2)}$$</div>
+
+<p>Evaluating numerically:</p>
+
+<div class="math-display">$$c = \frac{3 - 3.7621957}{1.8134302} = \frac{-0.7621957}{1.8134302} \approx -0.420306$$</div>
+
+<p>Since $y_1'(0) = 0$ and $y_2'(0) = 1$, the exact required shooting slope is:</p>
+
+<div class="math-display">$$s = y'(0) = y_1'(0) + c \, y_2'(0) = c \approx -0.420306$$</div>
+
+<hr class="section-divider-hr">
+
+<p><strong>Step 3: Verification</strong> The complete spatial solution is:</p>
+
+<div class="math-display">$$y(x) = \cosh(2x) - 0.420306 \cdot \frac{1}{2} \sinh(2x) = \cosh(2x) - 0.210153 \sinh(2x)$$</div>
+
+<p>At $x = 0$: $y(0) = \cosh(0) - 0 = 1$ (matches left boundary). At $x = 1$: $y(1) = 3.762196 - 0.210153(3.626860) = 3.762196 - 0.762196 = 3.000000$ (matches right boundary exactly).</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-medium">Tier 2: Advanced Algorithmic</span>
+            <strong>Example 8.2: Finite Difference Discretization and Tridiagonal Thomas Algorithm Solve</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Consider the linear boundary value problem:</p>
+
+<div class="math-display">$$y'' + 2y' - y = x, \quad x \in [0, 1], \quad y(0) = 0, \quad y(1) = 1$$</div>
+
+<p>Discretize the problem using centered finite differences with $h = 0.25$ ($N = 4$, interior points $x_1=0.25, x_2=0.5, x_3=0.75$). 1. Formulate the explicit $3 \times 3$ tridiagonal linear system $A\vec{w} = \vec{b}$. 2. Solve the linear system using the Thomas algorithm (TDMA) to find $(w_1, w_2, w_3)$.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-na-prob-8-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-na-prob-8-2">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Step 1: Discretization and Matrix Formulation</strong> With $h = 0.25$:</p>
+
+<div class="math-display">$$\frac{w_{i-1} - 2w_i + w_{i+1}}{h^2} + 2 \left( \frac{w_{i+1} - w_{i-1}}{2h} \right) - w_i = x_i$$</div>
+
+<p>Multiplying by $h^2 = \frac{1}{16} = 0.0625$:</p>
+
+<div class="math-display">$$(w_{i-1} - 2w_i + w_{i+1}) + 2h \cdot \frac{w_{i+1} - w_{i-1}}{2} - h^2 w_i = h^2 x_i$$</div>
+
+<div class="math-display">$$(w_{i-1} - 2w_i + w_{i+1}) + h (w_{i+1} - w_{i-1}) - h^2 w_i = h^2 x_i$$</div>
+
+<p>Collecting coefficients of $w_{i-1}, w_i, w_{i+1}$:</p>
+
+<div class="math-display">$$(1 - h) w_{i-1} - (2 + h^2) w_i + (1 + h) w_{i+1} = h^2 x_i$$</div>
+
+<p>Multiplying by $-1$:</p>
+
+<div class="math-display">$$-(1 - h) w_{i-1} + (2 + h^2) w_i - (1 + h) w_{i+1} = -h^2 x_i$$</div>
+
+<p>With $h = 0.25$:</p>
+
+<ul>
+
+  <li>$1 - h = 1 - 0.25 = 0.75$</li>
+
+  <li>$2 + h^2 = 2 + 0.0625 = 2.0625$</li>
+
+  <li>$1 + h = 1 + 0.25 = 1.25$</li>
+
+  <li>$h^2 = 0.0625$</li>
+
+</ul>
+
+<p>General difference equation for $i = 1, 2, 3$:</p>
+
+<div class="math-display">$$-0.75 w_{i-1} + 2.0625 w_i - 1.25 w_{i+1} = -0.0625 x_i$$</div>
+
+<p>Boundary conditions: $w_0 = y(0) = 0$, $w_4 = y(1) = 1$.</p>
+
+<ul>
+
+  <li><strong>For $i = 1$ ($x_1 = 0.25$):</strong></li>
+
+</ul>
+
+<div class="math-display">$$-0.75(0) + 2.0625 w_1 - 1.25 w_2 = -0.0625(0.25) = -0.015625$$</div>
+
+<div class="math-display">$$2.0625 w_1 - 1.25 w_2 = -0.015625$$</div>
+
+<ul>
+
+  <li><strong>For $i = 2$ ($x_2 = 0.50$):</strong></li>
+
+</ul>
+
+<div class="math-display">$$-0.75 w_1 + 2.0625 w_2 - 1.25 w_3 = -0.0625(0.50) = -0.03125$$</div>
+
+<ul>
+
+  <li><strong>For $i = 3$ ($x_3 = 0.75$):</strong></li>
+
+</ul>
+
+<div class="math-display">$$-0.75 w_2 + 2.0625 w_3 - 1.25(1) = -0.0625(0.75) = -0.046875$$</div>
+
+<div class="math-display">$$-0.75 w_2 + 2.0625 w_3 = 1.25 - 0.046875 = 1.203125$$</div>
+
+<p>The $3 \times 3$ tridiagonal linear system is:</p>
+
+<div class="math-display">$$\begin{bmatrix} 2.0625 &amp; -1.25 &amp; 0 \\ -0.75 &amp; 2.0625 &amp; -1.25 \\ 0 &amp; -0.75 &amp; 2.0625 \end{bmatrix} \begin{bmatrix} w_1 \\ w_2 \\ w_3 \end{bmatrix} = \begin{bmatrix} -0.015625 \\ -0.03125 \\ 1.203125 \end{bmatrix}$$</div>
+
+<hr class="section-divider-hr">
+
+<p><strong>Step 2: TDMA (Thomas Algorithm) Solve</strong></p>
+
+<h4>1. Forward Elimination:</h4>
+
+<ul>
+
+  <li>Row 1:</li>
+
+</ul>
+
+<div class="math-display">$$c_1' = \frac{-1.25}{2.0625} \approx -0.606061, \quad d_1^* = \frac{-0.015625}{2.0625} \approx -0.007576$$</div>
+
+<ul>
+
+  <li>Row 2:</li>
+
+</ul>
+
+<div class="math-display">$$\text{denom}_2 = d_2 - a_2 c_1' = 2.0625 - (-0.75)(-0.606061) = 2.0625 - 0.454546 = 1.607954$$</div>
+
+<div class="math-display">$$c_2' = \frac{-1.25}{1.607954} \approx -0.777385$$</div>
+
+<div class="math-display">$$d_2^* = \frac{b_2 - a_2 d_1^*}{\text{denom}_2} = \frac{-0.03125 - (-0.75)(-0.007576)}{1.607954} = \frac{-0.03125 - 0.005682}{1.607954} = \frac{-0.036932}{1.607954} \approx -0.022968$$</div>
+
+<ul>
+
+  <li>Row 3:</li>
+
+</ul>
+
+<div class="math-display">$$\text{denom}_3 = d_3 - a_3 c_2' = 2.0625 - (-0.75)(-0.777385) = 2.0625 - 0.583039 = 1.479461$$</div>
+
+<div class="math-display">$$d_3^* = \frac{b_3 - a_3 d_2^*}{\text{denom}_3} = \frac{1.203125 - (-0.75)(-0.022968)}{1.479461} = \frac{1.203125 - 0.017226}{1.479461} = \frac{1.185899}{1.479461} \approx 0.801575$$</div>
+
+<h4>2. Backward Substitution:</h4>
+
+<ul>
+
+  <li>$w_3 = d_3^* = 0.801575$</li>
+
+  <li>$w_2 = d_2^* - c_2' w_3 = -0.022968 - (-0.777385)(0.801575) = -0.022968 + 0.623133 = 0.600165$</li>
+
+  <li>$w_1 = d_1^* - c_1' w_2 = -0.007576 - (-0.606061)(0.600165) = -0.007576 + 0.363736 = 0.356160$</li>
+
+</ul>
+
+<p>Computed solution vector:</p>
+
+<div class="math-display">$$\vec{w} \approx \begin{bmatrix} w(0.25) \\ w(0.50) \\ w(0.75) \end{bmatrix} = \begin{bmatrix} 0.3562 \\ 0.6002 \\ 0.8016 \end{bmatrix}$$</div></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Tier 3: Honors / Proof Challenge</span>
+            <strong>Example 8.3: Derivation of the Variational Sensitivity Equations for Nonlinear Shooting</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Consider the nonlinear two-point Dirichlet boundary value problem:</p>
+
+<div class="math-display">$$y'' = f(x, y, y'), \quad x \in [a, b], \quad y(a) = \alpha, \quad y(b) = \beta$$</div>
+
+<p>Let $y(x; s)$ denote the parameter-dependent solution of the initial value problem with initial slope $y'(a) = s$. 1. Prove that the sensitivity function $z(x; s) \equiv \frac{\partial y}{\partial s}(x; s)$ satisfies the linear second-order IVP:</p>
+
+<div class="math-display">$$z'' = \frac{\partial f}{\partial y}(x, y, y') z + \frac{\partial f}{\partial y'}(x, y, y') z', \quad z(a) = 0, \quad z'(a) = 1$$</div>
+
+<ol>
+
+  <li>Formulate the exact Newton-Raphson shooting iteration $s^{(k+1)}$ for finding the boundary root $y(b; s) - \beta = 0$, proving that its local convergence rate is quadratic under standard regularity assumptions.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-na-prob-8-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-na-prob-8-3">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Part 1: Derivation of the Variational Sensitivity IVP</strong></p>
+
+<p>Let $y(x; s)$ be the solution of:</p>
+
+<div class="math-display">$$\begin{cases} \dfrac{\partial^2 y}{\partial x^2}(x; s) = f\left(x, y(x; s), \dfrac{\partial y}{\partial x}(x; s)\right) \\ y(a; s) = \alpha \\ \dfrac{\partial y}{\partial x}(a; s) = s \end{cases}$$</div>
+
+<p>Assuming $f$ has continuous second partial derivatives, by Schwarz's theorem the mixed partial derivatives commute:</p>
+
+<div class="math-display">$$\frac{\partial}{\partial s} \left( \frac{\partial^2 y}{\partial x^2} \right) = \frac{\partial^2}{\partial x^2} \left( \frac{\partial y}{\partial s} \right)$$</div>
+
+<p>Define $z(x; s) \equiv \frac{\partial y}{\partial s}(x; s)$. Then:</p>
+
+<div class="math-display">$$\frac{\partial^2 z}{\partial x^2} = \frac{\partial}{\partial s} \left[ f\left(x, y(x; s), \frac{\partial y}{\partial x}(x; s)\right) \right]$$</div>
+
+<p>Applying the multi-variable chain rule to the right-hand side:</p>
+
+<div class="math-display">$$\frac{\partial}{\partial s} [f] = \frac{\partial f}{\partial x} \frac{\partial x}{\partial s} + \frac{\partial f}{\partial y} \frac{\partial y}{\partial s} + \frac{\partial f}{\partial y'} \frac{\partial}{\partial s} \left( \frac{\partial y}{\partial x} \right)$$</div>
+
+<p>Since $x$ is independent of $s$, $\frac{\partial x}{\partial s} = 0$. Interchanging derivatives in the last term:</p>
+
+<div class="math-display">$$\frac{\partial}{\partial s} \left( \frac{\partial y}{\partial x} \right) = \frac{\partial}{\partial x} \left( \frac{\partial y}{\partial s} \right) = \frac{\partial z}{\partial x}$$</div>
+
+<p>Therefore:</p>
+
+<div class="math-display">$$z''(x) = \frac{\partial f}{\partial y}(x, y(x; s), y'(x; s)) \, z(x) + \frac{\partial f}{\partial y'}(x, y(x; s), y'(x; s)) \, z'(x)$$</div>
+
+<p>This is a <strong>linear</strong> second-order differential equation in $z(x)$ whose variable coefficients depend on the trajectory $y(x; s)$.</p>
+
+<p>Now determine the initial conditions for $z$ at $x = a$:</p>
+
+<ol>
+
+  <li>$z(a) = \frac{\partial y}{\partial s}(a; s) = \frac{\partial}{\partial s}[\alpha] = 0$ (since $\alpha$ is a fixed constant independent of $s$).</li>
+
+  <li>$z'(a) = \frac{\partial}{\partial x}\left( \frac{\partial y}{\partial s} \right)_{x=a} = \frac{\partial}{\partial s} \left( \frac{\partial y}{\partial x}(a; s) \right) = \frac{\partial}{\partial s}[s] = 1$.</li>
+
+</ol>
+
+<p>This completes the derivation of the variational sensitivity IVP. $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 2: Newton-Raphson Iteration and Proof of Quadratic Convergence</strong></p>
+
+<p>The target shooting condition at $x = b$ is:</p>
+
+<div class="math-display">$$F(s) \equiv y(b; s) - \beta = 0$$</div>
+
+<p>The derivative of $F$ with respect to $s$ is:</p>
+
+<div class="math-display">$$F'(s) = \frac{\partial}{\partial s}[y(b; s) - \beta] = \frac{\partial y}{\partial s}(b; s) = z(b; s)$$</div>
+
+<p>Applying Newton-Raphson's method:</p>
+
+<div class="math-display">$$s^{(k+1)} = s^{(k)} - \frac{F(s^{(k)})}{F'(s^{(k)})} = s^{(k)} - \frac{y(b; s^{(k)}) - \beta}{z(b; s^{(k)})}$$</div>
+
+<h5>Proof of Local Quadratic Convergence:</h5>
+
+<p>Let $s^<em>$ be the exact root such that $F(s^</em>) = y(b; s^*) - \beta = 0$. Assume:</p>
+
+<ol>
+
+  <li>$F'(s^<em>) = z(b; s^</em>) \ne 0$ (no bifurcation / non-singular Jacobian).</li>
+
+  <li>$F''(s)$ is bounded in a neighborhood $U$ of $s^*$: $|F''(s)| \le M_2$.</li>
+
+</ol>
+
+<p>Expanding $F(s^*)$ in a Taylor series about $s^{(k)}$:</p>
+
+<div class="math-display">$$0 = F(s^*) = F(s^{(k)}) + F'(s^{(k)})(s^* - s^{(k)}) + \frac{F''(\xi_k)}{2} (s^* - s^{(k)})^2$$</div>
+
+<p>From the Newton iteration:</p>
+
+<div class="math-display">$$F(s^{(k)}) = F'(s^{(k)})(s^{(k)} - s^{(k+1)})$$</div>
+
+<p>Substituting this into the Taylor expansion:</p>
+
+<div class="math-display">$$0 = F'(s^{(k)})(s^{(k)} - s^{(k+1)}) + F'(s^{(k)})(s^* - s^{(k)}) + \frac{F''(\xi_k)}{2} (s^* - s^{(k)})^2$$</div>
+
+<div class="math-display">$$F'(s^{(k)})(s^* - s^{(k+1)}) = -\frac{F''(\xi_k)}{2} (s^* - s^{(k)})^2$$</div>
+
+<p>Dividing by $F'(s^{(k)})$:</p>
+
+<div class="math-display">$$s^{(k+1)} - s^* = \frac{F''(\xi_k)}{2 F'(s^{(k)})} (s^{(k)} - s^*)^2$$</div>
+
+<p>Taking absolute values:</p>
+
+<div class="math-display">$$|s^{(k+1)} - s^*| \le \frac{M_2}{2 \min |F'(s)|} |s^{(k)} - s^*|^2 = C |s^{(k)} - s^*|^2$$</div>
+
+<p>This proves that the error at step $k+1$ is proportional to the square of the error at step $k$, establishing <strong>quadratic asymptotic convergence ($\mathcal{O}(|e_k|^2)$)</strong>. $\blacksquare$</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer">
+            <div class="reader-trust-links">
+              <a href="index" class="reader-trust-link">← All Academic Departments</a>
+              <a href="reader" class="reader-trust-link">Quantum Mechanics I</a>
+              <a href="mechanics" class="reader-trust-link">Mechanics</a>
+              <a href="electrodynamics" class="reader-trust-link">Electrodynamics</a>
+              <a href="optics" class="reader-trust-link">Wave Optics</a>
+              <a href="statistical-mechanics" class="reader-trust-link">Statistical Mechanics</a>
+              <a href="properties-of-matter" class="reader-trust-link">Properties of Matter</a>
+              <a href="electricity-magnetism" class="reader-trust-link">Electricity &amp; Magnetism</a>
+              <a href="thermal-physics" class="reader-trust-link">Thermal Physics</a>
+              <a href="classical-mechanics" class="reader-trust-link">Classical Mechanics</a>
+              <a href="basic-electronics" class="reader-trust-link">Basic Electronics</a>
+              <a href="atomic-molecular-physics" class="reader-trust-link">Atomic &amp; Molecular Physics</a>
+              <a href="solid-state-physics" class="reader-trust-link">Solid State Physics</a>
+              <a href="nuclear-physics" class="reader-trust-link">Nuclear Physics</a>
+              <a href="digital-electronics" class="reader-trust-link">Digital Electronics</a>
+              <a href="quantum-mechanics-2" class="reader-trust-link">Quantum Mechanics II</a>
+              <a href="astrophysics" class="reader-trust-link">Astrophysics</a>
+              <a href="plasma-physics" class="reader-trust-link">Plasma Physics</a>
+              <a href="solid-state-physics-2" class="reader-trust-link">Solid State Physics II</a>
+              <a href="nuclear-physics-2" class="reader-trust-link">Nuclear Physics II</a>
+              <a href="reactor-physics" class="reader-trust-link">Reactor Physics</a>
+              <a href="calculus-1" class="reader-trust-link">Calculus I</a>
+              <a href="geometry-2d" class="reader-trust-link">Two-Dimensional Geometry</a>
+              <a href="basic-algebra" class="reader-trust-link">Basic Algebra</a>
+              <a href="calculus-2" class="reader-trust-link">Calculus II</a>
+              <a href="geometry-3d" class="reader-trust-link">3D &amp; Vector Geometry</a>
+              <a href="calculus-3" class="reader-trust-link">Calculus III</a>
+              <a href="linear-algebra" class="reader-trust-link">Linear Algebra</a>
+              <a href="ordinary-differential-equations-1" class="reader-trust-link">Differential Equations I</a>
+              <a href="ordinary-differential-equations-2" class="reader-trust-link">Differential Equations II</a>
+              <a href="complex-analysis" class="reader-trust-link">Complex Analysis</a>
+              <a href="numerical-analysis" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Numerical Analysis</a>
+              <a href="abstract-algebra" class="reader-trust-link">Abstract Algebra</a>
+              <a href="graph-theory" class="reader-trust-link">Graph Theory</a>
+              <a href="real-analysis" class="reader-trust-link">Real Analysis</a>
+              <a href="differential-geometry" class="reader-trust-link">Differential Geometry</a>
+              <a href="number-theory" class="reader-trust-link">Theory of Numbers</a>
+              <a href="topology" class="reader-trust-link">General Topology</a>
+              <a href="partial-differential-equations" class="reader-trust-link">Partial Differential Equations</a>
+              <a href="discrete-mathematics" class="reader-trust-link">Discrete Mathematics</a>
+              <a href="about" class="reader-trust-link">About &amp; Editorial</a>
+              <a href="privacy" class="reader-trust-link">Privacy Policy</a>
+              <a href="terms" class="reader-trust-link">Terms of Service</a>
+              <a href="https://discord.gg/tBBKtvFJzW" target="_blank" rel="noopener noreferrer" class="reader-trust-link" style="color: #a5b4fc;">💬 Discord Community</a>
+              <a href="mailto:shahriyarkarimsiam@gmail.com" class="reader-trust-link">Contact (shahriyarkarimsiam@gmail.com)</a>
+            </div>
+            <p class="reader-trust-copy">© 2026 OpenSTEM Global Academic Press • Free Open-Access Academic Library • Peer-Reviewed University Textbooks</p>
+          </footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="numerical-analysis-chapter-7">← Previous chapter</a><a href="numerical-analysis">Book contents</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="numerical-analysis-sims.js?v=20261007_v1"></script>
+  <script src="numerical-analysis-data.js?v=20261007_v1"></script>
+  <script src="app.js?v=20261011_reader_catalog_v1"></script>
+
+
+</body></html>

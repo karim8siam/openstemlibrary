@@ -1,0 +1,534 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Latches, Flip-Flops &amp; Multivibrator Timing Circuits | Digital Electronics: Combinational &amp; Sequential Systems | OpenSTEM Library</title>
+  <meta name="description" content="Bistable memory primitives and relaxation oscillator timing: cross-coupled BJT transistor latches, active-LOW NAND and active-HIGH NOR latches; clocked level-triggered SR and D transparent latches; edge-triggered flip-flops (master-slave architecture, dynamic setup time t_su and hold time t_h); the JK flip-flop, race-around hazard elimination, characteristic equations Q(t+1), excitation tables, and T flip-flop conversion; multivibrator classes (astable, monostable, bistable) and Schmitt trigger hysteresis; the 555 integrated timer internal comparator architecture, astable frequency, and duty cycle design.">
+  <meta name="keywords" content="Digital Electronics Textbook, Number Systems, Gray Code, Hamming Code SEC-DED, Boolean Algebra, De Morgan Laws, Logic Gates, Universal NAND NOR, TTL Totem-Pole, CMOS Inverter, Karnaugh Map K-Map, Quine-McCluskey, 1s 2s Complement, Full Adder, Carry Lookahead Adder, BCD Adder, SR Latch, D Flip-Flop, JK Flip-Flop, Race-Around Condition, 555 Timer, Multivibrators, Ripple Counter, Synchronous Counter, Shift Register, Johnson Counter, Decoders, Multiplexers, R-2R Ladder DAC, Flash ADC, SAR ADC, Dual-Slope ADC, SRAM 6T, DRAM 1T-1C, Flash Memory, Czochralski Silicon, Deal-Grove Oxidation, Photolithography, Ion Implantation, CMOS Fabrication">
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/digital-electronics-chapter-4">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/digital-electronics-chapter-4">
+  <meta property="og:title" content="Digital Electronics | OpenSTEM Digital Textbook">
+  <meta property="og:description" content="University-standard course with 8 exhaustive chapters, complete mathematical derivations, 24 solved university exam problems, and 16 real-time interactive digital electronics simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Digital Electronics: Combinational &amp; Sequential Systems, Data Converters, Memory &amp; VLSI Fabrication">
+  <meta name="twitter:description" content="Free university digital textbook covering number systems, weighted codes, Hamming error correction, Boolean algebra, logic gates, semiconductor logic families (TTL, CMOS), Karnaugh...">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Digital Electronics: Combinational & Sequential Systems, Data Converters, Memory & VLSI Fabrication","description":"Comprehensive university curriculum covering number systems, Boolean algebra, logic families, combinational logic design, sequential circuits, data converters, semiconductor memory, and integrated circuit microfabrication.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Digital Academic Press","url":"https://openstemlibrary.com"},"educationalLevel":"Undergraduate B.Sc. Honors & Graduate","isAccessibleForFree":true}</script>
+
+  
+  <!-- Schema.org Breadcrumb Navigation -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Department of Electrical & Computer Engineering","item":"https://openstemlibrary.com/#engineering-department"},{"@type":"ListItem","position":3,"name":"Digital Electronics: Combinational & Sequential Systems, Data Converters, Memory & VLSI Fabrication","item":"https://openstemlibrary.com/digital-electronics"}]}</script>
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261011_reader_catalog_v1">
+  <!-- Google AdSense Official Script -->
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4546869673631824" crossorigin="anonymous"></script>
+</head>
+<body data-book-path="digital-electronics.html" data-chapter-index="3">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Digital Electronics</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search topics, gates, equations..." class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="digital-electronics" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Number Systems, Weighted Codes &amp; Error-Correction Codes</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="digital-electronics-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Boolean Algebra, Logic Gates &amp; Semiconductor Logic Families</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="digital-electronics-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Combinational Optimization, K-Maps &amp; Arithmetic Circuits</span></a></li><li class="unit-nav-item active" data-unit-index="3"><a href="digital-electronics-chapter-4" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Latches, Flip-Flops &amp; Multivibrator Timing Circuits</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="digital-electronics-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Counters, Shift Registers &amp; Combinational MSI Subsystems</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="digital-electronics-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Data Conversion Systems: Digital-to-Analog &amp; Analog-to-Digital</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="digital-electronics-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Semiconductor Memory Architectures: SRAM, DRAM &amp; Non-Volatile</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="digital-electronics-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Integrated Circuit (IC) Technology &amp; Silicon VLSI Microfabrication</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Physics / Electronics &amp; Microelectronics</span>
+          <span class="badge-pill badge-credits">Digital Electronics I</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">
+            🔒 <span>In-Browser Protected • Direct Download Disabled</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 4 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Latches, Flip-Flops &amp; Multivibrator Timing Circuits</h1>
+            <p class="unit-desc-lead" id="unit-desc">Bistable memory primitives and relaxation oscillator timing: cross-coupled BJT transistor latches, active-LOW NAND and active-HIGH NOR latches; clocked level-triggered SR and D transparent latches; edge-triggered flip-flops (master-slave architecture, dynamic setup time t_su and hold time t_h); the JK flip-flop, race-around hazard elimination, characteristic equations Q(t+1), excitation tables, and T flip-flop conversion; multivibrator classes (astable, monostable, bistable) and Schmitt trigger hysteresis; the 555 integrated timer internal comparator architecture, astable frequency, and duty cycle design.</p>
+          </header>
+
+          <!-- Textbook Sections Container -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="dig-4-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.1</span>
+            <span>Bistable Elements: Cross-Coupled Inverters &amp; SR Latches</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. The Fundamental Bistable Circuit Principle</h4>
+<p>While combinational circuits produce outputs that depend strictly on current inputs, <strong>sequential circuits</strong> incorporate memory elements whose outputs depend on both current inputs and the past sequence of states. The most primitive electronic memory cell is the <strong>bistable multivibrator</strong>, formed by cross-coupling two inverting stages with positive feedback ($A_v &gt; 1$):</p>
+<div class="math-display">
+$$Q = \overline{\bar{Q}}, \quad \bar{Q} = \bar{Q}$$
+</div>
+<p>The circuit possesses two stable equilibrium states: State 1 ($Q=1, \bar{Q}=0$, "SET") and State 2 ($Q=0, \bar{Q}=1$, "RESET"). The intermediate state where both inverters operate in their linear amplification region ($V_{\text{in}} = V_{\text{out}} \approx V_{DD}/2$) is <strong>metastable</strong>; infinitesimal thermal noise forces the cell to regenerate into one of the two stable binary states.</p>
+
+<h4>2. Active-HIGH NOR Latch</h4>
+<p>Constructed by cross-coupling two 2-input NOR gates with inputs $S$ (Set) and $R$ (Reset):</p>
+<div class="math-display">
+$$Q_{n+1} = \overline{R + \bar{Q}_n}, \quad \bar{Q}_{n+1} = \overline{S + Q_n}$$
+</div>
+<ul>
+<li>$S=0, R=0$: <strong>Hold / Memory State</strong> ($Q_{n+1} = Q_n$). Latches the previous bit indefinitely.</li>
+<li>$S=1, R=0$: <strong>Set State</strong> ($Q_{n+1} = 1, \bar{Q}_{n+1} = 0$).</li>
+<li>$S=0, R=1$: <strong>Reset State</strong> ($Q_{n+1} = 0, \bar{Q}_{n+1} = 1$).</li>
+<li>$S=1, R=1$: <strong>Forbidden / Invalid State</strong>. Forces both outputs to $0$ ($Q = \bar{Q} = 0$), violating complementarity. If both inputs return simultaneously to $0$, race conditions lead to unpredictable metastable collapse.</li>
+</ul>
+
+<h4>3. Active-LOW NAND Latch</h4>
+<p>Constructed by cross-coupling two 2-input NAND gates with active-LOW inputs $\bar{S}$ and $\bar{R}$:</p>
+<div class="math-display">
+$$Q_{n+1} = \overline{\bar{S} \cdot \bar{Q}_n}, \quad \bar{Q}_{n+1} = \overline{\bar{R} \cdot Q_n}$$
+</div>
+<ul>
+<li>$\bar{S}=1, \bar{R}=1$: <strong>Hold State</strong>.</li>
+<li>$\bar{S}=0, \bar{R}=1$: <strong>Set State</strong> ($Q=1$).</li>
+<li>$\bar{S}=1, \bar{R}=0$: <strong>Reset State</strong> ($Q=0$).</li>
+<li>$\bar{S}=0, \bar{R}=0$: <strong>Forbidden State</strong> ($Q = \bar{Q} = 1$).</li>
+</ul>
+        </div>
+        
+      </section><section class="textbook-section-card" id="dig-4-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.2</span>
+            <span>Clocked Latches: Synchronous SR &amp; Transparent D Latch</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Clocked SR Latch</h4>
+<p>To synchronize state transitions with a central clock signal ($CLK$), two steering NAND gates precede the basic NAND latch:</p>
+<div class="math-display">
+$$S^* = \overline{S \cdot CLK}, \quad R^* = \overline{R \cdot CLK}$$
+</div>
+<ul>
+<li>When $CLK = 0$: $S^* = R^* = 1$. The latch remains frozen in its hold state regardless of $S$ and $R$.</li>
+<li>When $CLK = 1$: $S^* = \bar{S}$ and $R^* = \bar{R}$. The latch responds directly to $S$ and $R$ inputs.</li>
+</ul>
+
+<h4>2. The Transparent D Latch</h4>
+<p>To eliminate the forbidden $S=R=1$ hazard, an inverter is placed between the inputs ($R = \bar{S}$), creating the single-input <strong>Data or D Latch</strong> ($S = D, R = \bar{D}$):</p>
+<div class="math-display">
+$$Q_{n+1} = D \quad (\text{when } CLK = 1)$$
+</div>
+<ul>
+<li><strong>Transparent Mode ($CLK = 1$):</strong> The output $Q$ tracks input $D$ continuously in real time with minimal gate delay. Any noise or glitches on $D$ propagate directly to $Q$.</li>
+<li><strong>Latched Mode ($CLK = 0$):</strong> The output $Q$ freezes, holding the value present at $D$ at the instant the clock fell.</li>
+</ul>
+        </div>
+        
+      </section><section class="textbook-section-card" id="dig-4-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.3</span>
+            <span>Edge-Triggered Flip-Flops: Master-Slave &amp; Timing Windows</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Edge-Triggering vs Level-Sensitivity</h4>
+<p>A <strong>latch</strong> is level-sensitive: it responds continuously as long as the clock enable remains active. In contrast, an <strong>edge-triggered flip-flop</strong> samples its input and changes state <em>only</em> during an infinitesimal transition edge of the clock signal—either the <strong>positive (rising) edge</strong> ($0 \to 1$) or the <strong>negative (falling) edge</strong> ($1 \to 0$).</p>
+
+<h4>2. Master-Slave Architecture</h4>
+<p>A classic edge-triggered flip-flop cascades two clocked latches in series controlled by complementary clock phases:</p>
+<ol>
+<li><strong>Master Latch:</strong> Enabled when $CLK = 1$. Samples data input $D$ while the slave is disabled ($\overline{CLK} = 0$). Output $Q_M$ tracks $D$, but external output $Q$ remains isolated.</li>
+<li><strong>Slave Latch:</strong> Enabled when $CLK$ transitions from $1 \to 0$ ($\overline{CLK} \to 1$). The master latch instantly freezes, and the slave copies the frozen state $Q_M$ to the external output $Q$.</li>
+</ol>
+<p>Because the master and slave are never enabled simultaneously, data cannot ripple through both stages in a single clock cycle, completely severing feedthrough loops in shift registers and counters.</p>
+
+<h4>3. Dynamic Timing Parameters: Setup Time &amp; Hold Time</h4>
+<p>Reliable digital state capture requires strict adherence to dynamic timing windows:</p>
+<ul>
+<li><strong>Setup Time ($t_{su}$):</strong> The minimum duration that the data input $D$ must remain stable <em>before</em> the active clock edge arrives. Typically $1 - 5\text{ ns}$ (down to tens of picoseconds in deep submicron CMOS).</li>
+<li><strong>Hold Time ($t_h$):</strong> The minimum duration that the data input $D$ must remain stable <em>after</em> the active clock edge has transitioned.</li>
+<li><strong>Propagation Delay ($t_{pd} = t_{CLK \to Q}$):</strong> The time delay between the active clock edge and the appearance of the new valid state at output $Q$.</li>
+<li><strong>Metastability Hazard:</strong> If input $D$ transitions within the forbidden setup/hold aperture ($t_{su} + t_h$), internal regenerative feedback can hang in an indeterminate analog voltage state for an unbounded duration before collapsing randomly to 0 or 1, causing catastrophic hardware crashes.</li>
+</ul>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-dig-flipflop-clock-sim"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="dig-4-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.4</span>
+            <span>The JK Flip-Flop: Race-Around Elimination &amp; T Flip-Flops</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. The Race-Around Condition Hazard</h4>
+<p>In a level-triggered JK latch with inputs $J = K = 1$, the output toggles ($Q \to \bar{Q}$). If the clock pulse width $t_w$ is longer than the propagation delay of the flip-flop ($t_{pd}$):</p>
+<div class="math-display">
+$$t_{pd} &lt; t_w$$
+</div>
+<p>the newly toggled output will feed back to the input gates while the clock is still HIGH, causing the output to toggle repeatedly back and forth ("race around") throughout the pulse duration $t_w$. The final state of $Q$ when the clock falls is completely unpredictable.</p>
+<p><strong>Race-Around Elimination Methods:</strong></p>
+<ol>
+<li>Narrow clock pulses ($t_w &lt; t_{pd}$, difficult to guarantee across temperature and process variations).</li>
+<li><strong>Edge-Triggered Design:</strong> State transitions occur only during clock edges ($\sim 1\text{ ns}$).</li>
+<li><strong>Master-Slave JK Flip-Flop:</strong> The master isolates inputs while the slave updates outputs.</li>
+</ol>
+
+<h4>2. Truth Table &amp; Characteristic Equation of the JK Flip-Flop</h4>
+<div class="table-responsive">
+<table class="table table-bordered">
+<thead>
+<tr><th>$J$</th><th>$K$</th><th>$Q_{n+1}$</th><th>Operational Mode</th></tr>
+</thead>
+<tbody>
+<tr><td>$0$</td><td>$0$</td><td>$Q_n$</td><td>Hold / No Change</td></tr>
+<tr><td>$0$</td><td>$1$</td><td>$0$</td><td>Reset</td></tr>
+<tr><td>$1$</td><td>$0$</td><td>$1$</td><td>Set</td></tr>
+<tr><td>$1$</td><td>$1$</td><td>$\bar{Q}_n$</td><td>Toggle</td></tr>
+</tbody>
+</table>
+</div>
+<p>From the K-map of next-state $Q_{n+1}$, the <strong>Characteristic Equation</strong> is:</p>
+<div class="math-display">
+$$Q_{n+1} = J \bar{Q}_n + \bar{K} Q_n$$
+</div>
+
+<h4>3. The Toggle (T) Flip-Flop</h4>
+<p>Formed by tying the $J$ and $K$ inputs together ($J = K = T$):</p>
+<div class="math-display">
+$$Q_{n+1} = T \bar{Q}_n + \bar{T} Q_n = T \oplus Q_n$$
+</div>
+<ul>
+<li>When $T = 0$: $Q_{n+1} = Q_n$ (Hold).</li>
+<li>When $T = 1$: $Q_{n+1} = \bar{Q}_n$ (Toggle). Divides the input clock frequency by exactly <strong>2</strong> ($f_{\text{out}} = f_{\text{clk}} / 2$), forming the foundational block for binary ripple counters.</li>
+</ul>
+        </div>
+        
+      </section><section class="textbook-section-card" id="dig-4-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.5</span>
+            <span>Multivibrators: Astable, Monostable &amp; Schmitt Triggers</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Classification of Multivibrator Circuits</h4>
+<p>Multivibrators are regenerative switching circuits categorized by their number of permanently stable states:</p>
+<ol>
+<li><strong>Bistable:</strong> Two permanently stable states (Flip-Flops, Latches). Requires an external trigger pulse to transition between states.</li>
+<li><strong>Monostable (One-Shot):</strong> One stable state and one quasi-stable state. An incoming trigger pulse initiates a transition to the quasi-stable state, where it remains for a predetermined duration $\tau = R C \ln(2) \approx 0.693 R C$ before returning automatically to the stable state. Used for pulse widening, debouncing switches, and fixed-delay generation.</li>
+<li><strong>Astable (Free-Running Oscillator):</strong> Zero stable states. The circuit oscillates continuously between two quasi-stable states without external excitation, generating square wave clock signals.</li>
+</ol>
+
+<h4>2. The Schmitt Trigger &amp; Hysteresis</h4>
+<p>Otto Schmitt (1937) invented the <strong>Schmitt Trigger</strong>, a comparator circuit with positive feedback that exhibits <strong>hysteresis</strong>—two distinct switching threshold voltages:</p>
+<ul>
+<li><strong>Upper Trigger Point ($V_{UTP}$):</strong> When input voltage rises, output remains HIGH until $V_{\text{in}} \ge V_{UTP}$, at which point it snaps sharply to LOW.</li>
+<li><strong>Lower Trigger Point ($V_{LTP}$):</strong> When input voltage falls, output remains LOW until $V_{\text{in}} \le V_{LTP}$, at which point it snaps sharply back to HIGH.</li>
+<li><strong>Hysteresis Band ($\Delta V_H = V_{UTP} - V_{LTP}$):</strong> Completely rejects electrical noise and slow input voltage transitions, preventing erratic multi-trigger ringing on clock inputs.</li>
+</ul>
+        </div>
+        
+      </section><section class="textbook-section-card" id="dig-4-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.6</span>
+            <span>The 555 Integrated Timer: Internal Architecture &amp; Astable Design</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Internal Architecture of the 555 Timer IC</h4>
+<p>The iconic 555 timer (Signetics, 1971) contains 23 transistors, 2 diodes, and 16 resistors integrated on silicon, structured into four functional blocks:</p>
+<ol>
+<li><strong>Precision Resistor Divider:</strong> Three matched $5\text{ k}\Omega$ resistors establish internal reference voltages of $\frac{2}{3} V_{CC}$ and $\frac{1}{3} V_{CC}$ (hence the name "555").</li>
+<li><strong>Threshold Comparator (Comp 1):</strong> Compares Pin 6 (Threshold) to $\frac{2}{3} V_{CC}$. If $V_{\text{thresh}} &gt; \frac{2}{3} V_{CC}$, sets the internal flip-flop ($R=1$).</li>
+<li><strong>Trigger Comparator (Comp 2):</strong> Compares Pin 2 (Trigger) to $\frac{1}{3} V_{CC}$. If $V_{\text{trig}} &lt; \frac{1}{3} V_{CC}$, resets the internal flip-flop ($S=1$).</li>
+<li><strong>RS Flip-Flop &amp; Discharge Transistor ($Q_{\text{dis}}$):</strong> Drives output Pin 3 through a high-current totem-pole driver ($\pm 200\text{ mA}$) and controls Pin 7 (Discharge open-collector transistor to ground).</li>
+</ol>
+
+<h4>2. Astable Multivibrator Frequency &amp; Duty Cycle Equations</h4>
+<p>Connected with external timing resistors $R_A, R_B$ and capacitor $C$, the capacitor charges through $R_A + R_B$ toward $V_{CC}$ and discharges through $R_B$ toward ground:</p>
+<ul>
+<li><strong>Charge Interval ($t_{\text{high}}$):</strong> $V_C(t)$ rises from $\frac{1}{3} V_{CC}$ to $\frac{2}{3} V_{CC}$:
+<div class="math-display">
+$$t_{\text{high}} = (R_A + R_B) C \ln(2) \approx 0.693 (R_A + R_B) C$$
+</div></li>
+<li><strong>Discharge Interval ($t_{\text{low}}$):</strong> $V_C(t)$ falls from $\frac{2}{3} V_{CC}$ to $\frac{1}{3} V_{CC}$:
+<div class="math-display">
+$$t_{\text{low}} = R_B C \ln(2) \approx 0.693 R_B C$$
+</div></li>
+<li><strong>Total Oscillation Period ($T$):</strong>
+<div class="math-display">
+$$T = t_{\text{high}} + t_{\text{low}} = 0.693 (R_A + 2 R_B) C$$
+</div></li>
+<li><strong>Output Frequency ($f$):</strong>
+<div class="math-display">
+$$f = \frac{1}{T} = \frac{1.44}{(R_A + 2 R_B) C}$$
+</div></li>
+<li><strong>Duty Cycle ($D$):</strong>
+<div class="math-display">
+$$D = \frac{t_{\text{high}}}{T} = \frac{R_A + R_B}{R_A + 2 R_B} \times 100\%$$
+</div>
+Because $R_A &gt; 0$, standard astable connections have $D &gt; 50\%$. Connecting a steering diode across $R_B$ bypasses $R_B$ during charging, enabling $50\%$ or lower duty cycles ($t_{\text{high}} \approx 0.693 R_A C$).</li>
+</ul>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-dig-555-timer-sim"></div>
+          </div>
+        
+      </section></div><div id="problems-mount"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 4.1: Race-Around Condition Analysis in Level-Triggered JK Flip-Flops</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A level-triggered JK flip-flop has a clock pulse width of $t_w = 40\text{ ns}$ and an internal propagation delay of $t_{pd} = 12\text{ ns}$. (a) Determine if the race-around condition occurs when $J = K = 1$. (b) Calculate how many times the output toggles during a single clock pulse. (c) Explain how a Master-Slave JK flip-flop eliminates this hazard regardless of clock pulse width.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-dig-p-4-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-dig-p-4-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1: Compare Clock Width to Propagation Delay</div>
+              <div class="step-math">$$t_w = 40\text{ ns} &gt; t_{pd} = 12\text{ ns} \implies \text{Condition for Race-Around: } t_w &gt; t_{pd} \text{ IS MET!}$$</div>
+              <div class="step-explanation"><p>Because the clock pulse remains HIGH longer than the propagation delay, outputs feed back to inputs while the clock is still enabled.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2: Calculate Number of Output Toggles</div>
+              <div class="step-math">$$N_{\text{toggles}} = \left\lfloor \frac{t_w}{t_{pd}} \right\rfloor = \left\lfloor \frac{40\text{ ns}}{12\text{ ns}} \right\rfloor = 3 \text{ complete toggles}$$</div>
+              <div class="step-explanation"><p>The output toggles 3 times during the single pulse, leaving the final output unpredictable.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3: Master-Slave Elimination Mechanism</div>
+              <div class="step-math">$$\text{When } CLK=1: \text{ Master samples } (J, K), \text{ Slave is disabled}. \quad \text{When } CLK=0: \text{ Master is isolated}, \text{ Slave updates } Q.$$</div>
+              <div class="step-explanation"><p>Because Master and Slave are never enabled simultaneously, feedback from the slave cannot reach the master during the same clock cycle, completely extinguishing the race-around hazard.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>\text{Race-around occurs } (t_w &gt; t_{pd}); \quad N = 3 \text{ toggles per pulse}; \quad \text{Master-Slave isolates feedback path}</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 4.2: 555 Timer Astable Multivibrator Component Calculation</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Design an astable 555 timer clock generator to produce a square wave with frequency $f = 10.0\text{ kHz}$ and duty cycle $D = 65.0\%$. If a timing capacitor of $C = 10.0\text{ nF}$ is chosen: (a) Calculate the required values for resistors $R_A$ and $R_B$. (b) Calculate the high time $t_{\text{high}}$ and low time $t_{\text{low}}$.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-dig-p-4-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-dig-p-4-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1: Calculate Total Period T</div>
+              <div class="step-math">$$T = \frac{1}{f} = \frac{1}{10.0 \times 10^3\text{ Hz}} = 100\text{ \mu s}$$</div>
+              <div class="step-explanation"><p>Compute total period: 100 microseconds.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2: Calculate High Time and Low Time</div>
+              <div class="step-math">$$t_{\text{high}} = D \cdot T = 0.650 \times 100\text{ \mu s} = 65.0\text{ \mu s}, \quad t_{\text{low}} = T - t_{\text{high}} = 35.0\text{ \mu s}$$</div>
+              <div class="step-explanation"><p>Calculate high and low durations.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3: Solve for Resistor R_B</div>
+              <div class="step-math">$$t_{\text{low}} = 0.693 R_B C \implies R_B = \frac{t_{\text{low}}}{0.693 C} = \frac{35.0 \times 10^{-6}\text{ s}}{0.693 \times (10.0 \times 10^{-9}\text{ F})} \approx 5050\text{ }\Omega = 5.05\text{ k}\Omega$$</div>
+              <div class="step-explanation"><p>Evaluate R_B: approximately 5.05 kOhm (standard 5.1 kOhm).</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 4: Solve for Resistor R_A</div>
+              <div class="step-math">$$t_{\text{high}} = 0.693 (R_A + R_B) C \implies R_A + R_B = \frac{65.0 \times 10^{-6}}{0.693 \times 10^{-8}} \approx 9380\text{ }\Omega \implies R_A = 9380 - 5050 = 4330\text{ }\Omega = 4.33\text{ k}\Omega$$</div>
+              <div class="step-explanation"><p>Evaluate R_A: approximately 4.33 kOhm (standard 4.3 kOhm).</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>R_A = 4.33\text{ k}\Omega, \quad R_B = 5.05\text{ k}\Omega, \quad t_{\text{high}} = 65.0\text{ \mu s}, \quad t_{\text{low}} = 35.0\text{ \mu s}</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 4.3: Flip-Flop Conversion: Synthesis of D Flip-Flop Using a JK Flip-Flop</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Convert a standard JK flip-flop into a D-type flip-flop: (a) Construct the excitation table showing required $J$ and $K$ inputs for all four desired $Q_n \to Q_{n+1}$ state transitions under input $D$. (b) Derive the minimized Boolean equations for $J$ and $K$ in terms of $D$. (c) Draw the hardware gate connection logic.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-dig-p-4-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-dig-p-4-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1: Construct the Conversion Excitation Table</div>
+              <div class="step-math">$$\begin{matrix} D &amp; Q_n &amp; Q_{n+1} &amp; J &amp; K \\ \hline 0 &amp; 0 &amp; 0 &amp; 0 &amp; \times \\ 0 &amp; 1 &amp; 0 &amp; \times &amp; 1 \\ 1 &amp; 0 &amp; 1 &amp; 1 &amp; \times \\ 1 &amp; 1 &amp; 1 &amp; \times &amp; 0 \end{matrix}$$</div>
+              <div class="step-explanation"><p>Map desired transition Q_n -&gt; Q_(n+1) to JK excitation rules.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2: Derive Minimized K-Map Equations for J and K</div>
+              <div class="step-math">$$J(D, Q_n): J(0,0)=0, J(1,0)=1, J(0,1)=\times, J(1,1)=\times \implies J = D$$</div>
+              <div class="step-explanation"><p>K-map for J reduces to J = D.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3: Derive Equation for K</div>
+              <div class="step-math">$$K(D, Q_n): K(0,0)=\times, K(1,0)=\times, K(0,1)=1, K(1,1)=0 \implies K = \bar{D}$$</div>
+              <div class="step-explanation"><p>K-map for K reduces to K = D_bar.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 4: Hardware Realization</div>
+              <div class="step-math">$$J = D, \quad K = \bar{D} = \text{NOT}(D)$$</div>
+              <div class="step-explanation"><p>A single NOT gate connecting D to K, with D connected directly to J, converts any JK flip-flop into a D flip-flop.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>J = D, \quad K = \bar{D} \quad (\text{Single Inverter between } J \text{ and } K)</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+
+          <!-- Solved University Exam Problems Section -->
+          <section class="solved-problems-section" id="solved-problems-section">
+            <div class="solved-section-header">
+              <div class="solved-badge">EXAM SUCCESS WORKSHOP</div>
+              <h3 class="solved-title">Solved University Examination Problems</h3>
+              <p class="solved-desc">Step-by-step mathematical solutions to classic university honors examination questions.</p>
+            </div>
+            <div class="problem-cards-list" id="problem-cards-list">
+
+
+
+
+            </div>
+          </section>
+
+                  <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer">
+            <div class="reader-trust-links">
+              <a href="index" class="reader-trust-link">← All Academic Departments</a>
+              <a href="reader" class="reader-trust-link">Quantum Mechanics I</a>
+              <a href="mechanics" class="reader-trust-link">Mechanics</a>
+              <a href="electrodynamics" class="reader-trust-link">Electrodynamics</a>
+              <a href="optics" class="reader-trust-link">Wave Optics</a>
+              <a href="statistical-mechanics" class="reader-trust-link">Statistical Mechanics</a>
+              <a href="properties-of-matter" class="reader-trust-link">Properties of Matter</a>
+              <a href="electricity-magnetism" class="reader-trust-link">Electricity &amp; Magnetism</a>
+              <a href="thermal-physics" class="reader-trust-link">Thermal Physics</a>
+              <a href="classical-mechanics" class="reader-trust-link">Classical Mechanics</a>
+              <a href="basic-electronics" class="reader-trust-link">Basic Electronics</a>
+              <a href="atomic-molecular-physics" class="reader-trust-link">Atomic &amp; Molecular Physics</a>
+              <a href="solid-state-physics" class="reader-trust-link">Solid State Physics</a>
+              <a href="nuclear-physics" class="reader-trust-link">Nuclear Physics</a>
+              <a href="digital-electronics" class="reader-trust-link">Digital Electronics</a>
+              <a href="quantum-mechanics-2" class="reader-trust-link">Quantum Mechanics II</a>
+              <a href="astrophysics" class="reader-trust-link">Astrophysics</a>
+              <a href="plasma-physics" class="reader-trust-link">Plasma Physics</a>
+              <a href="solid-state-physics-2" class="reader-trust-link">Solid State Physics II</a>
+              <a href="nuclear-physics-2" class="reader-trust-link">Nuclear Physics II</a>
+              <a href="reactor-physics" class="reader-trust-link">Reactor Physics</a>
+              <a href="calculus-1" class="reader-trust-link">Calculus I</a>
+              <a href="geometry-2d" class="reader-trust-link">Two-Dimensional Geometry</a>
+              <a href="basic-algebra" class="reader-trust-link">Basic Algebra</a>
+              <a href="calculus-2" class="reader-trust-link">Calculus II</a>
+              <a href="geometry-3d" class="reader-trust-link">3D &amp; Vector Geometry</a>
+              <a href="calculus-3" class="reader-trust-link">Calculus III</a>
+              <a href="linear-algebra" class="reader-trust-link">Linear Algebra</a>
+              <a href="about" class="reader-trust-link">About &amp; Editorial</a>
+              <a href="privacy" class="reader-trust-link">Privacy Policy</a>
+              <a href="terms" class="reader-trust-link">Terms of Service</a>
+              <a href="https://discord.gg/tBBKtvFJzW" target="_blank" rel="noopener noreferrer" class="reader-trust-link" style="color: #a5b4fc;">💬 Discord Community</a>
+              <a href="mailto:shahriyarkarimsiam@gmail.com" class="reader-trust-link">Contact (shahriyarkarimsiam@gmail.com)</a>
+            </div>
+            <p class="reader-trust-copy">© 2026 OpenSTEM Global Academic Press • Free Open-Access Academic Library • Peer-Reviewed University Textbooks</p>
+          </footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="digital-electronics-chapter-3">← Previous chapter</a><a href="digital-electronics">Book contents</a><a href="digital-electronics-chapter-5">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="digital-electronics-sims.js?v=20261005_v14"></script>
+  <script src="digital-electronics-data.js?v=20261005_v14"></script>
+  <script src="app.js?v=20261011_reader_catalog_v1"></script>
+
+
+</body></html>

@@ -1,0 +1,997 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Unit 3: Trees, Spanning Trees, Center Theorems &amp; Tree Metric Algorithms | Graph Theory: Structures, Algorithms &amp; Flows | OpenSTEM Library</title>
+  <meta name="description" content="Comprehensive theory of tree structures: definition and equivalent axiomatic characterizations of trees, metric properties (distance, eccentricity, diameter, radius), Jordan's center theorem, rooted and binary trees, Cayley's tree enumeration formula n^(n-2), Prüfer sequences, and minimum spanning trees via Kruskal's and Prim's algorithms.">
+  <meta name="keywords" content="Graph Theory, Eulerian Graphs, Hamiltonian Cycles, Trees, Spanning Trees, Kruskal Algorithm, Prim Algorithm, Cayley Formula, Prüfer Sequence, Connectivity, Cut-Sets, Whitney Inequality, Menger Theorem, Incidence Matrix, Adjacency Matrix, Graph Laplacian, Kirchhoff Matrix Tree Theorem, Directed Graphs, Tournaments, Landau Theorem, DAG, Topological Sort, Kahn Algorithm, Planar Graphs, Euler Polyhedral Formula, Kuratowski Theorem, Wagner Theorem, Dual Graphs, Vertex Coloring, Chromatic Number, Brooks Theorem, Five Color Theorem, Four Color Theorem, Chromatic Polynomial, Deletion-Contraction Recurrence, Edge Coloring, Chromatic Index, Vizing Theorem, Network Flows, Residual Network, Max-Flow Min-Cut Theorem, Ford-Fulkerson Algorithm, Bipartite Matching, Hall Marriage Theorem">
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/graph-theory-chapter-3">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Graph Theory: Structures, Algorithms, Algebraic Representations &amp; Network Flows | OpenSTEM Digital Academic Press">
+  <meta property="og:description" content="Exhaustive university honors textbook with 8 chapters, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
+  <meta property="og:image" content="https://openstemlibrary.com/logo.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+
+  <!-- Schema.org Educational Course JSON-LD (Strictly Zero Course Numbers) -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Graph Theory: Structures, Algorithms, Algebraic Representations & Network Flows","description":"Comprehensive university honors curriculum covering graph structures, degree sequences, Handshaking theorems, Havel-Hakimi criterion, isomorphism invariants, Eulerian trails, Fleury's algorithm, Hamiltonian cycles, Dirac and Ore theorems, tree metrics, Jordan center theorem, Cayley's formula, Prüfer sequences, Kruskal and Prim MST, connectivity, cut-sets, Whitney inequality, Menger's theorems, incidence, circuit, cut-set and Laplacian matrices, Kirchhoff's Matrix Tree Theorem, directed graphs, tournaments, DAGs, topological sorting, planar graphs, Euler's formula, Kuratowski and Wagner theorems, geometric duality, vertex coloring, Brooks' theorem, Five-Color theorem, chromatic polynomials, edge coloring, Vizing's theorem, network flows, and Hall's Marriage Theorem.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Digital Academic Press","url":"https://openstemlibrary.com"},"educationalLevel":"Undergraduate B.Sc. Honors & STEM Foundation","isAccessibleForFree":true}</script>
+
+  <!-- Google Fonts: Inter, Fira Code & Newsreader -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261011_reader_catalog_v1">
+  <!-- Google AdSense Official Script -->
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4546869673631824" crossorigin="anonymous"></script>
+</head>
+<body data-book-path="graph-theory.html" data-chapter-index="2">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Graph Theory</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search trees, Eulerian, Menger, planar, coloring, flows, spectra..." class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="graph-theory" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Unit 1: Foundations of Graph Theory, Degree Sequences &amp; Handshaking Theorems</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="graph-theory-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Unit 2: Walks, Paths, Circuits, Eulerian Graphs &amp; Hamiltonian Cycles</span></a></li><li class="unit-nav-item active" data-unit-index="2"><a href="graph-theory-chapter-3" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Unit 3: Trees, Spanning Trees, Center Theorems &amp; Tree Metric Algorithms</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="graph-theory-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Unit 4: Connectivity, Cut-Sets, Fundamental Circuits &amp; Menger's Theorem</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="graph-theory-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Unit 5: Algebraic Graph Theory: Incidence, Circuit, Cut-Set &amp; Laplacian Matrices</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="graph-theory-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Unit 6: Directed Graphs, Tournaments, DAGs &amp; Topological Sorting</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="graph-theory-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Unit 7: Planar Graphs, Euler's Formula, Kuratowski's Theorem &amp; Duality</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="graph-theory-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Unit 8: Graph Coloring, Chromatic Polynomials &amp; Network Flows</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Mathematics / Pure &amp; Applied</span>
+          <span class="badge-pill badge-credits">Graph Theory: Structures, Algorithms &amp; Flows</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">
+            🔒 <span>In-Browser Protected • Direct Download Disabled</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 3 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Unit 3: Trees, Spanning Trees, Center Theorems &amp; Tree Metric Algorithms</h1>
+            <p class="unit-desc-lead" id="unit-desc">Comprehensive theory of tree structures: definition and equivalent axiomatic characterizations of trees, metric properties (distance, eccentricity, diameter, radius), Jordan's center theorem, rooted and binary trees, Cayley's tree enumeration formula n^(n-2), Prüfer sequences, and minimum spanning trees via Kruskal's and Prim's algorithms.</p>
+          </header>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="u3-sec1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.1</span>
+            <span>Axiomatic Characterizations of Trees &amp; The Six Equivalent Conditions</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Definition of a Tree and a Forest</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 3.1 (Tree and Forest):</strong></p>
+<ol>
+  <li>A <strong>tree</strong> $T$ is a connected, acyclic simple graph.</li>
+  <li>A <strong>forest</strong> is an acyclic simple graph (each of whose connected components is a tree).</li>
+  <li>A vertex of degree 1 in a tree is called a <strong>leaf</strong> (or pendant vertex).</li>
+</ol>
+</blockquote>
+
+<hr class="section-divider-hr">
+
+<h4>2. The Fundamental Characterization Theorem</h4>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 3.1 (Six Equivalent Characterizations of Trees):</strong> Let $T = (V, E)$ be a simple graph on $n = |V|$ vertices. The following statements are mutually equivalent:</p>
+<ol>
+  <li>$T$ is a tree (connected and acyclic).</li>
+  <li>For any two distinct vertices $u, v \in V$, there is a <strong>unique simple path</strong> connecting $u$ and $v$.</li>
+  <li>$T$ is connected and has exactly $n - 1$ edges: $|E| = n - 1$.</li>
+  <li>$T$ is acyclic and has exactly $n - 1$ edges: $|E| = n - 1$.</li>
+  <li>$T$ is minimally connected (connected, but deleting any edge disconnects the graph: $\forall e \in E, \; \omega(T - e) = 2$).</li>
+  <li>$T$ is maximally acyclic (acyclic, but adding an edge between any two non-adjacent vertices creates a unique cycle).</li>
+</ol>
+</blockquote>
+
+<h5>Complete Formal Proof of Equivalence ($1 \implies 2 \implies 5 \implies 3 \implies 4 \implies 6 \implies 1$):</h5>
+
+<ul>
+
+  <li><strong>$1 \implies 2$:</strong> Since $T$ is connected, there exists at least one $u$-$v$ path for all $u \ne v$.</li>
+
+</ul>
+
+<p>Suppose there exist two distinct paths $P_1 \ne P_2$ from $u$ to $v$. Let $x$ be the first vertex where $P_1$ and $P_2$ diverge, and let $y$ be the first vertex after $x$ where they recombine. The segment of $P_1$ from $x$ to $y$ together with the segment of $P_2$ from $y$ to $x$ forms a simple cycle in $T$. This contradicts $T$ being acyclic! Thus the path is unique.</p>
+
+<ul>
+
+  <li><strong>$2 \implies 5$:</strong> By (2), $T$ is connected. Let $e = \{u, v\} \in E$.</li>
+
+</ul>
+
+<p>The edge $e$ is the unique path between $u$ and $v$. Deleting $e$ leaves no $u$-$v$ path in $T - e$. Thus $u$ and $v$ lie in different components, so $\omega(T - e) = 2$. Hence $T$ is minimally connected.</p>
+
+<ul>
+
+  <li><strong>$5 \implies 3$ (by induction on $n$):</strong></li>
+
+  <li>Base case $n = 1$: $m = 0 = n - 1$. True.</li>
+
+  <li>Assume true for all minimally connected graphs with $&lt; n$ vertices.</li>
+
+  <li>In a minimally connected graph on $n \ge 2$ vertices, deleting any edge $e = \{u, v\}$ splits $T$ into exactly two connected components $T_1$ and $T_2$.</li>
+
+  <li>Each $T_i$ is itself minimally connected (if deleting an edge in $T_1$ didn't disconnect $T_1$, it wouldn't disconnect $T$).</li>
+
+  <li>Let $n_1 = |V(T_1)|$ and $n_2 = |V(T_2)|$ with $n_1 + n_2 = n$.</li>
+
+  <li>By induction hypothesis: $|E(T_1)| = n_1 - 1$ and $|E(T_2)| = n_2 - 1$.</li>
+
+  <li>Total edges in $T$:</li>
+
+</ul>
+
+<div class="math-display">$$|E(T)| = |E(T_1)| + |E(T_2)| + 1 = (n_1 - 1) + (n_2 - 1) + 1 = n_1 + n_2 - 1 = n - 1$$</div>
+
+<ul>
+
+  <li><strong>$3 \implies 4$:</strong> Suppose $T$ is connected and $|E| = n - 1$.</li>
+
+</ul>
+
+<p>If $T$ contained a cycle, removing an edge from the cycle would leave the graph connected. We could repeatedly remove edges until an acyclic connected graph (a tree) remains with $k$ edges. By our proof of $1 \implies 3$, this tree must have $n - 1$ edges. Thus $n - 1 = k &lt; |E| = n - 1$, a contradiction! Hence $T$ is acyclic.</p>
+
+<ul>
+
+  <li><strong>$4 \implies 6$:</strong> Suppose $T$ is acyclic and $|E| = n - 1$.</li>
+
+</ul>
+
+<p>Let $k$ be the number of components of $T$. Each component is a tree, so:</p>
+
+<div class="math-display">$$|E| = \sum (n_i - 1) = n - k$$</div>
+
+<p>Since $|E| = n - 1$, we have $n - 1 = n - k \implies k = 1$. Thus $T$ is connected. For any two non-adjacent vertices $u, v$, there already exists a unique path $P$ between them. Adding the edge $\{u, v\}$ closes this path, producing a cycle $P \cup \{\{u, v\}\}$. Since $P$ was unique, this cycle is unique. Thus $T$ is maximally acyclic.</p>
+
+<ul>
+
+  <li><strong>$6 \implies 1$:</strong> By (6), $T$ is acyclic. If $T$ were disconnected, adding an edge between vertices in different components would not create a cycle.</li>
+
+</ul>
+
+<p>Thus $T$ must be connected. Hence $T$ is a tree. $\blacksquare$</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="u3-sec2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.2</span>
+            <span>Tree Metrics: Distances, Eccentricity &amp; Jordan's Center Theorem</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Distance Metrics in Graphs</h4>
+
+<p>Let $G = (V, E)$ be a connected graph.</p>
+
+<blockquote class="math-callout">
+<p><strong>Definition 3.2 (Distance, Eccentricity, Diameter, Radius):</strong></p>
+<ol>
+  <li>The <strong>distance</strong> $d(u, v)$ between vertices $u, v \in V$ is the length of a shortest $u$-$v$ path in $G$.</li>
+</ol>
+<p>Distance satisfies the metric axioms: $d(u, v) \ge 0$, $d(u, v) = 0 \iff u = v$, $d(u, v) = d(v, u)$, and the triangle inequality $d(u, w) \le d(u, v) + d(v, w)$.</p>
+<ol>
+  <li>The <strong>eccentricity</strong> $\epsilon(v)$ of a vertex $v \in V$ is the maximum distance from $v$ to any other vertex:</li>
+</ol>
+</blockquote>
+
+<div class="math-display">$$\epsilon(v) = \max_{u \in V} d(v, u)$$</div>
+
+<blockquote class="math-callout">
+<ol>
+  <li>The <strong>diameter</strong> $\text{diam}(G)$ is the maximum eccentricity:</li>
+</ol>
+</blockquote>
+
+<div class="math-display">$$\text{diam}(G) = \max_{v \in V} \epsilon(v) = \max_{u, v \in V} d(u, v)$$</div>
+
+<blockquote class="math-callout">
+<ol>
+  <li>The <strong>radius</strong> $\text{rad}(G)$ is the minimum eccentricity:</li>
+</ol>
+</blockquote>
+
+<div class="math-display">$$\text{rad}(G) = \min_{v \in V} \epsilon(v)$$</div>
+
+<blockquote class="math-callout">
+<ol>
+  <li>A vertex $c \in V$ is called a <strong>central vertex</strong> (or center) if $\epsilon(c) = \text{rad}(G)$.</li>
+</ol>
+<p>The <strong>center</strong> of $G$, denoted $Z(G)$, is the set of all central vertices.</p>
+</blockquote>
+
+<p>In general graphs, the center can consist of any number of vertices. In trees, however, Camille Jordan proved an extraordinary structural restriction in 1869:</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Jordan's Center Theorem</h4>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 3.2 (Jordan's Center Theorem, 1869):</strong> Every tree $T$ has a center consisting of <strong>either a single vertex</strong> (a central tree) <strong>or two adjacent vertices</strong> (a bicentral tree):</p>
+</blockquote>
+
+<div class="math-display">$$|Z(T)| \in \{1, 2\}$$</div>
+
+<h5>Complete Formal Proof (by Leaf Pruning):</h5>
+
+<p>Let $T$ be a tree on $n$ vertices.</p>
+
+<ul>
+
+  <li>If $n = 1$, $T = K_1$, and the single vertex is the center.</li>
+
+  <li>If $n = 2$, $T = K_2$, and both vertices have eccentricity 1; the center consists of both adjacent vertices.</li>
+
+  <li>Assume $n \ge 3$.</li>
+
+</ul>
+
+<p>Let $L$ be the set of all leaves (vertices of degree 1) in $T$. Since $n \ge 3$, $|L| \ge 2$, and $T' = T - L$ is a non-empty sub-tree.</p>
+
+<p><strong>Key Claim:</strong> For every non-leaf vertex $v \in V(T) \setminus L$, its eccentricity in $T'$ is strictly 1 less than in $T$:</p>
+
+<div class="math-display">$$\epsilon_{T'}(v) = \epsilon_T(v) - 1$$</div>
+
+<p><em>Proof of Claim:</em> In $T$, the vertex $u$ achieving the maximum distance $d(v, u) = \epsilon_T(v)$ must be a leaf! (If $u$ were not a leaf, we could extend the path along an incident edge away from $v$, strictly increasing the distance). The path from $v$ to $u$ in $T$ passes through the unique neighbor $w$ of $u$. In $T'$, the leaf $u$ has been removed, so the furthest reachable vertex along this branch is $w$. Thus $d_{T'}(v, w) = d_T(v, u) - 1$. This holds for all non-leaf vertices. $\blacksquare$</p>
+
+<p>Since the eccentricity of <strong>every</strong> vertex in $V(T')$ decreases by exactly 1:</p>
+
+<div class="math-display">$$\min_{v \in V(T')} \epsilon_{T'}(v) = \left( \min_{v \in V(T')} \epsilon_T(v) \right) - 1$$</div>
+
+<p>Therefore, the vertices achieving the minimum eccentricity in $T'$ are <strong>precisely the same vertices</strong> that achieved the minimum eccentricity in $T$:</p>
+
+<div class="math-display">$$Z(T) = Z(T - L)$$</div>
+
+<p>We repeatedly prune all leaves from the tree. At each iteration, the number of vertices strictly decreases, while the center set $Z(T)$ is preserved invariant! Eventually, the process terminates at either:</p>
+
+<ol>
+
+  <li>A single vertex $K_1 \implies |Z(T)| = 1$.</li>
+
+  <li>An edge $K_2 \implies |Z(T)| = 2$ (two adjacent vertices).</li>
+
+</ol>
+
+<p>Thus, every tree has either 1 center or 2 adjacent bicenters. $\blacksquare$</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="u3-sec3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.3</span>
+            <span>Rooted Trees, Binary Trees &amp; Tree Traversals</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Rooted Trees and Hierarchical Terminology</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 3.3 (Rooted Tree):</strong> A <strong>rooted tree</strong> $(T, r)$ is a tree $T$ in which one distinguished vertex $r \in V(T)$ is designated as the <strong>root</strong>. The choice of root imposes a natural parent-child directed orientation away from $r$.</p>
+</blockquote>
+
+<p>For any vertex $v \in V(T)$:</p>
+
+<ul>
+
+  <li><strong>Level (Depth):</strong> The distance from the root: $\text{level}(v) = d(r, v)$. $\text{level}(r) = 0$.</li>
+
+  <li><strong>Height:</strong> The maximum level among all vertices in $T$.</li>
+
+  <li><strong>Parent:</strong> The unique neighbor of $v$ on the path from $v$ to $r$.</li>
+
+  <li><strong>Children:</strong> Any neighbor of $v$ having level $\text{level}(v) + 1$.</li>
+
+  <li><strong>Ancestors / Descendants:</strong> Formed by the transitive closure of parent / child relations.</li>
+
+</ul>
+
+<hr class="section-divider-hr">
+
+<h4>2. $m$-ary Trees and Binary Trees</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 3.4 ($m$-ary Tree):</strong> A rooted tree is called an <strong>$m$-ary tree</strong> if every internal vertex has at most $m$ children. If $m = 2$, it is called a <strong>binary tree</strong>.</p>
+<ul>
+  <li><strong>Full (Strict) $m$-ary Tree:</strong> Every internal vertex has <strong>exactly $m$ children</strong>.</li>
+</ul>
+</blockquote>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 3.3 (Properties of Full $m$-ary Trees):</strong> Let $T$ be a full $m$-ary tree with $n$ vertices, $i$ internal vertices, and $\ell$ leaves.</p>
+<ol>
+  <li>$n = m \cdot i + 1$.</li>
+  <li>$\ell = (m - 1)i + 1$.</li>
+  <li>$i = \frac{n - 1}{m} = \frac{\ell - 1}{m - 1}$.</li>
+</ol>
+</blockquote>
+
+<h5>Proof:</h5>
+
+<p>Each of the $i$ internal vertices has exactly $m$ children. Every vertex in $T$ except the root is the child of exactly one internal vertex. Thus:</p>
+
+<div class="math-display">$$n - 1 = m \cdot i \implies n = m \cdot i + 1$$</div>
+
+<p>Since every vertex is either an internal vertex or a leaf ($n = i + \ell$):</p>
+
+<div class="math-display">$$i + \ell = m \cdot i + 1 \implies \ell = (m - 1)i + 1 \quad \blacksquare$$</div>
+        </div>
+        
+      </section><section class="textbook-section-card" id="u3-sec4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.4</span>
+            <span>Cayley's Tree Formula $n^{n-2}$ &amp; Prüfer Encoding</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Cayley's Theorem on Labeled Trees</h4>
+
+<p>How many distinct labeled trees can be formed on $n$ designated vertices $V = \{1, 2, \dots, n\}$?</p>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 3.4 (Cayley's Formula, 1889):</strong> The number of labeled trees on $n$ vertices ($n \ge 2$) is:</p>
+</blockquote>
+
+<div class="math-display">$$T_n = n^{n - 2}$$</div>
+
+<p>Examples:</p>
+
+<ul>
+
+  <li>$n = 2: 2^{2-2} = 2^0 = 1$ tree (a single edge).</li>
+
+  <li>$n = 3: 3^{3-2} = 3^1 = 3$ trees (each choosing a different central vertex).</li>
+
+  <li>$n = 4: 4^{4-2} = 4^2 = 16$ trees (4 star graphs $K_{1,3} + 12$ path graphs $P_4$).</li>
+
+</ul>
+
+<hr class="section-divider-hr">
+
+<h4>2. The Prüfer Encoding Bijection</h4>
+
+<p>In 1918, Heinz Prüfer discovered an elegant bijective proof establishing Cayley's formula by encoding every labeled tree on $n$ vertices into a unique sequence of length $n - 2$ over the alphabet $\{1, 2, \dots, n\}$.</p>
+
+<h5>Algorithm 1: Tree $\to$ Prüfer Sequence $P(T)$</h5>
+
+<p>Input: A labeled tree $T$ on vertices $\{1, 2, \dots, n\}$ with $n \ge 3$. Initialize: Empty sequence $P = ()$.</p>
+
+<ol>
+
+  <li>While $T$ has more than 2 vertices:</li>
+
+</ol>
+
+<ul>
+
+  <li>Identify the leaf with the <strong>smallest numerical label</strong>; call it $v$.</li>
+
+  <li>Let $u$ be the unique neighbor of $v$.</li>
+
+  <li>Append $u$ to the sequence: $P \leftarrow (P, u)$.</li>
+
+  <li>Remove vertex $v$ and edge $\{v, u\}$ from $T$.</li>
+
+</ul>
+
+<ol>
+
+  <li>Return $P$, which has length exactly $n - 2$.</li>
+
+</ol>
+
+<h5>Algorithm 2: Prüfer Sequence $\to$ Labeled Tree</h5>
+
+<p>Input: A sequence $P = (p_1, p_2, \dots, p_{n-2})$ with entries from $S = \{1, 2, \dots, n\}$.</p>
+
+<ol>
+
+  <li>Compute the degree of each label in the target tree:</li>
+
+</ol>
+
+<div class="math-display">$$\deg(v) = 1 + (\text{number of times } v \text{ appears in } P)$$</div>
+
+<ol>
+
+  <li>For $i = 1$ to $n - 2$:</li>
+
+</ol>
+
+<ul>
+
+  <li>Let $x$ be the smallest element in $S$ having $\deg(x) = 1$.</li>
+
+  <li>Add edge $\{x, p_i\}$ to the tree.</li>
+
+  <li>Decrement $\deg(x)$ and $\deg(p_i)$ by 1.</li>
+
+  <li>Remove $x$ from $S$.</li>
+
+</ul>
+
+<ol>
+
+  <li>At the end, exactly two elements remain in $S$ with degree 1. Add an edge between them.</li>
+
+</ol>
+
+<p>Since every labeled tree produces a unique Prüfer sequence, and every sequence of length $n - 2$ with entries from $\{1, \dots, n\}$ uniquely reconstructs a tree:</p>
+
+<div class="math-display">$$T_n = n^{n - 2} \quad \blacksquare$$</div>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_gt_spanning_tree"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u3-sec5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.5</span>
+            <span>Minimum Spanning Trees: Kruskal's &amp; Prim's Algorithms</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Spanning Trees in Connected Graphs</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 3.5 (Spanning Tree):</strong> A <strong>spanning tree</strong> $T$ of a connected graph $G = (V, E)$ is a subgraph that is a tree and contains <strong>every vertex</strong> of $G$: $V(T) = V(G)$.</p>
+</blockquote>
+
+<p>Every connected graph contains at least one spanning tree.</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. The Minimum Spanning Tree (MST) Problem</h4>
+
+<p>Given a connected undirected graph $G = (V, E)$ with edge weights $w: E \to \mathbb{R}$, find a spanning tree $T$ that minimizes the total weight:</p>
+
+<div class="math-display">$$w(T) = \sum_{e \in E(T)} w(e)$$</div>
+
+<h5>The Cut Property:</h5>
+
+<p>For any cut $(S, V \setminus S)$ in $G$, if an edge $e$ is a strictly minimum-weight edge crossing the cut, then $e$ <strong>must belong to every minimum spanning tree</strong> of $G$.</p>
+
+<hr class="section-divider-hr">
+
+<h4>3. Kruskal's Algorithm (Greedy by Edges)</h4>
+
+<ol>
+
+  <li>Sort all edges in non-decreasing order of weight: $w(e_1) \le w(e_2) \le \dots \le w(e_m)$.</li>
+
+  <li>Initialize $T = (V, \emptyset)$.</li>
+
+  <li>For each edge $e_i$ in the sorted list:</li>
+
+</ol>
+
+<ul>
+
+  <li>If adding $e_i$ to $T$ does <strong>not create a cycle</strong> (tested via Disjoint-Set / Union-Find in $\mathcal{O}(\alpha(V))$ time), add $e_i$ to $T$: $T \leftarrow T \cup \{e_i\}$.</li>
+
+</ul>
+
+<ol>
+
+  <li>Terminate when $|E(T)| = n - 1$.</li>
+
+</ol>
+
+<p>Total Time Complexity: $\mathcal{O}(|E| \log |E|)$.</p>
+
+<hr class="section-divider-hr">
+
+<h4>4. Prim's Algorithm (Greedy by Vertices)</h4>
+
+<ol>
+
+  <li>Initialize $S = \{s\}$ starting at an arbitrary root vertex $s$, and $T = \emptyset$.</li>
+
+  <li>While $S \ne V$:</li>
+
+</ol>
+
+<ul>
+
+  <li>Find the minimum-weight edge $e = \{u, v\}$ such that $u \in S$ and $v \in V \setminus S$.</li>
+
+  <li>Add $e$ to $T$ and add $v$ to $S$.</li>
+
+</ul>
+
+<ol>
+
+  <li>Terminate when $S = V$.</li>
+
+</ol>
+
+<p>Total Time Complexity: $\mathcal{O}(|E| + |V| \log |V|)$ using Fibonacci Heaps.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Interactive Simulations Mounting Section -->
+          <div class="sim-section-wrapper" id="sim-section-wrap" style="display: none; margin-top: 3rem;">
+            <div class="section-divider">
+              <span class="divider-label">Interactive Computational Laboratory</span>
+            </div>
+            <div id="simulations-mount"></div>
+          </div>
+
+          <!-- Solved Examination Problems Container -->
+          <div class="problems-section-wrapper" style="margin-top: 3.5rem;">
+            <div class="section-divider">
+              <span class="divider-label">Tiered Solved Examination Problems &amp; Rigorous Derivations</span>
+            </div>
+            <p class="text-muted" style="margin-bottom: 1.5rem; font-size: 0.95rem;">
+              Step-by-step rigorous derivations with unskipped proofs, categorized into Foundational Concepts, Advanced Structural Analysis, and Honors / Proof Challenge tiers.
+            </p>
+            <div id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-easy">Foundational</span>
+            <strong>Example 3.1: Tree Centers, Radius, Diameter &amp; Kruskal MST Execution</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <ol>
+
+  <li>Consider a tree $T$ with 9 vertices labeled $1, \dots, 9$ and edge set $E = \{\{1, 2\}, \{2, 3\}, \{3, 4\}, \{4, 5\}, \{3, 6\}, \{6, 7\}, \{7, 8\}, \{7, 9\}\}$. Determine the eccentricity of every vertex, the radius $\text{rad}(T)$, the diameter $\text{diam}(T)$, and all center vertices $Z(T)$. 2. Execute Kruskal's algorithm on a 5-vertex network with edges: $\{A, B\}: 1$, $\{B, C\}: 4$, $\{A, C\}: 3$, $\{C, D\}: 2$, $\{D, E\}: 5$, $\{C, E\}: 6$, $\{B, D\}: 7$. List the edges added in order and state the total MST weight.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p3-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p3-1">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Part 1: Tree Metric Calculation</strong></p>
+
+<p>Examine the paths in $T$:</p>
+
+<ul>
+
+  <li>Path from 1 to 5: $1 - 2 - 3 - 4 - 5$ (length 4).</li>
+
+  <li>Path from 1 to 8: $1 - 2 - 3 - 6 - 7 - 8$ (length 5).</li>
+
+  <li>Path from 1 to 9: $1 - 2 - 3 - 6 - 7 - 9$ (length 5).</li>
+
+  <li>Path from 5 to 8: $5 - 4 - 3 - 6 - 7 - 8$ (length 5).</li>
+
+</ul>
+
+<p>The furthest pair of vertices are between $\{1, 5\}$ and $\{8, 9\}$ with distance 5. Let us compute the eccentricity $\epsilon(v) = \max_u d(v, u)$:</p>
+
+<ul>
+
+  <li>$\epsilon(1) = d(1, 8) = 5$</li>
+
+  <li>$\epsilon(2) = d(2, 8) = 4$</li>
+
+  <li>$\epsilon(3) = \max(d(3, 1), d(3, 5), d(3, 8)) = \max(2, 2, 3) = 3$</li>
+
+  <li>$\epsilon(4) = d(4, 8) = 4$</li>
+
+  <li>$\epsilon(5) = d(5, 8) = 5$</li>
+
+  <li>$\epsilon(6) = \max(d(6, 1), d(6, 5), d(6, 8)) = \max(3, 3, 2) = 3$</li>
+
+  <li>$\epsilon(7) = \max(d(7, 1), d(7, 5), d(7, 8)) = \max(4, 4, 1) = 4$</li>
+
+  <li>$\epsilon(8) = d(8, 1) = 5$</li>
+
+  <li>$\epsilon(9) = d(9, 1) = 5$</li>
+
+</ul>
+
+<p><strong>Summary of Metrics:</strong></p>
+
+<ul>
+
+  <li><strong>Diameter:</strong> $\text{diam}(T) = \max \epsilon(v) = 5$.</li>
+
+  <li><strong>Radius:</strong> $\text{rad}(T) = \min \epsilon(v) = 3$.</li>
+
+  <li><strong>Center Vertices:</strong> $Z(T) = \{ v : \epsilon(v) = 3 \} = \{3, 6\}$.</li>
+
+</ul>
+
+<p>Notice that vertices $3$ and $6$ are adjacent ($\{3, 6\} \in E$). Thus $T$ is <strong>bicentral</strong>, with $|Z(T)| = 2$, perfectly confirming Jordan's Center Theorem!</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 2: Kruskal's MST Execution</strong></p>
+
+<p>Sorted edge list by weight:</p>
+
+<ol>
+
+  <li>$\{A, B\}$, weight $1$</li>
+
+  <li>$\{C, D\}$, weight $2$</li>
+
+  <li>$\{A, C\}$, weight $3$</li>
+
+  <li>$\{B, C\}$, weight $4$</li>
+
+  <li>$\{D, E\}$, weight $5$</li>
+
+  <li>$\{C, E\}$, weight $6$</li>
+
+  <li>$\{B, D\}$, weight $7$</li>
+
+</ol>
+
+<p><strong>Execution Steps:</strong></p>
+
+<ul>
+
+  <li><strong>Step 1:</strong> Consider $\{A, B\}$ (wt 1). Components: $\{A, B\}, \{C\}, \{D\}, \{E\}$. <strong>Add $\{A, B\}$</strong>.</li>
+
+  <li><strong>Step 2:</strong> Consider $\{C, D\}$ (wt 2). Components: $\{A, B\}, \{C, D\}, \{E\}$. <strong>Add $\{C, D\}$</strong>.</li>
+
+  <li><strong>Step 3:</strong> Consider $\{A, C\}$ (wt 3). Connects $\{A, B\}$ and $\{C, D\}$. Components: $\{A, B, C, D\}, \{E\}$. <strong>Add $\{A, C\}$</strong>.</li>
+
+  <li><strong>Step 4:</strong> Consider $\{B, C\}$ (wt 4). Both $B$ and $C$ already belong to the same component $\{A, B, C, D\}$. Adding $\{B, C\}$ creates cycle $(A-B-C-A)$. <strong>Reject $\{B, C\}$</strong>.</li>
+
+  <li><strong>Step 5:</strong> Consider $\{D, E\}$ (wt 5). Connects $\{A, B, C, D\}$ and $\{E\}$. <strong>Add $\{D, E\}$</strong>.</li>
+
+</ul>
+
+<p>We have added $4 = 5 - 1$ edges. The spanning tree is complete!</p>
+
+<ul>
+
+  <li>Edges selected: $\{A, B\}, \{C, D\}, \{A, C\}, \{D, E\}$.</li>
+
+  <li>Total MST weight: $1 + 2 + 3 + 5 = 11$. $\blacksquare$</li>
+
+</ul></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-medium">Advanced</span>
+            <strong>Example 3.2: Prüfer Sequence Encoding &amp; Decoding &amp; Tree Leaf Bound</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <ol>
+
+  <li>Given the Prüfer sequence $P = (3, 3, 4, 1, 4)$, reconstruct the unique labeled tree on 7 vertices. 2. Encode the tree with edges $\{\{1, 4\}, \{2, 4\}, \{3, 4\}, \{4, 5\}, \{5, 6\}\}$ into its Prüfer sequence. 3. Prove that in every tree on $n \ge 2$ vertices, there are at least two leaves (vertices of degree 1).</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p3-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p3-2">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Part 1: Decoding Prüfer Sequence $P = (3, 3, 4, 1, 4)$</strong></p>
+
+<p>The sequence length is $5 \implies n = 5 + 2 = 7$. Vertices are $S = \{1, 2, 3, 4, 5, 6, 7\}$. Compute initial degrees: $\deg(v) = 1 + \text{count in } P$:</p>
+
+<ul>
+
+  <li>$1$ appears 1 time $\implies \deg(1) = 1 + 1 = 2$</li>
+
+  <li>$2$ appears 0 times $\implies \deg(2) = 1 + 0 = 1$</li>
+
+  <li>$3$ appears 2 times $\implies \deg(3) = 1 + 2 = 3$</li>
+
+  <li>$4$ appears 2 times $\implies \deg(4) = 1 + 2 = 3$</li>
+
+  <li>$5$ appears 0 times $\implies \deg(5) = 1 + 0 = 1$</li>
+
+  <li>$6$ appears 0 times $\implies \deg(6) = 1 + 0 = 1$</li>
+
+  <li>$7$ appears 0 times $\implies \deg(7) = 1 + 0 = 1$</li>
+
+</ul>
+
+<p><strong>Reconstruction Steps:</strong></p>
+
+<ul>
+
+  <li><strong>Step 1 ($p_1 = 3$):</strong> Smallest degree 1 vertex is $2$.</li>
+
+</ul>
+
+<p><strong>Add edge $\{2, 3\}$</strong>. Decrement $\deg(2) \to 0$, $\deg(3) \to 2$.</p>
+
+<ul>
+
+  <li><strong>Step 2 ($p_2 = 3$):</strong> Smallest degree 1 vertex is $5$.</li>
+
+</ul>
+
+<p><strong>Add edge $\{5, 3\}$</strong>. Decrement $\deg(5) \to 0$, $\deg(3) \to 1$.</p>
+
+<ul>
+
+  <li><strong>Step 3 ($p_3 = 4$):</strong> Smallest degree 1 vertex is $3$.</li>
+
+</ul>
+
+<p><strong>Add edge $\{3, 4\}$</strong>. Decrement $\deg(3) \to 0$, $\deg(4) \to 2$.</p>
+
+<ul>
+
+  <li><strong>Step 4 ($p_4 = 1$):</strong> Smallest degree 1 vertex is $6$.</li>
+
+</ul>
+
+<p><strong>Add edge $\{6, 1\}$</strong>. Decrement $\deg(6) \to 0$, $\deg(1) \to 1$.</p>
+
+<ul>
+
+  <li><strong>Step 5 ($p_5 = 4$):</strong> Smallest degree 1 vertex is $1$.</li>
+
+</ul>
+
+<p><strong>Add edge $\{1, 4\}$</strong>. Decrement $\deg(1) \to 0$, $\deg(4) \to 1$.</p>
+
+<ul>
+
+  <li><strong>Final Step:</strong> Remaining vertices with degree 1 are $4$ and $7$.</li>
+
+</ul>
+
+<p><strong>Add edge $\{4, 7\}$</strong>.</p>
+
+<p>Reconstructed Edge Set:</p>
+
+<div class="math-display">$$E = \{ \{2, 3\}, \; \{5, 3\}, \; \{3, 4\}, \; \{6, 1\}, \; \{1, 4\}, \; \{4, 7\} \}$$</div>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 2: Encoding Tree to Prüfer Sequence</strong></p>
+
+<p>Tree on 6 vertices: $E = \{\{1, 4\}, \{2, 4\}, \{3, 4\}, \{4, 5\}, \{5, 6\}\}$. Leaves: $1, 2, 3, 6$.</p>
+
+<ul>
+
+  <li>Smallest leaf is $1$. Neighbor is $4$. Record <strong>4</strong>. Remove $1$.</li>
+
+  <li>Remaining leaves: $2, 3, 6$. Smallest is $2$. Neighbor is $4$. Record <strong>4</strong>. Remove $2$.</li>
+
+  <li>Remaining leaves: $3, 6$. Smallest is $3$. Neighbor is $4$. Record <strong>4</strong>. Remove $3$.</li>
+
+  <li>Remaining vertices: $\{4, 5, 6\}$ with edges $\{4, 5\}, \{5, 6\}$.</li>
+
+</ul>
+
+<p>Leaves: $4, 6$. Smallest is $4$. Neighbor is $5$. Record <strong>5</strong>. Remove $4$.</p>
+
+<ul>
+
+  <li>2 vertices remain ($\{5, 6\}$). Terminate.</li>
+
+</ul>
+
+<p>Resulting Prüfer sequence:</p>
+
+<div class="math-display">$$P = (4, 4, 4, 5) \quad \blacksquare$$</div>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 3: Proof that every Tree ($n \ge 2$) has at least 2 Leaves</strong></p>
+
+<p><strong>Method 1 (Handshaking Lemma):</strong> Let $T$ be a tree on $n \ge 2$ vertices. By Theorem 3.1, $|E| = n - 1$. By the Handshaking Lemma:</p>
+
+<div class="math-display">$$\sum_{v \in V} \deg(v) = 2 |E| = 2(n - 1) = 2n - 2$$</div>
+
+<p>Since $T$ is connected and $n \ge 2$, no vertex can have degree $0$. Thus $\deg(v) \ge 1$ for all $v \in V$. Let $k$ be the number of leaves (vertices with $\deg(v) = 1$). The remaining $n - k$ vertices must each have degree $\ge 2$:</p>
+
+<div class="math-display">$$\sum_{v \in V} \deg(v) = \sum_{\text{leaves}} 1 + \sum_{\text{non-leaves}} \deg(v) \ge k(1) + (n - k)(2) = 2n - k$$</div>
+
+<p>Substituting the degree sum:</p>
+
+<div class="math-display">$$2n - 2 \ge 2n - k \implies -2 \ge -k \implies k \ge 2$$</div>
+
+<p>Therefore, $T$ contains at least 2 leaves. $\blacksquare$</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Honors / Proof Challenge</span>
+            <strong>Example 3.3: Complete Formal Proof of Cayley's Tree Formula via Prüfer Bijection</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Provide a complete, mathematically rigorous proof of Cayley's Theorem: The number of labeled trees on $n$ vertices ($n \ge 2$) is exactly $n^{n-2}$, by proving that the Prüfer encoding algorithm is a strict bijection between the set of labeled trees on $n$ vertices and the set of sequences of length $n - 2$ with entries from $\{1, 2, \dots, n\}$.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p3-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p3-3">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Complete Proof of Cayley's Formula via the Prüfer Bijection</strong></p>
+
+<p>Let $\mathcal{T}_n$ denote the set of all labeled trees with vertex set $V = \{1, 2, \dots, n\}$ ($n \ge 2$). Let $\mathcal{P}_n = \{ (a_1, a_2, \dots, a_{n-2}) : a_i \in \{1, 2, \dots, n\} \}$. The cardinality of $\mathcal{P}_n$ is:</p>
+
+<div class="math-display">$$|\mathcal{P}_n| = n^{n-2}$$</div>
+
+<p>To prove $|\mathcal{T}_n| = n^{n-2}$, it suffices to establish a <strong>bijection</strong> $\Phi: \mathcal{T}_n \to \mathcal{P}_n$.</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Step 1: The Degree Identity of the Prüfer Encoding</strong> Let $T \in \mathcal{T}_n$, and let $P = \Phi(T) = (p_1, p_2, \dots, p_{n-2})$ be the Prüfer sequence obtained by Algorithm 1. Notice:</p>
+
+<ul>
+
+  <li>A vertex $v$ is placed into the sequence $P$ every time one of its incident edges is removed due to the deletion of an adjacent leaf.</li>
+
+  <li>When $v$ itself becomes a leaf, it is deleted, but its label is <strong>not</strong> written to $P$ (its neighbor's label is written instead).</li>
+
+  <li>The process terminates when 2 vertices remain. Neither of these 2 final vertices is deleted.</li>
+
+</ul>
+
+<p>Therefore, a vertex $v$ appears in $P$ exactly $\deg_T(v) - 1$ times:</p>
+
+<div class="math-display">$$\text{count}_P(v) = \deg_T(v) - 1 \iff \deg_T(v) = 1 + \text{count}_P(v)$$</div>
+
+<p>In particular, the leaves of $T$ are <strong>precisely the vertices that do NOT appear in $P$</strong>!</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Step 2: Injectivity of the Encoding $\Phi$</strong> Suppose $T_1, T_2 \in \mathcal{T}_n$ such that $\Phi(T_1) = \Phi(T_2) = (p_1, p_2, \dots, p_{n-2})$. We show $T_1 = T_2$ by induction on $n$:</p>
+
+<ul>
+
+  <li><strong>Base case ($n = 2$):</strong> Both $T_1$ and $K_2$ have 0-length sequences, and there is only 1 labeled tree on 2 vertices.</li>
+
+  <li><strong>Inductive Step:</strong> Assume that for any two trees on $n - 1$ vertices, identical Prüfer sequences imply identical trees.</li>
+
+</ul>
+
+<p>For $T_1$ and $T_2$, by the Degree Identity, the set of leaves in both trees is identical:</p>
+
+<div class="math-display">$$L = \{1, \dots, n\} \setminus \{p_1, \dots, p_{n-2}\}$$</div>
+
+<p>The leaf removed in the very first step of encoding is the smallest element in $L$; call it $\ell = \min(L)$. The neighbor of $\ell$ in $T_1$ must be $p_1$, so $\{\ell, p_1\} \in E(T_1)$. Similarly, the neighbor of $\ell$ in $T_2$ must be $p_1$, so $\{\ell, p_1\} \in E(T_2)$. Now consider the reduced trees $T_1' = T_1 - \ell$ and $T_2' = T_2 - \ell$ on $n - 1$ vertices. Both $T_1'$ and $T_2'$ have the remaining Prüfer sequence $(p_2, \dots, p_{n-2})$. By the induction hypothesis, $T_1' = T_2'$. Adding back the common edge $\{\ell, p_1\}$ yields $T_1 = T_2$. Therefore, $\Phi$ is strictly <strong>injective</strong>.</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Step 3: Surjectivity of the Encoding $\Phi$</strong> Let $P = (p_1, p_2, \dots, p_{n-2}) \in \mathcal{P}_n$ be any arbitrary sequence. Apply Algorithm 2 to construct a graph $T$:</p>
+
+<ol>
+
+  <li>At each step $i$, we connect the smallest vertex $x$ of current degree 1 to $p_i$, and decrement their degrees.</li>
+
+  <li>The graph constructed at each step has no cycles because $x$ has degree 1 and is eliminated from future connections.</li>
+
+  <li>After $n - 2$ steps, exactly two vertices remain of degree 1, which are connected by an edge.</li>
+
+</ol>
+
+<p>The resulting graph $T$ has $n$ vertices and $(n - 2) + 1 = n - 1$ edges and is connected and acyclic. By Theorem 3.1, $T$ is a valid tree in $\mathcal{T}_n$. Running the encoding algorithm $\Phi$ on $T$ will at step 1 identify $\min(L) = x$ and record its neighbor $p_1$, matching the sequence step-by-step. Thus $\Phi(T) = P$. Therefore, $\Phi$ is <strong>surjective</strong>.</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Conclusion:</strong> $\Phi: \mathcal{T}_n \to \mathcal{P}_n$ is a bijection. Therefore:</p>
+
+<div class="math-display">$$|\mathcal{T}_n| = |\mathcal{P}_n| = n^{n-2} \quad \blacksquare$$</div></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer">
+            <div class="reader-trust-links">
+              <a href="index" class="reader-trust-link">← All Academic Departments</a>
+              <a href="reader" class="reader-trust-link">Quantum Mechanics I</a>
+              <a href="mechanics" class="reader-trust-link">Mechanics</a>
+              <a href="electrodynamics" class="reader-trust-link">Electrodynamics</a>
+              <a href="optics" class="reader-trust-link">Wave Optics</a>
+              <a href="statistical-mechanics" class="reader-trust-link">Statistical Mechanics</a>
+              <a href="properties-of-matter" class="reader-trust-link">Properties of Matter</a>
+              <a href="electricity-magnetism" class="reader-trust-link">Electricity &amp; Magnetism</a>
+              <a href="thermal-physics" class="reader-trust-link">Thermal Physics</a>
+              <a href="classical-mechanics" class="reader-trust-link">Classical Mechanics</a>
+              <a href="basic-electronics" class="reader-trust-link">Basic Electronics</a>
+              <a href="atomic-molecular-physics" class="reader-trust-link">Atomic &amp; Molecular Physics</a>
+              <a href="solid-state-physics" class="reader-trust-link">Solid State Physics</a>
+              <a href="nuclear-physics" class="reader-trust-link">Nuclear Physics</a>
+              <a href="digital-electronics" class="reader-trust-link">Digital Electronics</a>
+              <a href="quantum-mechanics-2" class="reader-trust-link">Quantum Mechanics II</a>
+              <a href="astrophysics" class="reader-trust-link">Astrophysics</a>
+              <a href="plasma-physics" class="reader-trust-link">Plasma Physics</a>
+              <a href="solid-state-physics-2" class="reader-trust-link">Solid State Physics II</a>
+              <a href="nuclear-physics-2" class="reader-trust-link">Nuclear Physics II</a>
+              <a href="reactor-physics" class="reader-trust-link">Reactor Physics</a>
+              <a href="calculus-1" class="reader-trust-link">Calculus I</a>
+              <a href="geometry-2d" class="reader-trust-link">Two-Dimensional Geometry</a>
+              <a href="basic-algebra" class="reader-trust-link">Basic Algebra</a>
+              <a href="calculus-2" class="reader-trust-link">Calculus II</a>
+              <a href="geometry-3d" class="reader-trust-link">3D &amp; Vector Geometry</a>
+              <a href="calculus-3" class="reader-trust-link">Calculus III</a>
+              <a href="linear-algebra" class="reader-trust-link">Linear Algebra</a>
+              <a href="ordinary-differential-equations-1" class="reader-trust-link">Differential Equations I</a>
+              <a href="ordinary-differential-equations-2" class="reader-trust-link">Differential Equations II</a>
+              <a href="complex-analysis" class="reader-trust-link">Complex Analysis</a>
+              <a href="numerical-analysis" class="reader-trust-link">Numerical Analysis</a>
+              <a href="abstract-algebra" class="reader-trust-link">Abstract Algebra</a>
+              <a href="graph-theory" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Graph Theory</a>
+              <a href="real-analysis" class="reader-trust-link">Real Analysis</a>
+              <a href="differential-geometry" class="reader-trust-link">Differential Geometry</a>
+              <a href="number-theory" class="reader-trust-link">Theory of Numbers</a>
+              <a href="topology" class="reader-trust-link">General Topology</a>
+              <a href="partial-differential-equations" class="reader-trust-link">Partial Differential Equations</a>
+              <a href="discrete-mathematics" class="reader-trust-link">Discrete Mathematics</a>
+              <a href="about" class="reader-trust-link">About &amp; Editorial</a>
+              <a href="privacy" class="reader-trust-link">Privacy Policy</a>
+              <a href="terms" class="reader-trust-link">Terms of Service</a>
+              <a href="https://discord.gg/tBBKtvFJzW" target="_blank" rel="noopener noreferrer" class="reader-trust-link" style="color: #a5b4fc;">💬 Discord Community</a>
+              <a href="mailto:shahriyarkarimsiam@gmail.com" class="reader-trust-link">Contact (shahriyarkarimsiam@gmail.com)</a>
+            </div>
+            <p class="reader-trust-copy">© 2026 OpenSTEM Global Academic Press • Free Open-Access Academic Library • Peer-Reviewed University Textbooks</p>
+          </footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="graph-theory-chapter-2">← Previous chapter</a><a href="graph-theory">Book contents</a><a href="graph-theory-chapter-4">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="graph-theory-sims.js?v=20261008_v2"></script>
+  <script src="graph-theory-data.js?v=20261008_v2"></script>
+  <script src="app.js?v=20261011_reader_catalog_v1"></script>
+
+
+</body></html>

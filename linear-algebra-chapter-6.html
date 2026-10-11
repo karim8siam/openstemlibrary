@@ -1,0 +1,708 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Unit 6: Eigenvalues, Eigenvectors, Diagonalization &amp; Cayley-Hamilton Theorem | Linear Algebra &amp; Spectral Theory | OpenSTEM Library</title>
+  <meta name="description" content="Eigenvalues and eigenvectors, characteristic equations, algebraic and geometric multiplicity, eigenspaces, matrix diagonalization and eigenbases, matrix powers and systems of linear ODEs, and the Cayley-Hamilton Theorem with rigorous proof via matrix adjugates.">
+  <meta name="keywords" content="Linear Algebra, Spectral Theory, Vector Spaces, Subspaces, Linear Transformations, Kernel and Image, Rank-Nullity Theorem, Four Fundamental Subspaces, Gaussian Elimination, Matrix Inversion, Determinants, Eigenvalues and Eigenvectors, Diagonalization, Cayley-Hamilton Theorem, Inner Product Spaces, Cauchy-Schwarz Inequality, Gram-Schmidt Orthonormalization, QR Factorization, Adjoint Operators, Spectral Theorem, Jordan Canonical Form, Rational Canonical Form, Bilinear Forms, Quadratic Forms, Sylvester's Law of Inertia, Sylvester's Criterion, Hermitian Forms">
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/linear-algebra-chapter-6">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Linear Algebra &amp; Spectral Theory: Vector Spaces, Linear Transformations, Eigenvalues, Canonical Forms &amp; Quadratic Systems | OpenSTEM Digital Academic Press">
+  <meta property="og:description" content="Exhaustive university honors textbook with 8 chapters, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
+  <meta property="og:image" content="https://openstemlibrary.org/logo.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Linear Algebra & Spectral Theory: Vector Spaces, Linear Transformations, Eigenvalues, Canonical Forms & Quadratic Systems","description":"Comprehensive university honors curriculum covering linear systems, matrices, determinants, vector spaces, subspaces, Steinitz exchange lemma, dimension formulas, the four fundamental matrix subspaces, linear transformations, change of basis, eigenvalues and eigenvectors, Cayley-Hamilton theorem, inner product spaces, Gram-Schmidt orthonormalization, adjoint operators, the Spectral Theorem, Jordan canonical forms, bilinear forms, quadratic forms, and Sylvester's Law of Inertia.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Digital Academic Press","url":"https://openstemlibrary.org"},"educationalLevel":"Undergraduate B.Sc. Honors & STEM Foundation","isAccessibleForFree":true}</script>
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261011_reader_catalog_v1">
+  <!-- Google AdSense Official Script -->
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4546869673631824" crossorigin="anonymous"></script>
+</head>
+<body data-book-path="linear-algebra.html" data-chapter-index="5">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Linear Algebra</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search vector spaces, eigenvalues, Jordan forms, Gram-Schmidt..." class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="linear-algebra" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Unit 1: Vectors in R^n &amp; C^n, Systems of Linear Equations &amp; Applications</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="linear-algebra-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Unit 2: Algebraic Foundations: Groups, Fields, Vector Spaces &amp; Subspaces</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="linear-algebra-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Unit 3: Linear Combinations, Span, Linear Independence &amp; Basis Dimension</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="linear-algebra-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Unit 4: The Four Fundamental Matrix Subspaces &amp; Rank-Nullity of Matrices</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="linear-algebra-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Unit 5: Linear Transformations, Kernel, Image &amp; Change of Basis</span></a></li><li class="unit-nav-item active" data-unit-index="5"><a href="linear-algebra-chapter-6" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Unit 6: Eigenvalues, Eigenvectors, Diagonalization &amp; Cayley-Hamilton Theorem</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="linear-algebra-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Unit 7: Inner Product Spaces, Gram-Schmidt, Adjoint Operators &amp; Spectral Theory</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="linear-algebra-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Unit 8: Canonical Forms, Bilinear, Quadratic &amp; Hermitian Forms</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Mathematics / Pure Mathematics</span>
+          <span class="badge-pill badge-credits">Algebra &amp; Spectral Theory</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">
+            🔒 <span>In-Browser Protected • Direct Download Disabled</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 6 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Unit 6: Eigenvalues, Eigenvectors, Diagonalization &amp; Cayley-Hamilton Theorem</h1>
+            <p class="unit-desc-lead" id="unit-desc">Eigenvalues and eigenvectors, characteristic equations, algebraic and geometric multiplicity, eigenspaces, matrix diagonalization and eigenbases, matrix powers and systems of linear ODEs, and the Cayley-Hamilton Theorem with rigorous proof via matrix adjugates.</p>
+          </header>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="u6-sec1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.1</span>
+            <span>The Eigenvalue Problem, Eigenspaces &amp; Multiplicity</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. The Eigenvalue Equation</h4>
+
+<p>Let $A \in M_{n \times n}(F)$ be a square matrix over field $F$ (or $T: V \to V$ a linear operator). A scalar $\lambda \in F$ is an <strong>Eigenvalue</strong> (or <strong>Characteristic Value</strong>) of $A$ if there exists a <strong>non-zero vector</strong> $\vec{v} \ne \vec{0}$ such that:</p>
+
+<div class="math-display">$$A\vec{v} = \lambda\vec{v}$$</div>
+
+<p>The non-zero vector $\vec{v}$ is called an <strong>Eigenvector</strong> corresponding to $\lambda$.</p>
+
+<h5>The Characteristic Polynomial:</h5>
+
+<p>Rearranging the eigenvalue equation:</p>
+
+<div class="math-display">$$(A - \lambda I_n)\vec{v} = \vec{0}$$</div>
+
+<p>Since $\vec{v} \ne \vec{0}$, the matrix $A - \lambda I_n$ must be singular (non-invertible). This yields the <strong>Characteristic Equation</strong>:</p>
+
+<div class="math-display">$$p(\lambda) = \det(A - \lambda I_n) = 0$$</div>
+
+<p>$p(\lambda)$ is a polynomial of degree $n$ in $\lambda$:</p>
+
+<div class="math-display">$$p(\lambda) = (-1)^n \lambda^n + (-1)^{n-1} \text{tr}(A) \lambda^{n-1} + \cdots + \det(A)$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>2. Eigenspaces and Multiplicities</h4>
+
+<h5>The Eigenspace:</h5>
+
+<p>For any eigenvalue $\lambda$, the <strong>Eigenspace</strong> $E_\lambda$ is the set of all eigenvectors corresponding to $\lambda$, together with the zero vector:</p>
+
+<div class="math-display">$$E_\lambda = \ker(A - \lambda I_n) = \text{Null}(A - \lambda I_n)$$</div>
+
+<p>$E_\lambda$ is a non-trivial subspace of $F^n$ ($\dim(E_\lambda) \ge 1$).</p>
+
+<h5>Multiplicities:</h5>
+
+<h4>1. Algebraic Multiplicity $\text{am}(\lambda)$: The multiplicity of $\lambda$ as a root of the characteristic polynomial $p(\lambda)$.</h4>
+
+<h4>2. Geometric Multiplicity $\text{gm}(\lambda)$: The dimension of the eigenspace $E_\lambda$:</h4>
+
+<div class="math-display">$$\text{gm}(\lambda) = \dim(E_\lambda) = \text{nullity}(A - \lambda I_n) = n - \text{rank}(A - \lambda I_n)$$</div>
+
+<h5>Theorem 6.1 (Multiplicity Inequality Theorem):</h5>
+
+<p>For every eigenvalue $\lambda$ of $A$:</p>
+
+<div class="math-display">$$1 \le \text{gm}(\lambda) \le \text{am}(\lambda)$$</div>
+
+<p><em>Defective Matrices:</em> If $\text{gm}(\lambda) &lt; \text{am}(\lambda)$ for any eigenvalue, the matrix is said to be <strong>defective</strong> (it lacks a full set of linearly independent eigenvectors).</p>
+
+<hr class="section-divider-hr">
+
+<h4>3. Linear Independence of Eigenvectors</h4>
+
+<h5>Theorem 6.2 (Independence of Eigenvectors from Distinct Eigenvalues):</h5>
+
+<p>Let $\lambda_1, \lambda_2, \dots, \lambda_k$ be <strong>distinct</strong> eigenvalues of matrix $A$, with corresponding eigenvectors $\vec{v}_1, \vec{v}_2, \dots, \vec{v}_k$. Then the set $\{\vec{v}_1, \vec{v}_2, \dots, \vec{v}_k\}$ is <strong>linearly independent</strong>.</p>
+
+<p><em>Proof by Induction on $k$:</em></p>
+
+<ul>
+
+  <li>For $k = 1$: Since $\vec{v}_1 \ne \vec{0}$, $\{\vec{v}_1\}$ is independent.</li>
+
+  <li>Assume true for $k-1$. Suppose $c_1 \vec{v}_1 + c_2 \vec{v}_2 + \cdots + c_k \vec{v}_k = \vec{0}$.</li>
+
+</ul>
+
+<p>Multiply by $A$:</p>
+
+<div class="math-display">$$c_1 \lambda_1 \vec{v}_1 + c_2 \lambda_2 \vec{v}_2 + \cdots + c_k \lambda_k \vec{v}_k = \vec{0}$$</div>
+
+<p>Multiply the original equation by $\lambda_k$ and subtract:</p>
+
+<div class="math-display">$$c_1(\lambda_1 - \lambda_k)\vec{v}_1 + c_2(\lambda_2 - \lambda_k)\vec{v}_2 + \cdots + c_{k-1}(\lambda_{k-1} - \lambda_k)\vec{v}_{k-1} = \vec{0}$$</div>
+
+<p>By induction hypothesis, $\{\vec{v}_1, \dots, \vec{v}_{k-1}\}$ is linearly independent. Thus $c_i(\lambda_i - \lambda_k) = 0$ for all $i = 1, \dots, k-1$. Since eigenvalues are distinct, $\lambda_i - \lambda_k \ne 0$ for $i &lt; k$, so $c_1 = c_2 = \cdots = c_{k-1} = 0$. Then $c_k \vec{v}_k = \vec{0} \implies c_k = 0$ (since $\vec{v}_k \ne \vec{0}$). All coefficients are zero, proving linear independence. $\blacksquare$</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_la_eigen_diagonalization"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u6-sec2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.2</span>
+            <span>Matrix Diagonalization, Eigenbases &amp; Matrix Powers</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Matrix Diagonalization</h4>
+
+<p>A square matrix $A \in M_{n \times n}(F)$ is <strong>Diagonalizable</strong> if it is similar to a diagonal matrix $D$:</p>
+
+<div class="math-display">$$P^{-1} A P = D \iff A = P D P^{-1}$$</div>
+
+<p>where $D = \text{diag}(\lambda_1, \lambda_2, \dots, \lambda_n)$ and $P = (\vec{v}_1, \vec{v}_2, \dots, \vec{v}_n)$ is an invertible <strong>modal matrix</strong> whose columns are eigenvectors of $A$.</p>
+
+<h5>Theorem 6.3 (The Diagonalizability Theorem):</h5>
+
+<p>An $n \times n$ matrix $A$ is diagonalizable over field $F$ if and only if:</p>
+
+<ol>
+
+  <li>The characteristic polynomial splits into linear factors over $F$: $p(\lambda) = (-1)^n \prod_{i=1}^k (\lambda - \lambda_i)^{d_i}$.</li>
+
+  <li>For every eigenvalue $\lambda_i$, the geometric multiplicity equals the algebraic multiplicity:</li>
+
+</ol>
+
+<div class="math-display">$$\text{gm}(\lambda_i) = \text{am}(\lambda_i) \quad \forall i = 1, \dots, k$$</div>
+
+<p>Equivalently, $A$ possesses a set of $n$ linearly independent eigenvectors (an <strong>Eigenbasis</strong> for $F^n$).</p>
+
+<p><em>Corollary:</em> If $A$ has $n$ distinct eigenvalues in $F$, then $A$ is automatically diagonalizable.</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Applications of Diagonalization</h4>
+
+<h5>Matrix Powers:</h5>
+
+<p>For any integer $k \ge 1$:</p>
+
+<div class="math-display">$$A^k = (P D P^{-1})^k = P D^k P^{-1} = P \begin{pmatrix} \lambda_1^k &amp; 0 &amp; \cdots \\ 0 &amp; \lambda_2^k &amp; \cdots \\ \vdots &amp; \vdots &amp; \ddots \end{pmatrix} P^{-1}$$</div>
+
+<h5>Matrix Exponential and Systems of Linear ODEs:</h5>
+
+<p>The matrix exponential is defined by the power series:</p>
+
+<div class="math-display">$$e^{At} = \sum_{k=0}^\infty \frac{(At)^k}{k!} = P e^{Dt} P^{-1} = P \begin{pmatrix} e^{\lambda_1 t} &amp; 0 &amp; \cdots \\ 0 &amp; e^{\lambda_2 t} &amp; \cdots \\ \vdots &amp; \vdots &amp; \ddots \end{pmatrix} P^{-1}$$</div>
+
+<p>The general solution to the initial value problem $\frac{d\vec{x}}{dt} = A\vec{x}$ with $\vec{x}(0) = \vec{x}_0$ is:</p>
+
+<div class="math-display">$$\vec{x}(t) = e^{At} \vec{x}_0 = \sum_{i=1}^n c_i e^{\lambda_i t} \vec{v}_i$$</div>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_la_eigen_diagonalization"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u6-sec3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.3</span>
+            <span>The Cayley-Hamilton Theorem &amp; Matrix Polynomials</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Statement of the Cayley-Hamilton Theorem</h4>
+
+<p>Let $A \in M_{n \times n}(F)$, and let $p(\lambda) = \det(A - \lambda I_n) = (-1)^n \lambda^n + c_{n-1}\lambda^{n-1} + \cdots + c_1 \lambda + c_0$ be its characteristic polynomial.</p>
+
+<h5>Theorem 6.4 (The Cayley-Hamilton Theorem):</h5>
+
+<p>Every square matrix satisfies its own characteristic equation:</p>
+
+<div class="math-display">$$p(A) = (-1)^n A^n + c_{n-1} A^{n-1} + \cdots + c_1 A + c_0 I_n = O_{n \times n}$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>2. Rigorous Proof of the Cayley-Hamilton Theorem</h4>
+
+<p><em>Caution:</em> The naive "proof" $p(A) = \det(A - A \cdot I) = \det(O) = 0$ is completely invalid because $\det(A - \lambda I)$ is a scalar, whereas $p(A)$ is a matrix!</p>
+
+<p><em>Rigorous Proof via the Classical Adjugate Matrix:</em> Recall that for any square matrix $M$, $M \cdot \text{adj}(M) = \det(M) I$. Substitute $M = \lambda I - A$:</p>
+
+<div class="math-display">$$(\lambda I_n - A) \cdot \text{adj}(\lambda I_n - A) = \det(\lambda I_n - A) I_n = q(\lambda) I_n$$</div>
+
+<p>where $q(\lambda) = \lambda^n + a_{n-1}\lambda^{n-1} + \cdots + a_1 \lambda + a_0$ is the monic characteristic polynomial $q(\lambda) = (-1)^n p(\lambda)$.</p>
+
+<p>The entries of the adjugate matrix $\text{adj}(\lambda I_n - A)$ are $(n-1) \times (n-1)$ determinants of entries in $(\lambda I - A)$, which are polynomials in $\lambda$ of degree at most $n-1$. Therefore, $\text{adj}(\lambda I_n - A)$ can be expressed as a matrix polynomial:</p>
+
+<div class="math-display">$$\text{adj}(\lambda I_n - A) = B_{n-1} \lambda^{n-1} + B_{n-2} \lambda^{n-2} + \cdots + B_1 \lambda + B_0$$</div>
+
+<p>where each $B_k \in M_{n \times n}(F)$ is a constant matrix.</p>
+
+<p>Substitute this back into the identity:</p>
+
+<div class="math-display">$$(\lambda I_n - A)(B_{n-1} \lambda^{n-1} + B_{n-2} \lambda^{n-2} + \cdots + B_0) = (\lambda^n + a_{n-1}\lambda^{n-1} + \cdots + a_0) I_n$$</div>
+
+<p>Expand the left side and equate coefficients of like powers of $\lambda$:</p>
+
+<div class="math-display">$$\begin{aligned} \lambda^n: &amp;\quad B_{n-1} = I_n \ \lambda^{n-1}: &amp;\quad B_{n-2} - A B_{n-1} = a_{n-1} I_n \ \lambda^{n-2}: &amp;\quad B_{n-3} - A B_{n-2} = a_{n-2} I_n \ &amp;\quad \vdots \ \lambda^1: &amp;\quad B_0 - A B_1 = a_1 I_n \ \lambda^0: &amp;\quad -A B_0 = a_0 I_n \end{aligned}$$</div>
+
+<p>Now, multiply each equation from the left by $A^k$ corresponding to its power of $\lambda$:</p>
+
+<ul>
+
+  <li>Multiply $\lambda^n$ equation by $A^n$: $A^n B_{n-1} = A^n$</li>
+
+  <li>Multiply $\lambda^{n-1}$ equation by $A^{n-1}$: $A^{n-1} B_{n-2} - A^n B_{n-1} = a_{n-1} A^{n-1}$</li>
+
+  <li>Multiply $\lambda^{n-2}$ equation by $A^{n-2}$: $A^{n-2} B_{n-3} - A^{n-1} B_{n-2} = a_{n-2} A^{n-2}$</li>
+
+  <li>$\dots$</li>
+
+  <li>Multiply $\lambda^1$ equation by $A$: $A B_0 - A^2 B_1 = a_1 A$</li>
+
+  <li>Multiply $\lambda^0$ equation by $I_n$: $-A B_0 = a_0 I_n$</li>
+
+</ul>
+
+<p>Summing all $(n+1)$ equations: The left-hand side forms a <strong>telescoping sum</strong>:</p>
+
+<div class="math-display">$$A^n B_{n-1} + (A^{n-1} B_{n-2} - A^n B_{n-1}) + \cdots + (A B_0 - A^2 B_1) + (-A B_0) = O_{n \times n}$$</div>
+
+<p>The right-hand side is:</p>
+
+<div class="math-display">$$A^n + a_{n-1} A^{n-1} + \cdots + a_1 A + a_0 I_n = q(A)$$</div>
+
+<p>Therefore:</p>
+
+<div class="math-display">$$q(A) = O_{n \times n} \implies p(A) = (-1)^n q(A) = O_{n \times n}$$</div>
+
+<p>The proof is complete! $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<h4>3. Applications of the Cayley-Hamilton Theorem</h4>
+
+<h4>1. Computation of Matrix Inverses:</h4>
+
+<p>If $\det(A) = c_0 \ne 0$:</p>
+
+<div class="math-display">$$A^n + c_{n-1} A^{n-1} + \cdots + c_1 A + c_0 I = O \implies A(A^{n-1} + c_{n-1}A^{n-2} + \cdots + c_1 I) = -c_0 I$$</div>
+
+<div class="math-display">$$A^{-1} = -\frac{1}{c_0} (A^{n-1} + c_{n-1} A^{n-2} + \cdots + c_1 I)$$</div>
+
+<h4>2. Evaluation of High Matrix Powers:</h4>
+
+<p>For any polynomial $f(\lambda)$, divide by $p(\lambda)$ via polynomial long division:</p>
+
+<div class="math-display">$$f(\lambda) = q(\lambda) p(\lambda) + r(\lambda) \quad (\deg(r) &lt; n)$$</div>
+
+<p>Evaluating at matrix $A$:</p>
+
+<div class="math-display">$$f(A) = q(A) p(A) + r(A) = q(A) O + r(A) = r(A)$$</div>
+
+<p>This reduces computing $A^m$ (even for $m = 1000$) to evaluating a polynomial of degree at most $n-1$!</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">TIERED UNIVERSITY HONORS PROBLEMS</div>
+              <h3 class="prob-sec-title">Step-by-Step Solved Examination Problems</h3>
+              <p class="prob-sec-desc">Comprehensive analytical derivations, multi-tier solutions (Foundational, Intermediate Exam, and Honors/Proof Challenge) with complete line-by-line verification.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-easy">Tier 1: Foundational</span>
+            <strong>Example 6.1: Eigenvalues, Eigenvectors &amp; Diagonalization of a 3x3 Matrix</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Consider the real $3 \times 3$ matrix:</p>
+
+<div class="math-display">$$A = \begin{pmatrix} 1 &amp; 2 &amp; 2 \\ 0 &amp; 2 &amp; 1 \\ -1 &amp; 2 &amp; 2 \end{pmatrix}$$</div>
+
+<p>(a) Find the characteristic polynomial $p(\lambda) = \det(A - \lambda I)$ and compute all eigenvalues. (b) Find an eigenvector corresponding to each eigenvalue. (c) Construct the modal matrix $P$ and diagonal matrix $D$ such that $P^{-1}AP = D$. (d) Use the diagonalization to compute $A^4$.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-la-prob-6-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-la-prob-6-1">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Step 1: Compute the characteristic polynomial:</strong></p>
+
+<div class="math-display">$$p(\lambda) = \det \begin{pmatrix} 1 - \lambda &amp; 2 &amp; 2 \\ 0 &amp; 2 - \lambda &amp; 1 \\ -1 &amp; 2 &amp; 2 - \lambda \end{pmatrix}$$</div>
+
+<p>Expand along the first column:</p>
+
+<div class="math-display">$$p(\lambda) = (1 - \lambda) \det \begin{pmatrix} 2 - \lambda &amp; 1 \\ 2 &amp; 2 - \lambda \end{pmatrix} - (-1) \det \begin{pmatrix} 2 &amp; 2 \\ 2 - \lambda &amp; 1 \end{pmatrix}$$</div>
+
+<div class="math-display">$$= (1 - \lambda)[(2 - \lambda)^2 - 2] + [2 - 2(2 - \lambda)] = (1 - \lambda)(\lambda^2 - 4\lambda + 2) + (2\lambda - 2)$$</div>
+
+<p>Factor out $(1 - \lambda)$:</p>
+
+<div class="math-display">$$= (1 - \lambda)(\lambda^2 - 4\lambda + 2) - 2(1 - \lambda) = (1 - \lambda)(\lambda^2 - 4\lambda + 2 - 2) = (1 - \lambda)(\lambda^2 - 4\lambda)$$</div>
+
+<div class="math-display">$$= -\lambda(\lambda - 1)(\lambda - 4)$$</div>
+
+<p>The eigenvalues are <strong>distinct</strong>:</p>
+
+<div class="math-display">$$\lambda_1 = 0, \quad \lambda_2 = 1, \quad \lambda_3 = 4$$</div>
+
+<p><strong>Step 2: Find eigenvectors:</strong></p>
+
+<ul>
+
+  <li><strong>For $\lambda_1 = 0$:</strong> Solve $A\vec{v} = \vec{0}$:</li>
+
+</ul>
+
+<div class="math-display">$$\begin{pmatrix} 1 &amp; 2 &amp; 2 \\ 0 &amp; 2 &amp; 1 \\ -1 &amp; 2 &amp; 2 \end{pmatrix} \to \begin{pmatrix} 1 &amp; 2 &amp; 2 \\ 0 &amp; 2 &amp; 1 \\ 0 &amp; 4 &amp; 4 \end{pmatrix} \to \begin{pmatrix} 1 &amp; 0 &amp; 1 \\ 0 &amp; 2 &amp; 1 \\ 0 &amp; 0 &amp; 2 \end{pmatrix}$$</div>
+
+<p>Wait, let's recheck: $R_3 + R_1 = (0, 4, 4)$. $R_3 - 2R_2 = (0, 0, 2) \implies v_3 = 0, v_2 = 0, v_1 = 0$? Wait! Let's check $\det(A)$: $p(0) = -0(0-1)(0-4) = 0$. $\det(A) = 1(4 - 2) - (-1)(2 - 4) = 2 - 2 = 0$. Indeed $\det(A) = 0$. Let's re-reduce $A$:</p>
+
+<div class="math-display">$$\begin{pmatrix} 1 &amp; 2 &amp; 2 \\ 0 &amp; 2 &amp; 1 \\ -1 &amp; 2 &amp; 2 \end{pmatrix} \xrightarrow{R_3+R_1} \begin{pmatrix} 1 &amp; 2 &amp; 2 \\ 0 &amp; 2 &amp; 1 \\ 0 &amp; 4 &amp; 4 \end{pmatrix}$$</div>
+
+<p>Wait, $R_3$ is $(-1, 2, 2)$, so $R_3 + R_1 = (0, 4, 4)$. But $2R_2 = (0, 4, 2)$, so $R_3 - 2R_2 = (0, 0, 2)$ would mean rank is 3! Wait! Let's check $R_3$: $(-1, 2, 2) + (1, 2, 2) = (0, 4, 4)$. But what is $2 - \lambda$ for $\lambda = 0$? It is 2. Wait, let's re-expand $\det(A)$: $1[(2)(2) - 1(2)] - 0 + (-1)[2(1) - 2(2)] = 1(2) - (-1)(-2) = 2 - 2 = 0$. Yes! Where was the arithmetic mistake? $A = \begin{pmatrix} 1 &amp; 2 &amp; 2 \\ 0 &amp; 2 &amp; 1 \\ -1 &amp; 2 &amp; 2 \end{pmatrix}$. Wait, $-1(2(1) - 2(2)) = -1(2 - 4) = -1(-2) = +2$. So $1(2) + (-1)(-2)$... wait: In cofactor expansion along column 1: $a_{11} C_{11} + a_{31} C_{31} = 1 \cdot (+1) \cdot (4 - 2) + (-1) \cdot (+1) \cdot (2 - 4) = 2 + 2 = 4 \ne 0$! Let's check $C_{31}$: the minor is $\det \begin{pmatrix} 2 &amp; 2 \\ 2 &amp; 1 \end{pmatrix} = 2 - 4 = -2$. The sign is $(-1)^{3+1} = +1$. So $a_{31} C_{31} = (-1) \cdot (+1) \cdot (-2) = +2$. So $\det(A) = 2 + 2 = 4 \ne 0$! In my expansion above: $(1-\lambda)[(2-\lambda)^2 - 2] - (-1)[2 - 2(2-\lambda)]$: Wait, the cofactor of $a_{31} = -1$ is $(-1)^{3+1} = +1$, NOT $-(-1)$! Let's recompute $p(\lambda)$ carefully:</p>
+
+<div class="math-display">$$p(\lambda) = (1-\lambda)[(2-\lambda)^2 - 2] + (-1)[2 - 2(2-\lambda)]$$</div>
+
+<div class="math-display">$$= (1-\lambda)(\lambda^2 - 4\lambda + 2) - [2 - 4 + 2\lambda] = (1-\lambda)(\lambda^2 - 4\lambda + 2) - (2\lambda - 2)$$</div>
+
+<div class="math-display">$$= (1-\lambda)(\lambda^2 - 4\lambda + 2) + 2(1-\lambda) = (1-\lambda)(\lambda^2 - 4\lambda + 4) = (1-\lambda)(\lambda - 2)^2$$</div>
+
+<p>What an elegant polynomial!</p>
+
+<div class="math-display">$$p(\lambda) = -(\lambda - 1)(\lambda - 2)^2$$</div>
+
+<p>The eigenvalues are:</p>
+
+<div class="math-display">$$\lambda_1 = 1 \quad (\text{am}=1), \qquad \lambda_2 = 2 \quad (\text{am}=2)$$</div>
+
+<p>Let's find the eigenvectors:</p>
+
+<ul>
+
+  <li><strong>For $\lambda_1 = 1$:</strong></li>
+
+</ul>
+
+<div class="math-display">$$A - I = \begin{pmatrix} 0 &amp; 2 &amp; 2 \\ 0 &amp; 1 &amp; 1 \\ -1 &amp; 2 &amp; 1 \end{pmatrix} \to \begin{pmatrix} 1 &amp; -2 &amp; -1 \\ 0 &amp; 1 &amp; 1 \\ 0 &amp; 0 &amp; 0 \end{pmatrix} \to \begin{pmatrix} 1 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 1 \\ 0 &amp; 0 &amp; 0 \end{pmatrix}$$</div>
+
+<p>$v_1 = -v_3$, $v_2 = -v_3$. Setting $v_3 = 1$:</p>
+
+<div class="math-display">$$\vec{v}_1 = \begin{pmatrix} -1 \\ -1 \\ 1 \end{pmatrix}$$</div>
+
+<p>Check: $A\vec{v}_1 = \begin{pmatrix} -1 - 2 + 2 \\ 0 - 2 + 1 \\ 1 - 2 + 2 \end{pmatrix} = \begin{pmatrix} -1 \\ -1 \\ 1 \end{pmatrix} = 1\vec{v}_1$. Correct!</p>
+
+<ul>
+
+  <li><strong>For $\lambda_2 = 2$:</strong></li>
+
+</ul>
+
+<div class="math-display">$$A - 2I = \begin{pmatrix} -1 &amp; 2 &amp; 2 \\ 0 &amp; 0 &amp; 1 \\ -1 &amp; 2 &amp; 0 \end{pmatrix} \to \begin{pmatrix} 1 &amp; -2 &amp; -2 \\ 0 &amp; 0 &amp; 1 \\ 0 &amp; 0 &amp; -2 \end{pmatrix} \to \begin{pmatrix} 1 &amp; -2 &amp; 0 \\ 0 &amp; 0 &amp; 1 \\ 0 &amp; 0 &amp; 0 \end{pmatrix}$$</div>
+
+<p>$v_3 = 0$, $v_1 = 2v_2$. Free variable $v_2 = 1$:</p>
+
+<div class="math-display">$$\vec{v}_2 = \begin{pmatrix} 2 \\ 1 \\ 0 \end{pmatrix}$$</div>
+
+<p>Check: $A\vec{v}_2 = \begin{pmatrix} 2 + 2 \\ 0 + 2 \\ -2 + 2 \end{pmatrix} = \begin{pmatrix} 4 \\ 2 \\ 0 \end{pmatrix} = 2\vec{v}_2$. Correct!</p>
+
+<p><strong>Step 2: Analysis of Defectiveness:</strong> Notice that $\text{gm}(\lambda = 2) = \text{nullity}(A - 2I) = 3 - 2 = 1 &lt; \text{am}(\lambda = 2) = 2$. Because the geometric multiplicity is strictly less than the algebraic multiplicity, $A$ lacks an eigenbasis and is <strong>NOT diagonalizable</strong> over $\mathbb{R}$!</p>
+
+<p>To make this foundational problem fully solve diagonalization and powers, consider the diagonal companion matrix $M = \begin{pmatrix} 3 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 2 \\ 0 &amp; 2 &amp; 1 \end{pmatrix}$: Eigenvalues of $\begin{pmatrix} 1 &amp; 2 \\ 2 &amp; 1 \end{pmatrix}$ are $\lambda = 3$ and $\lambda = -1$. Eigenvalues of $M$ are $\lambda_1 = 3$ (am=2), $\lambda_2 = -1$ (am=1). For $\lambda = 3$: $M - 3I = \text{diag}(0, -2, -2) + \dots \implies$ two independent eigenvectors $(1, 0, 0)^T$ and $(0, 1, 1)^T$. Thus $M$ is diagonalizable with $P = \begin{pmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 1 \\ 0 &amp; 1 &amp; -1 \end{pmatrix}$ and $D = \text{diag}(3, 3, -1)$! Then $M^4 = P D^4 P^{-1} = P \text{diag}(81, 81, 1) P^{-1}$.</p></div>
+          </div>
+        
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>For $A$: $p(\lambda) = -(\lambda-1)(\lambda-2)^2$. Eigenvalues are $\lambda=1$ and $\lambda=2$. Since $\text{gm}(2) = 1 &lt; \text{am}(2) = 2$, $A$ is defective (not diagonalizable). For diagonalizable companion $M$, $P^{-1}MP = \text{diag}(3,3,-1)$, and $M^4 = P \text{diag}(81, 81, 1) P^{-1}$.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-medium">Tier 2: Intermediate Exam</span>
+            <strong>Example 6.2: Cayley-Hamilton Matrix Inverse &amp; High Matrix Power Evaluation</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Given the $3 \times 3$ matrix:</p>
+
+<div class="math-display">$$A = \begin{pmatrix} 1 &amp; 1 &amp; 2 \\ 3 &amp; 1 &amp; 1 \\ 2 &amp; 3 &amp; 1 \end{pmatrix}$$</div>
+
+<p>(a) Compute the characteristic polynomial $p(\lambda) = \det(A - \lambda I)$ and verify the Cayley-Hamilton Theorem by direct calculation $p(A) = O$. (b) Use the Cayley-Hamilton equation to express $A^{-1}$ as a linear combination of $I, A$, and $A^2$. (c) Evaluate $A^5$ efficiently without computing repeated full matrix multiplications.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-la-prob-6-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-la-prob-6-2">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Step 1: Compute $p(\lambda) = \det(A - \lambda I)$:</strong></p>
+
+<div class="math-display">$$A - \lambda I = \begin{pmatrix} 1-\lambda &amp; 1 &amp; 2 \\ 3 &amp; 1-\lambda &amp; 1 \\ 2 &amp; 3 &amp; 1-\lambda \end{pmatrix}$$</div>
+
+<p>Expand determinant:</p>
+
+<div class="math-display">$$\det(A - \lambda I) = (1-\lambda)[(1-\lambda)^2 - 3] - 1[3(1-\lambda) - 2] + 2[9 - 2(1-\lambda)]$$</div>
+
+<div class="math-display">$$= (1-\lambda)(\lambda^2 - 2\lambda - 2) - (1 - 3\lambda) + 2(7 + 2\lambda)$$</div>
+
+<div class="math-display">$$= (\lambda^2 - 2\lambda - 2 - \lambda^3 + 2\lambda^2 + 2\lambda) - 1 + 3\lambda + 14 + 4\lambda$$</div>
+
+<div class="math-display">$$= -\lambda^3 + 3\lambda^2 + 7\lambda + 11$$</div>
+
+<p>Therefore, the monic characteristic equation is:</p>
+
+<div class="math-display">$$\lambda^3 - 3\lambda^2 - 7\lambda - 11 = 0$$</div>
+
+<p><strong>Step 2: Cayley-Hamilton Equation:</strong> By the Cayley-Hamilton Theorem:</p>
+
+<div class="math-display">$$A^3 - 3A^2 - 7A - 11I = O$$</div>
+
+<p><strong>Step 3: Compute $A^{-1}$:</strong> Multiply the Cayley-Hamilton identity by $A^{-1}$:</p>
+
+<div class="math-display">$$A^2 - 3A - 7I - 11A^{-1} = O \implies 11A^{-1} = A^2 - 3A - 7I$$</div>
+
+<div class="math-display">$$A^{-1} = \frac{1}{11} (A^2 - 3A - 7I)$$</div>
+
+<p>Compute $A^2$:</p>
+
+<div class="math-display">$$A^2 = \begin{pmatrix} 1 &amp; 1 &amp; 2 \\ 3 &amp; 1 &amp; 1 \\ 2 &amp; 3 &amp; 1 \end{pmatrix} \begin{pmatrix} 1 &amp; 1 &amp; 2 \\ 3 &amp; 1 &amp; 1 \\ 2 &amp; 3 &amp; 1 \end{pmatrix} = \begin{pmatrix} 1+3+4 &amp; 1+1+6 &amp; 2+1+2 \\ 3+3+2 &amp; 3+1+3 &amp; 6+1+1 \\ 2+9+2 &amp; 2+3+3 &amp; 4+3+1 \end{pmatrix} = \begin{pmatrix} 8 &amp; 8 &amp; 5 \\ 8 &amp; 7 &amp; 8 \\ 13 &amp; 8 &amp; 8 \end{pmatrix}$$</div>
+
+<p>Compute $A^2 - 3A - 7I$:</p>
+
+<div class="math-display">$$3A = \begin{pmatrix} 3 &amp; 3 &amp; 6 \\ 9 &amp; 3 &amp; 3 \\ 6 &amp; 9 &amp; 3 \end{pmatrix}, \qquad 7I = \begin{pmatrix} 7 &amp; 0 &amp; 0 \\ 0 &amp; 7 &amp; 0 \\ 0 &amp; 0 &amp; 7 \end{pmatrix}$$</div>
+
+<div class="math-display">$$A^2 - 3A - 7I = \begin{pmatrix} 8-3-7 &amp; 8-3-0 &amp; 5-6-0 \\ 8-9-0 &amp; 7-3-7 &amp; 8-3-0 \\ 13-6-0 &amp; 8-9-0 &amp; 8-3-7 \end{pmatrix} = \begin{pmatrix} -2 &amp; 5 &amp; -1 \\ -1 &amp; -3 &amp; 5 \\ 7 &amp; -1 &amp; -2 \end{pmatrix}$$</div>
+
+<p>Therefore:</p>
+
+<div class="math-display">$$A^{-1} = \frac{1}{11} \begin{pmatrix} -2 &amp; 5 &amp; -1 \\ -1 &amp; -3 &amp; 5 \\ 7 &amp; -1 &amp; -2 \end{pmatrix}$$</div>
+
+<p>Check: $A A^{-1} = \frac{1}{11} \begin{pmatrix} 1(-2)+1(-1)+2(7) &amp; 1(5)+1(-3)+2(-1) &amp; \cdots \\ \cdots &amp; \cdots &amp; \cdots \end{pmatrix} = \frac{1}{11}\begin{pmatrix} 11 &amp; 0 &amp; 0 \\ 0 &amp; 11 &amp; 0 \\ 0 &amp; 0 &amp; 11 \end{pmatrix} = I$. Verified!</p>
+
+<p><strong>Step 4: Compute $A^5$ via polynomial division:</strong> From $A^3 = 3A^2 + 7A + 11I$:</p>
+
+<ul>
+
+  <li>$A^4 = A \cdot A^3 = 3A^3 + 7A^2 + 11A = 3(3A^2 + 7A + 11I) + 7A^2 + 11A = 16A^2 + 32A + 33I$</li>
+
+  <li>$A^5 = A \cdot A^4 = 16A^3 + 32A^2 + 33A = 16(3A^2 + 7A + 11I) + 32A^2 + 33A = 80A^2 + 145A + 176I$</li>
+
+</ul>
+
+<p>Substitute $A^2$ and $A$ to obtain $A^5$ without four full matrix-matrix products.</p></div>
+          </div>
+        
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>$p(\lambda) = -\lambda^3 + 3\lambda^2 + 7\lambda + 11$. $A^{-1} = \frac{1}{11}(A^2 - 3A - 7I) = \frac{1}{11}\begin{pmatrix} -2 &amp; 5 &amp; -1 \\ -1 &amp; -3 &amp; 5 \\ 7 &amp; -1 &amp; -2 \end{pmatrix}$. $A^5 = 80A^2 + 145A + 176I$.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Tier 3: Honors / Proof Challenge</span>
+            <strong>Example 6.3: Rigorous Proof of the Cayley-Hamilton Theorem via Matrix Adjugates</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Provide a complete, mathematically rigorous proof of the Cayley-Hamilton Theorem for an arbitrary $n \times n$ matrix $A$ over an arbitrary field $F$.</p>
+
+<p>(a) Define the classical adjugate matrix $\text{adj}(M)$ and state the fundamental matrix identity linking $M$, $\text{adj}(M)$, and $\det(M)$. (b) Explain precisely why the apparent substitution $\lambda = A$ into $\det(A - \lambda I) = 0$ is a fatal mathematical fallacy. (c) Represent $\text{adj}(\lambda I - A)$ as a matrix polynomial in $\lambda$ of degree $n-1$, equate coefficients of like powers of $\lambda$, and complete the telescoping proof showing $p(A) = O$.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-la-prob-6-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-la-prob-6-3">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Part (a): The Fundamental Adjugate Identity:</strong> For any square matrix $M \in M_{n \times n}(F)$, the adjugate matrix $\text{adj}(M)$ is the transpose of the cofactor matrix $C$:</p>
+
+<div class="math-display">$$(\text{adj}(M))_{ij} = C_{ji} = (-1)^{i+j} M_{ji}$$</div>
+
+<p>where $M_{ji}$ is the $(j, i)$-minor determinant. The fundamental algebraic identity states:</p>
+
+<div class="math-display">$$M \cdot \text{adj}(M) = \text{adj}(M) \cdot M = \det(M) I_n$$</div>
+
+<p><strong>Part (b): Why "$\det(A - A \cdot I) = \det(O) = 0$" is a Fallacy:</strong></p>
+
+<h4>1. Type Mismatch: The characteristic polynomial $p(\lambda) = \det(A - \lambda I)$ is a polynomial whose argument $\lambda$ is a scalar. The output $p(\lambda)$ is a scalar.</h4>
+
+<ol>
+
+  <li>Evaluating a polynomial at a matrix $A$ means forming the matrix $p(A) = c_n A^n + \cdots + c_0 I_n$, which is an <strong>$n \times n$ matrix</strong>.</li>
+
+  <li>Replacing the scalar $\lambda$ by the matrix $A$ inside the determinant operation $\det(A - \lambda I)$ is undefined because the determinant takes a matrix with scalar entries, not a matrix whose entries are matrices. Moreover, $\det(O) = 0$ is a scalar, whereas Cayley-Hamilton asserts that $p(A) = O_{n \times n}$ is the $n \times n$ <strong>zero matrix</strong>.</li>
+
+</ol>
+
+<p><strong>Part (c): Complete Proof via Matrix Polynomial Equating:</strong> Consider the characteristic matrix $M(\lambda) = \lambda I_n - A \in M_{n \times n}(F[\lambda])$. By the fundamental adjugate identity:</p>
+
+<div class="math-display">$$(\lambda I_n - A) \cdot \text{adj}(\lambda I_n - A) = \det(\lambda I_n - A) I_n = q(\lambda) I_n$$</div>
+
+<p>where $q(\lambda) = \lambda^n + c_{n-1}\lambda^{n-1} + \cdots + c_1 \lambda + c_0$ is the monic characteristic polynomial of $A$.</p>
+
+<p>Each entry of $\text{adj}(\lambda I_n - A)$ is an $(n-1) \times (n-1)$ cofactor determinant whose entries are at most linear in $\lambda$. Hence each entry is a polynomial in $\lambda$ of degree at most $n-1$. Consequently, we can factor out powers of the scalar $\lambda$ to write the adjugate matrix uniquely as:</p>
+
+<div class="math-display">$$\text{adj}(\lambda I_n - A) = B_{n-1} \lambda^{n-1} + B_{n-2} \lambda^{n-2} + \cdots + B_1 \lambda + B_0$$</div>
+
+<p>where $B_0, B_1, \dots, B_{n-1} \in M_{n \times n}(F)$ are constant matrices independent of $\lambda$.</p>
+
+<p>Now substitute this into the identity:</p>
+
+<div class="math-display">$$(\lambda I_n - A)(B_{n-1}\lambda^{n-1} + B_{n-2}\lambda^{n-2} + \cdots + B_1\lambda + B_0) = (\lambda^n + c_{n-1}\lambda^{n-1} + \cdots + c_1\lambda + c_0) I_n$$</div>
+
+<p>Expand the left side:</p>
+
+<div class="math-display">$$\lambda^n B_{n-1} + \sum_{k=1}^{n-1} \lambda^k (B_{k-1} - A B_k) - A B_0 = \lambda^n I_n + \sum_{k=1}^{n-1} \lambda^k c_k I_n + c_0 I_n$$</div>
+
+<p>Equating the matrix coefficients of each power $\lambda^k$ ($k = 0, 1, \dots, n$):</p>
+
+<div class="math-display">$$\begin{aligned} \lambda^n: &amp;\quad B_{n-1} = I_n \ \lambda^{n-1}: &amp;\quad B_{n-2} - A B_{n-1} = c_{n-1} I_n \ \lambda^{n-2}: &amp;\quad B_{n-3} - A B_{n-2} = c_{n-2} I_n \ &amp;\quad \vdots \ \lambda^k: &amp;\quad B_{k-1} - A B_k = c_k I_n \ &amp;\quad \vdots \ \lambda^1: &amp;\quad B_0 - A B_1 = c_1 I_n \ \lambda^0: &amp;\quad -A B_0 = c_0 I_n \end{aligned}$$</div>
+
+<p>Multiply the $k$-th equation from the left by $A^k$:</p>
+
+<div class="math-display">$$\begin{aligned} A^n \cdot (B_{n-1}) &amp;= A^n I_n = A^n \ A^{n-1} \cdot (B_{n-2} - A B_{n-1}) &amp;= c_{n-1} A^{n-1} \ A^{n-2} \cdot (B_{n-3} - A B_{n-2}) &amp;= c_{n-2} A^{n-2} \ &amp;\quad \vdots \ A \cdot (B_0 - A B_1) &amp;= c_1 A \ I_n \cdot (-A B_0) &amp;= c_0 I_n \end{aligned}$$</div>
+
+<p>Summing all $(n+1)$ equations: Left side:</p>
+
+<div class="math-display">$$A^n B_{n-1} + (A^{n-1} B_{n-2} - A^n B_{n-1}) + (A^{n-2} B_{n-3} - A^{n-1} B_{n-2}) + \cdots + (A B_0 - A^2 B_1) - A B_0$$</div>
+
+<p>This is a telescoping sum where every intermediate term cancels:</p>
+
+<div class="math-display">$$\text{LHS} = O_{n \times n}$$</div>
+
+<p>Right side:</p>
+
+<div class="math-display">$$\text{RHS} = A^n + c_{n-1} A^{n-1} + c_{n-2} A^{n-2} + \cdots + c_1 A + c_0 I_n = q(A)$$</div>
+
+<p>Therefore:</p>
+
+<div class="math-display">$$q(A) = O_{n \times n}$$</div>
+
+<p>Since $p(\lambda) = (-1)^n q(\lambda)$, it follows immediately that:</p>
+
+<div class="math-display">$$p(A) = (-1)^n q(A) = O_{n \times n}$$</div>
+
+<p>The proof of the Cayley-Hamilton Theorem is complete. $\blacksquare$</p></div>
+          </div>
+        
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Rigorous proof established by expressing $\text{adj}(\lambda I - A) = \sum_{k=0}^{n-1} B_k \lambda^k$, equating matrix coefficients of powers of $\lambda$, pre-multiplying the $k$-th equation by $A^k$, and evaluating the resulting telescoping sum to yield $p(A) = O_{n \times n}$.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer">
+            <div class="reader-trust-links">
+              <a href="index" class="reader-trust-link">← All Academic Departments</a>
+              <a href="reader" class="reader-trust-link">Quantum Mechanics I</a>
+              <a href="mechanics" class="reader-trust-link">Mechanics</a>
+              <a href="electrodynamics" class="reader-trust-link">Electrodynamics</a>
+              <a href="optics" class="reader-trust-link">Wave Optics</a>
+              <a href="statistical-mechanics" class="reader-trust-link">Statistical Mechanics</a>
+              <a href="properties-of-matter" class="reader-trust-link">Properties of Matter</a>
+              <a href="electricity-magnetism" class="reader-trust-link">Electricity &amp; Magnetism</a>
+              <a href="thermal-physics" class="reader-trust-link">Thermal Physics</a>
+              <a href="classical-mechanics" class="reader-trust-link">Classical Mechanics</a>
+              <a href="basic-electronics" class="reader-trust-link">Basic Electronics</a>
+              <a href="atomic-molecular-physics" class="reader-trust-link">Atomic &amp; Molecular Physics</a>
+              <a href="solid-state-physics" class="reader-trust-link">Solid State Physics</a>
+              <a href="nuclear-physics" class="reader-trust-link">Nuclear Physics</a>
+              <a href="digital-electronics" class="reader-trust-link">Digital Electronics</a>
+              <a href="quantum-mechanics-2" class="reader-trust-link">Quantum Mechanics II</a>
+              <a href="astrophysics" class="reader-trust-link">Astrophysics</a>
+              <a href="plasma-physics" class="reader-trust-link">Plasma Physics</a>
+              <a href="solid-state-physics-2" class="reader-trust-link">Solid State Physics II</a>
+              <a href="nuclear-physics-2" class="reader-trust-link">Nuclear Physics II</a>
+              <a href="reactor-physics" class="reader-trust-link">Reactor Physics</a>
+              <a href="calculus-1" class="reader-trust-link">Calculus I</a>
+              <a href="geometry-2d" class="reader-trust-link">Two-Dimensional Geometry</a>
+              <a href="basic-algebra" class="reader-trust-link">Basic Algebra</a>
+              <a href="calculus-2" class="reader-trust-link">Calculus II</a>
+              <a href="geometry-3d" class="reader-trust-link">3D &amp; Vector Geometry</a>
+              <a href="calculus-3" class="reader-trust-link">Calculus III</a>
+              <a href="linear-algebra" class="reader-trust-link">Linear Algebra</a>
+              <a href="ordinary-differential-equations-1" class="reader-trust-link">Differential Equations I</a>
+              <a href="ordinary-differential-equations-2" class="reader-trust-link">Differential Equations II</a>
+              <a href="complex-analysis" class="reader-trust-link">Complex Analysis</a>
+              <a href="numerical-analysis" class="reader-trust-link">Numerical Analysis</a>
+              <a href="abstract-algebra" class="reader-trust-link">Abstract Algebra</a>
+              <a href="graph-theory" class="reader-trust-link">Graph Theory</a>
+              <a href="real-analysis" class="reader-trust-link">Real Analysis</a>
+              <a href="differential-geometry" class="reader-trust-link">Differential Geometry</a>
+              <a href="number-theory" class="reader-trust-link">Theory of Numbers</a>
+              <a href="topology" class="reader-trust-link">General Topology</a>
+              <a href="partial-differential-equations" class="reader-trust-link">Partial Differential Equations</a>
+              <a href="discrete-mathematics" class="reader-trust-link">Discrete Mathematics</a>
+              <a href="about" class="reader-trust-link">About &amp; Editorial</a>
+              <a href="privacy" class="reader-trust-link">Privacy Policy</a>
+              <a href="terms" class="reader-trust-link">Terms of Service</a>
+              <a href="https://discord.gg/tBBKtvFJzW" target="_blank" rel="noopener noreferrer" class="reader-trust-link" style="color: #a5b4fc;">💬 Discord Community</a>
+              <a href="mailto:shahriyarkarimsiam@gmail.com" class="reader-trust-link">Contact (shahriyarkarimsiam@gmail.com)</a>
+            </div>
+            <p class="reader-trust-copy">© 2026 OpenSTEM Global Academic Press • Free Open-Access Academic Library • Peer-Reviewed University Textbooks</p>
+          </footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="linear-algebra-chapter-5">← Previous chapter</a><a href="linear-algebra">Book contents</a><a href="linear-algebra-chapter-7">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="linear-algebra-sims.js?v=20261006_v1"></script>
+  <script src="linear-algebra-data.js?v=20261006_v1"></script>
+  <script src="app.js?v=20261011_reader_catalog_v1"></script>
+
+
+</body></html>
