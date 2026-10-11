@@ -24,7 +24,11 @@ const count = text => (prose(text).match(/\b[A-Za-z]+(?:['’\-][A-Za-z]+)*\b/g)
 try {
   const state=JSON.parse(read('publishing/run-state.json'));
   const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Dhaka',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
-  if(state.last_successful_publication_date===today || (state.publications || []).some(p=>p.local_date===today))failures.push('A book has already been published on this Bangladesh calendar date');
+  const consumesSlot=p=>!(p.mode==='manual_first_book' && p.book_id==='statistics-probability-introduction-to-statistics');
+  const history=state.publications || [];
+  const hasScheduledToday=history.some(p=>p.local_date===today && consumesSlot(p));
+  const lastIsExempt=history.some(p=>p.book_id===state.last_published_book_id && p.local_date===today && !consumesSlot(p));
+  if(hasScheduledToday || (state.last_successful_publication_date===today && !lastIsExempt))failures.push('A scheduled book has already been published on this Bangladesh calendar date');
   if(state.current_stage==='publication_pending')failures.push('Resolve the pending deployment before preparing another publication');
   if(book.status==='published')failures.push('This queue book is already published');
   if (dept.curriculum_status !== 'selected' || !dept.sources.length || book.curriculum_status !== 'mapped') failures.push('Official curriculum mapping incomplete');

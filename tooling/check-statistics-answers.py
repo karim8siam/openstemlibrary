@@ -79,7 +79,7 @@ check(9,3,dict(response_mean=float(y.mean()),response_median=float(np.median(y))
 assert len(checked)==27
 # Independent fixtures for the actual JS simulations, including constant and offset data.
 fixtures=[]
-for values in [[2,4,4,7,13],[2,4,4,7,63],[0,0,3],[0,0,0],[1,2,3,4,5,6,7,30],[1000000001,1000000002,1000000003],[-3,-2,-1]]:
+for values in [[2,4,4,7,13],[2,4,4,7,63],[0,0,3],[0,1,2,3,8],[0,0,0],[1,2,3,4,5,6,7,30],[1000000001,1000000002,1000000003],[-3,-2,-1]]:
     a=np.array(values,dtype=float);m,m2,m3,m4=moments(values);q1,median,q3=np.quantile(a,[.25,.5,.75]);iqr=q3-q1;lo=q1-1.5*iqr;hi=q3+1.5*iqr;inside=a[(a>=lo)&(a<=hi)]
     fixtures.append(dict(values=values,expected=dict(mean=m,m2=m2,m3=m3,m4=m4,q1=float(q1),median=float(median),q3=float(q3),iqr=float(iqr),lowerFence=float(lo),upperFence=float(hi),lowerWhisker=float(inside.min()),upperWhisker=float(inside.max()),sampleVariance=float(np.var(a,ddof=1)),skewness=float(stats.skew(a,bias=True)) if m2>0 else None,rawKurtosis=float(stats.kurtosis(a,fisher=False,bias=True)) if m2>0 else None)))
 report=dict(status='pass',method='Python standard library statistics, NumPy quantiles and SciPy correlation, moments and regression; independent of JavaScript.',question_count=len(checked),numeric_field_count=sum(len(c['values']) for c in checked),questions=checked,

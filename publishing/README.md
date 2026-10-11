@@ -57,3 +57,7 @@ node --expose-gc tooling/verify-library.cjs
 ```
 
 Run before committing. Check new-book pages separately from existing-book preservation. The scheduled task must inspect all returned errors and retain evidence. Only move a queue item to published after confirmed live delivery.
+
+## One-time manual-first-book request
+
+On 11 October 2026 the user requested the first Introduction to Statistics book immediately and asked the scheduled sequence to begin with book two on 12 October at 20:00 Asia/Dhaka. Record the real deployment timestamp even if the manual work crosses midnight. Only this authorized manual first publication is exempt from consuming a scheduled daily publication slot. All later scheduled runs remain limited to one verified new book per local date. Do not recreate or republish the first book as book two.

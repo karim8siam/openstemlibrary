@@ -25,7 +25,7 @@ for(const type of types){
  const input=el.querySelector('input');input.value=input.max;input.dispatchEvent(new w.Event('input',{bubbles:true}));
  assert.notEqual(el.querySelector('.stat-results').textContent,initial);
  el.querySelector('[data-reset]').click();assert.equal(el.querySelector('.stat-results').textContent,initial);interaction+=3;
- if(type==='stat-shape'){input.value='0';input.dispatchEvent(new w.Event('input'));assert.ok(el.querySelector('.stat-results').textContent.includes('unavailable because all observations are equal'));interaction++;}
+ if(type==='stat-shape'){input.value='3';input.dispatchEvent(new w.Event('input'));assert.ok(!el.querySelector('.stat-results').textContent.includes('Unavailable'));interaction++;}
  if(type==='stat-sampling'){
    el.querySelector('[data-draw]').click();assert.notEqual(el.querySelector('.stat-results').textContent,initial);interaction++;
    input.value='12';input.dispatchEvent(new w.Event('input'));const summary=el.querySelector('.stat-summary').textContent;assert.ok(summary.includes('Sample mean10'));interaction++;

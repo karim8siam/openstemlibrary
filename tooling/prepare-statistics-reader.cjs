@@ -15,6 +15,9 @@ d.querySelector('.badge-course').textContent='Statistics & Probability';d.queryS
 d.getElementById('topic-search-input').placeholder='Search data, quartiles, variance, correlation, regression…';
 d.querySelectorAll('.textbook-section-card,.problem-card,.chapter-pagination').forEach(el=>el.remove());
 d.getElementById('textbook-sections').innerHTML='';
+d.querySelector('.prob-sec-badge').textContent='THREE WORKED QUESTIONS';
+d.querySelector('.prob-sec-title').textContent='Step-by-Step Statistics Solutions';
+d.querySelector('.prob-sec-desc').textContent='Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.';
 for(const el of d.querySelectorAll('script[src]')){
  const src=el.getAttribute('src');if(src.startsWith('basic-algebra-sims.js'))el.src='introduction-to-statistics-sims.js?v=1';
  if(src.startsWith('basic-algebra-data.js'))el.src='introduction-to-statistics-data.js?v=1';

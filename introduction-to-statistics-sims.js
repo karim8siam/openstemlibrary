@@ -40,7 +40,7 @@
     return entries.sort((a,b)=>a.key-b.key).slice(0,n).sort((a,b)=>a.i-b.i);
   }
   window.StatisticsMath={mean,quantile,summary,regression,sample,population};
-  const fmt=v=>v===null||!Number.isFinite(v)?'Unavailable':Number(v.toFixed(6)).toLocaleString('en-US',{maximumFractionDigits:6});
+  const fmt=v=>v===null||!Number.isFinite(v)?'Unavailable':(Number(v.toFixed(6))||0).toLocaleString('en-US',{maximumFractionDigits:6});
   function svg(content,label) {return `<svg viewBox="0 0 640 240" role="img" aria-label="${label}" class="stat-chart">${content}</svg>`;}
   function dotPlot(values,ref) {
     const lo=Math.min(0,...values,ref??0),hi=Math.max(1,...values,ref??0),scale=v=>45+(v-lo)/(hi-lo)*550;
@@ -69,7 +69,7 @@
         'stat-boxplot':['Type-seven quartiles and box-plot flags',30,8,60],
         'stat-location':['Mean and median sensitivity',13,8,113],
         'stat-variation':['Variance denominators and changing spread',13,8,63],
-        'stat-shape':['Centred moments and distribution shape',3,0,15],
+        'stat-shape':['Centred moments and distribution shape',8,3,30],
         'stat-association':['Paired association and a changing response',4,0,12],
         'stat-regression':['Least-squares line and residual checks',4,0,12]
       }[type];
@@ -97,7 +97,7 @@
         drawing+='<text x="45" y="220" fill="currentColor">Blue: observed pairs; yellow: fitted line; dashed: residuals</text>';
         results.innerHTML=rows({'Pearson r':r.r,'Slope (y per x unit)':r.slope,'Intercept':r.intercept,'R-squared':r.rSquared,'SST':r.syy,'SSR':r.ssr,'SSE':r.sse,'Residual sum':r.residuals.reduce((a,b)=>a+b,0)})+`<p>Pairs: ${x.map((a,i)=>`(${a}, ${y[i]})`).join(', ')}. Residuals: ${r.residuals.map(fmt).join(', ')}.</p>`+svg(drawing,'Scatter plot with fitted line and vertical residuals for the displayed four pairs.');
       }else{
-        const data=type==='stat-boxplot'?[1,2,3,4,5,6,7,v]:type==='stat-shape'?[0,0,v]:[2,4,4,7,v],s=summary(data);
+        const data=type==='stat-boxplot'?[1,2,3,4,5,6,7,v]:type==='stat-shape'?[0,1,2,3,v]:[2,4,4,7,v],s=summary(data);
         let output={'Mean':s.mean,'Median (type 7)':s.median};
         if(type==='stat-boxplot')output={'Q1 (type 7)':s.q1,'Median':s.median,'Q3 (type 7)':s.q3,'IQR':s.iqr,'Lower fence':s.lowerFence,'Upper fence':s.upperFence,'Lower whisker':s.lowerWhisker,'Upper whisker':s.upperWhisker,'Flagged values':s.flags.join(', ')||'None','Mean':s.mean};
         if(type==='stat-variation')output={'Mean':s.mean,'Squared-deviation sum':s.sxx,'Descriptive variance (n)':s.m2,'Sample variance (n−1)':s.sampleVariance,'Descriptive SD':s.sdN,'Sample SD':s.sampleSD,'Sample CV':s.cv};
@@ -107,7 +107,7 @@
           const scale=a=>45+a/Math.max(1,...data)*550;
           plot=svg(`<line x1="${scale(s.lowerWhisker)}" y1="100" x2="${scale(s.upperWhisker)}" y2="100" stroke="currentColor"/><rect x="${scale(s.q1)}" y="70" width="${scale(s.q3)-scale(s.q1)}" height="60" fill="#38bdf8" fill-opacity=".3" stroke="#38bdf8"/><line x1="${scale(s.median)}" y1="70" x2="${scale(s.median)}" y2="130" stroke="#fbbf24"/>${[s.lowerWhisker,s.upperWhisker].map(a=>`<line x1="${scale(a)}" y1="85" x2="${scale(a)}" y2="115" stroke="currentColor"/>`).join('')}${s.flags.map(a=>`<circle cx="${scale(a)}" cy="100" r="6" fill="#f472b6"/>`).join('')}<text x="45" y="200" fill="currentColor">Box: Q1 to Q3; yellow: median; pink: flagged observations</text>`,'Type-seven box plot; whiskers end at actual nonflagged observations.');
         }
-        results.innerHTML=rows(output)+`<p>Values: ${data.join(', ')}. Centred deviations: ${s.deviations.map(fmt).join(', ')}.</p>`+plot+(s.m2===0?'<p>Standardized shape is unavailable because all observations are equal.</p>':'');
+        results.innerHTML=rows(output)+`<p>Values: ${data.join(', ')}. Centred deviations: ${s.deviations.map(fmt).join(', ')}.</p>`+(type==='stat-boxplot'?'<p>Type-seven one-based positions: Q1 at 2.75, median at 4.5, Q3 at 6.25.</p>':'')+plot+(s.m2===0?'<p>Standardized shape is unavailable because all observations are equal.</p>':'');
       }
     }
     el.querySelectorAll('input').forEach(input=>input.addEventListener('input',()=>{history=[];seed=42;render();}));
