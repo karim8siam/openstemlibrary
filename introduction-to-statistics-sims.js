@@ -31,7 +31,10 @@
   const population=[2,4,4,6,6,8,12,14,14,16,16,18];
   function sample(n,bias,seed) {
     if(!Number.isInteger(n)||n<1||n>population.length||!Number.isFinite(bias)||bias<=0)return null;
-    let state=(seed>>>0)||1;
+    let state=seed>>>0;
+    state=Math.imul(state^(state>>>16),0x7feb352d);
+    state=Math.imul(state^(state>>>15),0x846ca68b);
+    state=(state^(state>>>16))>>>0;state=state||1;
     const random=()=>{state=(Math.imul(1664525,state)+1013904223)>>>0;return(state+.5)/4294967296;};
     const entries=population.map((v,i)=>({i,v,key:-Math.log(random())/(i>=6?bias:1)}));
     return entries.sort((a,b)=>a.key-b.key).slice(0,n).sort((a,b)=>a.i-b.i);
@@ -56,7 +59,7 @@
     let controls='',title='',note='',initial=0;
     if(type==='stat-sampling'){
       title='Sampling, variation and selection preference';
-      controls=control(containerId+'-n','Sample size',4,1,12)+control(containerId+'-bias','High-group selection weight (1 = equal)',1,1,10);
+      controls=control(containerId+'-n','Sample size',4,1,12)+control(containerId+'-bias','High-group selection weight (1 = equal)',1,.1,10,.1);
       note='Synthetic population: low group 2, 4, 4, 6, 6, 8; high group 12, 14, 14, 16, 16, 18. Weighted pseudorandom sampling without replacement. Draws illustrate a mechanism, not a real survey.';
     }else if(type==='stat-histogram'){
       title='Histogram area with unequal widths';initial=20;controls=control(containerId+'-value','Second bin width',initial,10,40);
