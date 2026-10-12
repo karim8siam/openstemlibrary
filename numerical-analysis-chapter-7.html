@@ -1,0 +1,727 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Unit 7: Absolute Stability Analysis, Stiff Differential Equations &amp; Linear Multi-Step Methods | Numerical Analysis &amp; Computational Methods | OpenSTEM Library</title>
+  <meta name="description" content="Dahlquist test equation, stability regions in the complex plane, stiff differential equations, A-stability, L-stability, Padé rational approximations, explicit and implicit Linear Multi-Step Methods (Adams-Bashforth, Adams-Moulton, Milne-Simpson, BDF), characteristic polynomials rho(r), sigma(r), root condition, and Dahlquist's First and Second Stability Barriers.">
+  <meta name="keywords" content="Numerical Analysis, Computational Methods, Floating Point Error, IEEE 754, Bisection Method, Regula Falsi, Newton-Raphson, Aitken Delta Squared, Polynomial Interpolation, Lagrange Interpolation, Newton Divided Differences, Chebyshev Nodes, Runge Phenomenon, Numerical Differentiation, Richardson Extrapolation, Simpson Rule, Weddle Rule, Gaussian Quadrature, Gauss-Legendre, LU Decomposition, Cholesky Factorization, Jacobi Method, Gauss-Seidel, SOR Method, Picard Iteration, Runge-Kutta, RK4, Butcher Tableau, Local Truncation Error, Global Truncation Error, Discrete Gronwall Inequality, Adaptive Step Size, Dahlquist Test Equation, Absolute Stability Region, Stiff Differential Equations, A-Stability, L-Stability, Linear Multistep Methods, Adams-Bashforth, Adams-Moulton, Predictor-Corrector, BDF, Dahlquist Root Condition, Dahlquist Barriers, Boundary Value Problems, Linear Shooting Method, Nonlinear Shooting Method, Variational Sensitivity Equations, Finite Difference Method, Tridiagonal Matrix Algorithm, Thomas Algorithm">
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/numerical-analysis-chapter-7">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Numerical Analysis &amp; Computational Methods: Algorithms, Error Analysis, Quadrature, Linear Systems &amp; Differential Equations | OpenSTEM Digital Academic Press">
+  <meta property="og:description" content="Exhaustive university honors textbook with 8 chapters, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
+  <meta property="og:image" content="https://openstemlibrary.org/logo.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Numerical Analysis & Computational Methods: Algorithms, Error Analysis, Quadrature, Linear Systems & Differential Equations","description":"Comprehensive university honors curriculum covering algorithmic numerical approximations, IEEE floating-point error theory, bracketing and open root-finding, polynomial interpolation and Runge's phenomenon, numerical differentiation and high-order Gaussian quadrature, direct and iterative numerical linear algebra, single-step and multi-step ODE initial value solvers, Dahlquist absolute stability theory, stiff differential equations, and shooting and finite difference boundary value algorithms.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Digital Academic Press","url":"https://openstemlibrary.org"},"educationalLevel":"Undergraduate B.Sc. Honors & STEM Foundation","isAccessibleForFree":true}</script>
+
+  <!-- Google Fonts: Inter, Fira Code & Newsreader -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261011_reader_catalog_v1">
+  <!-- Google AdSense Official Script -->
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4546869673631824" crossorigin="anonymous"></script>
+</head>
+<body data-book-path="numerical-analysis.html" data-chapter-index="6">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Numerical Analysis</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search root-finding, interpolation, RK4, stiff ODEs, shooting..." class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="numerical-analysis" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Unit 1: Non-Linear Equations in a Single Variable &amp; Foundations of Numerical Error</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="numerical-analysis-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Unit 2: Polynomial Interpolation, Finite Differences &amp; Approximation Theory</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="numerical-analysis-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Unit 3: Numerical Differentiation, Richardson Extrapolation &amp; Advanced Quadrature</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="numerical-analysis-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Unit 4: Numerical Linear Algebra &amp; Multi-Variable Non-Linear Systems</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="numerical-analysis-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Unit 5: Initial Value Problems for Ordinary Differential Equations: Single-Step Methods</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="numerical-analysis-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Unit 6: Convergence &amp; Error Analysis for Initial Value Problems</span></a></li><li class="unit-nav-item active" data-unit-index="6"><a href="numerical-analysis-chapter-7" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Unit 7: Absolute Stability Analysis, Stiff Differential Equations &amp; Linear Multi-Step Methods</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="numerical-analysis-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Unit 8: Boundary Value Problems for Ordinary Differential Equations: Shooting &amp; Finite Differences</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Mathematics / Computational Mathematics</span>
+          <span class="badge-pill badge-credits">Numerical Analysis &amp; Computational Methods</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">
+            🔒 <span>In-Browser Protected • Direct Download Disabled</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 7 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Unit 7: Absolute Stability Analysis, Stiff Differential Equations &amp; Linear Multi-Step Methods</h1>
+            <p class="unit-desc-lead" id="unit-desc">Dahlquist test equation, stability regions in the complex plane, stiff differential equations, A-stability, L-stability, Padé rational approximations, explicit and implicit Linear Multi-Step Methods (Adams-Bashforth, Adams-Moulton, Milne-Simpson, BDF), characteristic polynomials rho(r), sigma(r), root condition, and Dahlquist's First and Second Stability Barriers.</p>
+          </header>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="u7-sec1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.1</span>
+            <span>The Dahlquist Test Equation, Amplification Factors &amp; Stability Regions in C</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Germund Dahlquist's Test Problem</h4>
+
+<p>To analyze whether numerical solutions remain bounded as $t \to \infty$ for fixed step size $h &gt; 0$, Germund Dahlquist (1956) introduced the scalar complex test equation:</p>
+
+<div class="math-display">$$\frac{dy}{dt} = \lambda y, \quad \lambda \in \mathbb{C}, \quad \text{Re}(\lambda) &lt; 0$$</div>
+
+<p>The exact solution is $y(t) = y_0 e^{\lambda t}$. Since $\text{Re}(\lambda) &lt; 0$, the exact solution asymptotically decays to zero:</p>
+
+<div class="math-display">$$\lim_{t \to \infty} |y(t)| = 0$$</div>
+
+<p>Applying a numerical method with step size $h$ yields a discrete recurrence relation:</p>
+
+<div class="math-display">$$y_{n+1} = R(z) y_n, \quad z = h\lambda \in \mathbb{C}$$</div>
+
+<p>where $R(z): \mathbb{C} \to \mathbb{C}$ is the <strong>stability function</strong> (or amplification factor). After $n$ steps:</p>
+
+<div class="math-display">$$y_n = [R(z)]^n y_0$$</div>
+
+<h5>Definition: Region of Absolute Stability</h5>
+
+<p>The <strong>region of absolute stability</strong> $\mathcal{S} \subset \mathbb{C}$ is the set of complex parameters $z = h\lambda$ for which the numerical solution decays or remains bounded:</p>
+
+<div class="math-display">$$\mathcal{S} = \left\{ z \in \mathbb{C} : |R(z)| &lt; 1 \right\}$$</div>
+
+<p>Its boundary is the locus $\partial \mathcal{S} = \{ z \in \mathbb{C} : |R(z)| = 1 \}$.</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Stability Functions for Classic Methods</h4>
+
+<h5>1. Forward Euler:</h5>
+
+<div class="math-display">$$y_{n+1} = y_n + h(\lambda y_n) = (1 + z) y_n \implies R(z) = 1 + z$$</div>
+
+<p>Stability condition: $|1 + z| &lt; 1$, which is an <strong>open disk of radius 1 centered at $z = -1$</strong>. On the negative real axis ($\lambda \in \mathbb{R}^-$), stable step sizes require:</p>
+
+<div class="math-display">$$-2 &lt; h\lambda &lt; 0 \implies h &lt; \frac{2}{|\lambda|}$$</div>
+
+<h5>2. Backward Euler (Implicit):</h5>
+
+<div class="math-display">$$y_{n+1} = y_n + h\lambda y_{n+1} \implies (1 - z)y_{n+1} = y_n \implies R(z) = \frac{1}{1 - z}$$</div>
+
+<p>Stability condition: $|1 - z| &gt; 1$, which is the <strong>exterior of the disk of radius 1 centered at $z = 1$</strong>. Notice that $\mathcal{S}$ includes the entire left half-plane $\mathbb{C}^- = \{z : \text{Re}(z) &lt; 0\}$.</p>
+
+<h5>3. Implicit Trapezoidal Rule (Crank-Nicolson):</h5>
+
+<div class="math-display">$$y_{n+1} = y_n + \frac{h\lambda}{2}(y_n + y_{n+1}) \implies R(z) = \frac{1 + z/2}{1 - z/2}$$</div>
+
+<p>For $\text{Re}(z) &lt; 0$, $|1 + z/2| &lt; |1 - z/2|$, so $|R(z)| &lt; 1$ holds for <strong>all</strong> $z \in \mathbb{C}^-$.</p>
+
+<h5>4. Explicit Runge-Kutta Methods of Order $p \le 4$:</h5>
+
+<p>For any explicit $p$-stage, $p$-th order RK method ($p = 1, 2, 3, 4$), the stability function is the truncated Taylor polynomial of $e^z$:</p>
+
+<div class="math-display">$$R(z) = \sum_{k=0}^p \frac{z^k}{k!} = 1 + z + \frac{z^2}{2!} + \dots + \frac{z^p}{p!}$$</div>
+
+<p>For classical RK4:</p>
+
+<div class="math-display">$$R_{\text{RK4}}(z) = 1 + z + \frac{z^2}{2} + \frac{z^3}{6} + \frac{z^4}{24}$$</div>
+
+<p>The interval of absolute stability on the real axis is approximately $(-2.78, 0)$, and it contains a segment of the imaginary axis $[-2\sqrt{2}i, 2\sqrt{2}i]$, making RK4 capable of integrating undamped wave oscillators.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_na_stability_regions"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u7-sec2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.2</span>
+            <span>Stiff Differential Equations, Stiffness Ratio, A-Stability &amp; L-Stability</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. The Phenomenon of Stiffness</h4>
+
+<p>Consider a linear system of differential equations:</p>
+
+<div class="math-display">$$\frac{d\vec{y}}{dt} = A \vec{y}, \quad A \in \mathbb{R}^{d \times d}$$</div>
+
+<p>with eigenvalues $\lambda_1, \lambda_2, \dots, \lambda_d$ such that $\text{Re}(\lambda_i) &lt; 0$.</p>
+
+<h5>Definition: Stiffness Ratio</h5>
+
+<p>The system is called <strong>stiff</strong> if:</p>
+
+<ol>
+
+  <li>$\text{Re}(\lambda_i) &lt; 0$ for all $i = 1, \dots, d$.</li>
+
+  <li>The stiffness ratio:</li>
+
+</ol>
+
+<div class="math-display">$$S = \frac{\max_i |\text{Re}(\lambda_i)|}{\min_i |\text{Re}(\lambda_i)|} \gg 1 \quad (\text{typically } 10^3 \text{ to } 10^9)$$</div>
+
+<p><em>Physical Reality:</em> Stiff systems describe multi-scale dynamics—such as chemical kinetics, combustion, or structural mechanics—where fast transient modes decay almost instantaneously while slow master modes dominate the physical trajectory.</p>
+
+<h5>The Failure of Explicit Methods:</h5>
+
+<p>To keep explicit methods from experiencing exponential divergence, the step size $h$ is severely constrained by the fastest decaying eigenvalue:</p>
+
+<div class="math-display">$$h &lt; \frac{C}{\max_i |\lambda_i|}$$</div>
+
+<p>Even after the fast transient has decayed to zero ($10^{-10}$), an explicit integrator is forced to take millions of tiny steps purely to satisfy numerical stability, even though accuracy would permit a step size $10^6$ times larger!</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. A-Stability and L-Stability</h4>
+
+<p>To solve stiff problems efficiently, we require methods whose stability region encompasses the entire physics of decaying systems.</p>
+
+<h5>Definition 1: A-Stability (Dahlquist, 1963)</h5>
+
+<p>A numerical method is <strong>A-stable</strong> if its stability region contains the entire open left half-plane:</p>
+
+<div class="math-display">$$\mathbb{C}^- = \{ z \in \mathbb{C} : \text{Re}(z) &lt; 0 \} \subset \mathcal{S}$$</div>
+
+<p>For an A-stable method, <strong>any step size $h &gt; 0$ produces bounded solutions</strong>, eliminating the stability bottleneck completely!</p>
+
+<h5>Definition 2: L-Stability (Stiff Decay)</h5>
+
+<p>While the Trapezoidal rule is A-stable, its stability function satisfies:</p>
+
+<div class="math-display">$$\lim_{\text{Re}(z) \to -\infty} R_{\text{Trap}}(z) = \lim_{z \to -\infty} \frac{1 + z/2}{1 - z/2} = -1$$</div>
+
+<p>As a consequence, very stiff modes do not decay to zero; they oscillate wildly between $\pm y_0$!</p>
+
+<p>A method is <strong>L-stable</strong> if:</p>
+
+<ol>
+
+  <li>It is A-stable.</li>
+
+  <li>Its stability function vanishes at infinity:</li>
+
+</ol>
+
+<div class="math-display">$$\lim_{z \to -\infty} |R(z)| = 0$$</div>
+
+<p>Backward Euler is L-stable since $\lim_{z \to -\infty} \frac{1}{1 - z} = 0$. Stiff solvers in production (e.g., Radau IIA, BDF) are L-stable, ensuring that stiff transients are damped out instantly.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_na_stability_regions"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u7-sec3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.3</span>
+            <span>Linear Multi-Step Methods (LMMs): Adams Families &amp; Predictor-Corrector Schemes</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. General Linear Multi-Step Framework</h4>
+
+<p>A linear $k$-step method uses numerical values and function derivatives from the $k$ preceding points $(y_{n+j}, f_{n+j})$ to compute $y_{n+k}$:</p>
+
+<div class="math-display">$$\sum_{j=0}^k \alpha_j y_{n+j} = h \sum_{j=0}^k \beta_j f_{n+j}$$</div>
+
+<p>where $\alpha_k \ne 0$ and $|\alpha_0| + |\beta_0| &gt; 0$. By standard convention, normalize $\alpha_k = 1$.</p>
+
+<ul>
+
+  <li>If $\beta_k = 0$, the method is <strong>explicit</strong> ($y_{n+k}$ appears only on the left).</li>
+
+  <li>If $\beta_k \ne 0$, the method is <strong>implicit</strong> ($y_{n+k}$ appears on both sides inside $f(t_{n+k}, y_{n+k})$).</li>
+
+</ul>
+
+<hr class="section-divider-hr">
+
+<h4>2. The Adams Family of Integrators</h4>
+
+<p>Integrating $y' = f(t, y)$ from $t_{n+k-1}$ to $t_{n+k}$:</p>
+
+<div class="math-display">$$y(t_{n+k}) = y(t_{n+k-1}) + \int_{t_{n+k-1}}^{t_{n+k}} f(t, y(t)) \, dt$$</div>
+
+<p>Replace $f(t, y(t))$ by an interpolating polynomial $P(t)$:</p>
+
+<h5>1. Adams-Bashforth Methods (Explicit):</h5>
+
+<p>$P(t)$ interpolates past values $\{f_{n}, f_{n+1}, \dots, f_{n+k-1}\}$ at $k$ points:</p>
+
+<ul>
+
+  <li><strong>AB1 (Euler):</strong> $y_{n+1} = y_n + h f_n$</li>
+
+  <li><strong>AB2:</strong> $y_{n+2} = y_{n+1} + \frac{h}{2} (3f_{n+1} - f_n)$</li>
+
+  <li><strong>AB3:</strong> $y_{n+3} = y_{n+2} + \frac{h}{12} (23f_{n+2} - 16f_{n+1} + 5f_n)$</li>
+
+  <li><strong>AB4:</strong> $y_{n+4} = y_{n+3} + \frac{h}{24} (55f_{n+3} - 59f_{n+2} + 37f_{n+1} - 9f_n)$</li>
+
+</ul>
+
+<h5>2. Adams-Moulton Methods (Implicit):</h5>
+
+<p>$P(t)$ interpolates $\{f_{n}, \dots, f_{n+k-1}, f_{n+k}\}$ at $k+1$ points:</p>
+
+<ul>
+
+  <li><strong>AM1 (Backward Euler):</strong> $y_{n+1} = y_n + h f_{n+1}$</li>
+
+  <li><strong>AM2 (Trapezoidal):</strong> $y_{n+1} = y_n + \frac{h}{2} (f_{n+1} + f_n)$</li>
+
+  <li><strong>AM3:</strong> $y_{n+2} = y_{n+1} + \frac{h}{12} (5f_{n+2} + 8f_{n+1} - f_n)$</li>
+
+  <li><strong>AM4:</strong> $y_{n+3} = y_{n+2} + \frac{h}{24} (9f_{n+3} + 19f_{n+2} - 5f_{n+1} + f_n)$</li>
+
+</ul>
+
+<hr class="section-divider-hr">
+
+<h4>3. Predictor-Corrector Architecture (PECE)</h4>
+
+<p>To avoid solving nonlinear systems for implicit Adams-Moulton methods, modern solvers use a <strong>Predict-Evaluate-Correct-Evaluate (PECE)</strong> sequence:</p>
+
+<h4>1. P (Predict): Compute initial guess $y_{n+1}^{(0)}$ using explicit Adams-Bashforth:</h4>
+
+<div class="math-display">$$y_{n+1}^{(0)} = y_n + \frac{h}{24}(55f_n - 59f_{n-1} + 37f_{n-2} - 9f_{n-3})$$</div>
+
+<h4>2. E (Evaluate): Evaluate $f_{n+1}^{(0)} = f(t_{n+1}, y_{n+1}^{(0)})$.</h4>
+
+<h4>3. C (Correct): Refine using implicit Adams-Moulton:</h4>
+
+<div class="math-display">$$y_{n+1} = y_n + \frac{h}{24}(9f_{n+1}^{(0)} + 19f_n - 5f_{n-1} + f_{n-2})$$</div>
+
+<h4>4. E (Evaluate): Final update $f_{n+1} = f(t_{n+1}, y_{n+1})$ for the next time step.</h4>
+
+<p>This achieves order 4 accuracy with only <strong>two function evaluations per step</strong>, compared to RK4's four evaluations!</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_na_stability_regions"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u7-sec4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.4</span>
+            <span>Characteristic Polynomials, Dahlquist Root Condition &amp; Stability Barriers</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Characteristic Polynomials</h4>
+
+<p>Associated with the linear multi-step method $\sum_{j=0}^k \alpha_j y_{n+j} = h \sum_{j=0}^k \beta_j f_{n+j}$ are the two characteristic polynomials:</p>
+
+<div class="math-display">$$\rho(r) = \sum_{j=0}^k \alpha_j r^j, \qquad \sigma(r) = \sum_{j=0}^k \beta_j r^j$$</div>
+
+<h5>Consistency Conditions:</h5>
+
+<p>A linear multi-step method is consistent if and only if:</p>
+
+<div class="math-display">$$\rho(1) = 0 \quad \text{and} \quad \rho'(1) = \sigma(1)$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>2. Zero-Stability and the Dahlquist Root Condition</h4>
+
+<p>Applying the method to the trivial differential equation $y' = 0$ yields the difference equation:</p>
+
+<div class="math-display">$$\sum_{j=0}^k \alpha_j y_{n+j} = 0$$</div>
+
+<p>whose general solution is a linear combination of $r_m^n$, where $r_m$ are roots of $\rho(r) = 0$.</p>
+
+<blockquote class="math-callout">
+<p><strong>Definition (Dahlquist Root Condition / Zero-Stability):</strong> A linear multi-step method is <strong>zero-stable</strong> if all roots $r$ of the first characteristic polynomial $\rho(r) = 0$ satisfy:</p>
+<ol>
+  <li>$|r| \le 1$ (all roots lie within or on the closed unit disk).</li>
+  <li>Any root lying on the unit circle ($|r| = 1$) is <strong>simple</strong> (multiplicity 1).</li>
+</ol>
+</blockquote>
+
+<blockquote class="math-callout">
+<p><strong>Theorem (Dahlquist Equivalence Theorem):</strong> For any linear multi-step method:</p>
+</blockquote>
+
+<div class="math-display">$$\text{Convergence of order } p \iff \text{Consistency of order } p \;+\; \text{Zero-Stability}$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>3. The Dahlquist Stability Barriers</h4>
+
+<p>Germund Dahlquist established two profound mathematical bounds that dictate what numerical integrators can and cannot do:</p>
+
+<h5>Dahlquist's First Barrier (1956):</h5>
+
+<blockquote class="math-callout">
+<p>The order of convergence $p$ of a zero-stable $k$-step linear multi-step method cannot exceed:</p>
+</blockquote>
+
+<div class="math-display">$$p \le \begin{cases} k + 1 &amp; \text{if } k \text{ is odd} \\ k + 2 &amp; \text{if } k \text{ is even} \\ k &amp; \text{if the method is explicit } (\beta_k = 0) \end{cases}$$</div>
+
+<h5>Dahlquist's Second Barrier (1963):</h5>
+
+<blockquote class="math-callout">
+<ol>
+  <li>No explicit linear multi-step method can be A-stable.</li>
+  <li>An A-stable linear multi-step method cannot have order of accuracy exceeding $p = 2$.</li>
+  <li>Among all second-order A-stable linear multi-step methods, the <strong>Implicit Trapezoidal Rule</strong> has the smallest asymptotic error constant:</li>
+</ol>
+</blockquote>
+
+<div class="math-display">$$C_3 = -\frac{1}{12}$$</div>
+
+<p>This theorem proves that high-order A-stable methods cannot be achieved with linear multi-step formulas, motivating the development of <strong>Backward Differentiation Formulas (BDF)</strong> (which sacrifice A-stability for $A(\alpha)$-stability at orders $k \le 6$) and <strong>Implicit Runge-Kutta methods</strong> (which overcome the barrier by utilizing multiple internal stages).</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_na_stability_regions"></div>
+          </div>
+        
+      </section></div>
+
+          <!-- Tiered Solved Practice Problems Section -->
+          <div class="practice-problems-section">
+            <div class="prob-sec-header">
+              <h2 class="prob-sec-title">Tiered Solved Practice Problems &amp; Examination Proofs</h2>
+              <p class="prob-sec-desc">Comprehensive analytical derivations, multi-tier solutions (Foundational, Intermediate Algorithmic, and Honors/Proof Challenge) with complete line-by-line verification.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-easy">Tier 1: Foundational Concept</span>
+            <strong>Example 7.1: Absolute Stability Boundary Analysis for Euler vs. Trapezoidal Methods</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Consider the test equation $y' = \lambda y$ where $\lambda &lt; 0$ is a negative real eigenvalue. 1. Determine the maximum allowable step size $h_{\max}$ for Forward Euler, Backward Euler, and the Trapezoidal Rule when $\lambda = -50$. 2. If $h = 0.05$, compute the numerical factor $R(h\lambda)$ for each method and determine whether the solution decays, oscillates stably, or blows up to infinity.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-na-prob-7-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-na-prob-7-1">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Step 1: Maximum Allowable Step Size for $\lambda = -50$</strong></p>
+
+<h4>1. Forward Euler:</h4>
+
+<p>Stability requires $|1 + h\lambda| &lt; 1 \iff -2 &lt; h\lambda &lt; 0$. With $\lambda = -50$:</p>
+
+<div class="math-display">$$-2 &lt; -50 h &lt; 0 \implies h &lt; \frac{2}{50} = 0.04$$</div>
+
+<p>Thus, $h_{\max} = 0.04$.</p>
+
+<h4>2. Backward Euler:</h4>
+
+<p>Stability requires $|R(z)| = \left|\frac{1}{1 - h\lambda}\right| &lt; 1 \iff |1 - h\lambda| &gt; 1$. Since $\lambda = -50$, $1 - h(-50) = 1 + 50h &gt; 1$ for all $h &gt; 0$. Thus, Backward Euler is <strong>unconditionally stable</strong> ($h_{\max} = \infty$).</p>
+
+<h4>3. Trapezoidal Rule:</h4>
+
+<p>Stability requires $|R(z)| = \left|\frac{1 + h\lambda/2}{1 - h\lambda/2}\right| &lt; 1 \iff |1 - 25h| &lt; |1 + 25h|$. This holds strictly for all $h &gt; 0$. Thus, the Trapezoidal Rule is <strong>unconditionally stable</strong> ($h_{\max} = \infty$).</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Step 2: Analysis at $h = 0.05$</strong> Here $z = h\lambda = 0.05 \times (-50) = -2.5$.</p>
+
+<h4>1. Forward Euler:</h4>
+
+<div class="math-display">$$R(z) = 1 + z = 1 + (-2.5) = -1.5$$</div>
+
+<p>Since $|R(z)| = 1.5 &gt; 1$, the numerical solution is:</p>
+
+<div class="math-display">$$y_n = (-1.5)^n y_0$$</div>
+
+<p>The solution <strong>diverges with alternating sign and blows up exponentially to $\pm \infty$</strong>!</p>
+
+<h4>2. Backward Euler:</h4>
+
+<div class="math-display">$$R(z) = \frac{1}{1 - z} = \frac{1}{1 - (-2.5)} = \frac{1}{3.5} \approx 0.2857$$</div>
+
+<p>Since $|R(z)| = 0.2857 &lt; 1$, the solution <strong>decays monotonically to zero without oscillations</strong>.</p>
+
+<h4>3. Trapezoidal Rule:</h4>
+
+<div class="math-display">$$R(z) = \frac{1 + z/2}{1 - z/2} = \frac{1 - 1.25}{1 + 1.25} = \frac{-0.25}{2.25} = -\frac{1}{9} \approx -0.1111$$</div>
+
+<p>Since $|R(z)| = 0.1111 &lt; 1$, the solution <strong>decays stably to zero</strong>, with small damped oscillations due to the negative sign.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-medium">Tier 2: Advanced Algorithmic</span>
+            <strong>Example 7.2: Derivation and Local Error of the 3-Step Adams-Bashforth Method</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Derive the 3-step explicit Adams-Bashforth formula:</p>
+
+<div class="math-display">$$y_{n+3} = y_{n+2} + h \left( \beta_2 f_{n+2} + \beta_1 f_{n+1} + \beta_0 f_n \right)$$</div>
+
+<p>by integrating the Newton backward difference interpolating polynomial for $f(t, y(t))$ over $[t_{n+2}, t_{n+3}]$. Determine the exact fractional coefficients $(\beta_0, \beta_1, \beta_2)$ and compute the leading local truncation error constant $C_4$.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-na-prob-7-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-na-prob-7-2">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Step 1: Integral Formulation</strong> Integrating $y' = f(t, y)$ from $t_{n+2}$ to $t_{n+3}$:</p>
+
+<div class="math-display">$$y(t_{n+3}) - y(t_{n+2}) = \int_{t_{n+2}}^{t_{n+3}} f(t, y(t)) \, dt$$</div>
+
+<p>Introduce the change of variable $t = t_{n+2} + s h \implies dt = h \, ds$, where $s \in [0, 1]$.</p>
+
+<p><strong>Step 2: Interpolating Polynomial in Backward Differences</strong> The quadratic polynomial interpolating $f_{n+2}, f_{n+1}, f_n$ is:</p>
+
+<div class="math-display">$$P(t_{n+2} + sh) = f_{n+2} + s \nabla f_{n+2} + \frac{s(s+1)}{2} \nabla^2 f_{n+2}$$</div>
+
+<p>where:</p>
+
+<div class="math-display">$$\nabla f_{n+2} = f_{n+2} - f_{n+1}$$</div>
+
+<div class="math-display">$$\nabla^2 f_{n+2} = f_{n+2} - 2f_{n+1} + f_n$$</div>
+
+<p><strong>Step 3: Integration Over $s \in [0, 1]$</strong> Evaluating the integrals:</p>
+
+<ol>
+
+  <li>$\int_0^1 1 \, ds = 1$</li>
+
+  <li>$\int_0^1 s \, ds = \frac{1}{2}$</li>
+
+  <li>$\int_0^1 \frac{s(s+1)}{2} \, ds = \frac{1}{2} \left[ \frac{s^3}{3} + \frac{s^2}{2} \right]_0^1 = \frac{1}{2} \left( \frac{1}{3} + \frac{1}{2} \right) = \frac{1}{2} \cdot \frac{5}{6} = \frac{5}{12}$</li>
+
+</ol>
+
+<p>Thus:</p>
+
+<div class="math-display">$$\int_{t_{n+2}}^{t_{n+3}} P(t) \, dt = h \left[ f_{n+2} + \frac{1}{2} \nabla f_{n+2} + \frac{5}{12} \nabla^2 f_{n+2} \right]$$</div>
+
+<p><strong>Step 4: Expressing in Terms of Function Values</strong> Substitute backward differences:</p>
+
+<div class="math-display">$$\begin{aligned} \int_{t_{n+2}}^{t_{n+3}} P(t) \, dt &amp;= h \left[ f_{n+2} + \frac{1}{2}(f_{n+2} - f_{n+1}) + \frac{5}{12}(f_{n+2} - 2f_{n+1} + f_n) \right] \\ &amp;= h \left[ \left(1 + \frac{1}{2} + \frac{5}{12}\right) f_{n+2} + \left(-\frac{1}{2} - \frac{10}{12}\right) f_{n+1} + \frac{5}{12} f_n \right] \\ &amp;= h \left[ \left(\frac{12 + 6 + 5}{12}\right) f_{n+2} - \left(\frac{6 + 10}{12}\right) f_{n+1} + \frac{5}{12} f_n \right] \\ &amp;= \frac{h}{12} \left[ 23 f_{n+2} - 16 f_{n+1} + 5 f_n \right] \end{aligned}$$</div>
+
+<p>Thus, $\beta_2 = \frac{23}{12}$, $\beta_1 = -\frac{16}{12} = -\frac{4}{3}$, $\beta_0 = \frac{5}{12}$.</p>
+
+<p><strong>Step 5: Local Truncation Error Constant</strong> The next term in the backward difference expansion is:</p>
+
+<div class="math-display">$$\frac{s(s+1)(s+2)}{6} \nabla^3 f_{n+2} \approx \frac{s^3 + 3s^2 + 2s}{6} h^3 y^{(4)}(\xi)$$</div>
+
+<p>Integrating:</p>
+
+<div class="math-display">$$\int_0^1 \frac{s^3 + 3s^2 + 2s}{6} \, ds = \frac{1}{6} \left[ \frac{1}{4} + 1 + 1 \right] = \frac{1}{6} \cdot \frac{9}{4} = \frac{9}{24} = \frac{3}{8}$$</div>
+
+<p>Multiplying by $h$ and adding to the order $h^3$ gives:</p>
+
+<div class="math-display">$$d_{n+3} = \frac{3}{8} h \cdot h^3 y^{(4)}(\xi) = \frac{3}{8} h^4 y^{(4)}(\xi) = \frac{9}{24} h^4 y^{(4)}$$</div>
+
+<p>Local truncation error per step is $\tau = \frac{3}{8} h^3 y^{(4)}$, verifying <strong>third-order accuracy ($p = 3$)</strong>.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Tier 3: Honors / Proof Challenge</span>
+            <strong>Example 7.3: Proof of Dahlquist's Root Condition and Second Stability Barrier</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <ol>
+
+  <li>For the general linear multi-step method $\sum_{j=0}^k \alpha_j y_{n+j} = h \sum_{j=0}^k \beta_j f_{n+j}$, prove that zero-stability requires that all roots of the first characteristic polynomial $\rho(r) = \sum_{j=0}^k \alpha_j r^j$ satisfy $|r| \le 1$, with any root on $|r| = 1$ being simple. 2. Using the conformal mapping $z = \frac{r+1}{r-1}$, prove Dahlquist's Second Barrier: an A-stable linear multi-step method cannot have order of accuracy $p &gt; 2$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-na-prob-7-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-na-prob-7-3">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Part 1: Necessity of the Root Condition for Zero-Stability</strong></p>
+
+<p>Consider the ODE $y' = 0$ with true solution $y(t) \equiv y_0$. The linear multi-step method reduces to the homogeneous linear recurrence:</p>
+
+<div class="math-display">$$\sum_{j=0}^k \alpha_j y_{n+j} = 0 \iff \rho(E) y_n = 0$$</div>
+
+<p>where $E$ is the forward shift operator $E y_n = y_{n+1}$. The general solution to this difference equation is:</p>
+
+<div class="math-display">$$y_n = \sum_{m=1}^s P_m(n) r_m^n$$</div>
+
+<p>where $r_1, \dots, r_s$ are the distinct roots of $\rho(r) = 0$, and $P_m(n)$ is a polynomial in $n$ of degree $(\mu_m - 1)$, with $\mu_m$ being the algebraic multiplicity of root $r_m$.</p>
+
+<p>For the method to be stable, the numerical solution must remain bounded as $n \to \infty$ for any bounded initial perturbations:</p>
+
+<ul>
+
+  <li><strong>Case 1: $|r_m| &gt; 1$.</strong></li>
+
+</ul>
+
+<p>Then $|r_m^n| = |r_m|^n \to \infty$ exponentially as $n \to \infty$. A perturbation in the initial condition is amplified without bound. Hence, we must have $|r_m| \le 1$.</p>
+
+<ul>
+
+  <li><strong>Case 2: $|r_m| = 1$ with multiplicity $\mu_m \ge 2$.</strong></li>
+
+</ul>
+
+<p>Then $P_m(n)$ contains terms proportional to $n, n^2, \dots, n^{\mu_m - 1}$. Consequently, $|y_n| \sim C n |r_m|^n = C n \to \infty$ as $n \to \infty$. Even though $|r_m| = 1$, the secular polynomial factor causes algebraic unbounded growth!</p>
+
+<p>Therefore, boundedness requires:</p>
+
+<ol>
+
+  <li>Every root satisfies $|r| \le 1$.</li>
+
+  <li>Any root with $|r| = 1$ must have $\mu = 1$ (simple root).</li>
+
+</ol>
+
+<p>This establishes Dahlquist's Root Condition. $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 2: Proof of Dahlquist's Second Barrier ($p \le 2$ for A-stability)</strong></p>
+
+<p>Let the method have order $p \ge 1$. Then consistency requires $\rho(1) = 0$ and $\rho'(1) = \sigma(1) \ne 0$. The Dahlquist test equation $y' = \lambda y$ gives the recurrence:</p>
+
+<div class="math-display">$$(\rho - z \sigma)(E) y_n = 0, \quad z = h\lambda$$</div>
+
+<p>The method is A-stable if and only if for all $z \in \mathbb{C}$ with $\text{Re}(z) &lt; 0$, all roots of the characteristic equation:</p>
+
+<div class="math-display">$$\rho(r) - z \sigma(r) = 0$$</div>
+
+<p>lie strictly inside the unit disk: $|r| &lt; 1$.</p>
+
+<p>Equivalently, this means the rational function:</p>
+
+<div class="math-display">$$z(r) = \frac{\rho(r)}{\sigma(r)}$$</div>
+
+<p>maps the exterior of the unit disk $\{r \in \mathbb{C} : |r| &gt; 1\}$ into the right half-plane $\{z \in \mathbb{C} : \text{Re}(z) \ge 0\}$.</p>
+
+<p>Now apply the standard bilinear Möbius transformation from the unit disk to the left half-plane:</p>
+
+<div class="math-display">$$r = \frac{w + 1}{w - 1} \iff w = \frac{r + 1}{r - 1}$$</div>
+
+<p>which maps the unit disk $|r| &lt; 1$ to the left half-plane $\text{Re}(w) &lt; 0$, and the unit circle $|r| = 1$ to the imaginary axis $\text{Re}(w) = 0$.</p>
+
+<p>Under this transformation, the order conditions require matching the Taylor expansion of the logarithm:</p>
+
+<div class="math-display">$$z\left( \frac{w+1}{w-1} \right) = \ln\left( \frac{w+1}{w-1} \right) = 2 \left( \frac{1}{w} + \frac{1}{3 w^3} + \frac{1}{5 w^5} + \dots \right)$$</div>
+
+<p>For A-stability, $z(w)$ must be a positive real function (Herglotz function), meaning $\text{Re}(z(w)) \ge 0$ whenever $\text{Re}(w) \ge 0$.</p>
+
+<p>However, the continued fraction expansion of a positive real rational function can only match the series expansion of $\ln\left(\frac{w+1}{w-1}\right)$ up to the first term $\frac{2}{w}$. Matching the third-order term $\frac{2}{3 w^3}$ forces the rational function to have poles in the right half-plane, which strictly violates the positive real condition (A-stability)!</p>
+
+<p>Therefore, no linear multi-step method can match the logarithmic expansion beyond degree 2 while remaining a positive real mapping. Consequently, <strong>the maximum order of any A-stable linear multi-step method is $p = 2$</strong>. $\blacksquare$</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer">
+            <div class="reader-trust-links">
+              <a href="index" class="reader-trust-link">← All Academic Departments</a>
+              <a href="reader" class="reader-trust-link">Quantum Mechanics I</a>
+              <a href="mechanics" class="reader-trust-link">Mechanics</a>
+              <a href="electrodynamics" class="reader-trust-link">Electrodynamics</a>
+              <a href="optics" class="reader-trust-link">Wave Optics</a>
+              <a href="statistical-mechanics" class="reader-trust-link">Statistical Mechanics</a>
+              <a href="properties-of-matter" class="reader-trust-link">Properties of Matter</a>
+              <a href="electricity-magnetism" class="reader-trust-link">Electricity &amp; Magnetism</a>
+              <a href="thermal-physics" class="reader-trust-link">Thermal Physics</a>
+              <a href="classical-mechanics" class="reader-trust-link">Classical Mechanics</a>
+              <a href="basic-electronics" class="reader-trust-link">Basic Electronics</a>
+              <a href="atomic-molecular-physics" class="reader-trust-link">Atomic &amp; Molecular Physics</a>
+              <a href="solid-state-physics" class="reader-trust-link">Solid State Physics</a>
+              <a href="nuclear-physics" class="reader-trust-link">Nuclear Physics</a>
+              <a href="digital-electronics" class="reader-trust-link">Digital Electronics</a>
+              <a href="quantum-mechanics-2" class="reader-trust-link">Quantum Mechanics II</a>
+              <a href="astrophysics" class="reader-trust-link">Astrophysics</a>
+              <a href="plasma-physics" class="reader-trust-link">Plasma Physics</a>
+              <a href="solid-state-physics-2" class="reader-trust-link">Solid State Physics II</a>
+              <a href="nuclear-physics-2" class="reader-trust-link">Nuclear Physics II</a>
+              <a href="reactor-physics" class="reader-trust-link">Reactor Physics</a>
+              <a href="calculus-1" class="reader-trust-link">Calculus I</a>
+              <a href="geometry-2d" class="reader-trust-link">Two-Dimensional Geometry</a>
+              <a href="basic-algebra" class="reader-trust-link">Basic Algebra</a>
+              <a href="calculus-2" class="reader-trust-link">Calculus II</a>
+              <a href="geometry-3d" class="reader-trust-link">3D &amp; Vector Geometry</a>
+              <a href="calculus-3" class="reader-trust-link">Calculus III</a>
+              <a href="linear-algebra" class="reader-trust-link">Linear Algebra</a>
+              <a href="ordinary-differential-equations-1" class="reader-trust-link">Differential Equations I</a>
+              <a href="ordinary-differential-equations-2" class="reader-trust-link">Differential Equations II</a>
+              <a href="complex-analysis" class="reader-trust-link">Complex Analysis</a>
+              <a href="numerical-analysis" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Numerical Analysis</a>
+              <a href="abstract-algebra" class="reader-trust-link">Abstract Algebra</a>
+              <a href="graph-theory" class="reader-trust-link">Graph Theory</a>
+              <a href="real-analysis" class="reader-trust-link">Real Analysis</a>
+              <a href="differential-geometry" class="reader-trust-link">Differential Geometry</a>
+              <a href="number-theory" class="reader-trust-link">Theory of Numbers</a>
+              <a href="topology" class="reader-trust-link">General Topology</a>
+              <a href="partial-differential-equations" class="reader-trust-link">Partial Differential Equations</a>
+              <a href="discrete-mathematics" class="reader-trust-link">Discrete Mathematics</a>
+              <a href="about" class="reader-trust-link">About &amp; Editorial</a>
+              <a href="privacy" class="reader-trust-link">Privacy Policy</a>
+              <a href="terms" class="reader-trust-link">Terms of Service</a>
+              <a href="https://discord.gg/tBBKtvFJzW" target="_blank" rel="noopener noreferrer" class="reader-trust-link" style="color: #a5b4fc;">💬 Discord Community</a>
+              <a href="mailto:shahriyarkarimsiam@gmail.com" class="reader-trust-link">Contact (shahriyarkarimsiam@gmail.com)</a>
+            </div>
+            <p class="reader-trust-copy">© 2026 OpenSTEM Global Academic Press • Free Open-Access Academic Library • Peer-Reviewed University Textbooks</p>
+          </footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="numerical-analysis-chapter-6">← Previous chapter</a><a href="numerical-analysis">Book contents</a><a href="numerical-analysis-chapter-8">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="numerical-analysis-sims.js?v=20261007_v1"></script>
+  <script src="numerical-analysis-data.js?v=20261007_v1"></script>
+  <script src="app.js?v=20261011_reader_catalog_v1"></script>
+
+
+</body></html>

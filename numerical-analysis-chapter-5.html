@@ -1,0 +1,747 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Unit 5: Initial Value Problems for Ordinary Differential Equations: Single-Step Methods | Numerical Analysis &amp; Computational Methods | OpenSTEM Library</title>
+  <meta name="description" content="Comprehensive formulation of Initial Value Problems (IVPs), Picard's existence-uniqueness iteration, Taylor series expansions, explicit Runge-Kutta frameworks (Heun, Midpoint, classical RK4), Butcher tableaux, order condition derivations, and embedded adaptive pairs.">
+  <meta name="keywords" content="Numerical Analysis, Computational Methods, Floating Point Error, IEEE 754, Bisection Method, Regula Falsi, Newton-Raphson, Aitken Delta Squared, Polynomial Interpolation, Lagrange Interpolation, Newton Divided Differences, Chebyshev Nodes, Runge Phenomenon, Numerical Differentiation, Richardson Extrapolation, Simpson Rule, Weddle Rule, Gaussian Quadrature, Gauss-Legendre, LU Decomposition, Cholesky Factorization, Jacobi Method, Gauss-Seidel, SOR Method, Picard Iteration, Runge-Kutta, RK4, Butcher Tableau, Local Truncation Error, Global Truncation Error, Discrete Gronwall Inequality, Adaptive Step Size, Dahlquist Test Equation, Absolute Stability Region, Stiff Differential Equations, A-Stability, L-Stability, Linear Multistep Methods, Adams-Bashforth, Adams-Moulton, Predictor-Corrector, BDF, Dahlquist Root Condition, Dahlquist Barriers, Boundary Value Problems, Linear Shooting Method, Nonlinear Shooting Method, Variational Sensitivity Equations, Finite Difference Method, Tridiagonal Matrix Algorithm, Thomas Algorithm">
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/numerical-analysis-chapter-5">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Numerical Analysis &amp; Computational Methods: Algorithms, Error Analysis, Quadrature, Linear Systems &amp; Differential Equations | OpenSTEM Digital Academic Press">
+  <meta property="og:description" content="Exhaustive university honors textbook with 8 chapters, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
+  <meta property="og:image" content="https://openstemlibrary.org/logo.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Numerical Analysis & Computational Methods: Algorithms, Error Analysis, Quadrature, Linear Systems & Differential Equations","description":"Comprehensive university honors curriculum covering algorithmic numerical approximations, IEEE floating-point error theory, bracketing and open root-finding, polynomial interpolation and Runge's phenomenon, numerical differentiation and high-order Gaussian quadrature, direct and iterative numerical linear algebra, single-step and multi-step ODE initial value solvers, Dahlquist absolute stability theory, stiff differential equations, and shooting and finite difference boundary value algorithms.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Digital Academic Press","url":"https://openstemlibrary.org"},"educationalLevel":"Undergraduate B.Sc. Honors & STEM Foundation","isAccessibleForFree":true}</script>
+
+  <!-- Google Fonts: Inter, Fira Code & Newsreader -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261011_reader_catalog_v1">
+  <!-- Google AdSense Official Script -->
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4546869673631824" crossorigin="anonymous"></script>
+</head>
+<body data-book-path="numerical-analysis.html" data-chapter-index="4">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Numerical Analysis</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search root-finding, interpolation, RK4, stiff ODEs, shooting..." class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="numerical-analysis" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Unit 1: Non-Linear Equations in a Single Variable &amp; Foundations of Numerical Error</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="numerical-analysis-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Unit 2: Polynomial Interpolation, Finite Differences &amp; Approximation Theory</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="numerical-analysis-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Unit 3: Numerical Differentiation, Richardson Extrapolation &amp; Advanced Quadrature</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="numerical-analysis-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Unit 4: Numerical Linear Algebra &amp; Multi-Variable Non-Linear Systems</span></a></li><li class="unit-nav-item active" data-unit-index="4"><a href="numerical-analysis-chapter-5" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Unit 5: Initial Value Problems for Ordinary Differential Equations: Single-Step Methods</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="numerical-analysis-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Unit 6: Convergence &amp; Error Analysis for Initial Value Problems</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="numerical-analysis-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Unit 7: Absolute Stability Analysis, Stiff Differential Equations &amp; Linear Multi-Step Methods</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="numerical-analysis-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Unit 8: Boundary Value Problems for Ordinary Differential Equations: Shooting &amp; Finite Differences</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Mathematics / Computational Mathematics</span>
+          <span class="badge-pill badge-credits">Numerical Analysis &amp; Computational Methods</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">
+            🔒 <span>In-Browser Protected • Direct Download Disabled</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 5 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Unit 5: Initial Value Problems for Ordinary Differential Equations: Single-Step Methods</h1>
+            <p class="unit-desc-lead" id="unit-desc">Comprehensive formulation of Initial Value Problems (IVPs), Picard's existence-uniqueness iteration, Taylor series expansions, explicit Runge-Kutta frameworks (Heun, Midpoint, classical RK4), Butcher tableaux, order condition derivations, and embedded adaptive pairs.</p>
+          </header>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="u5-sec1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.1</span>
+            <span>Mathematical Formulation of IVPs, Picard's Existence-Uniqueness Theorem &amp; Successive Approximations</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. The General Initial Value Problem (IVP)</h4>
+
+<p>Consider the first-order ordinary differential equation with prescribed initial state:</p>
+
+<div class="math-display">$$\begin{cases} \dfrac{dy}{dt} = f(t, y), \quad t \in [t_0, T] \\ y(t_0) = y_0 \end{cases}$$</div>
+
+<p>where $y: [t_0, T] \to \mathbb{R}^d$ and $f: [t_0, T] \times \mathbb{R}^d \to \mathbb{R}^d$.</p>
+
+<h5>Equivalent Volterra Integral Equation:</h5>
+
+<p>Integrating both sides over $[t_0, t]$ yields:</p>
+
+<div class="math-display">$$y(t) = y_0 + \int_{t_0}^t f(s, y(s)) \, ds$$</div>
+
+<p>This integral formulation converts the differential equation into a fixed-point problem over the Banach space $C([t_0, T], \mathbb{R}^d)$.</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. The Picard-Lindelöf Existence and Uniqueness Theorem</h4>
+
+<blockquote class="math-callout">
+<p><strong>Theorem (Picard-Lindelöf):</strong> Let $D = [t_0 - a, t_0 + a] \times \overline{B}(y_0, b) \subset \mathbb{R} \times \mathbb{R}^d$. Suppose:</p>
+<ol>
+  <li>$f(t, y)$ is continuous on $D$, with $M = \max_{(t, y) \in D} \|f(t, y)\| &lt; \infty$.</li>
+  <li>$f(t, y)$ satisfies a uniform Lipschitz condition with respect to $y$ on $D$:</li>
+</ol>
+</blockquote>
+
+<div class="math-display">$$\|f(t, u) - f(t, v)\| \le L \|u - v\|, \quad \forall (t, u), (t, v) \in D$$</div>
+
+<blockquote class="math-callout">
+<p>Then there exists a unique continuously differentiable solution $y(t)$ to the IVP on the interval $I = [t_0 - h, t_0 + h]$, where $h = \min\left(a, \frac{b}{M}\right)$.</p>
+</blockquote>
+
+<h5>Picard's Method of Successive Approximations:</h5>
+
+<p>Define the operator $T: C(I) \to C(I)$ by:</p>
+
+<div class="math-display">$$(T y)(t) = y_0 + \int_{t_0}^t f(s, y(s)) \, ds$$</div>
+
+<p>Starting from the constant initial guess $y^{(0)}(t) \equiv y_0$, generate the sequence:</p>
+
+<div class="math-display">$$y^{(k+1)}(t) = y_0 + \int_{t_0}^t f(s, y^{(k)}(s)) \, ds, \quad k = 0, 1, 2, \dots$$</div>
+
+<h5>Proof of Uniform Convergence:</h5>
+
+<p>For any $t \in [t_0, t_0 + h]$:</p>
+
+<div class="math-display">$$\|y^{(1)}(t) - y^{(0)}(t)\| = \left\|\int_{t_0}^t f(s, y_0) \, ds\right\| \le M (t - t_0)$$</div>
+
+<p>By induction:</p>
+
+<div class="math-display">$$\|y^{(k+1)}(t) - y^{(k)}(t)\| \le \frac{M L^k}{(k+1)!} (t - t_0)^{k+1} \le \frac{M L^k h^{k+1}}{(k+1)!}$$</div>
+
+<p>Since the infinite series:</p>
+
+<div class="math-display">$$\sum_{k=0}^\infty \frac{M L^k h^{k+1}}{(k+1)!} = \frac{M}{L} \left(e^{Lh} - 1\right) &lt; \infty$$</div>
+
+<p>converges, the Weierstrass M-test guarantees that the sequence of continuous functions $\{y^{(k)}(t)\}$ converges uniformly on $I$ to a unique limit $y^<em>(t) = \lim_{k \to \infty} y^{(k)}(t)$. Taking the limit under the integral sign proves $y^</em>(t) = T y^*(t)$.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_na_ode_single_step"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u5-sec2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.2</span>
+            <span>Taylor Series Methods &amp; Euler's Method: Derivation, Truncation Error &amp; Limitations</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. High-Order Taylor Series Method</h4>
+
+<p>Assuming $f(t, y)$ is $p$-times continuously differentiable, the exact solution $y(t)$ can be expanded about $t_n$ using Taylor's theorem:</p>
+
+<div class="math-display">$$y(t_{n+1}) = y(t_n + h) = y(t_n) + h y'(t_n) + \frac{h^2}{2!} y''(t_n) + \dots + \frac{h^p}{p!} y^{(p)}(t_n) + \frac{h^{p+1}}{(p+1)!} y^{(p+1)}(\xi_n)$$</div>
+
+<p>where $\xi_n \in (t_n, t_{n+1})$.</p>
+
+<p>Using the chain rule, total derivatives of $y(t)$ are evaluated directly from the governing ODE:</p>
+
+<div class="math-display">$$\begin{aligned} y'(t) &amp;= f(t, y) \\ y''(t) &amp;= \frac{df}{dt} = \frac{\partial f}{\partial t} + \frac{\partial f}{\partial y} y' = f_t + f f_y \\ y'''(t) &amp;= f_{tt} + 2 f f_{ty} + f^2 f_{yy} + f_y(f_t + f f_y) \end{aligned}$$</div>
+
+<h5>The Taylor Method of Order $p$:</h5>
+
+<div class="math-display">$$y_{n+1} = y_n + h T_p(t_n, y_n; h)$$</div>
+
+<p>where the increment function is:</p>
+
+<div class="math-display">$$T_p(t, y; h) = f(t, y) + \frac{h}{2!} f'(t, y) + \dots + \frac{h^{p-1}}{p!} f^{(p-1)}(t, y)$$</div>
+
+<p><em>Fatal Practical Limitation:</em> For systems of ODEs or complex nonlinear functions $f$, computing high-order total derivatives analytically requires nested symbolic chain rules whose algebraic complexity explodes exponentially (the "curse of differentiation").</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Forward Euler's Method ($p = 1$)</h4>
+
+<p>Truncating after the linear term yields the simplest numerical integrator:</p>
+
+<div class="math-display">$$y_{n+1} = y_n + h f(t_n, y_n)$$</div>
+
+<h5>Error Analysis:</h5>
+
+<ul>
+
+  <li><strong>Local Truncation Error (LTE):</strong></li>
+
+</ul>
+
+<div class="math-display">$$d_{n+1} = y(t_{n+1}) - \left[ y(t_n) + h f(t_n, y(t_n)) \right] = \frac{h^2}{2} y''(\xi_n) = \mathcal{O}(h^2)$$</div>
+
+<ul>
+
+  <li><strong>Local Error per unit step:</strong> $\tau_{n+1} = \frac{d_{n+1}}{h} = \mathcal{O}(h)$.</li>
+
+  <li><strong>Global Truncation Error (GTE):</strong> Over a fixed interval $[t_0, T]$ with $N = (T - t_0)/h$ steps, errors accumulate:</li>
+
+</ul>
+
+<div class="math-display">$$E_N = |y(T) - y_N| \le \mathcal{O}(N \cdot h^2) = \mathcal{O}(h)$$</div>
+
+<p>Hence, Forward Euler is only <strong>first-order accurate</strong>. To halve the error, computational work must double.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_na_ode_single_step"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u5-sec3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.3</span>
+            <span>Explicit Runge-Kutta Families: Geometric Motivation, 2nd-Order Schemes &amp; Butcher Tableaux</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. General Philosophy of Runge-Kutta Methods</h4>
+
+<p>The core innovation of Carl Runge (1895) and Wilhelm Kutta (1901) was to <strong>match the Taylor series expansion up to order $p$ using only evaluations of $f(t, y)$ at intermediate points</strong>, completely bypassing analytic differentiation.</p>
+
+<p>An explicit $s$-stage Runge-Kutta (ERK) method advances from $(t_n, y_n)$ to $t_{n+1} = t_n + h$ via:</p>
+
+<div class="math-display">$$y_{n+1} = y_n + h \sum_{i=1}^s b_i k_i$$</div>
+
+<p>where stage derivatives $k_i$ are sampled sequentially:</p>
+
+<div class="math-display">$$\begin{aligned} k_1 &amp;= f(t_n, y_n) \\ k_2 &amp;= f(t_n + c_2 h, \, y_n + h a_{21} k_1) \\ k_3 &amp;= f(t_n + c_3 h, \, y_n + h (a_{31} k_1 + a_{32} k_2)) \\ &amp;\;\;\vdots \\ k_s &amp;= f\left(t_n + c_s h, \, y_n + h \sum_{j=1}^{s-1} a_{sj} k_j\right) \end{aligned}$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>2. The Butcher Tableau Representation</h4>
+
+<p>John C. Butcher formalized Runge-Kutta schemes into a compact matrix-vector tableau:</p>
+
+<div class="math-display">$$\begin{array}{c|cccc} 0 &amp; &amp; &amp; &amp; \\ c_2 &amp; a_{21} &amp; &amp; &amp; \\ c_3 &amp; a_{31} &amp; a_{32} &amp; &amp; \\ \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \\ c_s &amp; a_{s1} &amp; a_{s2} &amp; \dots &amp; a_{s, s-1} \\ \hline &amp; b_1 &amp; b_2 &amp; \dots &amp; b_s \end{array} \iff \begin{array}{c|c} \vec{c} &amp; A \\ \hline &amp; \vec{b}^T \end{array}$$</div>
+
+<p>where $c_i = \sum_{j=1}^{i-1} a_{ij}$ ensures internal stage consistency (zero-order consistency for autonomous systems).</p>
+
+<hr class="section-divider-hr">
+
+<h4>3. Family of Two-Stage Second-Order Runge-Kutta Methods (RK2)</h4>
+
+<p>For $s = 2$:</p>
+
+<div class="math-display">$$\begin{aligned} k_1 &amp;= f(t_n, y_n) \\ k_2 &amp;= f(t_n + c_2 h, \, y_n + h a_{21} k_1) \\ y_{n+1} &amp;= y_n + h (b_1 k_1 + b_2 k_2) \end{aligned}$$</div>
+
+<h5>Expanding in Bivariate Taylor Series:</h5>
+
+<p>Expanding $k_2 = f(t_n + c_2 h, y_n + h a_{21} f)$ about $(t_n, y_n)$:</p>
+
+<div class="math-display">$$k_2 = f + h \left( c_2 f_t + a_{21} f f_y \right) + \mathcal{O}(h^2)$$</div>
+
+<p>Substituting into the numerical update:</p>
+
+<div class="math-display">$$y_{n+1} = y_n + h (b_1 + b_2) f + h^2 b_2 (c_2 f_t + a_{21} f f_y) + \mathcal{O}(h^3)$$</div>
+
+<p>Comparing with the exact Taylor series:</p>
+
+<div class="math-display">$$y(t_n + h) = y(t_n) + h f + \frac{h^2}{2} (f_t + f f_y) + \mathcal{O}(h^3)$$</div>
+
+<p>Equating coefficients of powers of $h$ and elementary differentials:</p>
+
+<ol>
+
+  <li>$h^1$ term: $b_1 + b_2 = 1$</li>
+
+  <li>$h^2 f_t$ term: $b_2 c_2 = \frac{1}{2}$</li>
+
+  <li>$h^2 f f_y$ term: $b_2 a_{21} = \frac{1}{2}$</li>
+
+</ol>
+
+<p>This gives 3 nonlinear equations in 4 unknowns ($b_1, b_2, c_2, a_{21}$), yielding a <strong>one-parameter family of second-order methods</strong> where $a_{21} = c_2$ and $b_2 = \frac{1}{2 c_2}$, $b_1 = 1 - \frac{1}{2 c_2}$ for any $c_2 \ne 0$:</p>
+
+<h5>Famous Members of the RK2 Family:</h5>
+
+<h4>1. Explicit Midpoint Method ($c_2 = 1/2$):</h4>
+
+<div class="math-display">$$b_1 = 0, \quad b_2 = 1, \quad a_{21} = 1/2 \implies y_{n+1} = y_n + h f\left(t_n + \frac{h}{2}, \, y_n + \frac{h}{2} k_1\right)$$</div>
+
+<h4>2. Heun's Method / Improved Euler ($c_2 = 1$):</h4>
+
+<div class="math-display">$$b_1 = 1/2, \quad b_2 = 1/2, \quad a_{21} = 1 \implies y_{n+1} = y_n + \frac{h}{2} \left[ k_1 + f(t_n + h, y_n + h k_1) \right]$$</div>
+
+<h4>3. Ralston's Method ($c_2 = 2/3$):</h4>
+
+<p>Minimizes the truncation error bound: $b_1 = 1/4$, $b_2 = 3/4$, $a_{21} = 2/3$.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_na_ode_single_step"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u5-sec4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.4</span>
+            <span>The Classical Fourth-Order Runge-Kutta Method (RK4): Derivation &amp; Implementation</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. The Classical RK4 Formula</h4>
+
+<p>The fourth-order Runge-Kutta method (often referred to simply as <em>the</em> Runge-Kutta method) is given by:</p>
+
+<div class="math-display">$$\begin{aligned} k_1 &amp;= f(t_n, y_n) \\ k_2 &amp;= f\left(t_n + \frac{h}{2}, \, y_n + \frac{h}{2} k_1\right) \\ k_3 &amp;= f\left(t_n + \frac{h}{2}, \, y_n + \frac{h}{2} k_2\right) \\ k_4 &amp;= f(t_n + h, \, y_n + h k_3) \\ y_{n+1} &amp;= y_n + \frac{h}{6} \left( k_1 + 2 k_2 + 2 k_3 + k_4 \right) \end{aligned}$$</div>
+
+<h5>Butcher Tableau for Classical RK4:</h5>
+
+<div class="math-display">$$\begin{array}{c|cccc} 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 1/2 &amp; 1/2 &amp; 0 &amp; 0 &amp; 0 \\ 1/2 &amp; 0 &amp; 1/2 &amp; 0 &amp; 0 \\ 1 &amp; 0 &amp; 0 &amp; 1 &amp; 0 \\ \hline &amp; 1/6 &amp; 2/6 &amp; 2/6 &amp; 1/6 \end{array}$$</div>
+
+<p>Notice the weights $\vec{b} = \left[\frac{1}{6}, \frac{2}{6}, \frac{2}{6}, \frac{1}{6}\right]^T$, which correspond exactly to Simpson's $1/3$ rule weights across the interval $[t_n, t_{n+1}]$!</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Derivation of Order Conditions via B-Series and Trees</h4>
+
+<p>For an explicit Runge-Kutta method to achieve order $p = 4$, the numerical expansion must match the Taylor series expansion for all rooted trees up to order 4:</p>
+
+<h4>1. Order 1 (1 condition): $\sum b_i = 1$</h4>
+
+<h4>2. Order 2 (1 condition): $\sum b_i c_i = 1/2$</h4>
+
+<h4>3. Order 3 (2 conditions):</h4>
+
+<ul>
+
+  <li>$\sum b_i c_i^2 = 1/3$</li>
+
+  <li>$\sum b_i a_{ij} c_j = 1/6$</li>
+
+</ul>
+
+<h4>4. Order 4 (4 conditions):</h4>
+
+<ul>
+
+  <li>$\sum b_i c_i^3 = 1/4$</li>
+
+  <li>$\sum b_i c_i a_{ij} c_j = 1/8$</li>
+
+  <li>$\sum b_i a_{ij} c_j^2 = 1/12$</li>
+
+  <li>$\sum b_i a_{ij} a_{jk} c_k = 1/24$</li>
+
+</ul>
+
+<p>Together, these form a system of 8 nonlinear algebraic equations for the coefficients $\{a_{ij}, b_i, c_i\}$. The classical RK4 coefficients satisfy all 8 conditions identically, resulting in:</p>
+
+<div class="math-display">$$\text{Local Truncation Error: } d_{n+1} = \mathcal{O}(h^5) \implies \text{Global Error: } E_N = \mathcal{O}(h^4)$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>3. Butcher's Barrier Theorem for Higher Orders</h4>
+
+<p>A remarkable mathematical property discovered by J. C. Butcher is that the minimum number of stages $s(p)$ required to achieve order $p$ satisfies:</p>
+
+<div class="math-display">$$\begin{array}{c|cccccccc} \text{Order } p &amp; 1 &amp; 2 &amp; 3 &amp; 4 &amp; 5 &amp; 6 &amp; 7 &amp; 8 \\ \hline \text{Min Stages } s &amp; 1 &amp; 2 &amp; 3 &amp; 4 &amp; 6 &amp; 7 &amp; 9 &amp; 11 \end{array}$$</div>
+
+<blockquote class="math-callout">
+<p><strong>Theorem (Butcher's First Barrier):</strong> No explicit Runge-Kutta method of order $p \ge 5$ can have $s = p$ stages. Specifically, an order 5 explicit RK method requires at least $s = 6$ stages! This explains why RK4 is universally regarded as the computational sweet spot in scientific computing: it achieves 4th-order accuracy with the minimum possible number of stages ($s = 4$).</p>
+</blockquote>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_na_ode_single_step"></div>
+          </div>
+        
+      </section></div>
+
+          <!-- Tiered Solved Practice Problems Section -->
+          <div class="practice-problems-section">
+            <div class="prob-sec-header">
+              <h2 class="prob-sec-title">Tiered Solved Practice Problems &amp; Examination Proofs</h2>
+              <p class="prob-sec-desc">Comprehensive analytical derivations, multi-tier solutions (Foundational, Intermediate Algorithmic, and Honors/Proof Challenge) with complete line-by-line verification.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-easy">Tier 1: Foundational Concept</span>
+            <strong>Example 5.1: Picard Successive Approximations vs. Taylor Series Expansion</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Consider the nonlinear initial value problem:</p>
+
+<div class="math-display">$$\frac{dy}{dt} = t + y^2, \quad y(0) = 1$$</div>
+
+<ol>
+
+  <li>Compute the first two Picard iterations $y^{(1)}(t)$ and $y^{(2)}(t)$ starting from $y^{(0)}(t) \equiv 1$. 2. Compute the 4th-degree Taylor polynomial of the exact solution $y(t)$ about $t_0 = 0$. 3. Verify how many terms of the Taylor series agree with $y^{(2)}(t)$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-na-prob-5-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-na-prob-5-1">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Step 1: Picard Iterations</strong> Given $y_0 = 1$ and $f(t, y) = t + y^2$:</p>
+
+<ul>
+
+  <li>Base approximation: $y^{(0)}(t) = 1$.</li>
+
+  <li>First Picard iteration:</li>
+
+</ul>
+
+<div class="math-display">$$y^{(1)}(t) = 1 + \int_0^t \left(s + [y^{(0)}(s)]^2\right) \, ds = 1 + \int_0^t (s + 1) \, ds = 1 + t + \frac{1}{2} t^2$$</div>
+
+<ul>
+
+  <li>Second Picard iteration:</li>
+
+</ul>
+
+<div class="math-display">$$y^{(2)}(t) = 1 + \int_0^t \left(s + [y^{(1)}(s)]^2\right) \, ds = 1 + \int_0^t \left[ s + \left(1 + s + \frac{1}{2} s^2\right)^2 \right] \, ds$$</div>
+
+<p>Expanding the integrand:</p>
+
+<div class="math-display">$$\left(1 + s + \frac{s^2}{2}\right)^2 = 1 + 2s + 2s^2 + s^3 + \frac{s^4}{4}$$</div>
+
+<p>Adding $s$:</p>
+
+<div class="math-display">$$s + \left(1 + s + \frac{s^2}{2}\right)^2 = 1 + 3s + 2s^2 + s^3 + \frac{s^4}{4}$$</div>
+
+<p>Integrating term-by-term:</p>
+
+<div class="math-display">$$y^{(2)}(t) = 1 + \left[ s + \frac{3}{2} s^2 + \frac{2}{3} s^3 + \frac{1}{4} s^4 + \frac{1}{20} s^5 \right]_0^t = 1 + t + \frac{3}{2} t^2 + \frac{2}{3} t^3 + \frac{1}{4} t^4 + \frac{1}{20} t^5$$</div>
+
+<p><strong>Step 2: Taylor Series Method</strong> Evaluate derivatives at $t = 0$ with $y(0) = 1$:</p>
+
+<ol>
+
+  <li>$y'(0) = 0 + (1)^2 = 1$.</li>
+
+  <li>$y''(t) = 1 + 2y y' \implies y''(0) = 1 + 2(1)(1) = 3$.</li>
+
+  <li>$y'''(t) = 2(y')^2 + 2y y'' \implies y'''(0) = 2(1)^2 + 2(1)(3) = 8$.</li>
+
+  <li>$y^{(4)}(t) = 6 y' y'' + 2y y''' \implies y^{(4)}(0) = 6(1)(3) + 2(1)(8) = 18 + 16 = 34$.</li>
+
+</ol>
+
+<p>Forming the Taylor polynomial:</p>
+
+<div class="math-display">$$y(t) = 1 + y'(0) t + \frac{y''(0)}{2!} t^2 + \frac{y'''(0)}{3!} t^3 + \frac{y^{(4)}(0)}{4!} t^4 + \mathcal{O}(t^5)$$</div>
+
+<div class="math-display">$$y(t) = 1 + t + \frac{3}{2} t^2 + \frac{8}{6} t^3 + \frac{34}{24} t^4 + \mathcal{O}(t^5) = 1 + t + \frac{3}{2} t^2 + \frac{4}{3} t^3 + \frac{17}{12} t^4 + \mathcal{O}(t^5)$$</div>
+
+<p><strong>Step 3: Comparison</strong> Comparing $y^{(2)}(t) = 1 + t + \frac{3}{2} t^2 + \frac{2}{3} t^3 + \dots$ with the exact Taylor expansion:</p>
+
+<ul>
+
+  <li>Degree 0: $1 = 1$ (matches)</li>
+
+  <li>Degree 1: $t = t$ (matches)</li>
+
+  <li>Degree 2: $\frac{3}{2} t^2 = \frac{3}{2} t^2$ (matches)</li>
+
+  <li>Degree 3: $\frac{2}{3} t^3 \ne \frac{4}{3} t^3$.</li>
+
+</ul>
+
+<p>Thus, $y^{(2)}(t)$ correctly reproduces the exact Taylor polynomial up to degree 2.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-medium">Tier 2: Advanced Algorithmic</span>
+            <strong>Example 5.2: Quantitative Comparison: Explicit Euler, Heun (RK2) and Classical RK4</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Consider the test IVP:</p>
+
+<div class="math-display">$$\frac{dy}{dt} = -2t y, \quad y(0) = 1$$</div>
+
+<p>with exact analytical solution $y(t) = e^{-t^2}$. 1. Perform one single time step from $t_0 = 0$ to $t_1 = 0.2$ using step size $h = 0.2$ with: (a) Forward Euler, (b) Heun's method (RK2), and (c) Classical RK4. 2. Compute the exact solution $y(0.2)$ to 7 decimal places and calculate the absolute error $|y_{\text{exact}} - y_{\text{num}}|$ for all three methods.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-na-prob-5-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-na-prob-5-2">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Exact Solution:</strong></p>
+
+<div class="math-display">$$y(0.2) = e^{-(0.2)^2} = e^{-0.04} \approx 0.9607894$$</div>
+
+<hr class="section-divider-hr">
+
+<p><strong>(a) Forward Euler ($h = 0.2$):</strong></p>
+
+<div class="math-display">$$y_1 = y_0 + h f(t_0, y_0) = 1 + 0.2 \cdot (-2 \cdot 0 \cdot 1) = 1 + 0 = 1.0000000$$</div>
+
+<ul>
+
+  <li>Absolute Error: $|0.9607894 - 1.0000000| = 0.0392106$ ($\approx 3.92 \times 10^{-2}$).</li>
+
+</ul>
+
+<hr class="section-divider-hr">
+
+<p><strong>(b) Heun's Method (RK2, $h = 0.2$):</strong></p>
+
+<ul>
+
+  <li>Stage 1: $k_1 = f(0, 1) = 0$.</li>
+
+  <li>Stage 2: $t_0 + h = 0.2$, $y_0 + h k_1 = 1 + 0.2(0) = 1$.</li>
+
+</ul>
+
+<div class="math-display">$$k_2 = f(0.2, 1) = -2(0.2)(1) = -0.4$$</div>
+
+<ul>
+
+  <li>Update:</li>
+
+</ul>
+
+<div class="math-display">$$y_1 = y_0 + \frac{h}{2} (k_1 + k_2) = 1 + \frac{0.2}{2} (0 - 0.4) = 1 - 0.04 = 0.9600000$$</div>
+
+<ul>
+
+  <li>Absolute Error: $|0.9607894 - 0.9600000| = 0.0007894$ ($\approx 7.89 \times 10^{-4}$).</li>
+
+</ul>
+
+<p>Notice error dropped by a factor of $\approx 50$ compared to Euler!</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>(c) Classical RK4 ($h = 0.2$):</strong></p>
+
+<ul>
+
+  <li>$k_1 = f(0, 1) = 0$.</li>
+
+  <li>$k_2 = f\left(0 + \frac{0.2}{2}, 1 + \frac{0.2}{2} k_1\right) = f(0.1, 1) = -2(0.1)(1) = -0.2$.</li>
+
+  <li>$k_3 = f\left(0.1, 1 + 0.1 k_2\right) = f(0.1, 1 + 0.1(-0.2)) = f(0.1, 0.98) = -2(0.1)(0.98) = -0.196$.</li>
+
+  <li>$k_4 = f(0 + 0.2, 1 + 0.2 k_3) = f(0.2, 1 + 0.2(-0.196)) = f(0.2, 0.9608) = -2(0.2)(0.9608) = -0.38432$.</li>
+
+  <li>Combine:</li>
+
+</ul>
+
+<div class="math-display">$$\begin{aligned}   y_1 &amp;= 1 + \frac{0.2}{6} [0 + 2(-0.2) + 2(-0.196) + (-0.38432)] \\   &amp;= 1 + \frac{0.2}{6} [-0.4 - 0.392 - 0.38432] = 1 + \frac{0.2}{6} [-1.17632] \\   &amp;= 1 - 0.03921067 = 0.96078933   \end{aligned}$$</div>
+
+<ul>
+
+  <li>Absolute Error: $|0.96078944 - 0.96078933| = 0.00000011 = 1.1 \times 10^{-7}$.</li>
+
+</ul>
+
+<p>The classical RK4 method provides over 5 orders of magnitude higher accuracy than Euler for the same step size!</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Tier 3: Honors / Proof Challenge</span>
+            <strong>Example 5.3: Complete Derivation of RK2 Order Conditions &amp; Proof of Infeasibility for Order 3</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <ol>
+
+  <li>Using bivariate Taylor expansions of the generic two-stage explicit Runge-Kutta scheme:</li>
+
+</ol>
+
+<div class="math-display">$$y_{n+1} = y_n + h(b_1 k_1 + b_2 k_2), \quad k_1 = f(t_n, y_n), \quad k_2 = f(t_n + c_2 h, y_n + a_{21} h k_1)$$</div>
+
+<p>derive the necessary and sufficient algebraic conditions on $(b_1, b_2, c_2, a_{21})$ for second-order accuracy $\mathcal{O}(h^2)$. 2. Prove mathematically that no two-stage explicit Runge-Kutta scheme can achieve third-order accuracy $\mathcal{O}(h^3)$.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-na-prob-5-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-na-prob-5-3">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Part 1: Derivation of RK2 Order Conditions</strong></p>
+
+<p>Let $y(t)$ be the true solution to $y' = f(t, y)$. By Taylor's theorem:</p>
+
+<div class="math-display">$$y(t_n + h) = y(t_n) + h y'(t_n) + \frac{h^2}{2} y''(t_n) + \frac{h^3}{6} y'''(t_n) + \mathcal{O}(h^4)$$</div>
+
+<p>Computing the total derivatives using the chain rule (suppressing arguments $(t_n, y_n)$):</p>
+
+<div class="math-display">$$\begin{aligned} y' &amp;= f \\ y'' &amp;= f_t + f f_y \\ y''' &amp;= f_{tt} + 2 f f_{ty} + f^2 f_{yy} + f_y(f_t + f f_y) \end{aligned}$$</div>
+
+<p>Hence:</p>
+
+<div class="math-display">$$y(t_n + h) = y_n + h f + \frac{h^2}{2} (f_t + f f_y) + \frac{h^3}{6} \left[ f_{tt} + 2 f f_{ty} + f^2 f_{yy} + f_y(f_t + f f_y) \right] + \mathcal{O}(h^4) \quad \text{--- (Eq. 1)}$$</div>
+
+<p>Now expand the numerical method. Here $k_1 = f$. For $k_2$:</p>
+
+<div class="math-display">$$\begin{aligned} k_2 &amp;= f(t_n + c_2 h, \, y_n + a_{21} h f) \\ &amp;= f + h(c_2 f_t + a_{21} f f_y) + \frac{h^2}{2} \left( c_2^2 f_{tt} + 2 c_2 a_{21} f f_{ty} + a_{21}^2 f^2 f_{yy} \right) + \mathcal{O}(h^3) \end{aligned}$$</div>
+
+<p>Substituting into the numerical update $y_{n+1} = y_n + h b_1 k_1 + h b_2 k_2$:</p>
+
+<div class="math-display">$$y_{n+1} = y_n + h(b_1 + b_2) f + h^2 b_2 (c_2 f_t + a_{21} f f_y) + \frac{h^3}{2} b_2 \left( c_2^2 f_{tt} + 2 c_2 a_{21} f f_{ty} + a_{21}^2 f^2 f_{yy} \right) + \mathcal{O}(h^4) \quad \text{--- (Eq. 2)}$$</div>
+
+<p>Subtracting Eq. (2) from Eq. (1) gives the local error:</p>
+
+<div class="math-display">$$\begin{aligned} y(t_n + h) - y_{n+1} &amp;= h [1 - (b_1 + b_2)] f \\ &amp;\quad + h^2 \left[ \left(\frac{1}{2} - b_2 c_2\right) f_t + \left(\frac{1}{2} - b_2 a_{21}\right) f f_y \right] + \mathcal{O}(h^3) \end{aligned}$$</div>
+
+<p>For this error to be $\mathcal{O}(h^3)$ for all arbitrary smooth functions $f$, each bracketed term must vanish independently:</p>
+
+<ol>
+
+  <li>$b_1 + b_2 = 1$</li>
+
+  <li>$b_2 c_2 = \frac{1}{2}$</li>
+
+  <li>$b_2 a_{21} = \frac{1}{2}$</li>
+
+</ol>
+
+<p>Dividing condition (3) by condition (2) immediately yields:</p>
+
+<div class="math-display">$$a_{21} = c_2$$</div>
+
+<p>This proves the fundamental RK2 system of order conditions. $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 2: Proof of Infeasibility for Order 3 with 2 Stages</strong></p>
+
+<p>For the scheme to be third-order accurate, the $\mathcal{O}(h^3)$ term of Eq. (2) must match the $\mathcal{O}(h^3)$ term of Eq. (1):</p>
+
+<div class="math-display">$$\frac{b_2}{2} \left( c_2^2 f_{tt} + 2 c_2^2 f f_{ty} + c_2^2 f^2 f_{yy} \right) \stackrel{?}{=} \frac{1}{6} \left( f_{tt} + 2 f f_{ty} + f^2 f_{yy} \right) + \frac{1}{6} f_y (f_t + f f_y)$$</div>
+
+<p>Matching the coefficient of $f_{tt}$:</p>
+
+<div class="math-display">$$\frac{b_2 c_2^2}{2} = \frac{1}{6} \implies b_2 c_2^2 = \frac{1}{3}$$</div>
+
+<p>Since $b_2 c_2 = \frac{1}{2}$, dividing gives:</p>
+
+<div class="math-display">$$c_2 = \frac{b_2 c_2^2}{b_2 c_2} = \frac{1/3}{1/2} = \frac{2}{3}$$</div>
+
+<p>Then $b_2 = \frac{1}{2 c_2} = \frac{3}{4}$, and $b_1 = 1 - b_2 = \frac{1}{4}$.</p>
+
+<p>However, examine the term $f_y (f_t + f f_y)$ in the exact Taylor expansion: In Eq. (1), the coefficient of $f_y f_t$ is $\frac{1}{6}$. In Eq. (2), the numerical expansion contains <strong>no term proportional to $f_y f_t$ or $f f_y^2$ at order $h^3$</strong>, because $k_2$ only involves partial derivatives of $f$, and does not evaluate derivatives of $k_1$! Therefore, the coefficient of $f_y(f_t + f f_y)$ in the numerical method is identically <strong>zero</strong>, whereas in the exact solution it is $\frac{1}{6} \ne 0$.</p>
+
+<p>Since $0 \ne \frac{1}{6}$, the difference cannot vanish for general non-linear ODEs where $f_y(f_t + f f_y) \ne 0$. Hence, no 2-stage explicit Runge-Kutta method can achieve order 3. $\blacksquare$</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer">
+            <div class="reader-trust-links">
+              <a href="index" class="reader-trust-link">← All Academic Departments</a>
+              <a href="reader" class="reader-trust-link">Quantum Mechanics I</a>
+              <a href="mechanics" class="reader-trust-link">Mechanics</a>
+              <a href="electrodynamics" class="reader-trust-link">Electrodynamics</a>
+              <a href="optics" class="reader-trust-link">Wave Optics</a>
+              <a href="statistical-mechanics" class="reader-trust-link">Statistical Mechanics</a>
+              <a href="properties-of-matter" class="reader-trust-link">Properties of Matter</a>
+              <a href="electricity-magnetism" class="reader-trust-link">Electricity &amp; Magnetism</a>
+              <a href="thermal-physics" class="reader-trust-link">Thermal Physics</a>
+              <a href="classical-mechanics" class="reader-trust-link">Classical Mechanics</a>
+              <a href="basic-electronics" class="reader-trust-link">Basic Electronics</a>
+              <a href="atomic-molecular-physics" class="reader-trust-link">Atomic &amp; Molecular Physics</a>
+              <a href="solid-state-physics" class="reader-trust-link">Solid State Physics</a>
+              <a href="nuclear-physics" class="reader-trust-link">Nuclear Physics</a>
+              <a href="digital-electronics" class="reader-trust-link">Digital Electronics</a>
+              <a href="quantum-mechanics-2" class="reader-trust-link">Quantum Mechanics II</a>
+              <a href="astrophysics" class="reader-trust-link">Astrophysics</a>
+              <a href="plasma-physics" class="reader-trust-link">Plasma Physics</a>
+              <a href="solid-state-physics-2" class="reader-trust-link">Solid State Physics II</a>
+              <a href="nuclear-physics-2" class="reader-trust-link">Nuclear Physics II</a>
+              <a href="reactor-physics" class="reader-trust-link">Reactor Physics</a>
+              <a href="calculus-1" class="reader-trust-link">Calculus I</a>
+              <a href="geometry-2d" class="reader-trust-link">Two-Dimensional Geometry</a>
+              <a href="basic-algebra" class="reader-trust-link">Basic Algebra</a>
+              <a href="calculus-2" class="reader-trust-link">Calculus II</a>
+              <a href="geometry-3d" class="reader-trust-link">3D &amp; Vector Geometry</a>
+              <a href="calculus-3" class="reader-trust-link">Calculus III</a>
+              <a href="linear-algebra" class="reader-trust-link">Linear Algebra</a>
+              <a href="ordinary-differential-equations-1" class="reader-trust-link">Differential Equations I</a>
+              <a href="ordinary-differential-equations-2" class="reader-trust-link">Differential Equations II</a>
+              <a href="complex-analysis" class="reader-trust-link">Complex Analysis</a>
+              <a href="numerical-analysis" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Numerical Analysis</a>
+              <a href="abstract-algebra" class="reader-trust-link">Abstract Algebra</a>
+              <a href="graph-theory" class="reader-trust-link">Graph Theory</a>
+              <a href="real-analysis" class="reader-trust-link">Real Analysis</a>
+              <a href="differential-geometry" class="reader-trust-link">Differential Geometry</a>
+              <a href="number-theory" class="reader-trust-link">Theory of Numbers</a>
+              <a href="topology" class="reader-trust-link">General Topology</a>
+              <a href="partial-differential-equations" class="reader-trust-link">Partial Differential Equations</a>
+              <a href="discrete-mathematics" class="reader-trust-link">Discrete Mathematics</a>
+              <a href="about" class="reader-trust-link">About &amp; Editorial</a>
+              <a href="privacy" class="reader-trust-link">Privacy Policy</a>
+              <a href="terms" class="reader-trust-link">Terms of Service</a>
+              <a href="https://discord.gg/tBBKtvFJzW" target="_blank" rel="noopener noreferrer" class="reader-trust-link" style="color: #a5b4fc;">💬 Discord Community</a>
+              <a href="mailto:shahriyarkarimsiam@gmail.com" class="reader-trust-link">Contact (shahriyarkarimsiam@gmail.com)</a>
+            </div>
+            <p class="reader-trust-copy">© 2026 OpenSTEM Global Academic Press • Free Open-Access Academic Library • Peer-Reviewed University Textbooks</p>
+          </footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="numerical-analysis-chapter-4">← Previous chapter</a><a href="numerical-analysis">Book contents</a><a href="numerical-analysis-chapter-6">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="numerical-analysis-sims.js?v=20261007_v1"></script>
+  <script src="numerical-analysis-data.js?v=20261007_v1"></script>
+  <script src="app.js?v=20261011_reader_catalog_v1"></script>
+
+
+</body></html>

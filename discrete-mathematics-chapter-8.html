@@ -1,0 +1,1067 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Unit 8: Network Flows, Max-Flow Min-Cut Theorem &amp; Combinatorial Optimization | Discrete Mathematics: Reasoning, Combinatorics &amp; Network Flows | OpenSTEM Library</title>
+  <meta name="description" content="Algorithmic network flow theory and combinatorial duality: flow networks, conservation laws and skew symmetry, residual networks and bottleneck capacities, the Ford-Fulkerson augmenting path method, Edmonds-Karp BFS polynomial bound ($O(V E^2)$), the Max-Flow Min-Cut Theorem with complete duality proof, Dinic's blocking flow algorithm, push-relabel schemes, and reductions to Maximum Bipartite Matching, Hall's Marriage Theorem, and Menger's Theorem for edge-disjoint paths.">
+  <meta name="keywords" content="Discrete Mathematics, Mathematical Reasoning, Propositional Logic, Predicate Calculus, Mathematical Induction, Well Ordering Principle, Hoare Logic, Loop Invariants, Combinatorics, Pigeonhole Principle, Principle of Inclusion Exclusion, Recurrence Relations, Master Theorem, Generating Functions, Catalan Numbers, Binary Relations, Posets, Hasse Diagrams, Lattices, Boolean Algebra, Karnaugh Maps, Graph Theory, Handshaking Lemma, Eulerian Trails, Hamiltonian Cycles, Trees, Cayley Formula, Minimum Spanning Tree, Kruskal Algorithm, Prim Algorithm, Dijkstra Algorithm, Floyd Warshall Algorithm, Network Flows, Max-Flow Min-Cut Theorem, Ford Fulkerson, Edmonds Karp">
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/discrete-mathematics-chapter-8">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Discrete Mathematics: Mathematical Reasoning, Combinatorics, Graph Algorithms &amp; Network Flows | OpenSTEM Digital Academic Press">
+  <meta property="og:description" content="Exhaustive university honors textbook with 8 chapters, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
+  <meta property="og:image" content="https://openstemlibrary.com/logo.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+
+  <!-- Schema.org Educational Course JSON-LD (Strictly Zero Course Numbers) -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Discrete Mathematics: Mathematical Reasoning, Combinatorics, Graph Algorithms & Network Flows","description":"Comprehensive university honors curriculum covering formal logic, inference, proof techniques, mathematical induction, program correctness, enumerative combinatorics, pigeonhole principle, recurrence relations, generating functions, relations, posets, Boolean algebra, graph algorithms, trees, spanning trees, shortest paths, and network flows.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Digital Academic Press","url":"https://openstemlibrary.com"},"educationalLevel":"Undergraduate B.Sc. Honors & STEM Foundation","isAccessibleForFree":true}</script>
+
+  <!-- Google Fonts: Inter, Fira Code & Newsreader -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261011_reader_catalog_v1">
+  <!-- Google AdSense Official Script -->
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4546869673631824" crossorigin="anonymous"></script>
+</head>
+<body data-book-path="discrete-mathematics.html" data-chapter-index="7">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Discrete Mathematics</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search logic, induction, combinatorics, recurrences, posets, graphs, trees, max-flow..." class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="discrete-mathematics" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Unit 1: Propositional &amp; Predicate Logic, Inference &amp; Formal Proof Techniques</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="discrete-mathematics-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Unit 2: Mathematical Induction, Well-Ordering &amp; Program Verification</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="discrete-mathematics-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Unit 3: Combinatorial Analysis, Pigeonhole Principle &amp; Inclusion-Exclusion</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="discrete-mathematics-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Unit 4: Recurrence Relations, Generating Functions &amp; Divide-and-Conquer</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="discrete-mathematics-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Unit 5: Relations, Posets, Lattices &amp; Boolean Algebra</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="discrete-mathematics-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Unit 6: Graph Theory: Connectivity, Eulerian Circuits &amp; Hamiltonian Cycles</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="discrete-mathematics-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Unit 7: Trees, Spanning Trees &amp; Shortest Path Algorithms</span></a></li><li class="unit-nav-item active" data-unit-index="7"><a href="discrete-mathematics-chapter-8" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Unit 8: Network Flows, Max-Flow Min-Cut Theorem &amp; Combinatorial Optimization</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Mathematics / Discrete Mathematics</span>
+          <span class="badge-pill badge-credits">Combinatorics, Graph Theory &amp; Algorithms</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">
+            🔒 <span>In-Browser Protected • Direct Download Disabled</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 8 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Unit 8: Network Flows, Max-Flow Min-Cut Theorem &amp; Combinatorial Optimization</h1>
+            <p class="unit-desc-lead" id="unit-desc">Algorithmic network flow theory and combinatorial duality: flow networks, conservation laws and skew symmetry, residual networks and bottleneck capacities, the Ford-Fulkerson augmenting path method, Edmonds-Karp BFS polynomial bound ($O(V E^2)$), the Max-Flow Min-Cut Theorem with complete duality proof, Dinic's blocking flow algorithm, push-relabel schemes, and reductions to Maximum Bipartite Matching, Hall's Marriage Theorem, and Menger's Theorem for edge-disjoint paths.</p>
+          </header>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec8-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.1</span>
+            <span>Flow Networks, Capacities, Conservation Laws &amp; Residual Graphs</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. The Mathematical Flow Network</h4>
+
+<p>A <strong>flow network</strong> $G = (V, E, c, s, t)$ is a directed graph where:</p>
+
+<ul>
+
+  <li>Each directed edge $(u, v) \in E$ has a non-negative <strong>capacity</strong> $c(u, v) \ge 0$. (If $(u, v) \notin E$, $c(u, v) = 0$).</li>
+
+  <li>There is a designated <strong>source</strong> vertex $s \in V$ and <strong>sink</strong> vertex $t \in V$ ($s \ne t$).</li>
+
+</ul>
+
+<blockquote class="math-callout">
+<p><strong>Definition 8.1 (Feasible Flow):</strong> A <strong>flow</strong> is a real-valued function $f: V \times V \to \mathbb{R}$ satisfying two fundamental physical axioms:</p>
+<ol>
+  <li><strong>Capacity Constraint:</strong> For all $u, v \in V$:</li>
+</ol>
+</blockquote>
+
+<div class="math-display">$$0 \le f(u, v) \le c(u, v)$$</div>
+
+<blockquote class="math-callout">
+<ol>
+  <li><strong>Conservation of Flow:</strong> For every vertex $u \in V \setminus \{s, t\}$:</li>
+</ol>
+</blockquote>
+
+<div class="math-display">$$\sum_{v \in V} f(v, u) = \sum_{w \in V} f(u, w)$$</div>
+
+<blockquote class="math-callout">
+<p><em>(Total inflow into $u$ strictly equals total outflow from $u$).</em></p>
+</blockquote>
+
+<p>The <strong>net value of the flow</strong> $|f|$ is the total net flow exiting the source $s$:</p>
+
+<div class="math-display">$$|f| = \sum_{v \in V} f(s, v) - \sum_{u \in V} f(u, s)$$</div>
+
+<p>By conservation of flow across all intermediate nodes, this equals the net flow entering the sink $t$.</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Residual Networks and Augmenting Paths</h4>
+
+<p>Given a flow $f$ in network $G$, the <strong>residual network</strong> $G_f = (V, E_f)$ models the remaining capacity available to send additional flow or cancel existing flow:</p>
+
+<ul>
+
+  <li>The <strong>residual capacity</strong> $c_f(u, v)$ is:</li>
+
+</ul>
+
+<div class="math-display">$$c_f(u, v) = \begin{cases} c(u, v) - f(u, v) &amp; \text{if } (u, v) \in E \quad (\text{Forward Edge: room to add flow}) \\ f(v, u) &amp; \text{if } (v, u) \in E \quad (\text{Backward Edge: room to cancel flow}) \\ 0 &amp; \text{otherwise} \end{cases}$$</div>
+
+<ul>
+
+  <li>The residual edge set is $E_f = \{(u, v) \in V \times V \mid c_f(u, v) &gt; 0\}$.</li>
+
+</ul>
+
+<p>An <strong>augmenting path</strong> $p$ is a simple directed path from source $s$ to sink $t$ in the residual graph $G_f$. The <strong>bottleneck capacity</strong> of an augmenting path $p$ is:</p>
+
+<div class="math-display">$$c_f(p) = \min_{(u, v) \in p} c_f(u, v) &gt; 0$$</div>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec8-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.2</span>
+            <span>The Ford-Fulkerson Method &amp; Edmonds-Karp BFS Algorithm</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. The Ford-Fulkerson Method</h4>
+
+<p>Lester Ford and Delbert Fulkerson (1956) proposed the general augmenting path framework:</p>
+
+<ol>
+
+  <li>Initialize flow $f(u, v) = 0$ for all $(u, v) \in E$.</li>
+
+  <li>While there exists an augmenting path $p$ from $s$ to $t$ in residual network $G_f$:</li>
+
+</ol>
+
+<ul>
+
+  <li>Compute bottleneck $\Delta = c_f(p) = \min_{(u, v) \in p} c_f(u, v)$.</li>
+
+  <li>Augment flow $f$ along path $p$ by $\Delta$:</li>
+
+</ul>
+
+<div class="math-display">$$f(u, v) \gets f(u, v) + \Delta \quad \text{for forward edges}$$</div>
+
+<div class="math-display">$$f(v, u) \gets f(v, u) - \Delta \quad \text{for backward edges}$$</div>
+
+<ol>
+
+  <li>Return flow $f$.</li>
+
+</ol>
+
+<blockquote class="math-callout">
+<p><strong>Caveat on Path Selection:</strong> If augmenting paths are chosen arbitrarily using DFS with irrational capacities, the Ford-Fulkerson method may fail to terminate or converge to a value strictly less than the maximum flow! Even with integer capacities, running time is $O(|E| \cdot |f^*|)$, which is pseudo-polynomial.</p>
+</blockquote>
+
+<hr class="section-divider-hr">
+
+<h4>2. The Edmonds-Karp Algorithm ($O(|V| |E|^2)$)</h4>
+
+<p>Jack Edmonds and Richard Karp (1972) solved the convergence problem by selecting the augmenting path using <strong>Breadth-First Search (BFS)</strong>, choosing the shortest path in terms of the number of edges.</p>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 8.1 (Edmonds-Karp Shortest-Path Monotonicity):</strong> When BFS is used to find augmenting paths, for all vertices $v \in V \setminus \{s, t\}$, the shortest-path distance $\delta_f(s, v)$ in the residual network $G_f$ <strong>increases monotonically</strong> with each augmentation:</p>
+</blockquote>
+
+<div class="math-display">$$\delta_{f'}(s, v) \ge \delta_f(s, v)$$</div>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 8.2 (Edmonds-Karp Complexity):</strong> The total number of augmentations performed by the Edmonds-Karp algorithm is at most $O(|V| \cdot |E|)$. Since each BFS takes $O(|E|)$ time, the total running time is:</p>
+</blockquote>
+
+<div class="math-display">$$O(|V| \cdot |E|^2)$$</div>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec8-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.3</span>
+            <span>The Max-Flow Min-Cut Theorem &amp; Capacity Cuts</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Cuts in Flow Networks</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 8.2 (Cut):</strong> An $(s, t)$-<strong>cut</strong> in a flow network $G = (V, E)$ is a partition of $V$ into two disjoint subsets $S$ and $T = V \setminus S$ such that $s \in S$ and $t \in T$.</p>
+</blockquote>
+
+<p>The <strong>capacity</strong> of the cut $(S, T)$ is the sum of the capacities of all edges going from $S$ into $T$:</p>
+
+<div class="math-display">$$c(S, T) = \sum_{u \in S} \sum_{v \in T} c(u, v)$$</div>
+
+<p><em>(Note: Edges going backwards from $T$ to $S$ do NOT contribute to the cut capacity).</em></p>
+
+<p>The <strong>net flow</strong> across the cut $(S, T)$ is:</p>
+
+<div class="math-display">$$f(S, T) = \sum_{u \in S} \sum_{v \in T} f(u, v) - \sum_{u \in S} \sum_{v \in T} f(v, u)$$</div>
+
+<blockquote class="math-callout">
+<p><strong>Lemma 8.1 (Flow Equivalence Across Any Cut):</strong> For any feasible flow $f$ and any $(s, t)$-cut $(S, T)$:</p>
+</blockquote>
+
+<div class="math-display">$$f(S, T) = |f|$$</div>
+
+<blockquote class="math-callout">
+<p><strong>Corollary 8.1 (Weak Duality / Cut Capacity Upper Bound):</strong> For any feasible flow $f$ and any $(s, t)$-cut $(S, T)$:</p>
+</blockquote>
+
+<div class="math-display">$$|f| \le c(S, T)$$</div>
+
+<blockquote class="math-callout">
+<p><em>Proof:</em> $|f| = f(S, T) = \sum_{u \in S, v \in T} f(u, v) - \sum_{v \in T, u \in S} f(v, u) \le \sum_{u \in S, v \in T} f(u, v) \le \sum_{u \in S, v \in T} c(u, v) = c(S, T)$. $\blacksquare$</p>
+</blockquote>
+
+<hr class="section-divider-hr">
+
+<h4>2. The Max-Flow Min-Cut Theorem</h4>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 8.3 (Max-Flow Min-Cut Theorem - Ford &amp; Fulkerson, 1956):</strong> Let $f$ be a flow in a flow network $G = (V, E, c, s, t)$. The following three conditions are logically equivalent:</p>
+<ol>
+  <li>$f$ is a <strong>maximum flow</strong> in $G$.</li>
+  <li>The residual network $G_f$ contains <strong>no augmenting paths</strong> from $s$ to $t$.</li>
+  <li>$|f| = c(S, T)$ for some $(s, t)$-cut $(S, T)$ (which is necessarily a <strong>minimum cut</strong>).</li>
+</ol>
+<p>In particular:</p>
+</blockquote>
+
+<div class="math-display">$$\max_{f} |f| = \min_{(S, T)} c(S, T)$$</div>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec8-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.4</span>
+            <span>Advanced Flow Algorithms: Dinic's &amp; Push-Relabel Schemes</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Dinic's Blocking Flow Algorithm ($O(|V|^2 |E|)$)</h4>
+
+<p>Yefim Dinic (1970) introduced the concept of <strong>layered networks</strong> and <strong>blocking flows</strong>:</p>
+
+<ol>
+
+  <li>Construct the layered network $G_L$ using BFS from $s$, where vertices are assigned level numbers $\text{level}(v) = \text{dist}(s, v)$. Edges only go from level $k$ to level $k+1$.</li>
+
+  <li>In the layered network $G_L$, find a <strong>blocking flow</strong> using DFS (a flow where every path from $s$ to $t$ contains at least one saturated edge).</li>
+
+  <li>Update the residual network and repeat.</li>
+
+</ol>
+
+<p>Dinic's algorithm requires at most $|V|-1$ phase iterations. Finding a blocking flow takes $O(|V| |E|)$ time, yielding total time:</p>
+
+<div class="math-display">$$O(|V|^2 |E|)$$</div>
+
+<p>On unit networks (where capacities are 1, e.g., bipartite matching), Dinic runs in $O(|E| \sqrt{|V|})$ time!</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Goldberg-Tarjan Push-Relabel Algorithm</h4>
+
+<p>Unlike Ford-Fulkerson which maintains flow conservation at all times, the <strong>push-relabel</strong> method allows nodes to store excess flow (<strong>preflow</strong>):</p>
+
+<div class="math-display">$$e(u) = \sum_{v} f(v, u) - \sum_{w} f(u, w) \ge 0$$</div>
+
+<ul>
+
+  <li>Vertices are assigned height/distance labels $h(u)$, initialized with $h(s) = |V|$ and $h(t) = 0$.</li>
+
+  <li><strong>Push Operation:</strong> If $e(u) &gt; 0$, $c_f(u, v) &gt; 0$, and $h(u) = h(v) + 1$, push $\min(e(u), c_f(u, v))$ flow from $u$ to $v$.</li>
+
+  <li><strong>Relabel Operation:</strong> If $e(u) &gt; 0$ and no push is possible, increase height: $h(u) \gets 1 + \min \{h(v) \mid (u, v) \in E_f\}$.</li>
+
+</ul>
+
+<p>Running time with highest-label selection is $O(|V|^2 \sqrt{|E|})$, outperforming augmenting paths on dense graphs.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec8-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.5</span>
+            <span>Bipartite Matching, Hall's Theorem &amp; Interactive Max-Flow Simulator</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Reduction: Maximum Bipartite Matching to Max-Flow</h4>
+
+<p>Let $G = (X \cup Y, E)$ be an undirected bipartite graph. Construct directed flow network $G' = (V', E', c)$ by:</p>
+
+<ol>
+
+  <li>$V' = X \cup Y \cup \{s, t\}$.</li>
+
+  <li>Add directed edges $(s, x)$ for all $x \in X$ with capacity $c(s, x) = 1$.</li>
+
+  <li>Add directed edges $(y, t)$ for all $y \in Y$ with capacity $c(y, t) = 1$.</li>
+
+  <li>Direct all bipartite edges from $X$ to $Y$: $(x, y)$ with capacity $c(x, y) = \infty$ (or 1).</li>
+
+</ol>
+
+<blockquote class="math-callout">
+<p><strong>Integrality Theorem:</strong> If all edge capacities are integers, the maximum flow computed by Ford-Fulkerson is strictly integer-valued ($f(e) \in \{0, 1\}$). The edges between $X$ and $Y$ with $f(x, y) = 1$ form a <strong>maximum matching</strong> of $G$, and $|f^*| = \text{max matching size}$.</p>
+</blockquote>
+
+<hr class="section-divider-hr">
+
+<h4>2. Hall's Marriage Theorem via Max-Flow Min-Cut</h4>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 8.4 (Hall's Marriage Theorem, 1935):</strong> A bipartite graph $G = (X \cup Y, E)$ has a matching that saturates every vertex in $X$ if and only if <strong>Hall's Condition</strong> holds:</p>
+</blockquote>
+
+<div class="math-display">$$\forall A \subseteq X, \quad |N(A)| \ge |A|$$</div>
+
+<blockquote class="math-callout">
+<p>where $N(A) = \{y \in Y \mid \exists x \in A, \{x, y\} \in E\}$ is the neighborhood of $A$.</p>
+</blockquote>
+
+<p><em>Proof via Min-Cut Duality:</em> If the max flow is less than $|X|$, then by Max-Flow Min-Cut, there exists a cut $(S, T)$ with capacity $c(S, T) &lt; |X|$. Let $A = X \setminus S$ (the vertices of $X$ on the sink side of the cut). The edges crossing the cut are $(s, x)$ for $x \in X \setminus A$ and $(y, t)$ for $y \in N(A) \cap S$. Calculating capacity: $c(S, T) = (|X| - |A|) + |N(A)|$. Since $c(S, T) &lt; |X|$, we have $|X| - |A| + |N(A)| &lt; |X| \implies |N(A)| &lt; |A|$, which directly violates Hall's condition! $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<h4>3. Interactive Max-Flow Min-Cut Simulator</h4>
+
+<p>The simulation below demonstrates network flow dynamics:</p>
+
+<ul>
+
+  <li><strong>Augmenting Path Tracer:</strong> Step-by-step BFS finding augmenting paths and bottleneck residual capacities.</li>
+
+  <li><strong>Residual Graph Display:</strong> Toggle between real-time flow and residual edge capacities.</li>
+
+  <li><strong>Minimum Cut Visualizer:</strong> Visualizes reachable vertices $S$ from source $s$, highlighting the bottleneck saturated edges crossing into $T$.</li>
+
+</ul>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_dm_network_max_flow"></div>
+          </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Tiered Solved Examination Problems -->
+          <div class="unit-problems-section" id="unit-problems">
+            <div class="problems-header">
+              <h2 class="problems-main-title">Rigorous Tiered Solved Examination Problems</h2>
+              <p class="problems-subtitle">Step-by-step unskipped derivations, complete proofs, and verification across Foundational, Advanced, and Honors tiers.</p>
+            </div>
+            <div id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-easy">Foundational Level</span>
+            <strong>Example 8.1: Problem 8.1: Complete Edmonds-Karp Execution and Min-Cut Bottleneck</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Consider the flow network $G = (V, E)$ with vertices $V = \{s, A, B, C, D, t\}$ and directed edge capacities:</p>
+
+<ul>
+
+  <li>$(s, A): 10$, $(s, C): 10$</li>
+
+  <li>$(A, B): 4$, $(A, C): 2$, $(A, D): 8$</li>
+
+  <li>$(C, D): 9$</li>
+
+  <li>$(B, t): 10$</li>
+
+  <li>$(D, B): 6$, $(D, t): 10$</li>
+
+</ul>
+
+<ol>
+
+  <li>Trace the <strong>Edmonds-Karp algorithm</strong> step-by-step:</li>
+
+</ol>
+
+<ul>
+
+  <li>Identify each augmenting path $p$ selected by Breadth-First Search (BFS).</li>
+
+  <li>Compute the bottleneck capacity $c_f(p)$ for each path.</li>
+
+  <li>Update the residual capacities of forward and backward edges.</li>
+
+</ul>
+
+<ol>
+
+  <li>Calculate the final maximum flow value $|f^*|$.</li>
+
+  <li>Identify the subset $S \subseteq V$ of vertices reachable from $s$ in the final residual graph $G_f$, and compute the capacity of the resulting minimum cut $(S, V \setminus S)$ to verify the Max-Flow Min-Cut theorem.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p8-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p8-1">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><h4>1. Step-by-Step Edmonds-Karp Trace</h4>
+
+<p>Initial flow: $f(e) = 0$ for all edges.</p>
+
+<h5>Augmentation 1:</h5>
+
+<ul>
+
+  <li>BFS searches for the shortest path in edge count from $s$ to $t$:</li>
+
+</ul>
+
+<p>Path $p_1: s \to A \to B \to t$ (length 3 edges).</p>
+
+<ul>
+
+  <li>Capacities along $p_1$:</li>
+
+</ul>
+
+<p>$c_f(s, A) = 10, \; c_f(A, B) = 4, \; c_f(B, t) = 10$.</p>
+
+<ul>
+
+  <li>Bottleneck: $\Delta_1 = \min(10, 4, 10) = 4$.</li>
+
+  <li>Update flow:</li>
+
+</ul>
+
+<p>$f(s, A) = 4, \; f(A, B) = 4, \; f(B, t) = 4$.</p>
+
+<ul>
+
+  <li>Residual capacity updates:</li>
+
+</ul>
+
+<p>$c_f(s, A) = 6, \; c_f(A, s) = 4$. $c_f(A, B) = 0$ (Saturated!), $c_f(B, A) = 4$. $c_f(B, t) = 6, \; c_f(t, B) = 4$.</p>
+
+<ul>
+
+  <li>Flow value: $|f| = 4$.</li>
+
+</ul>
+
+<h5>Augmentation 2:</h5>
+
+<ul>
+
+  <li>BFS finds the next shortest path:</li>
+
+</ul>
+
+<p>Path $p_2: s \to C \to D \to t$ (length 3 edges).</p>
+
+<ul>
+
+  <li>Capacities along $p_2$:</li>
+
+</ul>
+
+<p>$c_f(s, C) = 10, \; c_f(C, D) = 9, \; c_f(D, t) = 10$.</p>
+
+<ul>
+
+  <li>Bottleneck: $\Delta_2 = \min(10, 9, 10) = 9$.</li>
+
+  <li>Update flow:</li>
+
+</ul>
+
+<p>$f(s, C) = 9, \; f(C, D) = 9, \; f(D, t) = 9$.</p>
+
+<ul>
+
+  <li>Residual capacities:</li>
+
+</ul>
+
+<p>$c_f(s, C) = 1, \; c_f(C, s) = 9$. $c_f(C, D) = 0$ (Saturated!), $c_f(D, C) = 9$. $c_f(D, t) = 1, \; c_f(t, D) = 9$.</p>
+
+<ul>
+
+  <li>Flow value: $|f| = 4 + 9 = 13$.</li>
+
+</ul>
+
+<h5>Augmentation 3:</h5>
+
+<ul>
+
+  <li>BFS shortest path:</li>
+
+</ul>
+
+<p>Path $p_3: s \to A \to D \to t$ (length 3 edges).</p>
+
+<ul>
+
+  <li>Capacities along $p_3$:</li>
+
+</ul>
+
+<p>$c_f(s, A) = 6, \; c_f(A, D) = 8, \; c_f(D, t) = 1$.</p>
+
+<ul>
+
+  <li>Bottleneck: $\Delta_3 = \min(6, 8, 1) = 1$.</li>
+
+  <li>Update flow:</li>
+
+</ul>
+
+<p>$f(s, A) = 4 + 1 = 5$. $f(A, D) = 1$. $f(D, t) = 9 + 1 = 10$ (Saturated!).</p>
+
+<ul>
+
+  <li>Residual capacities:</li>
+
+</ul>
+
+<p>$c_f(s, A) = 5, \; c_f(A, s) = 5$. $c_f(A, D) = 7, \; c_f(D, A) = 1$. $c_f(D, t) = 0$ (Saturated!), $c_f(t, D) = 10$.</p>
+
+<ul>
+
+  <li>Flow value: $|f| = 13 + 1 = 14$.</li>
+
+</ul>
+
+<h5>Augmentation 4:</h5>
+
+<ul>
+
+  <li>BFS shortest path:</li>
+
+</ul>
+
+<p>Path $p_4: s \to A \to D \to B \to t$ (length 4 edges).</p>
+
+<ul>
+
+  <li>Capacities along $p_4$:</li>
+
+</ul>
+
+<p>$c_f(s, A) = 5, \; c_f(A, D) = 7, \; c_f(D, B) = 6, \; c_f(B, t) = 6$.</p>
+
+<ul>
+
+  <li>Bottleneck: $\Delta_4 = \min(5, 7, 6, 6) = 5$.</li>
+
+  <li>Update flow:</li>
+
+</ul>
+
+<p>$f(s, A) = 5 + 5 = 10$ (Saturated!). $f(A, D) = 1 + 5 = 6$. $f(D, B) = 5$. $f(B, t) = 4 + 5 = 9$.</p>
+
+<ul>
+
+  <li>Residual capacities:</li>
+
+</ul>
+
+<p>$c_f(s, A) = 0$ (Saturated!), $c_f(A, s) = 10$. $c_f(A, D) = 2, \; c_f(D, A) = 6$. $c_f(D, B) = 1, \; c_f(B, D) = 5$. $c_f(B, t) = 1, \; c_f(t, B) = 9$.</p>
+
+<ul>
+
+  <li>Flow value: $|f| = 14 + 5 = 19$.</li>
+
+</ul>
+
+<h5>Augmentation 5:</h5>
+
+<ul>
+
+  <li>Looking for path from $s$:</li>
+
+</ul>
+
+<p>$c_f(s, A) = 0$. Only outgoing edge from $s$ with residual capacity $&gt;0$ is $(s, C)$ with $c_f(s, C) = 1$.</p>
+
+<ul>
+
+  <li>From $C$:</li>
+
+</ul>
+
+<p>$c_f(C, D) = 0$. No other outgoing edges from $C$.</p>
+
+<ul>
+
+  <li>BFS terminates: No path exists from $s$ to $t$ in $G_f$!</li>
+
+</ul>
+
+<hr class="section-divider-hr">
+
+<h4>2. Maximum Flow Value</h4>
+
+<p>The maximum flow achieved is:</p>
+
+<div class="math-display">$$|f^*| = 19$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>3. Reachability Set and Minimum Cut Verification</h4>
+
+<p>In the final residual network $G_f$, find all vertices reachable from $s$:</p>
+
+<ul>
+
+  <li>Start at $s$.</li>
+
+  <li>Can reach $C$ via edge $(s, C)$ because $c_f(s, C) = 1 &gt; 0$.</li>
+
+  <li>From $C$: no outgoing residual edges with capacity $&gt; 0$.</li>
+
+  <li>From $s$: edge to $A$ has $c_f(s, A) = 0$.</li>
+
+</ul>
+
+<p>Thus, the set of reachable vertices from $s$ is:</p>
+
+<div class="math-display">$$S = \{s, C\}$$</div>
+
+<p>The complement set is:</p>
+
+<div class="math-display">$$T = V \setminus S = \{A, B, D, t\}$$</div>
+
+<p>Calculate the cut capacity $c(S, T)$:</p>
+
+<div class="math-display">$$c(S, T) = \sum_{u \in S, v \in T} c(u, v) = c(s, A) + c(C, D)$$</div>
+
+<p>(Note: edge $(A, C)$ goes from $T$ to $S$, so it is NOT included).</p>
+
+<div class="math-display">$$c(S, T) = c(s, A) + c(C, D) = 10 + 9 = 19$$</div>
+
+<p>Since $|f^*| = 19 = c(S, T)$, the Max-Flow Min-Cut theorem is verified with exact equality! $\blacksquare$</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-medium">Advanced Level</span>
+            <strong>Example 8.2: Problem 8.2: Rigorous Analytical Proof of the Max-Flow Min-Cut Theorem</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Let $G = (V, E, c, s, t)$ be a flow network with real capacities $c: E \to \mathbb{R}^+$.</p>
+
+<ol>
+
+  <li>Prove the <strong>Flow Conservation Lemma Across Cuts</strong>: For any feasible flow $f$ and any $(s, t)$-cut $(S, T)$, the net flow across $(S, T)$ satisfies:</li>
+
+</ol>
+
+<div class="math-display">$$f(S, T) = |f|$$</div>
+
+<ol>
+
+  <li>Prove <strong>Weak Duality</strong>: For any feasible flow $f$ and any $(s, t)$-cut $(S, T)$, $|f| \le c(S, T)$.</li>
+
+  <li>Prove <strong>Strong Duality (Max-Flow Min-Cut Theorem)</strong>: If a feasible flow $f^<em>$ admits no augmenting path in the residual network $G_{f^</em>}$, then there exists an $(s, t)$-cut $(S^<em>, T^</em>)$ such that:</li>
+
+</ol>
+
+<div class="math-display">$$|f^*| = c(S^*, T^*)$$</div>
+
+<p>thereby proving that $f^<em>$ is a maximum flow and $(S^</em>, T^*)$ is a minimum cut.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p8-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p8-2">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><h4>1. Proof of Flow Conservation Lemma Across Cuts</h4>
+
+<p>Let $(S, T)$ be any $(s, t)$-cut, so $s \in S$ and $t \in T = V \setminus S$. By definition of flow value, for the source node $s$:</p>
+
+<div class="math-display">$$|f| = \sum_{v \in V} f(s, v) - \sum_{v \in V} f(v, s)$$</div>
+
+<p>For every intermediate node $u \in S \setminus \{s\}$ (since $t \notin S$):</p>
+
+<div class="math-display">$$\sum_{v \in V} f(u, v) - \sum_{v \in V} f(v, u) = 0 \quad (\text{Conservation of Flow})$$</div>
+
+<p>Summing these expressions over all vertices $u \in S$:</p>
+
+<div class="math-display">$$|f| = \sum_{u \in S} \left( \sum_{v \in V} f(u, v) - \sum_{v \in V} f(v, u) \right)$$</div>
+
+<p>Now split the summation over $v \in V$ into $v \in S$ and $v \in T$:</p>
+
+<div class="math-display">$$\begin{aligned} |f| &amp;= \sum_{u \in S} \left( \sum_{v \in S} f(u, v) + \sum_{v \in T} f(u, v) - \sum_{v \in S} f(v, u) - \sum_{v \in T} f(v, u) \right) \\ &amp;= \sum_{u \in S}\sum_{v \in S} f(u, v) - \sum_{u \in S}\sum_{v \in S} f(v, u) + \sum_{u \in S}\sum_{v \in T} f(u, v) - \sum_{u \in S}\sum_{v \in T} f(v, u) \end{aligned}$$</div>
+
+<p>In the first two double sums, both indices $u$ and $v$ range over $S$. Renaming dummy variables reveals that $\sum_{u \in S}\sum_{v \in S} f(u, v)$ and $\sum_{u \in S}\sum_{v \in S} f(v, u)$ are identical sums of internal edge flows, so they cancel completely! What remains is:</p>
+
+<div class="math-display">$$|f| = \sum_{u \in S}\sum_{v \in T} f(u, v) - \sum_{u \in S}\sum_{v \in T} f(v, u) = f(S, T)$$</div>
+
+<p>Thus, the net flow across any cut $(S, T)$ strictly equals $|f|$. $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Proof of Weak Duality</h4>
+
+<p>By part 1:</p>
+
+<div class="math-display">$$|f| = \sum_{u \in S}\sum_{v \in T} f(u, v) - \sum_{v \in T}\sum_{u \in S} f(v, u)$$</div>
+
+<p>By the capacity constraint, flow is non-negative, so $f(v, u) \ge 0$, which implies $-\sum_{v \in T}\sum_{u \in S} f(v, u) \le 0$. Furthermore, $f(u, v) \le c(u, v)$ for all edges. Therefore:</p>
+
+<div class="math-display">$$|f| \le \sum_{u \in S}\sum_{v \in T} f(u, v) \le \sum_{u \in S}\sum_{v \in T} c(u, v) = c(S, T)$$</div>
+
+<p>Hence, the capacity of <strong>any</strong> cut is an upper bound on the value of <strong>any</strong> feasible flow:</p>
+
+<div class="math-display">$$|f| \le c(S, T) \blacksquare$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>3. Proof of Strong Duality (Max-Flow Min-Cut Theorem)</h4>
+
+<p>Let $f^<em>$ be a feasible flow such that the residual network $G_{f^</em>}$ contains <strong>no augmenting paths</strong> from $s$ to $t$. Define the set:</p>
+
+<div class="math-display">$$S^* = \{v \in V \mid \text{there exists a directed path from } s \text{ to } v \text{ in } G_{f^*}\}$$</div>
+
+<p>and let $T^<em> = V \setminus S^</em>$.</p>
+
+<h4>1. $(S^*, T^*)$ is a valid $(s, t)$-cut:</h4>
+
+<ul>
+
+  <li>Clearly $s \in S^*$ (path of length 0).</li>
+
+  <li>Since $G_{f^<em>}$ contains no path from $s$ to $t$, $t \notin S^</em>$, which means $t \in T^*$.</li>
+
+</ul>
+
+<h4>2. Analysis of edges crossing from $S^*$ to $T^*$:</h4>
+
+<p>Let $u \in S^<em>$ and $v \in T^</em>$. Suppose for contradiction that $(u, v) \in E$ and $f^*(u, v) &lt; c(u, v)$. Then the residual capacity is:</p>
+
+<div class="math-display">$$c_{f^*}(u, v) = c(u, v) - f^*(u, v) &gt; 0$$</div>
+
+<p>This implies that $(u, v)$ is an edge in the residual graph $G_{f^*}$! Since $u \in S^<em>$, there is a path from $s$ to $u$ in $G_{f^</em>}$. Appending edge $(u, v)$ yields a path from $s$ to $v$ in $G_{f^<em>}$, meaning $v \in S^</em>$. This contradicts $v \in T^*$! Therefore, for every edge $(u, v) \in E$ with $u \in S^<em>, v \in T^</em>$, we must have:</p>
+
+<div class="math-display">$$f^*(u, v) = c(u, v) \quad (\text{Every forward edge is strictly saturated})$$</div>
+
+<h4>3. Analysis of backward edges from $T^*$ to $S^*$:</h4>
+
+<p>Suppose for contradiction that $(v, u) \in E$ with $v \in T^<em>, u \in S^</em>$ and $f^*(v, u) &gt; 0$. Then the backward residual capacity is:</p>
+
+<div class="math-display">$$c_{f^*}(u, v) = f^*(v, u) &gt; 0$$</div>
+
+<p>This again implies $(u, v) \in E_{f^<em>}$, making $v$ reachable from $s$ in $G_{f^</em>}$ ($v \in S^*$), another contradiction! Therefore, for every edge $(v, u) \in E$ with $v \in T^<em>, u \in S^</em>$:</p>
+
+<div class="math-display">$$f^*(v, u) = 0 \quad (\text{Every backward edge carries zero flow})$$</div>
+
+<p>Now compute the net flow across $(S^<em>, T^</em>)$ using Lemma 8.1:</p>
+
+<div class="math-display">$$|f^*| = f(S^*, T^*) = \sum_{u \in S^*, v \in T^*} f^*(u, v) - \sum_{v \in T^*, u \in S^*} f^*(v, u) = \sum_{u \in S^*, v \in T^*} c(u, v) - 0 = c(S^*, T^*)$$</div>
+
+<p>By Weak Duality, no flow can exceed $c(S^<em>, T^</em>)$, so $f^<em>$ achieves the absolute maximum possible flow, and $(S^</em>, T^*)$ achieves the absolute minimum possible cut capacity. Hence:</p>
+
+<div class="math-display">$$\max_f |f| = \min_{(S, T)} c(S, T) \blacksquare$$</div></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Honors / Proof Challenge</span>
+            <strong>Example 8.3: Problem 8.3: Bipartite Matching, Hall's Theorem &amp; Menger's Duality</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Let $G = (X \cup Y, E)$ be a finite bipartite graph with vertex bipartition $(X, Y)$.</p>
+
+<ol>
+
+  <li>Construct the canonical flow network reduction $G' = (V', E', c)$ for finding a maximum bipartite matching.</li>
+
+  <li>Prove that the Integrality Theorem guarantees that the maximum flow in $G'$ corresponds to a maximum matching in $G$.</li>
+
+  <li>Prove <strong>Hall's Marriage Theorem</strong> as an immediate consequence of the Max-Flow Min-Cut Theorem:</li>
+
+</ol>
+
+<p>$G$ has a matching covering all vertices in $X$ if and only if for all $A \subseteq X$, $|N(A)| \ge |A|$.</p>
+
+<ol>
+
+  <li>Show how Menger's Theorem (the maximum number of edge-disjoint paths between $s$ and $t$ equals the minimum size of an edge cut separating $s$ and $t$) follows directly from unit network flow duality.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p8-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p8-3">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><h4>1. Construction of Canonical Flow Network $G'$</h4>
+
+<p>Given bipartite graph $G = (X \cup Y, E)$:</p>
+
+<ul>
+
+  <li>Vertex set: $V' = X \cup Y \cup \{s, t\}$, where $s$ is a new source and $t$ is a new sink.</li>
+
+  <li>Directed edge set and capacities:</li>
+
+</ul>
+
+<ol>
+
+  <li>For each $x \in X$, add edge $(s, x)$ with capacity $c(s, x) = 1$.</li>
+
+  <li>For each $y \in Y$, add edge $(y, t)$ with capacity $c(y, t) = 1$.</li>
+
+  <li>For each undirected edge $\{x, y\} \in E$ with $x \in X, y \in Y$, add directed edge $(x, y)$ with capacity $c(x, y) = \infty$ (or $c(x, y) = 1$).</li>
+
+</ol>
+
+<hr class="section-divider-hr">
+
+<h4>2. Integrality and Matching Equivalence</h4>
+
+<p>By the Integrality Theorem for Network Flows: If all edge capacities are integers, the Ford-Fulkerson algorithm (with integer additions) terminates with a flow where $f(e) \in \mathbb{Z}$ for every edge $e$.</p>
+
+<ul>
+
+  <li>For each edge $(s, x)$, capacity is 1, so $f(s, x) \in \{0, 1\}$.</li>
+
+  <li>For each edge $(y, t)$, capacity is 1, so $f(y, t) \in \{0, 1\}$.</li>
+
+  <li>By conservation of flow at $x \in X$: $\sum_{y \in Y} f(x, y) = f(s, x) \le 1$. Thus, at most one outgoing edge from $x$ carries flow 1.</li>
+
+  <li>By conservation of flow at $y \in Y$: $\sum_{x \in X} f(x, y) = f(y, t) \le 1$. Thus, at most one incoming edge into $y$ carries flow 1.</li>
+
+</ul>
+
+<p>Therefore, the set of edges:</p>
+
+<div class="math-display">$$M = \{\{x, y\} \in E \mid f(x, y) = 1\}$$</div>
+
+<p>is a valid <strong>matching</strong> in $G$ (no two edges share a vertex). The size of the matching is:</p>
+
+<div class="math-display">$$|M| = \sum_{x \in X, y \in Y} f(x, y) = |f|$$</div>
+
+<p>Conversely, any matching $M$ of size $k$ yields a valid integer flow of value $k$. Thus:</p>
+
+<div class="math-display">$$\text{Maximum Matching Size in } G = \text{Maximum Flow Value } |f^*| \text{ in } G'$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>3. Proof of Hall's Marriage Theorem via Max-Flow Min-Cut</h4>
+
+<h5>Necessity ($\implies$):</h5>
+
+<p>If a matching $M$ saturates all of $X$, then for any subset $A \subseteq X$, the edges of $M$ incident with $A$ match each element of $A$ to a distinct element in $Y$. All these targets belong to $N(A)$. Therefore, $|N(A)| \ge |A|$.</p>
+
+<h5>Sufficiency ($\impliedby$):</h5>
+
+<p>Assume Hall's condition holds: $\forall A \subseteq X, |N(A)| \ge |A|$. We must prove that the maximum flow satisfies $|f^*| = |X|$. Suppose for contradiction that $|f^*| &lt; |X|$. By the Max-Flow Min-Cut Theorem, there exists an $(s, t)$-cut $(S, T)$ with capacity:</p>
+
+<div class="math-display">$$c(S, T) = |f^*| &lt; |X|$$</div>
+
+<p>where $s \in S$ and $t \in T$.</p>
+
+<p>Define the partition of $X$ and $Y$ by the cut:</p>
+
+<div class="math-display">$$X_S = X \cap S, \quad X_T = X \cap T, \quad Y_S = Y \cap S, \quad Y_T = Y \cap T$$</div>
+
+<p>Now examine the edges crossing from $S$ to $T$:</p>
+
+<ol>
+
+  <li>Edges from $s$ to $X_T$: Each has capacity 1. There are $|X_T|$ such edges.</li>
+
+  <li>Edges from $Y_S$ to $t$: Each has capacity 1. There are $|Y_S|$ such edges.</li>
+
+  <li>Edges from $X_S$ to $Y_T$: Each has capacity $\infty$.</li>
+
+</ol>
+
+<p>Since $c(S, T) &lt; |X| &lt; \infty$, the cut capacity must be <strong>finite</strong>! Therefore, there can be <strong>no edges</strong> from $X_S$ to $Y_T$:</p>
+
+<div class="math-display">$$\text{No edge } (x, y) \text{ exists with } x \in X_S \text{ and } y \in Y_T$$</div>
+
+<p>This implies that all neighbors of $X_S$ in $G$ must lie inside $Y_S$:</p>
+
+<div class="math-display">$$N(X_S) \subseteq Y_S \implies |N(X_S)| \le |Y_S|$$</div>
+
+<p>Now calculate the capacity of the cut:</p>
+
+<div class="math-display">$$c(S, T) = |X_T| + |Y_S|$$</div>
+
+<p>Since $X$ is partitioned into $X_S$ and $X_T$, $|X_T| = |X| - |X_S|$. Substitute this into the inequality:</p>
+
+<div class="math-display">$$c(S, T) = (|X| - |X_S|) + |Y_S| &lt; |X|$$</div>
+
+<p>Subtracting $|X|$ from both sides:</p>
+
+<div class="math-display">$$-|X_S| + |Y_S| &lt; 0 \implies |Y_S| &lt; |X_S|$$</div>
+
+<p>Since $|N(X_S)| \le |Y_S|$, we obtain:</p>
+
+<div class="math-display">$$|N(X_S)| \le |Y_S| &lt; |X_S|$$</div>
+
+<p>Letting $A = X_S \subseteq X$, we have constructed a subset $A$ such that:</p>
+
+<div class="math-display">$$|N(A)| &lt; |A|$$</div>
+
+<p>This directly contradicts Hall's Condition! Therefore, the contradiction assumption was false. We must have $|f^*| = |X|$, guaranteeing a matching that saturates all of $X$. $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<h4>4. Menger's Theorem for Edge-Disjoint Paths</h4>
+
+<p>Let $G = (V, E)$ be a directed graph with source $s$ and sink $t$. Assign every edge unit capacity $c(e) = 1$.</p>
+
+<ol>
+
+  <li>By the Integrality Theorem, the maximum flow $f^<em>$ is an integer flow with $f^</em>(e) \in \{0, 1\}$.</li>
+
+  <li>By flow decomposition, any $0-1$ flow can be decomposed into $|f^*|$ edge-disjoint directed paths from $s$ to $t$.</li>
+
+  <li>By the Max-Flow Min-Cut Theorem, $|f^<em>| = c(S^</em>, T^*)$.</li>
+
+  <li>Since every edge has capacity 1, $c(S^<em>, T^</em>)$ is precisely the number of edges crossing from $S^<em>$ to $T^</em>$, which forms a minimal edge cut disconnecting $s$ from $t$.</li>
+
+</ol>
+
+<p>Hence, the maximum number of edge-disjoint paths from $s$ to $t$ equals the minimum number of edges whose removal disconnects $s$ and $t$. $\blacksquare$</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer">
+            <div class="reader-trust-links">
+              <a href="index" class="reader-trust-link">← All Academic Departments</a>
+              <a href="reader" class="reader-trust-link">Quantum Mechanics I</a>
+              <a href="mechanics" class="reader-trust-link">Mechanics</a>
+              <a href="electrodynamics" class="reader-trust-link">Electrodynamics</a>
+              <a href="optics" class="reader-trust-link">Wave Optics</a>
+              <a href="statistical-mechanics" class="reader-trust-link">Statistical Mechanics</a>
+              <a href="properties-of-matter" class="reader-trust-link">Properties of Matter</a>
+              <a href="electricity-magnetism" class="reader-trust-link">Electricity &amp; Magnetism</a>
+              <a href="thermal-physics" class="reader-trust-link">Thermal Physics</a>
+              <a href="classical-mechanics" class="reader-trust-link">Classical Mechanics</a>
+              <a href="basic-electronics" class="reader-trust-link">Basic Electronics</a>
+              <a href="atomic-molecular-physics" class="reader-trust-link">Atomic &amp; Molecular Physics</a>
+              <a href="solid-state-physics" class="reader-trust-link">Solid State Physics</a>
+              <a href="nuclear-physics" class="reader-trust-link">Nuclear Physics</a>
+              <a href="digital-electronics" class="reader-trust-link">Digital Electronics</a>
+              <a href="quantum-mechanics-2" class="reader-trust-link">Quantum Mechanics II</a>
+              <a href="astrophysics" class="reader-trust-link">Astrophysics</a>
+              <a href="plasma-physics" class="reader-trust-link">Plasma Physics</a>
+              <a href="solid-state-physics-2" class="reader-trust-link">Solid State Physics II</a>
+              <a href="nuclear-physics-2" class="reader-trust-link">Nuclear Physics II</a>
+              <a href="reactor-physics" class="reader-trust-link">Reactor Physics</a>
+              <a href="calculus-1" class="reader-trust-link">Calculus I</a>
+              <a href="geometry-2d" class="reader-trust-link">Two-Dimensional Geometry</a>
+              <a href="basic-algebra" class="reader-trust-link">Basic Algebra</a>
+              <a href="calculus-2" class="reader-trust-link">Calculus II</a>
+              <a href="geometry-3d" class="reader-trust-link">3D &amp; Vector Geometry</a>
+              <a href="calculus-3" class="reader-trust-link">Calculus III</a>
+              <a href="linear-algebra" class="reader-trust-link">Linear Algebra</a>
+              <a href="ordinary-differential-equations-1" class="reader-trust-link">Differential Equations I</a>
+              <a href="ordinary-differential-equations-2" class="reader-trust-link">Differential Equations II</a>
+              <a href="complex-analysis" class="reader-trust-link">Complex Analysis</a>
+              <a href="numerical-analysis" class="reader-trust-link">Numerical Analysis</a>
+              <a href="abstract-algebra" class="reader-trust-link">Abstract Algebra</a>
+              <a href="graph-theory" class="reader-trust-link">Graph Theory</a>
+              <a href="real-analysis" class="reader-trust-link">Real Analysis</a>
+              <a href="differential-geometry" class="reader-trust-link">Differential Geometry</a>
+              <a href="number-theory" class="reader-trust-link">Theory of Numbers</a>
+              <a href="topology" class="reader-trust-link">General Topology</a>
+              <a href="partial-differential-equations" class="reader-trust-link">Partial Differential Equations</a>
+              <a href="discrete-mathematics" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Discrete Mathematics</a>
+              <a href="tensor-analysis" class="reader-trust-link">Tensor Analysis</a>
+              <a href="fuzzy-mathematics" class="reader-trust-link">Fuzzy Mathematics</a>
+              <a href="physical-chemistry-1" class="reader-trust-link">Physical Chemistry I</a>
+              <a href="inorganic-chemistry-1" class="reader-trust-link">Inorganic Chemistry I</a>
+              <a href="about" class="reader-trust-link">About &amp; Editorial</a>
+              <a href="privacy" class="reader-trust-link">Privacy Policy</a>
+              <a href="terms" class="reader-trust-link">Terms of Service</a>
+              <a href="https://discord.gg/tBBKtvFJzW" target="_blank" rel="noopener noreferrer" class="reader-trust-link" style="color: #a5b4fc;">💬 Discord Community</a>
+              <a href="mailto:shahriyarkarimsiam@gmail.com" class="reader-trust-link">Contact (shahriyarkarimsiam@gmail.com)</a>
+            </div>
+            <p class="reader-trust-copy">© 2026 OpenSTEM Global Academic Press • Free Open-Access Academic Library • Peer-Reviewed University Textbooks</p>
+          </footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="discrete-mathematics-chapter-7">← Previous chapter</a><a href="discrete-mathematics">Book contents</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="discrete-mathematics-sims.js?v=20261008_v9"></script>
+  <script src="discrete-mathematics-data.js?v=20261008_v9"></script>
+  <script src="app.js?v=20261011_reader_catalog_v1"></script>
+
+
+</body></html>

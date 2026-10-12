@@ -1,0 +1,746 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Unit 7: Planar Graphs, Euler's Formula, Kuratowski's Theorem &amp; Duality | Graph Theory: Structures, Algorithms &amp; Flows | OpenSTEM Library</title>
+  <meta name="description" content="Comprehensive theory of graph planarity and embeddings: planar embeddings, Jordan curve theorem in planarity, faces/regions, Euler's polyhedral formula V - E + F = 2, maximum edge bounds for planar graphs (E <= 3V - 6), non-planarity of K_5 and K_3,3, Kuratowski's theorem, Wagner's minors, geometric and combinatorial duals, and Whitney's theorem on planar duality.">
+  <meta name="keywords" content="Graph Theory, Eulerian Graphs, Hamiltonian Cycles, Trees, Spanning Trees, Kruskal Algorithm, Prim Algorithm, Cayley Formula, Prüfer Sequence, Connectivity, Cut-Sets, Whitney Inequality, Menger Theorem, Incidence Matrix, Adjacency Matrix, Graph Laplacian, Kirchhoff Matrix Tree Theorem, Directed Graphs, Tournaments, Landau Theorem, DAG, Topological Sort, Kahn Algorithm, Planar Graphs, Euler Polyhedral Formula, Kuratowski Theorem, Wagner Theorem, Dual Graphs, Vertex Coloring, Chromatic Number, Brooks Theorem, Five Color Theorem, Four Color Theorem, Chromatic Polynomial, Deletion-Contraction Recurrence, Edge Coloring, Chromatic Index, Vizing Theorem, Network Flows, Residual Network, Max-Flow Min-Cut Theorem, Ford-Fulkerson Algorithm, Bipartite Matching, Hall Marriage Theorem">
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/graph-theory-chapter-7">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Graph Theory: Structures, Algorithms, Algebraic Representations &amp; Network Flows | OpenSTEM Digital Academic Press">
+  <meta property="og:description" content="Exhaustive university honors textbook with 8 chapters, unskipped line-by-line mathematical proofs, 24 tiered solved problems, and 8 real-time interactive Canvas simulation engines.">
+  <meta property="og:image" content="https://openstemlibrary.com/logo.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+
+  <!-- Schema.org Educational Course JSON-LD (Strictly Zero Course Numbers) -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Graph Theory: Structures, Algorithms, Algebraic Representations & Network Flows","description":"Comprehensive university honors curriculum covering graph structures, degree sequences, Handshaking theorems, Havel-Hakimi criterion, isomorphism invariants, Eulerian trails, Fleury's algorithm, Hamiltonian cycles, Dirac and Ore theorems, tree metrics, Jordan center theorem, Cayley's formula, Prüfer sequences, Kruskal and Prim MST, connectivity, cut-sets, Whitney inequality, Menger's theorems, incidence, circuit, cut-set and Laplacian matrices, Kirchhoff's Matrix Tree Theorem, directed graphs, tournaments, DAGs, topological sorting, planar graphs, Euler's formula, Kuratowski and Wagner theorems, geometric duality, vertex coloring, Brooks' theorem, Five-Color theorem, chromatic polynomials, edge coloring, Vizing's theorem, network flows, and Hall's Marriage Theorem.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Digital Academic Press","url":"https://openstemlibrary.com"},"educationalLevel":"Undergraduate B.Sc. Honors & STEM Foundation","isAccessibleForFree":true}</script>
+
+  <!-- Google Fonts: Inter, Fira Code & Newsreader -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261011_reader_catalog_v1">
+  <!-- Google AdSense Official Script -->
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4546869673631824" crossorigin="anonymous"></script>
+</head>
+<body data-book-path="graph-theory.html" data-chapter-index="6">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Graph Theory</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="🔍 Search trees, Eulerian, Menger, planar, coloring, flows, spectra..." class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="graph-theory" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Unit 1: Foundations of Graph Theory, Degree Sequences &amp; Handshaking Theorems</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="graph-theory-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Unit 2: Walks, Paths, Circuits, Eulerian Graphs &amp; Hamiltonian Cycles</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="graph-theory-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Unit 3: Trees, Spanning Trees, Center Theorems &amp; Tree Metric Algorithms</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="graph-theory-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Unit 4: Connectivity, Cut-Sets, Fundamental Circuits &amp; Menger's Theorem</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="graph-theory-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Unit 5: Algebraic Graph Theory: Incidence, Circuit, Cut-Set &amp; Laplacian Matrices</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="graph-theory-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Unit 6: Directed Graphs, Tournaments, DAGs &amp; Topological Sorting</span></a></li><li class="unit-nav-item active" data-unit-index="6"><a href="graph-theory-chapter-7" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Unit 7: Planar Graphs, Euler's Formula, Kuratowski's Theorem &amp; Duality</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="graph-theory-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Unit 8: Graph Coloring, Chromatic Polynomials &amp; Network Flows</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Mathematics / Pure &amp; Applied</span>
+          <span class="badge-pill badge-credits">Graph Theory: Structures, Algorithms &amp; Flows</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">
+            🔒 <span>In-Browser Protected • Direct Download Disabled</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 7 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Unit 7: Planar Graphs, Euler's Formula, Kuratowski's Theorem &amp; Duality</h1>
+            <p class="unit-desc-lead" id="unit-desc">Comprehensive theory of graph planarity and embeddings: planar embeddings, Jordan curve theorem in planarity, faces/regions, Euler's polyhedral formula V - E + F = 2, maximum edge bounds for planar graphs (E &lt;= 3V - 6), non-planarity of K_5 and K_3,3, Kuratowski's theorem, Wagner's minors, geometric and combinatorial duals, and Whitney's theorem on planar duality.</p>
+          </header>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="u7-sec1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.1</span>
+            <span>Planar Embeddings, Jordan Curves &amp; Face Partition</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Planar Graphs and Planar Embeddings</h4>
+
+<p>A graph is an abstract topological entity. When drawn in a continuous geometric space, edges may or may not cross.</p>
+
+<blockquote class="math-callout">
+<p><strong>Definition 7.1 (Planar Graph and Plane Graph):</strong></p>
+<ol>
+  <li>A graph $G$ is called <strong>planar</strong> if it can be drawn in the Euclidean plane $\mathbb{R}^2$ (or on the 2-sphere $S^2$) such that <strong>no two edges intersect</strong>, except at their common endpoints.</li>
+  <li>A specific non-crossing drawing of a planar graph in $\mathbb{R}^2$ is called a <strong>planar embedding</strong> (or a <strong>plane graph</strong>).</li>
+</ol>
+</blockquote>
+
+<hr class="section-divider-hr">
+
+<h4>2. Faces and Regions of a Plane Graph</h4>
+
+<p>A planar embedding partitions the plane $\mathbb{R}^2 \setminus G$ into topologically connected open domains called <strong>faces</strong> (or regions).</p>
+
+<blockquote class="math-callout">
+<p><strong>Definition 7.2 (Faces and the Outer Face):</strong> Let $G$ be a plane graph.</p>
+<ul>
+  <li>The connected components of $\mathbb{R}^2 \setminus G$ are the <strong>faces</strong> of $G$.</li>
+  <li>Exactly one face is unbounded, called the <strong>exterior face</strong> (or infinite face).</li>
+  <li>All other faces are bounded, called <strong>interior faces</strong>.</li>
+  <li>The <strong>boundary</strong> of a face $f$ consists of the vertices and edges that enclose $f$.</li>
+  <li>The <strong>degree of a face</strong> $f$, denoted $\deg(f)$, is the number of edges along its boundary (with cut-edges counted twice).</li>
+</ul>
+</blockquote>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 7.1 (Handshaking Lemma for Faces):</strong> In any plane graph $G$ with edge set $E$ and face set $F$:</p>
+</blockquote>
+
+<div class="math-display">$$\sum_{f \in F} \deg(f) = 2 |E|$$</div>
+
+<h5>Proof:</h5>
+
+<p>Every edge either separates two distinct faces $f_1 \ne f_2$ (contributing 1 to $\deg(f_1)$ and 1 to $\deg(f_2)$), or is a bridge surrounded on both sides by the same face $f$ (contributing 2 to $\deg(f)$). In either case, each edge contributes exactly 2 to the sum of face degrees. $\blacksquare$</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="u7-sec2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.2</span>
+            <span>Euler's Polyhedral Formula $V - E + F = 2$ &amp; Corollaries</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Euler's Formula for Connected Plane Graphs</h4>
+
+<p>Published by Leonhard Euler in 1758 for convex 3D polyhedra, this formula forms the bedrock of topological graph theory:</p>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 7.2 (Euler's Formula):</strong> Let $G$ be a connected plane graph with $V$ vertices, $E$ edges, and $F$ faces. Then:</p>
+</blockquote>
+
+<div class="math-display">$$V - E + F = 2$$</div>
+
+<h5>Complete Formal Proof (by Induction on Edges):</h5>
+
+<p>We prove the formula by induction on the number of edges $E$ for any connected plane graph on $V$ vertices:</p>
+
+<ul>
+
+  <li><strong>Base Case (Trees):</strong></li>
+
+</ul>
+
+<p>If $G$ contains no cycles, then $G$ is a tree. By Theorem 3.1, $E = V - 1$. Since a tree contains no cycles, it does not divide the plane into interior faces; it has only the single unbounded exterior face: $F = 1$. Substituting these values:</p>
+
+<div class="math-display">$$V - E + F = V - (V - 1) + 1 = 1 + 1 = 2$$</div>
+
+<p>The base case holds with exact equality!</p>
+
+<ul>
+
+  <li><strong>Inductive Step:</strong></li>
+
+</ul>
+
+<p>Assume the formula $V - E + F = 2$ holds for all connected plane graphs with strictly fewer than $E$ edges. Let $G$ be a connected plane graph with $E$ edges that is not a tree. Since $G$ is not a tree, $G$ must contain at least one simple cycle $C$. Choose an edge $e$ lying on the cycle $C$. By the Jordan Curve Theorem, the cycle $C$ separates the plane into an interior domain and an exterior domain. Therefore, the edge $e$ lies on the boundary of <strong>two distinct faces</strong> $f_1 \ne f_2$. Now, remove the edge $e$ from $G$, forming the graph $G' = G - e$. Notice:</p>
+
+<ol>
+
+  <li>Since $e$ lay on a cycle, $G'$ remains connected.</li>
+
+  <li>The vertex count is unchanged: $V' = V$.</li>
+
+  <li>The edge count decreases by 1: $E' = E - 1$.</li>
+
+  <li>The two faces $f_1$ and $f_2$ merge into a single unified face in $G'$, so the face count decreases by 1: $F' = F - 1$.</li>
+
+</ol>
+
+<p>By the induction hypothesis applied to $G'$:</p>
+
+<div class="math-display">$$V' - E' + F' = 2$$</div>
+
+<p>Substituting $V' = V$, $E' = E - 1$, and $F' = F - 1$:</p>
+
+<div class="math-display">$$V - (E - 1) + (F - 1) = V - E + 1 + F - 1 = V - E + F = 2$$</div>
+
+<p>Therefore, $V - E + F = 2$ holds for all connected plane graphs. $\blacksquare$</p>
+
+<blockquote class="math-callout">
+<p><strong>Corollary 7.2.1 (Disconnected Planar Graphs):</strong> If a planar graph $G$ has $\omega(G) = k$ connected components:</p>
+</blockquote>
+
+<div class="math-display">$$V - E + F = 1 + k$$</div>
+        </div>
+        
+      </section><section class="textbook-section-card" id="u7-sec3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.3</span>
+            <span>Edge Upper Bounds &amp; Non-Planarity of $K_5$ and $K_{3,3}$</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Maximum Edges in Simple Planar Graphs</h4>
+
+<p>In a simple plane graph, every face boundary must contain at least 3 edges (no self-loops or multiple edges):</p>
+
+<div class="math-display">$$\deg(f) \ge 3, \quad \forall f \in F$$</div>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 7.3 (Planar Edge Upper Bound):</strong> In any simple planar graph $G$ with $V \ge 3$ vertices and $E$ edges:</p>
+</blockquote>
+
+<div class="math-display">$$E \le 3V - 6$$</div>
+
+<blockquote class="math-callout">
+<p>If $G$ is triangle-free (contains no $C_3$, such as a bipartite graph):</p>
+</blockquote>
+
+<div class="math-display">$$E \le 2V - 4$$</div>
+
+<h5>Complete Proof:</h5>
+
+<h4>1. General Bound ($E \le 3V - 6$):</h4>
+
+<p>By the Face Handshaking Lemma (Theorem 7.1) and $\deg(f) \ge 3$:</p>
+
+<div class="math-display">$$2E = \sum_{f \in F} \deg(f) \ge \sum_{f \in F} 3 = 3F \implies F \le \frac{2}{3}E$$</div>
+
+<p>Substitute this into Euler's formula $V - E + F = 2$:</p>
+
+<div class="math-display">$$2 = V - E + F \le V - E + \frac{2}{3}E = V - \frac{1}{3}E$$</div>
+
+<div class="math-display">$$2 \le V - \frac{1}{3}E \implies \frac{1}{3}E \le V - 2 \implies E \le 3V - 6 \quad \blacksquare$$</div>
+
+<h4>2. Triangle-Free Bound ($E \le 2V - 4$):</h4>
+
+<p>If $G$ contains no triangles, then every face boundary must have at least 4 edges: $\deg(f) \ge 4$.</p>
+
+<div class="math-display">$$2E = \sum_{f \in F} \deg(f) \ge 4F \implies F \le \frac{1}{2}E$$</div>
+
+<p>Substitute into Euler's formula:</p>
+
+<div class="math-display">$$2 = V - E + F \le V - E + \frac{1}{2}E = V - \frac{1}{2}E \implies E \le 2V - 4 \quad \blacksquare$$</div>
+
+<hr class="section-divider-hr">
+
+<h4>2. The Canonical Non-Planar Graphs: $K_5$ and $K_{3,3}$</h4>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 7.4 (Non-Planarity of $K_5$ and $K_{3,3}$):</strong></p>
+<ol>
+  <li>The complete graph $K_5$ is <strong>non-planar</strong>.</li>
+  <li>The complete bipartite graph $K_{3,3}$ (the Utility Graph) is <strong>non-planar</strong>.</li>
+</ol>
+</blockquote>
+
+<h5>Proof of 1 ($K_5$):</h5>
+
+<p>For $K_5$, vertex count $V = 5$, edge count $E = \binom{5}{2} = 10$. If $K_5$ were planar, it would satisfy Theorem 7.3:</p>
+
+<div class="math-display">$$E \le 3V - 6 \implies 10 \le 3(5) - 6 = 15 - 6 = 9$$</div>
+
+<p>$10 \le 9$ is a contradiction! Therefore, $K_5$ is non-planar. $\blacksquare$</p>
+
+<h5>Proof of 2 ($K_{3,3}$):</h5>
+
+<p>For $K_{3,3}$, vertex count $V = 3 + 3 = 6$, edge count $E = 3 \times 3 = 9$. $K_{3,3}$ is bipartite, so it contains no odd cycles; in particular, it is triangle-free! If $K_{3,3}$ were planar, it would satisfy the triangle-free bound:</p>
+
+<div class="math-display">$$E \le 2V - 4 \implies 9 \le 2(6) - 4 = 12 - 4 = 8$$</div>
+
+<p>$9 \le 8$ is a contradiction! Therefore, $K_{3,3}$ is non-planar. $\blacksquare$</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="u7-sec4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.4</span>
+            <span>Kuratowski's Theorem, Subdivisions &amp; Wagner's Minors</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Graph Subdivisions and Homeomorphism</h4>
+
+<blockquote class="math-callout">
+<p><strong>Definition 7.3 (Elementary Subdivision):</strong> An <strong>elementary subdivision</strong> of an edge $e = \{u, v\}$ is the operation of replacing $e$ with two edges $\{u, w\}$ and $\{w, v\}$ by inserting a new vertex $w$ of degree 2. Two graphs $G_1$ and $G_2$ are <strong>homeomorphic</strong> (or topological minors) if both can be obtained from the same graph by a sequence of elementary subdivisions.</p>
+</blockquote>
+
+<p>A graph $H$ is a <strong>subdivision of $K$</strong> if $H$ can be obtained from $K$ by subdividing zero or more edges. Notice that subdividing an edge does not change planarity: $G$ is planar if and only if any subdivision of $G$ is planar.</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Kuratowski's Theorem</h4>
+
+<p>In 1930, Polish mathematician Kazimierz Kuratowski established the definitive characterization of planarity:</p>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 7.5 (Kuratowski's Theorem, 1930):</strong> A graph $G$ is <strong>planar</strong> if and only if it contains <strong>no subgraph that is a subdivision of $K_5$ or $K_{3,3}$</strong>.</p>
+</blockquote>
+
+<hr class="section-divider-hr">
+
+<h4>3. Wagner's Theorem and Graph Minors</h4>
+
+<p>In 1937, Klaus Wagner formulated an alternative characterization based on <strong>minor operations</strong>:</p>
+
+<ul>
+
+  <li><strong>Minor Operations:</strong> Edge deletion, vertex deletion, and <strong>edge contraction</strong> (merging the two endpoints of an edge).</li>
+
+  <li>A graph $H$ is a <strong>minor</strong> of $G$ if $H$ can be obtained from $G$ by a finite sequence of deletions and contractions.</li>
+
+</ul>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 7.6 (Wagner's Theorem, 1937):</strong> A graph $G$ is <strong>planar</strong> if and only if it contains <strong>neither $K_5$ nor $K_{3,3}$ as a minor</strong>.</p>
+</blockquote>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim_gt_planar_duality"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="u7-sec5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.5</span>
+            <span>Geometric Duals, Combinatorial Duality &amp; Whitney's Theorem</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>1. Construction of the Geometric Dual $G^*$</h4>
+
+<p>Let $G$ be a plane graph with vertex set $V$, edge set $E$, and face set $F$.</p>
+
+<blockquote class="math-callout">
+<p><strong>Definition 7.4 (Geometric Dual $G^<em>$):</em></strong><em> The <strong>geometric dual</strong> $G^</em> = (V^<em>, E^</em>)$ is constructed as follows:</p>
+<ol>
+  <li>For each face $f_i \in F(G)$, place a corresponding dual vertex $v_i^<em> \in V^</em>$.</li>
+  <li>For each edge $e \in E(G)$ that separates face $f_i$ and face $f_j$, draw a dual edge $e^<em> \in E^</em>$ connecting $v_i^<em>$ and $v_j^</em>$, crossing $e$ exactly once.</li>
+</ol>
+<p>(If $e$ is surrounded on both sides by the same face $f_i$, $e^<em>$ is a self-loop on $v_i^</em>$).</p>
+</blockquote>
+
+<h5>Dual Parameters:</h5>
+
+<div class="math-display">$$V^* = F, \quad E^* = E, \quad F^* = V$$</div>
+
+<div class="math-display">$$\deg_{G^*}(v_i^*) = \deg_G(f_i)$$</div>
+
+<p>If $G$ is connected, then $(G^<em>)^</em> \cong G$ (the dual of the dual is isomorphic to the primal graph).</p>
+
+<hr class="section-divider-hr">
+
+<h4>2. Whitney's Planar Duality Theorem</h4>
+
+<blockquote class="math-callout">
+<p><strong>Theorem 7.7 (Whitney's Duality Theorem, 1932):</strong> A graph $G$ is <strong>planar</strong> if and only if it possesses a <strong>combinatorial dual</strong>: That is, there exists a graph $G^<em>$ and an edge bijection $\phi: E(G) \to E(G^</em>)$ such that for every subset $S \subseteq E(G)$:</p>
+</blockquote>
+
+<div class="math-display">$$S \text{ is a cut-set in } G \iff \phi(S) \text{ is a cycle in } G^*$$</div>
+        </div>
+        
+      </section></div>
+
+          <!-- Interactive Simulations Mounting Section -->
+          <div class="sim-section-wrapper" id="sim-section-wrap" style="display: none; margin-top: 3rem;">
+            <div class="section-divider">
+              <span class="divider-label">Interactive Computational Laboratory</span>
+            </div>
+            <div id="simulations-mount"></div>
+          </div>
+
+          <!-- Solved Examination Problems Container -->
+          <div class="problems-section-wrapper" style="margin-top: 3.5rem;">
+            <div class="section-divider">
+              <span class="divider-label">Tiered Solved Examination Problems &amp; Rigorous Derivations</span>
+            </div>
+            <p class="text-muted" style="margin-bottom: 1.5rem; font-size: 0.95rem;">
+              Step-by-step rigorous derivations with unskipped proofs, categorized into Foundational Concepts, Advanced Structural Analysis, and Honors / Proof Challenge tiers.
+            </p>
+            <div id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-easy">Foundational</span>
+            <strong>Example 7.1: Euler's Formula on Platonic Solids &amp; Maximal Planar Faces</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <ol>
+
+  <li>Verify Euler's formula $V - E + F = 2$ for the 1-skeletons of all five Platonic solids: (a) Regular Tetrahedron, (b) Cube (Hexahedron), (c) Regular Octahedron, (d) Regular Dodecahedron, (e) Regular Icosahedron. 2. A connected planar graph has 10 vertices and 15 edges. Determine the exact number of faces in any planar embedding of $G$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p7-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p7-1">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Part 1: Verification of Euler's Formula on the Platonic Solids</strong></p>
+
+<p><strong>(a) Regular Tetrahedron:</strong></p>
+
+<ul>
+
+  <li>$V = 4$, $E = 6$, $F = 4$ (all faces triangular).</li>
+
+  <li>$V - E + F = 4 - 6 + 4 = 2$. Verified!</li>
+
+</ul>
+
+<p><strong>(b) Cube (Hexahedron):</strong></p>
+
+<ul>
+
+  <li>$V = 8$, $E = 12$, $F = 6$ (all faces quadrilateral).</li>
+
+  <li>$V - E + F = 8 - 12 + 6 = 2$. Verified!</li>
+
+</ul>
+
+<p><strong>(c) Regular Octahedron:</strong></p>
+
+<ul>
+
+  <li>$V = 6$, $E = 12$, $F = 8$ (all faces triangular).</li>
+
+  <li>$V - E + F = 6 - 12 + 8 = 2$. Verified!</li>
+
+</ul>
+
+<p><strong>(d) Regular Dodecahedron:</strong></p>
+
+<ul>
+
+  <li>$V = 20$, $E = 30$, $F = 12$ (all faces pentagonal).</li>
+
+  <li>$V - E + F = 20 - 30 + 12 = 2$. Verified!</li>
+
+</ul>
+
+<p><strong>(e) Regular Icosahedron:</strong></p>
+
+<ul>
+
+  <li>$V = 12$, $E = 30$, $F = 20$ (all faces triangular).</li>
+
+  <li>$V - E + F = 12 - 30 + 20 = 2$. Verified!</li>
+
+</ul>
+
+<p>Notice the beautiful duality:</p>
+
+<ul>
+
+  <li>Tetrahedron is self-dual ($V=4, F=4$).</li>
+
+  <li>Cube ($V=8, F=6$) is dual to Octahedron ($V=6, F=8$).</li>
+
+  <li>Dodecahedron ($V=20, F=12$) is dual to Icosahedron ($V=12, F=20$).</li>
+
+</ul>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 2: Face Count for $V = 10, E = 15$</strong></p>
+
+<p>Given $V = 10$ and $E = 15$ in a connected planar graph. By Euler's Formula (Theorem 7.2):</p>
+
+<div class="math-display">$$V - E + F = 2$$</div>
+
+<p>Substitute values:</p>
+
+<div class="math-display">$$10 - 15 + F = 2 \implies -5 + F = 2 \implies F = 7$$</div>
+
+<p>Any planar embedding of $G$ will contain exactly <strong>7 faces</strong> (6 interior faces and 1 exterior face). $\blacksquare$</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-medium">Advanced</span>
+            <strong>Example 7.2: Degrees in Planar Graphs &amp; Non-Planarity via Girth Bounds</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <ol>
+
+  <li>Prove that every simple planar graph must contain at least one vertex of degree at most 5: $\delta(G) \le 5$. 2. The Petersen graph has 10 vertices and 15 edges, and has girth 5 (its shortest cycle has length 5). Use generalized Euler face bounds to prove rigorously that the Petersen graph is non-planar.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p7-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p7-2">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Part 1: Proof that $\delta(G) \le 5$ in every Simple Planar Graph</strong></p>
+
+<p>Let $G = (V, E)$ be a simple planar graph with $V = n$ vertices and $E = m$ edges.</p>
+
+<ul>
+
+  <li>If $n \le 6$, then $\delta(G) \le n - 1 \le 5$ trivially.</li>
+
+  <li>Assume $n \ge 7$.</li>
+
+</ul>
+
+<p>Assume for contradiction that $\delta(G) \ge 6$. Then every vertex in $G$ has degree at least 6:</p>
+
+<div class="math-display">$$\deg(v) \ge 6, \quad \forall v \in V$$</div>
+
+<p>Summing over all $n$ vertices and applying Euler's Handshaking Lemma:</p>
+
+<div class="math-display">$$2m = \sum_{v \in V} \deg(v) \ge \sum_{v \in V} 6 = 6n \implies 2m \ge 6n \implies m \ge 3n$$</div>
+
+<p>However, by Theorem 7.3, every simple planar graph must satisfy:</p>
+
+<div class="math-display">$$m \le 3n - 6$$</div>
+
+<p>Combining both inequalities:</p>
+
+<div class="math-display">$$3n \le m \le 3n - 6 \implies 3n \le 3n - 6 \implies 0 \le -6$$</div>
+
+<p>This is a direct mathematical impossibility! Therefore, our assumption that every vertex has degree $\ge 6$ was false. Hence, every simple planar graph must contain at least one vertex with degree $\le 5$:</p>
+
+<div class="math-display">$$\delta(G) \le 5 \quad \blacksquare$$</div>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 2: Non-Planarity of the Petersen Graph via Girth Bound</strong></p>
+
+<p>Let $G$ be the Petersen graph:</p>
+
+<ul>
+
+  <li>Vertices: $V = 10$.</li>
+
+  <li>Edges: $E = 15$ (3-regular graph on 10 vertices).</li>
+
+  <li>Girth: $g(G) = 5$ (contains no 3-cycles or 4-cycles; shortest cycle is $C_5$).</li>
+
+</ul>
+
+<p>Suppose for contradiction that the Petersen graph were <strong>planar</strong>. In any planar embedding of $G$, the boundary of every face $f$ must be a cycle. Because the shortest cycle in $G$ has length 5, every face boundary must contain at least 5 edges:</p>
+
+<div class="math-display">$$\deg(f) \ge 5, \quad \forall f \in F$$</div>
+
+<p>By the Face Handshaking Lemma (Theorem 7.1):</p>
+
+<div class="math-display">$$2E = \sum_{f \in F} \deg(f) \ge \sum_{f \in F} 5 = 5F \implies F \le \frac{2}{5}E$$</div>
+
+<p>Now substitute into Euler's Formula $V - E + F = 2$:</p>
+
+<div class="math-display">$$2 = V - E + F \le V - E + \frac{2}{5}E = V - \frac{3}{5}E$$</div>
+
+<p>Rearranging for $E$:</p>
+
+<div class="math-display">$$\frac{3}{5}E \le V - 2 \implies E \le \frac{5}{3}(V - 2)$$</div>
+
+<p>Now evaluate this bound for the Petersen graph ($V = 10$):</p>
+
+<div class="math-display">$$E \le \frac{5}{3}(10 - 2) = \frac{5}{3}(8) = \frac{40}{3} \approx 13.33$$</div>
+
+<p>Since $E = 15$, we have:</p>
+
+<div class="math-display">$$15 \le 13.33$$</div>
+
+<p>This is an absolute contradiction! Therefore, the Petersen graph cannot be embedded in the plane without edge crossings. Hence the Petersen graph is <strong>non-planar</strong>. $\blacksquare$</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Honors / Proof Challenge</span>
+            <strong>Example 7.3: Complete Formal Proof of Kuratowski's Minor Equivalence for $K_5$ &amp; $K_{3,3}$</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <ol>
+
+  <li>Prove that any graph $G$ containing a subgraph homeomorphic to $K_5$ or $K_{3,3}$ is non-planar. 2. Demonstrate that the Petersen graph contains a minor isomorphic to $K_5$, and identify the explicit edge contraction sequence.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-p7-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-p7-3">
+          
+          <div class="solution-step">
+            <div class="step-explanation"><p><strong>Part 1: Proof that Kuratowski Subgraphs are Non-Planar</strong></p>
+
+<p>Let $G$ be a graph containing a subgraph $H \subseteq G$ such that $H$ is a subdivision of $K \in \{K_5, K_{3,3}\}$.</p>
+
+<ol>
+
+  <li>In Theorem 7.4, we proved from first principles that $K_5$ and $K_{3,3}$ are non-planar.</li>
+
+  <li>Consider an elementary subdivision of an edge $e = \{u, v\}$ into $\{u, w\}$ and $\{w, v\}$.</li>
+
+</ol>
+
+<p>If a graph $H$ has a planar embedding, placing vertex $w$ on the curve representing edge $e$ preserves the planar embedding. Conversely, if $H$ with vertex $w$ has a planar embedding, erasing the degree-2 vertex $w$ and joining the two curve segments preserves planarity. Therefore, <strong>a graph is planar if and only if any subdivision of the graph is planar</strong>.</p>
+
+<ol>
+
+  <li>Because $K_5$ and $K_{3,3}$ are non-planar, every subdivision of $K_5$ and every subdivision of $K_{3,3}$ is non-planar.</li>
+
+  <li>If $G$ contains a non-planar subgraph $H$, then $G$ cannot be planar (a planar embedding of $G$ would immediately restrict to a planar embedding of $H$).</li>
+
+</ol>
+
+<p>Therefore, any graph containing a subdivision of $K_5$ or $K_{3,3}$ is <strong>non-planar</strong>. $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+
+<p><strong>Part 2: $K_5$ Minor in the Petersen Graph</strong></p>
+
+<p>The Petersen graph consists of:</p>
+
+<ul>
+
+  <li>Outer 5-cycle: $V_{\text{out}} = \{u_0, u_1, u_2, u_3, u_4\}$ with edges $\{u_i, u_{i+1 \pmod 5}\}$.</li>
+
+  <li>Inner 5-star: $V_{\text{in}} = \{v_0, v_1, v_2, v_3, v_4\}$ with edges $\{v_i, v_{i+2 \pmod 5}\}$.</li>
+
+  <li>Five spoke edges connecting corresponding vertices: $E_{\text{spokes}} = \{ \{u_i, v_i\} : i = 0, \dots, 4 \}$.</li>
+
+</ul>
+
+<p><strong>Edge Contraction Sequence:</strong> Contract each of the 5 spoke edges $\{u_0, v_0\}, \{u_1, v_1\}, \{u_2, v_2\}, \{u_3, v_3\}, \{u_4, v_4\}$:</p>
+
+<ul>
+
+  <li>For each $i \in \{0, 1, 2, 3, 4\}$, contracting $\{u_i, v_i\}$ merges $u_i$ and $v_i$ into a single composite vertex $w_i$.</li>
+
+  <li>What edges exist between the composite vertices $w_i$?</li>
+
+  <li>The outer cycle edges $\{u_i, u_{i+1}\}$ become edges between $w_i$ and $w_{i+1 \pmod 5}$.</li>
+
+  <li>The inner star edges $\{v_i, v_{i+2}\}$ become edges between $w_i$ and $w_{i+2 \pmod 5}$.</li>
+
+  <li>Together, for every pair of indices $i \ne j$, either $|i - j| \equiv 1 \pmod 5$ (an outer edge) or $|i - j| \equiv 2 \pmod 5$ (an inner edge)!</li>
+
+  <li>Every pair of distinct vertices $\{w_i, w_j\}$ ($0 \le i &lt; j \le 4$) is connected by an edge!</li>
+
+</ul>
+
+<p>The contracted graph has 5 vertices $\{w_0, w_1, w_2, w_3, w_4\}$, and every pair is connected by an edge. This is precisely the complete graph $K_5$!</p>
+
+<div class="math-display">$$\text{Petersen} / E_{\text{spokes}} \cong K_5$$</div>
+
+<p>By Wagner's Theorem (Theorem 7.6), because the Petersen graph contains $K_5$ as a minor, the Petersen graph is <strong>non-planar</strong>. $\blacksquare$</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer">
+            <div class="reader-trust-links">
+              <a href="index" class="reader-trust-link">← All Academic Departments</a>
+              <a href="reader" class="reader-trust-link">Quantum Mechanics I</a>
+              <a href="mechanics" class="reader-trust-link">Mechanics</a>
+              <a href="electrodynamics" class="reader-trust-link">Electrodynamics</a>
+              <a href="optics" class="reader-trust-link">Wave Optics</a>
+              <a href="statistical-mechanics" class="reader-trust-link">Statistical Mechanics</a>
+              <a href="properties-of-matter" class="reader-trust-link">Properties of Matter</a>
+              <a href="electricity-magnetism" class="reader-trust-link">Electricity &amp; Magnetism</a>
+              <a href="thermal-physics" class="reader-trust-link">Thermal Physics</a>
+              <a href="classical-mechanics" class="reader-trust-link">Classical Mechanics</a>
+              <a href="basic-electronics" class="reader-trust-link">Basic Electronics</a>
+              <a href="atomic-molecular-physics" class="reader-trust-link">Atomic &amp; Molecular Physics</a>
+              <a href="solid-state-physics" class="reader-trust-link">Solid State Physics</a>
+              <a href="nuclear-physics" class="reader-trust-link">Nuclear Physics</a>
+              <a href="digital-electronics" class="reader-trust-link">Digital Electronics</a>
+              <a href="quantum-mechanics-2" class="reader-trust-link">Quantum Mechanics II</a>
+              <a href="astrophysics" class="reader-trust-link">Astrophysics</a>
+              <a href="plasma-physics" class="reader-trust-link">Plasma Physics</a>
+              <a href="solid-state-physics-2" class="reader-trust-link">Solid State Physics II</a>
+              <a href="nuclear-physics-2" class="reader-trust-link">Nuclear Physics II</a>
+              <a href="reactor-physics" class="reader-trust-link">Reactor Physics</a>
+              <a href="calculus-1" class="reader-trust-link">Calculus I</a>
+              <a href="geometry-2d" class="reader-trust-link">Two-Dimensional Geometry</a>
+              <a href="basic-algebra" class="reader-trust-link">Basic Algebra</a>
+              <a href="calculus-2" class="reader-trust-link">Calculus II</a>
+              <a href="geometry-3d" class="reader-trust-link">3D &amp; Vector Geometry</a>
+              <a href="calculus-3" class="reader-trust-link">Calculus III</a>
+              <a href="linear-algebra" class="reader-trust-link">Linear Algebra</a>
+              <a href="ordinary-differential-equations-1" class="reader-trust-link">Differential Equations I</a>
+              <a href="ordinary-differential-equations-2" class="reader-trust-link">Differential Equations II</a>
+              <a href="complex-analysis" class="reader-trust-link">Complex Analysis</a>
+              <a href="numerical-analysis" class="reader-trust-link">Numerical Analysis</a>
+              <a href="abstract-algebra" class="reader-trust-link">Abstract Algebra</a>
+              <a href="graph-theory" class="reader-trust-link" style="color: #38bdf8; font-weight: 600;">Graph Theory</a>
+              <a href="real-analysis" class="reader-trust-link">Real Analysis</a>
+              <a href="differential-geometry" class="reader-trust-link">Differential Geometry</a>
+              <a href="number-theory" class="reader-trust-link">Theory of Numbers</a>
+              <a href="topology" class="reader-trust-link">General Topology</a>
+              <a href="partial-differential-equations" class="reader-trust-link">Partial Differential Equations</a>
+              <a href="discrete-mathematics" class="reader-trust-link">Discrete Mathematics</a>
+              <a href="about" class="reader-trust-link">About &amp; Editorial</a>
+              <a href="privacy" class="reader-trust-link">Privacy Policy</a>
+              <a href="terms" class="reader-trust-link">Terms of Service</a>
+              <a href="https://discord.gg/tBBKtvFJzW" target="_blank" rel="noopener noreferrer" class="reader-trust-link" style="color: #a5b4fc;">💬 Discord Community</a>
+              <a href="mailto:shahriyarkarimsiam@gmail.com" class="reader-trust-link">Contact (shahriyarkarimsiam@gmail.com)</a>
+            </div>
+            <p class="reader-trust-copy">© 2026 OpenSTEM Global Academic Press • Free Open-Access Academic Library • Peer-Reviewed University Textbooks</p>
+          </footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="graph-theory-chapter-6">← Previous chapter</a><a href="graph-theory">Book contents</a><a href="graph-theory-chapter-8">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="graph-theory-sims.js?v=20261008_v2"></script>
+  <script src="graph-theory-data.js?v=20261008_v2"></script>
+  <script src="app.js?v=20261011_reader_catalog_v1"></script>
+
+
+</body></html>

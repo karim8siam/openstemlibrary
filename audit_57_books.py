@@ -5,7 +5,7 @@ import os
 from playwright.async_api import async_playwright
 
 async def audit():
-    html_files = sorted([f for f in glob.glob('*.html') if f not in ['index.html', 'about.html', 'privacy.html', 'terms.html']])
+    html_files = sorted([f for f in glob.glob('*.html') if '-chapter-' not in f and f not in ['index.html', 'about.html', 'privacy.html', 'terms.html']])
     print(f"Total textbook HTML files to audit: {len(html_files)}")
     
     results = {}

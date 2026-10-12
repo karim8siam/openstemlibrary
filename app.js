@@ -2,12 +2,14 @@
 // Manages textbook sections, search indexing, simulations lifecycle, KaTeX rendering, study timer, and protective guards
 
 function startApp() {
-  let activeUnitIndex = 0;
+  const initialUnitIndex = Math.max(0, Math.min(window.COURSE_DATA.units.length - 1, Number(document.body.dataset.chapterIndex) || 0));
+  let activeUnitIndex = initialUnitIndex;
   let mathDebounceTimer = null;
 
   // Initialize App
   initSidebar();
-  loadChapter(0, true);
+  loadChapter(initialUnitIndex, true);
+  initMobileNavigation();
   initAntiCopyGuards();
   initFontToggle();
   initSearch();
@@ -19,20 +21,75 @@ function startApp() {
 
     window.COURSE_DATA.units.forEach((unit, idx) => {
       const li = document.createElement("li");
-      li.className = `unit-nav-item ${idx === 0 ? 'active' : ''}`;
+      li.className = `unit-nav-item ${idx === initialUnitIndex ? 'active' : ''}`;
       li.dataset.unitIndex = idx;
-      li.innerHTML = `
+      const link = document.createElement('a');
+      link.href = chapterUrl(idx);
+      link.className = 'unit-nav-link';
+      if (idx === initialUnitIndex) link.setAttribute('aria-current', 'page');
+      link.innerHTML = `
         <span class="unit-nav-num">Ch.${unit.number || unit.unitNumber || (idx + 1)}</span>
         <span class="unit-nav-text">${unit.title}</span>
       `;
-      li.addEventListener("click", () => {
-        document.querySelectorAll(".unit-nav-item").forEach(item => item.classList.remove("active"));
-        li.classList.add("active");
-        loadChapter(idx);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
+      li.appendChild(link);
       listEl.appendChild(li);
     });
+  }
+
+  function chapterUrl(index) {
+    const book = document.body.dataset.bookPath || location.pathname.split('/').pop() || 'reader.html';
+    return index === 0 ? book.replace(/\.html$/, '') : book.replace(/\.html$/, `-chapter-${index + 1}`);
+  }
+
+  function initMobileNavigation() {
+    const sidebar = document.querySelector('.sidebar');
+    const toolbar = document.querySelector('.top-navbar,.reader-toolbar');
+    if (!sidebar || !toolbar) return;
+    sidebar.id = 'reader-chapter-navigation';
+    sidebar.setAttribute('aria-label', 'Book chapters');
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'btn-tool mobile-chapters-button';
+    button.textContent = 'Chapters';
+    button.setAttribute('aria-controls', sidebar.id);
+    button.setAttribute('aria-expanded', 'false');
+    const backdrop = document.createElement('button');
+    backdrop.type = 'button';
+    backdrop.className = 'chapter-menu-backdrop';
+    backdrop.setAttribute('aria-label', 'Close chapter navigation');
+    backdrop.hidden = true;
+    const closeButton = document.createElement('button');
+    closeButton.type = 'button';
+    closeButton.className = 'btn-tool chapter-menu-close';
+    closeButton.textContent = 'Close chapters';
+    function close() {
+      document.body.classList.remove('chapter-menu-open');
+      button.setAttribute('aria-expanded', 'false');
+      backdrop.hidden = true;
+      button.focus();
+    }
+    button.addEventListener('click', () => {
+      const open = !document.body.classList.contains('chapter-menu-open');
+      document.body.classList.toggle('chapter-menu-open', open);
+      button.setAttribute('aria-expanded', String(open));
+      backdrop.hidden = !open;
+      if (open) closeButton.focus();
+    });
+    closeButton.addEventListener('click', close);
+    backdrop.addEventListener('click', close);
+    document.addEventListener('keydown', event => {
+      if (!document.body.classList.contains('chapter-menu-open')) return;
+      if (event.key === 'Escape') close();
+      if (event.key === 'Tab') {
+        const focusable = [...sidebar.querySelectorAll('a,button,input')].filter(el => el.getClientRects().length);
+        const first = focusable[0], last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+      }
+    });
+    toolbar.prepend(button);
+    sidebar.prepend(closeButton);
+    document.body.appendChild(backdrop);
   }
 
   // 2. Load Chapter View
@@ -74,6 +131,7 @@ function startApp() {
               solContent.style.display = isOpen ? "block" : "none";
             }
             toggleBtn.innerText = isOpen ? "🙈 Hide Solution" : "👁️ Reveal Complete Derivation & Solution";
+            toggleBtn.setAttribute('aria-expanded', String(isOpen));
             if (isOpen) renderMath();
           });
         }
@@ -205,7 +263,7 @@ function startApp() {
 
   // 5. Render Practice Problems
   function renderProblems(problemList) {
-    const container = document.getElementById("problems-mount") || document.getElementById("problems-container");
+    const container = document.getElementById("problems-mount") || document.getElementById("problems-container") || document.getElementById('problem-cards-list');
     if (!container) return;
     container.innerHTML = "";
 
@@ -284,9 +342,11 @@ function startApp() {
       const toggleBtn = card.querySelector(`#btn-sol-${probId}`);
       const solContent = card.querySelector(`#sol-content-${probId}`);
       if (toggleBtn && solContent) {
+        toggleBtn.setAttribute('aria-expanded', 'false');
         toggleBtn.addEventListener("click", () => {
           const isOpen = solContent.classList.toggle("open");
           toggleBtn.innerText = isOpen ? "🙈 Hide Solution" : "👁️ Reveal Complete Derivation & Solution";
+          toggleBtn.setAttribute('aria-expanded', String(isOpen));
           if (isOpen) renderMath();
         });
       }
@@ -634,7 +694,7 @@ function startApp() {
 
   // 11. Font Toggle (Academic Serif vs Modern Sans)
   function initFontToggle() {
-    const btn = document.getElementById("btn-font-toggle");
+    const btn = document.getElementById("btn-font-toggle") || document.getElementById('font-size-toggle');
     if (!btn) return;
     btn.addEventListener("click", () => {
       document.body.classList.toggle("academic-font");
@@ -645,7 +705,7 @@ function startApp() {
 
   // 12. Search & Filter Input
   function initSearch() {
-    const input = document.getElementById("topic-search-input");
+    const input = document.getElementById("topic-search-input") || document.getElementById('course-search-input');
     if (!input) return;
 
     input.addEventListener("input", (e) => {
