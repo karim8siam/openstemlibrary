@@ -31,6 +31,8 @@ For each book and unit, map the specific study topics and learner questions to s
 
 Treat `sitemap.xml` verification as a required publication check: every new book and chapter must have a unique entry matching its clean canonical URL, accurate lastmod and a verified live response. Drafts stay excluded. Save the URL/canonical/sitemap check evidence in QA. Search Console submission remains manual.
 
+Keep the top-level `404.html`: Cloudflare Pages otherwise serves the homepage for nonexistent URLs with HTTP 200. After every deployment, confirm a nonexistent URL returns HTTP 404 and real book/chapter URLs still return HTTP 200. Preserve the valid root `ads.txt`; its publisher ID must match the AdSense account. Dashboard crawler status can lag behind the live file.
+
 ## Search and advertising quality
 
 The 50,000-word floor is the user's editorial requirement, not a Google ranking requirement. Optimize for complete, accurate learning, original worked solutions and useful navigation. Google has no preferred word count and warns against scaled content without user value. Index only completed books. Use honest publication/last-modified dates and actual canonicals; never bulk-refresh dates for unchanged chapters. Include each new book landing URL and its chapter URLs in `sitemap.xml`, staying under the 50,000-URL sitemap limit; split into a sitemap index if needed. The user submits Search Console manually. No ranking, AI recommendation, traffic, approval or revenue guarantees.
@@ -53,6 +55,7 @@ Use installed jsdom or `OPENSTEM_JSDOM_PATH`; avoid reinstalling dependencies wh
 ```sh
 node tooling/check-new-book.cjs <book-id>
 node --expose-gc tooling/build-library.cjs
+python tooling/check-search-metadata.py
 node --expose-gc tooling/verify-library.cjs
 ```
 
