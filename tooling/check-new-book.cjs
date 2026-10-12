@@ -41,8 +41,8 @@ try {
   data.units.forEach((u,i) => {
     const sections = u.sections || [], problems = u.problems || [];
     if (sections.length < 3) failures.push(`Unit ${i+1}: fewer than three sections`);
-    const questionRule=q.book_requirements?.worked_questions_per_unit || {minimum:2,maximum:3};
-    if (problems.length < questionRule.minimum || problems.length > questionRule.maximum) failures.push(`Unit ${i+1}: expected 2–3 fully worked questions`);
+    const questionRule=q.book_requirements?.worked_questions_per_unit || {minimum:3,maximum:3};
+    if (problems.length < questionRule.minimum || problems.length > questionRule.maximum) failures.push(`Unit ${i+1}: expected ${questionRule.minimum === questionRule.maximum ? questionRule.minimum : questionRule.minimum+'–'+questionRule.maximum} fully worked questions`);
     let words = 0;
     for (const s of sections) {
       const n=normalized(s.content);
