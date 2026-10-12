@@ -247,10 +247,15 @@ function startApp() {
       }
 
       if (prob.answer) {
+        let answerText = prob.answer;
+        if (typeof answerText === 'string' && !answerText.includes('$') && !answerText.includes('\\[') &&
+            (/\\(frac|text|sqrt|cos|sin|vec|mathbf|approx|times|pm|in|to)\b/.test(answerText) || answerText.startsWith('d(') || answerText.startsWith("f'(") || answerText.startsWith("g'("))) {
+          answerText = "$$" + answerText + "$$";
+        }
         stepsHtml += `
           <div class="solution-step" style="border-left-color: #10b981;">
             <div class="step-title" style="color: #10b981;">Final Answer & Physical Insight</div>
-            <div class="step-explanation">${formatMarkdownContent(prob.answer)}</div>
+            <div class="step-explanation">${formatMarkdownContent(answerText)}</div>
           </div>
         `;
       }
@@ -304,13 +309,17 @@ function startApp() {
     // Strip dangling orphan backslash preceding display math
     clean = clean.replace(/\\+\s*(?=\\\[|\$\$)/g, "");
 
+    function normalizeMath(m) {
+      return m.replace(/(^|[\s\$\(\[\{\,\+\-\=\>\<\~]|\\(?:quad|qquad|\,|\;|\!|longrightarrow|to|rightleftharpoons))\s*(\^(?:[A-Za-z0-9\+\-]+|\{[^}]+\}))/g, "$1{}$2");
+    }
+
     // Isolate $$...$$ and \[...\]
     clean = clean.replace(/\$\$(.*?)\$\$/gs, function(match, math) {
-      const singleLineMath = math.trim().replace(/\r?\n/g, " ");
+      const singleLineMath = normalizeMath(math.trim().replace(/\r?\n/g, " "));
       return "\n\n<div class=\"math-display\">$$" + singleLineMath + "$$</div>\n\n";
     });
     clean = clean.replace(/\\\[(.*?)\\\]/gs, function(match, math) {
-      const singleLineMath = math.trim().replace(/\\+$/, "").replace(/\r?\n/g, " ").trim();
+      const singleLineMath = normalizeMath(math.trim().replace(/\\+$/, "").replace(/\r?\n/g, " ").trim());
       return "\n\n<div class=\"math-display\">\\[" + singleLineMath + "\\]</div>\n\n";
     });
 
@@ -319,6 +328,26 @@ function startApp() {
     let inUl = false;
     let inOl = false;
     let paraLines = [];
+
+    // Safe inline markdown applicator that protects math delimiters ($...$, \(...\), $$...$$, \[...\])
+    function applyInlineMarkdown(str) {
+      if (!str) return "";
+      const mathTokens = [];
+      let protectedStr = str.replace(/(\$\$[\s\S]*?\$\$|\\\[[\s\S]*?\\\]|\\\([\s\S]*?\\\)|\$[^$\n]+?\$)/g, (m) => {
+        const id = `@@MATH_TOKEN_${mathTokens.length}@@`;
+        mathTokens.push(normalizeMath(m));
+        return id;
+      });
+
+      protectedStr = protectedStr
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*(.*?)\*/g, "<em>$1</em>");
+
+      for (let idx = 0; idx < mathTokens.length; idx++) {
+        protectedStr = protectedStr.replace(`@@MATH_TOKEN_${idx}@@`, mathTokens[idx]);
+      }
+      return protectedStr;
+    }
 
     function flushPara() {
       if (paraLines.length > 0) {
@@ -354,6 +383,23 @@ function startApp() {
         continue;
       }
 
+      // Fenced Code Blocks (```)
+      if (s.startsWith("```")) {
+        flushPara();
+        closeLists();
+        i++;
+        const codeLines = [];
+        while (i < lines.length && !lines[i].trim().startsWith("```")) {
+          codeLines.push(lines[i]);
+          i++;
+        }
+        if (i < lines.length && lines[i].trim().startsWith("```")) {
+          i++;
+        }
+        output.push("<pre class=\"diagram-code-block\" style=\"background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;\"><code>" + codeLines.join("\n") + "</code></pre>");
+        continue;
+      }
+
       // Pre-wrapped math display
       if (s.startsWith("<div") || (s.startsWith("$$") && s.endsWith("$$")) || (s.startsWith("\\[") && s.endsWith("\\]"))) {
         flushPara();
@@ -382,9 +428,7 @@ function startApp() {
 
         function flushBqPara() {
           if (bqPara.length > 0) {
-            let bp = bqPara.join(" ").trim()
-              .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-              .replace(/\*(.*?)\*/g, "<em>$1</em>");
+            let bp = applyInlineMarkdown(bqPara.join(" ").trim());
             if (bp) bqOutput.push("<p>" + bp + "</p>");
             bqPara = [];
           }
@@ -411,9 +455,7 @@ function startApp() {
             flushBqPara();
             if (bqOl) { bqOutput.push("</ol>"); bqOl = false; }
             if (!bqUl) { bqOutput.push("<ul>"); bqUl = true; }
-            let item = bs.substring(2).trim()
-              .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-              .replace(/\*(.*?)\*/g, "<em>$1</em>");
+            let item = applyInlineMarkdown(bs.substring(2).trim());
             bqOutput.push("  <li>" + item + "</li>");
             return;
           }
@@ -422,12 +464,11 @@ function startApp() {
             flushBqPara();
             if (bqUl) { bqOutput.push("</ul>"); bqUl = false; }
             if (!bqOl) { bqOutput.push("<ol>"); bqOl = true; }
-            let item = bOlMatch[2].trim()
-              .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-              .replace(/\*(.*?)\*/g, "<em>$1</em>");
+            let item = applyInlineMarkdown(bOlMatch[2].trim());
             bqOutput.push("  <li>" + item + "</li>");
             return;
           }
+
           closeBqLists();
           bqPara.push(bs);
         });
@@ -461,9 +502,7 @@ function startApp() {
         flushPara();
         if (inOl) { output.push("</ol>"); inOl = false; }
         if (!inUl) { output.push("<ul>"); inUl = true; }
-        let item = s.substring(2).trim()
-          .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-          .replace(/\*(.*?)\*/g, "<em>$1</em>");
+        let item = applyInlineMarkdown(s.substring(2).trim());
         output.push("  <li>" + item + "</li>");
         i++;
         continue;
@@ -485,9 +524,7 @@ function startApp() {
           flushPara();
           if (inUl) { output.push("</ul>"); inUl = false; }
           if (!inOl) { output.push("<ol>"); inOl = true; }
-          let item = body
-            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-            .replace(/\*(.*?)\*/g, "<em>$1</em>");
+          let item = applyInlineMarkdown(body);
           output.push("  <li>" + item + "</li>");
           i++;
           continue;
@@ -495,9 +532,7 @@ function startApp() {
       }
 
       closeLists();
-      let formattedLine = s
-        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-        .replace(/\*(.*?)\*/g, "<em>$1</em>");
+      let formattedLine = applyInlineMarkdown(s);
       paraLines.push(formattedLine);
       i++;
     }
@@ -512,25 +547,39 @@ function startApp() {
   function renderMath() {
     if (mathDebounceTimer) clearTimeout(mathDebounceTimer);
     mathDebounceTimer = setTimeout(() => {
-      const target = document.getElementById("main-content-area") || 
-                     document.querySelector(".chapter-article") || 
-                     document.getElementById("textbook-sections") || 
-                     document.body;
-      if (window.renderMathInElement && target) {
-        try {
-          window.renderMathInElement(target, {
-            delimiters: [
-              { left: "$$", right: "$$", display: true },
-              { left: "$", right: "$", display: false },
-              { left: "\\[", right: "\\]", display: true },
-              { left: "\\(", right: "\\)", display: false }
-            ],
-            ignoredClasses: ["katex", "katex-html", "katex-display", "inline-simulation-wrapper"],
-            throwOnError: false
-          });
-        } catch (e) {
-          console.warn("Math auto-render notice:", e);
+      // Ensure all .step-math elements without delimiters are safely enclosed in $$
+      document.querySelectorAll(".step-math").forEach(el => {
+        const raw = el.textContent.trim();
+        if (raw && !raw.startsWith("$$") && !raw.startsWith("\\[") && !el.querySelector(".katex")) {
+          el.innerHTML = "$$" + raw + "$$";
         }
+      });
+
+      const targets = [
+        document.getElementById("main-content-area"),
+        document.querySelector(".chapter-article"),
+        document.getElementById("textbook-sections"),
+        document.getElementById("problems-mount"),
+        document.getElementById("problems-container")
+      ].filter(Boolean);
+
+      if (window.renderMathInElement && targets.length > 0) {
+        targets.forEach(target => {
+          try {
+            window.renderMathInElement(target, {
+              delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\[", right: "\\]", display: true },
+                { left: "\\(", right: "\\)", display: false }
+              ],
+              ignoredClasses: ["katex", "katex-html", "katex-display", "inline-simulation-wrapper"],
+              throwOnError: false
+            });
+          } catch (e) {
+            console.warn("Math auto-render notice:", e);
+          }
+        });
       } else if (!window.renderMathInElement) {
         // KaTeX bundle may still be loading, retry in 100ms
         setTimeout(renderMath, 100);

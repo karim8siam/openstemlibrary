@@ -83,7 +83,7 @@ window.COURSE_DATA = {
             {
               "step": "Step 3: Circumcircle Polar Equation",
               "math": "\\text{Cartesian coords: } P_1 = (6\\cos 30^\\circ, 6\\sin 30^\\circ) = (3\\sqrt{3}, 3), \\quad P_2 = (0, 8), \\quad O = (0, 0) \\\\ \\text{Circle through } O, P_1, P_2: x^2 + y^2 - 3\\sqrt{3}x - 8y = 0 \\implies r^2 - r(3\\sqrt{3}\\cos\\theta + 8\\sin\\theta) = 0 \\implies r = 3\\sqrt{3}\\cos\\theta + 8\\sin\\theta",
-              "explanation": "Dividing by $r \ne 0$ yields the polar equation of the circle passing through the origin."
+              "explanation": "Dividing by $r \\ne 0$ yields the polar equation of the circle passing through the origin."
             }
           ],
           "answer": "d(P_1, P_2) = 2\\sqrt{13}; \\quad \\mathcal{A} = 12\\sqrt{3}; \\quad \\text{Circumcircle: } r = 3\\sqrt{3}\\cos\\theta + 8\\sin\\theta"
@@ -105,14 +105,14 @@ window.COURSE_DATA = {
               "explanation": "The linear terms are completely eliminated; the quadratic coefficients remain $a = 17, 2h = -12 \\implies h = -6, b = 8$."
             },
             {
-              "step": "Step 3: Determine Rotation Angle $\theta$ to Eliminate Cross Term",
+              "step": "Step 3: Determine Rotation Angle $\\theta$ to Eliminate Cross Term",
               "math": "\\tan 2\\theta = \\frac{2h}{a - b} = \\frac{-12}{17 - 8} = \\frac{-12}{9} = -\\frac{4}{3}",
-              "explanation": "Since $\tan 2\theta = -4/3$, we have $\\cos 2\theta = -3/5$. Using half-angle formulas: $\\sin^2 \theta = \\frac{1 - \\cos 2\theta}{2} = \\frac{1 - (-3/5)}{2} = \\frac{4}{5} \\implies \\sin \theta = \\frac{2}{\\sqrt{5}}$, $\\cos \theta = \\frac{1}{\\sqrt{5}} \\implies \theta = \\arctan(2)$."
+              "explanation": "Since $\\tan 2\\theta = -4/3$, we have $\\cos 2\\theta = -3/5$. Using half-angle formulas: $\\sin^2 \\theta = \\frac{1 - \\cos 2\\theta}{2} = \\frac{1 - (-3/5)}{2} = \\frac{4}{5} \\implies \\sin \\theta = \\frac{2}{\\sqrt{5}}$, $\\cos \\theta = \\frac{1}{\\sqrt{5}} \\implies \\theta = \\arctan(2)$."
             },
             {
               "step": "Step 4: Compute Canonical Eigenvalues and Final Equation",
               "math": "\\lambda^2 - (a+b)\\lambda + (ab - h^2) = 0 \\implies \\lambda^2 - 25\\lambda + (136 - 36) = \\lambda^2 - 25\\lambda + 100 = 0 \\\\ (\\lambda - 20)(\\lambda - 5) = 0 \\implies \\lambda_1 = 5, \\quad \\lambda_2 = 20 \\\\ \\text{Canonical form: } 5X'^2 + 20Y'^2 = 20 \\iff \\frac{X'^2}{4} + \\frac{Y'^2}{1} = 1",
-              "explanation": "The equation reduces to an ellipse centered at $(-1, 1)$, with major semi-axis $a = 2$, minor semi-axis $b = 1$, and rotated by $\theta = \\arctan(2)$."
+              "explanation": "The equation reduces to an ellipse centered at $(-1, 1)$, with major semi-axis $a = 2$, minor semi-axis $b = 1$, and rotated by $\\theta = \\arctan(2)$."
             }
           ],
           "answer": "\\text{Translation: } (h, k) = (-1, 1); \\quad \\text{Rotation: } \\theta = \\arctan(2) \\approx 63.43^\\circ; \\quad \\text{Canonical Form: } \\frac{X'^2}{4} + \\frac{Y'^2}{1} = 1 \\text{ (Ellipse)}"
@@ -174,9 +174,9 @@ window.COURSE_DATA = {
               "explanation": "The individual lines are $L_1: 2x + y = 0$ (slope $m_1 = -2$) and $L_2: x + 3y = 0$ (slope $m_2 = -1/3$)."
             },
             {
-              "step": "Step 2: Calculate the Acute Angle $\theta$",
+              "step": "Step 2: Calculate the Acute Angle $\\theta$",
               "math": "\\tan \\theta = \\left|\\frac{2\\sqrt{h^2 - ab}}{a + b}\\right| = \\left|\\frac{2\\sqrt{(7/2)^2 - (2)(3)}}{2 + 3}\\right| = \\frac{2\\sqrt{49/4 - 6}}{5} = \\frac{2\\sqrt{25/4}}{5} = \\frac{2(5/2)}{5} = \\frac{5}{5} = 1",
-              "explanation": "Since $\tan \theta = 1$, the acute angle between the two lines is $\theta = \\frac{\\pi}{4} = 45^\\circ$."
+              "explanation": "Since $\\tan \\theta = 1$, the acute angle between the two lines is $\\theta = \\frac{\\pi}{4} = 45^\\circ$."
             },
             {
               "step": "Step 3: Joint Equation of Angle Bisectors",
@@ -203,7 +203,7 @@ window.COURSE_DATA = {
               "explanation": "The lines intersect at the point $(1/3, 5/3)$."
             },
             {
-              "step": "Step 3: Compute Acute Angle $\theta$",
+              "step": "Step 3: Compute Acute Angle $\\theta$",
               "math": "\\tan \\theta = \\left|\\frac{2\\sqrt{h^2 - ab}}{a + b}\\right| = \\left|\\frac{2\\sqrt{25/4 - 4}}{2 + 2}\\right| = \\frac{2(3/2)}{4} = \\frac{3}{4} \\implies \\theta = \\arctan(3/4) \\approx 36.87^\\circ",
               "explanation": "The acute angle between the lines is $\\arctan(3/4)$."
             }
@@ -312,7 +312,7 @@ window.COURSE_DATA = {
             {
               "step": "Step 1: Compute Radical Axis $S_1 - S_2 = 0$",
               "math": "(x^2 + y^2 - 6x - 4y + 9) - (x^2 + y^2 + 4x + 6y - 7) = 0 \\\\ -10x - 10y + 16 = 0 \\implies 5x + 5y - 8 = 0",
-              "explanation": "The radical axis is $5x + 5y - 8 = 0$, having slope $m_{\text{rad}} = -5/5 = -1$."
+              "explanation": "The radical axis is $5x + 5y - 8 = 0$, having slope $m_{\\text{rad}} = -5/5 = -1$."
             },
             {
               "step": "Step 2: Verify Perpendicularity to Line of Centers",
@@ -410,12 +410,12 @@ window.COURSE_DATA = {
             {
               "step": "Step 2: Analyze Equation (b)",
               "math": "a = 5, h = 2, b = 2, g = -6, f = -3, c = 11 \\\\ D = ab - h^2 = 5(2) - 2^2 = 10 - 4 = 6 > 0 \\\\ \\Delta = 5(22 - 9) - 2(22 - 18) - 6(-6 - 12) = 5(13) - 2(4) - 6(-18) \\ne 0",
-              "explanation": "Since $\\Delta \ne 0$ and $D > 0$, equation (b) represents a non-degenerate real Ellipse."
+              "explanation": "Since $\\Delta \\ne 0$ and $D > 0$, equation (b) represents a non-degenerate real Ellipse."
             },
             {
               "step": "Step 3: Analyze Equation (c)",
               "math": "a = 1, h = 2, b = 1, g = -3, f = -3, c = 5 \\\\ D = ab - h^2 = 1(1) - 2^2 = 1 - 4 = -3 < 0 \\\\ \\Delta = 1(5 - 9) - 2(10 - 9) - 3(-6 - 3) = -4 - 2 + 27 = 21 \\ne 0",
-              "explanation": "Since $\\Delta \ne 0$ and $D < 0$, equation (c) represents a non-degenerate Hyperbola."
+              "explanation": "Since $\\Delta \\ne 0$ and $D < 0$, equation (c) represents a non-degenerate Hyperbola."
             }
           ],
           "answer": "\\text{(a) Degenerate parallel lines } (\\Delta = 0, D = 0); \\quad \\text{(b) Ellipse } (\\Delta \\ne 0, D > 0); \\quad \\text{(c) Hyperbola } (\\Delta \\ne 0, D < 0)"
@@ -429,7 +429,7 @@ window.COURSE_DATA = {
             {
               "step": "Step 1: Verify Center and Conic Type",
               "math": "a = 5, \\; h = -2, \\; b = 8, \\; g = 0, \\; f = 0, \\; c = -36 \\\\ D = ab - h^2 = 5(8) - (-2)^2 = 40 - 4 = 36 > 0 \\\\ \\Delta = c(ab - h^2) = -36(36) = -1296 \\ne 0",
-              "explanation": "Since $g = f = 0$, the center is already at $(0, 0)$. Because $\\Delta \ne 0$ and $D > 0$, it is a central ellipse."
+              "explanation": "Since $g = f = 0$, the center is already at $(0, 0)$. Because $\\Delta \\ne 0$ and $D > 0$, it is a central ellipse."
             },
             {
               "step": "Step 2: Characteristic Equation and Eigenvalues",
@@ -439,7 +439,7 @@ window.COURSE_DATA = {
             {
               "step": "Step 3: Canonical Equation and Semi-Axes",
               "math": "\\lambda_1 X^2 + \\lambda_2 Y^2 + c = 0 \\implies 4X^2 + 9Y^2 = 36 \\implies \\frac{X^2}{9} + \\frac{Y^2}{4} = 1 \\\\ \\text{Major semi-axis: } A = \\sqrt{9} = 3, \\qquad \\text{Minor semi-axis: } B = \\sqrt{4} = 2 \\\\ \\text{Eccentricity: } e = \\sqrt{1 - \\frac{B^2}{A^2}} = \\sqrt{1 - \\frac{4}{9}} = \\frac{\\sqrt{5}}{3}",
-              "explanation": "The rotation angle satisfies $\tan 2\theta = \\frac{2h}{a-b} = \\frac{-4}{5-8} = \\frac{4}{3} \\implies \theta = \\frac{1}{2}\\arctan(4/3) \\approx 26.57^\\circ$."
+              "explanation": "The rotation angle satisfies $\\tan 2\\theta = \\frac{2h}{a-b} = \\frac{-4}{5-8} = \\frac{4}{3} \\implies \\theta = \\frac{1}{2}\\arctan(4/3) \\approx 26.57^\\circ$."
             }
           ],
           "answer": "\\text{Canonical Form: } \\frac{X^2}{9} + \\frac{Y^2}{4} = 1; \\quad A = 3, \\; B = 2; \\quad e = \\frac{\\sqrt{5}}{3} \\approx 0.745; \\quad \\theta \\approx 26.57^\\circ"
@@ -585,7 +585,7 @@ window.COURSE_DATA = {
             {
               "step": "Step 3: Substitute $m_3$ into the Cubic Equation",
               "math": "a \\left(\\frac{\\beta}{a}\\right)^3 + (2a - \\alpha)\\left(\\frac{\\beta}{a}\\right) + \\beta = 0 \\\\ \\frac{\\beta^3}{a^2} + \\frac{(2a - \\alpha)\\beta}{a} + \\beta = 0 \\implies \\beta \\left[ \\frac{\\beta^2}{a^2} + \\frac{2a - \\alpha}{a} + 1 \\right] = 0",
-              "explanation": "Since $\\beta \ne 0$ for non-trivial solutions: $\\frac{\\beta^2}{a^2} + \\frac{2a - \\alpha + a}{a} = 0 \\implies \\frac{\\beta^2}{a^2} + \\frac{3a - \\alpha}{a} = 0$."
+              "explanation": "Since $\\beta \\ne 0$ for non-trivial solutions: $\\frac{\\beta^2}{a^2} + \\frac{2a - \\alpha + a}{a} = 0 \\implies \\frac{\\beta^2}{a^2} + \\frac{3a - \\alpha}{a} = 0$."
             },
             {
               "step": "Step 4: Simplify to Locus Equation",
@@ -888,7 +888,7 @@ window.COURSE_DATA = {
             {
               "step": "Step 1: Reduce to Standard Form",
               "math": "\\frac{12}{r} = 3\\left(1 + \\frac{2}{3}\\cos\\theta\\right) \\implies \\frac{12/3}{r} = 1 + \\frac{2}{3}\\cos\\theta \\implies \\frac{4}{r} = 1 + \\frac{2}{3}\\cos\\theta",
-              "explanation": "Comparing with $\\frac{l}{r} = 1 + e\\cos\theta$ yields $l = 4$ and $e = 2/3$."
+              "explanation": "Comparing with $\\frac{l}{r} = 1 + e\\cos\\theta$ yields $l = 4$ and $e = 2/3$."
             },
             {
               "step": "Step 2: Identify Conic and Focal Extrema",
@@ -917,12 +917,12 @@ window.COURSE_DATA = {
             {
               "step": "Step 2: Tangents at $\\alpha = \\pm\\pi/2$ for Parabola ($e = 1$)",
               "math": "\\text{At } \\alpha = \\pi/2: \\quad \\frac{l}{r} = \\cos\\theta + \\cos(\\theta - \\pi/2) = \\cos\\theta + \\sin\\theta \\\\ \\text{At } \\alpha = -\\pi/2: \\quad \\frac{l}{r} = \\cos\\theta + \\cos(\\theta + \\pi/2) = \\cos\\theta - \\sin\\theta",
-              "explanation": "In Cartesian coordinates ($x = r\\cos\theta, y = r\\sin\theta$): $l = x + y \\implies x + y = l$, and $l = x - y \\implies x - y = l$."
+              "explanation": "In Cartesian coordinates ($x = r\\cos\\theta, y = r\\sin\\theta$): $l = x + y \\implies x + y = l$, and $l = x - y \\implies x - y = l$."
             },
             {
               "step": "Step 3: Intersection and Perpendicularity",
               "math": "x + y = l \\quad (m_1 = -1) \\\\ x - y = l \\quad (m_2 = +1) \\\\ m_1 m_2 = (-1)(1) = -1 \\implies \\text{Mutually Perpendicular!} \\\\ \\text{Adding: } 2x = 2l \\implies x = l, \\quad y = 0",
-              "explanation": "Since the directrix of $\\frac{l}{r} = 1 + \\cos\theta$ is $x = -l$ (or $x = l$ depending on orientation), the tangents are orthogonal and intersect on the directrix axis."
+              "explanation": "Since the directrix of $\\frac{l}{r} = 1 + \\cos\\theta$ is $x = -l$ (or $x = l$ depending on orientation), the tangents are orthogonal and intersect on the directrix axis."
             }
           ],
           "answer": "\\text{Tangents: } x + y = l \\text{ and } x - y = l; \\quad m_1 m_2 = -1 \\implies \\text{Orthogonal}; \\quad \\text{Intersection: } (l, 0)"

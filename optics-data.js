@@ -137,12 +137,12 @@ window.COURSE_DATA = {
           "difficulty": "diff-medium",
           "difficultyLabel": "Medium",
           "title": "Example 2.1: Radius of Curvature from Newton's Ring Measurements",
-          "question": "In a Newton's rings experiment using a sodium lamp ($\\lambda = 589.0\text{ nm}$), the diameter of the 4th dark ring is measured to be $0.400\text{ cm}$ and the diameter of the 16th dark ring is measured to be $0.800\text{ cm}$. (a) Calculate the radius of curvature $R$ of the plano-convex lens. (b) If the air gap is replaced with water ($\\mu = 1.333$), what will be the new diameter of the 16th dark ring?",
+          "question": "In a Newton's rings experiment using a sodium lamp ($\\lambda = 589.0\\text{ nm}$), the diameter of the 4th dark ring is measured to be $0.400\\text{ cm}$ and the diameter of the 16th dark ring is measured to be $0.800\\text{ cm}$. (a) Calculate the radius of curvature $R$ of the plano-convex lens. (b) If the air gap is replaced with water ($\\mu = 1.333$), what will be the new diameter of the 16th dark ring?",
           "steps": [
             {
               "title": "Step 1: Calculate the radius of curvature R using difference of squares",
               "math": "$$D_{16}^2 - D_4^2 = 4 (16 - 4) R \\lambda = 4 (12) R \\lambda = 48 R \\lambda$$\n$$D_{16}^2 - D_4^2 = (0.800 \\times 10^{-2})^2 - (0.400 \\times 10^{-2})^2 = (6.40 - 1.60) \\times 10^{-5} = 4.80 \\times 10^{-5} \\text{ m}^2$$\n$$R = \\frac{4.80 \\times 10^{-5} \\text{ m}^2}{48 \\times (589.0 \\times 10^{-9} \\text{ m})} = \\frac{4.80 \\times 10^{-5}}{2.8272 \\times 10^{-5}} \\approx 1.698 \\text{ m}$$",
-              "explanation": "The radius of curvature of the convex lens is $1.698\text{ meters}$."
+              "explanation": "The radius of curvature of the convex lens is $1.698\\text{ meters}$."
             },
             {
               "title": "Step 2: Calculate the diameter of the 16th dark ring in water",
@@ -155,7 +155,7 @@ window.COURSE_DATA = {
           "difficulty": "diff-hard",
           "difficultyLabel": "Hard",
           "title": "Example 2.2: Fabry-Pérot Etalon Cavity Analysis and Hyperfine Resolution",
-          "question": "A Fabry-Pérot etalon has an air spacing of $d = 5.00\text{ mm}$ and plate reflectance $R = 0.94$. It is illuminated by light near $\\lambda = 500.0\text{ nm}$. Calculate: (a) the coefficient of finesse $F$, (b) the effective finesse $\\mathcal{F}$, (c) the free spectral range in wavelength $\\Delta \\lambda_{\text{FSR}}$, and (d) the minimum resolvable wavelength difference $\\delta \\lambda_{\text{min}}$ at normal incidence.",
+          "question": "A Fabry-Pérot etalon has an air spacing of $d = 5.00\\text{ mm}$ and plate reflectance $R = 0.94$. It is illuminated by light near $\\lambda = 500.0\\text{ nm}$. Calculate: (a) the coefficient of finesse $F$, (b) the effective finesse $\\mathcal{F}$, (c) the free spectral range in wavelength $\\Delta \\lambda_{\\text{FSR}}$, and (d) the minimum resolvable wavelength difference $\\delta \\lambda_{\\text{min}}$ at normal incidence.",
           "steps": [
             {
               "title": "Step 1: Compute the coefficient of finesse and effective finesse",
@@ -215,7 +215,7 @@ window.COURSE_DATA = {
           "difficulty": "diff-medium",
           "difficultyLabel": "Medium",
           "title": "Example 3.1: Design and Multi-Focal Analysis of a Fresnel Zone Plate",
-          "question": "A Fresnel zone plate is designed such that its primary focal length for green light ($\\lambda = 500\text{ nm}$) is $f_1 = 1.00\text{ m}$. (a) Calculate the radius of the first zone $r_1$ and the radius of the 25th zone $r_{25}$. (b) If the zone plate contains 100 transparent zones, find the third harmonic focal length $f_3$.",
+          "question": "A Fresnel zone plate is designed such that its primary focal length for green light ($\\lambda = 500\\text{ nm}$) is $f_1 = 1.00\\text{ m}$. (a) Calculate the radius of the first zone $r_1$ and the radius of the 25th zone $r_{25}$. (b) If the zone plate contains 100 transparent zones, find the third harmonic focal length $f_3$.",
           "steps": [
             {
               "title": "Step 1: Calculate the radius of the first and 25th zones",
@@ -378,7 +378,7 @@ window.COURSE_DATA = {
           "difficulty": "diff-medium",
           "difficultyLabel": "Medium",
           "title": "Example 6.1: Threshold Gain and Population Inversion in He-Ne Laser",
-          "question": "A Helium-Neon laser operating at $\\lambda = 632.8\text{ nm}$ has an active discharge tube length of $L = 25.0\text{ cm}$. The cavity mirrors have reflectances $R_1 = 1.00$ (high reflector) and $R_2 = 0.98$ (output coupler). The internal scattering and diffraction loss coefficient is $\alpha_s = 0.010\text{ m}^{-1}$. Calculate: (a) the threshold gain coefficient $\\gamma_{\text{th}}$ in $\text{m}^{-1}$, and (b) the frequency separation between adjacent longitudinal cavity modes.",
+          "question": "A Helium-Neon laser operating at $\\lambda = 632.8\\text{ nm}$ has an active discharge tube length of $L = 25.0\\text{ cm}$. The cavity mirrors have reflectances $R_1 = 1.00$ (high reflector) and $R_2 = 0.98$ (output coupler). The internal scattering and diffraction loss coefficient is $\alpha_s = 0.010\\text{ m}^{-1}$. Calculate: (a) the threshold gain coefficient $\\gamma_{\\text{th}}$ in $\\text{m}^{-1}$, and (b) the frequency separation between adjacent longitudinal cavity modes.",
           "steps": [
             {
               "title": "Step 1: Compute the threshold gain coefficient",
@@ -426,22 +426,22 @@ window.COURSE_DATA = {
           "difficulty": "diff-hard",
           "difficultyLabel": "Hard",
           "title": "Example 7.1: 4f Optical Low-Pass Spatial Filter Pinhole Diameter Calculation",
-          "question": "A 4f optical spatial filtering system uses a laser of wavelength $\\lambda = 632.8\text{ nm}$ and two lenses of focal length $f = 250\text{ mm}$. The input object is a photograph corrupted by high-frequency periodic grid noise with spatial frequency $f_{\text{noise}} = 50.0\text{ lines/mm}$. (a) Calculate the radial position $r_{\text{noise}}$ of the noise spectral peaks in the Fourier transform plane. (b) What maximum pinhole aperture diameter $D_{\text{filter}}$ should be placed in the Fourier plane to completely eliminate the grid noise while retaining image content up to $40.0\text{ lines/mm}$?",
+          "question": "A 4f optical spatial filtering system uses a laser of wavelength $\\lambda = 632.8\\text{ nm}$ and two lenses of focal length $f = 250\\text{ mm}$. The input object is a photograph corrupted by high-frequency periodic grid noise with spatial frequency $f_{\\text{noise}} = 50.0\\text{ lines/mm}$. (a) Calculate the radial position $r_{\\text{noise}}$ of the noise spectral peaks in the Fourier transform plane. (b) What maximum pinhole aperture diameter $D_{\\text{filter}}$ should be placed in the Fourier plane to completely eliminate the grid noise while retaining image content up to $40.0\\text{ lines/mm}$?",
           "steps": [
             {
               "title": "Step 1: Calculate the radial position of noise peaks in the Fourier plane",
               "math": "$$r = f_{\\text{spatial}} \\lambda f$$\n$$r_{\\text{noise}} = (50.0 \\times 10^3 \\text{ m}^{-1}) \\times (632.8 \\times 10^{-9} \\text{ m}) \\times (0.250 \\text{ m}) = 50.0 \\times 10^3 \\times 1.582 \\times 10^{-7} = 7.91 \\times 10^{-3} \\text{ m} = 7.91 \\text{ mm}$$",
-              "explanation": "The noise components appear as bright diffraction spots at radius $7.91\text{ mm}$ from the optical axis."
+              "explanation": "The noise components appear as bright diffraction spots at radius $7.91\\text{ mm}$ from the optical axis."
             },
             {
               "title": "Step 2: Determine cutoff radius for 40 lines/mm signal",
               "math": "$$r_{\\text{signal, max}} = (40.0 \\times 10^3 \\text{ m}^{-1}) \\times (632.8 \\times 10^{-9} \\text{ m}) \\times (0.250 \\text{ m}) = 6.328 \\times 10^{-3} \\text{ m} = 6.328 \\text{ mm}$$",
-              "explanation": "The desired image frequencies extend out to radius $6.33\text{ mm}$."
+              "explanation": "The desired image frequencies extend out to radius $6.33\\text{ mm}$."
             },
             {
               "title": "Step 3: Choose pinhole filter diameter",
               "math": "$$r_{\\text{filter}} \\in [6.33 \\text{ mm}, 7.91 \\text{ mm}] \\implies \\text{Choose } r_{\\text{filter}} = 7.00 \\text{ mm}$$\n$$D_{\\text{filter}} = 2 r_{\\text{filter}} = 14.0 \\text{ mm}$$",
-              "explanation": "A pinhole diameter of $14.0\text{ mm}$ transmits all signal up to $40\text{ lines/mm}$ while completely blocking the $50\text{ lines/mm}$ noise."
+              "explanation": "A pinhole diameter of $14.0\\text{ mm}$ transmits all signal up to $40\\text{ lines/mm}$ while completely blocking the $50\\text{ lines/mm}$ noise."
             }
           ]
         }

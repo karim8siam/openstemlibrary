@@ -614,8 +614,8 @@ window.COURSE_DATA = {
       "number": 7,
       "unitNumber": 7,
       "title": "Unit 7: Lines of Curvature, Asymptotic Curves & The Dupin Indicatrix",
-      "description": "Directional geometry on surfaces: Rodrigues' formula for lines of curvature, Euler's theorem on normal curvature, the Dupin indicatrix conic sections, asymptotic directions and curves ($II = 0$), the Beltrami-Enneper theorem on the torsion of asymptotic curves ($\tau = \\pm \\sqrt{-K}$), conjugate directions, and triply orthogonal systems.",
-      "leadSummary": "Directional geometry on surfaces: Rodrigues' formula for lines of curvature, Euler's theorem on normal curvature, the Dupin indicatrix conic sections, asymptotic directions and curves ($II = 0$), the Beltrami-Enneper theorem on the torsion of asymptotic curves ($\tau = \\pm \\sqrt{-K}$), conjugate directions, and triply orthogonal systems.",
+      "description": "Directional geometry on surfaces: Rodrigues' formula for lines of curvature, Euler's theorem on normal curvature, the Dupin indicatrix conic sections, asymptotic directions and curves ($II = 0$), the Beltrami-Enneper theorem on the torsion of asymptotic curves ($\\tau = \\pm \\sqrt{-K}$), conjugate directions, and triply orthogonal systems.",
+      "leadSummary": "Directional geometry on surfaces: Rodrigues' formula for lines of curvature, Euler's theorem on normal curvature, the Dupin indicatrix conic sections, asymptotic directions and curves ($II = 0$), the Beltrami-Enneper theorem on the torsion of asymptotic curves ($\\tau = \\pm \\sqrt{-K}$), conjugate directions, and triply orthogonal systems.",
       "simulations": [
         "sim_dg_dupin_indicatrix"
       ],

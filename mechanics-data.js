@@ -360,7 +360,7 @@ $$\\boldsymbol{\\nabla} \\cdot \\mathbf{V} = \\frac{1}{r}\\frac{\\partial(r V_r)
 $$\\nabla^2 \\Phi = \\frac{1}{r} \\frac{\\partial}{\\partial r}\\left(r \\frac{\\partial \\Phi}{\\partial r}\\right) + \\frac{1}{r^2}\\frac{\\partial^2 \\Phi}{\\partial \\theta^2} + \\frac{\\partial^2 \\Phi}{\\partial z^2}$$
 
 <h4>2. Spherical Polar Coordinates $(r, \\theta, \\phi)$</h4>
-Transformation ($\theta$ is colatitude / polar angle, $\\phi$ is azimuth):
+Transformation ($\\theta$ is colatitude / polar angle, $\\phi$ is azimuth):
 $$x = r \\sin \\theta \\cos \\phi, \\quad y = r \\sin \\theta \\sin \\phi, \\quad z = r \\cos \\theta$$
 
 Scale factors: $h_r = 1, h_\\theta = r, h_\\phi = r \\sin \\theta$. Differential volume element:
@@ -532,7 +532,7 @@ Trajectory metrics:
 </ul>
 
 <h4>2. Projectile on an Inclined Plane</h4>
-When a projectile is launched at angle $\\alpha$ relative to horizontal onto a hill inclined at angle $\\beta$ ($\alpha > \\beta$):
+When a projectile is launched at angle $\\alpha$ relative to horizontal onto a hill inclined at angle $\\beta$ ($\\alpha > \\beta$):
 Rotating axes so that $x'$ is along the slope and $y'$ is normal to the slope:
 $$a_{x'} = -g \\sin \\beta, \\quad a_{y'} = -g \\cos \\beta$$
 $$v_{0x'} = v_0 \\cos(\\alpha - \\beta), \\quad v_{0y'} = v_0 \\sin(\\alpha - \\beta)$$
@@ -608,7 +608,7 @@ Contact forces parallel to surfaces arise from microscopic roughness and molecul
           "difficulty": "Medium",
           "difficultyLabel": "Medium",
           "title": "Projectile with High Elevation on Inclined Plane",
-          "question": "A projectile is launched with speed $v_0$ at angle $\\alpha$ above a planar hillside inclined at angle $\\beta$ to the horizontal ($\alpha > \\beta$). Derive an exact analytical expression for the range $R$ of the projectile measured along the inclined surface.",
+          "question": "A projectile is launched with speed $v_0$ at angle $\\alpha$ above a planar hillside inclined at angle $\\beta$ to the horizontal ($\\alpha > \\beta$). Derive an exact analytical expression for the range $R$ of the projectile measured along the inclined surface.",
           "steps": [
             {
               "title": "Step 1: Set up rotated coordinates along the inclined plane",
