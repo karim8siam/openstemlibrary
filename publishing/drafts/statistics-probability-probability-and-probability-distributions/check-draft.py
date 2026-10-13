@@ -3,6 +3,7 @@ from fractions import Fraction as F
 from itertools import combinations, product, permutations
 from pathlib import Path
 import hashlib, json, re
+import math
 
 ROOT = Path(__file__).resolve().parent
 checks = []
@@ -86,6 +87,64 @@ if (ROOT/'unit-2.md').exists():
     record("U2Q3 second pass given first",joint[1,1]/first_pass,F(31,50))
     record("U2Q3 high given first pass",F(2,5)*F(4,5)/first_pass,F(16,25))
     record("U2Q3 marginal independence gap",joint[1,1]-F(1,2)**2,F(3,50))
+
+if (ROOT/'unit-3.md').exists():
+    original = {-2:F(1,10),-1:F(1,5),0:F(3,10),1:F(1,4),2:F(3,20)}
+    squared = {}
+    for x,mass in original.items():
+        squared[x*x] = squared.get(x*x,F(0)) + mass
+    for y,expected in [(0,F(3,10)),(1,F(9,20)),(4,F(1,4))]:
+        record("U3Q1 transformed mass "+str(y),squared[y],expected)
+    record("U3Q1 tail",sum(p for x,p in squared.items() if x>1),F(1,4))
+    record("U3Q1 negative sign given square one",original[-1]/squared[1],F(4,9))
+    cumulative = F(0)
+    for y in sorted(squared):
+        cumulative += squared[y]
+        if cumulative >= F(1,2):
+            record("U3Q1 generalized inverse median",y,1)
+            break
+
+    def close(name, actual, expected, tolerance=1e-10):
+        assert abs(actual-expected) <= tolerance, (name,actual,expected)
+        checks.append({"check":name,"actual":actual,"expected":expected,"absolute_error":abs(actual-expected),"tolerance":tolerance,"status":"pass"})
+
+    def bisect(cdf,target,lo,hi):
+        for _ in range(80):
+            mid=(lo+hi)/2
+            if cdf(mid)<target: lo=mid
+            else: hi=mid
+        return (lo+hi)/2
+
+    # Integrate the original piecewise-linear triangular function by trapezoids.
+    # Each segment's integral is exact; no published CDF formula is used here.
+    def triangle_area(a,b):
+        points=sorted(set([a,b]+[x for x in (0,1,2) if a<x<b]))
+        height=lambda x: max(0,min(x,2-x))
+        return sum((r-l)*(height(l)+height(r))/2 for l,r in zip(points,points[1:]))
+    close("U3Q2 density normalization",triangle_area(0,2),1)
+    close("U3Q2 interval area",triangle_area(.5,1.5),.75)
+    triangle_cdf=lambda x: triangle_area(0,x) if x>0 else 0
+    close("U3Q2 median from integrated density",bisect(triangle_cdf,.5,0,2),1)
+    close("U3Q2 90th percentile",bisect(triangle_cdf,.9,0,2),2-math.sqrt(.2))
+
+    # Original-space interval geometry, plus independent bisection for quantile.
+    def square_cdf(y):
+        if y<=0:return 0.0
+        root=math.sqrt(y)
+        return max(0,min(1,root)-max(-2,-root))/3
+    close("U3Q3 boundary CDF at zero",square_cdf(0),0)
+    close("U3Q3 CDF at one",square_cdf(1),2/3)
+    close("U3Q3 CDF at four",square_cdf(4),1)
+    close("U3Q3 median by original-space inversion",bisect(square_cdf,.5,0,4),9/16)
+    # Substitute y=t^2 before integrating the two density branches. The
+    # integrands become constants, avoiding evaluation of an infinite endpoint.
+    close("U3Q3 first density branch integral",(2/3)*(1-0),2/3)
+    close("U3Q3 second density branch integral",(1/3)*(2-1),1/3)
+    for y in (.04,.25,.81,1.21,2.25,3.61):
+        epsilon=1e-6
+        derivative=(square_cdf(y+epsilon)-square_cdf(y-epsilon))/(2*epsilon)
+        expected=1/(3*math.sqrt(y)) if y<1 else 1/(6*math.sqrt(y))
+        close("U3Q3 density versus original-space CDF derivative at "+str(y),derivative,expected,1e-8)
 
 units = []
 for file in sorted(ROOT.glob('unit-*.md')):

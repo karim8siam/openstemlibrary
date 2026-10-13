@@ -18,9 +18,17 @@ This is an internal critical review of saved Units 1–2, not independent expert
 - Current examples contain no real medical, financial or legal recommendations. All source rates and operating conditions are stated teaching assumptions.
 - Unit 2 currently has 5,188 conservative prose words against an outline planning target of 6,000. The book-wide 50,000-word minimum remains mandatory. A per-unit target is a planning guide, not a pass claim; later expansion must add useful substance if the complete draft falls short.
 
+## Unit 3
+
+- Reviewed discrete versus absolutely continuous and mixed distributions, right-continuous CDFs, endpoint atoms, quantile conventions, and one-to-one versus many-to-one transformations.
+- Recomputed the discrete transformation by aggregating the original rational masses, the triangular law through exact piecewise trapezoid integration and numerical quantile inversion, and the square transformation through original-space interval lengths and CDF differentiation checks.
+- Checked the asymmetric square-transform support: both inverse branches contribute below one, but only the negative branch contributes above one. Its boundary singularity is integrable and is not a point mass.
+- Added substantive sections on recording transformations, clipping atoms, CDF comparisons and generalized-inverse sampling. These sections are instructional supplements to the mapped random-variable scope.
+- Unit 3 has 5,584 conservative prose words and three solved questions. No interactive simulation has yet been implemented.
+
 ## Unresolved work
 
-- Units 3–10 are not yet drafted at this checkpoint.
+- Units 4–10 are not yet drafted at this checkpoint.
 - No simulations are implemented or tested yet. Planned simulations are design notes only.
 - Reader assembly, equation rendering, mobile controls, static pages, search metadata, preservation checks, sitemap and live verification remain unperformed for this book.
 - Complete-book repetition, coverage and substantive academic review must be conducted after assembly. Neither finite arithmetic checks nor this partial review count as completed-book acceptance.
