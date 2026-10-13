@@ -305,6 +305,55 @@ if (ROOT/'unit-6.md').exists():
         record("U6Q3 "+name+" exactly three",law[3],central_probability)
         record("U6Q3 "+name+" proportion variance",variance/36,proportion_variance)
 
+if (ROOT/'unit-7.md').exists():
+    paths=[]
+    for bits in product((0,1),repeat=8):
+        weight=F(1)
+        for bit in bits:weight*=F(1,5) if bit else F(4,5)
+        first=next((i+1 for i,bit in enumerate(bits) if bit),9)
+        paths.append((bits,first,weight))
+    record("U7Q1 first success on four by full path enumeration",sum(w for b,t,w in paths if t==4),F(64,625))
+    record("U7Q1 more than five",sum(w for b,t,w in paths if t>5),F(1024,3125))
+    record("U7Q1 at least five",sum(w for b,t,w in paths if t>=5),F(256,625))
+    ratio=sum(w for b,t,w in paths if t>8)/sum(w for b,t,w in paths if t>3)
+    record("U7Q1 conditional remaining survival",ratio,F(1024,3125))
+    masses=[(.8**(t-1))*.2 for t in range(1,501)]
+    close("U7Q1 total-wait mean by PMF sum",sum(t*p for t,p in enumerate(masses,1)),5)
+    close("U7Q1 failure mean by PMF sum",sum((t-1)*p for t,p in enumerate(masses,1)),4)
+    close("U7Q1 variance by centered PMF sum",sum((t-5)**2*p for t,p in enumerate(masses,1)),20)
+    exact=F(0);by_five=F(0)
+    for bits in product((0,1),repeat=5):
+        weight=F(1)
+        for bit in bits:weight*=F(2,5) if bit else F(3,5)
+        if sum(bits[:4])==2 and bits[4]:exact+=weight
+        if sum(bits)>=3:by_five+=weight
+    record("U7Q2 third success on trial five by paths",exact,F(432,3125))
+    record("U7Q2 third success by trial five by paths",by_five,F(992,3125))
+    negbin=[math.comb(t-1,2)*(.4**3)*(.6**(t-3)) for t in range(3,501)]
+    close("U7Q2 total-wait mean by PMF sum",sum(t*p for t,p in enumerate(negbin,3)),7.5)
+    close("U7Q2 failure mean by PMF sum",sum((t-3)*p for t,p in enumerate(negbin,3)),4.5)
+    close("U7Q2 variance by centered PMF sum",sum((t-7.5)**2*p for t,p in enumerate(negbin,3)),11.25)
+    total_parameter=1.8*2
+    close("U7Q3 interval parameter",total_parameter,3.6)
+    close("U7Q3 zero total probability",math.exp(-total_parameter),.02732372244729256)
+    # Sum over total counts and all allocations, instead of using the claimed
+    # thinned-Poisson formula directly.
+    marginal_marked={k:0.0 for k in range(31)}
+    for n in range(31):
+        total_mass=math.exp(-3.6)*3.6**n/math.factorial(n)
+        for k in range(n+1):marginal_marked[k]+=total_mass*math.comb(n,k)*(1/3)**k*(2/3)**(n-k)
+    mean=sum(k*p for k,p in marginal_marked.items())
+    close("U7Q3 marked mean by allocation mixture",mean,1.2)
+    close("U7Q3 marked variance by allocation mixture",sum((k-mean)**2*p for k,p in marginal_marked.items()),1.2)
+    close("U7Q3 exactly two marked via allocation mixture",marginal_marked[2],.21685983257678553)
+    conditional=F(0)
+    for bits in product((0,1),repeat=5):
+        if sum(bits)==2:
+            weight=F(1)
+            for bit in bits:weight*=F(1,3) if bit else F(2,3)
+            conditional+=weight
+    record("U7Q3 two marked given total five by marking paths",conditional,F(80,243))
+
 units = []
 for file in sorted(ROOT.glob('unit-*.md')):
     text = file.read_text()

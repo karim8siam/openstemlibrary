@@ -1,6 +1,6 @@
 # Draft review checkpoint
 
-This is an internal critical review of saved Units 1–6, not independent expert peer review, full-book QA or publication approval.
+This is an internal critical review of saved Units 1–7, not independent expert peer review, full-book QA or publication approval.
 
 ## Unit 1
 
@@ -50,6 +50,14 @@ This is an internal critical review of saved Units 1–6, not independent expert
 - Reviewed conditional-binomial/hypergeometric linkage and shared-probability mixture variance using the prior conditional-probability and total-variance results. Supplements explicitly distinguish fixed finite populations from random superpopulation marking.
 - The sampling explorer is still a design specification, not an implemented/tested simulation. No publication or simulation pass is claimed.
 
+## Unit 7
+
+- Reviewed failures versus total-trial supports, positive success probability, strict versus nonstrict survival events, geometric memorylessness and the nonmemorylessness of a multiple-success wait.
+- Independently enumerated full finite trial paths for the worked stopping events and conditional survival; checked waiting means/variances by direct long PMF summation.
+- Recomputed Poisson thinning through a mixture over total counts and binomial allocations, rather than directly evaluating the claimed thinned law. Verified the fixed-total marking probability by binary-path enumeration.
+- Reviewed rate-versus-interval parameter units, independent aggregation/marking assumptions, random-rate total variance, censoring versus completed observations and a bounded numerical-tail remainder.
+- Geometric and negative-binomial moment formulas are justified analytically in the text. Finite numerical sums verify selected values only; they are not represented as proofs about all infinite-support cases.
+
 ## Bayes explorer prototype
 
 - Implemented exact source/flag/posterior calculations, reproducible seeded sampling and a labeled DOM interface in `bayes-explorer.js`.
@@ -59,7 +67,7 @@ This is an internal critical review of saved Units 1–6, not independent expert
 
 ## Unresolved work
 
-- Units 7–10 are not yet drafted at this checkpoint.
+- Units 8–10 are not yet drafted at this checkpoint.
 - One Bayes explorer prototype has numerical and DOM evidence; remaining explorers, reader integration and rendered browser/mobile tests are pending.
 - Reader assembly, equation rendering, mobile controls, static pages, search metadata, preservation checks, sitemap and live verification remain unperformed for this book.
 - Complete-book repetition, coverage and substantive academic review must be conducted after assembly. Neither finite arithmetic checks nor this partial review count as completed-book acceptance.
