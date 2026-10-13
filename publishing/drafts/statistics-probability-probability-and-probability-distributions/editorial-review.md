@@ -1,6 +1,6 @@
 # Draft review checkpoint
 
-This is an internal critical review of saved Units 1–4, not independent expert peer review, full-book QA or publication approval.
+This is an internal critical review of saved Units 1–5, not independent expert peer review, full-book QA or publication approval.
 
 ## Unit 1
 
@@ -34,9 +34,17 @@ This is an internal critical review of saved Units 1–4, not independent expert
 - Added convolution and nonlinear conditional-averaging sections to give further substantive treatment of functions of random variables and expectation products.
 - Every drafted unit contains exactly three solved questions. The conservative counter now also removes repeated question/solution labels; the canonical current measurements are in `draft-checks.json`. Earlier counts in this narrative describe earlier counter versions and are superseded by that artifact.
 
+## Unit 5
+
+- Checked raw/central moment formulas, moment existence conditions, PGF factorial-versus-raw derivatives, MGF domains, independent-sum rules and the first four cumulant relations.
+- Independently computed cumulants from exact truncated formal logarithm coefficients rather than substituting the printed identities. Enumerated all sixteen binary trial paths for the count problem. Numerically integrated four positive polynomial moments in the supplied transformed-normal example.
+- Reviewed the lognormal example's divergence analytically: for every positive transform argument, the exponent tends to positive infinity on the right tail. Finite truncation is not accepted as evidence of a finite MGF. The series-ratio argument separately shows divergence of the formal positive-argument moment series.
+- Verified primary official teaching sources for MGF neighborhood/uniqueness conditions and characteristic-function existence/products; URLs and actual inspection scope are recorded in `references.json`.
+- Factorial moments, joint transforms and moment-feasibility inequalities are substantive supplements to the mapped generator topic. The unit omits a standalone random animation because exact algebra and existence arguments are the useful learning activity here; this does not excuse simulations in the rest of the book.
+
 ## Unresolved work
 
-- Units 5–10 are not yet drafted at this checkpoint.
+- Units 6–10 are not yet drafted at this checkpoint.
 - No simulations are implemented or tested yet. Planned simulations are design notes only.
 - Reader assembly, equation rendering, mobile controls, static pages, search metadata, preservation checks, sitemap and live verification remain unperformed for this book.
 - Complete-book repetition, coverage and substantive academic review must be conducted after assembly. Neither finite arithmetic checks nor this partial review count as completed-book acceptance.

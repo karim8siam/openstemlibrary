@@ -214,6 +214,58 @@ if (ROOT/'unit-4.md').exists():
     record("U4Q3 decomposition",within+between,variance)
     record("U4Q3 shared-group covariance by full joint table",sum((x-mean)*(z-mean)*p for (x,z),p in pair.items()),F(75,16))
 
+if (ROOT/'unit-5.md').exists():
+    law={-1:F(1,4),3:F(3,4)}
+    raw=[sum(F(x)**r*p for x,p in law.items()) for r in range(5)]
+    for r,expected in [(1,F(2)),(2,F(7)),(3,F(20)),(4,F(61))]:
+        record("U5Q1 raw moment "+str(r),raw[r],expected)
+    mean=raw[1]
+    central=[sum((x-mean)**r*p for x,p in law.items()) for r in range(5)]
+    for r,expected in [(2,F(3)),(3,F(-6)),(4,F(21))]:
+        record("U5Q1 centered moment "+str(r),central[r],expected)
+
+    def polynomial_multiply(a,b,degree):
+        out=[F(0)]*(degree+1)
+        for i,x in enumerate(a):
+            for j,y in enumerate(b):
+                if i+j<=degree:out[i+j]+=x*y
+        return out
+    # Compute log(1+u) as a finite formal series using exact rational
+    # multiplication. This does not reuse the printed cumulant identities.
+    u=[F(0)]+[raw[r]/math.factorial(r) for r in range(1,5)]
+    power=[F(1)]+[F(0)]*4
+    logarithm=[F(0)]*5
+    for k in range(1,5):
+        power=polynomial_multiply(power,u,4)
+        for j in range(5):logarithm[j]+=F((-1)**(k+1),k)*power[j]
+    for r,expected in [(1,F(2)),(2,F(3)),(3,F(-6)),(4,F(-6))]:
+        record("U5Q1 cumulant from formal log coefficient "+str(r),logarithm[r]*math.factorial(r),expected)
+    record("U5Q1 kurtosis",central[4]/central[2]**2,F(7,3))
+    record("U5Q1 excess kurtosis",central[4]/central[2]**2-3,F(-2,3))
+    close("U5Q1 skewness",float(central[3])/float(central[2])**1.5,-2/math.sqrt(3))
+    pmf={n:F(0) for n in range(5)}
+    for bits in product((0,1),repeat=4):
+        probability=F(1)
+        for bit in bits:probability*=F(2,5) if bit else F(3,5)
+        pmf[sum(bits)]+=probability
+    for n,numerator in enumerate((81,216,216,96,16)):
+        record("U5Q2 count mass by binary-path enumeration "+str(n),pmf[n],F(numerator,625))
+    mean,variance=mean_var(pmf)
+    record("U5Q2 count mean",mean,F(8,5))
+    record("U5Q2 count variance",variance,F(24,25))
+    record("U5Q2 third centered moment",sum((x-mean)**3*p for x,p in pmf.items()),F(24,125))
+
+    # Independent finite numerical check of the completed-square moment
+    # integrals. These checks do not establish exponential-moment divergence;
+    # that is the analytic tail argument in the unit and review.
+    for r in range(1,5):
+        computed=integrate(lambda z:math.exp(r*z-z*z/2)/math.sqrt(2*math.pi),r-8,r+8,n=8192)
+        expected=math.exp(r*r/2)
+        close("U5Q3 raw moment numerical integral r="+str(r),computed,expected,max(1e-10,expected*1e-10))
+    ratio=.1*math.exp(20.5)/21
+    assert ratio>1
+    checks.append({"check":"U5Q3 positive-series consecutive ratio example","t":.1,"r":20,"ratio":ratio,"status":"pass","scope":"Illustration only; divergence for every positive t follows from the analytic ratio limit in the written solution."})
+
 units = []
 for file in sorted(ROOT.glob('unit-*.md')):
     text = file.read_text()
