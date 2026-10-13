@@ -1,6 +1,6 @@
 """Independent finite enumerations for saved worked solutions; not full book QA."""
 from fractions import Fraction as F
-from itertools import combinations, product
+from itertools import combinations, product, permutations
 from pathlib import Path
 import hashlib, json, re
 
@@ -46,6 +46,46 @@ parity = [p for p in product((0,1), repeat=3) if sum(p) % 2 == 0]
 for c in [(0,), (1,), (2,), (0,1), (0,2), (1,2), (0,1,2)]:
     record("U1Q3 intersection %s" % (c,), F(sum(all(p[i] for i in c) for p in parity), len(parity)), F(1,2) if len(c)==1 else F(1,4) if len(c)==2 else F(0))
 record("U1Q3 union", F(sum(any(p) for p in parity), len(parity)), F(3,4))
+
+if (ROOT/'unit-2.md').exists():
+    # A 100,000-item integer population represents every stipulated source and
+    # flag combination exactly; its counts are independent of odds algebra.
+    population = [("H", True, 1600), ("H", False, 18400),
+                  ("M", True, 1500), ("M", False, 48500),
+                  ("L", True, 300), ("L", False, 29700)]
+    flagged = sum(n for source, flag, n in population if flag)
+    unflagged = sum(n for source, flag, n in population if not flag)
+    record("U2Q1 overall flag probability", F(flagged, 100000), F(17,500))
+    for source, expected in [("H",F(8,17)),("M",F(15,34)),("L",F(3,34))]:
+        record("U2Q1 posterior source "+source, F(sum(n for s,f,n in population if s==source and f), flagged), expected)
+    record("U2Q1 H given no flag", F(18400,unflagged), F(4,21))
+    record("U2Q1 posterior odds from counts", F(1600,1800), F(8,9))
+    record("U2Q1 complement likelihood", F(1800,80000), F(9,400))
+
+    paths = list(permutations(range(12),3))
+    marked = lambda i: i < 5
+    exact_two = [p for p in paths if sum(marked(i) for i in p)==2]
+    mum = [p for p in paths if tuple(marked(i) for i in p)==(True,False,True)]
+    history = [p for p in paths if marked(p[0]) and not marked(p[1])]
+    record("U2Q2 ordered MUM", F(len(mum),len(paths)), F(7,66))
+    record("U2Q2 exactly two", F(len(exact_two),len(paths)), F(7,22))
+    record("U2Q2 MUM given exactly two", F(len(mum),len(exact_two)), F(1,3))
+    record("U2Q2 first marked given exactly two", F(sum(marked(p[0]) for p in exact_two),len(exact_two)), F(2,3))
+    record("U2Q2 third marked given MU", F(sum(marked(p[2]) for p in history),len(history)), F(2,5))
+
+    # Sum the full condition-specific joint tables, then derive conditionals.
+    joint = {}
+    for first, second in product((0,1), repeat=2):
+        joint[first,second] = sum(weight * (rate if first else 1-rate) * (rate if second else 1-rate)
+                                  for weight,rate in [(F(2,5),F(4,5)),(F(3,5),F(3,10))])
+    record("U2Q3 table total",sum(joint.values()),F(1))
+    for pattern, expected in [((1,1),F(31,100)),((1,0),F(19,100)),((0,1),F(19,100)),((0,0),F(31,100))]:
+        record("U2Q3 marginal table "+str(pattern),joint[pattern],expected)
+    first_pass = sum(v for (a,b),v in joint.items() if a)
+    record("U2Q3 first pass",first_pass,F(1,2))
+    record("U2Q3 second pass given first",joint[1,1]/first_pass,F(31,50))
+    record("U2Q3 high given first pass",F(2,5)*F(4,5)/first_pass,F(16,25))
+    record("U2Q3 marginal independence gap",joint[1,1]-F(1,2)**2,F(3,50))
 
 units = []
 for file in sorted(ROOT.glob('unit-*.md')):
