@@ -146,6 +146,74 @@ if (ROOT/'unit-3.md').exists():
         expected=1/(3*math.sqrt(y)) if y<1 else 1/(6*math.sqrt(y))
         close("U3Q3 density versus original-space CDF derivative at "+str(y),derivative,expected,1e-8)
 
+if (ROOT/'unit-4.md').exists():
+    def mean_var(pmf):
+        mean=sum(x*p for x,p in pmf.items())
+        variance=sum((x-mean)**2*p for x,p in pmf.items())
+        return mean,variance
+    table={(0,0):F(1,10),(0,1):F(1,5),(1,0):F(1,5),(1,1):F(1,10),(2,0):F(1,10),(2,1):F(3,10)}
+    px={x:sum(p for (a,b),p in table.items() if a==x) for x in (0,1,2)}
+    py={y:sum(p for (a,b),p in table.items() if b==y) for y in (0,1)}
+    mx,vx=mean_var(px); my,vy=mean_var(py)
+    record("U4Q1 X mean",mx,F(11,10)); record("U4Q1 Y mean",my,F(3,5))
+    record("U4Q1 X variance via centered sum",vx,F(69,100))
+    mxy=sum(x*y*p for (x,y),p in table.items())
+    record("U4Q1 product moment",mxy,F(7,10))
+    record("U4Q1 covariance via centered joint sum",sum((x-mx)*(y-my)*p for (x,y),p in table.items()),F(1,25))
+    conditional={y:mean_var({x:table[x,y]/py[y] for x in px}) for y in py}
+    for y,mean,variance in [(0,F(1),F(1,2)),(1,F(7,6),F(29,36))]:
+        record("U4Q1 conditional mean "+str(y),conditional[y][0],mean)
+        record("U4Q1 conditional variance "+str(y),conditional[y][1],variance)
+    within=sum(py[y]*conditional[y][1] for y in py)
+    between=sum(py[y]*(conditional[y][0]-mx)**2 for y in py)
+    record("U4Q1 average conditional variance",within,F(41,60))
+    record("U4Q1 between-mean variance",between,F(1,150))
+    record("U4Q1 total variance",within+between,vx)
+
+    def integrate(f,a,b,n=128):
+        h=(b-a)/n
+        return h/3*(f(a)+f(b)+sum((4 if i%2 else 2)*f(a+i*h) for i in range(1,n)))
+    def triangle_expect(g):
+        return integrate(lambda y:integrate(lambda x:2*g(x,y),0,y),0,1)
+    # Integrate over the original triangular region with numerical Simpson
+    # quadrature; published marginal formulas are not used in these checks.
+    close("U4Q2 area normalization",triangle_expect(lambda x,y:1),1)
+    ex=triangle_expect(lambda x,y:x); ey=triangle_expect(lambda x,y:y)
+    exy=triangle_expect(lambda x,y:x*y)
+    close("U4Q2 X mean",ex,1/3);close("U4Q2 Y mean",ey,2/3)
+    close("U4Q2 product expectation",exy,1/4)
+    close("U4Q2 covariance",exy-ex*ey,1/36)
+    sum_event=integrate(lambda y:integrate(lambda x:2,0,y),0,.5)+integrate(lambda y:integrate(lambda x:2,0,1-y),.5,1)
+    close("U4Q2 sum-region probability",sum_event,.5)
+    curve_event=integrate(lambda y:integrate(lambda x:2,0,y*y),0,1)
+    close("U4Q2 curved-region probability",curve_event,2/3)
+    for y in (.25,.5,.75):
+        conditional_mass=integrate(lambda x:1/y,0,y)
+        conditional_mean=integrate(lambda x:x/y,0,y)
+        conditional_variance=integrate(lambda x:(x-conditional_mean)**2/y,0,y)
+        close("U4Q2 conditional normalization at "+str(y),conditional_mass,1)
+        close("U4Q2 conditional mean at "+str(y),conditional_mean,y/2)
+        close("U4Q2 conditional variance at "+str(y),conditional_variance,y*y/12)
+
+    groups=[(F(1,4),{0:F(1,2),2:F(1,2)}),(F(3,4),{4:F(1,2),8:F(1,2)})]
+    marginal={}
+    pair={}
+    for weight,law in groups:
+        for x,prob in law.items():
+            marginal[x]=marginal.get(x,F(0))+weight*prob
+            for z,second_prob in law.items():
+                pair[x,z]=pair.get((x,z),F(0))+weight*prob*second_prob
+    mean,variance=mean_var(marginal)
+    record("U4Q3 mixture mean",mean,F(19,4))
+    record("U4Q3 marginal second moment",sum(x*x*p for x,p in marginal.items()),F(61,2))
+    record("U4Q3 marginal centered variance",variance,F(127,16))
+    within=sum(w*mean_var(law)[1] for w,law in groups)
+    between=sum(w*(mean_var(law)[0]-mean)**2 for w,law in groups)
+    record("U4Q3 within variance",within,F(13,4))
+    record("U4Q3 between variance",between,F(75,16))
+    record("U4Q3 decomposition",within+between,variance)
+    record("U4Q3 shared-group covariance by full joint table",sum((x-mean)*(z-mean)*p for (x,z),p in pair.items()),F(75,16))
+
 units = []
 for file in sorted(ROOT.glob('unit-*.md')):
     text = file.read_text()
@@ -153,9 +221,12 @@ for file in sorted(ROOT.glob('unit-*.md')):
     text = re.sub(r'\$\$[\s\S]*?\$\$', ' ', text)
     text = re.sub(r'\$[^$\n]+\$', ' ', text)
     text = re.sub(r'^#{1,6}.*$', ' ', text, flags=re.M)
+    text = re.sub(r'\*\*(?:Question\.|Solution, step [0-9]+:[^*]+)\*\*', ' ', text)
     words = re.findall(r"\b[A-Za-z]+(?:['’\-][A-Za-z]+)*\b", text)
-    units.append({"path":file.name, "substantive_draft_words":len(words), "worked_question_headings":len(re.findall(r'^## Fully worked question [123]:',file.read_text(),flags=re.M)), "sha256":hashlib.sha256(file.read_bytes()).hexdigest()})
+    question_count=len(re.findall(r'^## Fully worked question [123]:',file.read_text(),flags=re.M))
+    assert question_count==3, (file.name,question_count)
+    units.append({"path":file.name, "substantive_draft_words":len(words), "worked_question_headings":question_count, "sha256":hashlib.sha256(file.read_bytes()).hexdigest()})
 
-result = {"scope":"Independent exact arithmetic and conservative draft word measurement only. No claim of full academic, simulation, integration or live-publication review.", "checks":checks, "unit_drafts":units, "substantive_draft_words":sum(u['substantive_draft_words'] for u in units), "method":"Combinatorial enumeration, exact rational elimination and parity enumeration. Word measurement excludes equations, code and headings.", "status":"pass"}
+result = {"scope":"Independent exact arithmetic and conservative draft word measurement only. No claim of full academic, simulation, integration or live-publication review.", "checks":checks, "unit_drafts":units, "substantive_draft_words":sum(u['substantive_draft_words'] for u in units), "method":"Combinatorial enumeration, exact rational elimination, integer-population reconstruction, piecewise density integration, CDF inversion/differentiation, centered rational joint sums and original-region quadrature. Word measurement excludes equations, code, headings and repeated question/solution labels.", "status":"pass"}
 (ROOT/'draft-checks.json').write_text(json.dumps(result, indent=2)+'\n')
 print(json.dumps({"passed_checks":len(checks),"units":units,"words":result['substantive_draft_words']},indent=2))

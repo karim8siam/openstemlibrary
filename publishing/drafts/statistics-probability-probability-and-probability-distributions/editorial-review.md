@@ -1,6 +1,6 @@
 # Draft review checkpoint
 
-This is an internal critical review of saved Units 1–2, not independent expert peer review, full-book QA or publication approval.
+This is an internal critical review of saved Units 1–4, not independent expert peer review, full-book QA or publication approval.
 
 ## Unit 1
 
@@ -26,9 +26,17 @@ This is an internal critical review of saved Units 1–2, not independent expert
 - Added substantive sections on recording transformations, clipping atoms, CDF comparisons and generalized-inverse sampling. These sections are instructional supplements to the mapped random-variable scope.
 - Unit 3 has 5,584 conservative prose words and three solved questions. No interactive simulation has yet been implemented.
 
+## Unit 4
+
+- Reviewed joint and marginal support, discrete column normalization, continuous conditional-density construction, expectation existence, linearity without independence, covariance versus dependence, and within/between decomposition.
+- Independently recalculated the finite joint-table and mixture questions by exact centered weighted sums and full pair tables. Integrated the original triangular region numerically in nested coordinates rather than relying on the published marginal answers.
+- Checked both region probabilities in the triangular question, including the change of bound at one half and the curved boundary. Tested three conditional slices by integration.
+- Added convolution and nonlinear conditional-averaging sections to give further substantive treatment of functions of random variables and expectation products.
+- Every drafted unit contains exactly three solved questions. The conservative counter now also removes repeated question/solution labels; the canonical current measurements are in `draft-checks.json`. Earlier counts in this narrative describe earlier counter versions and are superseded by that artifact.
+
 ## Unresolved work
 
-- Units 4–10 are not yet drafted at this checkpoint.
+- Units 5–10 are not yet drafted at this checkpoint.
 - No simulations are implemented or tested yet. Planned simulations are design notes only.
 - Reader assembly, equation rendering, mobile controls, static pages, search metadata, preservation checks, sitemap and live verification remain unperformed for this book.
 - Complete-book repetition, coverage and substantive academic review must be conducted after assembly. Neither finite arithmetic checks nor this partial review count as completed-book acceptance.
