@@ -99,3 +99,8 @@ The phone-width browser check found a genuine shared formatter defect: raw less-
 ## Corrected-preview acceptance
 
 The corrected preview is verified in Cloud Chrome. Chapter 9 annotations retain P(90<X<115) and P(X>120) intact, without KaTeX errors. At a 390-pixel iframe viewport, client and scroll widths are both 375 pixels after loading; the wider Bayes table scrolls inside its own 265-pixel container. Chapter-menu open/Escape closure/navigation, font switching, answer open/close and parameter/reset behavior passed. Desktop finite committee and Bayes controls also passed. See browser-checks.json for actual observations and limitations. A rendered iframe is not a real-device touch test. Production deployment/live acceptance is the remaining stage.
+
+
+## Production verification
+
+Cloudflare commit 2ecde66745d4686393d105d76c151fd530793b40 completed successfully on 13 October 2026. All ten live clean canonical chapters return HTTP 200, with three worked questions each and full navigation; live asset hashes match reviewed sources. The 491-entry sitemap is unique and includes all ten URLs. The homepage has 59 books, the normal Statistics catalog/search opens Book 2, and the New textbook box is absent. A nonexistent route returns HTTP 404; ads.txt is preserved. Automation remains disabled. Actual checks, timestamps and limitations are retained in live-checks.json.
