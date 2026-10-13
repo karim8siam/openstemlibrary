@@ -50,10 +50,17 @@ This is an internal critical review of saved Units 1–6, not independent expert
 - Reviewed conditional-binomial/hypergeometric linkage and shared-probability mixture variance using the prior conditional-probability and total-variance results. Supplements explicitly distinguish fixed finite populations from random superpopulation marking.
 - The sampling explorer is still a design specification, not an implemented/tested simulation. No publication or simulation pass is claimed.
 
+## Bayes explorer prototype
+
+- Implemented exact source/flag/posterior calculations, reproducible seeded sampling and a labeled DOM interface in `bayes-explorer.js`.
+- `check-bayes.cjs` passed 21 numerical/model checks and 17 DOM interaction/accessibility checks. This includes invalid probabilities, zero-probability evidence, deterministic sampling, parameter changes, reset, labels, table semantics and unavailable sampled posteriors.
+- Stored source/test hashes and actual results in `bayes-checks.json`. This is a prototype verification artifact, not a whole-book simulation pass.
+- Reader integration and rendered mobile/keyboard testing are still required. Other proposed explorers are not implemented yet.
+
 ## Unresolved work
 
 - Units 7–10 are not yet drafted at this checkpoint.
-- No simulations are implemented or tested yet. Planned simulations are design notes only.
+- One Bayes explorer prototype has numerical and DOM evidence; remaining explorers, reader integration and rendered browser/mobile tests are pending.
 - Reader assembly, equation rendering, mobile controls, static pages, search metadata, preservation checks, sitemap and live verification remain unperformed for this book.
 - Complete-book repetition, coverage and substantive academic review must be conducted after assembly. Neither finite arithmetic checks nor this partial review count as completed-book acceptance.
 - Publication is blocked. Keep all drafts outside COURSE_DATA, public catalog and sitemap until the full book passes.
