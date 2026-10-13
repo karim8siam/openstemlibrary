@@ -266,6 +266,45 @@ if (ROOT/'unit-5.md').exists():
     assert ratio>1
     checks.append({"check":"U5Q3 positive-series consecutive ratio example","t":.1,"r":20,"ratio":ratio,"status":"pass","scope":"Illustration only; divergence for every positive t follows from the analytic ratio limit in the written solution."})
 
+if (ROOT/'unit-6.md').exists():
+    binomial={k:F(0) for k in range(9)}
+    for bits in product((0,1),repeat=8):
+        weight=F(1)
+        for bit in bits:weight*=F(1,4) if bit else F(3,4)
+        binomial[sum(bits)]+=weight
+    record("U6Q1 exactly three by path enumeration",binomial[3],F(1701,8192))
+    record("U6Q1 at least two by direct tail sum",sum(p for k,p in binomial.items() if k>=2),F(41479,65536))
+    mean,variance=mean_var(binomial)
+    record("U6Q1 mean",mean,F(2));record("U6Q1 variance",variance,F(3,2))
+    record("U6Q1 mode",max(binomial,key=binomial.get),2)
+    record("U6Q1 tail decimal",round(float(F(41479,65536)),6),.632919)
+
+    def subset_count_law(N,K,n):
+        counts={k:0 for k in range(n+1)}
+        for sample in combinations(range(N),n):counts[sum(i<K for i in sample)]+=1
+        total=sum(counts.values())
+        return {k:F(count,total) for k,count in counts.items()}
+    hyper=subset_count_law(20,6,5)
+    record("U6Q2 exactly two by labeled-subset enumeration",hyper[2],F(455,1292))
+    record("U6Q2 at least one by direct sum",sum(p for k,p in hyper.items() if k>=1),F(6751,7752))
+    mean,variance=mean_var(hyper)
+    record("U6Q2 mean",mean,F(3,2));record("U6Q2 variance",variance,F(63,76))
+    record("U6Q2 binomial reference variance",5*F(3,10)*F(7,10),F(21,20))
+    # Every ordered pair of distinct labels has equal weight.
+    both_marked=F(sum(a<6 and b<6 for a,b in permutations(range(20),2)),20*19)
+    record("U6 covariance from ordered-label enumeration",both_marked-F(3,10)**2,F(-21,1900))
+    without=subset_count_law(12,6,6)
+    with_replacement={k:F(sum(sum(bits)==k for bits in product((0,1),repeat=6)),64) for k in range(7)}
+    for name,law,target_variance,all_probability,central_probability,proportion_variance in [
+        ("with",with_replacement,F(3,2),F(1,64),F(5,16),F(1,24)),
+        ("without",without,F(9,11),F(1,924),F(100,231),F(1,44))]:
+        mean,variance=mean_var(law)
+        record("U6Q3 "+name+" mean",mean,F(3))
+        record("U6Q3 "+name+" variance",variance,target_variance)
+        record("U6Q3 "+name+" all marked",law[6],all_probability)
+        record("U6Q3 "+name+" exactly three",law[3],central_probability)
+        record("U6Q3 "+name+" proportion variance",variance/36,proportion_variance)
+
 units = []
 for file in sorted(ROOT.glob('unit-*.md')):
     text = file.read_text()

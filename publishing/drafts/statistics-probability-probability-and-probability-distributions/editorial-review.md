@@ -1,6 +1,6 @@
 # Draft review checkpoint
 
-This is an internal critical review of saved Units 1–5, not independent expert peer review, full-book QA or publication approval.
+This is an internal critical review of saved Units 1–6, not independent expert peer review, full-book QA or publication approval.
 
 ## Unit 1
 
@@ -42,9 +42,17 @@ This is an internal critical review of saved Units 1–5, not independent expert
 - Verified primary official teaching sources for MGF neighborhood/uniqueness conditions and characteristic-function existence/products; URLs and actual inspection scope are recorded in `references.json`.
 - Factorial moments, joint transforms and moment-feasibility inequalities are substantive supplements to the mapped generator topic. The unit omits a standalone random animation because exact algebra and existence arguments are the useful learning activity here; this does not excuse simulations in the rest of the book.
 
+## Unit 6
+
+- Checked that binomial assumptions include fixed trial count, common success probability and mutual independence; Bernoulli margins alone are insufficient.
+- Reviewed hypergeometric support, uniform-subset assumptions, covariance derivation and finite-population variance. The one-object case is handled separately to avoid division by zero.
+- Independently enumerated all eight-trial binary paths, all 15,504 five-object subsets of the twenty-object collection, and all 924 six-object subsets of the twelve-object collection. Compared exact masses, direct tail sums, centered variances and proportion variances with every worked answer.
+- Reviewed conditional-binomial/hypergeometric linkage and shared-probability mixture variance using the prior conditional-probability and total-variance results. Supplements explicitly distinguish fixed finite populations from random superpopulation marking.
+- The sampling explorer is still a design specification, not an implemented/tested simulation. No publication or simulation pass is claimed.
+
 ## Unresolved work
 
-- Units 6–10 are not yet drafted at this checkpoint.
+- Units 7–10 are not yet drafted at this checkpoint.
 - No simulations are implemented or tested yet. Planned simulations are design notes only.
 - Reader assembly, equation rendering, mobile controls, static pages, search metadata, preservation checks, sitemap and live verification remain unperformed for this book.
 - Complete-book repetition, coverage and substantive academic review must be conducted after assembly. Neither finite arithmetic checks nor this partial review count as completed-book acceptance.
