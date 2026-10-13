@@ -124,7 +124,7 @@ for (const book of books.filter(book => !process.env.OPENSTEM_BOOK || book.id ==
     doc.title = `${units[index].title} | ${book.title} | OpenSTEM Library`;
     const summary = units[index].leadSummary || units[index].description || '';
     if (summary) doc.querySelector('meta[name="description"]').content = summary;
-    if (book.id === 'introduction-to-statistics') {
+    if (book.id === 'introduction-to-statistics' || book.id === 'probability-and-probability-distributions') {
       for (const selector of ['meta[property="og:title"]','meta[name="twitter:title"]']) doc.querySelector(selector).content = doc.title;
       for (const selector of ['meta[property="og:description"]','meta[name="twitter:description"]']) doc.querySelector(selector).content = summary;
     }
@@ -135,6 +135,10 @@ for (const book of books.filter(book => !process.env.OPENSTEM_BOOK || book.id ==
           if (!node || typeof node !== 'object') return;
           if (node.url === `https://openstemlibrary.com/${book.url.replace(/\.html$/, '')}`) node.url = `https://openstemlibrary.com/${filename.replace(/\.html$/, '')}`;
           if (node['@type'] === 'Book' || node['@type'] === 'LearningResource') node.name = `${book.title}: ${units[index].title}`;
+          if (book.id === 'probability-and-probability-distributions' && node['@type'] === 'BreadcrumbList') {
+            const last=node.itemListElement?.at(-1);
+            if(last){last.name=units[index].title;last.item=`https://openstemlibrary.com/${filename.replace(/\.html$/, '')}`;}
+          }
           Object.values(node).forEach(v => { if (Array.isArray(v)) v.forEach(update); else if (v && typeof v === 'object') update(v); });
         };
         update(data); script.textContent = JSON.stringify(data);
@@ -171,7 +175,7 @@ for(const el of hd.querySelectorAll('script[src],link[rel="stylesheet"]')) {
 const description='Free university textbooks in Physics, Mathematics, Chemistry, and Statistics & Probability, with solved problems and interactive simulations.';
 for (const selector of ['meta[name="description"]','meta[property="og:description"]','meta[name="twitter:description"]']) hd.querySelector(selector).content=description;
 hd.querySelector('#portal-search-input').placeholder='Search by topic or course (e.g., Statistics, Regression, Calculus, Quantum Mechanics)...';
-const published=JSON.parse(read('publishing/book-queue.json')).departments.flatMap(d=>d.books).filter(b=>b.status==='published' && books.some(c=>c.url===b.url)).sort((a,b)=>(b.published_at||'').localeCompare(a.published_at||''));
+const published=JSON.parse(read('publishing/book-queue.json')).departments.flatMap(d=>d.books).filter(b=>['published','publication_pending'].includes(b.status) && books.some(c=>c.url===b.url)).sort((a,b)=>(b.published_at||b.prepared_at||'').localeCompare(a.published_at||a.prepared_at||''));
 hd.querySelector('.latest-textbook')?.remove();
 if(published.length){
   const latest=published[0], card=hd.createElement('aside'); card.className='latest-textbook'; card.setAttribute('aria-label','Latest published textbook');

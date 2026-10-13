@@ -1,0 +1,714 @@
+[
+  [
+    {
+      "id": "prob-1-1",
+      "title": "A committee and two selection mechanisms",
+      "question": "A collection contains five distinct physics students, four distinct chemistry students, and three distinct mathematics students. A committee of three distinct students is selected uniformly from all unordered committees. Find the probability that it includes at least one physics student and represents at least two departments. Find the probability that it represents all three departments. Then compare this procedure with selecting one student uniformly within each department. Explain whether the second procedure can be analyzed using the first denominator.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Identify the uniformly weighted outcomes",
+          "explanation": "There are twelve distinct students. The outcomes are unordered three-student subsets, not department labels and not ordered role assignments. Uniform selection of these subsets gives a denominator of $\\binom{12}{3}=220$. The equality of the subset probabilities is an assumption supplied by the question. It could also arise from three sequential uniform draws without replacement followed by discarding the order, because each subset would have six equally weighted orderings."
+        },
+        {
+          "stepName": "Count the excluded committees",
+          "explanation": "A committee with no physics student is drawn entirely from the seven other students, producing $\\binom73=35$ outcomes. A committee with at least one physics student but only one represented department must consist entirely of physics students, producing $\\binom53=10$ outcomes. The two excluded classes are disjoint. All remaining committees satisfy both requested conditions, so the favorable count is $220-35-10=175$. The required probability is therefore $175/220=35/44$, approximately $0.795455$."
+        },
+        {
+          "stepName": "Count the all-department committees directly",
+          "explanation": "Representation of all three departments in a committee of three requires exactly one student from each. There are five choices for the physics member, four for the chemistry member, and three for the mathematics member. Each choice triple identifies one unique unordered committee. The favorable count is sixty, yielding probability $60/220=3/11$, approximately $0.272727$. This event is a subset of the previous event, and its smaller probability is consistent with monotonicity."
+        },
+        {
+          "stepName": "Change the procedure explicitly",
+          "explanation": "Selecting one student uniformly within each department produces only the sixty all-department committees. Under independent within-department selections, each has probability $1/(5\\cdot4\\cdot3)=1/60$. Both requested events now have probability one. The procedure is not uniform across all two hundred twenty possible three-student subsets: one hundred sixty of those subsets are impossible under it. Dividing sixty by two hundred twenty would answer the first experiment, not this new one."
+        },
+        {
+          "stepName": "Check individual inclusion probabilities",
+          "explanation": "Under uniform three-student subset selection, a fixed student belongs to $\\binom{11}{2}=55$ committees, so the inclusion probability is $55/220=1/4$. Under the one-per-department procedure, a fixed physics student has inclusion probability one fifth, a fixed chemistry student one quarter, and a fixed mathematics student one third. Thus superficially similar descriptions of a random committee can produce different individual weights. The answer is determined by the mechanism, not by the word random alone."
+        }
+      ]
+    },
+    {
+      "id": "prob-1-2",
+      "title": "Reconstructing overlapping events",
+      "question": "Three recorded events have probabilities $P(A)=0.45$, $P(B)=0.35$, and $P(C)=0.25$. The pairwise intersection probabilities are $P(A\\cap B)=0.15$, $P(A\\cap C)=0.10$, and $P(B\\cap C)=0.08$, while the triple intersection has probability $0.04$. Construct the eight disjoint event regions. Find the probabilities of at least one event, exactly one, exactly two, and none. Determine whether $A$ and $B$ are independent, and explain what the reconstructed regions establish about consistency.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Start with the deepest overlap",
+          "explanation": "The region in all three events has probability $0.04$. The region in $A$ and $B$ but not $C$ has probability $0.15-0.04=0.11$. Similarly the $A,C$-only region has probability $0.10-0.04=0.06$, and the $B,C$-only region has probability $0.08-0.04=0.04$. Subtracting the triple overlap is necessary because each supplied pair intersection includes it. Treating the pair intersections as pair-only regions would overcount."
+        },
+        {
+          "stepName": "Recover the single-event regions",
+          "explanation": "The $A$-only probability is $0.45-0.11-0.06-0.04=0.24$. The $B$-only probability is $0.35-0.11-0.04-0.04=0.16$. The $C$-only probability is $0.25-0.06-0.04-0.04=0.11$. These three subtractions remove the disjoint portions of each event that also satisfy another event. Every reconstructed value is nonnegative."
+        },
+        {
+          "stepName": "Calculate compound events",
+          "explanation": "Exactly one event has probability $0.24+0.16+0.11=0.51$. Exactly two has probability $0.11+0.06+0.04=0.21$. All three has probability $0.04$. At least one therefore has probability $0.51+0.21+0.04=0.76$. Its complement, none, has probability $0.24$. At least two would have probability $0.21+0.04=0.25$. The disjoint-region method makes clear why the triple region belongs in at least two but not exactly two."
+        },
+        {
+          "stepName": "Verify inclusion–exclusion and independence",
+          "explanation": "Inclusion–exclusion gives $0.45+0.35+0.25-0.15-0.10-0.08+0.04=0.76$, agreeing with the disjoint sum. Independence of $A$ and $B$ would require $0.45\\cdot0.35=0.1575$ as their intersection probability. The supplied value is $0.15$, so the pair is dependent in this model. A small numerical difference is still a difference in the stipulated exact values. If the inputs were estimates with uncertainty, a separate statistical question would be needed."
+        },
+        {
+          "stepName": "State the consistency result carefully",
+          "explanation": "The seven nonempty membership regions plus the none region have nonnegative probabilities summing to one. They therefore define a valid finite probability model on eight membership-pattern outcomes that reproduces every supplied probability. This establishes existence of a compatible event model. It does not prove that a particular physical data-generating process has these probabilities, nor does it determine how probability is distributed among finer outcomes within each region. Mathematical feasibility and empirical adequacy are separate claims."
+        }
+      ]
+    },
+    {
+      "id": "prob-1-3",
+      "title": "Pairwise independence does not suffice",
+      "question": "A model assigns equal probability to the four binary triples $000$, $011$, $101$, and $110$. Let $A$ mean that the first coordinate is one, $B$ that the second coordinate is one, and $C$ that the third coordinate is one. Calculate the single, pair and triple intersection probabilities. Decide whether the events are pairwise independent and mutually independent. Calculate the probability of their union and explain the structural source of the discrepancy.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Identify the event memberships",
+          "explanation": "Each event contains two of the four equally weighted outcomes. Event $A$ contains $101$ and $110$, event $B$ contains $011$ and $110$, and event $C$ contains $011$ and $101$. Each single-event probability is one half. These are probabilities of sets of triples, not probabilities assigned to a coordinate independently in advance."
+        },
+        {
+          "stepName": "Check each pair",
+          "explanation": "The intersection of $A$ and $B$ contains only $110$, the intersection of $A$ and $C$ only $101$, and the intersection of $B$ and $C$ only $011$. Each has probability one quarter. For each pair, this equals the product of the two single-event probabilities. All three pairs therefore satisfy the definition of independence. This verifies pairwise independence completely, rather than checking just one representative pair."
+        },
+        {
+          "stepName": "Check the triple separately",
+          "explanation": "No allowed triple has all three coordinates equal to one. The triple intersection is empty and has probability zero. Mutual independence would require $P(A\\cap B\\cap C)=(1/2)^3=1/8$. Because zero differs from one eighth, mutual independence fails. The failure is not an exception to the definition; it demonstrates why the definition includes intersections beyond pairs."
+        },
+        {
+          "stepName": "Calculate and interpret the union",
+          "explanation": "The union contains the three nonzero triples and has probability three quarters. Inclusion–exclusion gives $3(1/2)-3(1/4)+0=3/4$, agreeing with direct counting. The allowed triples always contain an even number of ones. Once two coordinates are known, the third is fixed by this parity constraint. Any pair viewed alone appears independent, but the full triple carries a joint restriction. Pairwise summaries cannot reveal every higher-order relationship."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "prob-2-1",
+      "title": "Updating a source after an inspection flag",
+      "question": "A randomly selected device comes from source $H$, $M$, or $L$ with probabilities $0.20$, $0.50$, and $0.30$. An inspection flag occurs with conditional probabilities $0.08$, $0.03$, and $0.01$ in those sources. Find the overall flag probability, the posterior source probabilities after a flag, and the probability of source $H$ after no flag. Express the flag update for $H$ as an odds calculation. All rates are fixed assumptions of this teaching model; a flag is an instrument output, not a medical diagnosis.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Construct joint weights",
+          "explanation": "The three sources partition the device population. The joint weights for a flag are $0.20\\cdot0.08=0.016$, $0.50\\cdot0.03=0.015$, and $0.30\\cdot0.01=0.003$. Their sum is $0.034$, so the overall flag probability is $3.4$ percent. It lies between the smallest and largest source flag rates, as any correctly weighted average must."
+        },
+        {
+          "stepName": "Normalize within flagged devices",
+          "explanation": "Dividing each joint weight by $0.034$ gives $P(H\\mid F)=8/17$, $P(M\\mid F)=15/34$, and $P(L\\mid F)=3/34$. The approximate values are $0.470588$, $0.441176$, and $0.088235$. They sum to one. Source $H$ supplies only one fifth of the original population but contributes almost half of the flagged population because its conditional flag rate is higher. This does not mean that a flag proves source $H$."
+        },
+        {
+          "stepName": "Update after the opposite evidence",
+          "explanation": "The no-flag probability is $1-0.034=0.966$. The joint probability of source $H$ and no flag is $0.20(1-0.08)=0.184$. Thus $P(H\\mid F^c)=0.184/0.966=4/21$, approximately $0.190476$. This is slightly below the prior one fifth. The no-flag condition is common in every source, so it shifts source probabilities less dramatically than the relatively rare flag in this model."
+        },
+        {
+          "stepName": "Calculate the composite-complement likelihood",
+          "explanation": "The non-$H$ group has prior probability $0.80$. Its joint flag probability is $0.015+0.003=0.018$. The flag probability within this group is therefore $0.018/0.80=0.0225$. This is a weighted average of the $M$ and $L$ flag rates within the non-$H$ population. It is not their simple average, since their source probabilities are unequal."
+        },
+        {
+          "stepName": "Verify the odds update",
+          "explanation": "The prior odds for $H$ are $0.20/0.80=1/4$. The likelihood ratio is $0.08/0.0225=32/9$. Their product is $8/9$, the posterior odds. Converting these odds to probability gives $(8/9)/(1+8/9)=8/17$, agreeing with direct normalization. The flag likelihood $0.08$ itself is not the posterior probability. It refers to flagged outcomes within source $H$, while the posterior refers to source $H$ within flagged outcomes."
+        }
+      ]
+    },
+    {
+      "id": "prob-2-2",
+      "title": "A sequence without replacement",
+      "question": "An urn contains five labeled marked objects and seven labeled unmarked objects. Three objects are drawn sequentially, uniformly without replacement. Let $E$ be the event that exactly two of the three are marked. Find the probability of the ordered pattern marked, unmarked, marked; find $P(E)$; and calculate the probability of that pattern given $E$. Also find the probability that the first draw is marked given $E$, and the probability that the third draw is marked given the observed first-two pattern marked, unmarked.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Use the evolving composition",
+          "explanation": "The first marked draw has probability $5/12$. After it, seven of the eleven remaining objects are unmarked, so the second desired draw has probability $7/11$. After those two draws, four of the ten remaining objects are marked. The path probability is $(5/12)(7/11)(4/10)=7/66$, approximately $0.106061$. Multiplying the original fractions unchanged would ignore the removal of objects and describe a different mechanism."
+        },
+        {
+          "stepName": "Count the exactly-two event",
+          "explanation": "Discarding order gives a uniform three-object subset. Exactly two marked objects can be selected in $\\binom52\\binom71=70$ ways out of $\\binom{12}{3}=220$. Hence $P(E)=7/22$, approximately $0.318182$. An ordered calculation gives the same result by adding the three possible category patterns, each of which has probability $7/66$. Their equality follows from exchanging the three positions under this uniform draw mechanism, not from an assumption that all category patterns are equally likely in general."
+        },
+        {
+          "stepName": "Condition on the exactly-two event",
+          "explanation": "The specified marked, unmarked, marked pattern is a subset of $E$, so its conditional probability is $(7/66)/(7/22)=1/3$. Under $E$, the unique unmarked position is equally likely to be first, second or third. Two of those three possibilities have a marked first draw, giving $P(\\text{first marked}\\mid E)=2/3$. This differs from the unconditional first-draw probability $5/12$ because the condition supplies information about the complete three-draw composition."
+        },
+        {
+          "stepName": "Condition on an actual partial history",
+          "explanation": "Given that the first draw was marked and the second unmarked, ten objects remain, four marked. The third-marked probability is $4/10=2/5$. This is a different condition from $E$. The complete-composition condition guarantees two marked outcomes among all three, while the partial-history condition still permits either category on the third draw. Their denominators and probabilities must not be interchanged."
+        },
+        {
+          "stepName": "Distinguish symmetry from independence",
+          "explanation": "Each position has the same unconditional probability of a marked result under the uniform without-replacement mechanism. Nevertheless the draws are dependent: observing a marked result removes one marked object and changes the chance at later positions. Equal marginal probabilities, exchangeability of positions and independence are distinct properties. Exact ordered enumeration of all $12\\cdot11\\cdot10$ labeled paths can verify every probability in this solution without changing that interpretation."
+        }
+      ]
+    },
+    {
+      "id": "prob-2-3",
+      "title": "A shared condition creates marginal dependence",
+      "question": "A trial pair shares one unobserved operating condition. With probability $0.40$ the condition is high, and with probability $0.60$ it is low. Given high, the two binary pass outcomes are independent with pass probability $0.80$ each. Given low, they are independent with pass probability $0.30$ each. Find the marginal pass probability of each trial, the joint probability of two passes, and the probability that the second passes given that the first passes. Determine independence before and after the operating condition is specified. Find the posterior high-condition probability after one pass.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Average the single-trial probabilities",
+          "explanation": "The marginal probability of a pass at either position is $0.40(0.80)+0.60(0.30)=0.50$. Both positions share this marginal distribution. The equal values reflect the symmetric conditional specification, but they do not establish independence. Independence requires a joint calculation."
+        },
+        {
+          "stepName": "Average conditional joint probabilities",
+          "explanation": "Conditional independence gives two-pass probabilities $0.80^2=0.64$ under high and $0.30^2=0.09$ under low. Averaging with the condition weights yields $P(\\text{two passes})=0.40(0.64)+0.60(0.09)=0.31$. If the marginal pass events were independent, their joint probability would be $0.50^2=0.25$. Because the actual model value is $0.31$, they are dependent before the shared condition is specified."
+        },
+        {
+          "stepName": "Form the predictive conditional probability",
+          "explanation": "The probability that the second trial passes given a first pass is $0.31/0.50=0.62$. A first pass increases the posterior plausibility of the high condition, which also raises the predictive pass probability for the second trial. This is information about a shared condition, not evidence that the first outcome physically causes the second."
+        },
+        {
+          "stepName": "Verify the explanation by Bayesian updating",
+          "explanation": "The joint probability of high and a first pass is $0.40\\cdot0.80=0.32$. Dividing by the first-pass probability $0.50$ gives posterior high probability $0.64$ and posterior low probability $0.36$. The updated prediction is $0.64(0.80)+0.36(0.30)=0.62$, agreeing with the joint-ratio calculation. The two computations provide different routes to the same result."
+        },
+        {
+          "stepName": "State the two independence conclusions",
+          "explanation": "Within high, the two outcomes are independent by the given model; within low, they are also independent. Thus they are conditionally independent given the categorical operating condition. They are not marginally independent after that condition is averaged out. The complete marginal table has probabilities $0.31$ for two passes, $0.19$ for pass then fail, $0.19$ for fail then pass, and $0.31$ for two failures. These values sum to one and produce the required one-half marginal probabilities. The table displays clustering of matching outcomes due to the shared condition."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "prob-3-1",
+      "title": "Squaring a discrete variable",
+      "question": "A discrete variable $X$ has masses $0.10$, $0.20$, $0.30$, $0.25$, and $0.15$ at $-2$, $-1$, $0$, $1$, and $2$, respectively. Let $Y=X^2$. Find the PMF and CDF of $Y$, calculate $P(Y>1)$, and find the median using the generalized-inverse quantile convention. Explain whether observing $Y=1$ determines the sign of $X$.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Collect preimages",
+          "explanation": "The transformed value zero is produced only by $X=0$, so its mass is $0.30$. The value one is produced by $X=-1$ and $X=1$, so its mass is $0.20+0.25=0.45$. The value four is produced by $X=-2$ and $X=2$, so its mass is $0.10+0.15=0.25$. The transformed support is $\\{0,1,4\\}$, and the masses sum to one. They are combined original masses, not newly uniform weights."
+        },
+        {
+          "stepName": "Accumulate the CDF",
+          "explanation": "The CDF is zero for thresholds below zero, $0.30$ for thresholds from zero up to but not including one, $0.75$ from one up to but not including four, and one from four onward. At each supported value the new mass is included. The jump at one is $0.45$, agreeing with the PMF. A threshold just below one has cumulative probability $0.30$, while the threshold exactly one has cumulative probability $0.75$."
+        },
+        {
+          "stepName": "Calculate the tail and quantile",
+          "explanation": "The event $Y>1$ includes only value four and has probability $0.25$. Equivalently it is $1-F_Y(1)=1-0.75$. The first value where the CDF reaches one half is one, so the generalized-inverse median is one. The CDF need not equal one half at that value; it can jump across the requested level."
+        },
+        {
+          "stepName": "Describe the lost sign information",
+          "explanation": "Observing $Y=1$ means $X$ is either minus one or plus one. Conditional on that observation, the probabilities are $0.20/0.45=4/9$ for minus one and $0.25/0.45=5/9$ for plus one. The sign is not determined. A many-to-one transformation preserves a distribution of the new quantity but can discard information about the original outcome. The two conditional probabilities sum to one and reflect the unequal original masses."
+        }
+      ]
+    },
+    {
+      "id": "prob-3-2",
+      "title": "A triangular density and its quantiles",
+      "question": "A proposed density equals $cx$ for $0\\leq x\\leq1$, equals $c(2-x)$ for $1<x\\leq2$, and equals zero elsewhere. Find the normalizing constant and the CDF. Calculate $P(0.5<X\\leq1.5)$, the median and the ninetieth percentile. State the probability of the exact value one and explain why the density value there gives a different quantity.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Normalize the area",
+          "explanation": "The integral of $cx$ from zero to one is $c/2$. The integral of $c(2-x)$ from one to two is also $c/2$. Total area is $c$, so normalization requires $c=1$. The resulting function is nonnegative over the stated range. It is zero outside that range, and no additional point mass is included by its endpoint definitions."
+        },
+        {
+          "stepName": "Integrate piecewise",
+          "explanation": "Below zero the CDF is zero. From zero to one it is $x^2/2$. From one to two it is $1-(2-x)^2/2$, and above two it is one. The two formulas agree at one with value one half. They agree with the exterior pieces at zero and two. The resulting function is continuous and nondecreasing, as required."
+        },
+        {
+          "stepName": "Evaluate the interval probability",
+          "explanation": "The CDF at one half is $1/8$, and at three halves it is $7/8$. Their difference is $3/4$. Thus the interval probability is $0.75$. Since there are no atoms at either endpoint, replacing the strict lower inequality with a nonstrict one would not change this value. That endpoint simplification is justified by the density model, not by a universal rule for all distributions."
+        },
+        {
+          "stepName": "Solve the quantile equations",
+          "explanation": "The median is one because the CDF equals one half there and is strictly increasing in the interior. The ninetieth percentile lies above one, so solve $1-(2-x)^2/2=0.9$. The solution in the stated range is $x=2-\\sqrt{0.2}$, approximately $1.552786$. Choosing the other algebraic root would put the threshold outside the support and would not solve the correct branch problem."
+        },
+        {
+          "stepName": "Distinguish density and point probability",
+          "explanation": "The exact-value probability $P(X=1)$ is zero because the CDF has no jump at one. The density value at one is one per unit of $X$. It describes local probability area per width, not a one-hundred-percent chance of the exact value. A small interval around one has a positive area, while the singleton itself has zero width and zero probability."
+        }
+      ]
+    },
+    {
+      "id": "prob-3-3",
+      "title": "Two inverse branches with unequal ranges",
+      "question": "Let $X$ be uniform on the interval $[-2,1]$ and let $Y=X^2$. Derive the CDF and density of $Y$, calculate $P(Y\\leq1)$, and find its median under the generalized-inverse convention. Explain why a two-branch density formula applies below one but only a one-branch formula applies above one. Check that the apparent singularity at zero is integrable and does not represent an atom.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Translate the threshold event",
+          "explanation": "The original density is one third on an interval of length three. For a nonnegative threshold $y$, the condition $X^2\\leq y$ corresponds to $-\\sqrt y\\leq X\\leq\\sqrt y$, intersected with the original support. For $0\\leq y\\leq1$, both bounds lie in the support, so the retained interval has length $2\\sqrt y$. The CDF is $2\\sqrt y/3$ on that range."
+        },
+        {
+          "stepName": "Handle the asymmetric upper range",
+          "explanation": "For $1<y\\leq4$, the positive bound exceeds the upper endpoint one, so the retained interval is $[-\\sqrt y,1]$. Its length is $1+\\sqrt y$, giving CDF $(1+\\sqrt y)/3$. The CDF is zero below zero and one from four onward. At one, both formulas equal two thirds, so there is no jump where the number of inverse branches changes."
+        },
+        {
+          "stepName": "Differentiate the two pieces",
+          "explanation": "On $0<y<1$, the density is $1/(3\\sqrt y)$. On $1<y<4$, it is $1/(6\\sqrt y)$. Outside the transformed range it is zero. Below one, both roots are allowed values of $X$ and each contributes one sixth divided by the square root. Above one, the positive root lies outside the original support, leaving only the negative contribution. The density value at the isolated point one can be assigned conveniently without changing the distribution."
+        },
+        {
+          "stepName": "Obtain probability and median",
+          "explanation": "Evaluating the CDF at one gives $P(Y\\leq1)=2/3$. The median lies below one, so solve $2\\sqrt y/3=1/2$. This gives $\\sqrt y=3/4$ and median $y=9/16=0.5625$. Squaring a median of $X$ would not generally give a median of $Y$ because squaring is not monotone over the entire original support."
+        },
+        {
+          "stepName": "Check total probability and the boundary",
+          "explanation": "Integrating the first density piece from zero to one gives two thirds. Integrating the second piece from one to four gives one third. Their sum is one. Although the density grows without bound near zero, its integral over a shrinking interval from zero to a positive threshold tends to zero. The CDF at zero and its left limit are both zero, so there is no atom at zero. An unbounded density and a positive point mass are different mathematical objects."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "prob-4-1",
+      "title": "A finite joint table",
+      "question": "The joint masses for $X\\in\\{0,1,2\\}$ and $Y\\in\\{0,1\\}$ are: at $X=0$, masses $0.10$ for $Y=0$ and $0.20$ for $Y=1$; at $X=1$, masses $0.20$ and $0.10$; at $X=2$, masses $0.10$ and $0.30$. Find the margins, $E[X]$, $E[Y]$, $E[XY]$, covariance and variance of $X$. Find the conditional means and variances of $X$ for each value of $Y$, and verify total variance. Determine whether the variables are independent.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Check normalization and margins",
+          "explanation": "The six nonnegative masses sum to one. The row totals give $P(X=0)=0.30$, $P(X=1)=0.30$, and $P(X=2)=0.40$. The column totals give $P(Y=0)=0.40$ and $P(Y=1)=0.60$. The joint mass at $(0,0)$ is $0.10$, whereas the product of its margins is $0.30\\cdot0.40=0.12$. This single mismatch proves dependence; proving independence would require every cell to match."
+        },
+        {
+          "stepName": "Compute joint moments",
+          "explanation": "The mean of $X$ is $0(0.30)+1(0.30)+2(0.40)=1.10$. The mean of $Y$ is $0.60$. Only cells with $Y=1$ contribute to the product expectation, giving $E[XY]=1(0.10)+2(0.30)=0.70$. Covariance is $0.70-(1.10)(0.60)=0.04$. The second moment of $X$ is $1(0.30)+4(0.40)=1.90$, so its variance is $1.90-1.10^2=0.69$."
+        },
+        {
+          "stepName": "Normalize the conditional columns",
+          "explanation": "Given $Y=0$, the conditional masses of $X$ are one quarter, one half and one quarter. Their mean is one, their second moment is three halves, and their variance is one half. Given $Y=1$, the conditional masses are one third, one sixth and one half. Their mean is $7/6$, their second moment is $13/6$, and their variance is $13/6-(7/6)^2=29/36$. Both conditional distributions sum to one."
+        },
+        {
+          "stepName": "Verify iterated expectation and variance",
+          "explanation": "Averaging the conditional means gives $(2/5)(1)+(3/5)(7/6)=11/10$, agreeing with the direct mean. Average conditional variance is $(2/5)(1/2)+(3/5)(29/36)=41/60$. Variance of the conditional means is $(2/5)(1-11/10)^2+(3/5)(7/6-11/10)^2=1/150$. Their sum is $41/60+1/150=69/100$, exactly the directly computed variance. Averaging only the conditional variances would omit the small but nonzero between-mean component."
+        }
+      ]
+    },
+    {
+      "id": "prob-4-2",
+      "title": "A constant density on a triangle",
+      "question": "A joint density equals two where $0<x<y<1$ and zero elsewhere. Derive the marginal densities and the conditional density of $X$ given an interior value $Y=y$. Find $E[X]$, $E[Y]$, $E[XY]$ and covariance. Calculate $P(X+Y\\leq1)$ and $P(X\\leq Y^2)$. Explain why a constant joint density does not make the variables independent.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Normalize and marginalize on the correct region",
+          "explanation": "The triangular support has area one half, so density two integrates to one. For a fixed $x$ in the unit interval, $y$ ranges from $x$ to one, giving $f_X(x)=2(1-x)$. For a fixed $y$, $x$ ranges from zero to $y$, giving $f_Y(y)=2y$. Both densities integrate to one. Their nonconstant forms arise from changing cross-section lengths of the triangle."
+        },
+        {
+          "stepName": "Obtain the conditional density",
+          "explanation": "For an interior positive $y$, dividing the joint density by $2y$ gives $f_{X\\mid Y}(x\\mid y)=1/y$ for $0<x<y$. Thus the conditional law is uniform on a range whose upper bound is the conditioning value. Its mean is $y/2$ and its variance is $y^2/12$. This construction uses densities, not a ratio of zero point probabilities."
+        },
+        {
+          "stepName": "Integrate moments",
+          "explanation": "The marginal integrals give $E[X]=\\int_0^1 2x(1-x)\\,dx=1/3$ and $E[Y]=\\int_0^1 2y^2\\,dy=2/3$. The joint product expectation is $\\int_0^1\\int_0^y2xy\\,dx\\,dy=1/4$. Covariance is $1/4-(1/3)(2/3)=1/36$. The product of the marginal densities is positive at many pairs with $x>y$, where the joint density is zero. Therefore independence fails, independently of the covariance calculation."
+        },
+        {
+          "stepName": "Integrate the sum event in two pieces",
+          "explanation": "For $0<y\\leq1/2$, the upper bound for $x$ is $y$. For $1/2<y<1$, the upper bound imposed by $x+y\\leq1$ is $1-y$. The probability is $\\int_0^{1/2}2y\\,dy+\\int_{1/2}^1 2(1-y)\\,dy=1/2$. Using one upper limit over the full range would miss the change where the two boundaries intersect."
+        },
+        {
+          "stepName": "Use conditional averaging for the curved event",
+          "explanation": "For an interior $y$, the threshold $y^2$ lies between zero and $y$. Under the uniform conditional law, $P(X\\leq y^2\\mid Y=y)=y^2/y=y$. Averaging this probability over the density of $Y$ gives $\\int_0^1 y(2y)\\,dy=2/3$. A direct joint-region integral gives the same value. Conditional distributions can simplify a curved-region question without changing its probability."
+        }
+      ]
+    },
+    {
+      "id": "prob-4-3",
+      "title": "Variance in a two-group mixture",
+      "question": "A group variable takes value $A$ with probability one quarter and $B$ with probability three quarters. Given $A$, a variable $X$ takes zero and two with equal probability. Given $B$, it takes four and eight with equal probability. Find the marginal distribution, mean and variance of $X$. Separate the variance into within-group and between-group components. If two copies of $X$ are conditionally independent given the same group, find their marginal covariance and explain its source.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Build the marginal law",
+          "explanation": "Multiplying each conditional mass by its group weight gives marginal masses one eighth at zero, one eighth at two, three eighths at four and three eighths at eight. They sum to one. Group $A$ has conditional mean one and variance one. Group $B$ has conditional mean six and variance four. Equal within-group probabilities do not imply equal weights across the four marginal values because the group probabilities differ."
+        },
+        {
+          "stepName": "Compute overall moments directly",
+          "explanation": "The mean is $0(1/8)+2(1/8)+4(3/8)+8(3/8)=19/4$. The second moment is $4(1/8)+16(3/8)+64(3/8)=61/2$. Variance is $61/2-(19/4)^2=127/16$, or $7.9375$. A large part of the overall spread comes from the separation between the group means, not just from variability within either group."
+        },
+        {
+          "stepName": "Verify the variance decomposition",
+          "explanation": "Average within-group variance is $(1/4)(1)+(3/4)(4)=13/4$. Between-group variance is $(1/4)(1-19/4)^2+(3/4)(6-19/4)^2=75/16$. Adding them gives $13/4+75/16=127/16$. Omitting the between component would report $3.25$ instead of $7.9375$ and would substantially understate the marginal variation of this model."
+        },
+        {
+          "stepName": "Calculate shared-group covariance",
+          "explanation": "Conditional independence makes the within-group covariance of the two copies zero. Their conditional means are both one in group $A$ and both six in group $B$. The between-mean covariance is therefore the variance of that shared conditional mean, $75/16$. Directly, the product expectation is $(1/4)(1^2)+(3/4)(6^2)=109/4$, and subtracting the product of their marginal means gives $109/4-(19/4)^2=75/16$. The positive covariance arises from sharing the uncertain group even though the copies are independent within each group."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "prob-5-1",
+      "title": "Moments and cumulants of a two-point law",
+      "question": "A variable takes minus one with probability one quarter and three with probability three quarters. Find its first four raw moments, mean, variance, third and fourth central moments, and first four cumulants. Give its MGF and characterize its domain. Calculate moment skewness, kurtosis and excess kurtosis, assuming the population-law conventions developed in this unit.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Average the powers",
+          "explanation": "Direct weighted sums give $m_1=2$, $m_2=7$, $m_3=20$, and $m_4=61$. The mean is two. The deviations from this mean are minus three and one, so centered sums can be computed independently of the raw-moment expansions. Their squared average is $(1/4)9+(3/4)1=3$, establishing variance three."
+        },
+        {
+          "stepName": "Compute central moments directly",
+          "explanation": "The third central moment is $(1/4)(-27)+(3/4)(1)=-6$. The fourth central moment is $(1/4)(81)+(3/4)(1)=21$. Substituting the raw moments into the central-moment identities gives the same values. The negative third moment reflects the longer negative deviation combined with its probability weight, even though the higher numerical value is more probable."
+        },
+        {
+          "stepName": "Obtain cumulants and the transform",
+          "explanation": "The first three cumulants are two, three and minus six. The fourth is $21-3(3^2)=-6$. The MGF is $(1/4)e^{-t}+(3/4)e^{3t}$, finite for every real argument because the support is finite. Differentiating its logarithm at zero gives the same cumulants. The fourth cumulant is not the fourth raw moment and is not the fourth central moment."
+        },
+        {
+          "stepName": "Standardize the shape summaries",
+          "explanation": "Skewness is $-6/(3^{3/2})=-2/\\sqrt3$. Kurtosis is $21/9=7/3$, and excess kurtosis is $7/3-3=-2/3$. These quantities are dimensionless. The excess value also equals the fourth cumulant divided by squared variance, $-6/9$. All summaries are defined because the variance is positive and every required moment is finite."
+        }
+      ]
+    },
+    {
+      "id": "prob-5-2",
+      "title": "An independent count sum through its PGF",
+      "question": "Three independent binary trials each succeed with probability two fifths. Their success count is $A$. A fourth binary trial $B$, independent of all three, has the same success probability. Find the PGF of $T=A+B$, its complete PMF, the probability $T=2$, its mean, variance and third cumulant. Explain which part of the calculation would fail if the fourth trial had the same marginal probability but was dependent on the first three.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Build and multiply the generating functions",
+          "explanation": "One binary trial has PGF $(3/5)+(2/5)z$. Independence of the first three gives $G_A(z)=((3/5)+(2/5)z)^3$. The independent fourth trial contributes another identical factor, so $G_T(z)=((3/5)+(2/5)z)^4$. This product represents the full independent four-trial mechanism, not merely agreement of four marginal success rates."
+        },
+        {
+          "stepName": "Extract the masses",
+          "explanation": "Polynomial expansion gives masses $81/625$, $216/625$, $216/625$, $96/625$, and $16/625$ at counts zero through four. They sum to one. The mass at two is $216/625=0.3456$. The coefficients count the possible positions of successes, while each product weight accounts for their two-fifths success and three-fifths failure probabilities."
+        },
+        {
+          "stepName": "Derive mean and variance",
+          "explanation": "The sum mean is four times two fifths, or $8/5$. Each independent indicator has variance $(2/5)(3/5)=6/25$, so the sum variance is $24/25$. Differentiating the PGF at one gives the same mean, and combining its first and second derivatives gives the same variance. The second PGF derivative alone is a factorial moment, not the variance."
+        },
+        {
+          "stepName": "Calculate the third cumulant and state the dependence limitation",
+          "explanation": "A binary variable with success probability $p$ has third central moment, and hence third cumulant, $p(1-p)(1-2p)$. Substituting two fifths gives $6/125$ per trial; adding four independent cumulants gives $24/125$. If the fourth trial were dependent, its identical marginal PGF would remain valid, but multiplying it by the first count's PGF would not generally give the sum law. Covariance and higher joint relationships could change the distribution and its cumulants."
+        }
+      ]
+    },
+    {
+      "id": "prob-5-3",
+      "title": "Finite moments without a local MGF",
+      "question": "Let $Z$ have density $(2\\pi)^{-1/2}e^{-z^2/2}$ over the real line, and let $W=e^Z$. Show that every positive integer raw moment of $W$ is finite and equals $e^{r^2/2}$. Show that $E[e^{tW}]$ is infinite for every positive $t$, while it is finite for nonpositive $t$. Explain why a characteristic function nevertheless exists and why the formal moment power series cannot supply a positive-argument MGF. The normal density is supplied here as a mathematical input; its family is studied in Unit 9.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Complete the square for a raw moment",
+          "explanation": "The required expectation is the integral of $e^{rz}$ against the stated normal density. The exponent satisfies $rz-z^2/2=-(z-r)^2/2+r^2/2$. Factoring out $e^{r^2/2}$ leaves a shifted normal density integrating to one. Therefore $E[W^r]=e^{r^2/2}$, finite for every positive integer $r$. In particular the mean and every higher polynomial moment exist."
+        },
+        {
+          "stepName": "Inspect the positive-argument exponential integral",
+          "explanation": "For positive $t$, the MGF integral contains the factor $\\exp(te^z-z^2/2)$. As $z$ increases, $te^z$ eventually dominates the quadratic term, so the exponent tends to positive infinity. The integrand does not decay and its integral over a sufficiently large positive tail is infinite. Thus no positive argument belongs to the finite MGF domain. This is stronger than saying that a convenient closed formula is unavailable."
+        },
+        {
+          "stepName": "Check the other side and characteristic existence",
+          "explanation": "For nonpositive $t$, $W$ is positive and $0<e^{tW}\\leq1$, so its expectation is finite; at zero it equals one. The domain therefore includes the nonpositive half-line but no open interval around zero. The characteristic integrand $e^{itW}$ has magnitude one for every real argument, so its expectation exists. Existence of this complex transform does not require the absent positive exponential moment."
+        },
+        {
+          "stepName": "Test the formal series",
+          "explanation": "The formal MGF terms would be $e^{r^2/2}t^r/r!$. For any fixed positive $t$, the ratio of consecutive terms is $te^{r+1/2}/(r+1)$, which grows without bound. The terms fail to tend to zero, so the series diverges. Finite moments of every order therefore do not justify substituting them into a convergent positive-argument MGF expansion. The neighborhood condition used earlier is substantive, not a technical ornament."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "prob-6-1",
+      "title": "A binomial count and its tail",
+      "question": "Eight mutually independent binary trials each succeed with probability one quarter. Let $X$ be the success count. Find the probability of exactly three successes, the probability of at least two successes, the mean and variance, and a most-probable count. Explain why the expected count is not a guaranteed realized count and why equal individual success rates alone would be insufficient for the PMF calculation.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Identify the count law",
+          "explanation": "The experiment has a fixed length, binary outcomes, a common probability and mutual independence. Thus the count is binomial with trial count eight and probability one quarter. Its exactly-three probability is $\\binom83(1/4)^3(3/4)^5=1701/8192$, approximately $0.207642$. The combination coefficient counts the possible successful positions among eight trials."
+        },
+        {
+          "stepName": "Compute the tail by a short complement",
+          "explanation": "At least two excludes counts zero and one. Their probabilities are $6561/65536$ and $17496/65536$, respectively. The desired probability is $1-(6561+17496)/65536=41479/65536$, approximately $0.632919$. This complement calculation avoids adding seven separate tail masses but still includes every allowed count in the event."
+        },
+        {
+          "stepName": "Compute moments and a mode",
+          "explanation": "The mean is $8(1/4)=2$, and the variance is $8(1/4)(3/4)=3/2$. The product $(n+1)p=9/4$ is not an integer, so the unique mode is its integer part, two. A mean of two and a modal count of two do not imply certainty at two: other counts retain positive probability. Independence is essential for the PMF and variance formulas; equal marginal rates would still give mean two while allowing a different joint count law."
+        }
+      ]
+    },
+    {
+      "id": "prob-6-2",
+      "title": "An inspection sample from a fixed collection",
+      "question": "A collection contains twenty distinct objects, six marked. Five are selected uniformly without replacement. Let $X$ be the marked sample count. State its support, find the probability of exactly two marked objects and of at least one, and calculate its mean and variance. Compare the variance with a binomial model using the same sample size and initial marked fraction.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Establish support and denominator",
+          "explanation": "The sample can contain zero through five marked objects; there are enough unmarked objects to avoid marks entirely and enough marked objects to fill the sample. The uniformly weighted unordered sample space has $\\binom{20}{5}=15504$ outcomes. Counting distinct labeled subsets is justified by the specified uniform selection mechanism."
+        },
+        {
+          "stepName": "Count exact and complement events",
+          "explanation": "Exactly two marked objects can be chosen in $\\binom62\\binom{14}{3}=5460$ ways, so its probability is $455/1292$, approximately $0.352167$. No marked objects can be chosen in $\\binom{14}{5}=2002$ ways, giving probability $1001/7752$. Therefore at least one has probability $6751/7752$, approximately $0.870872$. The complement concerns the complete five-object sample, not a single-draw event."
+        },
+        {
+          "stepName": "Calculate and compare moments",
+          "explanation": "The initial marked fraction is three tenths. Mean is $5(3/10)=3/2$. Variance is $5(3/10)(7/10)(15/19)=63/76$, approximately $0.828947$. The corresponding independent binomial variance would be $21/20=1.05$. The reduction is explained by negative covariance among without-replacement draw indicators, not by a change in their marginal marked probability. The binomial model would describe a different procedure or an approximation whose accuracy must be assessed."
+        }
+      ]
+    },
+    {
+      "id": "prob-6-3",
+      "title": "Equal means under two mechanisms",
+      "question": "A collection contains twelve distinct objects, six marked. Compare six independent uniform draws with replacement with six uniform draws without replacement. For each mechanism, find the mean and variance of the marked count, the probability that all six draws are marked, the probability of exactly three marked draws, and the variance of the sample proportion. Explain what matching means does and does not establish.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Calculate replacement moments",
+          "explanation": "With replacement and independent randomization, the count is binomial with six trials and probability one half. Its mean is three and its variance is $6(1/2)(1/2)=3/2$. The sample proportion divides the count by six, so its variance is $(3/2)/36=1/24$."
+        },
+        {
+          "stepName": "Calculate without-replacement moments",
+          "explanation": "Uniform sampling without replacement gives a hypergeometric count with the same mean three. Its variance is $(3/2)(6/11)=9/11$. The proportion variance is $(9/11)/36=1/44$. The finite-population correction makes the distribution more concentrated in variance, although variance alone does not prove a particular ordering of every tail probability."
+        },
+        {
+          "stepName": "Compare event probabilities",
+          "explanation": "With replacement, all six marked has probability $1/64$, and exactly three has probability $\\binom63/64=5/16$. Without replacement, all six marked requires selecting the unique subset of all marked objects, so its probability is $1/\\binom{12}{6}=1/924$. Exactly three has probability $\\binom63\\binom63/\\binom{12}{6}=100/231$. These substantial differences occur despite equal count means. A shared expectation is one summary, not equality of distributions or equality of experiment mechanisms."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "prob-7-1",
+      "title": "First-success waiting and memorylessness",
+      "question": "Independent trials succeed with probability one fifth. Let $T$ count trials through the first success and $F=T-1$ count preceding failures. Find $P(T=4)$, $P(T>5)$, and $P(T>8\\mid T>3)$. Find both means and the common variance. Explain the meaning of the conditional result and the difference between $T>5$ and $T\\geq5$.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Calculate the exact and tail events",
+          "explanation": "Exactly four trials requires three failures followed by a success, giving $(4/5)^3(1/5)=64/625=0.1024$. More than five trials requires five initial failures, giving $(4/5)^5=1024/3125=0.32768$. At least five trials instead requires only four initial failures and has probability $(4/5)^4=256/625$. The endpoint difference matters because the variable is discrete."
+        },
+        {
+          "stepName": "Condition on the observed failure history",
+          "explanation": "More than eight trials is a subset of more than three. Dividing their probabilities gives $(4/5)^8/(4/5)^3=(4/5)^5=0.32768$. After the three observed failures, waiting more than five additional trials has the same probability as waiting more than five trials initially. This is the memoryless remaining-wait property; it does not claim that total elapsed time is unchanged."
+        },
+        {
+          "stepName": "Use the stated count conventions",
+          "explanation": "Mean total trials is five. Mean failures is four. Their variance is $(4/5)/(1/5)^2=20$. The one-unit shift changes the mean and support while preserving variance. The next trial after any finite failure history still has success probability one fifth under the independent fixed-probability model. A changing-probability process would require a different analysis."
+        }
+      ]
+    },
+    {
+      "id": "prob-7-2",
+      "title": "Waiting until the third success",
+      "question": "Independent trials succeed with probability two fifths. Let $T_3$ be total trials through the third success and $F_3=T_3-3$ be preceding failures. Find the probability that the third success occurs on trial five, the probability that it occurs by trial five, and the mean and variance of each count convention. Explain why the two requested probabilities use different events.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Place the stopping success correctly",
+          "explanation": "For the third success on trial five, the first four trials contain exactly two successes and the fifth succeeds. There are $\\binom42=6$ possible initial patterns, each with the same probability. The result is $6(2/5)^3(3/5)^2=432/3125=0.13824$. Using a coefficient choosing three success positions among all five would include paths that reached the target earlier."
+        },
+        {
+          "stepName": "Convert a cumulative wait to a fixed-length count",
+          "explanation": "A third success by trial five means at least three successes among the first five trials. Summing the binomial probabilities at three, four and five gives $720/3125+240/3125+32/3125=992/3125=0.31744$. This includes stopping at trials three, four or five, so it is larger than the exact trial-five probability."
+        },
+        {
+          "stepName": "Calculate the two means and common variance",
+          "explanation": "Mean total trials is $3/(2/5)=15/2$. Mean failures is $3(3/5)/(2/5)=9/2$. Variance is $3(3/5)/(2/5)^2=45/4$. Subtracting three changes location but not variance. Predicting a remaining wait after partial history would require the number of successes already observed, since total waiting for several successes is not memoryless in elapsed trial count alone."
+        }
+      ]
+    },
+    {
+      "id": "prob-7-3",
+      "title": "A Poisson interval count and independent marking",
+      "question": "A stipulated homogeneous event model has rate $1.8$ events per hour. Find the count parameter over two hours and the probability of no event in that interval. Independently mark each event with probability one third. Find the marked-count law, its mean and variance, and the probability of exactly two marked events. Given that five events occurred in total, find the probability that exactly two were marked. Distinguish the unconditional and conditional marked-count questions.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Match the parameter to duration",
+          "explanation": "The two-hour parameter is $1.8\\cdot2=3.6$. The total count is Poisson with that parameter under the stipulated homogeneous model. No events has probability $e^{-3.6}$, approximately $0.027324$. The mean and variance of the total count are both $3.6$, although its realized count must be an integer."
+        },
+        {
+          "stepName": "Thin independently",
+          "explanation": "The marked count is Poisson with parameter $3.6/3=1.2$. Its mean and variance are both $1.2$. Exactly two marked events has probability $e^{-1.2}(1.2)^2/2$, approximately $0.216860$. This marginal question averages over all possible total counts and uses the independent-marking construction."
+        },
+        {
+          "stepName": "Condition on a fixed total",
+          "explanation": "Given five total events, the marked count is binomial with five trials and probability one third. Its exactly-two probability is $\\binom52(1/3)^2(2/3)^3=80/243$, approximately $0.329218$. Fixing the total changes the reference experiment from an unbounded Poisson count to marking five known opportunities. The two results answer different questions and need not agree."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "prob-8-1",
+      "title": "A uniform transformation and selected interval",
+      "question": "A stipulated position $X$ is uniform from two to eight. Define $Y=X^2$. Find $P(9<Y<36)$, the mean of $Y$, its CDF on its support, and its density there. Given that $X>5$, find $P(X<7\\mid X>5)$. Explain why $Y$ is not uniform.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Translate the event and integrate the original variable",
+          "explanation": "Since the original position is positive, $9<X^2<36$ is equivalent to $3<X<6$. The eligible length is three out of six, giving probability one half. The second raw moment of the original uniform variable is $(2^2+2\\cdot8+8^2)/3=28$, which is the mean of $Y$. Squaring the mean of $X$, which is five, would give twenty-five and would omit the original variance of three."
+        },
+        {
+          "stepName": "Transform the distribution with its support",
+          "explanation": "The transformed support is four to sixty-four. Within it, $F_Y(y)=P(X\\leq\\sqrt y)=(\\sqrt y-2)/6$, with CDF zero below four and one at and above sixty-four. Differentiation gives $f_Y(y)=1/(12\\sqrt y)$ in the support interior. This density decreases rather than remaining constant. Equal-length intervals on the squared scale correspond to unequal-length intervals on the original scale."
+        },
+        {
+          "stepName": "Change the denominator when conditioning",
+          "explanation": "The event $X>5$ restricts the eligible interval to length three, from five to eight. The part also satisfying $X<7$ has length two. The conditional probability is therefore two thirds. This is a conditional calculation in original position space. It does not require treating the transformed variable as uniform, and it does not assign positive mass to any endpoint."
+        }
+      ]
+    },
+    {
+      "id": "prob-8-2",
+      "title": "An unfinished exponential wait",
+      "question": "A stipulated completion time is exponential with rate two per hour. Calculate its mean and median in minutes, the probability of completion within fifteen minutes, and the probability that a wait already exceeding one hour lasts more than another half hour. Determine the ninetieth percentile in minutes and distinguish it from the mean.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Convert time consistently",
+          "explanation": "The mean is one half hour, or thirty minutes. The median is $\\log(2)/2$ hours, approximately $20.7944$ minutes. Fifteen minutes is one quarter hour, so the completion probability is $1-e^{-2(1/4)}=1-e^{-1/2}$, approximately $0.393469$. Using fifteen directly with a per-hour rate would create a different and invalid unit interpretation."
+        },
+        {
+          "stepName": "Condition on surviving the first hour",
+          "explanation": "The required survival is $S(1.5)/S(1)=e^{-3}/e^{-2}=e^{-1}$, approximately $0.367879$. Memorylessness makes it the same as the survival probability beyond one half hour from a fresh start. It is not the unconditional probability of exceeding one and a half hours, which is $e^{-3}$. Conditioning changes the denominator."
+        },
+        {
+          "stepName": "Solve a percentile equation",
+          "explanation": "Setting survival to one tenth gives duration $\\log(10)/2$ hours. Multiplication by sixty gives $30\\log(10)$ minutes, approximately $69.0776$. This percentile marks a duration by which ninety percent of modeled waits finish. The thirty-minute mean is an average over all waits and need not have ninety percent, or even fifty percent, below it. Neither quantity promises the completion time of one realized path."
+        }
+      ]
+    },
+    {
+      "id": "prob-8-3",
+      "title": "Three independent exponential stages",
+      "question": "A procedure has three independent stages, each exponential with rate two per hour. Let $T$ be its total duration. State its law, mean and variance. Calculate $P(T>2)$ and $P(T>3\\mid T>1)$. Compare the latter with $P(T>2)$ and explain why the total wait is not memoryless.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Use the common-rate independent-stage construction",
+          "explanation": "The total is gamma with shape three and rate two per hour. Its mean is three halves hours and variance three quarters square hours. Its MGF is $(2/(2-t))^3$ for transform argument below two per hour in a consistent unit convention. The variance follows by adding the three independent stage variances, each one quarter square hours."
+        },
+        {
+          "stepName": "Calculate finite-sum survival",
+          "explanation": "At two hours the dimensionless rate-duration product is four, giving survival $e^{-4}(1+4+4^2/2)=13e^{-4}$, approximately $0.238103$. The one-hour survival is $5e^{-2}$ and the three-hour survival is $25e^{-6}$. These calculations count zero, one or two process events by each duration under the equivalent Poisson-stage construction."
+        },
+        {
+          "stepName": "Condition on the unfinished total",
+          "explanation": "The requested conditional probability is $25e^{-6}/(5e^{-2})=5e^{-4}$, approximately $0.0915782$. It differs from the fresh two-hour survival $13e^{-4}$. Knowing that the total already exceeded one hour changes the distribution of its additional duration. The total of three exponential stages is gamma, not exponential; memorylessness of each independent stage does not make their summed completion time memoryless."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "prob-9-1",
+      "title": "A normal measurement interval",
+      "question": "A stipulated measurement $X$ has law $N(100,100)$ in arbitrary measurement units. Find $P(90<X<115)$, $P(X>120)$, and the ninetieth percentile. Find the central ninety-five-percent interval for individual measurements. Explain why that interval is not automatically a confidence interval for an unknown mean.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Identify the variance convention and standardize",
+          "explanation": "The variance is one hundred and the standard deviation is ten. The interval endpoints become minus one and one and a half. Its probability is $\\Phi(1.5)-\\Phi(-1)$, approximately $0.774538$. The upper threshold one hundred and twenty becomes two, giving right-tail probability approximately $0.0227501$. These probabilities concern modeled individual observations."
+        },
+        {
+          "stepName": "Transform the requested quantile",
+          "explanation": "The standard ninetieth percentile is approximately $1.2815516$. The original-scale percentile is $100+10(1.2815516)$, approximately $112.8155$. The probability at or below that threshold is ninety percent under the given continuous model. It is not an average or a prediction guaranteed for one future reading."
+        },
+        {
+          "stepName": "State the interval's actual target",
+          "explanation": "The central ninety-five-percent individual interval is approximately $[80.4004,119.5996]$, using standard quantiles plus and minus $1.959964$. A confidence interval for an unknown mean would instead depend on an estimator, a sample size, an uncertainty calculation and assumptions about sampling. The given distributional interval covers individual values under known model parameters; its interpretation must not be relabeled as inferential certainty about an unknown parameter."
+        }
+      ]
+    },
+    {
+      "id": "prob-9-2",
+      "title": "A polynomial beta density",
+      "question": "Let $X$ have a beta law with shapes two and three. Derive its density and CDF, calculate its mean and variance, and find $P(X>1/2)$ and $P(1/4<X<3/4)$. State the interior mode and explain why the density value at the mode is not a point probability.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Normalize and integrate",
+          "explanation": "The beta constant is $\\Gamma(2)\\Gamma(3)/\\Gamma(5)=1/12$, so the density is $12x(1-x)^2$ between zero and one. Expanding and integrating gives $F(x)=6x^2-8x^3+3x^4$ within that interval, with the usual zero and one values outside it. The endpoints and derivative verify normalization and recover the density."
+        },
+        {
+          "stepName": "Calculate moments and interval masses",
+          "explanation": "The mean is two fifths and variance is $6/(25\\cdot6)=1/25$. At one half, the CDF is eleven sixteenths, so the upper probability is five sixteenths. At one quarter and three quarters, CDF values are sixty-seven over two hundred and fifty-six and two hundred and forty-three over two hundred and fifty-six. Their difference is eleven sixteenths, or $0.6875$."
+        },
+        {
+          "stepName": "Interpret the peak",
+          "explanation": "The mode is $(2-1)/(2+3-2)=1/3$. Its density is sixteen ninths, larger than one but valid because density is per unit of the variable. The probability of exactly one third is zero under this continuous law. A small interval around that value has probability approximated by density times width, and an exact interval probability comes from the CDF. Peak height and point probability are different quantities."
+        }
+      ]
+    },
+    {
+      "id": "prob-9-3",
+      "title": "An independent normal linear combination",
+      "question": "Independent variables have laws $X\\sim N(10,4)$ and $Y\\sim N(3,1)$. Define $Z=2X-3Y+5$. Find its distribution and $P(Z>21)$. Then suppose the pair is jointly normal with covariance one instead of independent. Recalculate the variance and state which earlier result changes.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Combine means and independent variances",
+          "explanation": "The mean is $2(10)-3(3)+5=16$. Independence gives variance $2^2(4)+(-3)^2(1)=25$. The linear combination is therefore $N(16,25)$, with standard deviation five. The constant changes location but contributes no variance, and the negative coefficient still contributes a positive squared variance term."
+        },
+        {
+          "stepName": "Evaluate the upper event",
+          "explanation": "The threshold twenty-one is one standard deviation above the mean. Its upper-tail probability is $1-\\Phi(1)$, approximately $0.158655$. This uses both the independent-normal closure and the correct variance. Subtracting the two variance contributions would not represent the given experiment."
+        },
+        {
+          "stepName": "Include the covariance under the new joint model",
+          "explanation": "The covariance term is $2(2)(-3)(1)=-12$, so the new variance is thirteen and the mean remains sixteen. Joint normality keeps the linear combination normal, now $N(16,13)$. The standardized threshold is $5/\\sqrt{13}$, giving upper probability approximately $0.0827589$, so the earlier upper probability changes. A positive covariance reduces variation in this difference-like combination, even though it would increase variation in a same-sign combination."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "prob-10-1",
+      "title": "A rare-event approximation audit",
+      "question": "A stipulated process has two hundred independent opportunities, each succeeding with probability one hundredth. Let $X$ count successes. Calculate the exact probability of at least three successes and the Poisson approximation with matching mean. Compare absolute and relative error, state a conservative event-error bound, and explain why matching the means does not make the approximation exact.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Calculate the exact complement",
+          "explanation": "The exact law is binomial with two hundred trials and probability $0.01$. The probability of at least three is one minus the sum of the zero, one and two masses: $1-[0.99^{200}+200(0.01)0.99^{199}+\\binom{200}{2}(0.01)^2 0.99^{198}]$. This expression refers to a fixed number of trials and should be evaluated without rounding its component masses prematurely."
+        },
+        {
+          "stepName": "Replace the count law and compare the same event",
+          "explanation": "The Poisson mean is two. Its probability of at least three is $1-e^{-2}(1+2+2)=1-5e^{-2}$, approximately $0.323324$. The exact tail is approximately $0.3233213055$. The approximation exceeds it by approximately $0.00000227835$, which is also the absolute error. Dividing by the exact probability gives relative error approximately $0.00000704671$, or $0.000704671$ percent. The agreement is excellent for this particular event; the saved numerical checker reproduces both calculations independently."
+        },
+        {
+          "stepName": "State what the bound and moments establish",
+          "explanation": "The conservative coupling bound is $200(0.01)^2=0.02$ for any event-probability difference under this independent-trial mechanism. It is an upper bound, not the actual discrepancy for this tail. Binomial mean is two and variance is $1.98$, whereas the Poisson mean and variance are both two. Matching the means and being in a rare-event regime support an approximation; they do not make the support, variance or all event probabilities identical."
+        }
+      ]
+    },
+    {
+      "id": "prob-10-2",
+      "title": "Monte Carlo precision and interpretation",
+      "question": "Independent simulations estimate an event whose exact model probability is one fifth. Ten thousand trials produce one thousand nine hundred and forty events. Calculate the estimate, its actual error against the benchmark, the theoretical standard error and a plug-in estimated standard error. Plan a trial count for standard error at most $0.002$ using the known benchmark, then using a worst-case Bernoulli variance. Explain which uncertainties these calculations cover.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Distinguish the result from its target",
+          "explanation": "The Monte Carlo estimate is $1940/10000=0.194$. Its signed error is minus $0.006$ against the model benchmark $0.2$, and absolute error is $0.006$. The benchmark is known here because this is a verification exercise. In a general simulation problem it may be unavailable, so the actual realized error cannot be calculated merely from the observed count."
+        },
+        {
+          "stepName": "Calculate numerical sampling uncertainty",
+          "explanation": "The theoretical standard error is $\\sqrt{0.2(0.8)/10000}=0.004$. The plug-in value is $\\sqrt{0.194(0.806)/10000}$, approximately $0.00395429$. A rough two-standard-error range around the estimate describes an approximate numerical uncertainty calculation, not a guaranteed finite-sample enclosure and not a statement about errors in the model or code. Here the realized error is one and a half theoretical standard errors."
+        },
+        {
+          "stepName": "Plan with a stated variance",
+          "explanation": "Using the known probability, trial count must be at least $0.16/(0.002)^2=40000$ for the target standard error. Using the worst-case variance one quarter gives $62500$. Those counts concern independent indicator trials and a standard-error target. They do not guarantee a specified absolute error in every run, do not validate the simulation mechanism and do not establish that the model probability describes a real process."
+        }
+      ]
+    },
+    {
+      "id": "prob-10-3",
+      "title": "A complete mixture waiting model",
+      "question": "Before a wait starts, group A is selected with probability one quarter and group B with probability three quarters. Conditional waiting times are exponential with rates one and three per hour respectively. Find the marginal mean and variance, the probability that the wait exceeds one hour, the probability of group A given that evidence, and the conditional mean additional wait. Explain why the mixture is not exponential with the average rate.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Average moments rather than rates",
+          "explanation": "The mean wait is $(1/4)(1)+(3/4)(1/3)=1/2$ hour. The second raw moment is $(1/4)(2)+(3/4)(2/9)=2/3$ square hours. Therefore variance is $2/3-(1/2)^2=5/12$ square hours. The average rate is two and a half per hour; its reciprocal two fifths hour differs from the correct mixture mean one half hour."
+        },
+        {
+          "stepName": "Calculate survival and update group weights",
+          "explanation": "One-hour survival is $(1/4)e^{-1}+(3/4)e^{-3}$, approximately $0.129310$. The posterior probability of A among surviving paths is $e^{-1}/(e^{-1}+3e^{-3})=1/(1+3e^{-2})$. This posterior is approximately $0.711235$. Slow group A receives more weight after survival than its original one-quarter weight. The update is determined by group survival likelihoods, not by a subjective preference for one group."
+        },
+        {
+          "stepName": "Predict within groups and average with the new weights",
+          "explanation": "Each conditional exponential wait remains memoryless, so its mean additional wait is one hour in A and one third hour in B. If the posterior A probability is $w$, the conditional mean additional wait is $w+(1-w)/3$, approximately $0.807490$ hours. It differs from the original half-hour mean because the group composition has changed. The mixture survival is a sum of exponentials, not the exponential of the average rate; a common-rate simplification would change both the law and its predictions."
+        }
+      ]
+    }
+  ]
+]
