@@ -64,3 +64,7 @@ Run before committing. Check new-book pages separately from existing-book preser
 ## One-time manual-first-book request
 
 On 11 October 2026 the user requested the first Introduction to Statistics book immediately and asked the scheduled sequence to begin with book two on 12 October at 20:00 Asia/Dhaka. Record the real deployment timestamp even if the manual work crosses midnight. Only this authorized manual first publication is exempt from consuming a scheduled daily publication slot. All later scheduled runs remain limited to one verified new book per local date. Do not recreate or republish the first book as book two.
+
+## Homepage presentation
+
+User update, 13 October 2026: remove the New textbook announcement box. New books must appear in their normal department catalog, search, footer directory and counts; do not recreate a latest-book announcement card. Keep the publishing automation paused until the user requests resumption.

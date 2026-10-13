@@ -1209,6 +1209,27 @@ window.LIBRARY_CATALOG = {
             "Correlation and Measures of Association",
             "Simple Regression and an Integrated Statistical Investigation"
           ]
+        },
+        {
+          "id": "probability-and-probability-distributions",
+          "title": "Probability and Probability Distributions",
+          "subtitle": "Events, Bayesian Updating, Random Variables & Distribution Models",
+          "status": "AVAILABLE",
+          "url": "probability-and-probability-distributions.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Free university probability textbook: events, Bayes, random variables, moments and ten distribution families. Ten units, 30 fully solved questions and 10 interactive explorers.",
+          "topics": [
+            "Experiments, Events, Counting and Probability Models",
+            "Conditional Probability, Independence and Bayesian Updating",
+            "Random Variables, Distribution Functions and Transformations",
+            "Joint Distributions, Expectations and Conditional Variation",
+            "Moments, Generating Functions and Cumulants",
+            "Bernoulli, Binomial and Hypergeometric Models",
+            "Waiting Counts, Negative Binomial and Poisson Laws",
+            "Uniform, Exponential and Gamma Distributions",
+            "Normal and Beta Distributions",
+            "Model Synthesis, Approximation and Reproducible Probability"
+          ]
         }
       ]
     }

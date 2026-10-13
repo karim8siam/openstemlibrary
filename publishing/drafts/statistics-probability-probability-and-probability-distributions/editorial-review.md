@@ -65,10 +65,37 @@ This is an internal critical review of saved Units 1–7, not independent expert
 - Stored source/test hashes and actual results in `bayes-checks.json`. This is a prototype verification artifact, not a whole-book simulation pass.
 - Reader integration and rendered mobile/keyboard testing are still required. Other proposed explorers are not implemented yet.
 
-## Unresolved work
+## Historical unresolved work at the 8 AM checkpoint
 
 - Units 8–10 are not yet drafted at this checkpoint.
 - One Bayes explorer prototype has numerical and DOM evidence; remaining explorers, reader integration and rendered browser/mobile tests are pending.
 - Reader assembly, equation rendering, mobile controls, static pages, search metadata, preservation checks, sitemap and live verification remain unperformed for this book.
 - Complete-book repetition, coverage and substantive academic review must be conducted after assembly. Neither finite arithmetic checks nor this partial review count as completed-book acceptance.
 - Publication is blocked. Keep all drafts outside COURSE_DATA, public catalog and sitemap until the full book passes.
+
+
+## Complete-book review, 13 October 2026
+
+Units 8–10 are now authored. The earlier unresolved-work list describes the morning checkpoint and is superseded by the actual verification artifacts produced below. This remains an AI-assisted editorial and computational review, not independent academic peer review.
+
+- Unit 8: reviewed support and endpoint conventions, density versus probability, uniform transformations, time-unit conversions, exponential memorylessness, gamma rate versus scale, gamma moment domains, independent common-rate stage assumptions, integer-shape survival, censoring/truncation, and mixtures. Independently integrated the transformed uniform law and recalculated all exponential/gamma solutions with SciPy. Confirmed the mean-remaining-time expression for gamma shape two by integrating its conditional survival.
+- Unit 9: reviewed normal variance notation, Gaussian normalization/Jacobian reasoning, standardization, CDF versus tail tables, individual distribution intervals versus confidence intervals, affine and independent/jointly-normal closure, the zero-covariance counterexample, beta boundary integrability and mode conditions, moment ratios, concentration, rescaling, order-statistic and shared-parameter constructions. Exact polynomial integration and independent SciPy/matrix calculations verify the three worked solutions. NIST formulas were checked using consistent rate/scale conversion; no source prose was reproduced.
+- Unit 10: reviewed support/mechanism selection, parameter units, conditioning information, the distinctions among model, analytic, floating-point and Monte Carlo error, binomial/Poisson coupling bound, continuity correction, finite-variance independent identical assumptions for the stated LLN and CLT, Bernoulli Monte Carlo variance, Hoeffding assumptions, seeded replication, and latent-mixture prediction. The rare-event example now explicitly includes exact probability, approximation, absolute and relative error. Exact-rational precision planning avoids rounding a trial-count ceiling from binary floating-point error.
+- Unchanged Units 1–7 retain their recorded review and have their executable checks rerun. All thirty questions contain complete stated problems and at least three solution steps. Numeric check scope and limitations are recorded in numeric-final-checks.json.
+- Ten pedagogically useful explorers are implemented. Unit 5 deliberately uses exact algebra and existence arguments instead of a random animation. The normal explorer uses a tested numerical CDF approximation; beta explorer is explicitly limited to positive integer shapes 1–6. Other visual/model limitations are visible in each explorer.
+- Simulation tests compare 321 independent fixtures using enumeration and SciPy, plus invalid inputs, deterministic boundaries, zero-probability evidence, zero conditioning rows, seeded sampling, labels, parameter changes and reset. Their saved evidence matches the shipped source hashes. Rendered browser verification is recorded separately, and must pass before production publication.
+- All 1,303 delimited mathematical expressions parse using the deployed KaTeX version. All ten static chapters preserve their complete serialized sections and solutions, with unique headings/canonicals, crawlable navigation, matching explorer slots and sitemap entries.
+- Exact long-paragraph duplication checks found no repeated substantial paragraphs. No exhaustive external plagiarism database scan is claimed. Chapters remain original explanatory teaching material with invented educational mechanisms, not current medical, legal or financial advice.
+- Existing academic pages and data/simulation sources are preserved against the pre-publication repository baseline. Full-library verification reports no content or navigation failures. Metadata and sitemap verification report no failures.
+
+Production acceptance still requires the rendered preview tests, the final structural publication gate and verified Cloudflare/live delivery. Those stages must be evidenced separately; this review record does not claim they happened before their tests.
+
+
+## Rendered preview correction
+
+The phone-width browser check found a genuine shared formatter defect: raw less-than signs inside TeX were parsed as HTML, silently dropping parts of a normal-probability question even though the source expressions parsed successfully with KaTeX. The formatter now HTML-escapes comparisons and ampersands inside inline/display mathematics before assigning innerHTML. Source textbook text remains unchanged. A regression check tests inline/display inequalities and a matrix separator, and checks survival of every delimited source expression after HTML serialization. Generated new-book pages use a refreshed controller asset version. This correction must be verified in the next preview before production acceptance.
+
+
+## Corrected-preview acceptance
+
+The corrected preview is verified in Cloud Chrome. Chapter 9 annotations retain P(90<X<115) and P(X>120) intact, without KaTeX errors. At a 390-pixel iframe viewport, client and scroll widths are both 375 pixels after loading; the wider Bayes table scrolls inside its own 265-pixel container. Chapter-menu open/Escape closure/navigation, font switching, answer open/close and parameter/reset behavior passed. Desktop finite committee and Bayes controls also passed. See browser-checks.json for actual observations and limitations. A rendered iframe is not a real-device touch test. Production deployment/live acceptance is the remaining stage.

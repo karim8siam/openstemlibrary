@@ -17,7 +17,7 @@ const write = (file, text) => {
   }
 };
 const publicationDate = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Dhaka',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
-const version = '20261011_reader_catalog_v1';
+const version = '20261013_math_comparisons_v1';
 const portalVersion = crypto.createHash('sha256').update(['departments-data.js','portal.js','portal.css'].map(read).join('\n')).digest('hex').slice(0,16);
 const context = { window: {} }; vm.createContext(context);
 vm.runInContext(read('departments-data.js'), context);
@@ -124,7 +124,7 @@ for (const book of books.filter(book => !process.env.OPENSTEM_BOOK || book.id ==
     doc.title = `${units[index].title} | ${book.title} | OpenSTEM Library`;
     const summary = units[index].leadSummary || units[index].description || '';
     if (summary) doc.querySelector('meta[name="description"]').content = summary;
-    if (book.id === 'introduction-to-statistics') {
+    if (book.id === 'introduction-to-statistics' || book.id === 'probability-and-probability-distributions') {
       for (const selector of ['meta[property="og:title"]','meta[name="twitter:title"]']) doc.querySelector(selector).content = doc.title;
       for (const selector of ['meta[property="og:description"]','meta[name="twitter:description"]']) doc.querySelector(selector).content = summary;
     }
@@ -135,6 +135,10 @@ for (const book of books.filter(book => !process.env.OPENSTEM_BOOK || book.id ==
           if (!node || typeof node !== 'object') return;
           if (node.url === `https://openstemlibrary.com/${book.url.replace(/\.html$/, '')}`) node.url = `https://openstemlibrary.com/${filename.replace(/\.html$/, '')}`;
           if (node['@type'] === 'Book' || node['@type'] === 'LearningResource') node.name = `${book.title}: ${units[index].title}`;
+          if (book.id === 'probability-and-probability-distributions' && node['@type'] === 'BreadcrumbList') {
+            const last=node.itemListElement?.at(-1);
+            if(last){last.name=units[index].title;last.item=`https://openstemlibrary.com/${filename.replace(/\.html$/, '')}`;}
+          }
           Object.values(node).forEach(v => { if (Array.isArray(v)) v.forEach(update); else if (v && typeof v === 'object') update(v); });
         };
         update(data); script.textContent = JSON.stringify(data);
@@ -171,18 +175,8 @@ for(const el of hd.querySelectorAll('script[src],link[rel="stylesheet"]')) {
 const description='Free university textbooks in Physics, Mathematics, Chemistry, and Statistics & Probability, with solved problems and interactive simulations.';
 for (const selector of ['meta[name="description"]','meta[property="og:description"]','meta[name="twitter:description"]']) hd.querySelector(selector).content=description;
 hd.querySelector('#portal-search-input').placeholder='Search by topic or course (e.g., Statistics, Regression, Calculus, Quantum Mechanics)...';
-const published=JSON.parse(read('publishing/book-queue.json')).departments.flatMap(d=>d.books).filter(b=>b.status==='published' && books.some(c=>c.url===b.url)).sort((a,b)=>(b.published_at||'').localeCompare(a.published_at||''));
-hd.querySelector('.latest-textbook')?.remove();
-if(published.length){
-  const latest=published[0], card=hd.createElement('aside'); card.className='latest-textbook'; card.setAttribute('aria-label','Latest published textbook');
-  const label=hd.createElement('span'); label.className='latest-textbook-label'; label.textContent='New textbook · Free to read';
-  const link=hd.createElement('a'); link.href=latest.url.replace(/\.html$/, ''); link.textContent=latest.title+' →';
-  const detail=hd.createElement('p');
-  detail.textContent=latest.verified_substantive_words && latest.units && latest.worked_questions && latest.simulations
-    ? `${latest.verified_substantive_words.toLocaleString('en-US')} words · ${latest.units} units · ${latest.worked_questions} solved questions · ${latest.simulations} interactive explorers`
-    : 'Original English textbook with solved questions and interactive learning activities.';
-  card.append(label,link,detail); hd.querySelector('.department-entry-grid').before(card);
-}
+// New books belong in the department catalog; do not recreate announcement boxes.
+hd.querySelectorAll('.latest-textbook').forEach(el=>el.remove());
 const departmentFooter=hd.querySelector('a.footer-link[href="#dept-physics"]')?.parentElement;
 if(departmentFooter){
   departmentFooter.querySelectorAll('a[href^="#dept-"]').forEach(a=>a.remove());
