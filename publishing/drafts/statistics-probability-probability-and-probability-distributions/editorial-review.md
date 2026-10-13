@@ -89,3 +89,8 @@ Units 8–10 are now authored. The earlier unresolved-work list describes the mo
 - Existing academic pages and data/simulation sources are preserved against the pre-publication repository baseline. Full-library verification reports no content or navigation failures. Metadata and sitemap verification report no failures.
 
 Production acceptance still requires the rendered preview tests, the final structural publication gate and verified Cloudflare/live delivery. Those stages must be evidenced separately; this review record does not claim they happened before their tests.
+
+
+## Rendered preview correction
+
+The phone-width browser check found a genuine shared formatter defect: raw less-than signs inside TeX were parsed as HTML, silently dropping parts of a normal-probability question even though the source expressions parsed successfully with KaTeX. The formatter now HTML-escapes comparisons and ampersands inside inline/display mathematics before assigning innerHTML. Source textbook text remains unchanged. A regression check tests inline/display inequalities and a matrix separator, and checks survival of every delimited source expression after HTML serialization. Generated new-book pages use a refreshed controller asset version. This correction must be verified in the next preview before production acceptance.

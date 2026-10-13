@@ -13,9 +13,22 @@ for(let i=0;i<units.length;i++){
  assert.ok(d.querySelector('.stat-editorial-note').textContent.includes('has not received independent academic peer review'));
  // Compare every serialized content and solution element with freshly rendered source,
  // including sections after the worked questions in the manuscript.
- w.setTimeout=()=>0;w.scrollTo=()=>{};w.eval(read(slug+'-data.js'));w.eval(read('app.js').split('\nif (document.readyState === "loading")')[0]);
+ w.setTimeout=()=>0;w.scrollTo=()=>{};w.eval(read(slug+'-data.js'));w.eval(read('app.js').split('\nif (document.readyState === "loading")')[0].replace('// Initialize App','window.__qaFormat = formatMarkdownContent;\n  // Initialize App'));w.startApp();
+ const probe=d.createElement('div');
+ for(const source of ['The event is $P(90<X<115)$ and $P(X>120)$.','$$0<x<y<1$$','\\[\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}\\]','Inline \\(x<y\\) remains intact.']){
+  probe.innerHTML=w.__qaFormat(source);
+  assert.ok(probe.textContent.includes(source.includes('pmatrix')?'1&2':source.includes('90<X')?'P(90<X<115)':source.includes('0<x')?'0<x<y<1':'x<y'));
+ }
+ // Check each source mathematical token survives HTML serialization exactly.
+ for(const content of [...units[i].sections.map(s=>s.content),...units[i].problems.flatMap(p=>[p.question,...p.steps.map(s=>s.explanation)])]){
+  probe.innerHTML=w.__qaFormat(content);
+  for(const m of content.matchAll(/\$\$([\s\S]*?)\$\$|\$([^$\n]+)\$|\\\[([\s\S]*?)\\\]|\\\(([\s\S]*?)\\\)/g)){
+   const tex=(m[1]||m[2]||m[3]||m[4]).trim().replace(/\s+/g,' ');
+   assert.ok(probe.textContent.replace(/\s+/g,' ').includes(tex),`Lost mathematical text in unit ${i+1}: ${tex}`);
+  }
+ }
  const sourceSections=[...d.querySelectorAll('.sec-content')].map(e=>e.textContent),sourceQuestions=[...d.querySelectorAll('.problem-question-box')].map(e=>e.textContent),sourceSolutions=[...d.querySelectorAll('.solution-content')].map(e=>e.textContent);
- w.startApp();assert.deepEqual([...d.querySelectorAll('.sec-content')].map(e=>e.textContent),sourceSections);assert.deepEqual([...d.querySelectorAll('.problem-question-box')].map(e=>e.textContent),sourceQuestions);assert.deepEqual([...d.querySelectorAll('.solution-content')].map(e=>e.textContent),sourceSolutions);
+ const renderText=text=>{probe.innerHTML=w.__qaFormat(text);return probe.textContent;};assert.equal(JSON.stringify(sourceSections.map(s=>s.trim())),JSON.stringify(units[i].sections.map(s=>renderText(s.content).trim())));assert.equal(JSON.stringify(sourceQuestions.map(s=>s.trim())),JSON.stringify(units[i].problems.map(p=>renderText(p.question).trim())));for(let j=0;j<3;j++)for(const step of units[i].problems[j].steps)assert.ok(sourceSolutions[j].includes(renderText(step.explanation)));
  assert.ok(sourceSections.every(s=>s.trim().length>100));assert.ok(sourceSolutions.every(s=>s.trim().length>350));
  pages.push({unit:i+1,file,canonical:url,sections:units[i].sections.length,worked_questions:3,explorers:units[i].simulations.length,title:d.title});w.close();
 }

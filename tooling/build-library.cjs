@@ -17,7 +17,7 @@ const write = (file, text) => {
   }
 };
 const publicationDate = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Dhaka',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
-const version = '20261011_reader_catalog_v1';
+const version = '20261013_math_comparisons_v1';
 const portalVersion = crypto.createHash('sha256').update(['departments-data.js','portal.js','portal.css'].map(read).join('\n')).digest('hex').slice(0,16);
 const context = { window: {} }; vm.createContext(context);
 vm.runInContext(read('departments-data.js'), context);

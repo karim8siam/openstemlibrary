@@ -373,13 +373,19 @@ function startApp() {
       return m.replace(/(^|[\s\$\(\[\{\,\+\-\=\>\<\~]|\\(?:quad|qquad|\,|\;|\!|longrightarrow|to|rightleftharpoons))\s*(\^(?:[A-Za-z0-9\+\-]+|\{[^}]+\}))/g, "$1{}$2");
     }
 
+    // Math is text for KaTeX, not HTML. Preserve comparisons and matrix
+    // separators when the formatted result is assigned to innerHTML.
+    function escapeMathHtml(m) {
+      return m.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
     // Isolate $$...$$ and \[...\]
     clean = clean.replace(/\$\$(.*?)\$\$/gs, function(match, math) {
-      const singleLineMath = normalizeMath(math.trim().replace(/\r?\n/g, " "));
+      const singleLineMath = escapeMathHtml(normalizeMath(math.trim().replace(/\r?\n/g, " ")));
       return "\n\n<div class=\"math-display\">$$" + singleLineMath + "$$</div>\n\n";
     });
     clean = clean.replace(/\\\[(.*?)\\\]/gs, function(match, math) {
-      const singleLineMath = normalizeMath(math.trim().replace(/\\+$/, "").replace(/\r?\n/g, " ").trim());
+      const singleLineMath = escapeMathHtml(normalizeMath(math.trim().replace(/\\+$/, "").replace(/\r?\n/g, " ").trim()));
       return "\n\n<div class=\"math-display\">\\[" + singleLineMath + "\\]</div>\n\n";
     });
 
@@ -395,7 +401,7 @@ function startApp() {
       const mathTokens = [];
       let protectedStr = str.replace(/(\$\$[\s\S]*?\$\$|\\\[[\s\S]*?\\\]|\\\([\s\S]*?\\\)|\$[^$\n]+?\$)/g, (m) => {
         const id = `@@MATH_TOKEN_${mathTokens.length}@@`;
-        mathTokens.push(normalizeMath(m));
+        mathTokens.push(escapeMathHtml(normalizeMath(m)));
         return id;
       });
 
