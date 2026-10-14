@@ -587,6 +587,182 @@ For rare domains, the random sample size penalty inflates the variance by **near
 
 ---
 
+## Generalized Linear Models and Pseudo-Maximum Likelihood in Complex Surveys
+
+In modern econometric, sociological, and epidemiological investigations, research questions frequently require fitting multivariate regression models—such as binary logistic regression for disease prevalence, Poisson or negative binomial regression for healthcare utilization counts, or Cox proportional hazards models for employment duration. 
+
+In classical mathematical statistics, regression parameters $\boldsymbol{\beta}$ are estimated via Maximum Likelihood Estimation (MLE) under the assumption of independent and identically distributed (IID) observations. When data originate from a complex multistage survey with clustering, stratification, and unequal weights, standard maximum likelihood fails. To resolve this, David Binder (1983) formulated the foundational theory of **Pseudo-Maximum Likelihood Estimation (PMLE)**.
+
+### The Census Likelihood and the Pseudo-Likelihood Estimator
+
+Consider a finite population $U$ of $N$ units. Associated with unit $i$ is a response variable $y_i$ and a vector of explanatory covariates $\mathbf{x}_i$. Under a parametric model, the probability density or mass function of $y_i$ given $\mathbf{x}_i$ is $f(y_i \mid \mathbf{x}_i; \boldsymbol{\beta})$, where $\boldsymbol{\beta} = (\beta_1, \dots, \beta_p)^\top$ is a $p$-dimensional parameter vector.
+
+If the statistician had access to the complete census of all $N$ units in the population, the **Census Log-Likelihood** would be:
+$$\ell_{census}(\boldsymbol{\beta}) = \sum_{i=1}^N \log f(y_i \mid \mathbf{x}_i; \boldsymbol{\beta})$$
+The true finite-population parameter $\mathbf{B}$ is the vector that maximizes the census log-likelihood, satisfying the **Census Score Equations**:
+$$\mathbf{S}_{census}(\mathbf{B}) = \sum_{i=1}^N \mathbf{s}_i(\mathbf{B}) = \sum_{i=1}^N \frac{\partial \log f(y_i \mid \mathbf{x}_i; \mathbf{B})}{\partial \mathbf{B}} = \mathbf{0}$$
+
+In a survey inquiry, we observe only a complex probability sample $s$ with analytic weights $w_i = d_i \times f_{nr,i} \times g_i$. The census score vector $\mathbf{S}_{census}(\boldsymbol{\beta})$ is a population total of the unit scores $\mathbf{s}_i(\boldsymbol{\beta})$.
+Following the Horvitz–Thompson principle, we estimate this unknown population total by weighting the sample scores:
+$$\hat{\mathbf{S}}_w(\boldsymbol{\beta}) = \sum_{i \in s} w_i \mathbf{s}_i(\boldsymbol{\beta}) = \sum_{i \in s} w_i \frac{\partial \log f(y_i \mid \mathbf{x}_i; \boldsymbol{\beta})}{\partial \boldsymbol{\beta}}$$
+
+The **Pseudo-Maximum Likelihood Estimator (PMLE)** $\hat{\boldsymbol{\beta}}_w$ is the solution to the sample estimating equations:
+$$\hat{\mathbf{S}}_w(\hat{\boldsymbol{\beta}}_w) = \mathbf{0}$$
+
+### Binary Logistic Regression Example
+Under a survey logistic regression model where $y_i \in \{0, 1\}$ and $P(y_i = 1 \mid \mathbf{x}_i) = \pi_i(\boldsymbol{\beta}) = \frac{1}{1 + \exp(-\mathbf{x}_i^\top \boldsymbol{\beta})}$:
+The unit score vector is:
+$$\mathbf{s}_i(\boldsymbol{\beta}) = \mathbf{x}_i (y_i - \pi_i(\boldsymbol{\beta}))$$
+The sample pseudo-score equations are:
+$$\sum_{i \in s} w_i \mathbf{x}_i \left[ y_i - \frac{1}{1 + \exp(-\mathbf{x}_i^\top \hat{\boldsymbol{\beta}}_w)} \right] = \mathbf{0}$$
+These equations are solved numerically via survey-weighted Newton–Raphson iterations.
+
+### Asymptotic Normality and the Sandwich (Godambe) Variance Estimator
+
+To derive the sampling distribution of $\hat{\boldsymbol{\beta}}_w$, Binder deployed a first-order Taylor series expansion of the sample score equations around the true census parameter $\mathbf{B}$:
+$$\mathbf{0} = \hat{\mathbf{S}}_w(\hat{\boldsymbol{\beta}}_w) \approx \hat{\mathbf{S}}_w(\mathbf{B}) + \left. \frac{\partial \hat{\mathbf{S}}_w}{\partial \boldsymbol{\beta}^\top} \right|_{\mathbf{B}} (\hat{\boldsymbol{\beta}}_w - \mathbf{B})$$
+
+Solving for the estimation error:
+$$\hat{\boldsymbol{\beta}}_w - \mathbf{B} \approx - \left[ \left. \frac{\partial \hat{\mathbf{S}}_w}{\partial \boldsymbol{\beta}^\top} \right|_{\mathbf{B}} \right]^{-1} \hat{\mathbf{S}}_w(\mathbf{B})$$
+
+Define the sample weighted Hessian matrix (the empirical Fisher information):
+$$\hat{\mathbf{J}}(\hat{\boldsymbol{\beta}}_w) = - \sum_{i \in s} w_i \frac{\partial^2 \log f(y_i \mid \mathbf{x}_i; \hat{\boldsymbol{\beta}}_w)}{\partial \boldsymbol{\beta} \partial \boldsymbol{\beta}^\top}$$
+For logistic regression:
+$$\hat{\mathbf{J}}(\hat{\boldsymbol{\beta}}_w) = \sum_{i \in s} w_i \hat{\pi}_i (1 - \hat{\pi}_i) \mathbf{x}_i \mathbf{x}_i^\top$$
+
+Now evaluate the sampling variance. The sample score vector $\hat{\mathbf{S}}_w(\mathbf{B}) = \sum_{i \in s} w_i \mathbf{s}_i(\mathbf{B})$ is a linear total of the vectors $\mathbf{u}_i = \mathbf{s}_i(\mathbf{B})$.
+Let $\hat{\boldsymbol{\Sigma}}_S$ denote the design-based variance-covariance matrix of $\hat{\mathbf{S}}_w$, computed under the complex multistage stratified design across all strata and PSUs:
+$$\hat{\boldsymbol{\Sigma}}_S = \sum_{h=1}^H \frac{n_h}{n_h - 1} \sum_{i=1}^{n_h} (\mathbf{u}_{hi} - \bar{\mathbf{u}}_h)(\mathbf{u}_{hi} - \bar{\mathbf{u}}_h)^\top$$
+where $\mathbf{u}_{hi} = \sum_{j \in \text{PSU}_{hi}} w_{hij} \mathbf{s}_{hij}(\hat{\boldsymbol{\beta}}_w)$ is the weighted score aggregate for PSU $i$ in stratum $h$.
+
+This yields the celebrated **Sandwich Variance Estimator** (also known as the Godambe Information Matrix or Huber–White cluster-robust covariance matrix):
+$$\hat{\mathbf{V}}(\hat{\boldsymbol{\beta}}_w) = \hat{\mathbf{J}}^{-1} \hat{\boldsymbol{\Sigma}}_S \hat{\mathbf{J}}^{-1}$$
+
+#### Structural Architecture of the Sandwich:
+- **The Bread ($\hat{\mathbf{J}}^{-1}$)**: The inverse of the information matrix, reflecting the curvature of the likelihood surface.
+- **The Meat ($\hat{\boldsymbol{\Sigma}}_S$)**: The design-based variance of the score totals, capturing the true clustering, stratification, and unequal weighting of the multistage sample.
+
+The sandwich covariance matrix guarantees that hypothesis tests and confidence intervals for regression coefficients are asymptotically valid and design-consistent, even when the underlying parametric distribution is misspecified.
+
+---
+
+## Hypothesis Testing under Complex Sampling: The Rao–Scott and Adjusted Wald Tests
+
+When testing scientific hypotheses in complex survey data, classical test statistics must be modified to prevent catastrophic false-positive inflation.
+
+### 1. The Adjusted Wald Test
+
+Consider testing a general linear hypothesis on the regression coefficient vector:
+$$H_0: \mathbf{C} \boldsymbol{\beta} = \mathbf{0} \quad \text{versus} \quad H_1: \mathbf{C} \boldsymbol{\beta} \ne \mathbf{0}$$
+where $\mathbf{C}$ is a $q \times p$ matrix of linear contrast restrictions with $\text{rank}(\mathbf{C}) = q \le p$.
+
+The standard Wald chi-square test statistic is:
+$$W = (\mathbf{C} \hat{\boldsymbol{\beta}}_w)^\top \left[ \mathbf{C} \hat{\mathbf{V}}(\hat{\boldsymbol{\beta}}_w) \mathbf{C}^\top \right]^{-1} (\mathbf{C} \hat{\boldsymbol{\beta}}_w)$$
+
+In classical infinite-sample theory, $W \sim \chi_q^2$. In complex surveys, however, the degrees of freedom are limited by the number of Primary Sampling Units:
+$$d = \sum_{h=1}^H n_h - H$$
+
+When $d$ is modest (e.g., $d \le 40$), the random noise in the estimated covariance matrix $\hat{\mathbf{V}}$ inflates the upper tail of the Wald statistic, causing classical chi-square critical values to over-reject the null hypothesis.
+
+To correct for this, survey statisticians deploy the **Thomas–Rao and Korn–Graubard Adjusted $F$-Statistic**:
+$$F_{adj} = \left( \frac{d - q + 1}{d \cdot q} \right) W$$
+Under the null hypothesis, $F_{adj}$ follows an $F$-distribution with $q$ numerator degrees of freedom and $d - q + 1$ denominator degrees of freedom:
+$$F_{adj} \sim F_{q, \; d - q + 1}$$
+
+This degrees-of-freedom adjustment dampens test statistics, ensuring that the empirical Type I error rate matches the nominal significance level $\alpha = 0.05$.
+
+### 2. The Rao–Scott Corrections for Categorical Contingency Tables
+
+When analyzing two-way contingency tables (such as testing the association between smoking status and household poverty), the classical Pearson chi-square statistic:
+$$X^2 = n \sum_{r=1}^R \sum_{c=1}^C \frac{(\hat{p}_{rc} - \hat{p}_{r\cdot} \hat{p}_{\cdot c})^2}{\hat{p}_{r\cdot} \hat{p}_{\cdot c}}$$
+does not follow a central $\chi_{(R-1)(C-1)}^2$ distribution under complex sampling.
+
+J. N. K. Rao and Alastair Scott (1981, 1984) proved that under $H_0$, $X^2$ is asymptotically distributed as a weighted sum of independent 1-degree-of-freedom chi-square variates:
+$$X^2 \xrightarrow{d} \sum_{k=1}^{(R-1)(C-1)} \delta_k Z_k^2 \quad \text{where } Z_k \stackrel{\text{iid}}{\sim} \mathcal{N}(0, 1)$$
+where $\delta_1, \dots, \delta_{(R-1)(C-1)}$ are the eigenvalues of a generalized design effect matrix $\boldsymbol{\Delta}$.
+
+Rao and Scott derived two celebrated corrections:
+
+1. **Rao–Scott First-Order Correction**:
+   Divides the Pearson statistic by the mean eigenvalue $\bar{\delta} = \frac{1}{(R-1)(C-1)} \sum \delta_k$:
+   $$X_{RS1}^2 = \frac{X^2}{\bar{\delta}}$$
+   The mean eigenvalue $\bar{\delta}$ is easily computed as an average of univariate cell and marginal design effects, without requiring full covariance matrix inversion. $X_{RS1}^2$ is referred to a standard $\chi_{(R-1)(C-1)}^2$ distribution.
+
+2. **Rao–Scott Second-Order (Satterthwaite) Correction**:
+   Adjusts both the scale and the degrees of freedom to match the second moment of the distribution:
+   $$X_{RS2}^2 = \frac{X^2}{\bar{\delta} (1 + a^2)}$$
+   where $a^2 = \frac{1}{(R-1)(C-1)} \sum \left( \frac{\delta_k - \bar{\delta}}{\bar{\delta}} \right)^2$ is the squared coefficient of variation of the eigenvalues.
+   The corrected degrees of freedom are:
+   $$\nu = \frac{(R-1)(C-1)}{1 + a^2}$$
+   $X_{RS2}^2$ is referred to an $F$-distribution with $\nu$ and $\nu \times d$ degrees of freedom.
+
+The Rao–Scott corrections are the gold standard for categorical analysis in all major survey packages (R `survey::svychisq`, SAS `PROC SURVEYFREQ`, and Stata `svy: tabulate`).
+
+---
+
+## Small Area Estimation (SAE): Area-Level and Unit-Level Models
+
+A pervasive challenge confronting modern statistical systems is the demand for reliable statistical indicators for small geographic domains (e.g., individual municipalities, school districts, health sub-districts) or detailed demographic domains. 
+
+When national surveys are disaggregated to small local domains, direct design-based estimators—such as the domain Horvitz–Thompson estimator $\hat{\bar{Y}}_d$ analyzed in Section 8.4—suffer from small sample sizes ($n_d \le 10$) or empty sampling cells ($n_d = 0$). The direct sample variance is astronomically large, producing coefficients of variation exceeding $50\%$ or $100\%$, rendering direct survey estimates unusable for policy administration or resource allocation.
+
+To overcome the sample size barrier, survey theory deploys **Small Area Estimation (SAE)** (Rao and Molina, 2015). Small area estimation resolves data sparsity by **"borrowing strength"** across related geographic areas and auxiliary administrative registers through statistical models.
+
+### The Fay–Herriot Area-Level Model (1979)
+
+The foundational model in small area estimation is the area-level linear mixed model formulated by Robert Fay and Roger Herriot (1979) to estimate per-capita income in small American municipalities with populations under 1,000.
+
+Suppose there are $D$ small geographic areas in the country.
+For each area $d \in \{1, 2, \dots, D\}$:
+- $\theta_d$: The true, unobserved small area parameter (e.g., true area poverty rate or mean income).
+- $\hat{\theta}_d$: The direct design-based survey estimate computed from the sample data.
+- $\mathbf{x}_d = (x_{d1}, \dots, x_{dp})^\top$: A vector of area-level auxiliary covariates derived from national censuses, administrative tax registers, or satellite remote sensing.
+
+The Fay–Herriot model decomposes the problem into two hierarchical stages:
+
+1. **Sampling Model (Survey Measurement Error)**:
+   $$\hat{\theta}_d = \theta_d + e_d \quad \text{where } e_d \stackrel{ind}{\sim} \mathcal{N}(0, \psi_d)$$
+   where $\psi_d = V(\hat{\theta}_d \mid \theta_d)$ is the design-based sampling variance of the direct estimator in area $d$. In SAE practice, $\psi_d$ is treated as known, smoothed using generalized variance functions (GVF).
+
+2. **Linking Model (Cross-Area Structural Law)**:
+   $$\theta_d = \mathbf{x}_d^\top \boldsymbol{\beta} + u_d \quad \text{where } u_d \stackrel{iid}{\sim} \mathcal{N}(0, \sigma_u^2)$$
+   where $\mathbf{x}_d^\top \boldsymbol{\beta}$ is the synthetic regression prediction based on auxiliary registers, $u_d$ is an area-specific random effect capturing unobserved local spatial heterogeneity, and $\sigma_u^2$ is the between-area variance.
+
+Combining both stages yields the linear mixed model:
+$$\hat{\theta}_d = \mathbf{x}_d^\top \boldsymbol{\beta} + u_d + e_d$$
+
+### The Empirical Best Linear Unbiased Predictor (EBLUP)
+
+Under this model, the **Best Linear Unbiased Predictor (BLUP)** of the small area parameter $\theta_d$ is a weighted compromise between the direct survey estimate and the synthetic regression prediction:
+$$\tilde{\theta}_d = \gamma_d \hat{\theta}_d + (1 - \gamma_d) \mathbf{x}_d^\top \tilde{\boldsymbol{\beta}}$$
+where:
+$$\tilde{\boldsymbol{\beta}} = \left( \sum_{d=1}^D \frac{\mathbf{x}_d \mathbf{x}_d^\top}{\sigma_u^2 + \psi_d} \right)^{-1} \sum_{d=1}^D \frac{\mathbf{x}_d \hat{\theta}_d}{\sigma_u^2 + \psi_d}$$
+and the shrinkage factor $\gamma_d \in [0, 1]$ is:
+$$\gamma_d = \frac{\sigma_u^2}{\sigma_u^2 + \psi_d}$$
+
+#### The Mechanics of Shrinkage:
+The shrinkage factor $\gamma_d$ is the ratio of model variance to total variance:
+- **Data-Rich Areas (Large $n_d$)**: When an area has a large survey sample, the direct sampling variance is tiny ($\psi_d \to 0$). Then $\gamma_d \to 1.0$. The EBLUP gives almost $100\%$ weight to the direct survey estimate $\hat{\theta}_d$, ignoring the regression model.
+- **Data-Poor Areas (Tiny $n_d$)**: When an area has very few sampled units, direct sampling variance is huge ($\psi_d \gg \sigma_u^2$). Then $\gamma_d \to 0$. The EBLUP shrinks the direct estimate toward the stable synthetic regression prediction $\mathbf{x}_d^\top \tilde{\boldsymbol{\beta}}$.
+- **Unsampled Areas ($n_d = 0$)**: If an area was completely omitted from the survey sample, $\psi_d = \infty \implies \gamma_d = 0$. The EBLUP automatically outputs the pure synthetic regression prediction:
+  $$\tilde{\theta}_d = \mathbf{x}_d^\top \tilde{\boldsymbol{\beta}}$$
+
+When the between-area variance $\sigma_u^2$ is unknown, it is estimated via Restricted Maximum Likelihood (REML) or Prasad–Rao moment estimation, yielding the **Empirical BLUP (EBLUP)**:
+$$\hat{\theta}_d^{EBLUP} = \hat{\gamma}_d \hat{\theta}_d + (1 - \hat{\gamma}_d) \mathbf{x}_d^\top \hat{\boldsymbol{\beta}}$$
+
+### Prasad–Rao Mean Squared Error Estimation
+
+The Mean Squared Error of the EBLUP is decomposed into three distinct components:
+$$\text{MSE}(\hat{\theta}_d^{EBLUP}) = g_{1d}(\hat{\sigma}_u^2) + g_{2d}(\hat{\sigma}_u^2) + 2 g_{3d}(\hat{\sigma}_u^2)$$
+where:
+- $g_{1d}(\sigma_u^2) = \gamma_d \psi_d = \frac{\sigma_u^2 \psi_d}{\sigma_u^2 + \psi_d}$ accounts for the primary shrinkage variance.
+- $g_{2d}(\sigma_u^2) = (1 - \gamma_d)^2 \mathbf{x}_d^\top \left[ \sum \frac{\mathbf{x}_k \mathbf{x}_k^\top}{\sigma_u^2 + \psi_k} \right]^{-1} \mathbf{x}_d$ accounts for the uncertainty in estimating the regression slope vector $\boldsymbol{\beta}$.
+- $g_{3d}(\sigma_u^2)$ is a second-order term accounting for the uncertainty in estimating the variance component $\sigma_u^2$.
+
+Prasad and Rao (1990) proved that this MSE estimator is strictly unbiased to order $O(1/D)$, providing honest, defensible confidence intervals for local municipal estimates.
+
+---
+
 ## Practical Synthesis: Survey Quality Reporting Standards
 
 To ensure that secondary analysts and public policymakers interpret empirical survey results correctly, international statistical bodies (such as the United Nations Statistics Division, Eurostat, and the U.S. Federal Committee on Statistical Methodology) mandate standardized technical documentation.
