@@ -656,6 +656,155 @@ This proves the extraordinary power of isolating certainty units and sampling th
 
 ---
 
+## The Rao–Hartley–Cochran (RHC) Random Group Method for PPS Sampling
+
+While PPS sampling without replacement using the Horvitz–Thompson estimator is statistically efficient, calculating exact second-order joint inclusion probabilities $\pi_{ij}$ for general sample sizes $n > 2$ is computationally intricate. Furthermore, as proven in previous sections, systematic PPS sampling suffers from zero joint inclusion probabilities ($\pi_{ij} = 0$), precluding strictly unbiased variance estimation.
+
+In 1962, J. N. K. Rao, H. O. Hartley, and W. G. Cochran devised an ingenious, universally celebrated sampling procedure—the **Rao–Hartley–Cochran (RHC) Random Group Method**. The RHC method achieves three simultaneous breakthroughs:
+1. It selects units **without replacement** with probabilities proportional to size.
+2. It yields a variance that is **strictly smaller** than the with-replacement Hansen–Hurwitz variance.
+3. It provides a **simple, strictly unbiased variance estimator** that requires zero knowledge of joint inclusion probabilities $\pi_{ij}$!
+
+### The RHC Selection Protocol
+
+Let a finite population $U$ contain $N$ units with auxiliary sizes $x_i > 0$ and total size $X = \sum_{i=1}^N x_i$. Let $p_i = x_i / X$ denote the normalized size of unit $i$ ($\sum p_i = 1$). We wish to draw a sample of $n$ distinct units.
+
+The RHC selection protocol executes in two distinct phases:
+
+#### Phase 1: Random Group Partitioning
+The finite population of $N$ units is partitioned at random into $n$ mutually exclusive and collectively exhaustive groups $G_1, G_2, \dots, G_n$ of predetermined sizes $N_1, N_2, \dots, N_n$, such that:
+$$\sum_{g=1}^n N_g = N$$
+To maximize efficiency, the group sizes $N_g$ should be as equal as possible, such that each $N_g$ is either $\lfloor N/n \rfloor$ or $\lfloor N/n \rfloor + 1$.
+
+#### Phase 2: Independent Intra-Group PPS Selection
+For each random group $g \in \{1, 2, \dots, n\}$:
+Compute the aggregate group size:
+$$X_g = \sum_{i \in G_g} x_i \quad \text{and group probability total} \quad P_g = \sum_{i \in G_g} p_i = \frac{X_g}{X}$$
+Select **exactly one unit** from group $G_g$ with probability proportional to its size within that group:
+$$P(\text{Unit } i \text{ is selected} \mid i \in G_g) = \frac{p_i}{P_g} = \frac{x_i}{X_g}$$
+
+Because one unit is drawn from each of the $n$ disjoint groups, the resulting sample $s$ contains exactly $n$ distinct units without replacement.
+
+### The Rao–Hartley–Cochran Estimator
+
+Let $(g)$ denote the single unit selected from group $G_g$, with survey measurement $y_{(g)}$, auxiliary size $x_{(g)}$, and normalized size $p_{(g)} = x_{(g)} / X$.
+
+The **Rao–Hartley–Cochran Estimator** of the population total $Y$ is:
+$$\hat{Y}_{RHC} = \sum_{g=1}^n \frac{y_{(g)}}{p_{(g)}} P_g = \sum_{g=1}^n \frac{y_{(g)}}{x_{(g)}} X_g$$
+
+### Proof of Strict Design Unbiasedness
+
+We evaluate the expectation using iterated conditional expectation: first conditioning on the random group partition (Phase 1), and subsequently taking expectation over all possible random partitions.
+
+Let $E_2(\cdot \mid G_1, \dots, G_n)$ denote expectation over the Phase 2 selection conditional on fixed groups:
+$$E_2\left[ \frac{y_{(g)}}{p_{(g)}} P_g \;\middle|\; G_g \right] = \sum_{i \in G_g} \left( \frac{p_i}{P_g} \right) \left[ \frac{y_i}{p_i} P_g \right] = \sum_{i \in G_g} y_i = Y_g$$
+where $Y_g$ is the total of the survey variable in group $G_g$.
+
+Summing across all $n$ groups:
+$$E_2(\hat{Y}_{RHC} \mid G_1, \dots, G_n) = \sum_{g=1}^n Y_g = Y$$
+
+Now taking the Phase 1 expectation $E_1$ over all possible random group partitions:
+$$E(\hat{Y}_{RHC}) = E_1\left[ E_2(\hat{Y}_{RHC} \mid G_1, \dots, G_n) \right] = E_1(Y) = Y$$
+This proves that the RHC estimator is strictly design-unbiased.
+
+### Exact Sampling Variance Derivation
+
+Applying the Law of Total Variance:
+$$V(\hat{Y}_{RHC}) = V_1\left( E_2(\hat{Y}_{RHC} \mid G_1, \dots, G_n) \right) + E_1\left( V_2(\hat{Y}_{RHC} \mid G_1, \dots, G_n) \right)$$
+
+Because $E_2(\hat{Y}_{RHC} \mid G_1, \dots, G_n) = Y$ is a constant, the first term vanishes identically:
+$$V_1(Y) = 0$$
+
+Therefore, the entire variance is governed by the second term:
+$$V(\hat{Y}_{RHC}) = E_1\left( V_2(\hat{Y}_{RHC} \mid G_1, \dots, G_n) \right)$$
+
+Conditional on the groups, the selections within different groups are completely independent. Thus:
+$$V_2(\hat{Y}_{RHC} \mid G_1, \dots, G_n) = \sum_{g=1}^n V_2\left( \frac{y_{(g)}}{p_{(g)}} P_g \;\middle|\; G_g \right)$$
+
+For a single group $g$:
+$$V_2\left( \frac{y_{(g)}}{p_{(g)}} P_g \;\middle|\; G_g \right) = \sum_{i \in G_g} \frac{p_i}{P_g} \left[ \frac{y_i}{p_i} P_g - Y_g \right]^2 = \sum_{i \in G_g} \frac{y_i^2}{p_i} P_g - Y_g^2$$
+Using the pairwise identity within group $G_g$:
+$$V_2 = \frac{1}{2} \sum_{i \in G_g} \sum_{j \in G_g} p_i p_j \left( \frac{y_i}{p_i} - \frac{y_j}{p_j} \right)^2$$
+
+Now take the expectation $E_1$ over all random partitions. Because the partition assigns units to groups completely at random without replacement:
+$$P(i \in G_g \text{ and } j \in G_g) = \frac{N_g(N_g - 1)}{N(N - 1)} \quad (i \ne j)$$
+
+Summing across all $n$ groups:
+$$\sum_{g=1}^n P(i \in G_g \text{ and } j \in G_g) = \frac{\sum_{g=1}^n N_g(N_g - 1)}{N(N - 1)} = \frac{\sum_{g=1}^n N_g^2 - N}{N(N - 1)}$$
+
+Substituting this expectation into the pairwise variance formula yields the exact **Rao–Hartley–Cochran Variance Formula**:
+$$V(\hat{Y}_{RHC}) = \left[ \frac{\sum_{g=1}^n N_g^2 - N}{N(N - 1)} \right] \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N p_i p_j \left( \frac{y_i}{p_i} - \frac{y_j}{p_j} \right)^2$$
+
+Recall our pairwise formulation for the with-replacement Hansen–Hurwitz variance:
+$$V(\hat{Y}_{HH}) = \frac{1}{n} \cdot \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N p_i p_j \left( \frac{y_i}{p_i} - \frac{y_j}{p_j} \right)^2$$
+
+Therefore, the exact relationship connecting RHC variance to Hansen–Hurwitz variance is:
+$$V(\hat{Y}_{RHC}) = \left[ \frac{n (\sum_{g=1}^n N_g^2 - N)}{N(N - 1)} \right] V(\hat{Y}_{HH})$$
+
+#### Equal Group Size Simplification:
+When $N$ is an exact multiple of $n$, each group has size $N_g = N / n$.
+Then:
+$$\sum_{g=1}^n N_g^2 = n \left( \frac{N}{n} \right)^2 = \frac{N^2}{n}$$
+$$\frac{n (\frac{N^2}{n} - N)}{N(N - 1)} = \frac{N^2 - n N}{N(N - 1)} = \frac{N - n}{N - 1} = 1 - \frac{n - 1}{N - 1}$$
+
+Under equal group sizes, the RHC variance reduces to the remarkably simple expression:
+$$V(\hat{Y}_{RHC}) = \left( 1 - \frac{n - 1}{N - 1} \right) V(\hat{Y}_{HH})$$
+
+Notice that because $\frac{n - 1}{N - 1} > 0$ for any sample size $n > 1$:
+$$V(\hat{Y}_{RHC}) < V(\hat{Y}_{HH})$$
+The Rao–Hartley–Cochran method is **strictly more efficient than sampling with replacement**, capturing a finite-population-like variance reduction of $\left( 1 - \frac{n - 1}{N - 1} \right)$.
+
+### Unbiased Estimation of Variance from Sample Data
+
+The paramount practical virtue of the RHC design is its variance estimator. Rao, Hartley, and Cochran proved that an strictly design-unbiased estimator of $V(\hat{Y}_{RHC})$ is:
+$$\hat{V}(\hat{Y}_{RHC}) = \left[ \frac{\sum_{g=1}^n N_g^2 - N}{N^2 - \sum_{g=1}^n N_g^2} \right] \sum_{g=1}^n P_g \left( \frac{y_{(g)}}{p_{(g)}} - \hat{Y}_{RHC} \right)^2$$
+
+For equal group sizes $N_g = N / n$, this simplifies to:
+$$\hat{V}(\hat{Y}_{RHC}) = \frac{N - n}{N(n - 1)} \sum_{g=1}^n P_g \left( \frac{y_{(g)}}{p_{(g)}} - \hat{Y}_{RHC} \right)^2$$
+
+This estimator is strictly non-negative for every sample, requires no matrix inversion, and eliminates all joint inclusion probability calculations.
+
+---
+
+## The Midzuno–Sen Scheme and Murthy's Unordered Estimator
+
+Two additional landmark classical PPS schemes provide vital theoretical foundations:
+
+### 1. The Midzuno–Sen Sampling Scheme
+
+In 1952, H. Midzuno in Japan and A. R. Sen (1953) in India independently designed an unequal probability selection scheme that guarantees **strictly positive joint inclusion probabilities** $\pi_{ij} > 0$ for all pairs while achieving exact closed-form inclusion probabilities.
+
+#### Protocol:
+1. **Draw 1**: Select the first unit from the population with probability proportional to size:
+   $$P(\text{Unit } i \text{ on Draw 1}) = p_i = \frac{x_i}{X}$$
+2. **Draws 2 through $n$**: From the remaining $N - 1$ units, select $n - 1$ units with equal probability without replacement (SRSWOR).
+
+#### First-Order Inclusion Probability:
+A unit $i$ can be selected either on the first draw or during the subsequent SRSWOR draws:
+$$\pi_i = P(\text{1st draw}) + P(\text{Subsequent draws}) = p_i + \sum_{j \ne i}^N p_j \left( \frac{n - 1}{N - 1} \right)$$
+Since $\sum_{j \ne i} p_j = 1 - p_i$:
+$$\pi_i = p_i + (1 - p_i) \left( \frac{n - 1}{N - 1} \right) = \left( \frac{N - n}{N - 1} \right) p_i + \frac{n - 1}{N - 1}$$
+
+Notice the structure of $\pi_i$: It is a convex linear combination of the PPS probability $p_i$ and the equal-probability fraction $\frac{n - 1}{N - 1}$. 
+The second-order joint inclusion probability is:
+$$\pi_{ij} = \left( \frac{n - 1}{N - 1} \right) \left[ \frac{N - n}{N - 2}(p_i + p_j) + \frac{n - 2}{N - 2} \right]$$
+Because $\pi_{ij} > 0$ for all pairs, strictly unbiased variance estimation under the Horvitz–Thompson and Sen–Yates–Grundy formulas is always guaranteed.
+
+### 2. Murthy's Unordered Estimator
+
+In sequential sampling without replacement (such as Durbin's or Brewer's methods), the units in the sample are drawn in a specific sequential order $(i_1, i_2, \dots, i_n)$. An estimator that depends upon the order of draws is called an **ordered estimator** (e.g., the Des Raj estimator).
+
+In 1957, M. N. Murthy applied the Rao–Blackwell theorem to survey sampling, proving that conditioning an ordered estimator on the **unordered sample set** $s = \{i_1, \dots, i_n\}$ eliminates the arbitrary noise of draw order, strictly reducing sampling variance.
+
+For a sample of size $n = 2$ drawn with initial selection probabilities $p_i$, Murthy's unordered estimator of the population total is:
+$$\hat{Y}_M = \frac{1}{2 - p_1 - p_2} \left[ \frac{y_1 (1 - p_2)}{p_1} + \frac{y_2 (1 - p_1)}{p_2} \right]$$
+
+Murthy derived the exact unbiased variance estimator:
+$$\hat{V}(\hat{Y}_M) = \frac{(1 - p_1)(1 - p_2)(1 - p_1 - p_2)}{(2 - p_1 - p_2)^2} \left( \frac{y_1}{p_1} - \frac{y_2}{p_2} \right)^2$$
+Because all terms in the factor are strictly positive for $p_1 + p_2 < 1$, Murthy's variance estimator is **guaranteed to be strictly non-negative** for every single sample draw, completely immune to the negative-variance pathology.
+
+---
+
 ## Practical Synthesis and Self-Weighting Two-Stage Designs
 
 The pinnacle of modern survey design is the integration of PPS sampling into **self-weighting two-stage designs**. This elegant architecture is deployed by virtually all major international household survey programs, including the Demographic and Health Surveys (DHS), the Multiple Indicator Cluster Surveys (MICS), and national living standards surveys.
