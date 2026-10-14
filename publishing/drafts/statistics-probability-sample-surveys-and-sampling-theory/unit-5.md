@@ -799,9 +799,122 @@ In 1957, M. N. Murthy applied the Rao–Blackwell theorem to survey sampling, pr
 For a sample of size $n = 2$ drawn with initial selection probabilities $p_i$, Murthy's unordered estimator of the population total is:
 $$\hat{Y}_M = \frac{1}{2 - p_1 - p_2} \left[ \frac{y_1 (1 - p_2)}{p_1} + \frac{y_2 (1 - p_1)}{p_2} \right]$$
 
-Murthy derived the exact unbiased variance estimator:
-$$\hat{V}(\hat{Y}_M) = \frac{(1 - p_1)(1 - p_2)(1 - p_1 - p_2)}{(2 - p_1 - p_2)^2} \left( \frac{y_1}{p_1} - \frac{y_2}{p_2} \right)^2$$
-Because all terms in the factor are strictly positive for $p_1 + p_2 < 1$, Murthy's variance estimator is **guaranteed to be strictly non-negative** for every single sample draw, completely immune to the negative-variance pathology.
+### 3. The Des Raj Ordered Estimator (1956)
+
+Prior to Murthy's unordered formulation, Des Raj (1956) formulated a sequential estimation theory for probability proportional to size sampling without replacement.
+
+Suppose a sample of $n$ units is drawn sequentially without replacement:
+- On Draw 1, unit $i_1$ is selected with probability $p_{i_1}$.
+- On Draw 2, unit $i_2$ is selected from the remaining $N - 1$ units with conditional probability $\frac{p_{i_2}}{1 - p_{i_1}}$.
+- On Draw $r$ ($r = 2, \dots, n$), unit $i_r$ is selected with conditional probability:
+  $$P(i_r \mid i_1, \dots, i_{r-1}) = \frac{p_{i_r}}{1 - p_{i_1} - p_{i_2} - \dots - p_{i_{r-1}}} = \frac{p_{i_r}}{1 - P_{r-1}}$$
+  where $P_{r-1} = \sum_{k=1}^{r-1} p_{i_k}$ is the cumulative probability of the units already selected.
+
+Des Raj constructed a sequence of $n$ unbiased estimators $t_1, t_2, \dots, t_n$ of the population total $Y$, one for each sequential draw:
+- For Draw 1:
+  $$t_1 = \frac{y_{i_1}}{p_{i_1}}$$
+- For Draw 2:
+  $$t_2 = y_{i_1} + \frac{y_{i_2}}{p_{i_2}} (1 - p_{i_1})$$
+- For Draw $r$:
+  $$t_r = \sum_{k=1}^{r-1} y_{i_k} + \frac{y_{i_r}}{p_{i_r}} (1 - P_{r-1})$$
+
+#### Proof of Unbiasedness:
+Condition on the first $r - 1$ draws:
+$$E(t_r \mid i_1, \dots, i_{r-1}) = \sum_{k=1}^{r-1} y_{i_k} + (1 - P_{r-1}) \sum_{j \notin \{i_1, \dots, i_{r-1}\}} \left( \frac{p_j}{1 - P_{r-1}} \right) \frac{y_j}{p_j}$$
+$$= \sum_{k=1}^{r-1} y_{i_k} + \sum_{j \notin \{i_1, \dots, i_{r-1}\}} y_j = \sum_{i=1}^N y_i = Y$$
+Because the conditional expectation of $t_r$ is identically $Y$ regardless of the preceding draws, taking unconditional expectation confirms:
+$$E(t_r) = Y \quad \text{for every draw } r = 1, 2, \dots, n$$
+
+The **Des Raj Estimator** of the population total is the arithmetic average of these $n$ unbiased estimators:
+$$\hat{Y}_{DR} = \frac{1}{n} \sum_{r=1}^n t_r$$
+
+#### Exact Unbiased Variance Estimator:
+Des Raj proved that despite the complex sequential dependency, the sample variance among the $t_r$ values yields a strictly unbiased estimator of the variance of $\hat{Y}_{DR}$:
+$$\hat{V}(\hat{Y}_{DR}) = \frac{1}{n(n - 1)} \sum_{r=1}^n (t_r - \hat{Y}_{DR})^2$$
+For $n = 2$:
+$$\hat{V}(\hat{Y}_{DR}) = \frac{1}{4} (t_1 - t_2)^2 = \frac{(1 - p_{i_1})^2}{4} \left( \frac{y_{i_1}}{p_{i_1}} - \frac{y_{i_2}}{p_{i_2}} \right)^2$$
+Notice that for $n = 2$, this variance estimator is strictly non-negative!
+
+---
+
+## Sampford's PPSWOR Scheme for General Sample Sizes
+
+For general sample sizes $n > 2$, selecting units without replacement such that $\pi_i = n p_i$ while guaranteeing strictly positive, well-behaved joint inclusion probabilities was solved by Michael R. Sampford in 1967. **Sampford's Method** is the standard, universal algorithm for PPSWOR of arbitrary sample size.
+
+### The Selection Protocol
+
+Let $p_i = x_i / X$ with $\sum p_i = 1$, and assume $n p_i < 1$ for all $i \in U$.
+Define the modified selection probabilities:
+$$\lambda_i = \frac{p_i}{1 - n p_i} \left[ \sum_{k=1}^N \frac{p_k}{1 - n p_k} \right]^{-1} \quad (i = 1, \dots, N)$$
+Notice that $\sum_{i=1}^N \lambda_i = 1$.
+
+Sampford's protocol proceeds as follows:
+1. **Draw 1**: Select the first unit $i_1$ with probability proportional to size:
+   $$P(i_1 = i) = p_i$$
+2. **Draws 2 through $n$**: Select the remaining $n - 1$ units independently **with replacement** with modified probabilities:
+   $$P(i_r = j) = \lambda_j \quad (r = 2, 3, \dots, n)$$
+3. **Acceptance / Rejection Step**:
+   - If all $n$ drawn units $\{i_1, i_2, \dots, i_n\}$ are distinct (no duplicate units), **accept the sample**.
+   - If any unit appears more than once, **reject all $n$ units**, discard the trial, and restart the entire procedure from Draw 1.
+
+### Mathematical Properties of Sampford's Design
+
+1. **Exact First-Order Inclusion Probabilities**:
+   Sampford proved that conditional on acceptance, the probability that unit $i$ is included in the sample satisfies:
+   $$\pi_i = n p_i = n \frac{x_i}{X} \quad \text{identically for all } i \in U$$
+
+2. **Joint Inclusion Probabilities**:
+   The second-order joint inclusion probabilities are given by:
+   $$\pi_{ij} = K_n \lambda_i \lambda_j \sum_{m=2}^n \frac{m - 1}{n^{m-1}} [p_i L_{n-m}^{(i, j)} + p_j L_{n-m}^{(i, j)} + (1 - p_i - p_j) L_{n-m-1}^{(i, j)}]$$
+   where $L_m$ are symmetric polynomial functions of $\boldsymbol{\lambda}$, and $K_n$ is a normalizing constant.
+
+3. **Guaranteed Non-Negativity of the SYG Variance Estimator**:
+   Sampford proved that for all pairs $i \ne j$:
+   $$\pi_{ij} < \pi_i \pi_j$$
+   This guarantees that the Sen–Yates–Grundy variance estimator:
+   $$\hat{V}_{SYG}(\hat{Y}_{HT}) = \sum_{i \in s} \sum_{j \in s, j > i} \left( \frac{\pi_i \pi_j - \pi_{ij}}{\pi_{ij}} \right) \left( \frac{y_i}{\pi_i} - \frac{y_j}{\pi_j} \right)^2$$
+   is **strictly non-negative for every possible sample drawn under Sampford's scheme**.
+
+---
+
+## Poisson Sampling and Pareto PPS
+
+When survey operations require complete flexibility or sequential data ingestion across distributed databases, statisticians deploy Bernoulli-type unequal probability mechanisms.
+
+### 1. Poisson Sampling
+
+In **Poisson Sampling** (Hajek, 1964), every unit $i \in U$ is subjected to an independent Bernoulli trial with predefined inclusion probability $\pi_i \in (0, 1]$.
+The sample inclusion indicators $I_1, I_2, \dots, I_N$ are mutually independent random variables:
+$$I_i \sim \text{Bernoulli}(\pi_i) \quad \text{with} \quad P(I_i = 1) = \pi_i$$
+
+The sample size $n_s = \sum_{i=1}^N I_i$ is a random variable with:
+$$E(n_s) = \sum_{i=1}^N \pi_i = n \quad \text{and} \quad V(n_s) = \sum_{i=1}^N \pi_i(1 - \pi_i)$$
+
+The Horvitz–Thompson estimator of the total is:
+$$\hat{Y}_{Poisson} = \sum_{i \in s} \frac{y_i}{\pi_i} = \sum_{i=1}^N I_i \frac{y_i}{\pi_i}$$
+
+Because the indicators are mutually independent, $\text{Cov}(I_i, I_j) = 0$ for all $i \ne j$.
+Therefore, the exact sampling variance has **zero cross-product terms**:
+$$V(\hat{Y}_{Poisson}) = \sum_{i=1}^N \frac{1 - \pi_i}{\pi_i} y_i^2$$
+
+The strictly unbiased sample variance estimator is:
+$$\hat{V}(\hat{Y}_{Poisson}) = \sum_{i \in s} \frac{1 - \pi_i}{\pi_i^2} y_i^2$$
+
+#### Drawback of Poisson Sampling:
+Because the sample size $n_s$ fluctuates randomly around $n$, the variance is inflated by the random sample size variation. To stabilize the sample size, methodologists condition on $\sum I_i = n$ (Conditional Poisson Sampling).
+
+### 2. Pareto PPS Sampling (Rosén, 1997)
+
+To achieve fixed sample sizes with unequal probabilities without rejection loops, Bengt Rosén (1997) formulated **Pareto PPS Sampling**, which is widely deployed by Statistics Sweden and Eurostat:
+1. For each unit $i \in U$, draw an independent uniform random variable:
+   $$U_i \sim \text{Uniform}(0, 1)$$
+2. Compute the Pareto ranking key:
+   $$Q_i = \frac{U_i / (1 - U_i)}{\pi_i / (1 - \pi_i)}$$
+3. Sort the population by $Q_i$ in ascending order:
+   $$Q_{(1)} < Q_{(2)} < \dots < Q_{(N)}$$
+4. The sample consists of the units with the $n$ smallest values of $Q_i$.
+
+Pareto sampling guarantees an exact fixed sample size $n$, achieves first-order inclusion probabilities that are asymptotically exact ($\pi_i \approx n p_i$), and exhibits outstanding variance stability.
 
 ---
 
