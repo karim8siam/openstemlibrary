@@ -521,6 +521,168 @@ Let $N = 1,000$. We evaluate the exact ratio $\text{RE} = \frac{999}{1,000 - n}$
 
 ---
 
+## Higher-Order Moments and Tschuprow's Exact Variance of the Sample Variance
+
+In standard survey estimation, primary attention centers upon estimating the first moment—the population mean $\bar{Y}$ or total $Y$. However, in statistical quality control, auditing, and econometric risk management, the parameter of interest is frequently the dispersion itself, quantified by the finite-population variance $S^2 = \frac{1}{N - 1} \sum_{i=1}^N (y_i - \bar{Y})^2$. While we proved in Worked Question 1 that the sample variance $s^2 = \frac{1}{n - 1} \sum_{i=1}^n (y_i - \bar{y})^2$ is an strictly design-unbiased estimator of $S^2$ under SRSWOR ($E(s^2) = S^2$), evaluating the reliability of $s^2$ requires deriving its sampling variance $V(s^2)$.
+
+### Finite-Population Central Moments
+
+To formalize higher-order moment theory, we define the $r$-th finite-population central moment:
+$$\mu_r = \frac{1}{N} \sum_{i=1}^N (y_i - \bar{Y})^r \quad (r = 2, 3, 4, \dots)$$
+In particular:
+- $\mu_2 = \frac{N - 1}{N} S^2$ is the population second central moment.
+- $\mu_3 = \frac{1}{N} \sum_{i=1}^N (y_i - \bar{Y})^3$ measures population skewness, with standardized skewness coefficient $\gamma_1 = \mu_3 / \mu_2^{3/2}$.
+- $\mu_4 = \frac{1}{N} \sum_{i=1}^N (y_i - \bar{Y})^4$ measures population tail heaviness and kurtosis, with standardized kurtosis coefficient $\beta_2 = \mu_4 / \mu_2^2$.
+
+Similarly, we define the finite-population symmetric polynomial parameters, known as Fisher's $k$-statistics:
+$$k_2 = S^2 = \frac{1}{N - 1} \sum_{i=1}^N (y_i - \bar{Y})^2$$
+$$k_4 = \frac{N}{(N - 1)(N - 2)(N - 3)} \left[ (N + 1)\mu_4 - 3(N - 1)\mu_2^2 \right]$$
+
+### Tschuprow's Exact Variance Theorem
+
+In 1928, the mathematical statistician A. A. Tschuprow established the exact variance of the sample variance $s^2$ under SRSWOR without making any distributional assumptions (such as normality) regarding the values in the finite population.
+
+Tschuprow's exact finite-population variance formula is:
+$$V(s^2) = \frac{1}{n} \left[ \mu_4 - \left( \frac{n - 3}{n - 1} \right) \mu_2^2 \right] - \frac{1}{N} \left[ \mu_4 - \left( \frac{N - 3}{N - 1} \right) \mu_2^2 \right] + O\left(\frac{1}{n N}\right)$$
+
+In terms of Fisher's $k$-statistics and the sampling fraction $f = n / N$, the exact expression simplifies to:
+$$V(s^2) = \left( \frac{1 - f}{n} \right) \left[ k_4 + \frac{2 n}{n - 1} k_2^2 \right]$$
+
+For large finite populations where $N \gg n \gg 1$, this expression yields the practical approximation:
+$$V(s^2) \approx \frac{1 - f}{n} S^4 \left[ (\beta_2 - 1) + \frac{2}{n - 1} \right] \approx \frac{1 - f}{n} S^4 (\beta_2 - 1)$$
+where $\beta_2 = \mu_4 / \mu_2^2$ is the population kurtosis.
+
+#### Critical Methodological Lessons:
+1. **Kurtosis Sensitivity**: The variance of the sample variance depends overwhelmingly on the population kurtosis $\beta_2$. If the population distribution has heavy tails or extreme outliers (such as household wealth, financial transactions, or pollutant concentrations where $\beta_2$ can exceed $10$ or $20$), $V(s^2)$ explodes. Estimating variance from a heavy-tailed population requires dramatically larger sample sizes than estimating a mean.
+2. **Normal Distribution Benchmark**: If the finite population values follow an approximately Gaussian bell curve, the population kurtosis is $\beta_2 = 3$. Substituting $\beta_2 = 3$ into the formula yields:
+   $$V(s^2) \approx \frac{1 - f}{n} S^4 \left[ (3 - 1) + \frac{2}{n - 1} \right] = \frac{2 (1 - f)}{n - 1} S^4$$
+   This matches the classical infinite-normal-theory result $V(s^2) = \frac{2 \sigma^4}{n - 1}$, scaled by the finite population correction $(1 - f)$.
+3. **Finite-Sample Stability**: Because the sample kurtosis is itself subject to severe estimation noise, sample-based estimates of $V(s^2)$ are unstable unless $n \ge 200$.
+
+---
+
+## Asymptotic Normality and Finite-Population Central Limit Theorems
+
+In elementary statistics, the construction of confidence intervals $\bar{y} \pm z_{\alpha/2} \frac{S}{\sqrt{n}}$ relies upon the classical Central Limit Theorem (CLT) of Lindeberg and Lévy. However, the standard Lindeberg–Lévy theorem presumes an infinite sequence of independent and identically distributed random variables. In survey sampling without replacement:
+1. The draws are **dependent**: observing unit $i$ on the first draw alters the conditional selection probabilities for all remaining units on subsequent draws.
+2. The population size $N$ is **fixed and finite**: as sample size $n$ increases, the remaining unsampled universe $N - n$ shrinks, eventually terminating when $n = N$.
+
+Establishing the mathematical validity of asymptotic normality under SRSWOR required the development of a specialized branch of probability theory: **Finite-Population Central Limit Theory**.
+
+### The Triangular Array Asymptotic Framework
+
+To define asymptotic limits in finite populations, we cannot simply take $n \to \infty$ while holding the population $U$ fixed, because $n$ cannot exceed $N$. Instead, following the mathematical framework formulated by Paul Erdős and Alfréd Rényi (1959) and Jaroslav Hájek (1960), we consider a sequence of finite populations:
+$$\{U_\nu\}_{\nu=1}^\infty \quad \text{with population sizes } N_\nu \to \infty$$
+From each population $U_\nu$, an SRSWOR sample of size $n_\nu$ is selected, such that both the sample size and the number of unobserved units grow without bound:
+$$n_\nu \to \infty \quad \text{and} \quad (N_\nu - n_\nu) \to \infty \quad \text{as } \nu \to \infty$$
+This condition guarantees that the sampling fraction $f_\nu = n_\nu / N_\nu$ remains strictly bounded away from $1$ ($0 \le \liminf f_\nu \le \limsup f_\nu < 1$).
+
+For each population $\nu$, let $\bar{Y}_\nu$ and $S_\nu^2$ denote the population mean and variance. The standardized sample mean is defined as:
+$$Z_\nu = \frac{\bar{y}_\nu - \bar{Y}_\nu}{\sqrt{V(\bar{y}_\nu)}} = \frac{\bar{y}_\nu - \bar{Y}_\nu}{\sqrt{\frac{1 - f_\nu}{n_\nu}} S_\nu}$$
+
+### Hájek's Finite-Population Central Limit Theorem (1960)
+
+Jaroslav Hájek established the necessary and sufficient condition under which the standardized sample mean $Z_\nu$ converges in distribution to the standard normal distribution $\mathcal{N}(0, 1)$.
+
+Define the Lindeberg–Hájek sum for any fixed threshold $\tau > 0$:
+$$L_\nu(\tau) = \frac{\sum_{i \in U_{\nu, \tau}} (y_{\nu i} - \bar{Y}_\nu)^2}{\sum_{i=1}^{N_\nu} (y_{\nu i} - \bar{Y}_\nu)^2}$$
+where the summation in the numerator is taken over the subset of population units whose squared deviation exceeds a threshold scaled by the total variance and sample size:
+$$U_{\nu, \tau} = \left\{ i \in U_\nu : |y_{\nu i} - \bar{Y}_\nu| > \tau \sqrt{n_\nu (1 - f_\nu)} S_\nu \right\}$$
+
+**Theorem (Hájek, 1960)**:
+The standardized sample mean converges in distribution to standard normal:
+$$Z_\nu \xrightarrow{d} \mathcal{N}(0, 1) \quad \text{as } \nu \to \infty$$
+if and only if the Lindeberg–Hájek condition holds:
+$$\lim_{\nu \to \infty} L_\nu(\tau) = 0 \quad \text{for every } \tau > 0$$
+
+#### Substantive Meaning of Hájek's Condition:
+Hájek's theorem establishes that asymptotic normality holds unless the finite population is dominated by a tiny number of extreme outlier values. Specifically, if the maximum squared deviation $\max_i (y_{\nu i} - \bar{Y}_\nu)^2$ is of smaller order than $n_\nu(1 - f_\nu) S_\nu^2$, no individual observation unit can exert a non-negligible influence on the sample mean, and the averaging effect of the randomized mechanism drives the sampling distribution toward the Gaussian curve.
+
+### Berry–Esseen Convergence Rates for Finite Populations
+
+While Hájek's theorem proves asymptotic convergence, practical survey analysts require knowing: *How large must $n$ be for the normal approximation to be trustworthy?*
+
+The speed of convergence to normality is governed by the **Berry–Esseen Theorem for Finite Populations**, established by A. Bikelis (1969) and refined by T. Höglund (1978):
+$$\sup_{z \in \mathbb{R}} \left| P(Z_\nu \le z) - \Phi(z) \right| \le \frac{C}{\sqrt{n(1 - f)}} \cdot \frac{\mu_3}{S^3} = \frac{C \cdot |\gamma_1|}{\sqrt{n(1 - f)}}$$
+where $\Phi(z)$ is the standard normal cumulative distribution function, $\gamma_1 = \mu_3 / S^3$ is the finite-population skewness coefficient, and $C$ is a universal mathematical constant ($C \approx 0.705$).
+
+#### Cochran's Sample Size Rule of Thumb:
+From the Berry–Esseen bound, William Cochran (1977) derived a famous practical guideline: For a 95% confidence interval based on the normal approximation to have an actual error rate of less than 0.5% (meaning true coverage is between 94.5% and 95.5%), the minimum sample size must satisfy:
+$$n > 25 \gamma_1^2 = 25 \left( \frac{\mu_3}{S^3} \right)^2$$
+
+- If the population is symmetric ($\gamma_1 \approx 0$), sample sizes as small as $n = 30$ provide outstanding normal coverage.
+- If the population is moderately skewed (e.g., household income in an urban district with $\gamma_1 = 2.0$), Cochran's rule requires $n > 25(2.0)^2 = 100$ observations.
+- If the population is severely skewed (e.g., corporate revenues or toxic chemical spills with $\gamma_1 = 5.0$), normal approximation requires $n > 25(5.0)^2 = 625$ observations. Below this threshold, Student's $t$ or normal confidence intervals suffer from severe asymmetric coverage error, and the statistician should deploy logarithmic transformations, stratification, or empirical bootstrap intervals.
+
+---
+
+## Inverse Sampling (Negative Hypergeometric Sampling) for Rare Attributes
+
+A major operational limitation of standard Simple Random Sampling arises when the objective is to estimate the prevalence of an exceptionally **rare attribute or condition** within a finite population. Consider an inquiry designed to estimate:
+- The prevalence of an ultra-rare genetic disorder ($P \approx 0.001$, or 1 in 1,000 individuals).
+- The presence of unexploded ordnance in agricultural land reclamation ($P \approx 0.002$).
+- The proportion of fraudulent transaction files in a massive banking archive ($P \approx 0.0005$).
+
+If an investigator applies standard fixed-sample-size SRSWOR with $n = 500$ to a population with $P = 0.001$, the probability of observing **zero positive cases** in the entire sample is:
+$$P(m = 0) = \frac{\binom{N - NP}{n}}{\binom{N}{n}} \approx (1 - P)^n = (0.999)^{500} \approx 0.606$$
+Over $60\%$ of all possible samples will contain zero positive units! When $m = 0$, the naive sample proportion is $p = 0 / 500 = 0$, which provides zero information regarding whether the true prevalence is $0.001$, $0.0001$, or $0.00001$, and standard Wald confidence intervals collapse to the degenerate point $[0, 0]$.
+
+### The Haldane–Tschuprow Inverse Sampling Protocol
+
+To solve this rare-event dilemma, J. B. S. Haldane (1945) and A. A. Tschuprow introduced **Inverse Sampling** (also known as Negative Hypergeometric Sampling). 
+
+Instead of fixing the sample size $n$ in advance and observing a random count of positive cases $m$, inverse sampling **inverts the protocol**:
+1. The statistician pre-specifies a fixed integer $m \ge 2$—the target number of positive units required to achieve reliable estimation (typically $m \in \{10, 20, 30\}$).
+2. Units are drawn sequentially without replacement from the finite population $U$ of size $N$ one by one.
+3. The sampling process **terminates immediately** upon encountering the $m$-th positive unit.
+
+Under this protocol, the number of positive units $m$ is fixed deterministically, while the total number of draws $n$ required to terminate the survey is a **random variable**.
+
+### The Negative Hypergeometric Probability Distribution
+
+Let $M = N P$ denote the true total number of positive units in the finite population of size $N$. The random sample size $n$ required to observe exactly $m$ positive units follows the **Negative Hypergeometric Distribution**:
+$$P(n = k) = \frac{\binom{M}{m - 1} \binom{N - M}{k - m}}{\binom{N}{k - 1}} \cdot \frac{M - (m - 1)}{N - (k - 1)} \quad (k = m, m + 1, \dots, N - M + m)$$
+
+This probability mass function represents the probability of observing exactly $m - 1$ positive units in the first $k - 1$ sequential draws, multiplied by the conditional probability that the $k$-th drawn unit is positive.
+
+### The Strictly Unbiased Estimator of Proportion
+
+A common blunder in inverse sampling is using the naive ratio $\tilde{P} = m / n$. Haldane proved that $\frac{m}{n}$ is systematically **positively biased**:
+$$E\left( \frac{m}{n} \right) > P$$
+This bias occurs because smaller values of $n$ (which correspond to higher empirical ratios $m/n$) are reached more quickly by the termination rule, shifting the expectation upward.
+
+Haldane derived the **strictly design-unbiased estimator** of the population proportion $P$:
+$$\hat{P}_{inv} = \frac{m - 1}{n - 1}$$
+where $m$ is the pre-specified target count and $n$ is the total number of draws observed at termination.
+
+#### Proof of Unbiasedness:
+Taking the expectation over the Negative Hypergeometric distribution:
+$$E(\hat{P}_{inv}) = \sum_{k=m}^{N - M + m} \left( \frac{m - 1}{k - 1} \right) P(n = k)$$
+$$= \sum_{k=m}^{N - M + m} \left( \frac{m - 1}{k - 1} \right) \frac{\binom{M}{m - 1} \binom{N - M}{k - m}}{\binom{N}{k - 1}} \frac{M - m + 1}{N - k + 1}$$
+
+Using the combinatorial identity $\frac{m - 1}{k - 1} \frac{\binom{M}{m - 1}}{\binom{N}{k - 1}} = \frac{M}{N} \frac{\binom{M - 1}{m - 2}}{\binom{N - 1}{k - 2}}$:
+$$E(\hat{P}_{inv}) = \frac{M}{N} \sum_{k=m}^{N - M + m} \frac{\binom{M - 1}{m - 2} \binom{(N - 1) - (M - 1)}{(k - 1) - (m - 1)}}{\binom{N - 1}{k - 2}} \frac{(M - 1) - (m - 2)}{(N - 1) - (k - 2)}$$
+The summation on the right-hand side represents the sum of probabilities of a negative hypergeometric distribution with parameters $(N - 1, M - 1, m - 1)$, which sums identically to $1.0$.
+Therefore:
+$$E(\hat{P}_{inv}) = \frac{M}{N} \times 1.0 = \frac{M}{N} = P$$
+The estimator $\hat{P}_{inv} = \frac{m - 1}{n - 1}$ is strictly design-unbiased for any finite population size $N$ and any attribute count $M \ge m$.
+
+### Unbiased Variance Estimation for Inverse Sampling
+
+The exact sampling variance of $\hat{P}_{inv}$ under finite population inverse sampling is:
+$$V(\hat{P}_{inv}) = \frac{P(1 - P)}{E(n) - 1} \left( 1 - \frac{E(n)}{N} \right) + O\left(\frac{1}{E(n)^2}\right)$$
+
+An strictly unbiased estimator of the sampling variance derived by D. G. Chapman (1951) is:
+$$\hat{V}(\hat{P}_{inv}) = \frac{\hat{P}_{inv}(1 - \hat{P}_{inv})}{n - 2} \left( 1 - \frac{n}{N} \right) = \frac{(m - 1)(n - m)}{(n - 1)^2 (n - 2)} \left( 1 - \frac{n}{N} \right)$$
+provided $n \ge 3$.
+
+#### Operational Comparison: Fixed Sampling vs. Inverse Sampling:
+Consider a rare financial fraud audit where the hypothesized violation rate is $P = 0.004$ (4 per 1,000 files) in an institutional database of $N = 25,000$ files:
+- Under fixed SRSWOR with $n = 500$: The expected number of violations observed is $E(m) = 500 \times 0.004 = 2.0$. The probability of getting $m \le 1$ violation is $P(m = 0) + P(m = 1) \approx 0.135 + 0.271 = 40.6\%$. Over $40\%$ of all investigations will yield fewer than 2 cases, making reliable variance estimation impossible.
+- Under Inverse Sampling with fixed $m = 10$: The investigator draws files until exactly 10 violations are uncovered. The expected number of files examined is $E(n) \approx \frac{m}{P} = \frac{10}{0.004} = 2,500$ files. The resulting estimate $\hat{P}_{inv} = \frac{9}{n - 1}$ is guaranteed to be based on 10 positive cases, ensuring a stable coefficient of variation of approximately $\text{CV} \approx \frac{1}{\sqrt{m}} = \frac{1}{\sqrt{10}} \approx 31.6\%$, completely eliminating the zero-event catastrophe.
+
+---
+
 ## Practical Synthesis, Quality Diagnostics and Computational Verification
 
 The execution of Simple Random Sampling requires verified algorithmic mechanisms to ensure that the mathematical requirement of uniform sample selection is faithfully realized in computational code.
