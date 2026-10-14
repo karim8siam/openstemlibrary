@@ -609,6 +609,184 @@ Single imputation produced a standard error that was underestimated by $30.2\%$,
 
 ---
 
+## Two-Phase Sampling for Nonresponse: The Hansen–Hurwitz Protocol
+
+In Section 7.4, we examined post-survey weighting and imputation methods designed to mitigate nonresponse bias under the Missing at Random (MAR) assumption. However, when non-respondents differ fundamentally from respondents on unobserved characteristics (MNAR), no mathematical weighting algorithm applied to the observed cases can guarantee unbiasedness.
+
+To solve this structural limitation without relying on uncheckable model assumptions, Morris Hansen and William Hurwitz (1946) formulated an ingenious operational design: **Two-Phase Sampling for Nonresponse**.
+
+### The Two-Phase Operational Architecture
+
+The Hansen–Hurwitz protocol combines inexpensive, low-intensity initial data collection with intensive, high-cost personal follow-up on a randomized sub-sample:
+
+1. **Phase 1 (Initial Universal Contact)**:
+   A simple random sample without replacement (SRSWOR) of $n$ units is drawn from the population of $N$ units. A low-cost data collection mode (such as a mail questionnaire or digital web survey) is administered to all $n$ units.
+   - Suppose $n_1$ units respond to the Phase 1 inquiry.
+   - The remaining $n_2 = n - n_1$ units fail to respond ($n = n_1 + n_2$).
+   Let $\bar{y}_1 = \frac{1}{n_1} \sum_{i=1}^{n_1} y_{1i}$ denote the sample mean of the Phase 1 respondents.
+
+2. **Phase 2 (Intensive Randomized Follow-up)**:
+   It is financially impossible to conduct intensive, in-person field interviews with all $n_2$ non-respondents. Instead, the statistician selects a **random sub-sample of size $m_2$** from the $n_2$ non-respondents using SRSWOR, with sampling interval $k \ge 1$:
+   $$m_2 = \frac{n_2}{k} \quad (k > 1)$$
+   The selected $m_2$ non-respondents are assigned to elite field interviewers who deploy intensive in-person contact protocols, personal doorstep visits, language translators, or financial refusal-conversion incentives to achieve a **100% response rate** among the $m_2$ sub-sampled cases.
+   Let $\bar{y}_{2m} = \frac{1}{m_2} \sum_{i=1}^{m_2} y_{2i}$ denote the sample mean of the intensive Phase 2 follow-up cases.
+
+### The Hansen–Hurwitz Two-Phase Estimator
+
+The **Hansen–Hurwitz Two-Phase Estimator** of the population mean $\bar{Y}$ is the weighted combination:
+$$\bar{y}_{HH} = \frac{n_1}{n} \bar{y}_1 + \frac{n_2}{n} \bar{y}_{2m} = w_1 \bar{y}_1 + w_2 \bar{y}_{2m}$$
+where $w_1 = n_1 / n$ and $w_2 = n_2 / n$.
+
+### Proof of Strict Design Unbiasedness
+
+We evaluate the expectation using the Law of Iterated Expectation: first conditioning on the Phase 1 sample $s$ and its partition $(n_1, n_2)$, and subsequently taking expectation over all possible Phase 1 samples.
+
+1. **Phase 2 Conditional Expectation**:
+   Conditional on $s$, the Phase 1 respondent mean $\bar{y}_1$ is fixed. 
+   The Phase 2 follow-up is an SRSWOR of $m_2$ units drawn from the $n_2$ non-respondents in $s$. Therefore:
+   $$E_2(\bar{y}_{2m} \mid s) = \bar{y}_2$$
+   where $\bar{y}_2 = \frac{1}{n_2} \sum_{i \in s_2} y_i$ is the true mean of all $n_2$ non-respondents in sample $s$.
+   Therefore:
+   $$E_2(\bar{y}_{HH} \mid s) = \frac{n_1}{n} \bar{y}_1 + \frac{n_2}{n} E_2(\bar{y}_{2m} \mid s) = \frac{n_1}{n} \bar{y}_1 + \frac{n_2}{n} \bar{y}_2 = \frac{1}{n} \left[ \sum_{i \in s_1} y_i + \sum_{i \in s_2} y_i \right] = \frac{1}{n} \sum_{i \in s} y_i = \bar{y}$$
+   Conditional on the Phase 1 sample, the Hansen–Hurwitz estimator reproduces the unobserved full sample mean $\bar{y}$!
+
+2. **Phase 1 Expectation**:
+   Now take the Phase 1 expectation over all possible SRSWOR samples of size $n$ from the population $N$:
+   $$E(\bar{y}_{HH}) = E_1\left[ E_2(\bar{y}_{HH} \mid s) \right] = E_1(\bar{y}) = \bar{Y}$$
+
+The Hansen–Hurwitz two-phase estimator is **strictly design-unbiased** for the true population mean $\bar{Y}$. It requires zero assumptions regarding the nonresponse mechanism, providing complete protection against MNAR nonresponse bias.
+
+### Derivation of Exact Sampling Variance
+
+Using the Law of Total Variance:
+$$V(\bar{y}_{HH}) = V_1(E_2(\bar{y}_{HH} \mid s)) + E_1(V_2(\bar{y}_{HH} \mid s)) = V_1(\bar{y}) + E_1(V_2(\bar{y}_{HH} \mid s))$$
+
+1. **First-Phase Variance Component**:
+   Since $E_2(\bar{y}_{HH} \mid s) = \bar{y}$, the first term is simply the standard SRSWOR variance of a sample of size $n$:
+   $$V_1(\bar{y}) = \frac{1 - f}{n} S^2 = \left( \frac{N - n}{N} \right) \frac{S^2}{n}$$
+   where $S^2 = \frac{1}{N - 1} \sum_{i=1}^N (y_i - \bar{Y})^2$.
+
+2. **Second-Phase Variance Component**:
+   Conditional on $s$:
+   $$V_2(\bar{y}_{HH} \mid s) = V_2\left( \frac{n_1}{n} \bar{y}_1 + \frac{n_2}{n} \bar{y}_{2m} \;\middle|\; s \right) = \left( \frac{n_2}{n} \right)^2 V_2(\bar{y}_{2m} \mid s)$$
+   Since $\bar{y}_{2m}$ is an SRSWOR of $m_2$ units from $n_2$ units:
+   $$V_2(\bar{y}_{2m} \mid s) = \left( \frac{n_2 - m_2}{n_2} \right) \frac{s_2^2}{m_2} = \left( 1 - \frac{1}{k} \right) \frac{s_2^2}{n_2 / k} = \frac{k - 1}{n_2} s_2^2$$
+   where $s_2^2 = \frac{1}{n_2 - 1} \sum_{i \in s_2} (y_i - \bar{y}_2)^2$.
+   Substituting this into the variance term:
+   $$V_2(\bar{y}_{HH} \mid s) = \left( \frac{n_2}{n} \right)^2 \left( \frac{k - 1}{n_2} s_2^2 \right) = \frac{(k - 1) n_2}{n^2} s_2^2$$
+
+   Taking the expectation $E_1$ over Phase 1:
+   $$E_1\left[ \frac{(k - 1) n_2}{n^2} s_2^2 \right] = \frac{k - 1}{n} E_1\left[ \frac{n_2}{n} s_2^2 \right] \approx \frac{k - 1}{n} W_2 S_2^2$$
+   where $W_2 = N_2 / N$ is the population nonresponse proportion, and $S_2^2 = \frac{1}{N_2 - 1} \sum_{i \in U_2} (y_i - \bar{Y}_2)^2$ is the variance within the nonresponse sub-population.
+
+Combining both terms yields the exact **Hansen–Hurwitz Variance Formula**:
+$$V(\bar{y}_{HH}) = \frac{1 - f}{n} S^2 + \frac{W_2 (k - 1)}{n} S_2^2$$
+
+#### Structural Analysis:
+- The first term $\frac{1 - f}{n} S^2$ represents the variance if all $n$ units had responded with zero nonresponse.
+- The second term $\frac{W_2 (k - 1)}{n} S_2^2$ is the **nonresponse variance penalty** arising because only a $1/k$ fraction of non-respondents were followed up.
+- If $k = 1$ (all non-respondents are interviewed in Phase 2), the second term vanishes completely, and the variance equals full-sample SRSWOR.
+
+### Optimal Cost Allocation for Two-Phase Sampling
+
+In survey operations, costs are governed by a two-phase linear cost function:
+$$C = c_0 n + c_1 n_1 + c_2 m_2$$
+where:
+- $c_0$ is the administrative setup cost per unit in Phase 1 (mailing questionnaires, printing, digital invitations).
+- $c_1$ is the processing cost per Phase 1 respondent (data entry, verification).
+- $c_2$ is the intensive field cost per Phase 2 respondent (in-person interviewer visits, mileage, lodging, incentives). Typically, $c_2 \gg c_1$ ($c_2$ is often 10 to 30 times larger than $c_1$).
+
+The expected total cost is:
+$$E(C) = c_0 n + c_1 n E(w_1) + c_2 E(m_2) = n \left[ c_0 + c_1 W_1 + c_2 \frac{W_2}{k} \right]$$
+
+Hansen and Hurwitz applied Lagrange multipliers to determine the optimal follow-up interval $k_{opt}$ and initial sample size $n_{opt}$ that minimize $V(\bar{y}_{HH})$ for a fixed expected budget $C$:
+$$k_{opt} = \sqrt{\frac{c_2 (S^2 - W_2 S_2^2)}{S_2^2 (c_0 + c_1 W_1)}}$$
+
+When within-stratum variances are roughly equal ($S_2^2 \approx S^2$), this simplifies to:
+$$k_{opt} \approx \sqrt{\frac{c_2 W_1}{c_0 + c_1 W_1}}$$
+
+Once $k_{opt}$ is determined, the optimal initial sample size $n_{opt}$ is computed from the budget constraint:
+$$n_{opt} = \frac{C}{c_0 + c_1 W_1 + c_2 \frac{W_2}{k_{opt}}}$$
+
+This classical optimization proves that when intensive field follow-up is expensive ($c_2$ large), the optimal strategy is to take a large initial sample ($n \uparrow$) and follow up only a modest fraction of non-respondents ($k \approx 3$ or $4$, meaning follow-up $25\%$ to $33\%$ of non-respondents), achieving complete design unbiasedness at minimal cost.
+
+---
+
+## Responsive and Adaptive Survey Design (RAD)
+
+In traditional survey management, field protocols (number of contact attempts, interview mode, incentive amounts) are fixed before data collection begins and applied uniformly throughout the fieldwork period. In 2006, Robert Groves and Steven Heeringa introduced **Responsive and Adaptive Survey Design (RAD)**, transforming survey data collection into an active, feedback-driven optimization process.
+
+### Phase Capacity and Stopping Rules
+
+The foundational insight of responsive design is the concept of **phase capacity**. When interviewers make repeated contact attempts:
+- Initial calls (calls 1 to 4) recruit the most cooperative, accessible respondents, rapidly driving up the response rate $\bar{\rho}$ while expanding demographic representativeness.
+- Middle calls (calls 5 to 8) begin to exhibit diminishing marginal returns.
+- Late calls (calls 9 to 15+) consume massive field budgets while recruiting individuals who have the exact same demographic profile as those who already participated.
+
+To detect when a protocol has reached phase capacity, methodologists monitor the **Coefficient of Variation of Response Propensities** ($C_\rho = S_\rho / \bar{\rho}$) and the **R-indicator** ($R = 1 - 2 S_\rho$) in real time:
+- As long as additional contact attempts cause $S_\rho$ to decrease and $R$ to rise, fieldwork is actively reducing nonresponse bias.
+- When $S_\rho$ plateaus or begins to increase (meaning interviewers are merely chasing easy cases and neglecting hard cases), the protocol has reached phase capacity.
+
+At this point, a formal **phase stopping rule** triggers:
+1. Fieldwork under the current protocol is halted.
+2. Field resources are reallocated toward an **adaptive intervention**: switching modes (e.g., from telephone to face-to-face visits), introducing specialized refusal-conversion specialists, or deploying targeted financial incentives strictly to under-represented demographic subgroups.
+
+Adaptive design minimizes Total Survey Error by continuously equilibrating error gradients across the entire survey lifecycle.
+
+---
+
+## Fully Efficient Fractional Imputation (FEFI)
+
+In Section 7.5, we contrasted single imputation (which underestimates variance) with multiple imputation (which requires maintaining $M$ separate datasets). In 2004, Jae Kwang Kim and Wayne Fuller developed **Fully Efficient Fractional Imputation (FEFI)**, a modern framework that eliminates imputation variance while retaining a single, unified analysis file.
+
+### The Fractional Imputation Protocol
+
+Let $y$ be a survey variable subject to item nonresponse, and let $\mathbf{x}$ be fully observed covariates.
+For each non-respondent unit $i$ requiring imputation:
+1. Instead of imputing a single value, select $M$ candidate donor values $\{y_{i}^{*(1)}, y_{i}^{*(2)}, \dots, y_{i}^{*(M)}\}$ from the observed distribution conditional on $\mathbf{x}_i$.
+2. In the final microdata file, expand unit $i$ into $M$ separate pseudo-records, where the $j$-th record contains imputed value $y_{i}^{*(j)}$.
+3. Assign to each pseudo-record a **fractional weight** $w_{ij}^*$ satisfying:
+   $$\sum_{j=1}^M w_{ij}^* = w_i$$
+   where $w_i$ is the original survey design weight of unit $i$.
+
+The fractional weights $w_{ij}^*$ are calibrated to match the conditional probability distribution:
+$$w_{ij}^* = w_i \times P(y = y_{i}^{*(j)} \mid \mathbf{x}_i)$$
+
+The FEFI estimator of the population total is:
+$$\hat{Y}_{FEFI} = \sum_{i \in s_{obs}} w_i y_i + \sum_{i \in s_{mis}} \sum_{j=1}^M w_{ij}^* y_{i}^{*(j)}$$
+
+#### Why FEFI is Revolutionary:
+1. **Zero Monte Carlo Noise**: By averaging across the $M$ fractional donors within each record, FEFI achieves near-infinite imputation efficiency without generating multiple datasets.
+2. **Standard Software Compatibility**: Secondary data analysts can analyze the single completed dataset using standard weighted survey commands, obtaining exact point estimates.
+3. **Exact Linearized Variance Estimation**: Kim and Fuller derived a closed-form Taylor series linearization variance estimator that honestly accounts for item imputation directly from the single file.
+
+---
+
+## Sensitivity Analysis for Non-Ignorable Nonresponse (MNAR)
+
+When nonresponse is Missing Not at Random (MNAR), no statistical adjustment can prove that bias has been eliminated. The scientific obligation of the survey statistician is to conduct **Sensitivity Analysis** to determine the robustness of empirical findings against departures from the MAR assumption.
+
+### The Tipping Point (Pattern-Mixture) Framework
+
+In a pattern-mixture sensitivity analysis, the population distribution is modeled as a mixture of respondents and non-respondents:
+$$Y = W_1 Y_1 + W_2 Y_2$$
+Under MAR, the non-respondents are assumed to have the same mean as respondents: $\bar{Y}_2^{MAR} = \bar{Y}_1$.
+
+In sensitivity testing, the analyst introduces a **sensitivity shift parameter** $\delta$:
+$$\bar{Y}_2(\delta) = \bar{Y}_1 + \delta$$
+where $\delta$ represents the unobserved systematic difference between non-respondents and respondents.
+
+The adjusted population mean estimator as a function of $\delta$ is:
+$$\bar{y}_{adj}(\delta) = w_1 \bar{y}_1 + w_2 (\bar{y}_1 + \delta) = \bar{y}_1 + w_2 \delta$$
+
+The analyst varies $\delta$ across a plausible physical range $[-\delta_{max}, +\delta_{max}]$ and monitors:
+1. How the estimated population mean $\bar{y}_{adj}(\delta)$ shifts.
+2. The **Tipping Point**: The critical value $\delta^*$ at which substantive scientific conclusions or policy actions would change (e.g., the value of $\delta$ that would cause an estimated poverty rate to exceed a legislative trigger, or make an experimental drug treatment effect statistically non-significant).
+
+If the tipping point $\delta^*$ is physically unrealistic (e.g., non-respondents would have to earn 500% more than respondents for the conclusion to fail), the empirical finding is declared **robust to non-ignorable nonresponse**. If $\delta^*$ is modest and easily plausible, the finding is fragile, and cautionary reporting standards must be applied.
+
+---
+
 ## Practical Synthesis: The Total Survey Error (TSE) Audit
 
 In modern survey institutions, the mitigation of nonresponse and measurement errors is unified under the **Total Survey Error (TSE)** paradigm. Survey statisticians conduct comprehensive quality audits across five critical dimensions:
