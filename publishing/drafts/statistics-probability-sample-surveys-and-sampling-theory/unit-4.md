@@ -478,8 +478,6 @@ The performance of systematic sampling depends critically on how the population 
 
 ## Fully worked question 1: Analytical Derivation of Cluster Sampling Variance in Terms of Intraclass Correlation
 
-## Fully worked question 1: Analytical Derivation of Cluster Sampling Variance in Terms of Intraclass Correlation
-
 **Question.** Consider a finite population of $N$ clusters, each containing exactly $M$ observation units, giving a total population size of $M_0 = NM$. A single-stage cluster sample of $n$ clusters is selected using simple random sampling without replacement (SRSWOR), and all $M$ elements within each selected cluster are observed. 
 
 1. Derive from first principles the exact algebraic relationship expressing the between-cluster mean square $S_b^2 = \frac{1}{N - 1} \sum_{i=1}^N (\bar{Y}_i - \bar{\bar{Y}})^2$ in terms of the total finite-population variance $S^2 = \frac{1}{NM - 1} \sum_{i=1}^N \sum_{j=1}^M (y_{ij} - \bar{\bar{Y}})^2$ and the intracluster correlation coefficient $\rho$.
@@ -564,8 +562,6 @@ $$n_{eff} = \frac{1,000}{\text{Deff}} = \frac{1,000}{4.12805} \approx 242.2$$
 Even though $1,000$ households were surveyed across the 25 villages, the cluster design delivers the precision of only 242 independently sampled households.
 
 ---
-
-## Fully worked question 2: Computing Design Effect, Variance Inflation and Effective Sample Size Under Severe Within-Cluster Homogeneity
 
 ## Fully worked question 2: Computing Design Effect, Variance Inflation and Effective Sample Size Under Severe Within-Cluster Homogeneity
 
