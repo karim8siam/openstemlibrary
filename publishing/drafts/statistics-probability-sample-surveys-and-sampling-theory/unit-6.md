@@ -658,6 +658,188 @@ Because the sample was artificially skewed toward higher-earning older individua
 
 ---
 
+## Bias-Reduced and Exactly Unbiased Ratio Estimation
+
+In our derivation of the classical ratio estimator $\hat{\bar{Y}}_R = \frac{\bar{y}}{\bar{x}} \bar{X}$, we proved that the estimator possesses a finite-sample bias of order $O(1/n)$:
+$$\text{Bias}(\hat{\bar{Y}}_R) \approx \bar{Y} \left( \frac{1 - f}{n} \right) C_x (C_x - \rho C_y)$$
+
+While this bias is negligible when $n \ge 50$ and $C_x \le 0.10$, in small-scale inquiries, environmental monitoring plots ($n \le 15$), or highly fragmented sub-strata, the ratio bias can distort point estimates and degrade nominal confidence interval coverage. Survey theory provides two celebrated mathematical techniques to eliminate or dramatically reduce this bias: the Quenouille Jackknife and the Hartley–Ross exactly unbiased estimator.
+
+### 1. Quenouille's Jackknife Bias-Reduced Ratio Estimator
+
+In 1956, Maurice Quenouille introduced the **Jackknife** as a universal nonparametric device to eliminate first-order bias from non-linear estimators.
+
+Let a sample of $n$ pairs $(x_i, y_i)$ be partitioned randomly into $g$ mutually exclusive groups of size $m = n / g$ ($g \ge 2$).
+Let $\bar{y}_{(-j)}$ and $\bar{x}_{(-j)}$ denote the sample means of the $n - m$ observations remaining after deleting the $j$-th group ($j = 1, 2, \dots, g$).
+The partial ratio estimate computed on the remaining $g - 1$ groups is:
+$$\hat{R}_{(-j)} = \frac{\bar{y}_{(-j)}}{\bar{x}_{(-j)}}$$
+
+The average of the $g$ partial ratio estimates is:
+$$\bar{R}_{(\cdot)} = \frac{1}{g} \sum_{j=1}^g \hat{R}_{(-j)}$$
+
+The full-sample ratio estimate is $\hat{R} = \bar{y} / \bar{x}$.
+Quenouille's **Jackknife Ratio Estimator** is defined as:
+$$\hat{R}_Q = g \hat{R} - (g - 1) \bar{R}_{(\cdot)}$$
+
+The corresponding estimator of the population mean is $\hat{\bar{Y}}_Q = \hat{R}_Q \bar{X}$.
+
+#### Proof of Bias Reduction:
+Recall that the bias of the full-sample ratio estimator of size $n$ has the asymptotic expansion:
+$$E(\hat{R}) = R + \frac{a_1}{n} + \frac{a_2}{n^2} + O\left(\frac{1}{n^3}\right)$$
+where $a_1$ and $a_2$ are population constants independent of sample size.
+
+Each partial ratio estimate $\hat{R}_{(-j)}$ is based on a sample of size $n - m = n(1 - 1/g) = n \left(\frac{g - 1}{g}\right)$. Therefore:
+$$E(\hat{R}_{(-j)}) = R + \frac{a_1}{n \left( \frac{g - 1}{g} \right)} + \frac{a_2}{n^2 \left( \frac{g - 1}{g} \right)^2} + O\left(\frac{1}{n^3}\right) = R + \left( \frac{g}{g - 1} \right) \frac{a_1}{n} + \left( \frac{g}{g - 1} \right)^2 \frac{a_2}{n^2} + O\left(\frac{1}{n^3}\right)$$
+
+Now take the expectation of Quenouille's linear combination:
+$$E(\hat{R}_Q) = g E(\hat{R}) - (g - 1) E(\bar{R}_{(\cdot)})$$
+$$= g \left[ R + \frac{a_1}{n} + \frac{a_2}{n^2} + \dots \right] - (g - 1) \left[ R + \left( \frac{g}{g - 1} \right) \frac{a_1}{n} + \left( \frac{g}{g - 1} \right)^2 \frac{a_2}{n^2} + \dots \right]$$
+$$= g R + \frac{g a_1}{n} + \frac{g a_2}{n^2} - (g - 1) R - \frac{g a_1}{n} - \frac{g^2}{g - 1} \frac{a_2}{n^2} + O\left(\frac{1}{n^3}\right)$$
+
+Notice what happens to the first-order bias term:
+$$\frac{g a_1}{n} - \frac{g a_1}{n} = 0$$
+The leading $O(1/n)$ bias term cancels out identically!
+
+The remaining expectation is:
+$$E(\hat{R}_Q) = R - \frac{a_2}{n^2 (g - 1)} + O\left(\frac{1}{n^3}\right)$$
+Therefore:
+$$\text{Bias}(\hat{R}_Q) = O\left(\frac{1}{n^2}\right)$$
+Quenouille's Jackknife reduces the bias from order $O(1/n)$ down to order $O(1/n^2)$. In a sample of $n = 20$, the bias is reduced by a factor of approximately 20, rendering it completely negligible.
+
+### 2. The Hartley–Ross Exactly Unbiased Ratio Estimator
+
+In 1954, H. O. Hartley and A. Goodman Ross derived a mathematically **strictly design-unbiased ratio-type estimator** of the population mean $\bar{Y}$.
+
+Let $r_i = \frac{y_i}{x_i}$ denote the individual ratio for each sampled unit ($i = 1, \dots, n$).
+Let $\bar{r} = \frac{1}{n} \sum_{i \in s} r_i$ denote the unweighted average of the individual ratios.
+Let $s_{rx} = \frac{1}{n - 1} \sum_{i \in s} (r_i - \bar{r})(x_i - \bar{x})$ denote the sample covariance between the individual ratios and the auxiliary values $x_i$.
+
+The **Hartley–Ross Estimator** of the population mean $\bar{Y}$ is:
+$$\hat{\bar{Y}}_{HR} = \bar{r} \bar{X} + \frac{n (N - 1)}{N (n - 1)} (\bar{y} - \bar{r} \bar{x}) = \bar{r} \bar{X} + \frac{N - 1}{N} s_{rx}$$
+
+#### Proof of Strict Design Unbiasedness:
+For each unit in the population, $y_i = r_i x_i$. The population mean of $y$ is:
+$$\bar{Y} = \frac{1}{N} \sum_{i=1}^N y_i = \frac{1}{N} \sum_{i=1}^N r_i x_i$$
+Using the algebraic covariance identity:
+$$\frac{1}{N} \sum_{i=1}^N r_i x_i = \bar{R}_u \bar{X} + \frac{N - 1}{N} S_{rx}$$
+where $\bar{R}_u = \frac{1}{N} \sum_{i=1}^N r_i$ is the population mean of individual ratios, and $S_{rx} = \frac{1}{N - 1} \sum_{i=1}^N (r_i - \bar{R}_u)(x_i - \bar{X})$ is the population covariance.
+
+Under SRSWOR:
+$$E(\bar{r}) = \bar{R}_u \quad \text{and} \quad E(s_{rx}) = S_{rx}$$
+Taking expectations of the Hartley–Ross estimator:
+$$E(\hat{\bar{Y}}_{HR}) = E(\bar{r}) \bar{X} + \frac{N - 1}{N} E(s_{rx}) = \bar{R}_u \bar{X} + \frac{N - 1}{N} S_{rx} = \bar{Y}$$
+This proves that $\hat{\bar{Y}}_{HR}$ is strictly design-unbiased for any finite sample size $n \ge 2$, with identically zero bias.
+
+---
+
+## Multivariate Ratio and Multiple Regression Estimation
+
+When multiple auxiliary characteristics $\mathbf{x} = (x_1, x_2, \dots, x_p)^\top$ are available with known population totals $\mathbf{X} = (X_1, X_2, \dots, X_p)^\top$, survey precision can be dramatically enhanced by exploiting all auxiliary variables simultaneously.
+
+### 1. Olkin's Multivariate Ratio Estimator
+
+In 1958, Ingram Olkin extended the ratio estimator to $p$ auxiliary variables.
+For each auxiliary variable $j \in \{1, 2, \dots, p\}$, compute the univariate ratio estimate of the mean:
+$$\hat{\bar{Y}}_{R,j} = \frac{\bar{y}}{\bar{x}_j} \bar{X}_j$$
+
+Olkin's **Multivariate Ratio Estimator** is a weighted convex combination:
+$$\hat{\bar{Y}}_{MR} = \sum_{j=1}^p W_j \hat{\bar{Y}}_{R,j} \quad \text{subject to} \quad \sum_{j=1}^p W_j = 1$$
+
+The sampling variance of $\hat{\bar{Y}}_{MR}$ is:
+$$V(\hat{\bar{Y}}_{MR}) = \mathbf{W}^\top \boldsymbol{\Sigma}_R \mathbf{W}$$
+where $\boldsymbol{\Sigma}_R$ is the $p \times p$ covariance matrix among the individual ratio estimators:
+$$(\boldsymbol{\Sigma}_R)_{jk} \approx \frac{1 - f}{n} \left[ S_y^2 - R_j S_{y, x_j} - R_k S_{y, x_k} + R_j R_k S_{x_j, x_k} \right]$$
+
+Applying Lagrange multipliers to minimize $\mathbf{W}^\top \boldsymbol{\Sigma}_R \mathbf{W}$ subject to $\mathbf{1}^\top \mathbf{W} = 1$ yields the optimal weight vector:
+$$\mathbf{W}_{opt} = \frac{\boldsymbol{\Sigma}_R^{-1} \mathbf{1}}{\mathbf{1}^\top \boldsymbol{\Sigma}_R^{-1} \mathbf{1}}$$
+Olkin's multivariate ratio estimator extracts the joint predictive power of all $p$ auxiliary variables, achieving lower variance than any single univariate ratio estimator.
+
+### 2. The Multiple Linear Regression Estimator
+
+When the relationship between $y$ and $\mathbf{x}$ involves an intercept, the **Multiple Linear Regression Estimator** provides optimal precision.
+
+Let $\mathbf{x}_i = (x_{i1}, \dots, x_{ip})^\top$ denote the vector of auxiliary characteristics for unit $i$, and let $\bar{\mathbf{X}} = \frac{1}{N} \sum_{i=1}^N \mathbf{x}_i$ denote the vector of known population means.
+From the sample of size $n$, compute the sample means $\bar{y}$ and $\bar{\mathbf{x}}$, and compute the sample OLS slope vector:
+$$\mathbf{b} = \left[ \sum_{i \in s} (\mathbf{x}_i - \bar{\mathbf{x}})(\mathbf{x}_i - \bar{\mathbf{x}})^\top \right]^{-1} \sum_{i \in s} (\mathbf{x}_i - \bar{\mathbf{x}})(y_i - \bar{y})$$
+
+The Multiple Linear Regression Estimator of the population mean is:
+$$\bar{y}_{mlr} = \bar{y} + (\bar{\mathbf{X}} - \bar{\mathbf{x}})^\top \mathbf{b}$$
+
+To first order of approximation, the asymptotic variance of the multiple regression estimator is:
+$$V(\bar{y}_{mlr}) \approx \frac{1 - f}{n} S_y^2 (1 - R_{y \cdot x_1 \dots x_p}^2)$$
+where $R_{y \cdot x_1 \dots x_p}^2$ is the **Multiple Coefficient of Determination** (the proportion of total variance in $y$ explained by the linear combination of the $p$ auxiliary variables).
+
+Notice the immense inferential power of this result: If an investigator includes three auxiliary variables that together explain $85\%$ of the variation in $y$ ($R^2 = 0.85$), the multiple regression estimator reduces the sampling variance by an astounding **$85\%$**, cutting the required sample size by a factor of nearly 7 compared to simple random sampling!
+
+---
+
+## Multiplicative Raking (Iterative Proportional Fitting) and Relative Entropy
+
+In Section 6.5, we introduced the exponential distance function $G(u) = u \log u - u + 1$, noting that it generates **Iterative Proportional Fitting (IPF)**, commonly called **Multiplicative Raking**. Raking was invented by W. Edwards Deming and Frederick F. Stephan in 1940 to adjust cross-tabulations of census data so that marginal totals match known external census benchmarks.
+
+### Information-Theoretic Foundations
+
+The mathematical elegance of raking lies in its connection to information theory. Let $d_k$ denote the initial design weights, and let $w_k$ denote the calibrated weights.
+The **Kullback–Leibler Information Divergence** (relative entropy) from the design distribution to the calibrated distribution is defined as:
+$$I(\mathbf{w} \parallel \mathbf{d}) = \sum_{k \in s} w_k \log\left( \frac{w_k}{d_k} \right) - \sum_{k \in s} w_k + \sum_{k \in s} d_k$$
+
+Minimizing relative entropy subject to the calibration constraints $\sum_{k \in s} w_k \mathbf{x}_k = \mathbf{X}$ yields the Lagrangian:
+$$\mathcal{L}(\mathbf{w}, \boldsymbol{\lambda}) = \sum_{k \in s} \left[ w_k \log\left( \frac{w_k}{d_k} \right) - w_k + d_k \right] - \boldsymbol{\lambda}^\top \left( \sum_{k \in s} w_k \mathbf{x}_k - \mathbf{X} \right)$$
+
+Differentiating with respect to $w_k$:
+$$\frac{\partial \mathcal{L}}{\partial w_k} = \log\left( \frac{w_k}{d_k} \right) + 1 - 1 - \boldsymbol{\lambda}^\top \mathbf{x}_k = \log\left( \frac{w_k}{d_k} \right) - \boldsymbol{\lambda}^\top \mathbf{x}_k = 0$$
+Solving for $w_k$:
+$$\log\left( \frac{w_k}{d_k} \right) = \boldsymbol{\lambda}^\top \mathbf{x}_k \implies w_k = d_k \exp(\boldsymbol{\lambda}^\top \mathbf{x}_k)$$
+
+#### Why Raking Prevents Negative Weights:
+Because the exponential function $\exp(z)$ is strictly positive for all real numbers $z \in (-\infty, \infty)$:
+$$w_k = d_k \exp(\boldsymbol{\lambda}^\top \mathbf{x}_k) > 0 \quad \text{for all } k \in s$$
+Raking weights are **guaranteed to be strictly positive**! The pathology of negative weights produced by linear GREG is mathematically impossible under raking.
+
+### The Deming–Stephan Raking Algorithm for Two-Dimensional Margins
+
+Consider a survey sample cross-classified by two categorical auxiliary variables:
+- Row variable $A$ with $R$ categories (e.g., age groups).
+- Column variable $B$ with $C$ categories (e.g., educational attainment).
+
+Let $N_{r\cdot}$ denote the known population total for row category $r$ ($r = 1, \dots, R$).
+Let $N_{\cdot c}$ denote the known population total for column category $c$ ($c = 1, \dots, C$).
+Let $w_{rc}^{(0)} = \sum_{i \in s_{rc}} d_i$ denote the initial design-weighted total in cell $(r, c)$.
+
+The iterative algorithm cycles between rows and columns:
+1. **Row Step**: Adjust weights so that row totals match the row benchmarks:
+   $$w_{rc}^{(2t+1)} = w_{rc}^{(2t)} \times \left( \frac{N_{r\cdot}}{\sum_{c=1}^C w_{rc}^{(2t)}} \right)$$
+2. **Column Step**: Adjust weights so that column totals match the column benchmarks:
+   $$w_{rc}^{(2t+2)} = w_{rc}^{(2t+1)} \times \left( \frac{N_{\cdot c}}{\sum_{r=1}^R w_{rc}^{(2t+1)}} \right)$$
+3. **Iteration**: Repeat steps 1 and 2 sequentially for $t = 0, 1, 2, \dots$ until the maximum discrepancy between weighted totals and marginal benchmarks across all rows and columns is less than a tolerance $\epsilon = 10^{-6}$.
+
+Deming and Stephan (1940) and Ireland and Kullback (1968) proved that if the contingency table cells are strictly positive, the raking algorithm **converges geometrically** to the unique global minimum of the relative entropy function.
+
+---
+
+## Nonparametric Calibration and Model-Assisted Estimation
+
+In classical GREG estimation, the assistance model is strictly linear: $y_i = \mathbf{x}_i^\top \boldsymbol{\beta} + \varepsilon_i$. In environmental, ecological, and complex socioeconomic phenomena, the relationship between $y$ and $\mathbf{x}$ is frequently non-linear (e.g., agricultural crop yields saturating with fertilizer application, or energy consumption exhibiting quadratic temperature response).
+
+When the linear model is misspecified, GREG remains design-consistent, but it loses substantial efficiency. To overcome this limitation, F. Jay Breidt and Jean Opsomer (2000) formulated **Nonparametric Model-Assisted Calibration** using local polynomial smoothing.
+
+### Local Polynomial Calibration
+
+Assume the superpopulation model:
+$$y_i = m(x_i) + \varepsilon_i$$
+where $m(\cdot)$ is an unknown smooth, non-linear function, and $E_\xi(\varepsilon_i \mid x_i) = 0$.
+
+For each sampled unit $k \in s$, the non-linear curve $m(x_k)$ is estimated via kernel-weighted local polynomial regression:
+$$\hat{m}(x_k) = \mathbf{e}_1^\top \left( \mathbf{X}_{k,s}^\top \mathbf{W}_{k,s} \mathbf{X}_{k,s} \right)^{-1} \mathbf{X}_{k,s}^\top \mathbf{W}_{k,s} \mathbf{y}_s$$
+where $\mathbf{W}_{k,s} = \text{diag}\left\{ d_i K\left( \frac{x_i - x_k}{h} \right) \right\}$ is a matrix of kernel weights governed by bandwidth $h$.
+
+The nonparametric regression estimator of the population total is:
+$$\hat{Y}_{np} = \sum_{k \in U} \hat{m}(x_k) + \sum_{k \in s} d_k (y_k - \hat{m}(x_k))$$
+
+Breidt and Opsomer proved that $\hat{Y}_{np}$ is asymptotically design-unbiased for any underlying population structure, while achieving the theoretical lower bound on sampling variance when the true relationship is non-linear.
+
+---
+
 ## Practical Synthesis and Implementation Guidelines
 
 In modern survey software suites (such as R's `survey` package or Python's `samplics`), calibration weighting is the standard production step connecting raw field data to published official estimates.
