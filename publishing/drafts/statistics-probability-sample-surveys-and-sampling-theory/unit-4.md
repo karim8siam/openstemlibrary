@@ -757,6 +757,183 @@ In the empirical execution, we observe:
 
 ---
 
+---
+
+## Multistage Sampling with Unequal Cluster Sizes: Foundations and Variance Decomposition
+
+In Section 4.4, we derived the two-stage cluster sampling variance under the assumption that all $N$ primary clusters contained an identical number of observation units $M$, and that an equal number of elements $m$ was sampled from each selected cluster. In real-world demographic, agricultural, and socioeconomic surveys, clusters are natural administrative or geographical entities—villages, urban wards, schools, census enumeration areas—whose population sizes $M_i$ vary by orders of magnitude. 
+
+When cluster sizes $M_i$ vary, the statistical design must formalize both the first-stage selection of primary sampling units (PSUs) and the second-stage selection of secondary sampling units (SSUs) to maintain strict design consistency and avoid uncontrolled variance inflation.
+
+### The General Two-Stage Horvitz–Thompson Estimator
+
+Consider a finite population $U$ partitioned into $N$ primary sampling units $U_1, U_2, \dots, U_N$. PSU $i$ contains $M_i$ elements. The total number of elements in the entire finite population is:
+$$M_0 = \sum_{i=1}^N M_i$$
+Let $y_{ij}$ denote the survey measurement for element $j \in U_i$ ($j = 1, 2, \dots, M_i$).
+The total for PSU $i$ is $Y_i = \sum_{j=1}^{M_i} y_{ij}$, and the overall population total is $Y = \sum_{i=1}^N Y_i$.
+
+The two-stage sampling protocol executes as follows:
+- **Stage 1**: Select a sample $s_1$ of $n$ PSUs from $\{1, 2, \dots, N\}$ according to a probability design without replacement characterized by first-order inclusion probabilities $\pi_i$ and second-order joint inclusion probabilities $\pi_{ik}$ ($i, k = 1, \dots, N$).
+- **Stage 2**: Within each selected PSU $i \in s_1$, select an SRSWOR sample $s_{2i}$ of $m_i$ elements from the $M_i$ available units, with conditional inclusion probabilities $\pi_{j|i} = m_i / M_i$.
+
+For each selected PSU $i \in s_1$, the design-unbiased estimator of the PSU total $Y_i$ is:
+$$\hat{Y}_i = \frac{M_i}{m_i} \sum_{j \in s_{2i}} y_{ij} = M_i \bar{y}_i$$
+where $\bar{y}_i = \frac{1}{m_i} \sum_{j \in s_{2i}} y_{ij}$ is the sample mean of the elements observed in PSU $i$.
+
+The **Two-Stage Horvitz–Thompson Estimator** of the overall population total $Y$ is:
+$$\hat{Y}_{2HT} = \sum_{i \in s_1} \frac{\hat{Y}_i}{\pi_i} = \sum_{i \in s_1} \frac{M_i \bar{y}_i}{\pi_i}$$
+
+To estimate the overall population mean per element $\bar{\bar{Y}} = Y / M_0$:
+$$\hat{\bar{Y}}_{2HT} = \frac{\hat{Y}_{2HT}}{M_0} = \frac{1}{M_0} \sum_{i \in s_1} \frac{M_i \bar{y}_i}{\pi_i}$$
+
+### Proof of Strict Design Unbiasedness
+
+Using the Law of Iterated Expectation:
+$$E(\hat{Y}_{2HT}) = E_1\left[ E_2(\hat{Y}_{2HT} \mid s_1) \right]$$
+
+Conditioning on the selected primary units $s_1$:
+$$E_2(\hat{Y}_{2HT} \mid s_1) = \sum_{i \in s_1} \frac{1}{\pi_i} E_2(\hat{Y}_i \mid s_1) = \sum_{i \in s_1} \frac{1}{\pi_i} Y_i$$
+Taking the first-stage expectation over all possible selections of $s_1$:
+$$E_1\left[ \sum_{i \in s_1} \frac{Y_i}{\pi_i} \right] = \sum_{i=1}^N \pi_i \frac{Y_i}{\pi_i} = \sum_{i=1}^N Y_i = Y$$
+This proves that the two-stage Horvitz–Thompson estimator is strictly design-unbiased for any cluster sizes $M_i$ and any sub-sample sizes $m_i$.
+
+### Exact Variance Decomposition for Unequal Cluster Sizes
+
+Applying the Law of Total Variance:
+$$V(\hat{Y}_{2HT}) = V_1\left( E_2(\hat{Y}_{2HT} \mid s_1) \right) + E_1\left( V_2(\hat{Y}_{2HT} \mid s_1) \right)$$
+
+1. **First-Stage Variance Component ($V_1$)**:
+   Since $E_2(\hat{Y}_{2HT} \mid s_1) = \sum_{i \in s_1} \frac{Y_i}{\pi_i}$, this is simply the Horvitz–Thompson estimator of the total of the population of cluster totals $\{Y_1, \dots, Y_N\}$.
+   Under the Sen–Yates–Grundy formulation (for fixed $n$):
+   $$V_1 = \sum_{i=1}^N \sum_{k > i}^N (\pi_i \pi_k - \pi_{ik}) \left( \frac{Y_i}{\pi_i} - \frac{Y_k}{\pi_k} \right)^2$$
+
+2. **Second-Stage Variance Component ($E_1 V_2$)**:
+   Conditional on $s_1$, sub-sampling across different PSUs is completely independent:
+   $$V_2(\hat{Y}_{2HT} \mid s_1) = \sum_{i \in s_1} \frac{1}{\pi_i^2} V_2(\hat{Y}_i \mid s_1)$$
+   Within PSU $i$, an SRSWOR of $m_i$ elements is drawn from $M_i$ elements. The variance of the estimated total $\hat{Y}_i = M_i \bar{y}_i$ is:
+   $$V_2(\hat{Y}_i \mid s_1) = M_i^2 \left( \frac{1 - f_{2i}}{m_i} \right) S_i^2$$
+   where $f_{2i} = m_i / M_i$ and $S_i^2 = \frac{1}{M_i - 1} \sum_{j=1}^{M_i} (y_{ij} - \bar{Y}_i)^2$.
+   Substituting this into the sum:
+   $$V_2(\hat{Y}_{2HT} \mid s_1) = \sum_{i \in s_1} \frac{M_i^2}{\pi_i^2} \left( \frac{1 - f_{2i}}{m_i} \right) S_i^2$$
+
+   Taking the first-stage expectation $E_1$:
+   $$E_1\left( V_2 \right) = \sum_{i=1}^N \pi_i \left[ \frac{M_i^2}{\pi_i^2} \left( \frac{1 - f_{2i}}{m_i} \right) S_i^2 \right] = \sum_{i=1}^N \frac{M_i^2}{\pi_i} \left( \frac{1 - f_{2i}}{m_i} \right) S_i^2$$
+
+Combining both components yields the general **Two-Stage Variance Formula for Unequal Clusters**:
+$$V(\hat{Y}_{2HT}) = \sum_{i=1}^N \sum_{k > i}^N (\pi_i \pi_k - \pi_{ik}) \left( \frac{Y_i}{\pi_i} - \frac{Y_k}{\pi_k} \right)^2 + \sum_{i=1}^N \frac{M_i^2}{\pi_i} \left( \frac{1 - f_{2i}}{m_i} \right) S_i^2$$
+
+### Unbiased Sample Variance Estimation
+
+To estimate $V(\hat{Y}_{2HT})$ from empirical sample data, we apply the Sen–Yates–Grundy estimator to the first stage, substituting the estimated cluster totals $\hat{Y}_i$ for the true totals $Y_i$, and subtracting the second-stage noise that inflates the between-cluster mean square.
+
+The strictly unbiased sample variance estimator is:
+$$\hat{V}(\hat{Y}_{2HT}) = \sum_{i \in s_1} \sum_{k \in s_1, k > i} \left( \frac{\pi_i \pi_k - \pi_{ik}}{\pi_{ik}} \right) \left( \frac{\hat{Y}_i}{\pi_i} - \frac{\hat{Y}_k}{\pi_k} \right)^2 + \sum_{i \in s_1} \frac{M_i^2}{\pi_i} \left( \frac{1 - f_{2i}}{m_i} \right) s_i^2$$
+where $s_i^2 = \frac{1}{m_i - 1} \sum_{j \in s_{2i}} (y_{ij} - \bar{y}_i)^2$ is the sample variance of the elements observed in PSU $i$.
+
+When the first-stage sampling fraction is small ($\pi_i \ll 1$), the first term dominates, and the Ultimate Cluster estimator provides an extraordinarily accurate, simple approximation.
+
+---
+
+## Non-Linear Field Cost Functions and Spatial Travel Optimization
+
+In our initial investigation of optimal sample allocation (Section 4.5), survey operational costs were characterized by a linear model: $C = c_0 + n c_1 + n m c_2$. Under this simple model, the marginal cost of visiting a PSU ($c_1$) was assumed to be independent of the number of PSUs selected ($n$).
+
+In actual field operations across large geographic expanses (such as provinces, agricultural river basins, or forestry tracts), the linear travel cost assumption fails. When field interview teams travel between sampled PSUs, the distance traveled between clusters depends directly on how densely or sparsely the $n$ clusters are scattered across the geographic territory.
+
+### The Beardwood–Halton–Hammersley Spatial Travel Law
+
+In mathematical spatial optimization, the Traveling Salesman Problem (TSP) addresses the shortest closed tour connecting $n$ points distributed across a two-dimensional geographic region of surface area $A$.
+
+A landmark theorem in stochastic geometry proved by J. Beardwood, J. H. Halton, and J. M. Hammersley (1959) establishes that if $n$ points are distributed uniformly at random across a bounded region of area $A$, the minimum travel distance $D_n$ required to visit all $n$ locations satisfies:
+$$\lim_{n \to \infty} \frac{D_n}{\sqrt{n A}} = \beta_{TSP} \approx 0.712 \quad \text{almost surely}$$
+where $\beta_{TSP}$ is the universal Traveling Salesman constant for Euclidean two-dimensional space.
+
+Consequently, the total mileage or travel distance between clusters does **not** grow linearly with $n$, but scales proportionally to the square root of the number of clusters:
+$$D_{travel} \propto \sqrt{n A}$$
+
+### The Non-Linear Spatial Survey Cost Model
+
+Incorporating the Beardwood–Halton–Hammersley spatial law into survey operations yields the **Non-Linear Spatial Cost Function** (Hansen, Hurwitz, and Madow, 1953; Groves, 1989):
+$$C = c_0 + c_t \sqrt{n A} + n c_1 + n m c_2$$
+where:
+- $c_0$ is fixed administrative overhead.
+- $c_t$ is the travel cost per unit distance (fuel expenditures, vehicle maintenance, travel time wages).
+- $A$ is the total geographical area of the survey universe (in square kilometers).
+- $c_1$ is the local fixed cost per PSU (locating boundary monuments, meeting local community leaders, establishing field headquarters).
+- $c_2$ is the marginal interview cost per secondary unit (household interview time, respondent incentives).
+
+The term $c_t \sqrt{n A}$ represents the **inter-cluster travel cost**, while $n c_1 + n m c_2$ represents the **intra-cluster operational cost**.
+
+### Optimal Allocation under Spatial Travel Constraints
+
+To minimize the two-stage sampling variance $V \approx \frac{S_b^2}{n} + \frac{S_w^2}{n m}$ subject to the non-linear spatial budget constraint:
+$$C_{field} = c_t \sqrt{n A} + n (c_1 + m c_2)$$
+
+We set up the Lagrangian:
+$$\mathcal{L}(n, m, \lambda) = \left( \frac{S_b^2}{n} + \frac{S_w^2}{n m} \right) + \lambda \left[ c_t \sqrt{n A} + n (c_1 + m c_2) - C_{field} \right]$$
+
+Differentiating with respect to $m$ and $n$:
+1. With respect to $m$:
+   $$\frac{\partial \mathcal{L}}{\partial m} = -\frac{S_w^2}{n m^2} + \lambda n c_2 = 0 \implies \lambda = \frac{S_w^2}{n^2 m^2 c_2}$$
+
+2. With respect to $n$:
+   $$\frac{\partial \mathcal{L}}{\partial n} = -\frac{1}{n^2} \left( S_b^2 + \frac{S_w^2}{m} \right) + \lambda \left[ \frac{c_t \sqrt{A}}{2 \sqrt{n}} + (c_1 + m c_2) \right] = 0$$
+
+Equating the expressions for $\lambda$ and solving for $m$:
+$$m^2 = \frac{S_w^2}{S_b^2} \left[ \frac{c_1 + \frac{c_t \sqrt{A}}{2 \sqrt{n}}}{c_2} \right]$$
+
+Taking the positive square root yields the **Spatially Adjusted Optimal Sub-Sample Size**:
+$$m_{opt}(n) = \sqrt{\frac{S_w^2}{S_b^2} \left[ \frac{c_1 + \frac{c_t \sqrt{A}}{2 \sqrt{n}}}{c_2} \right]}$$
+
+#### Methodological Insights from the Spatial Formulation:
+1. **Density Dampening**: The effective cost per PSU is inflated by the spatial travel term $\frac{c_t \sqrt{A}}{2 \sqrt{n}}$. In vast, sparsely populated geographic regions (large area $A$), traveling between clusters is the dominant operational hurdle. This inflates the effective cost per PSU, forcing $m_{opt}$ upward: interview teams must conduct more interviews per cluster ($m \uparrow$) to amortize the grueling travel required to reach each isolated site.
+2. **Urban Compactness**: In compact urban environments (small area $A$), inter-cluster travel is rapid and inexpensive ($c_t \sqrt{A} \to 0$). The optimal design shifts toward sampling many compact clusters with very few interviews per cluster ($n \uparrow, m \downarrow$), which minimizes variance inflation by suppressing the intracluster correlation penalty $1 + (m - 1)\rho$.
+
+---
+
+## Variance Estimation under Systematic Cluster Sampling: Wolter's Formulations
+
+In Section 4.6, we proved that systematic sampling is formally identical to selecting a single cluster of size $n$ from $k$ systematic clusters. Because only one systematic cluster is observed, the classical textbook states that an unbiased estimator of variance does not exist without making strong modeling assumptions.
+
+In modern survey practice, however, national statistical agencies frequently deploy **Systematic Selection of Clusters** (e.g., selecting census enumeration areas systematically along a geographical serpentining path). To provide rigorous, robust standard errors for systematic designs, Kirk Wolter (2007) formalized two primary replication frameworks:
+
+### 1. The Successive Difference Replication Estimator
+
+When clusters are ordered geographically or monotonically prior to systematic selection, adjacent clusters in the sample list are physically proximate and share similar environmental and demographic characteristics. 
+
+Let $\bar{y}_1, \bar{y}_2, \dots, \bar{y}_n$ denote the sequence of sample cluster means arranged in the exact order of their systematic selection.
+The **Successive Difference Variance Estimator** is defined as:
+$$\hat{V}_{diff}(\bar{y}_{cl}) = \frac{1 - f}{2 n (n - 1)} \sum_{k=1}^{n-1} (\bar{y}_{k+1} - \bar{y}_k)^2$$
+
+#### Proof of Trend Elimination:
+Suppose the population values contain a deterministic linear trend across the ordered frame: $\bar{Y}_k = \alpha + \beta k$.
+The standard sample variance $s_b^2 = \frac{1}{n - 1} \sum (\bar{y}_k - \bar{y})^2$ is heavily inflated by the trend, since $\sum (\bar{Y}_k - \bar{Y})^2 \approx \frac{\beta^2 n^3}{12}$.
+Now evaluate the first differences:
+$$\bar{y}_{k+1} - \bar{y}_k = [\alpha + \beta(k + 1) + \varepsilon_{k+1}] - [\alpha + \beta k + \varepsilon_k] = \beta + (\varepsilon_{k+1} - \varepsilon_k)$$
+The linear trend is completely transformed into a constant intercept $\beta$, which is subtracted out in higher-order differences!
+The **Second-Order Successive Difference Estimator** removes quadratic curvature:
+$$\hat{V}_{diff2}(\bar{y}_{cl}) = \frac{1 - f}{6 n (n - 2)} \sum_{k=1}^{n-2} (\bar{y}_{k+2} - 2 \bar{y}_{k+1} + \bar{y}_k)^2$$
+Successive difference estimators protect survey standard errors against false inflation caused by spatial trends and geographic sorting.
+
+### 2. Random Group Systematic Sampling
+
+To achieve strictly unbiased variance estimation without sacrificing the operational simplicity of systematic sampling, Wolter recommended **Random Group Systematic Selection**:
+1. Instead of selecting a single systematic sample with interval $k = N / n$, the desired total sample size $n$ is divided into $R$ independent sub-samples ($R \ge 5$ or $10$), each of size $m = n / R$.
+2. The sampling interval is expanded to:
+   $$k' = \frac{N}{m} = R \frac{N}{n}$$
+3. The statistician draws $R$ independent random starts $r_1, r_2, \dots, r_R$ from $\{1, 2, \dots, k'\}$ without replacement.
+4. Each random start generates an independent systematic sample $s_r$ of size $m$, yielding $R$ independent systematic sample means $\bar{y}_1^*, \bar{y}_2^*, \dots, \bar{y}_R^*$.
+
+The overall sample mean is the simple average:
+$$\bar{\bar{y}} = \frac{1}{R} \sum_{r=1}^R \bar{y}_r^*$$
+
+The **Random Group Variance Estimator** is:
+$$\hat{V}_{RG}(\bar{\bar{y}}) = \frac{1 - f}{R(R - 1)} \sum_{r=1}^R (\bar{y}_r^* - \bar{\bar{y}})^2$$
+
+Because the $R$ random starts are drawn independently, $\hat{V}_{RG}$ is a **strictly design-unbiased estimator** of the true sampling variance! Random group systematic sampling completely resolves the non-estimability of systematic variance while preserving all the fieldwork efficiencies of systematic selection.
+
+---
+
 ## Practical Synthesis, Complex Geographies and Field Diagnostics
 
 The practical execution of cluster and multistage surveys in developing and transitional statistical systems requires rigorous field management protocols to prevent non-sampling errors from overwhelming the theoretical gains of probability sampling.
