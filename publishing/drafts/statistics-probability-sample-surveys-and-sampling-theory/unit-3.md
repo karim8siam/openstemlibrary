@@ -665,6 +665,165 @@ The variance penalty is quadratic in the relative estimation error $\frac{S_h^* 
 
 ---
 
+## Post-Stratification: Theory, Random Sample Sizes and Asymptotic Efficiency
+
+In classical stratified sampling (pre-stratification), the stratum membership of every unit in the finite population is known in advance on the sampling frame. Independent probability samples are then drawn separately within each stratum. In empirical survey practice, however, many vital demographic and socioeconomic characteristics—such as educational attainment, household income brackets, health insurance status, or voting preference—are **unobserved on the sampling frame** at the time the sample is selected. An agency cannot draw a pre-stratified sample on variables that do not exist in the frame registry.
+
+Nonetheless, external administrative sources (such as a national decennial census or high-accuracy demographic register) frequently provide the exact population counts or proportions for these strata:
+$$N_h \quad \text{and} \quad W_h = \frac{N_h}{N} \quad (h = 1, 2, \dots, L)$$
+Under these conditions, the survey statistician draws an unstratified simple random sample without replacement (SRSWOR) of size $n$ from the entire population, measures both the survey variable $y_i$ and the stratum classification variable on all $n$ respondents, and classifies the sampled units into strata post hoc. This technique is known as **Post-Stratification**.
+
+### The Post-Stratified Estimator
+
+Let $s_h$ denote the set of sampled units that happen to fall into stratum $h$, and let:
+$$n_h = \sum_{i \in s} I(i \in U_h)$$
+denote the observed sample size in stratum $h$, where $\sum_{h=1}^L n_h = n$.
+
+The sample mean within stratum $h$ is:
+$$\bar{y}_h = \frac{1}{n_h} \sum_{i \in s_h} y_i \quad (\text{defined when } n_h > 0)$$
+
+The **Post-Stratified Estimator of the Population Mean** is:
+$$\bar{y}_{post} = \sum_{h=1}^L W_h \bar{y}_h = \sum_{h=1}^L \frac{N_h}{N} \bar{y}_h$$
+
+The corresponding estimator of the population total is $\hat{Y}_{post} = N \bar{y}_{post} = \sum_{h=1}^L N_h \bar{y}_h$.
+
+### Conditional and Unconditional Moments
+
+Unlike pre-stratification where the sample sizes $n_h$ are fixed constants chosen by the statistician, in post-stratification **the sample sizes $n_h$ are random variables**. 
+The vector of sample counts $\mathbf{n} = (n_1, n_2, \dots, n_L)^\top$ follows a multivariate Hypergeometric distribution:
+$$E(n_h) = n W_h \quad \text{and} \quad V(n_h) = n W_h (1 - W_h) \left( \frac{N - n}{N - 1} \right)$$
+
+#### Conditional Unbiasedness:
+First, condition on the realized sample allocation vector $\mathbf{n} = (n_1, \dots, n_L)$, assuming $n_h \ge 1$ for all $h$:
+Conditional on $n_h$, the $n_h$ units observed in stratum $h$ represent an exact SRSWOR of size $n_h$ from the $N_h$ units of stratum $h$. Therefore:
+$$E(\bar{y}_h \mid n_h) = \bar{Y}_h \implies E(\bar{y}_{post} \mid \mathbf{n}) = \sum_{h=1}^L W_h E(\bar{y}_h \mid n_h) = \sum_{h=1}^L W_h \bar{Y}_h = \bar{Y}$$
+
+Taking the unconditional expectation over all possible sample partitions $\mathbf{n}$:
+$$E(\bar{y}_{post}) = E_{\mathbf{n}}\left[ E(\bar{y}_{post} \mid \mathbf{n}) \right] = E_{\mathbf{n}}(\bar{Y}) = \bar{Y}$$
+Thus, conditional on non-empty strata ($n_h > 0$), the post-stratified estimator is strictly design-unbiased.
+
+#### Derivation of the Exact Unconditional Variance:
+Applying the Law of Total Variance:
+$$V(\bar{y}_{post}) = V_{\mathbf{n}}\left( E(\bar{y}_{post} \mid \mathbf{n}) \right) + E_{\mathbf{n}}\left( V(\bar{y}_{post} \mid \mathbf{n}) \right)$$
+
+Because $E(\bar{y}_{post} \mid \mathbf{n}) = \bar{Y}$ is a constant independent of $\mathbf{n}$:
+$$V_{\mathbf{n}}\left( E(\bar{y}_{post} \mid \mathbf{n}) \right) = V_{\mathbf{n}}(\bar{Y}) = 0$$
+
+Therefore, the entire unconditional variance is governed by the expected conditional variance:
+$$V(\bar{y}_{post}) = E_{\mathbf{n}}\left( V(\bar{y}_{post} \mid \mathbf{n}) \right)$$
+
+Conditional on $\mathbf{n}$, sampling within different strata is independent. The conditional variance within stratum $h$ under SRSWOR is:
+$$V(\bar{y}_h \mid n_h) = \left( \frac{N_h - n_h}{N_h} \right) \frac{S_h^2}{n_h} = \left( \frac{1}{n_h} - \frac{1}{N_h} \right) S_h^2$$
+
+Summing across all $L$ strata:
+$$V(\bar{y}_{post} \mid \mathbf{n}) = \sum_{h=1}^L W_h^2 \left( \frac{1}{n_h} - \frac{1}{N_h} \right) S_h^2 = \sum_{h=1}^L \frac{W_h^2 S_h^2}{n_h} - \frac{1}{N} \sum_{h=1}^L W_h S_h^2$$
+
+Now take the expectation $E_{\mathbf{n}}$ over the distribution of $n_h$.
+We require the expectation of the reciprocal $E(1 / n_h)$.
+Using a second-order Taylor expansion around the expected value $E(n_h) = n W_h$:
+$$\frac{1}{n_h} \approx \frac{1}{n W_h} - \frac{n_h - n W_h}{(n W_h)^2} + \frac{(n_h - n W_h)^2}{(n W_h)^3}$$
+Taking expectations:
+$$E\left( \frac{1}{n_h} \right) \approx \frac{1}{n W_h} - 0 + \frac{V(n_h)}{(n W_h)^3} = \frac{1}{n W_h} + \frac{n W_h (1 - W_h)}{(n W_h)^3} = \frac{1}{n W_h} + \frac{1 - W_h}{n^2 W_h^2}$$
+
+Substitute this expectation back into the variance formula:
+$$E_{\mathbf{n}}\left( \sum_{h=1}^L \frac{W_h^2 S_h^2}{n_h} \right) \approx \sum_{h=1}^L W_h^2 S_h^2 \left[ \frac{1}{n W_h} + \frac{1 - W_h}{n^2 W_h^2} \right] = \frac{1}{n} \sum_{h=1}^L W_h S_h^2 + \frac{1}{n^2} \sum_{h=1}^L (1 - W_h) S_h^2$$
+
+Subtracting the finite-population term $\frac{1}{N} \sum W_h S_h^2$:
+$$V(\bar{y}_{post}) \approx \left( \frac{1 - f}{n} \right) \sum_{h=1}^L W_h S_h^2 + \frac{1}{n^2} \sum_{h=1}^L (1 - W_h) S_h^2$$
+
+Recall that the variance of the sample mean under **pre-stratified proportional allocation** is:
+$$V_{prop}(\bar{y}_{st}) = \left( \frac{1 - f}{n} \right) \sum_{h=1}^L W_h S_h^2$$
+
+Therefore, we arrive at the celebrated **Post-Stratification Variance Theorem**:
+$$V(\bar{y}_{post}) \approx V_{prop}(\bar{y}_{st}) + \frac{1}{n^2} \sum_{h=1}^L (1 - W_h) S_h^2$$
+
+#### Profound Methodological Significance:
+1. **The Order $O(1/n^2)$ Penalty**: The second term represents the variance penalty induced by the stochastic fluctuation in the realized sample sizes $n_h$. Notice that this penalty decays at rate $O(1/n^2)$, whereas the primary variance decays at rate $O(1/n)$.
+2. **Asymptotic Equivalence**: As sample size $n$ grows, the $O(1/n^2)$ term becomes completely negligible. In a sample of $n = 1,000$ households across $L = 5$ post-strata, the penalty accounts for less than $0.2\%$ of the total variance. 
+3. **Operational Power**: Post-stratification achieves virtually the **exact same variance reduction as proportional pre-stratification**, without requiring any pre-survey knowledge of stratum membership on the sampling frame!
+
+---
+
+## Controlled Selection: Deep Stratification Without Inflating Sample Size
+
+In large-scale survey planning, investigators often wish to stratify by multiple categorical variables simultaneously:
+- Geographic Region ($R = 8$ divisions)
+- Urban/Rural Classification ($U = 3$ levels: metropolitan, peri-urban, rural)
+- Ecological Agro-climatic Zone ($E = 5$ zones)
+- Majority Economic Activity ($A = 4$ sectors)
+
+Crossing all four categorical variables generates a multi-way stratification grid of:
+$$L = R \times U \times E \times A = 8 \times 3 \times 5 \times 4 = 480 \text{ strata}$$
+
+If classical stratified sampling is executed with the minimum requirement of $n_h \ge 2$ units per stratum to permit variance estimation, the survey would require a minimum sample of:
+$$n_{min} = 2 \times 480 = 960 \text{ Primary Sampling Units}$$
+If the total field budget allows visiting only $n = 40$ or $50$ PSUs, classical multi-way stratification collapses completely, as the number of strata ($480$) vastly exceeds the available sample size ($40$).
+
+### The Goodman–Kish Controlled Selection Framework
+
+In 1950, Roe Goodman and Leslie Kish developed **Controlled Selection**, a mathematical optimization methodology that achieves multi-way stratification when the sample size $n$ is smaller than the number of stratification cells.
+
+Let the multi-way population be represented as a two-dimensional grid of $R$ rows and $C$ columns, with known population proportions $P_{rc}$ in cell $(r, c)$ such that $\sum_{r=1}^R \sum_{c=1}^C P_{rc} = 1$.
+Given a total sample size of $n$ units, the expected sample size in cell $(r, c)$ under proportional allocation is:
+$$e_{rc} = n P_{rc}$$
+The marginal expected sample sizes for row $r$ and column $c$ are:
+$$e_{r\cdot} = \sum_{c=1}^C e_{rc} = n P_{r\cdot} \quad \text{and} \quad e_{\cdot c} = \sum_{r=1}^R e_{rc} = n P_{\cdot c}$$
+
+Because $e_{rc}$ is typically a fractional number (e.g., $e_{rc} = 0.35$ or $1.42$), an integer sample cannot allocate exactly $e_{rc}$ units to cell $(r, c)$.
+
+#### The Controlled Selection Principle:
+Controlled selection defines an integer sample pattern $\mathbf{n}_k = \{n_{rc}^{(k)}\}$ where every cell count $n_{rc}^{(k)}$ is restricted to one of the two integers adjacent to $e_{rc}$:
+$$n_{rc}^{(k)} \in \{ \lfloor e_{rc} \rfloor, \; \lfloor e_{rc} \rfloor + 1 \}$$
+and the marginal totals satisfy:
+$$n_{r\cdot}^{(k)} \in \{ \lfloor e_{r\cdot} \rfloor, \; \lfloor e_{r\cdot} \rfloor + 1 \} \quad \text{and} \quad n_{\cdot c}^{(k)} \in \{ \lfloor e_{\cdot c} \rfloor, \; \lfloor e_{\cdot c} \rfloor + 1 \}$$
+
+Goodman and Kish proved that any matrix of expected counts can be expressed as a convex linear combination of a small number of integer patterns $\mathbf{n}_1, \mathbf{n}_2, \dots, \mathbf{n}_K$ with selection probabilities $p_1, p_2, \dots, p_K$ ($\sum p_k = 1$):
+$$\sum_{k=1}^K p_k n_{rc}^{(k)} = e_{rc} = n P_{rc} \quad \text{for all } r \text{ and } c$$
+
+By drawing pattern $k$ with probability $p_k$, every individual cell and every marginal stratum achieves its exact required selection probability, providing deep multi-way stratification control without requiring sample size inflation.
+
+---
+
+## Variance Estimation with One Unit Per Stratum: The Collapsed Strata Method
+
+In many national master samples (such as the Current Population Survey or the National Health Interview Survey), methodologists form very fine strata and allocate exactly **one Primary Sampling Unit per stratum** ($n_h = 1$ for all $h = 1, \dots, L$). Selecting $n_h = 1$ maximizes geographic stratification dispersion across the nation.
+
+However, selecting $n_h = 1$ introduces a profound inferential dilemma: Because there is only one observation in stratum $h$, the sample variance:
+$$s_h^2 = \frac{1}{1 - 1} (y_{h1} - \bar{y}_h)^2 = \frac{0}{0}$$
+is mathematically undefined! An unbiased estimator of the sampling variance does not exist within the design-based framework when $n_h = 1$.
+
+### The Method of Collapsed Strata
+
+To construct valid, defensible standard errors from a single-unit-per-stratum design, Cochran (1977) and Hansen, Hurwitz, and Madow (1953) developed the **Method of Collapsed Strata**.
+
+Suppose the $L$ strata are partitioned into $G = L / 2$ pairs of adjacent, substantively similar strata (assumed here that $L$ is even).
+Let group $g \in \{1, 2, \dots, G\}$ consist of the two paired strata $g1$ and $g2$.
+From stratum $g1$, we observe sample total $\hat{Y}_{g1}$; from stratum $g2$, we observe sample total $\hat{Y}_{g2}$.
+Let $X_{g1}$ and $X_{g2}$ denote a known auxiliary measure of size (such as census population count) for the two strata.
+
+The **Collapsed Strata Variance Estimator** of the estimated total $\hat{Y} = \sum_{g=1}^G (\hat{Y}_{g1} + \hat{Y}_{g2})$ is:
+$$\hat{V}_{col}(\hat{Y}) = \sum_{g=1}^G \left( \hat{Y}_{g1} - \frac{X_{g1}}{X_{g2}} \hat{Y}_{g2} \right)^2 \left( \frac{X_{g1} + X_{g2}}{2 X_{g1}} \right)$$
+
+When the two paired strata are approximately equal in size ($X_{g1} \approx X_{g2}$), this formula simplifies to the classical pairwise squared difference:
+$$\hat{V}_{col}(\hat{Y}) = \sum_{g=1}^G (\hat{Y}_{g1} - \hat{Y}_{g2})^2$$
+
+### Expectation and Positive Conservatism
+
+Taking the design expectation of the collapsed variance estimator:
+$$E\left[ (\hat{Y}_{g1} - \hat{Y}_{g2})^2 \right] = V(\hat{Y}_{g1}) + V(\hat{Y}_{g2}) + [E(\hat{Y}_{g1}) - E(\hat{Y}_{g2})]^2 = V(\hat{Y}_{g1}) + V(\hat{Y}_{g2}) + (Y_{g1} - Y_{g2})^2$$
+
+Summing across all $G$ groups:
+$$E[\hat{V}_{col}(\hat{Y})] = \sum_{g=1}^G [V(\hat{Y}_{g1}) + V(\hat{Y}_{g2})] + \sum_{g=1}^G (Y_{g1} - Y_{g2})^2 = V(\hat{Y}) + \sum_{g=1}^G (Y_{g1} - Y_{g2})^2$$
+
+#### Crucial Theoretical Properties:
+1. **Strict Positive Conservatism**: Notice that $\sum_{g=1}^G (Y_{g1} - Y_{g2})^2 \ge 0$ is a sum of squared differences between the true stratum totals. Therefore:
+   $$E[\hat{V}_{col}(\hat{Y})] \ge V(\hat{Y})$$
+   The collapsed strata variance estimator is **guaranteed to be conservative** (it never underestimates the true variance).
+2. **Minimizing Overestimation**: To make the overestimation bias $\sum (Y_{g1} - Y_{g2})^2$ as small as possible, methodologists pair strata that are as nearly identical as possible in terms of population size, geographic proximity, and socioeconomic characteristics ($Y_{g1} \approx Y_{g2}$).
+3. **Safety for Public Policy**: In official statistics and regulatory decisions, conservative standard errors are universally preferred over anti-conservative ones: reporting slightly wider confidence intervals protects scientific conclusions against false-positive claims.
+
+---
+
 ## Practical Synthesis, Quality Diagnostics and Computational Verification
 
 The practical execution of Stratified Random Sampling requires careful safeguards against common real-world failure modes.
