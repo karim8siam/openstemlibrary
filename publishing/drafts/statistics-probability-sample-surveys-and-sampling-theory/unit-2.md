@@ -683,6 +683,81 @@ Consider a rare financial fraud audit where the hypothesized violation rate is $
 
 ---
 
+
+
+---
+
+## Inverse Sampling (Negative Hypergeometric Sampling) for Rare Attributes
+
+In conventional simple random sampling without replacement (SRSWOR), the total sample size $n$ is fixed in advance, and the number of sample units $m$ possessing a rare attribute of interest (e.g. individuals infected with an emergent pathogen, businesses committing tax fraud, or rare ecological species) is a stochastic random variable. When the true population proportion $P = M / N$ is very small (for example, $P < 0.01$ or $P < 0.001$), standard fixed-sample designs suffer from a severe risk of zero-event realizations: with high probability, the realized sample may contain zero or only one positive event ($m \le 1$). In such circumstances, the standard sample proportion $\hat{P} = m / n$ has unacceptable relative error, and the sample variance estimator $s^2 / n$ collapses, preventing the construction of meaningful confidence intervals.
+
+To resolve the catastrophic fragility of fixed-sample designs in rare-event settings, J. B. S. Haldane (1945) and D. J. Finney (1949) formulated **Inverse Sampling** (also known as Negative Hypergeometric Sampling).
+
+### The Inverse Sampling Protocol
+Instead of fixing the sample size $n$, the survey investigator predetermines a fixed target integer $m \ge 2$ of units possessing the rare attribute. Sampling proceeds sequentially without replacement, unit by unit, until exactly $m$ units possessing the rare attribute are uncovered. 
+
+Under this protocol:
+1. The number of positive units observed, $m$, is a fixed deterministic constant.
+2. The total number of units sampled, $n$, is a random variable taking integer values in the range $\{m, m + 1, \dots, N - M + m\}$.
+
+### The Negative Hypergeometric Probability Distribution
+Let $M$ denote the unknown total number of units in the population possessing the rare attribute, and $N$ denote the known total population size. Sampling terminates at step $n$ if and only if:
+1. Exactly $m - 1$ positive units were observed in the first $n - 1$ draws.
+2. The $n$-th drawn unit possesses the rare attribute.
+
+Under simple random sampling without replacement, the probability mass function of the stopping sample size $n$ is governed by the **Negative Hypergeometric Distribution**:
+$$P(n \mid M, N, m) = \frac{\binom{M}{m - 1} \binom{N - M}{(n - 1) - (m - 1)}}{\binom{N}{n - 1}} \times \frac{M - (m - 1)}{N - (n - 1)}$$
+
+Using combinatorial identities, this probability mass function simplifies to:
+$$P(n \mid M, N, m) = \frac{\binom{n - 1}{m - 1} \binom{N - n}{M - m}}{\binom{N}{M}}$$
+
+### Unbiased Estimation of the Population Proportion: Haldane's Estimator
+In a naive attempt to estimate the proportion $P = M / N$, one might consider the empirical sample fraction:
+$$\tilde{P} = \frac{m}{n}$$
+However, because $n$ appears in the denominator and is stochastic, Jensen's inequality implies:
+$$E\left( \frac{m}{n} \right) > \frac{m}{E(n)} \approx P$$
+The naive estimator $m / n$ is systematically positively biased for the true proportion!
+
+To eliminate this bias, Haldane (1945) derived the unique uniformly minimum-variance unbiased estimator (UMVUE) of the population proportion $P = M / N$:
+$$\hat{P}_{inv} = \frac{m - 1}{n - 1}$$
+
+#### Mathematical Proof of Strict Unbiasedness:
+We evaluate the expectation of $\hat{P}_{inv}$ over all possible values of $n$:
+$$E(\hat{P}_{inv}) = \sum_{n=m}^{N - M + m} \left( \frac{m - 1}{n - 1} \right) P(n \mid M, N, m)$$
+$$= \sum_{n=m}^{N - M + m} \left( \frac{m - 1}{n - 1} \right) \frac{\binom{n - 1}{m - 1} \binom{N - n}{M - m}}{\binom{N}{M}}$$
+
+Notice the cancellation between the algebraic factor and the binomial coefficient:
+$$\frac{m - 1}{n - 1} \binom{n - 1}{m - 1} = \frac{m - 1}{n - 1} \frac{(n - 1)!}{(m - 1)! (n - m)!} = \frac{(n - 2)!}{(m - 2)! (n - m)!} = \binom{n - 2}{m - 2}$$
+
+Substitute this back into the expectation sum:
+$$E(\hat{P}_{inv}) = \frac{1}{\binom{N}{M}} \sum_{n=m}^{N - M + m} \binom{n - 2}{m - 2} \binom{N - n}{M - m}$$
+
+Change index of summation by setting $k = n - 1$. As $n$ ranges from $m$ to $N - M + m$, $k$ ranges from $m - 1$ to $N - M + m - 1$:
+$$\sum_{k=m - 1}^{N - M + m - 1} \binom{k - 1}{(m - 1) - 1} \binom{(N - 1) - k}{(M - 1) - (m - 1)} = \binom{N - 1}{M - 1}$$
+by the classical Vandermonde convolution identity.
+
+Therefore:
+$$E(\hat{P}_{inv}) = \frac{\binom{N - 1}{M - 1}}{\binom{N}{M}} = \frac{\frac{(N - 1)!}{(M - 1)! (N - M)!}}{\frac{N!}{M! (N - M)!}} = \frac{M}{N} = P$$
+This proves that Haldane's estimator $\hat{P}_{inv} = \frac{m - 1}{n - 1}$ is strictly design-unbiased for any finite population size $N$ and any target count $m \ge 2$.
+
+### Unbiased Estimation of the Sampling Variance
+Finney (1949) demonstrated that the exact sampling variance of $\hat{P}_{inv}$ is:
+$$V(\hat{P}_{inv}) = \frac{P (1 - P)}{E(n - 1)} \left( 1 - \frac{E(n)}{N} \right) \approx \frac{P^2 (1 - P)}{m - 1} \left( 1 - \frac{m}{N P} \right)$$
+
+Because the true proportion $P$ is unknown, Finney derived the strictly unbiased sample estimator of variance:
+$$\hat{V}(\hat{P}_{inv}) = \frac{\hat{P}_{inv} (1 - \hat{P}_{inv})}{n - 2} \left( 1 - \frac{n - 1}{N} \right) = \frac{\left( \frac{m - 1}{n - 1} \right) \left( 1 - \frac{m - 1}{n - 1} \right)}{n - 2} \left( \frac{N - n + 1}{N} \right)$$
+
+This variance estimator is strictly non-negative and requires only that the target quota satisfies $m \ge 3$.
+
+### Practical Synthesis and Quality Guidance
+Inverse sampling provides an invaluable safeguard for public health monitoring and industrial quality inspection:
+1. **Guaranteed Precision**: The coefficient of variation of the estimate is governed entirely by the predetermined choice of $m$:
+   $$\text{CV}(\hat{P}_{inv}) \approx \frac{1}{\sqrt{m - 1}}$$
+   If the investigator desires a coefficient of variation of $20\%$, setting $m = 26$ guarantees $\text{CV} \approx 1/\sqrt{25} = 0.20$, regardless of how rare the attribute is in the population.
+2. **Budget Monitoring**: Because the sample size $n$ is stochastic, the field budget cannot be strictly predicted in advance. The expected sample size is $E(n) \approx m / P$. To avoid budget overruns when $P$ is far lower than hypothesized, agencies typically institute a truncation cap $n_{max}$: if $m$ positive cases are not encountered by draw $n_{max}$, sampling terminates, and truncated Bayesian models are deployed.
+
+---
+
 ## Practical Synthesis, Quality Diagnostics and Computational Verification
 
 The execution of Simple Random Sampling requires verified algorithmic mechanisms to ensure that the mathematical requirement of uniform sample selection is faithfully realized in computational code.

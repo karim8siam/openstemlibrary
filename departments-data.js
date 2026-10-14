@@ -1230,6 +1230,25 @@ window.LIBRARY_CATALOG = {
             "Normal and Beta Distributions",
             "Model Synthesis, Approximation and Reproducible Probability"
           ]
+        },
+        {
+          "id": "sample-surveys-and-sampling-theory",
+          "title": "Sample Surveys and Sampling Theory",
+          "subtitle": "Survey Design, Stratification, Cluster & Multistage Sampling, PPS Selection & Nonresponse",
+          "status": "AVAILABLE",
+          "url": "sample-surveys-and-sampling-theory.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering target populations, SRSWOR/SRSWR, stratified Neyman allocation, single and multistage cluster designs, PPS sampling, ratio/regression/calibration estimation, nonresponse adjustments, and complex survey inference with 24 solved questions and 4 interactive simulations.",
+          "topics": [
+            "Survey Design, Target Populations and Sampling Frames",
+            "Simple Random Sampling and Finite Population Correction",
+            "Stratified Random Sampling and Optimal Allocation",
+            "Cluster Sampling and Multistage Sampling",
+            "Unequal-Probability Designs and PPS Sampling",
+            "Ratio, Regression and Calibration Estimation",
+            "Survey Nonresponse, Imputation and Total Survey Error",
+            "Complex-Survey Inference and Replicate Variance Estimation"
+          ]
         }
       ]
     }
