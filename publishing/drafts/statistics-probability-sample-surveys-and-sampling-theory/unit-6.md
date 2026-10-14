@@ -840,6 +840,149 @@ Breidt and Opsomer proved that $\hat{Y}_{np}$ is asymptotically design-unbiased 
 
 ---
 
+## The Generalized Regression (GREG) Estimator Under Complex Multistage Designs
+
+In Section 6.5, we derived the Generalized Regression Estimator (GREG) under single-stage sampling with arbitrary inclusion probabilities. In large-scale national surveys, the sampling design is virtually always a stratified multistage clustered design. Establishing how GREG behaves in the presence of hierarchical clustering, stratification, and multi-stage inclusion weights is essential for modern survey practice.
+
+### The Hierarchical GREG Formulation
+
+Consider a population partitioned into $H$ strata. In stratum $h$, there are $N_h$ Primary Sampling Units (PSUs), and PSU $(h, i)$ contains $M_{hi}$ secondary units.
+Let $w_{hij}$ denote the base design weight of observation unit $j$ within PSU $i$ of stratum $h$:
+$$w_{hij} = \frac{1}{\pi_{hi}} \times \frac{1}{\pi_{j|hi}}$$
+where $\pi_{hi}$ is the first-stage inclusion probability of the PSU and $\pi_{j|hi}$ is the second-stage conditional inclusion probability.
+
+Associated with each observation unit is a $p$-dimensional vector of auxiliary benchmark variables:
+$$\mathbf{x}_{hij} = (x_{hij, 1}, x_{hij, 2}, \dots, x_{hij, p})^\top$$
+The true population total vector is known from external censuses or administrative registers:
+$$\mathbf{X} = \sum_{h=1}^H \sum_{i=1}^{N_h} \sum_{j=1}^{M_{hi}} \mathbf{x}_{hij}$$
+
+Let $\hat{\mathbf{X}}_\pi$ denote the uncalibrated Horvitz–Thompson estimator of the auxiliary totals:
+$$\hat{\mathbf{X}}_\pi = \sum_{h=1}^H \sum_{i=1}^{n_h} \sum_{j=1}^{m_{hi}} w_{hij} \mathbf{x}_{hij}$$
+
+We specify a linear assisting model:
+$$y_{hij} = \mathbf{x}_{hij}^\top \boldsymbol{\beta} + \varepsilon_{hij} \quad \text{with} \quad E_\xi(\varepsilon_{hij} \mid \mathbf{x}_{hij}) = 0, \quad V_\xi(\varepsilon_{hij} \mid \mathbf{x}_{hij}) = \sigma^2 q_{hij}$$
+where $q_{hij} > 0$ are known heteroscedasticity weights.
+
+The design-weighted generalized least-squares estimator of the regression parameter vector $\boldsymbol{\beta}$ is:
+$$\hat{\mathbf{B}} = \left( \sum_{h=1}^H \sum_{i=1}^{n_h} \sum_{j=1}^{m_{hi}} w_{hij} q_{hij} \mathbf{x}_{hij} \mathbf{x}_{hij}^\top \right)^{-1} \sum_{h=1}^H \sum_{i=1}^{n_h} \sum_{j=1}^{m_{hi}} w_{hij} q_{hij} \mathbf{x}_{hij} y_{hij}$$
+
+The **Complex GREG Estimator of the Population Total** is:
+$$\hat{Y}_{GREG} = \hat{Y}_\pi + (\mathbf{X} - \hat{\mathbf{X}}_\pi)^\top \hat{\mathbf{B}}$$
+where $\hat{Y}_\pi = \sum_{h,i,j} w_{hij} y_{hij}$.
+
+### The Calibrated $g$-Weights
+
+A remarkable feature of the GREG estimator is that it can be expressed directly as a weighted sum of the observed survey values:
+$$\hat{Y}_{GREG} = \sum_{h=1}^H \sum_{i=1}^{n_h} \sum_{j=1}^{m_{hi}} w_{hij}^* y_{hij}$$
+where $w_{hij}^*$ is the **calibrated analytic weight**:
+$$w_{hij}^* = w_{hij} \times g_{hij}$$
+and the calibration adjustment factor (or $g$-factor) for unit $(h, i, j)$ is:
+$$g_{hij} = 1 + (\mathbf{X} - \hat{\mathbf{X}}_\pi)^\top \left( \sum_{h'=1}^H \sum_{i'=1}^{n_{h'}} \sum_{j'=1}^{m_{h'i'}} w_{h'i'j'} q_{h'i'j'} \mathbf{x}_{h'i'j'} \mathbf{x}_{h'i'j'}^\top \right)^{-1} q_{hij} \mathbf{x}_{hij}$$
+
+#### Fundamental Invariance Property:
+When the calibrated weights $w_{hij}^*$ are applied to the auxiliary vector $\mathbf{x}_{hij}$, they reproduce the known benchmark totals exactly:
+$$\sum_{h=1}^H \sum_{i=1}^{n_h} \sum_{j=1}^{m_{hi}} w_{hij}^* \mathbf{x}_{hij} = \mathbf{X}$$
+This mathematical guarantee holds for any complex multistage design, ensuring that published survey tables match external demographic census totals across all benchmark margins.
+
+### Design-Consistent Variance Estimation Using Linearized Residuals
+
+To evaluate the sampling variance of $\hat{Y}_{GREG}$ under the complex multistage design, we compute the sample regression residuals:
+$$e_{hij} = y_{hij} - \mathbf{x}_{hij}^\top \hat{\mathbf{B}}$$
+
+Under the Ultimate Cluster principle, the design variance of $\hat{Y}_{GREG}$ is computed directly by aggregating the weighted residuals at the Primary Sampling Unit level:
+$$e_{hi}^* = \sum_{j=1}^{m_{hi}} w_{hij}^* e_{hij} = \sum_{j=1}^{m_{hi}} w_{hij} g_{hij} (y_{hij} - \mathbf{x}_{hij}^\top \hat{\mathbf{B}})$$
+
+The mean weighted residual per PSU in stratum $h$ is:
+$$\bar{e}_h^* = \frac{1}{n_h} \sum_{i=1}^{n_h} e_{hi}^*$$
+
+The design-consistent **$g$-Weighted Residual Variance Estimator** is:
+$$\hat{V}(\hat{Y}_{GREG}) = \sum_{h=1}^H \frac{n_h}{n_h - 1} \sum_{i=1}^{n_h} (e_{hi}^* - \bar{e}_h^*)^2$$
+
+Notice the inclusion of the $g$-factor inside $e_{hi}^* = \sum w_{hij} g_{hij} e_{hij}$: Särndal, Swensson, and Wretman (1992) proved that incorporating $g_{hij}$ into the residual variance estimator accounts for the conditional variance of the estimator given the realized auxiliary sample mean, delivering superior confidence interval coverage in moderately sized samples.
+
+---
+
+## Ridge Calibration and Ill-Conditioned Benchmarking Systems
+
+A recurring operational hazard in complex survey calibration occurs when the auxiliary vector $\mathbf{x}$ contains a large number of categorical indicator variables crossing multiple demographic dimensions (e.g., age, sex, education, marital status, race, and geographic district). 
+
+When some demographic cross-classification cells in the sample are sparsely populated or collinear, the sample cross-product matrix:
+$$\hat{\mathbf{T}}_{xx} = \sum_{k \in s} d_k q_k \mathbf{x}_k \mathbf{x}_k^\top$$
+becomes **ill-conditioned** (its condition number explodes, and its determinant approaches zero).
+
+Under standard linear GREG calibration, inverting an ill-conditioned matrix $\hat{\mathbf{T}}_{xx}$ causes the Lagrange multipliers $\boldsymbol{\lambda}$ to take extreme values. Consequently:
+- Many calibrated weights $w_k^*$ become **negative** ($w_k^* < 0$), which violates physical reality.
+- Other weights become massive outliers (e.g., $w_k^* / d_k > 50$), inflating sampling variance and destabilizing domain estimates.
+
+### The Ridge Calibration Formulation
+
+To resolve ill-conditioning without dropping essential demographic benchmarks, P. Bardsley and R. L. Chambers (1984) and Raymond Chambers (1996) formulated **Ridge Calibration**.
+
+In ridge calibration, the statistician recognizes that satisfying calibration equations with absolute mathematical perfection on noisy sample data is sub-optimal. Instead, the calibration problem is relaxed into a penalized optimization problem that balances two competing objectives:
+1. Minimizing the distance between the calibrated weights $w_k$ and the design weights $d_k$.
+2. Minimizing a weighted quadratic penalty on the **calibration discrepancy** $\mathbf{C} = \sum_{k \in s} w_k \mathbf{x}_k - \mathbf{X}$.
+
+Mathematically, ridge calibration solves:
+$$\min_{\{w_k\}_{k \in s}} \sum_{k \in s} \frac{d_k}{2 q_k} \left( \frac{w_k}{d_k} - 1 \right)^2 + \frac{1}{2 \lambda_{ridge}} \left( \sum_{k \in s} w_k \mathbf{x}_k - \mathbf{X} \right)^\top \mathbf{C}^{-1} \left( \sum_{k \in s} w_k \mathbf{x}_k - \mathbf{X} \right)$$
+where:
+- $\lambda_{ridge} > 0$ is a scalar ridge tuning parameter governing the penalty weight.
+- $\mathbf{C}$ is a diagonal cost matrix specifying the relative importance of matching specific benchmarks (e.g., total population count must match tightly, while a detailed age-by-education interaction can tolerate a minor discrepancy).
+
+### The Closed-Form Ridge Weight Formula
+
+Differentiating the penalized objective function with respect to $w_k$ and setting to zero yields the exact **Ridge Calibration Weight Formula**:
+$$\mathbf{w}_{ridge} = \mathbf{d} + \mathbf{D} \mathbf{Q} \mathbf{X}_s^\top \left( \mathbf{X}_s \mathbf{D} \mathbf{Q} \mathbf{X}_s^\top + \lambda_{ridge} \mathbf{C} \right)^{-1} (\mathbf{X} - \mathbf{X}_s \mathbf{d})$$
+where:
+- $\mathbf{d} = (d_1, \dots, d_n)^\top$ is the vector of initial design weights, and $\mathbf{D} = \text{diag}(\mathbf{d})$.
+- $\mathbf{Q} = \text{diag}(q_1, \dots, q_n)$ is the diagonal matrix of model variance weights.
+- $\mathbf{X}_s$ is the $p \times n$ matrix of sample auxiliary values.
+
+#### The Magic of the Ridge Regularizer:
+Notice what happens algebraically inside the inverted matrix:
+$$\mathbf{X}_s \mathbf{D} \mathbf{Q} \mathbf{X}_s^\top + \lambda_{ridge} \mathbf{C}$$
+The addition of the diagonal ridge term $\lambda_{ridge} \mathbf{C}$ guarantees that the eigenvalues of the matrix are bounded strictly away from zero!
+- Even if $\mathbf{X}_s \mathbf{D} \mathbf{Q} \mathbf{X}_s^\top$ is strictly singular or severely ill-conditioned, the regularized matrix is **strictly positive definite and easily invertible**.
+- The tuning parameter $\lambda_{ridge}$ pulls extreme weights back toward the initial design weights $d_k$, completely eliminating negative weights and extreme leverage outliers.
+- By accepting a tiny, negligible calibration discrepancy on collinear margins, ridge calibration achieves a **massive reduction in sampling variance**, producing stable, robust weights across all survey indicators.
+
+---
+
+## The Double Ratio Estimator and Economic Elasticity Inference
+
+In agricultural economics, consumer price monitoring, and longitudinal health research, the parameter of interest is frequently not a simple ratio $R = Y / X$, but a **ratio of two ratios**—known as the **Double Ratio Estimator**.
+
+### The Double Ratio Architecture
+
+Consider a two-wave longitudinal inquiry or an economic index comparing two market sectors. 
+Let:
+- $\hat{R}_1 = \bar{y}_1 / \bar{x}_1$ denote the estimated ratio in Sector 1 (e.g., crop yield per hectare in Province 1).
+- $\hat{R}_2 = \bar{y}_2 / \bar{x}_2$ denote the estimated ratio in Sector 2 (e.g., crop yield per hectare in Province 2).
+
+The target parameter is the **Relative Comparative Efficiency**:
+$$\theta = \frac{R_1}{R_2} = \frac{\bar{Y}_1 / \bar{X}_1}{\bar{Y}_2 / \bar{X}_2}$$
+
+The sample estimator is:
+$$\hat{\theta} = \frac{\hat{R}_1}{\hat{R}_2} = \frac{\bar{y}_1 / \bar{x}_1}{\bar{y}_2 / \bar{x}_2} = \frac{\bar{y}_1 \bar{x}_2}{\bar{x}_1 \bar{y}_2}$$
+
+### Taylor Series Linearization of the Double Ratio
+
+To derive the sampling variance of $\hat{\theta}$, we express $\log \hat{\theta}$ in terms of the four sample means:
+$$\log \hat{\theta} = \log \bar{y}_1 - \log \bar{x}_1 - \log \bar{y}_2 + \log \bar{x}_2$$
+
+Taking differential variations:
+$$\frac{d\hat{\theta}}{\theta} \approx \frac{d\bar{y}_1}{\bar{Y}_1} - \frac{d\bar{x}_1}{\bar{X}_1} - \frac{d\bar{y}_2}{\bar{Y}_2} + \frac{d\bar{x}_2}{\bar{X}_2}$$
+
+Squaring both sides and taking design expectations yields the asymptotic relative variance:
+$$\frac{V(\hat{\theta})}{\theta^2} \approx \frac{V(\hat{R}_1)}{R_1^2} + \frac{V(\hat{R}_2)}{R_2^2} - 2 \frac{\text{Cov}(\hat{R}_1, \hat{R}_2)}{R_1 R_2}$$
+
+Substituting the Taylor expansions for the individual ratios:
+$$\frac{V(\hat{\theta})}{\theta^2} \approx \left( \frac{1 - f}{n} \right) \left[ \left( C_{y1}^2 + C_{x1}^2 - 2 \rho_{y1, x1} C_{y1} C_{x1} \right) + \left( C_{y2}^2 + C_{x2}^2 - 2 \rho_{y2, x2} C_{y2} C_{x2} \right) - 2 \left( \rho_{y1, y2} C_{y1} C_{y2} + \rho_{x1, x2} C_{x1} C_{x2} - \rho_{y1, x2} C_{y1} C_{x2} - \rho_{x1, y2} C_{x1} C_{y2} \right) \right]$$
+
+#### Methodological Interpretation:
+When Sector 1 and Sector 2 share common macro-environmental conditions, the covariance between the two ratios $\text{Cov}(\hat{R}_1, \hat{R}_2)$ is strongly positive. The subtraction of this positive covariance in the double ratio variance formula results in **substantial variance cancellation**, allowing economists to measure relative efficiency shifts and price elasticities with extraordinary empirical precision.
+
+---
+
 ## Practical Synthesis and Implementation Guidelines
 
 In modern survey software suites (such as R's `survey` package or Python's `samplics`), calibration weighting is the standard production step connecting raw field data to published official estimates.
