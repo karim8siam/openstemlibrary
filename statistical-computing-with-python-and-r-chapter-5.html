@@ -1,0 +1,2187 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Random Number Generation, Pseudo-Random Streams, Inversion/Rejection Sampling, and Monte Carlo Integration | Statistical Computing with Python and R | OpenSTEM Library</title>
+  <meta name="description" content="Pseudo-random number generation: LCG, Mersenne Twister (MT19937), PCG, and spectral tests; Non-uniform sampling: Inverse Transform method, Box-Muller transform, Marsaglia polar method; Acceptance-Rejection Sampling: envelope condition, optimal majorizing constant c, and acceptance rates; Monte Carlo Integration: standard error decay, Antithetic Variates, and Control Variates; Importance Sampling: choice of instrumental density, weight degeneration, and effective sample size.">
+  
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/statistical-computing-with-python-and-r-chapter-5">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/statistical-computing-with-python-and-r-chapter-5">
+  <meta property="og:title" content="Statistical Computing with Python and R: Memory Models, Linear Algebra, Monte Carlo, Resampling &amp; Optimization | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering NumPy/R memory models, tabular wrangling, Grammar of Graphics, numerical linear algebra &amp; floating point, Monte Carlo &amp; MCMC, resampling &amp; bootstrap, numerical optimization, and reproducible statistical pipelines with 24 solved questions and 4 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Statistical Computing with Python and R: Memory Models, Linear Algebra, Monte Carlo, Resampling &amp; Optimization | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering NumPy/R memory models, tabular wrangling, Grammar of Graphics, numerical linear algebra &amp; floating point, Monte Carlo &amp; MCMC, resampling &amp; bootstrap, numerical optimization, and reproducible statistical pipelines with 24 solved questions and 4 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+  
+
+  
+  <!-- Schema.org Breadcrumb Navigation -->
+  
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261013_math_comparisons_v1">
+  <!-- Google AdSense Official Script -->
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4546869673631824" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="statistical-computing-with-python-and-r.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Statistical Computing with Python and R: Random Number Generation, Pseudo-Random Streams, Inversion/Rejection Sampling, and Monte Carlo Integration","description":"Comprehensive university textbook covering NumPy/R memory models, tabular wrangling, Grammar of Graphics, numerical linear algebra & floating point, Monte Carlo & MCMC, resampling & bootstrap, numerical optimization, and reproducible statistical pipelines with 24 solved questions and 4 interactive simulations.","url":"https://openstemlibrary.com/statistical-computing-with-python-and-r-chapter-5","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Statistical computing","NumPy and R memory models","Tabular data wrangling","Grammar of graphics","Numerical linear algebra","Monte Carlo methods","Markov chain Monte Carlo","Bootstrap and resampling","Numerical optimization"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Statistical Computing with Python and R","item":"https://openstemlibrary.com/statistical-computing-with-python-and-r"}]}</script></head>
+<body data-book-path="statistical-computing-with-python-and-r.html" data-chapter-index="4">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Statistical Computing with Python and R</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search memory strides, hash joins, ggplot2 grammar, SVD, rejection sampling, MCMC, bootstrap, Nelder-Mead…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="statistical-computing-with-python-and-r" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Programming Foundations for Statistical Data: Object Models, Vectors, Data Frames, and Memory Structures in Python and R</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="statistical-computing-with-python-and-r-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Data Wrangling, Tabular Transformation, Relational Joins, and Missing-Data Processing</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="statistical-computing-with-python-and-r-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Statistical Graphics, Grammar of Graphics, Exploratory Data Analysis, and Diagnostic Visualizations</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="statistical-computing-with-python-and-r-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Numerical Linear Algebra, Floating-Point Arithmetic, QR/SVD Decompositions, and Matrix Computations</span></a></li><li class="unit-nav-item active" data-unit-index="4"><a href="statistical-computing-with-python-and-r-chapter-5" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Random Number Generation, Pseudo-Random Streams, Inversion/Rejection Sampling, and Monte Carlo Integration</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="statistical-computing-with-python-and-r-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Resampling Methods: Nonparametric Bootstrap, Jackknife, Permutation Tests, and Cross-Validation</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="statistical-computing-with-python-and-r-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Numerical Optimization in Statistics: Newton–Raphson, Fisher Scoring, Nelder–Mead, and the EM Algorithm</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="statistical-computing-with-python-and-r-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Statistical Modeling Workflows, Formula Syntaxes, Reproducible Research, and Cross-Language Pipelines</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Statistical computing major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">
+            🔒 <span>In-Browser Protected • Direct Download Disabled</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 5 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Random Number Generation, Pseudo-Random Streams, Inversion/Rejection Sampling, and Monte Carlo Integration</h1>
+            <p class="unit-desc-lead" id="unit-desc">Pseudo-random number generation: LCG, Mersenne Twister (MT19937), PCG, and spectral tests; Non-uniform sampling: Inverse Transform method, Box-Muller transform, Marsaglia polar method; Acceptance-Rejection Sampling: envelope condition, optimal majorizing constant c, and acceptance rates; Monte Carlo Integration: standard error decay, Antithetic Variates, and Control Variates; Importance Sampling: choice of instrumental density, weight degeneration, and effective sample size.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-108, Stat H-209, Stat H-310, and Stat H-311. Eight units and exactly three solved questions per unit. Interactive simulations illustrate core computational algorithms. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-5-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.1</span>
+            <span>Pseudo-Random Number Generation: LCGs, Mersenne Twister, PCG, and Spectral Lattice Tests</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In statistical simulation, Bayesian computation (MCMC), resampling methods (bootstrap, permutation tests), and stochastic optimization, algorithms require an inexhaustible supply of independent and identically distributed (i.i.d.) random variables drawn from the standard continuous uniform distribution:</p>
+
+<div class="math-display">$$U \sim \text{Uniform}(0, 1)$$</div>
+
+<p>However, a digital computer is a deterministic finite-state automaton. A deterministic machine cannot produce genuine physical randomness through purely algorithmic instructions. Instead, computational statistics relies on <strong>Pseudo-Random Number Generators (PRNGs)</strong>: deterministic mathematical recurrences that produce long sequences of numbers whose empirical statistical properties are indistinguishable from genuine stochastic white noise.</p>
+
+<h4>Linear Congruential Generators (LCGs) and Marsaglia's Lattice Theorem</h4>
+
+<p>The historical foundation of PRNG design is the <strong>Linear Congruential Generator (LCG)</strong>, introduced by D. H. Lehmer in 1949.</p>
+
+<p>An LCG produces a deterministic sequence of non-negative integers $X_0, X_1, X_2, \dots$ according to the first-order affine recurrence modulo $m$:</p>
+
+<div class="math-display">$$X_{n+1} = (a X_n + c) \pmod m$$</div>
+
+<p>where:</p>
+
+<ul>
+
+  <li>$m &gt; 0$ is the <strong>modulus</strong> (defining the state space and maximum possible period).</li>
+
+  <li>$a \in (0, m)$ is the <strong>multiplier</strong>.</li>
+
+  <li>$c \in [0, m)$ is the <strong>increment</strong> (if $c = 0$, the generator is termed a multiplicative congruential generator).</li>
+
+  <li>$X_0 \in [0, m)$ is the <strong>seed (initial state)</strong>.</li>
+
+</ul>
+
+<p>To map the integer state $X_n$ into the standard continuous unit interval $(0, 1)$, the output is normalized:</p>
+
+<div class="math-display">$$U_n = \frac{X_n}{m}$$</div>
+
+<h5>The Hull–Dobell Theorem for Maximal Period:</h5>
+
+<p>By the <strong>Hull–Dobell Theorem</strong> (1962), an LCG achieves its maximum theoretical period length of $P = m$ if and only if:</p>
+
+<ol>
+
+  <li>$c$ and $m$ are relatively prime ($\gcd(c, m) = 1$).</li>
+
+  <li>Every prime factor of $m$ divides $a - 1$ (i.e. if $p \mid m$, then $a \equiv 1 \pmod p$).</li>
+
+  <li>If $4$ divides $m$, then $4$ must also divide $a - 1$ ($a \equiv 1 \pmod 4$).</li>
+
+</ol>
+
+<h5>Marsaglia's Theorem: "Random Numbers Fall Mainly in the Planes"</h5>
+
+<p>Despite their historical popularity and computational simplicity (requiring only one integer multiplication, addition, and bitmask modulo), LCGs suffer from a fatal structural defect discovered by George Marsaglia in 1968.</p>
+
+<p>When consecutive pseudo-random variates generated by an LCG are grouped into $d$-dimensional coordinate vectors:</p>
+
+<div class="math-display">$$\mathbf{P}_n = (U_n, U_{n+1}, \dots, U_{n+d-1}) \in [0, 1)^d$$</div>
+
+<p>the points do <strong>not</strong> scatter uniformly across the $d$-dimensional hypercube. Instead, Marsaglia proved that all points fall entirely upon a small set of parallel hyperplanes!</p>
+
+<p>The maximum number of parallel hyperplanes $H$ in dimension $d$ is bounded by:</p>
+
+<div class="math-display">$$H \le (d! \cdot m)^{1/d}$$</div>
+
+<p>For example, in the infamous IBM mainframe generator <strong>RANDU</strong> ($m = 2^{31}, a = 65539 = 2^{16} + 3, c = 0$):</p>
+
+<ul>
+
+  <li>In dimension $d = 3$, all points fall on merely <strong>15 parallel planes</strong>!</li>
+
+</ul>
+
+<p>If a researcher simulates a 3D physical particle system or fits a 3-variable spatial Monte Carlo model using RANDU, vast empty regions of the unit cube are never visited, introducing severe systematic bias into simulation findings.</p>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>Marsaglia Lattice Defect (Points Falling on Hyperplanes in d=2):
+  1.0 +-----------------------------------+
+      | /     /     /     /     /     /   |
+      |/     /     /     /     /     /    |
+      |     /     /     /     /     /     |
+      |    /     /     /     /     /      |
+  0.0 +-----------------------------------+
+      0.0                                1.0</code></pre>
+
+<h4>The Mersenne Twister (MT19937)</h4>
+
+<p>To eliminate the low-dimensional lattice defects of LCGs, Makoto Matsumoto and Takuji Nishimura developed the <strong>Mersenne Twister (MT19937)</strong> in 1997. For over two decades, MT19937 served as the default PRNG in R, Python (`random`), MATLAB, and GNU C++.</p>
+
+<h5>Core Architectural Mechanics:</h5>
+
+<h4>1. Mersenne Prime Period:</h4>
+
+<p>The state space of MT19937 consists of an array of 624 32-bit integers ($624 \times 32 = 19,937$ bits). It is based on a linear feedback shift register operating over the Galois field $\mathbb{F}_2$. Its period is the astronomical Mersenne prime:</p>
+
+<div class="math-display">$$P = 2^{19937} - 1 \approx 4.3 \times 10^{6001}$$</div>
+
+<p>This period is so vast that it will never repeat across the lifetime of the universe.</p>
+
+<h4>2. High-Dimensional Equidistribution:</h4>
+
+<p>MT19937 guarantees uniform distribution of points up to dimension <strong>$d = 623$</strong> with 32-bit accuracy, completely eliminating Marsaglia hyperplane clustering.</p>
+
+<h4>3. Tempering Matrix:</h4>
+
+<p>Before returning a 32-bit word, the raw linear state vector is transformed by an invertible bitwise tempering matrix (bitwise XOR and bit shifts with magic constants) to optimize spectral uniformity.</p>
+
+<h5>Limitations of MT19937:</h5>
+
+<p>Despite its excellence for classical statistics, MT19937 exhibits three notable shortcomings:</p>
+
+<ul>
+
+  <li><strong>Large State Footprint</strong>: At 2,496 bytes of internal state, it can thrash CPU L1 data caches when thousands of parallel simulation streams are maintained simultaneously.</li>
+
+  <li><strong>Slow Recovery from Zero-Excess States</strong>: If the state buffer is initialized with a preponderance of binary zeros, MT19937 can require hundreds of thousands of output steps before returning to optimal statistical randomness.</li>
+
+  <li><strong>Predictability</strong>: It is not cryptographically secure. Observing 624 consecutive 32-bit outputs allows an adversary to reconstruct the internal state matrix completely and predict all future draws.</li>
+
+</ul>
+
+<h4>Modern State-of-the-Art: The PCG Family</h4>
+
+<p>In 2014, computer scientist Melissa O'Neill introduced the <strong>Permuted Congruential Generator (PCG)</strong> family. Modern versions of NumPy (v1.17+) replaced MT19937 with PCG64 (`numpy.random.Generator(PCG64())`) as the default engine.</p>
+
+<p>PCG combines the maximal period and mathematical simplicity of linear congruential recurrences with a non-linear, cryptographically inspired <strong>output permutation function</strong>:</p>
+
+<ul>
+
+  <li><strong>State Transition</strong>: A 128-bit LCG state transition guarantees maximal period ($2^{128}$) and supports $2^{63}$ independent streams via distinct increment constants $c$.</li>
+
+  <li><strong>Output Permutation (XSH-RR)</strong>: Bitwise XorShift followed by random rotation maps the 128-bit state to a 64-bit output:</li>
+
+</ul>
+
+<div class="math-display">$$x = \text{state} \oplus (\text{state} \gg 18)$$</div>
+
+<div class="math-display">$$\text{output} = \text{rotr32}(x \gg 27, \, \text{state} \gg 59)$$</div>
+
+<p>PCG passes the most rigorous empirical test suites—including <strong>TestU01 BigCrush</strong> and <strong>PractRand</strong>—while occupying only 16 bytes of memory and executing significantly faster than MT19937 on modern 64-bit microprocessors.</p>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.2</span>
+            <span>Non-Uniform Random Variate Generation: Inverse Transform and Box–Muller Methods</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Once a reliable stream of uniform variates $U \sim \text{Uniform}(0, 1)$ is established, computational statistics requires transformations to generate random variables from arbitrary continuous and discrete target probability distributions (Gaussian, Exponential, Gamma, Beta, Poisson).</p>
+
+<h4>The Probability Integral Transform and the Inversion Method</h4>
+
+<p>The most general and mathematically elegant method for generating non-uniform random variates is the <strong>Inverse Transform Method</strong>, founded upon the <strong>Probability Integral Transform</strong>.</p>
+
+<h5>The Fundamental Theorem:</h5>
+
+<p>Let $X$ be a continuous random variable with strictly increasing cumulative distribution function (CDF) $F(x) = \mathbb{P}(X \le x)$. Define the generalized inverse (quantile function):</p>
+
+<div class="math-display">$$F^{-1}(u) = \inf \{ x : F(x) \ge u \}, \quad u \in (0, 1)$$</div>
+
+<p>If $U \sim \text{Uniform}(0, 1)$, then the transformed random variable:</p>
+
+<div class="math-display">$$X = F^{-1}(U)$$</div>
+
+<p>follows the exact distribution $F(x)$.</p>
+
+<h5>Mathematical Proof:</h5>
+
+<p>For any $x \in \mathbb{R}$:</p>
+
+<div class="math-display">$$\mathbb{P}(X \le x) = \mathbb{P}(F^{-1}(U) \le x)$$</div>
+
+<p>Because $F(x)$ is non-decreasing, the event $\{F^{-1}(U) \le x\}$ is identical to the event $\{U \le F(x)\}$:</p>
+
+<div class="math-display">$$\mathbb{P}(F^{-1}(U) \le x) = \mathbb{P}(U \le F(x))$$</div>
+
+<p>Since $U$ is uniformly distributed on $(0, 1)$, $\mathbb{P}(U \le u) = u$ for all $u \in [0, 1]$. Setting $u = F(x)$:</p>
+
+<div class="math-display">$$\mathbb{P}(U \le F(x)) = F(x)$$</div>
+
+<p>Therefore, $\mathbb{P}(X \le x) = F(x)$, proving that $X$ has CDF $F(x)$.</p>
+
+<h5>Example: Exponential Random Variate Generation</h5>
+
+<p>The Exponential distribution with rate parameter $\lambda &gt; 0$ has CDF:</p>
+
+<div class="math-display">$$F(x) = 1 - e^{-\lambda x}, \quad x \ge 0$$</div>
+
+<p>To find the quantile function, invert the equation $u = 1 - e^{-\lambda x}$:</p>
+
+<div class="math-display">$$e^{-\lambda x} = 1 - u \implies -\lambda x = \ln(1 - u) \implies x = -\frac{1}{\lambda} \ln(1 - u)$$</div>
+
+<p>Because $U \sim \text{Uniform}(0, 1)$ implies that $1 - U \stackrel{d}{=} U$, we can generate exponential variates via:</p>
+
+<div class="math-display">$$X = -\frac{1}{\lambda} \ln(U)$$</div>
+
+<h5>Discrete Inversion and the Walker Alias Method</h5>
+
+<p>For discrete distributions taking values $k \in \{1, \dots, K\}$ with probabilities $p_k$, inversion evaluates $\sum_{j=1}^{k-1} p_j &lt; U \le \sum_{j=1}^k p_j$. Naive linear search requires $\mathcal{O}(K)$ comparisons per variate. Binary search reduces this to $\mathcal{O}(\log K)$.</p>
+
+<p>For high-throughput discrete sampling from static distributions, Alastair Walker (1977) formulated the <strong>Alias Method</strong>. The alias method decomposes any $K$-category discrete distribution into an equal mixture of $K$ two-point distributions in $\mathcal{O}(K)$ setup time. Once constructed, generating each discrete random variate requires only <strong>one uniform draw and one table lookup, executing in strictly $\mathcal{O}(1)$ constant time</strong>!</p>
+
+<h4>The Box–Muller Transform for Bivariate Normal Generation</h4>
+
+<p>While the inverse transform method is universal, inverting the Gaussian CDF $\Phi(x)$ requires evaluating the non-elementary error function ($\text{erf}$), which involves numerical polynomial approximations.</p>
+
+<p>In 1958, George Box and Mervin Muller derived an exact, closed-form algebraic transformation to generate independent standard normal variates in pairs.</p>
+
+<h5>The Box–Muller Equations:</h5>
+
+<p>Let $U_1, U_2 \sim \text{i.i.d. Uniform}(0, 1)$. Define two transformed variables:</p>
+
+<div class="math-display">$$Z_1 = \sqrt{-2 \ln U_1} \cos(2\pi U_2)$$</div>
+
+<div class="math-display">$$Z_2 = \sqrt{-2 \ln U_1} \sin(2\pi U_2)$$</div>
+
+<p>Then $Z_1$ and $Z_2$ are strictly <strong>independent standard normal random variables</strong>:</p>
+
+<div class="math-display">$$Z_1, Z_2 \sim \text{i.i.d. } \mathcal{N}(0, 1)$$</div>
+
+<h5>Geometric Intuition:</h5>
+
+<p>Consider a bivariate standard normal distribution $(Z_1, Z_2) \in \mathbb{R}^2$ with joint density:</p>
+
+<div class="math-display">$$f(z_1, z_2) = \frac{1}{2\pi} e^{-(z_1^2 + z_2^2) / 2}$$</div>
+
+<p>Converting to polar coordinates $(R, \Theta)$ where $z_1 = R \cos\Theta$ and $z_2 = R \sin\Theta$:</p>
+
+<ul>
+
+  <li>The angle $\Theta$ is uniformly distributed on $[0, 2\pi)$: $\Theta = 2\pi U_2$.</li>
+
+  <li>The squared radius $R^2 = Z_1^2 + Z_2^2$ is the sum of two squared standard normals, following a Chi-square distribution with 2 degrees of freedom: $\chi_2^2 \equiv \text{Exponential}(\lambda = 1/2)$.</li>
+
+  <li>Generating $R^2 \sim \text{Exponential}(1/2)$ via inversion yields:</li>
+
+</ul>
+
+<div class="math-display">$$R^2 = -2 \ln U_1 \implies R = \sqrt{-2 \ln U_1}$$</div>
+
+<p>Substituting $R$ and $\Theta$ back into Cartesian coordinates recovers the Box–Muller equations.</p>
+
+<h5>The Marsaglia Polar Method:</h5>
+
+<p>Evaluating transcendental trigonometric functions ($\cos$ and $\sin$) in Box–Muller is computationally expensive. To optimize execution, George Marsaglia developed the <strong>Polar Rejection Method</strong>:</p>
+
+<ol>
+
+  <li>Draw $V_1, V_2 \sim \text{Uniform}(-1, 1)$ uniformly from the square $[-1, 1]^2$.</li>
+
+  <li>Compute $S = V_1^2 + V_2^2$.</li>
+
+  <li>If $S \ge 1$ or $S = 0$, reject the pair and draw again (acceptance probability $\pi / 4 \approx 78.5\%$).</li>
+
+  <li>Compute:</li>
+
+</ol>
+
+<div class="math-display">$$Z_1 = V_1 \sqrt{\frac{-2 \ln S}{S}}, \quad Z_2 = V_2 \sqrt{\frac{-2 \ln S}{S}}$$</div>
+
+<p>Because $\cos\Theta = V_1 / \sqrt{S}$ and $\sin\Theta = V_2 / \sqrt{S}$, this method replaces expensive trigonometric calls with fast algebraic operations.</p>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.3</span>
+            <span>Acceptance–Rejection Sampling: Envelope Optimization and Diagnostic Ratios</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When a target probability density function $f(x)$ has an intractable CDF that cannot be inverted analytically, and cannot be factored into elementary geometric components, John von Neumann (1951) established <strong>Acceptance–Rejection Sampling</strong> (Rejection Method).</p>
+
+<h4>The Acceptance–Rejection Protocol</h4>
+
+<p>Let $f(x)$ denote the target probability density function from which we wish to sample. Let $g(x)$ denote an alternative <strong>proposal (instrumental) density function</strong> that satisfies two conditions:</p>
+
+<ol>
+
+  <li>Variates can be easily simulated from $g(x)$ (e.g., via inversion or uniform sampling).</li>
+
+  <li>The support of $g(x)$ covers the support of $f(x)$ (i.e. $g(x) &gt; 0$ whenever $f(x) &gt; 0$).</li>
+
+  <li>There exists a finite positive constant $c \ge 1$ such that:</li>
+
+</ol>
+
+<div class="math-display">$$\frac{f(x)}{g(x)} \le c \quad \text{for all } x \in \text{supp}(f)$$</div>
+
+<p>The function $c \, g(x)$ is termed the <strong>majorizing envelope function</strong>.</p>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>Acceptance-Rejection Sampling Envelope:
+           ^ Density
+           |            c * g(x) (Majorizing Proposal Envelope)
+           |          .-----------.
+           |         /             \
+           |        /   f(x)        \
+           |       /   .---.         \
+           |      /   /     \         \
+           |     /   /       \         \
+       0.0 +----+---+---------+---------+---&gt; x
+                    [Accept if U &lt;= f(X) / (c*g(X))]</code></pre>
+
+<h5>Algorithmic Execution Steps:</h5>
+
+<ol>
+
+  <li>Generate a candidate variate $Y \sim g(y)$ from the proposal distribution.</li>
+
+  <li>Generate an independent standard uniform variate $U \sim \text{Uniform}(0, 1)$.</li>
+
+  <li>Evaluate the <strong>acceptance test</strong>:</li>
+
+</ol>
+
+<div class="math-display">$$\text{If } U \le \frac{f(Y)}{c \, g(Y)}, \quad \text{ACCEPT and set } X = Y$$</div>
+
+<div class="math-display">$$\text{Otherwise, REJECT } Y \text{ and return to Step 1.}$$</div>
+
+<h4>Mathematical Proof of Validity</h4>
+
+<p>To verify that the accepted random variable $X$ follows the exact target distribution $f(x)$, we evaluate the cumulative distribution function of the accepted variates:</p>
+
+<div class="math-display">$$\mathbb{P}(Y \le x \mid \text{Accepted}) = \frac{\mathbb{P}(Y \le x \text{ and } U \le \frac{f(Y)}{c \, g(Y)})}{\mathbb{P}(U \le \frac{f(Y)}{c \, g(Y)})}$$</div>
+
+<h4>1. Denominator (Overall Acceptance Probability $\alpha$):</h4>
+
+<div class="math-display">$$\mathbb{P}\left( U \le \frac{f(Y)}{c \, g(Y)} \right) = \int_{-\infty}^\infty \mathbb{P}\left( U \le \frac{f(y)}{c \, g(y)} \;\middle|\; Y = y \right) g(y) \, dy$$</div>
+
+<p>Since $U \sim \text{Uniform}(0, 1)$, $\mathbb{P}(U \le u) = u$:</p>
+
+<div class="math-display">$$= \int_{-\infty}^\infty \frac{f(y)}{c \, g(y)} g(y) \, dy = \frac{1}{c} \int_{-\infty}^\infty f(y) \, dy$$</div>
+
+<p>Since $f(y)$ is a valid probability density integrating to 1:</p>
+
+<div class="math-display">$$\mathbb{P}(\text{Accepted}) = \frac{1}{c}$$</div>
+
+<h4>2. Numerator:</h4>
+
+<div class="math-display">$$\mathbb{P}\left( Y \le x \text{ and } U \le \frac{f(Y)}{c \, g(Y)} \right) = \int_{-\infty}^x \frac{f(y)}{c \, g(y)} g(y) \, dy = \frac{1}{c} \int_{-\infty}^x f(y) \, dy = \frac{F(x)}{c}$$</div>
+
+<h4>3. Conditional Ratio:</h4>
+
+<div class="math-display">$$\mathbb{P}(Y \le x \mid \text{Accepted}) = \frac{F(x) / c}{1 / c} = F(x)$$</div>
+
+<p>This proves that the accepted variates follow the target distribution $f(x)$ <strong>strictly and without approximation error</strong>.</p>
+
+<h4>Optimal Choice of Majorizing Constant $c$</h4>
+
+<p>The overall probability of accepting a candidate draw in any single iteration is:</p>
+
+<div class="math-display">$$\alpha = \frac{1}{c}$$</div>
+
+<p>The number of proposal draws $N_{trials}$ required to secure one accepted variate is a geometric random variable with parameter $\alpha = 1/c$. The expected number of trials is:</p>
+
+<div class="math-display">$$\mathbb{E}[N_{trials}] = \frac{1}{\alpha} = c$$</div>
+
+<p>To maximize computational throughput and minimize wasted random draws, the constant $c$ must be chosen as small as possible while still satisfying the majorizing bound $f(x) \le c \, g(x)$ everywhere. The <strong>mathematically optimal majorizing constant</strong> is given by the supremum of the density ratio:</p>
+
+<div class="math-display">$$c_{opt} = \sup_{x \in \text{supp}(f)} \frac{f(x)}{g(x)}$$</div>
+
+<p>If $c$ is large (e.g. $c = 100$), the algorithm rejects $99\%$ of generated proposals, wasting execution cycles. Choosing a proposal distribution $g(x)$ that closely matches the shape and tail behavior of $f(x)$ is the critical engineering imperative in rejection sampling design.</p>
+
+<hr class="section-divider-hr">
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-comp-rejection-sampling"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.4</span>
+            <span>Monte Carlo Integration and Asymptotic Error Rates</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Many intractable problems in Bayesian inference, econometric policy simulation, and high-dimensional physics reduce to evaluating definite integrals:</p>
+
+<div class="math-display">$$\theta = \int_{\Omega} h(\mathbf{x}) f(\mathbf{x}) \, d\mathbf{x} = \mathbb{E}_f[h(\mathbf{X})]$$</div>
+
+<p>where $\mathbf{X} \in \mathbb{R}^d$ is a multivariate random vector with joint density $f(\mathbf{x})$, and $h: \mathbb{R}^d \to \mathbb{R}$ is an integrable function.</p>
+
+<h4>The Curse of Dimensionality in Deterministic Quadrature</h4>
+
+<p>Classical numerical integration relies on deterministic grid-based quadrature rules (e.g., Simpson's rule, Gauss–Legendre quadrature).</p>
+
+<ul>
+
+  <li>In dimension $d = 1$, Simpson's rule achieves an error rate of $\mathcal{O}(N^{-4})$.</li>
+
+  <li>When extended to a $d$-dimensional hypercube $[0, 1]^d$, a product quadrature rule requires placing $k$ evaluation nodes along each axis. The total number of evaluation nodes is $N = k^d$.</li>
+
+  <li>Consequently, the error rate of deterministic quadrature scales as:</li>
+
+</ul>
+
+<div class="math-display">$$\text{Error}_{quad} = \mathcal{O}\left( N^{-r / d} \right)$$</div>
+
+<p>where $r$ is the regularity order of the integrand.</p>
+
+<p>As dimension $d$ increases, the error convergence rate degrades catastrophically:</p>
+
+<ul>
+
+  <li>In dimension $d = 10$, achieving the same accuracy requires an exponential explosion in sample points. For $d \ge 8$, deterministic grid integration becomes completely computationally impossible. This phenomenon is Richard Bellman's <strong>Curse of Dimensionality</strong>.</li>
+
+</ul>
+
+<h4>The Monte Carlo Integration Estimator</h4>
+
+<p>Monte Carlo integration, pioneered by Stanislaw Ulam, John von Neumann, and Nicholas Metropolis in 1946 during the Manhattan Project, resolves the curse of dimensionality by replacing deterministic grids with random sampling.</p>
+
+<p>The <strong>crude Monte Carlo estimator</strong> draws an i.i.d. sample $\mathbf{X}_1, \dots, \mathbf{X}_N \sim f(\mathbf{x})$ and computes the empirical sample mean:</p>
+
+<div class="math-display">$$\hat{\theta}_N = \frac{1}{N} \sum_{i=1}^N h(\mathbf{X}_i)$$</div>
+
+<h5>Statistical Properties of the Monte Carlo Estimator:</h5>
+
+<h4>1. Unbiasedness:</h4>
+
+<div class="math-display">$$\mathbb{E}[\hat{\theta}_N] = \frac{1}{N} \sum_{i=1}^N \mathbb{E}[h(\mathbf{X}_i)] = \frac{1}{N} \cdot N \theta = \theta$$</div>
+
+<h4>2. Variance:</h4>
+
+<p>Let $\sigma_h^2 = \text{Var}_f(h(\mathbf{X})) = \int_{\Omega} (h(\mathbf{x}) - \theta)^2 f(\mathbf{x}) \, d\mathbf{x} &lt; \infty$.</p>
+
+<div class="math-display">$$\text{Var}(\hat{\theta}_N) = \frac{\sigma_h^2}{N}$$</div>
+
+<h4>3. Standard Error and the $N^{-1/2}$ Convergence Rate:</h4>
+
+<p>The standard error of the Monte Carlo estimate is:</p>
+
+<div class="math-display">$$\text{SE}(\hat{\theta}_N) = \frac{\sigma_h}{\sqrt{N}} = \mathcal{O}\left( N^{-1/2} \right)$$</div>
+
+<h4>4. Asymptotic Normality (Central Limit Theorem):</h4>
+
+<p>By the classical Lindeberg–Lévy Central Limit Theorem:</p>
+
+<div class="math-display">$$\sqrt{N} (\hat{\theta}_N - \theta) \xrightarrow{d} \mathcal{N}(0, \sigma_h^2)$$</div>
+
+<h5>Breaking the Curse of Dimensionality:</h5>
+
+<p>Notice the profound mathematical property of the Monte Carlo convergence rate:</p>
+
+<div class="math-display">$$\text{Rate} = \mathcal{O}\left( \frac{1}{\sqrt{N}} \right) \quad \text{completely independent of dimension } d!$$</div>
+
+<p>Whether the integral is 1-dimensional, 50-dimensional, or 10,000-dimensional, quadrupling the sample size $N$ always halves the standard error. Monte Carlo is the only tractable numerical framework for high-dimensional statistical integration.</p>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.5</span>
+            <span>Advanced Variance Reduction: Antithetic Variates, Control Variates, and Importance Sampling</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>While Monte Carlo integration breaks the curse of dimensionality, its $\mathcal{O}(N^{-1/2})$ convergence rate is relatively slow: gaining one additional decimal digit of precision requires a <strong>$100\times$ increase in sample size $N$</strong>.</p>
+
+<p>To accelerate convergence without increasing sample size, computational statisticians deploy <strong>variance reduction techniques</strong>. By exploiting mathematical structure, these methods reduce the underlying error variance $\sigma_h^2$, dramatically shrinking confidence intervals for the same computational budget.</p>
+
+<h4>1. Antithetic Variates</h4>
+
+<p>The <strong>Antithetic Variates</strong> method, introduced by J. M. Hammersley and K. W. Morton (1956), introduces deliberate negative correlation between pairs of simulated draws.</p>
+
+<p>Suppose we wish to estimate $\theta = \mathbb{E}[h(U)]$ where $U \sim \text{Uniform}(0, 1)$.</p>
+
+<ul>
+
+  <li>Instead of drawing $N$ independent uniform numbers $U_1, \dots, U_N$, we generate $M = N / 2$ pairs:</li>
+
+</ul>
+
+<div class="math-display">$$(U_j, \, 1 - U_j) \quad \text{for } j = 1, \dots, M$$</div>
+
+<p>Notice that if $U_j \sim \text{Uniform}(0, 1)$, then $1 - U_j$ is also strictly distributed as $\text{Uniform}(0, 1)$.</p>
+
+<p>The antithetic estimator averages the pair evaluations:</p>
+
+<div class="math-display">$$\hat{\theta}_{anti} = \frac{1}{M} \sum_{j=1}^M \left( \frac{h(U_j) + h(1 - U_j)}{2} \right) = \frac{1}{N} \sum_{j=1}^{N/2} (h(U_j) + h(1 - U_j))$$</div>
+
+<h5>Variance Analysis:</h5>
+
+<p>The variance of the antithetic estimator is:</p>
+
+<div class="math-display">$$\text{Var}(\hat{\theta}_{anti}) = \frac{1}{M^2} \sum_{j=1}^M \text{Var}\left( \frac{h(U_j) + h(1 - U_j)}{2} \right) = \frac{1}{4 M} \left[ \text{Var}(h(U)) + \text{Var}(h(1 - U)) + 2 \text{Cov}(h(U), h(1 - U)) \right]$$</div>
+
+<p>Using $\text{Var}(h(U)) = \text{Var}(h(1 - U)) = \sigma_h^2$ and $M = N / 2$:</p>
+
+<div class="math-display">$$\text{Var}(\hat{\theta}_{anti}) = \frac{\sigma_h^2}{N} \left( 1 + \rho \right)$$</div>
+
+<p>where $\rho = \text{Corr}(h(U), h(1 - U))$ is the Pearson correlation between the antithetic pair.</p>
+
+<ul>
+
+  <li>In standard crude Monte Carlo, draws are independent ($\rho = 0$), giving variance $\sigma_h^2 / N$.</li>
+
+  <li>If $h(u)$ is a <strong>monotone function</strong> (either monotonically non-decreasing or non-increasing over $[0, 1]$), the covariance is strictly negative:</li>
+
+</ul>
+
+<div class="math-display">$$\text{Cov}(h(U), h(1 - U)) &lt; 0 \implies \rho &lt; 0$$</div>
+
+<ul>
+
+  <li>Therefore, $\text{Var}(\hat{\theta}_{anti}) &lt; \text{Var}(\hat{\theta}_{crude})$ strictly! If $\rho = -0.90$, antithetic sampling reduces the variance by $90\%$, yielding a <strong>$10\times$ increase in statistical precision</strong> with zero additional simulation cost.</li>
+
+</ul>
+
+<h4>2. Control Variates</h4>
+
+<p>The <strong>Control Variates</strong> method incorporates known analytical information about a correlated auxiliary variable to reduce estimation variance.</p>
+
+<p>Suppose we want to estimate $\theta = \mathbb{E}[X]$, and we have access to an auxiliary variable $Y$ whose mathematical expectation $\mu_Y = \mathbb{E}[Y]$ is <strong>known analytically</strong>.</p>
+
+<p>We construct the controlled estimator:</p>
+
+<div class="math-display">$$\hat{\theta}_c = \bar{X} - c (\bar{Y} - \mu_Y)$$</div>
+
+<p>where $\bar{X} = \frac{1}{N} \sum X_i$, $\bar{Y} = \frac{1}{N} \sum Y_i$, and $c \in \mathbb{R}$ is a tuning coefficient.</p>
+
+<h5>Properties of the Controlled Estimator:</h5>
+
+<h4>1. Unbiasedness:</h4>
+
+<div class="math-display">$$\mathbb{E}[\hat{\theta}_c] = \mathbb{E}[\bar{X}] - c (\mathbb{E}[\bar{Y}] - \mu_Y) = \theta - c (\mu_Y - \mu_Y) = \theta$$</div>
+
+<p>The estimator is strictly unbiased for any choice of constant $c$.</p>
+
+<h4>2. Variance as a Function of $c$:</h4>
+
+<div class="math-display">$$\text{Var}(\hat{\theta}_c) = \text{Var}(\bar{X}) + c^2 \text{Var}(\bar{Y}) - 2 c \text{Cov}(\bar{X}, \bar{Y}) = \frac{1}{N} \left( \sigma_X^2 + c^2 \sigma_Y^2 - 2 c \sigma_{XY} \right)$$</div>
+
+<h4>3. Optimal Coefficient $c^*$:</h4>
+
+<p>To find the variance-minimizing coefficient, differentiate with respect to $c$ and set to zero:</p>
+
+<div class="math-display">$$\frac{d}{dc} \text{Var}(\hat{\theta}_c) = \frac{1}{N} (2 c \sigma_Y^2 - 2 \sigma_{XY}) = 0 \implies c^* = \frac{\sigma_{XY}}{\sigma_Y^2} = \frac{\text{Cov}(X, Y)}{\text{Var}(Y)}$$</div>
+
+<p>Notice that $c^*$ is identical to the population slope coefficient in the linear regression of $X$ on $Y$!</p>
+
+<h4>4. Minimum Variance Reduction Ratio:</h4>
+
+<p>Substituting $c^*$ into the variance equation:</p>
+
+<div class="math-display">$$\text{Var}(\hat{\theta}_{c^*}) = \frac{\sigma_X^2}{N} \left( 1 - \frac{\sigma_{XY}^2}{\sigma_X^2 \sigma_Y^2} \right) = \text{Var}(\hat{\theta}_{crude}) \left( 1 - \rho_{XY}^2 \right)$$</div>
+
+<p>where $\rho_{XY}$ is the correlation between $X$ and $Y$.</p>
+
+<p>The variance reduction is directly dictated by the squared correlation $\rho_{XY}^2$:</p>
+
+<ul>
+
+  <li>If $|\rho_{XY}| = 0.95$, then $1 - \rho^2 = 1 - 0.9025 = 0.0975$.</li>
+
+  <li>The variance is reduced by over <strong>$90\%$</strong>, equivalent to a ten-fold increase in sample size!</li>
+
+</ul>
+
+<h4>3. Importance Sampling</h4>
+
+<p>In rare-event simulation (e.g., estimating ruin probability in insurance or extreme tail risk in quantitative finance: $\mathbb{P}(X &gt; 10)$ where $X \sim \mathcal{N}(0, 1)$), crude Monte Carlo is exceptionally inefficient. If the event occurs with probability $p = 10^{-6}$, generating $N = 10^6$ independent draws will yield only one or two positive events, producing an estimator with an unacceptably high coefficient of variation ($\text{CV} \approx 100\%$).</p>
+
+<p><strong>Importance Sampling</strong> resolves this by altering the underlying sampling distribution, drawing points deliberately from a region where the integrand is large and non-zero, and reweighting the draws to preserve exact mathematical unbiasedness.</p>
+
+<h5>Change-of-Measure Formulation:</h5>
+
+<p>Let $\theta = \int_{\Omega} h(\mathbf{x}) f(\mathbf{x}) \, d\mathbf{x}$. Let $g(\mathbf{x})$ be an alternative <strong>instrumental (importance) probability density function</strong> such that $g(\mathbf{x}) &gt; 0$ whenever $h(\mathbf{x}) f(\mathbf{x}) \ne 0$.</p>
+
+<p>Rewrite the integral via change of measure:</p>
+
+<div class="math-display">$$\theta = \int_{\Omega} h(\mathbf{x}) \frac{f(\mathbf{x})}{g(\mathbf{x})} g(\mathbf{x}) \, d\mathbf{x} = \int_{\Omega} [h(\mathbf{x}) w(\mathbf{x})] g(\mathbf{x}) \, d\mathbf{x} = \mathbb{E}_g [h(\mathbf{X}) w(\mathbf{X})]$$</div>
+
+<p>where:</p>
+
+<div class="math-display">$$w(\mathbf{x}) = \frac{f(\mathbf{x})}{g(\mathbf{x})}$$</div>
+
+<p>is the <strong>Radon–Nikodym derivative</strong> (importance weight).</p>
+
+<h5>The Importance Sampling Estimator:</h5>
+
+<ol>
+
+  <li>Draw an i.i.d. sample $\mathbf{Y}_1, \dots, \mathbf{Y}_N \sim g(\mathbf{y})$ from the importance density.</li>
+
+  <li>For each draw, compute the likelihood weight $w_i = f(\mathbf{Y}_i) / g(\mathbf{Y}_i)$.</li>
+
+  <li>Compute the weighted estimate:</li>
+
+</ol>
+
+<div class="math-display">$$\hat{\theta}_{IS} = \frac{1}{N} \sum_{i=1}^N h(\mathbf{Y}_i) w(\mathbf{Y}_i) = \frac{1}{N} \sum_{i=1}^N h(\mathbf{Y}_i) \frac{f(\mathbf{Y}_i)}{g(\mathbf{Y}_i)}$$</div>
+
+<h5>The Theoretically Optimal Importance Density:</h5>
+
+<p>The variance of the importance sampling estimator is:</p>
+
+<div class="math-display">$$\text{Var}_g(\hat{\theta}_{IS}) = \frac{1}{N} \left( \int_{\Omega} \frac{(h(\mathbf{x}) f(\mathbf{x}))^2}{g(\mathbf{x})} \, d\mathbf{x} - \theta^2 \right)$$</div>
+
+<p>Setting the variance to zero reveals the <strong>Theoretically Optimal Importance Density</strong>:</p>
+
+<div class="math-display">$$g^*(\mathbf{x}) = \frac{|h(\mathbf{x})| f(\mathbf{x})}{\int_{\Omega} |h(\mathbf{u})| f(\mathbf{u}) \, d\mathbf{u}} \propto |h(\mathbf{x})| f(\mathbf{x})$$</div>
+
+<p>If $h(\mathbf{x}) \ge 0$, drawing from $g^*(\mathbf{x})$ yields an estimator with <strong>zero variance ($\text{Var}(\hat{\theta}) = 0$) in a single draw</strong>! While normalizing $g^*(\mathbf{x})$ requires knowing $\theta$ (the very quantity we are trying to compute), this theorem provides the practical design rule: <strong>choose an importance density $g(\mathbf{x})$ that mimics the shape of the product $|h(\mathbf{x})| f(\mathbf{x})$, especially in the extreme tails</strong>.</p>
+
+<h5>Weight Degeneracy and Effective Sample Size (ESS):</h5>
+
+<p>In high dimensions, an poorly chosen importance density causes <strong>weight degeneracy</strong>, where a single observation receives an importance weight of $99.9\%$, collapsing the effective statistical sample size. To diagnose degeneracy, statisticians monitor the <strong>Effective Sample Size (ESS)</strong> (Kong, Liu, and Wong, 1994):</p>
+
+<div class="math-display">$$\text{ESS} = \frac{\left( \sum_{i=1}^N w_i \right)^2}{\sum_{i=1}^N w_i^2} = \frac{1}{\sum_{i=1}^N \tilde{w}_i^2}$$</div>
+
+<p>where $\tilde{w}_i = w_i / \sum w_j$ are the normalized weights. If $\text{ESS} \ll N$, the importance distribution must be adapted or regularized via sequential Monte Carlo (particle filtering).</p>
+
+<hr class="section-divider-hr">
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.6</span>
+            <span>Quasi-Monte Carlo Methods, Low-Discrepancy Sequences, and the Koksma–Hlawka Inequality</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Standard Monte Carlo integration relies on pseudo-random sequences. While pseudo-random sequences are statistically independent, random sampling inevitably produces <strong>stochastic clustering</strong>: random points bunch together in some regions of the integration domain while leaving large voids in others. These random clusters and voids are the fundamental cause of the slow $\mathcal{O}(N^{-1/2})$ error rate.</p>
+
+<p>To achieve faster deterministic convergence, <strong>Quasi-Monte Carlo (QMC)</strong> replaces pseudo-random sampling with carefully engineered <strong>low-discrepancy sequences</strong> that fill the integration domain as uniformly as possible.</p>
+
+<h4>Discrepancy Theory and the Star Discrepancy Metric</h4>
+
+<p>Let $\mathcal{P} = \{\mathbf{x}_1, \dots, \mathbf{x}_N\}$ be a point set in the $d$-dimensional unit hypercube $I^d = [0, 1)^d$. Let $\mathcal{J}^*$ denote the family of all axis-aligned sub-rectangles anchored at the origin:</p>
+
+<div class="math-display">$$B = \prod_{j=1}^d [0, u_j), \quad 0 \le u_j \le 1$$</div>
+
+<p>The volume of $B$ is $\lambda(B) = \prod_{j=1}^d u_j$.</p>
+
+<p>The <strong>Star Discrepancy</strong> $D_N^*(\mathcal{P})$ measures the maximum absolute deviation between the empirical proportion of points landing in $B$ and the theoretical volume $\lambda(B)$:</p>
+
+<div class="math-display">$$D_N^*(\mathcal{P}) = \sup_{B \in \mathcal{J}^*} \left| \frac{\#\{\mathbf{x}_i \in B\}}{N} - \lambda(B) \right|$$</div>
+
+<ul>
+
+  <li>For a completely uniform grid or ideal point set, $D_N^* \to 0$ rapidly.</li>
+
+  <li>For independent random points (Monte Carlo), the law of the iterated logarithm implies:</li>
+
+</ul>
+
+<div class="math-display">$$D_N^*(\mathcal{P}_{random}) = \mathcal{O}\left( \sqrt{\frac{\log \log N}{N}} \right) \approx \mathcal{O}\left( N^{-1/2} \right)$$</div>
+
+<ul>
+
+  <li>For a <strong>low-discrepancy sequence</strong> (QMC), the discrepancy satisfies:</li>
+
+</ul>
+
+<div class="math-display">$$D_N^*(\mathcal{P}_{QMC}) = \mathcal{O}\left( \frac{(\log N)^d}{N} \right)$$</div>
+
+<h4>The Koksma–Hlawka Inequality</h4>
+
+<p>The foundational theoretical guarantee of Quasi-Monte Carlo integration is the <strong>Koksma–Hlawka Inequality</strong>, established by Jurjen Koksma (1942) and Edmund Hlawka (1961).</p>
+
+<h5>The Theorem:</h5>
+
+<p>Let $h: [0, 1]^d \to \mathbb{R}$ be a function with bounded variation in the sense of Hardy and Krause, denoted $V_{HK}(h) &lt; \infty$. For any deterministic point set $\mathcal{P} = \{\mathbf{x}_1, \dots, \mathbf{x}_N\} \subset [0, 1)^d$:</p>
+
+<div class="math-display">$$\left| \frac{1}{N} \sum_{i=1}^N h(\mathbf{x}_i) - \int_{[0, 1]^d} h(\mathbf{x}) \, d\mathbf{x} \right| \le V_{HK}(h) \cdot D_N^*(\mathcal{P})$$</div>
+
+<h5>Convergence Implications:</h5>
+
+<p>The Koksma–Hlawka inequality neatly decouples the integration error into two orthogonal factors:</p>
+
+<ol>
+
+  <li>$V_{HK}(h)$: A constant depending solely on the mathematical smoothness and variation of the integrand $h$.</li>
+
+  <li>$D_N^*(\mathcal{P})$: The geometric uniformity of the sampling nodes $\mathcal{P}$.</li>
+
+</ol>
+
+<p>For low-discrepancy point sets, substituting $D_N^*(\mathcal{P}) = \mathcal{O}((\log N)^d / N)$ yields an asymptotic error rate of:</p>
+
+<div class="math-display">$$\text{Error}_{QMC} = \mathcal{O}\left( \frac{(\log N)^d}{N} \right)$$</div>
+
+<p>For any fixed dimension $d$, as $N \to \infty$, the factor $(\log N)^d / N$ approaches $\mathcal{O}(N^{-1})$:</p>
+
+<ul>
+
+  <li>Standard Monte Carlo error: $\mathcal{O}(N^{-0.5})$.</li>
+
+  <li>Quasi-Monte Carlo error: $\approx \mathcal{O}(N^{-1.0})$.</li>
+
+</ul>
+
+<p>To achieve an error of $10^{-4}$ in low dimensions:</p>
+
+<ul>
+
+  <li>Crude Monte Carlo requires $N \approx (10^4)^2 = 10^8 = 100,000,000$ points.</li>
+
+  <li>Quasi-Monte Carlo requires only $N \approx 10^4 = 10,000$ points—a <strong>$10,000$-fold reduction in computational evaluations</strong>!</li>
+
+</ul>
+
+<h4>Construction of Low-Discrepancy Sequences: Van der Corput, Halton, and Sobol'</h4>
+
+<h5>1. The 1D Van der Corput Sequence</h5>
+
+<p>The simplest low-discrepancy sequence is the <strong>Van der Corput sequence</strong> in base $b \ge 2$. Any non-negative integer $n$ can be expanded uniquely in base $b$:</p>
+
+<div class="math-display">$$n = \sum_{j=0}^k a_j(n) b^j, \quad a_j(n) \in \{0, 1, \dots, b - 1\}$$</div>
+
+<p>The radical inverse function $\phi_b(n)$ reflects the base-$b$ digits across the decimal (radix) point:</p>
+
+<div class="math-display">$$\phi_b(n) = \sum_{j=0}^k a_j(n) b^{-(j + 1)}$$</div>
+
+<p>For example, in base $b = 2$:</p>
+
+<ul>
+
+  <li>$n = 1 = (1)_2 \implies \phi_2(1) = 0.1_2 = 1/2 = 0.5$</li>
+
+  <li>$n = 2 = (10)_2 \implies \phi_2(2) = 0.01_2 = 1/4 = 0.25$</li>
+
+  <li>$n = 3 = (11)_2 \implies \phi_2(3) = 0.11_2 = 3/4 = 0.75$</li>
+
+  <li>$n = 4 = (100)_2 \implies \phi_2(4) = 0.001_2 = 1/8 = 0.125$</li>
+
+</ul>
+
+<p>The sequence systematically bisects existing intervals, preventing clustering.</p>
+
+<h5>2. The Halton Sequence in Dimension $d$</h5>
+
+<p>J. H. Halton (1960) generalized the Van der Corput construction to $d$ dimensions by choosing $d$ distinct pairwise co-prime prime numbers $p_1, p_2, \dots, p_d$ (e.g. $2, 3, 5, 7, 11, \dots$):</p>
+
+<div class="math-display">$$\mathbf{x}_n = (\phi_{p_1}(n), \, \phi_{p_2}(n), \, \dots, \, \phi_{p_d}(n)) \in [0, 1)^d$$</div>
+
+<h5>3. Sobol' Sequences</h5>
+
+<p>For higher dimensions ($d &gt; 10$), Halton sequences can suffer from linear correlation artifacts between high-index primes. Ilya M. Sobol' (1967) introduced <strong>Sobol' sequences</strong>, constructed in base 2 using primitive polynomials and direction numbers over Galois fields $\mathbb{F}_2$. Sobol' sequences form digital $(t, s)$-sequences with exceptional uniformity across projections.</p>
+
+<h4>Randomized Quasi-Monte Carlo (RQMC)</h4>
+
+<p>A limitation of pure QMC is that the error bound $V_{HK}(h) D_N^*$ is non-probabilistic: because the sequence is deterministic, one cannot compute a sample standard error or confidence interval from a single QMC run.</p>
+
+<p>To solve this, Art Owen (1995) developed <strong>Randomized Quasi-Monte Carlo (RQMC)</strong>. RQMC introduces a stochastic randomization that preserves the low-discrepancy properties of the sequence while making each point uniformly distributed on $[0, 1)^d$:</p>
+
+<h4>1. Cranley–Patterson Rotation (Random Shift Modulo 1):</h4>
+
+<p>Draw a single random vector $\mathbf{U} \sim \text{Uniform}[0, 1)^d$. Shift all points:</p>
+
+<div class="math-display">$$\tilde{\mathbf{x}}_i = (\mathbf{x}_i + \mathbf{U}) \pmod 1$$</div>
+
+<h4>2. Owen Scrambling:</h4>
+
+<p>Permutes the digits of the radical inverse tree using random independent permutations at each branch.</p>
+
+<p>Under RQMC:</p>
+
+<ul>
+
+  <li>The estimator $\hat{\theta}_{RQMC} = \frac{1}{N} \sum_{i=1}^N h(\tilde{\mathbf{x}}_i)$ is <strong>strictly unbiased</strong>: $\mathbb{E}[\hat{\theta}_{RQMC}] = \theta$.</li>
+
+  <li>For smooth functions, the variance decays at the astonishing asymptotic rate of $\mathcal{O}(N^{-3})$, enabling standard empirical confidence interval construction by running $R$ independent randomizations ($R \in [10, 30]$).</li>
+
+</ul>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-7">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.7</span>
+            <span>Markov Chain Monte Carlo (MCMC) Foundations: Metropolis–Hastings, Gibbs Sampling, and Convergence Diagnostics</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When target distributions are high-dimensional, unnormalized, and non-standard—as is universally the case in modern Bayesian posterior inference:</p>
+
+<div class="math-display">$$p(\boldsymbol{\theta} \mid \mathbf{y}) = \frac{p(\mathbf{y} \mid \boldsymbol{\theta}) p(\boldsymbol{\theta})}{\int p(\mathbf{y} \mid \boldsymbol{\theta}') p(\boldsymbol{\theta}') d\boldsymbol{\theta}'} \propto p(\mathbf{y} \mid \boldsymbol{\theta}) p(\boldsymbol{\theta})$$</div>
+
+<p>the normalizing marginal likelihood (evidence) constant in the denominator is an intractable high-dimensional integral. Direct inversion, rejection sampling, and importance sampling all fail in high dimensions due to exponential rejection rates and weight degeneracy.</p>
+
+<p>The universal solution is <strong>Markov Chain Monte Carlo (MCMC)</strong>: constructing an ergodic Markov chain whose stationary (limiting) distribution is precisely the target posterior distribution $\pi(\boldsymbol{\theta}) = p(\boldsymbol{\theta} \mid \mathbf{y})$.</p>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>MCMC Trajectory Flow (Ergodic Convergence to Target Stationary Distribution):
+  Initial State \theta_0
+           |
+           v (Burn-in / Warmup Phase)
+  State \theta_1 ---&gt; State \theta_2 ---&gt; State \theta_t
+                                               |
+                                               v (Sampling Phase)
+                                   [ Samples Drawn from \pi(\theta) ]</code></pre>
+
+<h4>The Detailed Balance Condition</h4>
+
+<p>Let $P(\mathbf{x}, \mathbf{y})$ denote the transition kernel of a discrete-time continuous-state Markov chain, representing the conditional probability density of transitioning from state $\mathbf{x}$ to state $\mathbf{y}$.</p>
+
+<p>A distribution $\pi(\mathbf{x})$ is a <strong>stationary (invariant) distribution</strong> of the chain if:</p>
+
+<div class="math-display">$$\int \pi(\mathbf{x}) P(\mathbf{x}, \mathbf{y}) \, d\mathbf{x} = \pi(\mathbf{y})$$</div>
+
+<p>A sufficient (though not strictly necessary) condition for stationarity is the <strong>Detailed Balance Condition (Microscopic Reversibility)</strong>:</p>
+
+<div class="math-display">$$\pi(\mathbf{x}) P(\mathbf{x}, \mathbf{y}) = \pi(\mathbf{y}) P(\mathbf{y}, \mathbf{x}) \quad \text{for all } \mathbf{x}, \mathbf{y}$$</div>
+
+<p>Integrating both sides with respect to $\mathbf{x}$:</p>
+
+<div class="math-display">$$\int \pi(\mathbf{x}) P(\mathbf{x}, \mathbf{y}) \, d\mathbf{x} = \pi(\mathbf{y}) \int P(\mathbf{y}, \mathbf{x}) \, d\mathbf{x} = \pi(\mathbf{y}) \cdot 1 = \pi(\mathbf{y})$$</div>
+
+<p>Detailed balance guarantees that the target distribution $\pi$ is invariant.</p>
+
+<h4>The Metropolis–Hastings Algorithm</h4>
+
+<p>In 1953, Nicholas Metropolis and colleagues developed the symmetric algorithm for physics simulations. In 1970, Canadian statistician W. K. Hastings generalized the framework to arbitrary statistical proposal distributions.</p>
+
+<h5>Algorithmic Formulation:</h5>
+
+<p>Let $\pi(\boldsymbol{\theta})$ be the target density, known up to a normalizing constant: $\pi(\boldsymbol{\theta}) = c \cdot \tilde{\pi}(\boldsymbol{\theta})$. Let $q(\boldsymbol{\theta}' \mid \boldsymbol{\theta})$ be a candidate <strong>proposal distribution</strong> generating a new proposed state $\boldsymbol{\theta}'$ given current state $\boldsymbol{\theta}$.</p>
+
+<p>At iteration $t$ with current state $\boldsymbol{\theta}_t$:</p>
+
+<ol>
+
+  <li>Generate candidate state $\boldsymbol{\theta}^* \sim q(\boldsymbol{\theta}^* \mid \boldsymbol{\theta}_t)$.</li>
+
+  <li>Compute the <strong>Metropolis–Hastings Acceptance Probability</strong>:</li>
+
+</ol>
+
+<div class="math-display">$$\alpha(\boldsymbol{\theta}_t, \boldsymbol{\theta}^*) = \min\left( 1, \, \frac{\pi(\boldsymbol{\theta}^*) q(\boldsymbol{\theta}_t \mid \boldsymbol{\theta}^*)}{\pi(\boldsymbol{\theta}_t) q(\boldsymbol{\theta}^* \mid \boldsymbol{\theta}_t)} \right) = \min\left( 1, \, \frac{\tilde{\pi}(\boldsymbol{\theta}^*) q(\boldsymbol{\theta}_t \mid \boldsymbol{\theta}^*)}{\tilde{\pi}(\boldsymbol{\theta}_t) q(\boldsymbol{\theta}^* \mid \boldsymbol{\theta}_t)} \right)$$</div>
+
+<p>Notice that the intractable normalizing constant $c$ cancels out completely in the ratio!</p>
+
+<ol>
+
+  <li>Draw $U \sim \text{Uniform}(0, 1)$.</li>
+
+</ol>
+
+<ul>
+
+  <li>If $U \le \alpha(\boldsymbol{\theta}_t, \boldsymbol{\theta}^*)$, <strong>ACCEPT</strong>: set $\boldsymbol{\theta}_{t+1} = \boldsymbol{\theta}^*$.</li>
+
+  <li>Otherwise, <strong>REJECT</strong>: retain the previous state $\boldsymbol{\theta}_{t+1} = \boldsymbol{\theta}_t$.</li>
+
+</ul>
+
+<h5>Mathematical Proof of Detailed Balance:</h5>
+
+<p>The transition kernel is:</p>
+
+<div class="math-display">$$P(\mathbf{x}, \mathbf{y}) = q(\mathbf{y} \mid \mathbf{x}) \alpha(\mathbf{x}, \mathbf{y}) \quad (\text{for } \mathbf{x} \ne \mathbf{y})$$</div>
+
+<p>Assume without loss of generality that $\pi(\mathbf{y}) q(\mathbf{x} \mid \mathbf{y}) \le \pi(\mathbf{x}) q(\mathbf{y} \mid \mathbf{x})$. Then:</p>
+
+<div class="math-display">$$\alpha(\mathbf{x}, \mathbf{y}) = \frac{\pi(\mathbf{y}) q(\mathbf{x} \mid \mathbf{y})}{\pi(\mathbf{x}) q(\mathbf{y} \mid \mathbf{x})} \quad \text{and} \quad \alpha(\mathbf{y}, \mathbf{x}) = 1$$</div>
+
+<p>Now evaluate both sides of detailed balance:</p>
+
+<ul>
+
+  <li>Left-hand side:</li>
+
+</ul>
+
+<div class="math-display">$$\pi(\mathbf{x}) P(\mathbf{x}, \mathbf{y}) = \pi(\mathbf{x}) q(\mathbf{y} \mid \mathbf{x}) \left( \frac{\pi(\mathbf{y}) q(\mathbf{x} \mid \mathbf{y})}{\pi(\mathbf{x}) q(\mathbf{y} \mid \mathbf{x})} \right) = \pi(\mathbf{y}) q(\mathbf{x} \mid \mathbf{y})$$</div>
+
+<ul>
+
+  <li>Right-hand side:</li>
+
+</ul>
+
+<div class="math-display">$$\pi(\mathbf{y}) P(\mathbf{y}, \mathbf{x}) = \pi(\mathbf{y}) q(\mathbf{x} \mid \mathbf{y}) \cdot 1 = \pi(\mathbf{y}) q(\mathbf{x} \mid \mathbf{y})$$</div>
+
+<p>Both sides match identically! Detailed balance is strictly satisfied.</p>
+
+<h4>The Gibbs Sampler</h4>
+
+<p>Introduced by Stuart and Donald Geman (1984) in image processing and popularized in statistics by Alan Gelfand and Adrian Smith (1990), <strong>Gibbs Sampling</strong> is a special case of Metropolis–Hastings where parameters are updated scalar-by-scalar (or block-by-block) from their <strong>full conditional distributions</strong>:</p>
+
+<div class="math-display">$$\theta_j^{(t+1)} \sim p(\theta_j \mid \theta_1^{(t+1)}, \dots, \theta_{j-1}^{(t+1)}, \theta_{j+1}^{(t)}, \dots, \theta_p^{(t)}, \mathbf{y})$$</div>
+
+<p>Because the proposal distribution is the exact conditional distribution $q(\theta_j^* \mid \boldsymbol{\theta}) = p(\theta_j^* \mid \boldsymbol{\theta}_{-j})$, the Metropolis–Hastings acceptance ratio evaluates to:</p>
+
+<div class="math-display">$$\alpha = \min\left( 1, \, \frac{p(\theta_j^* \mid \boldsymbol{\theta}_{-j}) p(\theta_j \mid \boldsymbol{\theta}_{-j})}{p(\theta_j \mid \boldsymbol{\theta}_{-j}) p(\theta_j^* \mid \boldsymbol{\theta}_{-j})} \right) = \min(1, 1) = 1.0$$</div>
+
+<p>In Gibbs sampling, <strong>every single proposal is accepted with probability $100\%$</strong>!</p>
+
+<h4>MCMC Diagnostics: Autocorrelation, ESS, and Gelman–Rubin $\hat{R}$</h4>
+
+<p>Because MCMC samples are generated sequentially by a Markov chain, consecutive draws are <strong>correlated</strong> ($\text{Corr}(\boldsymbol{\theta}_t, \boldsymbol{\theta}_{t+k}) &gt; 0$). To evaluate sampling adequacy:</p>
+
+<h5>1. Autocorrelation and Integrated Autocorrelation Time ($\tau_{int}$)</h5>
+
+<p>The lag-$k$ autocorrelation is:</p>
+
+<div class="math-display">$$\rho_k = \frac{\mathbb{E}[(\theta_t - \mu)(\theta_{t+k} - \mu)]}{\sigma^2}$$</div>
+
+<p>The <strong>Integrated Autocorrelation Time</strong> is:</p>
+
+<div class="math-display">$$\tau_{int} = 1 + 2 \sum_{k=1}^\infty \rho_k$$</div>
+
+<p>$\tau_{int}$ represents the number of dependent Markov chain steps required to obtain the statistical information equivalent to one independent draw.</p>
+
+<h5>2. Effective Sample Size (ESS)</h5>
+
+<p>For a chain of length $N$, the effective number of independent draws is:</p>
+
+<div class="math-display">$$\text{ESS} = \frac{N}{\tau_{int}} = \frac{N}{1 + 2 \sum_{k=1}^\infty \rho_k}$$</div>
+
+<p>If $N = 10,000$ and $\tau_{int} = 20$, the chain contains only $\text{ESS} = 500$ independent pieces of information. Standard errors must be computed using $\text{SE} = \hat{\sigma} / \sqrt{\text{ESS}}$.</p>
+
+<h5>3. Gelman–Rubin Convergence Diagnostic ($\hat{R}$)</h5>
+
+<p>Andrew Gelman and Donald Rubin (1992) formulated the <strong>Potential Scale Reduction Factor ($\hat{R}$)</strong> based on running $M \ge 3$ independent chains from over-dispersed starting points. Let each chain have length $N$ after discarding warmup/burn-in.</p>
+
+<ul>
+
+  <li>Compute the <strong>Between-Chain Variance ($B$)</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$B = \frac{N}{M - 1} \sum_{m=1}^M (\bar{\theta}_m - \bar{\theta}_{\cdot})^2$$</div>
+
+<ul>
+
+  <li>Compute the <strong>Within-Chain Variance ($W$)</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$W = \frac{1}{M} \sum_{m=1}^M s_m^2 = \frac{1}{M (N - 1)} \sum_{m=1}^M \sum_{i=1}^N (\theta_{mi} - \bar{\theta}_m)^2$$</div>
+
+<ul>
+
+  <li>The estimated marginal posterior variance is:</li>
+
+</ul>
+
+<div class="math-display">$$\widehat{\text{Var}}(\theta) = \frac{N - 1}{N} W + \frac{1}{N} B$$</div>
+
+<ul>
+
+  <li>The convergence metric $\hat{R}$ is defined as:</li>
+
+</ul>
+
+<div class="math-display">$$\hat{R} = \sqrt{\frac{\widehat{\text{Var}}(\theta)}{W}}$$</div>
+
+<p><strong>Convergence Rule</strong>:</p>
+
+<ul>
+
+  <li>If chains have converged and thoroughly mixed, $B \to 0$ and $\hat{R} \to 1.0$.</li>
+
+  <li>In modern practice (Gelman et al., 2013), sampling is declared converged if <strong>$\hat{R} &lt; 1.05$</strong> (or strictly $\hat{R} &lt; 1.01$ for critical inferences) across all monitored parameters.</li>
+
+</ul>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-8">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.8</span>
+            <span>Hamiltonian Monte Carlo and the No-U-Turn Sampler (NUTS)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>While random-walk Metropolis–Hastings and Gibbs sampling enabled Bayesian computation in the 1990s, they fail when applied to high-dimensional models ($p &gt; 100$) with complex correlation structures. In high dimensions, random-walk proposals suffer from diffusive behavior, requiring small proposal steps to maintain acceptance rates, which leads to slow $\mathcal{O}(p^2)$ exploration of the parameter space.</p>
+
+<p>To overcome diffusive random walks, Radford Neal (2011) introduced <strong>Hamiltonian Monte Carlo (HMC)</strong> to statistics, translating concepts from classical Hamiltonian mechanics into an ultra-efficient sampling engine. HMC forms the core computational backbone of modern probabilistic programming languages, including <strong>Stan</strong>, <strong>PyMC</strong>, and <strong>Turing.jl</strong>.</p>
+
+<h4>Physical Analogy: Phase Space and Symplectic Dynamics</h4>
+
+<p>HMC augments the continuous parameter vector of interest $\boldsymbol{\theta} \in \mathbb{R}^p$ (the position) with an auxiliary momentum vector $\mathbf{p} \sim \mathcal{N}(\mathbf{0}, \mathbf{M})$:</p>
+
+<ul>
+
+  <li>The target probability density defines a <strong>Potential Energy</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$V(\boldsymbol{\theta}) = -\ln p(\boldsymbol{\theta}, \mathbf{y})$$</div>
+
+<ul>
+
+  <li>The momentum defines a <strong>Kinetic Energy</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$K(\mathbf{p}) = \frac{1}{2} \mathbf{p}^\top \mathbf{M}^{-1} \mathbf{p}$$</div>
+
+<p>where $\mathbf{M}$ is a symmetric positive-definite mass matrix.</p>
+
+<p>The <strong>Hamiltonian function</strong> is the total energy of the physical system:</p>
+
+<div class="math-display">$$H(\boldsymbol{\theta}, \mathbf{p}) = V(\boldsymbol{\theta}) + K(\mathbf{p}) = -\ln p(\boldsymbol{\theta}, \mathbf{y}) + \frac{1}{2} \mathbf{p}^\top \mathbf{M}^{-1} \mathbf{p}$$</div>
+
+<p>The joint probability density over phase space $(\boldsymbol{\theta}, \mathbf{p})$ is:</p>
+
+<div class="math-display">$$p(\boldsymbol{\theta}, \mathbf{p}) \propto \exp(-H(\boldsymbol{\theta}, \mathbf{p})) = p(\boldsymbol{\theta}, \mathbf{y}) \exp\left( -\frac{1}{2} \mathbf{p}^\top \mathbf{M}^{-1} \mathbf{p} \right)$$</div>
+
+<p>Notice that $\boldsymbol{\theta}$ and $\mathbf{p}$ are independent. Marginally, the positions $\boldsymbol{\theta}$ follow the exact target posterior distribution!</p>
+
+<h4>Hamilton's Equations of Motion</h4>
+
+<p>The physical trajectory of a frictionless particle gliding across the potential energy surface is governed by Hamilton's differential equations:</p>
+
+<div class="math-display">$$\frac{d\boldsymbol{\theta}}{dt} = \frac{\partial H}{\partial \mathbf{p}} = \mathbf{M}^{-1} \mathbf{p}$$</div>
+
+<div class="math-display">$$\frac{d\mathbf{p}}{dt} = -\frac{\partial H}{\partial \boldsymbol{\theta}} = -\nabla V(\boldsymbol{\theta}) = \nabla_{\boldsymbol{\theta}} \ln p(\boldsymbol{\theta}, \mathbf{y})$$</div>
+
+<h5>Fundamental Conservation Properties:</h5>
+
+<h4>1. Conservation of Energy: Along any trajectory, $\frac{dH}{dt} = 0$. The Hamiltonian remains constant.</h4>
+
+<h4>2. Reversibility: Reversing the sign of momentum ($\mathbf{p} \leftarrow -\mathbf{p}$) traces the exact same path backward in time.</h4>
+
+<h4>3. Volume Preservation (Liouville's Theorem): Phase space volume is invariant under Hamiltonian vector fields: $|\det(\mathbf{J})| = 1$.</h4>
+
+<h4>The Numerical Leapfrog Integrator</h4>
+
+<p>Because continuous differential equations cannot be solved exactly in digital computers, HMC discretizes time using a <strong>Symplectic Leapfrog Integrator</strong> with step size $\epsilon$:</p>
+
+<ol>
+
+  <li>Half-step update for momentum:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{p}\left( t + \frac{\epsilon}{2} \right) = \mathbf{p}(t) + \frac{\epsilon}{2} \nabla_{\boldsymbol{\theta}} \ln p(\boldsymbol{\theta}(t), \mathbf{y})$$</div>
+
+<ol>
+
+  <li>Full-step update for position:</li>
+
+</ol>
+
+<div class="math-display">$$\boldsymbol{\theta}(t + \epsilon) = \boldsymbol{\theta}(t) + \epsilon \mathbf{M}^{-1} \mathbf{p}\left( t + \frac{\epsilon}{2} \right)$$</div>
+
+<ol>
+
+  <li>Half-step update for momentum:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{p}(t + \epsilon) = \mathbf{p}\left( t + \frac{\epsilon}{2} \right) + \frac{\epsilon}{2} \nabla_{\boldsymbol{\theta}} \ln p(\boldsymbol{\theta}(t + \epsilon), \mathbf{y})$$</div>
+
+<p>Because the leapfrog integrator is strictly symplectic and time-reversible, small discretization errors are accounted for by a final <strong>Metropolis filter</strong>:</p>
+
+<div class="math-display">$$\alpha = \min\left( 1, \, \exp(-H(\boldsymbol{\theta}^*, \mathbf{p}^*) + H(\boldsymbol{\theta}^{(0)}, \mathbf{p}^{(0)})) \right)$$</div>
+
+<p>Because energy is approximately conserved along leapfrog trajectories, acceptance probabilities routinely exceed <strong>$85\%$ to $95\%$</strong>, even across trajectories spanning hundreds of dimensions!</p>
+
+<h4>The No-U-Turn Sampler (NUTS)</h4>
+
+<p>A critical limitation of standard HMC is tuning the trajectory length $L$ (number of leapfrog steps): if $L$ is too small, exploration is diffusive; if $L$ is too large, the trajectory loops back on itself (making a "U-turn"), wasting CPU cycles.</p>
+
+<p>In 2014, Matthew Hoffman and Andrew Gelman formulated the <strong>No-U-Turn Sampler (NUTS)</strong>. NUTS uses a recursive binary tree to integrate leapfrog steps forward and backward in time until the trajectory begins to turn back on itself:</p>
+
+<div class="math-display">$$\frac{d}{dt} \|\boldsymbol{\theta}_{end} - \boldsymbol{\theta}_{start}\|_2^2 &lt; 0$$</div>
+
+<p>NUTS automatically identifies the optimal trajectory length at every iteration, eliminating manual tuning and providing the industry standard for production Bayesian computation.</p>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-9">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.9</span>
+            <span>Simulation of Continuous-Time Stochastic Processes and Particle Filtering</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In quantitative finance, ecological epidemiology, and physical modeling, statistical computing requires generating full trajectories of continuous-time stochastic processes and filtering hidden dynamic states.</p>
+
+<h4>Exact Simulation of Brownian Motion and Diffusion Paths</h4>
+
+<p>The foundational building block of continuous-time stochastic calculus is the standard <strong>Brownian Motion (Wiener Process)</strong> $W(t)$ on $t \in [0, T]$, characterized by three axiomatic properties:</p>
+
+<ol>
+
+  <li>$W(0) = 0$.</li>
+
+  <li>Independent increments: For any $0 \le t_1 &lt; t_2 \le t_3 &lt; t_4$, the increment $W(t_4) - W(t_3)$ is independent of $W(t_2) - W(t_1)$.</li>
+
+  <li>Gaussian increments: For any $s &lt; t$:</li>
+
+</ol>
+
+<div class="math-display">$$W(t) - W(s) \sim \mathcal{N}(0, \, t - s)$$</div>
+
+<h5>Algorithmic Path Generation:</h5>
+
+<p>To simulate a discrete sample path across $M$ uniform time intervals $\Delta t = T / M$:</p>
+
+<ol>
+
+  <li>Generate an i.i.d. vector of standard normal variates $Z_1, \dots, Z_M \sim \mathcal{N}(0, 1)$.</li>
+
+  <li>Compute the discrete increments: $\Delta W_m = \sqrt{\Delta t} \, Z_m$.</li>
+
+  <li>Compute the trajectory via cumulative summation:</li>
+
+</ol>
+
+<div class="math-display">$$W(t_m) = \sum_{j=1}^m \Delta W_j = \text{cumsum}(\Delta \mathbf{W})$$</div>
+
+<h5>The Brownian Bridge:</h5>
+
+<p>A <strong>Brownian Bridge</strong> $B(t)$ is a standard Brownian motion conditioned to return to zero at terminal time $T$: $B(0) = 0$ and $B(T) = 0$. Given an unconstrained Brownian path $W(t)$, the Brownian bridge is constructed directly via the linear projection:</p>
+
+<div class="math-display">$$B(t) = W(t) - \frac{t}{T} W(T), \quad t \in [0, T]$$</div>
+
+<p>Brownian bridges are central to empirical process theory and evaluating the exact distribution of the Kolmogorov–Smirnov test statistic.</p>
+
+<h4>The Lewis–Shedler Thinning Algorithm for Inhomogeneous Poisson Processes</h4>
+
+<p>A homogeneous Poisson process has a constant arrival rate $\lambda$. In real-world systems (such as emergency room arrivals or financial trade transactions), the arrival rate varies continuously over time: $\lambda(t) \ge 0$.</p>
+
+<p>In 1979, P. A. W. Lewis and Gerald Shedler developed the <strong>Thinning Algorithm</strong>, applying acceptance-rejection principles to point processes.</p>
+
+<h5>Thinning Protocol:</h5>
+
+<ol>
+
+  <li>Determine an upper bound constant $\lambda^* &lt; \infty$ that majorizes the rate function:</li>
+
+</ol>
+
+<div class="math-display">$$\lambda(t) \le \lambda^* \quad \text{for all } t \in [0, T]$$</div>
+
+<ol>
+
+  <li>Simulate potential arrival times from a fast homogeneous Poisson process with constant rate $\lambda^*$:</li>
+
+</ol>
+
+<ul>
+
+  <li>Draw inter-arrival times $\Delta t_k \sim \text{Exponential}(\lambda^*)$ via inversion: $\Delta t_k = -\frac{1}{\lambda^*} \ln U_k$.</li>
+
+  <li>Potential arrival times: $t_k = t_{k-1} + \Delta t_k$.</li>
+
+</ul>
+
+<ol>
+
+  <li>For each candidate arrival time $t_k \le T$:</li>
+
+</ol>
+
+<ul>
+
+  <li>Draw $U \sim \text{Uniform}(0, 1)$.</li>
+
+  <li>Evaluate the acceptance test:</li>
+
+</ul>
+
+<div class="math-display">$$\text{If } U \le \frac{\lambda(t_k)}{\lambda^*}, \quad \text{ACCEPT and record } t_k \text{ as an event.}$$</div>
+
+<div class="math-display">$$\text{Otherwise, REJECT and discard } t_k.$$</div>
+
+<p>The accepted event times follow the exact <strong>Inhomogeneous Poisson Process with intensity $\lambda(t)$</strong> without requiring numerical integration of $\Lambda(t) = \int_0^t \lambda(s) ds$.</p>
+
+<h4>Sequential Monte Carlo (SMC) and Particle Filtering</h4>
+
+<p>For non-linear, non-Gaussian state-space hidden Markov models:</p>
+
+<ul>
+
+  <li>State equation: $\mathbf{x}_t \sim p(\mathbf{x}_t \mid \mathbf{x}_{t-1})$</li>
+
+  <li>Observation equation: $\mathbf{y}_t \sim p(\mathbf{y}_t \mid \mathbf{x}_t)$</li>
+
+</ul>
+
+<p>Classical Kalman filters fail. <strong>Particle Filters (Sequential Importance Resampling, SIR)</strong> represent the continuous filtering distribution $p(\mathbf{x}_t \mid \mathbf{y}_{1:t})$ using a cloud of $P$ weighted particles $\{ \mathbf{x}_t^{(p)}, w_t^{(p)} \}_{p=1}^P$:</p>
+
+<h4>1. Propagation: Sample new states from transition density:</h4>
+
+<div class="math-display">$$\tilde{\mathbf{x}}_t^{(p)} \sim p(\mathbf{x}_t \mid \mathbf{x}_{t-1}^{(p)})$$</div>
+
+<h4>2. Weighting: Update importance weights using observation likelihood:</h4>
+
+<div class="math-display">$$w_t^{(p)} \propto w_{t-1}^{(p)} \cdot p(\mathbf{y}_t \mid \tilde{\mathbf{x}}_t^{(p)})$$</div>
+
+<h4>3. Resampling: When effective sample size $\text{ESS} = 1 / \sum (\tilde{w}_t^{(p)})^2 &lt; P / 2$, resample $P$ particles with replacement proportional to weights $w_t^{(p)}$, eliminating low-probability trajectories and cloning promising paths.</h4>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-10">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.10</span>
+            <span>Exact Coupling and Perfect Sampling: Propp–Wilson Coupling from the Past</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A universal challenge in Markov Chain Monte Carlo (MCMC) is the <strong>burn-in problem</strong>: how long must a Markov chain run before its distribution is sufficiently close to the stationary target distribution $\pi$? Standard MCMC heuristics (such as discarding the first 1,000 draws and checking trace plots) can never guarantee that the chain has fully mixed. If the target distribution contains multiple isolated modes, a chain may remain trapped in one local basin for millions of steps, producing heavily biased inferences.</p>
+
+<p>In 1996, James Propp and David Wilson introduced <strong>Coupling from the Past (CFTP)</strong>, an algorithm that generates <strong>exact, perfectly independent, unbiased draws from the stationary distribution $\pi$</strong> without burn-in error!</p>
+
+<h4>The Coupling from the Past (CFTP) Principle</h4>
+
+<p>Suppose a Markov chain has a finite state space $\mathcal{S}$ with stationary distribution $\pi$. If we start $N = |\mathcal{S}|$ independent chains—one starting from <strong>every single possible state in $\mathcal{S}$</strong>—and simulate them forward in time using shared random numbers:</p>
+
+<ul>
+
+  <li>Due to the random updates, chains will collide and coalesce: once two chains enter the same state at the same time, they share identical future random transitions and remain merged forever.</li>
+
+  <li>However, if we simply run the chains forward until they coalesce at some random forward time $T_{forward}$, the state at $T_{forward}$ is <strong>biased</strong> toward states that facilitate early coalescence!</li>
+
+</ul>
+
+<h5>The Propp–Wilson Breakthrough: Backward Coupling</h5>
+
+<p>To eliminate forward selection bias, Propp and Wilson realized that the simulation must start in the <strong>past</strong> at time $-T$ and run forward to time $t = 0$:</p>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>Propp-Wilson Coupling from the Past (Coalescence at t = 0):
+  Time -T_2       Time -T_1                    Time 0
+      *---------------+---------------------------*
+      |               |                           |
+  x_max -------------&gt; \                          |
+                        \                         |
+  x_mid -----------------\----------------------&gt; X^* (Single Coalesced Exact Draw!)
+                         /                        |
+  x_min --------------&gt; /                         |
+      |               |                           |
+      *---------------+---------------------------*</code></pre>
+
+<ol>
+
+  <li>Start all $|\mathcal{S}|$ chains at past time $-T$ (e.g. $T = 1, 2, 4, 8, 16, \dots$).</li>
+
+  <li>Simulate all chains forward to time $t = 0$ using a fixed sequence of random update functions:</li>
+
+</ol>
+
+<div class="math-display">$$X_{t+1} = \phi(X_t, U_t), \quad t = -T, \dots, -1$$</div>
+
+<p>where $U_t \sim \text{i.i.d. Uniform}(0, 1)$ are pre-generated random seeds.</p>
+
+<ol>
+
+  <li>Check whether all $|\mathcal{S}|$ chains have <strong>coalesced into a single unique state at time $t = 0$</strong>:</li>
+
+</ol>
+
+<div class="math-display">$$\#\{ X_0(x) : x \in \mathcal{S} \} = 1$$</div>
+
+<ol>
+
+  <li>If all chains have coalesced: the single state $X_0$ is an <strong>exact, perfect draw from the stationary distribution $\pi$</strong>!</li>
+
+  <li>If the chains have not coalesced: double the backward time $T \leftarrow 2T$, reuse the exact same random seeds for times $-T, \dots, -1$, generate new seeds for times $-2T, \dots, -T - 1$, and run forward again.</li>
+
+</ol>
+
+<h5>Monotone CFTP (Overcoming Exponential State Spaces):</h5>
+
+<p>If the state space has size $|\mathcal{S}| = 2^{1000}$ (such as an Ising spin model in physics or binary spatial random field), tracking all $2^{1000}$ chains is impossible. Propp and Wilson proved that if the update function $\phi(x, u)$ preserves a partial order on $\mathcal{S}$ (i.e. $x \le y \implies \phi(x, u) \le \phi(y, u)$), one needs to simulate only <strong>two chains</strong>:</p>
+
+<ol>
+
+  <li>The chain starting from the <strong>unique minimal state</strong> $\hat{0}$.</li>
+
+  <li>The chain starting from the <strong>unique maximal state</strong> $\hat{1}$.</li>
+
+</ol>
+
+<p>Because all intermediate states are mathematically sandwiched between $\hat{0}$ and $\hat{1}$:</p>
+
+<div class="math-display">$$X_t(\hat{0}) \le X_t(x) \le X_t(\hat{1}) \quad \text{for all } x \in \mathcal{S}$$</div>
+
+<p>When the minimal and maximal chains coalesce ($X_0(\hat{0}) = X_0(\hat{1})$), <strong>every single one of the $2^{1000}$ intermediate chains has coalesced into that exact same state</strong>! Monotone CFTP delivers exact, perfect Bayesian sampling in polynomial time, completely eliminating MCMC burn-in ambiguity.</p>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-11">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.11</span>
+            <span>Multi-Level Monte Carlo (MLMC) and Variational Inference (VI)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In advanced computational mathematics and high-dimensional Bayesian statistics, researchers bridge stochastic simulation with analytical optimization using <strong>Multi-Level Monte Carlo (MLMC)</strong> and <strong>Variational Inference (VI)</strong>.</p>
+
+<h4>Multi-Level Monte Carlo (Michael Giles, 2008)</h4>
+
+<p>In stochastic differential equations (SDEs) and continuous-time finance, evaluating expected payoffs $\mathbb{E}[P]$ requires discretizing continuous time using numerical Euler–Maruyama schemes with time step $h$.</p>
+
+<ul>
+
+  <li>Small step size $h$ reduces discretization bias, but makes each path simulation computationally expensive.</li>
+
+  <li>Standard Monte Carlo requires $N = \mathcal{O}(\epsilon^{-2})$ paths at fine step $h = \mathcal{O}(\epsilon)$, requiring total computational cost $\mathcal{O}(\epsilon^{-3})$.</li>
+
+</ul>
+
+<p>Michael Giles formulated <strong>Multi-Level Monte Carlo (MLMC)</strong>, which deploys a geometric hierarchy of discretization levels $\ell = 0, 1, \dots, L$ with step sizes $h_\ell = M^{-\ell} h_0$ (e.g. $M = 2$ or $4$).</p>
+
+<p>By the telescoping sum identity:</p>
+
+<div class="math-display">$$\mathbb{E}[P_L] = \mathbb{E}[P_0] + \sum_{\ell=1}^L \mathbb{E}[P_\ell - P_{\ell-1}]$$</div>
+
+<p>Instead of simulating millions of paths at the ultra-fine level $L$, MLMC:</p>
+
+<ol>
+
+  <li>Simulates a large number of independent paths at the cheap coarse level $\ell = 0$ to estimate $\mathbb{E}[P_0]$.</li>
+
+  <li>Simulates a small number of coupled path pairs $(P_\ell, P_{\ell-1})$ using the <strong>exact same Brownian motion path</strong> at each level $\ell \ge 1$ to estimate the correction differences $\mathbb{E}[P_\ell - P_{\ell-1}]$.</li>
+
+</ol>
+
+<p>Because the coupled paths share identical Brownian increments, the variance of the difference decays exponentially with level:</p>
+
+<div class="math-display">$$\text{Var}(P_\ell - P_{\ell-1}) = \mathcal{O}(h_\ell^\beta)$$</div>
+
+<p>MLMC slashes the total computational complexity from $\mathcal{O}(\epsilon^{-3})$ down to <strong>$\mathcal{O}(\epsilon^{-2})$—the exact theoretical minimum possible for independent Monte Carlo integration</strong>!</p>
+
+<h4>Variational Inference: Transforming Integration into Optimization</h4>
+
+<p>In massive Bayesian inference where MCMC sampling is too slow, <strong>Variational Inference (VI)</strong> (David Blei, Alp Kucukelbir, Jon McAuliffe, 2017) reframes posterior integration as a deterministic optimization problem.</p>
+
+<p>Instead of generating stochastic Markov chain samples from the true posterior $p(\boldsymbol{\theta} \mid \mathbf{y})$, VI posits a tractable parametric family of distributions $q(\boldsymbol{\theta} \mid \boldsymbol{\phi})$ (the <strong>variational family</strong>) and optimizes the variational parameters $\boldsymbol{\phi}$ to minimize the Kullback–Leibler divergence to the true posterior:</p>
+
+<div class="math-display">$$\boldsymbol{\phi}^* = \arg\min_{\boldsymbol{\phi}} \mathcal{D}_{KL}(q(\boldsymbol{\theta} \mid \boldsymbol{\phi}) \,\|\, p(\boldsymbol{\theta} \mid \mathbf{y}))$$</div>
+
+<p>As derived in Section 7.5, minimizing KL divergence is mathematically equivalent to maximizing the <strong>Evidence Lower Bound (ELBO)</strong>:</p>
+
+<div class="math-display">$$\text{ELBO}(\boldsymbol{\phi}) = \mathbb{E}_{q}[\ln p(\mathbf{y}, \boldsymbol{\theta})] - \mathbb{E}_{q}[\ln q(\boldsymbol{\theta} \mid \boldsymbol{\phi})]$$</div>
+
+<h5>The Mean-Field Variational Family:</h5>
+
+<p>The classic mean-field approximation assumes the parameters factorize completely into independent univariate marginals:</p>
+
+<div class="math-display">$$q(\boldsymbol{\theta}) = \prod_{j=1}^p q_j(\theta_j)$$</div>
+
+<p>Under mean-field assumptions, the optimal coordinate updates satisfy:</p>
+
+<div class="math-display">$$\ln q_j^*(\theta_j) = \mathbb{E}_{-j}[\ln p(\mathbf{y}, \boldsymbol{\theta})] + \text{constant}$$</div>
+
+<p>Coordinate Ascent Variational Inference (CAVI) updates each variational factor in turn. For complex non-conjugate models, <strong>Black-Box Variational Inference (BBVI)</strong> uses stochastic gradient ascent on the ELBO with score function estimators (REINFORCE) or the pathwise reparameterization trick ($\boldsymbol{\theta} = g(\boldsymbol{\epsilon}, \boldsymbol{\phi})$ with $\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$), bringing Bayesian inference to datasets containing hundreds of millions of observations.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-13">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.13</span>
+            <span>Asymptotic Trio Invariance and Finite-Sample Performance: Likelihood Ratio, Wald, and Rao Score Tests</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Statistical hypothesis testing in parametric models relies heavily on the "Holy Trinity" of classical maximum likelihood inference: the <strong>Likelihood Ratio (LR)</strong> test, the <strong>Wald</strong> test, and the <strong>Rao Score (Lagrange Multiplier)</strong> test. Under the null hypothesis $H_0: \boldsymbol{\theta} = \boldsymbol{\theta}_0$ against $H_1: \boldsymbol{\theta} \ne \boldsymbol{\theta}_0$, where $\boldsymbol{\theta} \in \mathbb{R}^p$, all three test statistics converge asymptotically to the same central chi-square distribution with $p$ degrees of freedom:</p>
+
+<div class="math-display">$$\Lambda_{LR}, \, W, \, S \xrightarrow{d} \chi_p^2 \quad \text{as } n \to \infty$$</div>
+
+<p>However, in finite computational samples, their numerical behaviors, geometric interpretations, computational complexities, and parameter transformation invariance properties diverge dramatically.</p>
+
+<h4>Mathematical Formulations and Geometric Mechanics</h4>
+
+<p>Let $\ell(\boldsymbol{\theta})$ denote the sample log-likelihood function, $\hat{\boldsymbol{\theta}}$ denote the unrestricted maximum likelihood estimator, $U(\boldsymbol{\theta}) = \nabla \ell(\boldsymbol{\theta})$ denote the score vector, and $\mathcal{I}(\boldsymbol{\theta}) = -\mathbb{E}[\nabla^2 \ell(\boldsymbol{\theta})]$ denote the Fisher Information matrix (with $\mathcal{J}(\boldsymbol{\theta}) = -\nabla^2 \ell(\boldsymbol{\theta})$ representing the observed information matrix).</p>
+
+<h4>1. The Likelihood Ratio Test: Evaluates the vertical drop in the log-likelihood curve between the peak $\hat{\boldsymbol{\theta}}$ and the null parameter point $\boldsymbol{\theta}_0$:</h4>
+
+<div class="math-display">$$\Lambda_{LR} = 2 \left[ \ell(\hat{\boldsymbol{\theta}}) - \ell(\boldsymbol{\theta}_0) \right]$$</div>
+
+<h4>2. The Wald Test: Evaluates the horizontal distance between $\hat{\boldsymbol{\theta}}$ and $\boldsymbol{\theta}_0$, weighted by the local curvature at the unrestricted maximum:</h4>
+
+<div class="math-display">$$W = (\hat{\boldsymbol{\theta}} - \boldsymbol{\theta}_0)^T \mathcal{I}(\hat{\boldsymbol{\theta}}) (\hat{\boldsymbol{\theta}} - \boldsymbol{\theta}_0)$$</div>
+
+<h4>3. The Rao Score (Lagrange Multiplier) Test: Evaluates the gradient (slope) of the log-likelihood function at the restricted null parameter $\boldsymbol{\theta}_0$, normalized by information at $\boldsymbol{\theta}_0$:</h4>
+
+<div class="math-display">$$S = U(\boldsymbol{\theta}_0)^T \mathcal{I}(\boldsymbol{\theta}_0)^{-1} U(\boldsymbol{\theta}_0)$$</div>
+
+<h4>Parameter Transformation Invariance</h4>
+
+<p>A profound mathematical distinction between these three estimators lies in their behavior under smooth parameter transformations. Suppose we reparameterize the statistical model via an invertible, differentiable bijection $\boldsymbol{\psi} = g(\boldsymbol{\theta})$.</p>
+
+<ul>
+
+  <li><strong>Likelihood Ratio Invariance</strong>: Because the likelihood is a scalar function representing the probability density of observed data, the maximum log-likelihood value is invariant under reparameterization: $\max_{\boldsymbol{\psi}} \ell^*(\boldsymbol{\psi}) = \max_{\boldsymbol{\theta}} \ell(\boldsymbol{\theta})$. Consequently:</li>
+
+</ul>
+
+<div class="math-display">$$\Lambda_{LR}^* = 2 [\ell^*(\hat{\boldsymbol{\psi}}) - \ell^*(\boldsymbol{\psi}_0)] = 2 [\ell(\hat{\boldsymbol{\theta}}) - \ell(\boldsymbol{\theta}_0)] = \Lambda_{LR}$$</div>
+
+<p>The Likelihood Ratio statistic is <strong>strictly invariant</strong> to any nonlinear reparameterization.</p>
+
+<ul>
+
+  <li><strong>Rao Score Invariance</strong>: By the chain rule of multivariable calculus, the gradient transforms via the Jacobian matrix: $U_\psi(\boldsymbol{\psi}) = (\mathbf{J}^{-1})^T U_\theta(\boldsymbol{\theta})$, while the information matrix transforms via $\mathcal{I}_\psi(\boldsymbol{\psi}) = (\mathbf{J}^{-1})^T \mathcal{I}_\theta(\boldsymbol{\theta}) \mathbf{J}^{-1}$. When computing the quadratic form $S = U^T \mathcal{I}^{-1} U$, the Jacobian transformations cancel algebraically:</li>
+
+</ul>
+
+<div class="math-display">$$S^* = U_\psi^T \mathcal{I}_\psi^{-1} U_\psi = U_\theta^T \mathbf{J}^{-1} (\mathbf{J} \mathcal{I}_\theta^{-1} \mathbf{J}^T) (\mathbf{J}^{-1})^T U_\theta = U_\theta^T \mathcal{I}_\theta^{-1} U_\theta = S$$</div>
+
+<p>The Rao Score test is likewise <strong>strictly invariant</strong> under smooth parameter transformations.</p>
+
+<ul>
+
+  <li><strong>Wald Test Non-Invariance</strong>: The Wald statistic measures Euclidean distances in the parameter space. Because nonlinear mappings distort Euclidean distances, the Wald statistic is <strong>not invariant</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$W^* \ne W$$</div>
+
+<p>In logistic regression, this creates the well-known <strong>Hauck–Donner effect</strong>: when an explanatory variable is an extremely strong predictor (so that true effect $|\beta| \to \infty$), the estimated standard error $\text{SE}(\hat{\beta}) = \mathcal{I}(\hat{\beta})^{-1/2}$ diverges faster than the point estimate $\hat{\beta}$ grows, causing the Wald statistic $W = (\hat{\beta}/\text{SE}(\hat{\beta}))^2$ to paradoxically plunge toward zero. An analyst relying naively on Wald p-values would conclude that an overwhelmingly significant predictor has zero statistical significance, whereas the Likelihood Ratio test remains monotonic and correctly detects extreme significance.</p>
+
+<h4>Computational Efficiency Profiles</h4>
+
+<p>The computational trade-offs among the three tests govern their application across large-scale data science pipelines:</p>
+
+<p>| Test | Model Estimations Required | Curvature Evaluation | Primary Computational Use Case | | :--- | :--- | :--- | :--- | | <strong>Likelihood Ratio</strong> | Both Null ($H_0$) and Unrestricted ($H_1$) | Not required directly (only scalar $\ell$) | Definitive model selection, nested hypothesis testing | | <strong>Wald</strong> | Unrestricted ($H_1$) only | Required at $\hat{\boldsymbol{\theta}}$ | Standard regression summary tables (`summary(lm)`, `summary(glm)`) | | <strong>Rao Score</strong> | Null ($H_0$) only | Required at $\boldsymbol{\theta}_0$ | Genome-wide association scans (GWAS), high-throughput feature screening |</p>
+
+<p>In modern computational genetics, researchers test millions of single nucleotide polymorphisms (SNPs) against a disease phenotype. Fitting an unrestricted generalized linear model with iterative Fisher scoring for each of $10,000,000$ genetic variants requires hours or days of compute time. Because the <strong>Rao Score test requires fitting the model only once under the null hypothesis</strong> (adjusting for baseline covariates like age, sex, and ancestry principal components), all $10,000,000$ candidate SNPs can be scored in seconds via vector-matrix dot products against the precomputed null residual vector:</p>
+
+<div class="math-display">$$S_k = \frac{(\mathbf{x}_k^T \mathbf{r}_0)^2}{\mathbf{x}_k^T \mathbf{W}_0 \mathbf{x}_k}$$</div>
+
+<p>This makes the Rao Score test the premier computational workhorse of high-throughput statistical scanning.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Statistical Computing Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 5.1: Theoretical Derivation of Box–Muller Transform via Bivariate Polar Coordinates and Jacobian Determinant</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>In statistical software engineering, constructing an efficient, exact algorithm to generate standard normal variates from uniform pseudo-random number streams is fundamental.</p>
+
+<p>The standard Gaussian probability density function on $\mathbb{R}$ is:</p>
+
+<div class="math-display">$$f(z) = \frac{1}{\sqrt{2\pi}} e^{-z^2 / 2}$$</div>
+
+<p>Because its cumulative distribution function $\Phi(z) = \int_{-\infty}^z f(t) dt$ cannot be expressed in elementary closed form, the direct inverse transform method $Z = \Phi^{-1}(U)$ requires rational Chebyshev approximations.</p>
+
+<p>In 1958, George Box and Mervin Muller proposed the bivariate transformation:</p>
+
+<div class="math-display">$$Z_1 = \sqrt{-2 \ln U_1} \cos(2\pi U_2)$$</div>
+
+<div class="math-display">$$Z_2 = \sqrt{-2 \ln U_1} \sin(2\pi U_2)$$</div>
+
+<p>where $U_1, U_2 \sim \text{i.i.d. Uniform}(0, 1)$.</p>
+
+<ol>
+
+  <li>Define the inverse mapping $(Z_1, Z_2) \mapsto (U_1, U_2)$ expressing the uniform variables in terms of the normal coordinates.</li>
+
+  <li>Formulate the bivariate Jacobian matrix $\mathbf{J}$ of the transformation:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{J} = \begin{bmatrix} \frac{\partial U_1}{\partial Z_1} &amp; \frac{\partial U_1}{\partial Z_2} \\ \frac{\partial U_2}{\partial Z_1} &amp; \frac{\partial U_2}{\partial Z_2} \end{bmatrix}$$</div>
+
+<p>and derive its determinant $|\det(\mathbf{J})|$ explicitly.</p>
+
+<ol>
+
+  <li>Using the multivariate change-of-variables theorem for continuous probability densities:</li>
+
+</ol>
+
+<div class="math-display">$$f_{Z_1, Z_2}(z_1, z_2) = f_{U_1, U_2}(u_1(z_1, z_2), u_2(z_1, z_2)) \cdot |\det(\mathbf{J})|$$</div>
+
+<p>prove that $Z_1$ and $Z_2$ are independent standard normal random variables.</p>
+
+<ol>
+
+  <li>An empirical simulation draws $U_1 = 0.135335$ and $U_2 = 0.250000$. Compute the exact numerical values of the generated pair $(Z_1, Z_2)$ to four decimal places.</li>
+
+</ol>
+
+<hr class="section-divider-hr">
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-comp-5-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-comp-5-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Define the inverse transformation equations</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 1: Define the inverse transformation equations.</strong></p>
+
+<p>We are given the Box–Muller forward equations:</p>
+
+<div class="math-display">$$Z_1 = \sqrt{-2 \ln U_1} \cos(2\pi U_2)$$</div>
+
+<div class="math-display">$$Z_2 = \sqrt{-2 \ln U_1} \sin(2\pi U_2)$$</div>
+
+<p>Let us express $(U_1, U_2)$ in terms of $(Z_1, Z_2)$:</p>
+
+<h4>1. Solving for $U_1$:</h4>
+
+<p>Square both equations and add them together:</p>
+
+<div class="math-display">$$Z_1^2 + Z_2^2 = (-2 \ln U_1) \cos^2(2\pi U_2) + (-2 \ln U_1) \sin^2(2\pi U_2)$$</div>
+
+<div class="math-display">$$Z_1^2 + Z_2^2 = -2 \ln U_1 (\cos^2(2\pi U_2) + \sin^2(2\pi U_2)) = -2 \ln U_1$$</div>
+
+<p>Dividing by $-2$:</p>
+
+<div class="math-display">$$\ln U_1 = -\frac{Z_1^2 + Z_2^2}{2}$$</div>
+
+<p>Exponentiating both sides yields $U_1$:</p>
+
+<div class="math-display">$$U_1 = \exp\left( -\frac{Z_1^2 + Z_2^2}{2} \right)$$</div>
+
+<h4>2. Solving for $U_2$:</h4>
+
+<p>Divide $Z_2$ by $Z_1$:</p>
+
+<div class="math-display">$$\frac{Z_2}{Z_1} = \frac{\sqrt{-2 \ln U_1} \sin(2\pi U_2)}{\sqrt{-2 \ln U_1} \cos(2\pi U_2)} = \tan(2\pi U_2)$$</div>
+
+<p>Taking the arctangent:</p>
+
+<div class="math-display">$$2\pi U_2 = \arctan\left( \frac{Z_2}{Z_1} \right)$$</div>
+
+<p>Dividing by $2\pi$:</p>
+
+<div class="math-display">$$U_2 = \frac{1}{2\pi} \arctan\left( \frac{Z_2}{Z_1} \right) \quad (\text{adjusted to } [0, 1) \text{ via } \text{atan2})$$</div>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute the bivariate Jacobian matrix and its determinant</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 2: Compute the bivariate Jacobian matrix and its determinant.</strong></p>
+
+<p>We evaluate the four partial derivatives of $U_1(z_1, z_2)$ and $U_2(z_1, z_2)$:</p>
+
+<h4>1. Partial derivatives of $U_1 = \exp\left( -\frac{z_1^2 + z_2^2}{2} \right)$:</h4>
+
+<div class="math-display">$$\frac{\partial U_1}{\partial z_1} = -z_1 \exp\left( -\frac{z_1^2 + z_2^2}{2} \right) = -z_1 U_1$$</div>
+
+<div class="math-display">$$\frac{\partial U_1}{\partial z_2} = -z_2 \exp\left( -\frac{z_1^2 + z_2^2}{2} \right) = -z_2 U_1$$</div>
+
+<h4>2. Partial derivatives of $U_2 = \frac{1}{2\pi} \arctan(z_2 / z_1)$:</h4>
+
+<p>Using the derivative rule $\frac{d}{dt} \arctan(t) = \frac{1}{1 + t^2}$:</p>
+
+<div class="math-display">$$\frac{\partial U_2}{\partial z_1} = \frac{1}{2\pi} \frac{1}{1 + (z_2 / z_1)^2} \left( -\frac{z_2}{z_1^2} \right) = \frac{1}{2\pi} \frac{z_1^2}{z_1^2 + z_2^2} \left( -\frac{z_2}{z_1^2} \right) = -\frac{z_2}{2\pi (z_1^2 + z_2^2)}$$</div>
+
+<div class="math-display">$$\frac{\partial U_2}{\partial z_2} = \frac{1}{2\pi} \frac{1}{1 + (z_2 / z_1)^2} \left( \frac{1}{z_1} \right) = \frac{1}{2\pi} \frac{z_1^2}{z_1^2 + z_2^2} \left( \frac{1}{z_1} \right) = \frac{z_1}{2\pi (z_1^2 + z_2^2)}$$</div>
+
+<h4>3. Determinant of the Jacobian Matrix:</h4>
+
+<div class="math-display">$$\det(\mathbf{J}) = \frac{\partial U_1}{\partial z_1} \frac{\partial U_2}{\partial z_2} - \frac{\partial U_1}{\partial z_2} \frac{\partial U_2}{\partial z_1}$$</div>
+
+<p>Substitute the partial derivatives:</p>
+
+<div class="math-display">$$\det(\mathbf{J}) = (-z_1 U_1) \left( \frac{z_1}{2\pi (z_1^2 + z_2^2)} \right) - (-z_2 U_1) \left( -\frac{z_2}{2\pi (z_1^2 + z_2^2)} \right)$$</div>
+
+<div class="math-display">$$\det(\mathbf{J}) = -\frac{z_1^2 U_1}{2\pi (z_1^2 + z_2^2)} - \frac{z_2^2 U_1}{2\pi (z_1^2 + z_2^2)} = -\frac{(z_1^2 + z_2^2) U_1}{2\pi (z_1^2 + z_2^2)}$$</div>
+
+<p>The term $(z_1^2 + z_2^2)$ cancels completely!</p>
+
+<div class="math-display">$$\det(\mathbf{J}) = -\frac{U_1}{2\pi} = -\frac{1}{2\pi} \exp\left( -\frac{z_1^2 + z_2^2}{2} \right)$$</div>
+
+<p>Taking the absolute value of the determinant:</p>
+
+<div class="math-display">$$|\det(\mathbf{J})| = \frac{1}{2\pi} \exp\left( -\frac{z_1^2 + z_2^2}{2} \right)$$</div>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Apply the change-of-variables theorem to prove independence and normality</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 3: Apply the change-of-variables theorem to prove independence and normality.</strong></p>
+
+<p>Because $U_1, U_2 \sim \text{i.i.d. Uniform}(0, 1)$, their joint probability density function on the unit square $(0, 1)^2$ is:</p>
+
+<div class="math-display">$$f_{U_1, U_2}(u_1, u_2) = f_{U_1}(u_1) \cdot f_{U_2}(u_2) = 1 \times 1 = 1 \quad \text{for } 0 &lt; u_1, u_2 &lt; 1$$</div>
+
+<p>Applying the continuous multivariate change-of-variables formula:</p>
+
+<div class="math-display">$$f_{Z_1, Z_2}(z_1, z_2) = f_{U_1, U_2}(u_1(z_1, z_2), u_2(z_1, z_2)) \cdot |\det(\mathbf{J})|$$</div>
+
+<div class="math-display">$$= 1 \cdot \frac{1}{2\pi} \exp\left( -\frac{z_1^2 + z_2^2}{2} \right)$$</div>
+
+<p>Factor the joint density into the product of two separate univariate functions:</p>
+
+<div class="math-display">$$f_{Z_1, Z_2}(z_1, z_2) = \left( \frac{1}{\sqrt{2\pi}} \exp\left( -\frac{z_1^2}{2} \right) \right) \times \left( \frac{1}{\sqrt{2\pi}} \exp\left( -\frac{z_2^2}{2} \right) \right)$$</div>
+
+<p>Notice that:</p>
+
+<ul>
+
+  <li>$f_{Z_1}(z_1) = \frac{1}{\sqrt{2\pi}} e^{-z_1^2 / 2}$ is the standard normal density $\mathcal{N}(0, 1)$.</li>
+
+  <li>$f_{Z_2}(z_2) = \frac{1}{\sqrt{2\pi}} e^{-z_2^2 / 2}$ is the standard normal density $\mathcal{N}(0, 1)$.</li>
+
+  <li>Because the joint density factors as $f_{Z_1, Z_2}(z_1, z_2) = f_{Z_1}(z_1) f_{Z_2}(z_2)$, the random variables $Z_1$ and $Z_2$ are <strong>statistically independent</strong>.</li>
+
+</ul>
+
+<p>This rigorously proves the mathematical validity of the Box–Muller transform.</p>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Numerical computation</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 4: Numerical computation.</strong></p>
+
+<p>We are given $U_1 = 0.135335$ and $U_2 = 0.250000$.</p>
+
+<h4>1. Calculate the Radius $R$:</h4>
+
+<div class="math-display">$$\ln(U_1) = \ln(0.135335) \approx -2.000002 \approx -2.0$$</div>
+
+<div class="math-display">$$-2 \ln(U_1) \approx -2 \times (-2.0) = 4.0$$</div>
+
+<div class="math-display">$$R = \sqrt{-2 \ln(U_1)} = \sqrt{4.0} = 2.0$$</div>
+
+<h4>2. Calculate the Angle $\Theta$:</h4>
+
+<div class="math-display">$$\Theta = 2\pi U_2 = 2\pi \times 0.25 = \frac{\pi}{2} \text{ radians} = 90^\circ$$</div>
+
+<h4>3. Compute $(Z_1, Z_2)$:</h4>
+
+<div class="math-display">$$Z_1 = R \cos\Theta = 2.0 \times \cos\left( \frac{\pi}{2} \right) = 2.0 \times 0.0 = \mathbf{0.0000}$$</div>
+
+<div class="math-display">$$Z_2 = R \sin\Theta = 2.0 \times \sin\left( \frac{\pi}{2} \right) = 2.0 \times 1.0 = \mathbf{2.0000}$$</div>
+
+<p>The generated Gaussian pair is:</p>
+
+<div class="math-display">$$(Z_1, Z_2) = (0.0000, \, 2.0000)$$</div>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 5.2: Acceptance–Rejection Sampling Derivation for a Beta(2, 3) Distribution Using a Uniform Proposal</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An applied statistician models clinical failure probabilities using a $\text{Beta}(\alpha = 2, \beta = 3)$ distribution. The probability density function is:</p>
+
+<div class="math-display">$$f(x) = \frac{1}{\text{B}(2, 3)} x^{2 - 1} (1 - x)^{3 - 1} = \frac{\Gamma(5)}{\Gamma(2)\Gamma(3)} x (1 - x)^2, \quad x \in [0, 1]$$</div>
+
+<ol>
+
+  <li>Compute the beta normalizing constant $1/\text{B}(2, 3)$ and write down the simplified polynomial density $f(x)$.</li>
+
+  <li>We wish to sample from $f(x)$ using an Acceptance–Rejection algorithm with a standard continuous <strong>Uniform proposal distribution</strong>:</li>
+
+</ol>
+
+<div class="math-display">$$g(x) = 1, \quad x \in [0, 1]$$</div>
+
+<p>Find the exact point $x^*$ where the density ratio $r(x) = f(x) / g(x)$ achieves its maximum.</p>
+
+<ol>
+
+  <li>Compute the optimal majorizing constant $c_{opt} = \sup_{x \in [0, 1]} \frac{f(x)}{g(x)}$ and state the acceptance condition.</li>
+
+  <li>Calculate the theoretical acceptance probability $\alpha$ and the expected number of uniform draws required to produce $N = 10,000$ accepted Beta variates.</li>
+
+  <li>In a test run, the proposal generator produces $Y = 0.50$ and an independent uniform draw $U = 0.80$. Determine whether this candidate variate is accepted or rejected.</li>
+
+</ol>
+
+<hr class="section-divider-hr">
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-comp-5-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-comp-5-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Compute normalizing constant and simplified density</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 1: Compute normalizing constant and simplified density.</strong></p>
+
+<p>Recall the relationship between the Beta function and the Gamma function:</p>
+
+<div class="math-display">$$\text{B}(\alpha, \beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}$$</div>
+
+<p>For integer arguments, $\Gamma(n) = (n - 1)!$:</p>
+
+<div class="math-display">$$\Gamma(2) = 1! = 1$$</div>
+
+<div class="math-display">$$\Gamma(3) = 2! = 2$$</div>
+
+<div class="math-display">$$\Gamma(5) = 4! = 24$$</div>
+
+<p>Thus:</p>
+
+<div class="math-display">$$\text{B}(2, 3) = \frac{1 \times 2}{24} = \frac{2}{24} = \frac{1}{12}$$</div>
+
+<p>The normalizing constant is:</p>
+
+<div class="math-display">$$\frac{1}{\text{B}(2, 3)} = 12$$</div>
+
+<p>The target probability density function is:</p>
+
+<div class="math-display">$$f(x) = 12 x (1 - x)^2 = 12 x (1 - 2x + x^2) = 12 (x - 2x^2 + x^3), \quad x \in [0, 1]$$</div>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Maximize the density ratio r(x)</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 2: Maximize the density ratio r(x).</strong></p>
+
+<p>The proposal distribution is standard uniform:</p>
+
+<div class="math-display">$$g(x) = 1 \quad \text{for } x \in [0, 1]$$</div>
+
+<p>The density ratio is:</p>
+
+<div class="math-display">$$r(x) = \frac{f(x)}{g(x)} = \frac{12 x (1 - x)^2}{1} = 12 x (1 - x)^2$$</div>
+
+<p>To find the maximum on the interval $[0, 1]$, differentiate with respect to $x$:</p>
+
+<div class="math-display">$$r'(x) = 12 \left[ 1 \cdot (1 - x)^2 + x \cdot 2(1 - x)(-1) \right]$$</div>
+
+<div class="math-display">$$= 12 (1 - x) \left[ (1 - x) - 2x \right] = 12 (1 - x) (1 - 3x)$$</div>
+
+<p>Set the derivative to zero:</p>
+
+<div class="math-display">$$12 (1 - x) (1 - 3x) = 0$$</div>
+
+<p>The critical points are:</p>
+
+<ul>
+
+  <li>$x = 1$ (boundary where $r(1) = 0$).</li>
+
+  <li>$x = \frac{1}{3}$.</li>
+
+</ul>
+
+<p>Check the second derivative at $x = 1/3$:</p>
+
+<div class="math-display">$$r''(x) = 12 \left[ -(1 - 3x) + (1 - x)(-3) \right] = 12 [-1 + 3x - 3 + 3x] = 12 (6x - 4)$$</div>
+
+<div class="math-display">$$r''(1/3) = 12 \left( 6 \cdot \frac{1}{3} - 4 \right) = 12 (2 - 4) = -24 &lt; 0$$</div>
+
+<p>Since $r''(1/3) &lt; 0$, the ratio achieves its unique global maximum at:</p>
+
+<div class="math-display">$$x^* = \frac{1}{3}$$</div>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Optimal majorizing constant and acceptance condition</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 3: Optimal majorizing constant and acceptance condition.</strong></p>
+
+<p>Evaluate the ratio at the maximizing point $x^* = 1/3$:</p>
+
+<div class="math-display">$$c_{opt} = r(1/3) = 12 \left( \frac{1}{3} \right) \left( 1 - \frac{1}{3} \right)^2 = 12 \left( \frac{1}{3} \right) \left( \frac{2}{3} \right)^2$$</div>
+
+<div class="math-display">$$= 4 \times \frac{4}{9} = \frac{16}{9} \approx 1.7778$$</div>
+
+<h5>The Acceptance Condition:</h5>
+
+<p>A proposed candidate $Y \sim \text{Uniform}(0, 1)$ and uniform draw $U \sim \text{Uniform}(0, 1)$ are accepted if and only if:</p>
+
+<div class="math-display">$$U \le \frac{f(Y)}{c \, g(Y)} = \frac{12 Y (1 - Y)^2}{16 / 9} = \frac{108}{16} Y (1 - Y)^2 = \frac{27}{4} Y (1 - Y)^2$$</div>
+
+<div class="math-display">$$\text{Accept if: } U \le 6.75 \cdot Y (1 - Y)^2$$</div>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Theoretical acceptance probability and expected draw budget</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 4: Theoretical acceptance probability and expected draw budget.</strong></p>
+
+<h4>1. Acceptance Probability $\alpha$:</h4>
+
+<div class="math-display">$$\alpha = \frac{1}{c_{opt}} = \frac{1}{16 / 9} = \frac{9}{16} = 0.5625 = 56.25\%$$</div>
+
+<p>In each trial, there is a $56.25\%$ probability that the candidate variate is accepted.</p>
+
+<h4>2. Expected Number of Draws for $N = 10,000$ Variates:</h4>
+
+<p>To secure $N = 10,000$ accepted Beta variates:</p>
+
+<div class="math-display">$$\mathbb{E}[N_{trials}] = N \times c_{opt} = 10,000 \times \frac{16}{9} \approx 17,778 \text{ candidate proposals}$$</div>
+
+<p>Each proposal requires 2 uniform numbers ($Y$ and $U$).</p>
+
+<div class="math-display">$$\text{Total Expected Uniform Numbers} = 17,778 \times 2 \approx 35,556 \text{ uniform random draws}$$</div>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Numerical test case evaluation</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 5: Numerical test case evaluation.</strong></p>
+
+<p>We are given candidate $Y = 0.50$ and uniform test draw $U = 0.80$.</p>
+
+<p>Evaluate the acceptance threshold at $Y = 0.50$:</p>
+
+<div class="math-display">$$\text{Threshold}(0.50) = 6.75 \times 0.50 \times (1 - 0.50)^2 = 6.75 \times 0.50 \times 0.25$$</div>
+
+<div class="math-display">$$= 6.75 \times 0.125 = 0.84375$$</div>
+
+<p>Now test the condition $U \le \text{Threshold}$:</p>
+
+<div class="math-display">$$U = 0.80 \le 0.84375$$</div>
+
+<p>Since $0.80 \le 0.84375$ is <strong>True</strong>: The candidate variate $Y = 0.50$ is <strong>ACCEPTED</strong> as a valid draw from the $\text{Beta}(2, 3)$ distribution.</p>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 5.3: Analytical Variance Reduction Proof: Antithetic Variates vs Independent Monte Carlo Integration for Monotone Functions</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A financial risk manager computes the expected payoff of a non-linear digital asset option:</p>
+
+<div class="math-display">$$\theta = \mathbb{E}[e^U] = \int_0^1 e^u \, du$$</div>
+
+<p>where $U \sim \text{Uniform}(0, 1)$.</p>
+
+<ol>
+
+  <li>Calculate the exact theoretical value of $\theta$ and the population variance $\sigma_0^2 = \text{Var}(e^U)$ using exact analytical integration.</li>
+
+  <li>In a <strong>Crude Monte Carlo</strong> simulation, $N = 10,000$ independent uniform draws $U_1, \dots, U_N$ are generated:</li>
+
+</ol>
+
+<div class="math-display">$$\hat{\theta}_{crude} = \frac{1}{N} \sum_{i=1}^N e^{U_i}$$</div>
+
+<p>Calculate the theoretical sampling variance $\text{Var}(\hat{\theta}_{crude})$ and standard error.</p>
+
+<ol>
+
+  <li>In an <strong>Antithetic Variates</strong> simulation, $M = N / 2 = 5,000$ negatively correlated pairs $(U_j, \, 1 - U_j)$ are generated:</li>
+
+</ol>
+
+<div class="math-display">$$\hat{\theta}_{anti} = \frac{1}{M} \sum_{j=1}^M \left( \frac{e^{U_j} + e^{1 - U_j}}{2} \right)$$</div>
+
+<ul>
+
+  <li>Derive the exact analytical covariance $\text{Cov}(e^U, e^{1 - U})$ and correlation $\rho = \text{Corr}(e^U, e^{1 - U})$.</li>
+
+  <li>Calculate the theoretical sampling variance $\text{Var}(\hat{\theta}_{anti})$ and standard error.</li>
+
+</ul>
+
+<ol>
+
+  <li>Calculate the percentage variance reduction and the effective computational efficiency gain factor achieved by the antithetic estimator over crude Monte Carlo.</li>
+
+</ol>
+
+<hr class="section-divider-hr">
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-comp-5-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-comp-5-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Exact theoretical mean and variance of e^U</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 1: Exact theoretical mean and variance of e^U.</strong></p>
+
+<p>Let $U \sim \text{Uniform}(0, 1)$. The density is $f(u) = 1$ for $u \in [0, 1]$.</p>
+
+<h4>1. Exact Expected Value $\theta$:</h4>
+
+<div class="math-display">$$\theta = \mathbb{E}[e^U] = \int_0^1 e^u \, du = [e^u]_0^1 = e^1 - e^0 = e - 1$$</div>
+
+<p>Using $e \approx 2.71828183$:</p>
+
+<div class="math-display">$$\theta = 2.71828183 - 1 = 1.71828183$$</div>
+
+<h4>2. Second Moment $\mathbb{E}[(e^U)^2]$:</h4>
+
+<div class="math-display">$$\mathbb{E}[(e^U)^2] = \mathbb{E}[e^{2U}] = \int_0^1 e^{2u} \, du = \left[ \frac{e^{2u}}{2} \right]_0^1 = \frac{e^2 - 1}{2}$$</div>
+
+<p>Using $e^2 \approx 7.38905610$:</p>
+
+<div class="math-display">$$\mathbb{E}[e^{2U}] = \frac{7.38905610 - 1}{2} = \frac{6.38905610}{2} = 3.19452805$$</div>
+
+<h4>3. Population Variance $\sigma_0^2$:</h4>
+
+<div class="math-display">$$\sigma_0^2 = \text{Var}(e^U) = \mathbb{E}[e^{2U}] - (\mathbb{E}[e^U])^2 = \frac{e^2 - 1}{2} - (e - 1)^2$$</div>
+
+<p>Expanding $(e - 1)^2 = e^2 - 2e + 1$:</p>
+
+<div class="math-display">$$\sigma_0^2 = \frac{e^2 - 1}{2} - (e^2 - 2e + 1) = \frac{e^2 - 1 - 2e^2 + 4e - 2}{2} = \frac{-e^2 + 4e - 3}{2}$$</div>
+
+<p>Evaluating numerically:</p>
+
+<div class="math-display">$$(e - 1)^2 \approx (1.71828183)^2 \approx 2.95251244$$</div>
+
+<div class="math-display">$$\sigma_0^2 = 3.19452805 - 2.95251244 = 0.24201561$$</div>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Crude Monte Carlo variance and standard error</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 2: Crude Monte Carlo variance and standard error.</strong></p>
+
+<p>With $N = 10,000 = 10^4$ independent draws:</p>
+
+<h4>1. Sampling Variance:</h4>
+
+<div class="math-display">$$\text{Var}(\hat{\theta}_{crude}) = \frac{\sigma_0^2}{N} = \frac{0.24201561}{10,000} = 2.4201561 \times 10^{-5}$$</div>
+
+<h4>2. Standard Error:</h4>
+
+<div class="math-display">$$\text{SE}(\hat{\theta}_{crude}) = \sqrt{\text{Var}(\hat{\theta}_{crude})} = \frac{\sqrt{0.24201561}}{100} = \frac{0.4919508}{100} \approx 0.0049195$$</div>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Analytical covariance and Antithetic Variates variance</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 3: Analytical covariance and Antithetic Variates variance.</strong></p>
+
+<p>Let us evaluate the cross-moment $\mathbb{E}[e^U \cdot e^{1 - U}]$:</p>
+
+<div class="math-display">$$\mathbb{E}[e^U \cdot e^{1 - U}] = \mathbb{E}[e^{U + 1 - U}] = \mathbb{E}[e^1] = e$$</div>
+
+<p>Notice that the exponent $U + 1 - U = 1$ is a constant! The product $e^U \cdot e^{1 - U}$ evaluates to $e$ for <strong>every single realization</strong>!</p>
+
+<h4>1. Covariance:</h4>
+
+<div class="math-display">$$\text{Cov}(e^U, e^{1 - U}) = \mathbb{E}[e^U \cdot e^{1 - U}] - \mathbb{E}[e^U] \cdot \mathbb{E}[e^{1 - U}]$$</div>
+
+<p>Since $1 - U \sim \text{Uniform}(0, 1)$, $\mathbb{E}[e^{1 - U}] = \mathbb{E}[e^U] = e - 1$.</p>
+
+<div class="math-display">$$\text{Cov}(e^U, e^{1 - U}) = e - (e - 1)^2 = e - (e^2 - 2e + 1) = -e^2 + 3e - 1$$</div>
+
+<p>Evaluating numerically:</p>
+
+<div class="math-display">$$\text{Cov}(e^U, e^{1 - U}) = 2.71828183 - 2.95251244 = -0.23423061$$</div>
+
+<p>The covariance is strongly negative!</p>
+
+<h4>2. Correlation $\rho$:</h4>
+
+<div class="math-display">$$\rho = \frac{\text{Cov}(e^U, e^{1 - U})}{\text{Var}(e^U)} = \frac{-0.23423061}{0.24201561} \approx -0.967833$$</div>
+
+<p>The correlation between the antithetic pairs is an astonishing <strong>$-96.78\%$</strong>!</p>
+
+<h4>3. Antithetic Estimator Variance:</h4>
+
+<p>Let $T = \frac{e^U + e^{1 - U}}{2}$.</p>
+
+<div class="math-display">$$\text{Var}(T) = \frac{1}{4} \left[ \text{Var}(e^U) + \text{Var}(e^{1 - U}) + 2 \text{Cov}(e^U, e^{1 - U}) \right]$$</div>
+
+<div class="math-display">$$= \frac{1}{4} [2 \sigma_0^2 + 2 \text{Cov}] = \frac{\sigma_0^2 + \text{Cov}}{2}$$</div>
+
+<p>Substitute numerical values:</p>
+
+<div class="math-display">$$\text{Var}(T) = \frac{0.24201561 - 0.23423061}{2} = \frac{0.00778500}{2} = 0.00389250$$</div>
+
+<p>Across $M = 5,000$ pairs (total $N = 10,000$ function evaluations):</p>
+
+<div class="math-display">$$\text{Var}(\hat{\theta}_{anti}) = \frac{\text{Var}(T)}{M} = \frac{0.00389250}{5,000} = 7.78500 \times 10^{-7}$$</div>
+
+<h4>4. Antithetic Standard Error:</h4>
+
+<div class="math-display">$$\text{SE}(\hat{\theta}_{anti}) = \sqrt{7.78500 \times 10^{-7}} \approx 0.0008823$$</div>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Variance reduction and computational efficiency gain</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 4: Variance reduction and computational efficiency gain.</strong></p>
+
+<h4>1. Variance Reduction Percentage:</h4>
+
+<div class="math-display">$$\text{Reduction} = \left( 1 - \frac{\text{Var}(\hat{\theta}_{anti})}{\text{Var}(\hat{\theta}_{crude})} \right) \times 100\%$$</div>
+
+<div class="math-display">$$\frac{\text{Var}(\hat{\theta}_{anti})}{\text{Var}(\hat{\theta}_{crude})} = \frac{7.7850 \times 10^{-7}}{2.42016 \times 10^{-5}} = \frac{0.0038925}{0.121008} \approx 0.032167 \approx 3.22\%$$</div>
+
+<div class="math-display">$$\text{Variance Reduction} = 100\% - 3.22\% = \mathbf{96.78\%}$$</div>
+
+<p>The antithetic variates method <strong>eliminates $96.78\%$ of the sampling variance</strong>!</p>
+
+<h4>2. Computational Efficiency Gain Factor:</h4>
+
+<p>The efficiency gain ratio is the ratio of variances for the identical number of function evaluations:</p>
+
+<div class="math-display">$$\text{Efficiency Gain} = \frac{\text{Var}(\hat{\theta}_{crude})}{\text{Var}(\hat{\theta}_{anti})} = \frac{1}{0.032167} \approx \mathbf{31.09\times}$$</div>
+
+<h5>Conclusion:</h5>
+
+<p>To achieve the exact same precision as the Antithetic Estimator with $N = 10,000$ draws, Crude Monte Carlo would require:</p>
+
+<div class="math-display">$$N_{equivalent} = 10,000 \times 31.09 \approx 310,900 \text{ independent draws!}$$</div>
+
+<p>Antithetic variates delivers a <strong>$31$-fold speedup</strong> with zero additional algorithm complexity.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Courses Stat H-108 Computer Programming, Stat H-209 Statistical Computing I, Stat H-310 Statistical Computing II, Stat H-311 Simulation and Resampling)</a></li><li><a href="https://openstemlibrary.com/references/gentle-computational-statistics" target="_blank" rel="noopener noreferrer">Gentle, J.E. (2009). Computational Statistics: Theoretical and algorithmic foundation for random number generation, numerical optimization, and Monte Carlo integration</a></li><li><a href="https://openstemlibrary.com/references/efron-hastie-computer-age-inference" target="_blank" rel="noopener noreferrer">Efron, B. &amp; Hastie, T. (2016). Computer Age Statistical Inference: Conceptual and algorithmic synthesis of bootstrap, jackknife, cross-validation, and modern computational inference</a></li><li><a href="https://openstemlibrary.com/references/wickham-advanced-r" target="_blank" rel="noopener noreferrer">Wickham, H. (2019). Advanced R (2nd ed.): Definitive architectural reference for R memory layout, copy-on-modify semantics, and object-oriented paradigms</a></li><li><a href="https://openstemlibrary.com/references/numpy-array-programming-nature" target="_blank" rel="noopener noreferrer">Harris, C.R. et al. (2020). Array programming with NumPy. Nature: Authoritative standard for Python strided multidimensional array models, memory buffers, and SIMD vectorization</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="statistical-computing-with-python-and-r-chapter-4">← Previous chapter</a><a href="statistical-computing-with-python-and-r">Book contents</a><a href="statistical-computing-with-python-and-r-chapter-6">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="statistical-computing-with-python-and-r-sims.js?v=1"></script>
+  <script src="statistical-computing-with-python-and-r-data.js?v=1"></script>
+  <script src="app.js?v=20261013_math_comparisons_v1"></script>
+
+
+</body></html>

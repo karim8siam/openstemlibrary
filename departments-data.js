@@ -1249,6 +1249,25 @@ window.LIBRARY_CATALOG = {
             "Survey Nonresponse, Imputation and Total Survey Error",
             "Complex-Survey Inference and Replicate Variance Estimation"
           ]
+        },
+        {
+          "id": "statistical-computing-with-python-and-r",
+          "title": "Statistical Computing with Python and R",
+          "subtitle": "Memory Models, Tabular Wrangling, Numerical Linear Algebra, Monte Carlo, Resampling & Optimization",
+          "status": "AVAILABLE",
+          "url": "statistical-computing-with-python-and-r.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering NumPy/R memory models, tabular wrangling, Grammar of Graphics, numerical linear algebra & floating point, Monte Carlo & MCMC, resampling & bootstrap, numerical optimization, and reproducible statistical pipelines with 24 solved questions and 4 interactive simulations.",
+          "topics": [
+            "Programming Foundations for Statistical Data: Object Models, Vectors, Data Frames, and Memory Structures in Python and R",
+            "Data Wrangling, Tabular Transformation, Relational Joins, and Missing-Data Processing",
+            "Statistical Graphics, Grammar of Graphics, Exploratory Data Analysis, and Diagnostic Visualizations",
+            "Numerical Linear Algebra, Floating-Point Arithmetic, QR/SVD Decompositions, and Matrix Computations",
+            "Random Number Generation, Pseudo-Random Streams, Inversion/Rejection Sampling, and Monte Carlo Integration",
+            "Resampling Methods: Nonparametric Bootstrap, Jackknife, Permutation Tests, and Cross-Validation",
+            "Numerical Optimization in Statistics: Newton–Raphson, Fisher Scoring, Nelder–Mead, and the EM Algorithm",
+            "Statistical Modeling Workflows, Formula Syntaxes, Reproducible Research, and Cross-Language Pipelines"
+          ]
         }
       ]
     }

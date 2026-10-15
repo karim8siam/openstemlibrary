@@ -107,7 +107,8 @@ for (const book of books.filter(book => !process.env.OPENSTEM_BOOK || book.id ==
   const units = base.w.COURSE_DATA.units;
   if (!Array.isArray(units) || !units.length) throw Error(`Empty course: ${book.url}`);
   navigation(base.doc,book,units,0);
-  write(book.url,base.dom.serialize()); base.w.close();
+  if (book.url !== 'reader.html') write(book.url,base.dom.serialize());
+  base.w.close();
   for (let index=1; index<units.length; index++) {
     const filename = chapterUrl(book,index)+'.html';
     const {dom,w,doc} = prepare(original,filename,book,index);

@@ -1,0 +1,2284 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Numerical Optimization in Statistics: Newton–Raphson, Fisher Scoring, Nelder–Mead, and the EM Algorithm | Statistical Computing with Python and R | OpenSTEM Library</title>
+  <meta name="description" content="Optimization landscapes: convexity, gradients, Hessian positive definiteness, and condition numbers; Unconstrained algorithms: Gradient Descent, Newton-Raphson method, and backtracking line search; Fisher Scoring and Iteratively Reweighted Least Squares (IRLS) for Generalized Linear Models; Derivative-free Nelder-Mead simplex algorithm: reflection, expansion, contraction, and shrink; Expectation-Maximization (EM) algorithm: latent variables, Q-function, Jensen's inequality proof of monotonic ascent, and Gaussian Mixture Models.">
+  
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/statistical-computing-with-python-and-r-chapter-7">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/statistical-computing-with-python-and-r-chapter-7">
+  <meta property="og:title" content="Statistical Computing with Python and R: Memory Models, Linear Algebra, Monte Carlo, Resampling &amp; Optimization | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering NumPy/R memory models, tabular wrangling, Grammar of Graphics, numerical linear algebra &amp; floating point, Monte Carlo &amp; MCMC, resampling &amp; bootstrap, numerical optimization, and reproducible statistical pipelines with 24 solved questions and 4 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Statistical Computing with Python and R: Memory Models, Linear Algebra, Monte Carlo, Resampling &amp; Optimization | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering NumPy/R memory models, tabular wrangling, Grammar of Graphics, numerical linear algebra &amp; floating point, Monte Carlo &amp; MCMC, resampling &amp; bootstrap, numerical optimization, and reproducible statistical pipelines with 24 solved questions and 4 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+  
+
+  
+  <!-- Schema.org Breadcrumb Navigation -->
+  
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261013_math_comparisons_v1">
+  <!-- Google AdSense Official Script -->
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4546869673631824" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="statistical-computing-with-python-and-r.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Statistical Computing with Python and R: Numerical Optimization in Statistics: Newton–Raphson, Fisher Scoring, Nelder–Mead, and the EM Algorithm","description":"Comprehensive university textbook covering NumPy/R memory models, tabular wrangling, Grammar of Graphics, numerical linear algebra & floating point, Monte Carlo & MCMC, resampling & bootstrap, numerical optimization, and reproducible statistical pipelines with 24 solved questions and 4 interactive simulations.","url":"https://openstemlibrary.com/statistical-computing-with-python-and-r-chapter-7","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Statistical computing","NumPy and R memory models","Tabular data wrangling","Grammar of graphics","Numerical linear algebra","Monte Carlo methods","Markov chain Monte Carlo","Bootstrap and resampling","Numerical optimization"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Statistical Computing with Python and R","item":"https://openstemlibrary.com/statistical-computing-with-python-and-r"}]}</script></head>
+<body data-book-path="statistical-computing-with-python-and-r.html" data-chapter-index="6">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Statistical Computing with Python and R</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search memory strides, hash joins, ggplot2 grammar, SVD, rejection sampling, MCMC, bootstrap, Nelder-Mead…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="statistical-computing-with-python-and-r" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Programming Foundations for Statistical Data: Object Models, Vectors, Data Frames, and Memory Structures in Python and R</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="statistical-computing-with-python-and-r-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Data Wrangling, Tabular Transformation, Relational Joins, and Missing-Data Processing</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="statistical-computing-with-python-and-r-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Statistical Graphics, Grammar of Graphics, Exploratory Data Analysis, and Diagnostic Visualizations</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="statistical-computing-with-python-and-r-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Numerical Linear Algebra, Floating-Point Arithmetic, QR/SVD Decompositions, and Matrix Computations</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="statistical-computing-with-python-and-r-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Random Number Generation, Pseudo-Random Streams, Inversion/Rejection Sampling, and Monte Carlo Integration</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="statistical-computing-with-python-and-r-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Resampling Methods: Nonparametric Bootstrap, Jackknife, Permutation Tests, and Cross-Validation</span></a></li><li class="unit-nav-item active" data-unit-index="6"><a href="statistical-computing-with-python-and-r-chapter-7" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Numerical Optimization in Statistics: Newton–Raphson, Fisher Scoring, Nelder–Mead, and the EM Algorithm</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="statistical-computing-with-python-and-r-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Statistical Modeling Workflows, Formula Syntaxes, Reproducible Research, and Cross-Language Pipelines</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Statistical computing major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">
+            🔒 <span>In-Browser Protected • Direct Download Disabled</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 7 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Numerical Optimization in Statistics: Newton–Raphson, Fisher Scoring, Nelder–Mead, and the EM Algorithm</h1>
+            <p class="unit-desc-lead" id="unit-desc">Optimization landscapes: convexity, gradients, Hessian positive definiteness, and condition numbers; Unconstrained algorithms: Gradient Descent, Newton-Raphson method, and backtracking line search; Fisher Scoring and Iteratively Reweighted Least Squares (IRLS) for Generalized Linear Models; Derivative-free Nelder-Mead simplex algorithm: reflection, expansion, contraction, and shrink; Expectation-Maximization (EM) algorithm: latent variables, Q-function, Jensen's inequality proof of monotonic ascent, and Gaussian Mixture Models.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-108, Stat H-209, Stat H-310, and Stat H-311. Eight units and exactly three solved questions per unit. Interactive simulations illustrate core computational algorithms. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-7-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.1</span>
+            <span>Optimization Landscapes in Statistical Estimation: Convexity, Information Matrices, and Curvature</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In parametric statistical theory, estimating unknown model parameters almost invariably reduces to an optimization problem. Whether fitting a Generalized Linear Model (GLM) via Maximum Likelihood Estimation (MLE), training a support vector machine via quadratic programming, minimizing penalized sum-of-squares in regularized regression (Ridge, Lasso), or calibrating deep neural networks, computational algorithms must locate the optimal parameter vector $\boldsymbol{\theta}^* \in \mathbb{R}^p$ that extremizes an objective criterion:</p>
+
+<div class="math-display">$$\boldsymbol{\theta}^* = \arg\max_{\boldsymbol{\theta} \in \Theta} \ell(\boldsymbol{\theta}) \quad \text{or} \quad \boldsymbol{\theta}^* = \arg\min_{\boldsymbol{\theta} \in \Theta} f(\boldsymbol{\theta})$$</div>
+
+<p>where $\ell(\boldsymbol{\theta}) = \ln L(\boldsymbol{\theta} \mid \mathbf{y})$ represents the log-likelihood function of the observed data.</p>
+
+<p>Unlike general mathematical programming, statistical optimization exhibits unique geometric characteristics governed by <strong>information geometry</strong>, sample sizes, and the Fisher information metric.</p>
+
+<h4>Gradient Vectors and the Score Function</h4>
+
+<p>Let $\ell(\boldsymbol{\theta})$ be a twice-continuously differentiable log-likelihood function defined over an open parameter space $\Theta \subseteq \mathbb{R}^p$.</p>
+
+<p>The first-order partial derivatives form the <strong>Gradient Vector</strong>, known in mathematical statistics as the <strong>Score Vector</strong> $\mathbf{S}(\boldsymbol{\theta}) = \mathbf{g}(\boldsymbol{\theta}) \in \mathbb{R}^p$:</p>
+
+<div class="math-display">$$\mathbf{g}(\boldsymbol{\theta}) = \nabla \ell(\boldsymbol{\theta}) = \begin{bmatrix} \frac{\partial \ell(\boldsymbol{\theta})}{\partial \theta_1} \\ \frac{\partial \ell(\boldsymbol{\theta})}{\partial \theta_2} \\ \vdots \\ \frac{\partial \ell(\boldsymbol{\theta})}{\partial \theta_p} \end{bmatrix}$$</div>
+
+<p>At the Maximum Likelihood Estimate $\hat{\boldsymbol{\theta}}$, Fermat's stationary condition requires the score vector to vanish:</p>
+
+<div class="math-display">$$\mathbf{g}(\hat{\boldsymbol{\theta}}) = \mathbf{0}$$</div>
+
+<h4>The Hessian Matrix and Observed vs Expected Information</h4>
+
+<p>The second-order partial derivatives characterize the local geometric curvature of the objective function. They form the symmetric $p \times p$ <strong>Hessian Matrix</strong> $\mathbf{H}(\boldsymbol{\theta}) \in \mathbb{R}^{p \times p}$:</p>
+
+<div class="math-display">$$H_{jk}(\boldsymbol{\theta}) = \frac{\partial^2 \ell(\boldsymbol{\theta})}{\partial \theta_j \partial \theta_k}$$</div>
+
+<p>In statistical estimation, we distinguish between two fundamental information matrices:</p>
+
+<h5>1. The Observed Information Matrix $\mathcal{J}(\boldsymbol{\theta})$:</h5>
+
+<p>The negative of the Hessian matrix evaluated at the parameter point:</p>
+
+<div class="math-display">$$\mathcal{J}(\boldsymbol{\theta}) = -\mathbf{H}(\boldsymbol{\theta}) = -\nabla^2 \ell(\boldsymbol{\theta})$$</div>
+
+<p>The observed information measures the sample-specific local curvature of the log-likelihood surface around $\boldsymbol{\theta}$. If the observed information is large and positive definite, the log-likelihood surface drops off sharply around the peak, indicating that the sample data constrains the parameter tightly with small standard errors.</p>
+
+<h5>2. The Expected (Fisher) Information Matrix $\mathcal{I}(\boldsymbol{\theta})$:</h5>
+
+<p>The mathematical expectation of the observed information over the data-generating distribution:</p>
+
+<div class="math-display">$$\mathcal{I}(\boldsymbol{\theta}) = \mathbb{E}_{\mathbf{Y} \mid \boldsymbol{\theta}} [\mathcal{J}(\boldsymbol{\theta})] = \mathbb{E}_{\mathbf{Y} \mid \boldsymbol{\theta}} \left[ -\nabla^2 \ell(\boldsymbol{\theta}) \right]$$</div>
+
+<p>Under standard Fisher regularity conditions:</p>
+
+<ol>
+
+  <li>The support of the distribution $\mathcal{X}$ does not depend on parameter $\boldsymbol{\theta}$.</li>
+
+  <li>The log-likelihood is twice differentiable with exchangeable integration and differentiation.</li>
+
+</ol>
+
+<p>The expected information satisfies the fundamental <strong>Information Identity</strong>:</p>
+
+<div class="math-display">$$\mathcal{I}(\boldsymbol{\theta}) = \text{Var}_{\boldsymbol{\theta}}(\mathbf{g}(\boldsymbol{\theta})) = \mathbb{E}_{\boldsymbol{\theta}} \left[ \mathbf{g}(\boldsymbol{\theta}) \mathbf{g}(\boldsymbol{\theta})^\top \right]$$</div>
+
+<p>Because $\mathcal{I}(\boldsymbol{\theta})$ is the covariance matrix of the score vector, it is <strong>strictly positive semi-definite (PSD) everywhere</strong> across the parameter space:</p>
+
+<div class="math-display">$$\mathbf{v}^\top \mathcal{I}(\boldsymbol{\theta}) \mathbf{v} \ge 0 \quad \text{for all } \mathbf{v} \in \mathbb{R}^p$$</div>
+
+<p>This guarantee of positive semi-definiteness is a massive computational advantage of Fisher scoring over standard Newton–Raphson.</p>
+
+<h4>Convexity, Condition Numbers, and Ill-Conditioned Valleys</h4>
+
+<p>An objective function $f(\boldsymbol{\theta})$ is <strong>strictly convex</strong> on $\Theta$ if for all $\boldsymbol{\theta}_1 \ne \boldsymbol{\theta}_2$ and $\alpha \in (0, 1)$:</p>
+
+<div class="math-display">$$f(\alpha \boldsymbol{\theta}_1 + (1 - \alpha)\boldsymbol{\theta}_2) &lt; \alpha f(\boldsymbol{\theta}_1) + (1 - \alpha) f(\boldsymbol{\theta}_2)$$</div>
+
+<p>Equivalently, for twice-differentiable functions, convexity is characterized by the Hessian:</p>
+
+<div class="math-display">$$\nabla^2 f(\boldsymbol{\theta}) \succ 0 \quad \text{(strictly positive definite for all } \boldsymbol{\theta} \in \Theta)$$</div>
+
+<p>For strictly convex optimization problems (such as Ordinary Least Squares, Logistic Regression, Poisson GLMs with canonical links, and Lasso regression), any local minimum is guaranteed to be the unique <strong>global minimum</strong>.</p>
+
+<h5>The Condition Number of the Hessian:</h5>
+
+<p>The difficulty of minimizing a convex quadratic function $f(\boldsymbol{\theta}) \approx \frac{1}{2} \boldsymbol{\theta}^\top \mathbf{A} \boldsymbol{\theta}$ is governed by the <strong>Condition Number</strong> of the Hessian:</p>
+
+<div class="math-display">$$\kappa(\mathbf{A}) = \frac{\lambda_{max}(\mathbf{A})}{\lambda_{min}(\mathbf{A})}$$</div>
+
+<ul>
+
+  <li>If $\kappa \approx 1$, the contour level sets are spherical circles. Gradient descent steps point directly toward the global minimum.</li>
+
+  <li>If $\kappa \gg 1$ (e.g. $\kappa = 10^6$, common in collinear statistical models), the level sets form elongated, narrow ellipsoidal ravines. First-order gradient methods oscillate violently from side to side across the steep canyon walls while making glacial progress along the flat valley floor (the "zigzagging" pathology).</li>
+
+</ul>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.2</span>
+            <span>Gradient-Based Unconstrained Optimization: Gradient Descent, Newton–Raphson, and Quasi-Newton (BFGS)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>To locate the optimum of an unconstrained statistical objective function, iterative descent algorithms generate a sequence of parameter vectors $\boldsymbol{\theta}^{(0)}, \boldsymbol{\theta}^{(1)}, \dots, \boldsymbol{\theta}^{(t)}$ that monotonically improve the criterion.</p>
+
+<h4>Gradient Descent and Line Search Strategies</h4>
+
+<p>To minimize a cost function $f(\boldsymbol{\theta})$ (or maximize $\ell(\boldsymbol{\theta})$), the <strong>Gradient Descent</strong> algorithm steps in the direction of steepest local descent:</p>
+
+<div class="math-display">$$\boldsymbol{\theta}^{(t+1)} = \boldsymbol{\theta}^{(t)} - \gamma_t \nabla f(\boldsymbol{\theta}^{(t)})$$</div>
+
+<p>where $\gamma_t &gt; 0$ is the <strong>step size (learning rate)</strong>.</p>
+
+<h5>Step Size Selection and the Backtracking Armijo Line Search:</h5>
+
+<p>Choosing a fixed step size $\gamma$ is perilous: if $\gamma$ is too small, convergence takes millions of iterations; if $\gamma$ is too large, the algorithm overshoots the minimum and diverges to infinity.</p>
+
+<p>To guarantee robust convergence, modern optimization deploys the <strong>Armijo Backtracking Line Search</strong>:</p>
+
+<ol>
+
+  <li>Choose baseline parameters: contraction factor $\tau \in (0, 1)$ (typically $\tau = 0.5$) and sufficient decrease factor $c \in (0, 1)$ (typically $c = 10^{-4}$).</li>
+
+  <li>Start with trial step $\gamma = 1.0$.</li>
+
+  <li>Check the <strong>Armijo Condition</strong>:</li>
+
+</ol>
+
+<div class="math-display">$$f(\boldsymbol{\theta}^{(t)} - \gamma \nabla f(\boldsymbol{\theta}^{(t)})) \le f(\boldsymbol{\theta}^{(t)}) - c \, \gamma \|\nabla f(\boldsymbol{\theta}^{(t)})\|_2^2$$</div>
+
+<ol>
+
+  <li>If the condition is violated, shrink the step: $\gamma \leftarrow \tau \gamma$, and repeat until sufficient decrease is achieved.</li>
+
+</ol>
+
+<p>Gradient descent with Armijo backtracking exhibits guaranteed convergence to a stationary point, but its asymptotic rate of convergence is strictly <strong>linear</strong>:</p>
+
+<div class="math-display">$$\|\boldsymbol{\theta}^{(t+1)} - \boldsymbol{\theta}^*\| \le C \left( \frac{\kappa - 1}{\kappa + 1} \right) \|\boldsymbol{\theta}^{(t)} - \boldsymbol{\theta}^*\|$$</div>
+
+<p>When $\kappa$ is large, $\frac{\kappa - 1}{\kappa + 1} \approx 1 - \frac{2}{\kappa}$, making convergence painfully slow.</p>
+
+<h4>The Newton–Raphson Algorithm</h4>
+
+<p>To overcome the linear convergence limitation of gradient descent, the <strong>Newton–Raphson Method</strong> incorporates second-order curvature information.</p>
+
+<h5>Quadratic Taylor Series Approximation:</h5>
+
+<p>Approximate the log-likelihood function $\ell(\boldsymbol{\theta})$ around current estimate $\boldsymbol{\theta}^{(t)}$ using a second-order Taylor expansion:</p>
+
+<div class="math-display">$$\ell(\boldsymbol{\theta}) \approx \ell(\boldsymbol{\theta}^{(t)}) + \mathbf{g}(\boldsymbol{\theta}^{(t)})^\top (\boldsymbol{\theta} - \boldsymbol{\theta}^{(t)}) + \frac{1}{2} (\boldsymbol{\theta} - \boldsymbol{\theta}^{(t)})^\top \mathbf{H}(\boldsymbol{\theta}^{(t)}) (\boldsymbol{\theta} - \boldsymbol{\theta}^{(t)})$$</div>
+
+<p>Differentiating with respect to $\boldsymbol{\theta}$ and setting the gradient to zero:</p>
+
+<div class="math-display">$$\nabla \ell(\boldsymbol{\theta}) \approx \mathbf{g}(\boldsymbol{\theta}^{(t)}) + \mathbf{H}(\boldsymbol{\theta}^{(t)}) (\boldsymbol{\theta} - \boldsymbol{\theta}^{(t)}) = \mathbf{0}$$</div>
+
+<p>Solving for $\boldsymbol{\theta}$ yields the <strong>Newton–Raphson Update Equation</strong>:</p>
+
+<div class="math-display">$$\boldsymbol{\theta}^{(t+1)} = \boldsymbol{\theta}^{(t)} - [\mathbf{H}(\boldsymbol{\theta}^{(t)})]^{-1} \mathbf{g}(\boldsymbol{\theta}^{(t)}) = \boldsymbol{\theta}^{(t)} + [\mathcal{J}(\boldsymbol{\theta}^{(t)})]^{-1} \mathbf{g}(\boldsymbol{\theta}^{(t)})$$</div>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>Newton-Raphson Quadratic Leap:
+  Objective ^
+            |          True Objective Function f(\theta)
+            |        .-----------------------------.
+            |       /                               \
+            |      /   Quadratic Model Q(\theta)     \
+            |     /   .-----------------------.       \
+            |    /   /                         \       \
+        0.0 +---+---+---------------------------+-------+---&gt; \theta
+               \theta^{(t)}                  \theta^{(t+1)}
+               (Current)                      (Exact Minimum of Q)</code></pre>
+
+<h5>The Quadratic Convergence Property:</h5>
+
+<p>If $\boldsymbol{\theta}^{(0)}$ is sufficiently close to $\boldsymbol{\theta}^*$ and the Hessian $\mathbf{H}(\boldsymbol{\theta}^*)$ is non-singular, Newton–Raphson converges with <strong>quadratic convergence speed</strong>:</p>
+
+<div class="math-display">$$\|\boldsymbol{\theta}^{(t+1)} - \boldsymbol{\theta}^*\| \le C \|\boldsymbol{\theta}^{(t)} - \boldsymbol{\theta}^*\|^2$$</div>
+
+<p>Each iteration approximately <strong>doubles the number of accurate significant digits</strong>! Once inside the basin of attraction, the algorithm terminates in 4 to 6 iterations.</p>
+
+<h5>Severe Breakdown Modes of Newton–Raphson:</h5>
+
+<h4>1. Non-Positive Definite Hessians: Far from the optimum in non-convex landscapes, $\mathbf{H}(\boldsymbol{\theta}^{(t)})$ may have negative eigenvalues. The Newton step then climbs toward a local maximum or saddle point rather than descending!</h4>
+
+<h4>2. Computational Scaling: Evaluating the exact analytical Hessian requires computing $p(p+1)/2$ second derivatives. Solving the linear system $\mathbf{H} \boldsymbol{\Delta} = -\mathbf{g}$ via Cholesky or LU factorization costs $\mathcal{O}(p^3)$ FLOPs per step. When $p = 10,000$, a single Newton step requires $10^{12}$ operations, becoming computationally impossible.</h4>
+
+<h4>Quasi-Newton Methods: BFGS and Limited-Memory L-BFGS</h4>
+
+<p>To achieve super-linear convergence without computing or inverting the full $p \times p$ Hessian matrix at each step, Charles Broyden, Roger Fletcher, Donald Goldfarb, and David Shanno (1970) formulated the <strong>BFGS Algorithm</strong>.</p>
+
+<p>Instead of computing $\mathbf{H}^{-1}$ explicitly, BFGS maintains a running symmetric positive-definite approximation of the inverse Hessian matrix $\mathbf{B}_t \approx [\nabla^2 f(\boldsymbol{\theta}^{(t)})]^{-1}$.</p>
+
+<h5>The BFGS Update Formula:</h5>
+
+<p>Let $\mathbf{s}_t = \boldsymbol{\theta}^{(t+1)} - \boldsymbol{\theta}^{(t)}$ denote the parameter displacement, and $\mathbf{y}_t = \mathbf{g}_{t+1} - \mathbf{g}_t$ denote the gradient displacement. The updated inverse Hessian approximation $\mathbf{B}_{t+1}$ must satisfy the <strong>Secant Equation</strong>:</p>
+
+<div class="math-display">$$\mathbf{B}_{t+1} \mathbf{y}_t = \mathbf{s}_t$$</div>
+
+<p>BFGS constructs the unique symmetric rank-two update that preserves positive definiteness:</p>
+
+<div class="math-display">$$\mathbf{B}_{t+1} = (\mathbf{I} - \rho_t \mathbf{s}_t \mathbf{y}_t^\top) \mathbf{B}_t (\mathbf{I} - \rho_t \mathbf{y}_t \mathbf{s}_t^\top) + \rho_t \mathbf{s}_t \mathbf{s}_t^\top$$</div>
+
+<p>where $\rho_t = \frac{1}{\mathbf{y}_t^\top \mathbf{s}_t}$.</p>
+
+<ul>
+
+  <li>Each step requires only matrix-vector multiplications ($\mathcal{O}(p^2)$ operations instead of $\mathcal{O}(p^3)$).</li>
+
+  <li><strong>L-BFGS (Limited-Memory BFGS)</strong>: For massive models, storing $\mathbf{B}_t$ ($p \times p$ numbers) is impossible. L-BFGS stores only the last $m$ displacement vectors $\{\mathbf{s}_k, \mathbf{y}_k\}_{k=t-m}^t$ (typically $m \in [5, 20]$), computing the search direction via a two-loop recursion in strictly $\mathcal{O}(m p)$ memory and time.</li>
+
+</ul>
+
+<hr class="section-divider-hr">
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-comp-optimization"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.3</span>
+            <span>Fisher Scoring and Iteratively Reweighted Least Squares (IRLS) for GLMs</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In statistical modeling, Generalized Linear Models (GLMs), developed by John Nelder and Robert Wedderburn in 1972, extend classical linear regression to non-Gaussian exponential dispersion families (Binomial, Poisson, Gamma, Inverse Gaussian).</p>
+
+<p>To fit GLMs, statisticians deploy a specialized second-order algorithm known as <strong>Fisher Scoring</strong>, which translates optimization directly into an iterative weighted least-squares problem: <strong>Iteratively Reweighted Least Squares (IRLS)</strong>.</p>
+
+<h4>Fisher Scoring Algorithm</h4>
+
+<p>The <strong>Fisher Scoring Method</strong> replaces the sample-dependent observed information matrix $\mathcal{J}(\boldsymbol{\theta}) = -\mathbf{H}(\boldsymbol{\theta})$ in Newton–Raphson with the <strong>Expected (Fisher) Information Matrix</strong> $\mathcal{I}(\boldsymbol{\theta})$:</p>
+
+<div class="math-display">$$\boldsymbol{\theta}^{(t+1)} = \boldsymbol{\theta}^{(t)} + [\mathcal{I}(\boldsymbol{\theta}^{(t)})]^{-1} \mathbf{g}(\boldsymbol{\theta}^{(t)})$$</div>
+
+<h5>Comparative Theoretical Virtues of Fisher Scoring vs Newton–Raphson:</h5>
+
+<h4>1. Guaranteed Descent Direction: Because $\mathcal{I}(\boldsymbol{\theta})$ is the covariance matrix of the score vector, it is guaranteed to be positive semi-definite everywhere. The search direction $\mathbf{d} = \mathcal{I}^{-1} \mathbf{g}$ satisfies:</h4>
+
+<div class="math-display">$$\mathbf{g}^\top \mathbf{d} = \mathbf{g}^\top \mathcal{I}^{-1} \mathbf{g} \ge 0$$</div>
+
+<p>Fisher scoring can <strong>never</strong> climb in the wrong direction or get trapped by negative curvature.</p>
+
+<h4>2. Canonical Link Equivalence: When a GLM uses its canonical link function (e.g. logit for Binomial, log for Poisson), the observed information and expected information are mathematically identical:</h4>
+
+<div class="math-display">$$\mathcal{J}(\boldsymbol{\theta}) \equiv \mathcal{I}(\boldsymbol{\theta})$$</div>
+
+<p>Under canonical links, Fisher scoring and Newton–Raphson execute the <strong>exact same arithmetic steps</strong>.</p>
+
+<h4>The Exponential Dispersion Family and GLM Architecture</h4>
+
+<p>In a univariate GLM, the response variable $Y_i$ has a distribution belonging to the <strong>Exponential Dispersion Family</strong> with density:</p>
+
+<div class="math-display">$$f(y_i \mid \theta_i, \phi) = \exp\left( \frac{y_i \theta_i - b(\theta_i)}{a(\phi)} + c(y_i, \phi) \right)$$</div>
+
+<p>where:</p>
+
+<ul>
+
+  <li>$\theta_i$ is the <strong>natural (canonical) parameter</strong>.</li>
+
+  <li>$b(\theta_i)$ is the <strong>cumulant generator function</strong>.</li>
+
+  <li>$\phi$ is the <strong>dispersion parameter</strong>.</li>
+
+</ul>
+
+<p>By standard properties of exponential families:</p>
+
+<div class="math-display">$$\mathbb{E}[Y_i] = \mu_i = b'(\theta_i)$$</div>
+
+<div class="math-display">$$\text{Var}(Y_i) = b''(\theta_i) a(\phi) = V(\mu_i) a(\phi)$$</div>
+
+<p>where $V(\mu)$ is the <strong>variance function</strong>.</p>
+
+<p>The GLM links the linear predictor $\eta_i = \mathbf{x}_i^\top \boldsymbol{\beta}$ to the mean $\mu_i$ via a monotonic, differentiable <strong>link function</strong> $g(\cdot)$:</p>
+
+<div class="math-display">$$\eta_i = g(\mu_i) \implies \mu_i = g^{-1}(\eta_i)$$</div>
+
+<h4>Derivation of the IRLS Algorithm</h4>
+
+<p>Let us derive the score vector and Fisher information matrix for parameter vector $\boldsymbol{\beta} \in \mathbb{R}^p$.</p>
+
+<h5>1. The Score Vector:</h5>
+
+<p>Using the chain rule:</p>
+
+<div class="math-display">$$\frac{\partial \ell_i}{\partial \beta_j} = \frac{\partial \ell_i}{\partial \theta_i} \frac{\partial \theta_i}{\partial \mu_i} \frac{\partial \mu_i}{\partial \eta_i} \frac{\partial \eta_i}{\partial \beta_j}$$</div>
+
+<p>Notice that:</p>
+
+<ul>
+
+  <li>$\frac{\partial \ell_i}{\partial \theta_i} = \frac{y_i - b'(\theta_i)}{a(\phi)} = \frac{y_i - \mu_i}{a(\phi)}$.</li>
+
+  <li>Since $\mu_i = b'(\theta_i)$, $\frac{\partial \mu_i}{\partial \theta_i} = b''(\theta_i) = V(\mu_i) \implies \frac{\partial \theta_i}{\partial \mu_i} = \frac{1}{V(\mu_i)}$.</li>
+
+  <li>$\frac{\partial \eta_i}{\partial \beta_j} = x_{ij}$.</li>
+
+  <li>Let $g'(\mu_i) = \frac{\partial \eta_i}{\partial \mu_i}$, so $\frac{\partial \mu_i}{\partial \eta_i} = \frac{1}{g'(\mu_i)}$.</li>
+
+</ul>
+
+<p>Combining terms:</p>
+
+<div class="math-display">$$\frac{\partial \ell_i}{\partial \beta_j} = \frac{y_i - \mu_i}{a(\phi) V(\mu_i) g'(\mu_i)} x_{ij}$$</div>
+
+<p>Define the <strong>working weights</strong> $W_i$:</p>
+
+<div class="math-display">$$W_i = \frac{1}{V(\mu_i) [g'(\mu_i)]^2}$$</div>
+
+<p>In matrix notation, let $\mathbf{W} = \text{diag}(W_1, \dots, W_n) \in \mathbb{R}^{n \times n}$.</p>
+
+<p>The overall score vector across all $n$ observations is:</p>
+
+<div class="math-display">$$\mathbf{g}(\boldsymbol{\beta}) = \frac{1}{a(\phi)} \mathbf{X}^\top \mathbf{W} \mathbf{D} (\mathbf{y} - \boldsymbol{\mu})$$</div>
+
+<p>where $\mathbf{D} = \text{diag}(g'(\mu_1), \dots, g'(\mu_n))$.</p>
+
+<h5>2. The Fisher Information Matrix:</h5>
+
+<p>The Expected Information Matrix is:</p>
+
+<div class="math-display">$$\mathcal{I}(\boldsymbol{\beta}) = \mathbb{E}\left[ \mathbf{g}(\boldsymbol{\beta}) \mathbf{g}(\boldsymbol{\beta})^\top \right] = \frac{1}{a(\phi)} \mathbf{X}^\top \mathbf{W} \mathbf{X}$$</div>
+
+<h5>3. The Fisher Scoring Step as Weighted Least Squares:</h5>
+
+<p>Substitute $\mathbf{g}$ and $\mathcal{I}$ into the Fisher scoring equation:</p>
+
+<div class="math-display">$$\boldsymbol{\beta}^{(t+1)} = \boldsymbol{\beta}^{(t)} + [\mathcal{I}(\boldsymbol{\beta}^{(t)})]^{-1} \mathbf{g}(\boldsymbol{\beta}^{(t)})$$</div>
+
+<div class="math-display">$$\boldsymbol{\beta}^{(t+1)} = \boldsymbol{\beta}^{(t)} + (\mathbf{X}^\top \mathbf{W}_t \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{W}_t \mathbf{D}_t (\mathbf{y} - \boldsymbol{\mu}_t)$$</div>
+
+<p>Factor out $(\mathbf{X}^\top \mathbf{W}_t \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{W}_t$:</p>
+
+<div class="math-display">$$\boldsymbol{\beta}^{(t+1)} = (\mathbf{X}^\top \mathbf{W}_t \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{W}_t \left[ \mathbf{X} \boldsymbol{\beta}^{(t)} + \mathbf{D}_t (\mathbf{y} - \boldsymbol{\mu}_t) \right]$$</div>
+
+<p>Define the <strong>adjusted working response vector</strong> $\mathbf{z}_t \in \mathbb{R}^n$:</p>
+
+<div class="math-display">$$z_{i, t} = \eta_{i, t} + (y_i - \mu_{i, t}) g'(\mu_{i, t})$$</div>
+
+<p>The update equation simplifies to:</p>
+
+<div class="math-display">$$\boldsymbol{\beta}^{(t+1)} = (\mathbf{X}^\top \mathbf{W}_t \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{W}_t \mathbf{z}_t$$</div>
+
+<p>This is the exact mathematical solution to a <strong>Weighted Least Squares (WLS)</strong> regression of the working response $\mathbf{z}_t$ on the design matrix $\mathbf{X}$ with diagonal weight matrix $\mathbf{W}_t$!</p>
+
+<h5>The IRLS Loop:</h5>
+
+<ol>
+
+  <li>Initialize $\boldsymbol{\beta}^{(0)}$ (or initialize $\mu_i^{(0)} = y_i + \delta$).</li>
+
+  <li>Compute linear predictors $\eta_{i, t} = \mathbf{x}_i^\top \boldsymbol{\beta}^{(t)}$ and fitted means $\mu_{i, t} = g^{-1}(\eta_{i, t})$.</li>
+
+  <li>Compute working weights $W_{i, t} = \frac{1}{V(\mu_{i, t}) [g'(\mu_{i, t})]^2}$ and working responses $z_{i, t} = \eta_{i, t} + (y_i - \mu_{i, t}) g'(\mu_{i, t})$.</li>
+
+  <li>Solve the weighted least squares problem $\boldsymbol{\beta}^{(t+1)} = (\mathbf{X}^\top \mathbf{W}_t \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{W}_t \mathbf{z}_t$ via Householder QR.</li>
+
+  <li>Repeat until $\|\boldsymbol{\beta}^{(t+1)} - \boldsymbol{\beta}^{(t)}\|_\infty &lt; \epsilon$.</li>
+
+</ol>
+
+<p>This celebrated derivation explains why `glm()` in R and `statsmodels.api.GLM` in Python execute so efficiently: every iteration leverages highly optimized compiled QR routines for weighted regression.</p>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.4</span>
+            <span>Derivative-Free Optimization: The Nelder–Mead Simplex Algorithm</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In many complex statistical settings, computing analytical gradients $\mathbf{g}(\boldsymbol{\theta})$ or Hessians $\mathbf{H}(\boldsymbol{\theta})$ is impossible. For example, the likelihood function may be evaluated via stochastic Monte Carlo simulation (Simulated Method of Moments), black-box physics codes, or non-smooth step functions.</p>
+
+<p>In 1965, John Nelder and Roger Mead developed the <strong>Nelder–Mead Simplex Algorithm</strong> (the default optimization method of `optim(method = "Nelder-Mead")` in R and `scipy.optimize.minimize(method = "Nelder-Mead")` in Python).</p>
+
+<p>Nelder–Mead is a <strong>derivative-free heuristic</strong> that adapts a geometric simplex to the local contours of the objective surface.</p>
+
+<h4>Anatomy of a Simplex</h4>
+
+<p>In a $p$-dimensional parameter space $\mathbb{R}^p$, a <strong>simplex</strong> is a geometric polytope formed by $p + 1$ distinct vertex vectors:</p>
+
+<div class="math-display">$$\mathcal{S} = \{ \mathbf{x}_1, \mathbf{x}_2, \dots, \mathbf{x}_{p+1} \}$$</div>
+
+<ul>
+
+  <li>In $p = 1$ dimension, a simplex is a line segment (2 vertices).</li>
+
+  <li>In $p = 2$ dimensions, a simplex is a triangle (3 vertices).</li>
+
+  <li>In $p = 3$ dimensions, a simplex is a tetrahedron (4 vertices).</li>
+
+</ul>
+
+<p>At each iteration, the objective function $f(\mathbf{x})$ is evaluated at all $p + 1$ vertices, and the vertices are sorted in ascending order of function values:</p>
+
+<div class="math-display">$$f(\mathbf{x}_1) \le f(\mathbf{x}_2) \le \dots \le f(\mathbf{x}_p) \le f(\mathbf{x}_{p+1})$$</div>
+
+<p>We define:</p>
+
+<ul>
+
+  <li>$\mathbf{x}_1$: The <strong>best vertex</strong> ($\mathbf{x}_l$, lowest cost).</li>
+
+  <li>$\mathbf{x}_p$: The <strong>second-worst vertex</strong> ($\mathbf{x}_s$).</li>
+
+  <li>$\mathbf{x}_{p+1}$: The <strong>worst vertex</strong> ($\mathbf{x}_h$, highest cost).</li>
+
+  <li>$\bar{\mathbf{x}}$: The <strong>centroid</strong> of all vertices <em>excluding</em> the worst vertex:</li>
+
+</ul>
+
+<div class="math-display">$$\bar{\mathbf{x}} = \frac{1}{p} \sum_{i=1}^p \mathbf{x}_i$$</div>
+
+<h4>The Four Fundamental Geometric Transformations</h4>
+
+<p>The algorithm attempts to replace the worst vertex $\mathbf{x}_{p+1}$ with a superior point using four geometric transformations governed by standard tuning parameters $(\alpha, \gamma, \rho, \sigma) = (1.0, 2.0, 0.5, 0.5)$:</p>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>Nelder-Mead Geometric Transformations:
+              x_e (Expansion: gamma=2.0)
+               ^
+               |
+              x_r (Reflection: alpha=1.0)
+               ^
+               |
+         [Centroid \bar{x}]
+          /        \
+        x_1         x_2
+         \         /
+          x_{p+1} (Worst Vertex)</code></pre>
+
+<h4>1. Reflection ($\alpha = 1.0$):</h4>
+
+<p>Reflect the worst vertex through the centroid:</p>
+
+<div class="math-display">$$\mathbf{x}_r = \bar{\mathbf{x}} + \alpha (\bar{\mathbf{x}} - \mathbf{x}_{p+1})$$</div>
+
+<p>Evaluate $f_r = f(\mathbf{x}_r)$.</p>
+
+<ul>
+
+  <li>If $f(\mathbf{x}_1) \le f_r &lt; f(\mathbf{x}_p)$: The reflected point is better than the second-worst, but not strictly the best. Replace $\mathbf{x}_{p+1} \leftarrow \mathbf{x}_r$, and terminate the iteration.</li>
+
+</ul>
+
+<h4>2. Expansion ($\gamma = 2.0$):</h4>
+
+<p>If the reflected point is strictly better than the current best ($f_r &lt; f(\mathbf{x}_1)$), the search direction is highly promising. Expand further along the ray:</p>
+
+<div class="math-display">$$\mathbf{x}_e = \bar{\mathbf{x}} + \gamma (\mathbf{x}_r - \bar{\mathbf{x}})$$</div>
+
+<p>Evaluate $f_e = f(\mathbf{x}_e)$.</p>
+
+<ul>
+
+  <li>If $f_e &lt; f_r$: Replace $\mathbf{x}_{p+1} \leftarrow \mathbf{x}_e$.</li>
+
+  <li>Otherwise: Replace $\mathbf{x}_{p+1} \leftarrow \mathbf{x}_r$.</li>
+
+</ul>
+
+<h4>3. Contraction ($\rho = 0.5$):</h4>
+
+<p>If the reflected point is worse than the second-worst ($f_r \ge f(\mathbf{x}_p)$), the simplex has overshot the valley. Perform a contraction:</p>
+
+<ul>
+
+  <li><strong>Outside Contraction ($f(\mathbf{x}_p) \le f_r &lt; f(\mathbf{x}_{p+1})$)</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$\mathbf{x}_{oc} = \bar{\mathbf{x}} + \rho (\mathbf{x}_r - \bar{\mathbf{x}})$$</div>
+
+<p>If $f(\mathbf{x}_{oc}) \le f_r$, accept $\mathbf{x}_{p+1} \leftarrow \mathbf{x}_{oc}$.</p>
+
+<ul>
+
+  <li><strong>Inside Contraction ($f_r \ge f(\mathbf{x}_{p+1})$)</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$\mathbf{x}_{ic} = \bar{\mathbf{x}} - \rho (\bar{\mathbf{x}} - \mathbf{x}_{p+1})$$</div>
+
+<p>If $f(\mathbf{x}_{ic}) &lt; f(\mathbf{x}_{p+1})$, accept $\mathbf{x}_{p+1} \leftarrow \mathbf{x}_{ic}$.</p>
+
+<h4>4. Shrink ($\sigma = 0.5$):</h4>
+
+<p>If contraction fails to produce a point better than the worst vertex, the simplex shrinks all vertices toward the best point $\mathbf{x}_1$:</p>
+
+<div class="math-display">$$\mathbf{x}_i \leftarrow \mathbf{x}_1 + \sigma (\mathbf{x}_i - \mathbf{x}_1) \quad \text{for all } i = 2, \dots, p+1$$</div>
+
+<p>Shrinking requires evaluating the objective function at $p$ new points.</p>
+
+<h5>Convergence Properties:</h5>
+
+<p>Nelder–Mead is robust and requires zero derivatives. However, it is a heuristic: in dimensions $p &gt; 20$, the simplex frequently collapses into a degenerate lower-dimensional subspace or stalls at non-stationary points.</p>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.5</span>
+            <span>The Expectation–Maximization (EM) Algorithm: Latent Variables, Jensen's Inequality, and Monotonic Convergence</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In many statistical models, maximum likelihood estimation is complicated by the presence of <strong>latent (unobserved) variables</strong> or <strong>missing data</strong>. Canonical examples include:</p>
+
+<ul>
+
+  <li>Gaussian Mixture Models (where cluster memberships are unobserved).</li>
+
+  <li>Censored survival times.</li>
+
+  <li>Hidden Markov Models (HMMs).</li>
+
+  <li>Factor analysis.</li>
+
+</ul>
+
+<p>In 1977, Arthur Dempster, Nan Laird, and Donald Rubin published their seminal paper formulating the <strong>Expectation–Maximization (EM) Algorithm</strong>. The EM algorithm transforms an intractable incomplete-data optimization problem into a sequence of simple complete-data optimizations with guaranteed monotonic likelihood convergence.</p>
+
+<h4>Mathematical Framework: Incomplete vs Complete Data</h4>
+
+<p>Let:</p>
+
+<ul>
+
+  <li>$\mathbf{Y}$: The <strong>observed data vector</strong>.</li>
+
+  <li>$\mathbf{Z}$: The <strong>unobserved latent data (or missing data)</strong>.</li>
+
+  <li>$\mathbf{X} = (\mathbf{Y}, \mathbf{Z})$: The hypothetical <strong>complete data</strong>.</li>
+
+</ul>
+
+<p>The goal is to compute the Maximum Likelihood Estimate of parameter $\boldsymbol{\theta}$ based on the <strong>observed data log-likelihood</strong>:</p>
+
+<div class="math-display">$$\ell(\boldsymbol{\theta} \mid \mathbf{Y}) = \ln p(\mathbf{Y} \mid \boldsymbol{\theta}) = \ln \int p(\mathbf{Y}, \mathbf{Z} \mid \boldsymbol{\theta}) \, d\mathbf{Z}$$</div>
+
+<p>Because the integral (or sum) appears <strong>inside the logarithm</strong>, the observed log-likelihood $\ln \int \dots$ does not decouple into simple additive terms, making direct differentiation intractable.</p>
+
+<p>Conversely, the <strong>complete-data log-likelihood</strong>:</p>
+
+<div class="math-display">$$\ell_c(\boldsymbol{\theta} \mid \mathbf{Y}, \mathbf{Z}) = \ln p(\mathbf{Y}, \mathbf{Z} \mid \boldsymbol{\theta})$$</div>
+
+<p>belongs to a simple exponential family that would be trivial to maximize if $\mathbf{Z}$ were known.</p>
+
+<h4>The EM Master Function: The Q-Function</h4>
+
+<p>Because $\mathbf{Z}$ is unknown, we cannot maximize $\ell_c(\boldsymbol{\theta} \mid \mathbf{Y}, \mathbf{Z})$ directly. Instead, the EM algorithm takes the conditional expectation of the complete log-likelihood with respect to the latent variables $\mathbf{Z}$, conditioned on the observed data $\mathbf{Y}$ and current parameter estimate $\boldsymbol{\theta}^{(t)}$.</p>
+
+<p>The central mathematical object of the EM algorithm is the <strong>$Q$-Function</strong>:</p>
+
+<div class="math-display">$$Q(\boldsymbol{\theta} \mid \boldsymbol{\theta}^{(t)}) = \mathbb{E}_{\mathbf{Z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)}} \left[ \ln p(\mathbf{Y}, \mathbf{Z} \mid \boldsymbol{\theta}) \right] = \int \left[ \ln p(\mathbf{Y}, \mathbf{z} \mid \boldsymbol{\theta}) \right] p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)}) \, d\mathbf{z}$$</div>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>The EM Iteration Cycle:
+     Current Parameter \theta^{(t)}
+                 |
+                 v
+        [ Expectation (E-step) ]
+                 |
+                 v Compute Q(\theta | \theta^{(t)})
+        [ Maximization (M-step) ]
+                 |
+                 v \theta^{(t+1)} = argmax Q(\theta | \theta^{(t)})
+     Updated Parameter \theta^{(t+1)}  (Guaranteed: \ell(\theta^{(t+1)}) &gt;= \ell(\theta^{(t)}))</code></pre>
+
+<h5>The Two-Step Algorithmic Cycle:</h5>
+
+<h4>1. The Expectation Step (E-step):</h4>
+
+<p>Calculate the conditional distribution of the latent variables given the current parameter estimate:</p>
+
+<div class="math-display">$$p(\mathbf{Z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)}) = \frac{p(\mathbf{Y}, \mathbf{Z} \mid \boldsymbol{\theta}^{(t)})}{\int p(\mathbf{Y}, \mathbf{z}' \mid \boldsymbol{\theta}^{(t)}) d\mathbf{z}'}$$</div>
+
+<p>and formulate the expected complete-data log-likelihood $Q(\boldsymbol{\theta} \mid \boldsymbol{\theta}^{(t)})$.</p>
+
+<h4>2. The Maximization Step (M-step):</h4>
+
+<p>Update the parameter estimate by globally maximizing the $Q$-function:</p>
+
+<div class="math-display">$$\boldsymbol{\theta}^{(t+1)} = \arg\max_{\boldsymbol{\theta} \in \Theta} Q(\boldsymbol{\theta} \mid \boldsymbol{\theta}^{(t)})$$</div>
+
+<h4>Proof of Monotonic Likelihood Ascent via Jensen's Inequality</h4>
+
+<p>The defining theoretical property of the EM algorithm is that <strong>the observed log-likelihood increases monotonically at every single iteration</strong>:</p>
+
+<div class="math-display">$$\ell(\boldsymbol{\theta}^{(t+1)} \mid \mathbf{Y}) \ge \ell(\boldsymbol{\theta}^{(t)} \mid \mathbf{Y})$$</div>
+
+<h5>Rigorous Mathematical Proof:</h5>
+
+<p>Express the complete joint density as the product of the marginal and conditional densities:</p>
+
+<div class="math-display">$$p(\mathbf{Y}, \mathbf{Z} \mid \boldsymbol{\theta}) = p(\mathbf{Y} \mid \boldsymbol{\theta}) p(\mathbf{Z} \mid \mathbf{Y}, \boldsymbol{\theta})$$</div>
+
+<p>Taking the natural logarithm of both sides:</p>
+
+<div class="math-display">$$\ln p(\mathbf{Y}, \mathbf{Z} \mid \boldsymbol{\theta}) = \ln p(\mathbf{Y} \mid \boldsymbol{\theta}) + \ln p(\mathbf{Z} \mid \mathbf{Y}, \boldsymbol{\theta})$$</div>
+
+<p>Rearranging for the observed log-likelihood $\ell(\boldsymbol{\theta}) = \ln p(\mathbf{Y} \mid \boldsymbol{\theta})$:</p>
+
+<div class="math-display">$$\ell(\boldsymbol{\theta}) = \ln p(\mathbf{Y}, \mathbf{Z} \mid \boldsymbol{\theta}) - \ln p(\mathbf{Z} \mid \mathbf{Y}, \boldsymbol{\theta})$$</div>
+
+<p>Take the conditional expectation of both sides with respect to $p(\mathbf{Z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)})$:</p>
+
+<div class="math-display">$$\mathbb{E}_{\mathbf{Z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)}} [\ell(\boldsymbol{\theta})] = \mathbb{E}_{\mathbf{Z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)}} \left[ \ln p(\mathbf{Y}, \mathbf{Z} \mid \boldsymbol{\theta}) \right] - \mathbb{E}_{\mathbf{Z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)}} \left[ \ln p(\mathbf{Z} \mid \mathbf{Y}, \boldsymbol{\theta}) \right]$$</div>
+
+<p>Because $\ell(\boldsymbol{\theta})$ does not depend on $\mathbf{Z}$, its expectation is simply $\ell(\boldsymbol{\theta})$:</p>
+
+<div class="math-display">$$\ell(\boldsymbol{\theta}) = Q(\boldsymbol{\theta} \mid \boldsymbol{\theta}^{(t)}) - H(\boldsymbol{\theta} \mid \boldsymbol{\theta}^{(t)})$$</div>
+
+<p>where:</p>
+
+<div class="math-display">$$H(\boldsymbol{\theta} \mid \boldsymbol{\theta}^{(t)}) = \mathbb{E}_{\mathbf{Z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)}} \left[ \ln p(\mathbf{Z} \mid \mathbf{Y}, \boldsymbol{\theta}) \right] = \int [\ln p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta})] p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)}) \, d\mathbf{z}$$</div>
+
+<p>Now evaluate the change in log-likelihood from step $t$ to step $t+1$:</p>
+
+<div class="math-display">$$\ell(\boldsymbol{\theta}^{(t+1)}) - \ell(\boldsymbol{\theta}^{(t)}) = \left[ Q(\boldsymbol{\theta}^{(t+1)} \mid \boldsymbol{\theta}^{(t)}) - Q(\boldsymbol{\theta}^{(t)} \mid \boldsymbol{\theta}^{(t)}) \right] - \left[ H(\boldsymbol{\theta}^{(t+1)} \mid \boldsymbol{\theta}^{(t)}) - H(\boldsymbol{\theta}^{(t)} \mid \boldsymbol{\theta}^{(t)}) \right]$$</div>
+
+<p>We evaluate the two bracketed terms separately:</p>
+
+<h4>1. First Term ($Q$-Difference):</h4>
+
+<p>By definition of the M-step, $\boldsymbol{\theta}^{(t+1)}$ maximizes $Q(\boldsymbol{\theta} \mid \boldsymbol{\theta}^{(t)})$. Therefore:</p>
+
+<div class="math-display">$$Q(\boldsymbol{\theta}^{(t+1)} \mid \boldsymbol{\theta}^{(t)}) \ge Q(\boldsymbol{\theta}^{(t)} \mid \boldsymbol{\theta}^{(t)}) \implies \Delta Q \ge 0$$</div>
+
+<h4>2. Second Term ($H$-Difference and Jensen's Inequality):</h4>
+
+<p>Consider the difference:</p>
+
+<div class="math-display">$$H(\boldsymbol{\theta}^{(t+1)} \mid \boldsymbol{\theta}^{(t)}) - H(\boldsymbol{\theta}^{(t)} \mid \boldsymbol{\theta}^{(t)}) = \int \ln \left( \frac{p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t+1)})}{p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)})} \right) p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)}) \, d\mathbf{z}$$</div>
+
+<p>Recall that the natural logarithm is a strictly concave function ($\ln''(x) = -1/x^2 &lt; 0$). By <strong>Jensen's Inequality</strong>, for any concave function $\phi$, $\mathbb{E}[\phi(X)] \le \phi(\mathbb{E}[X])$. Therefore:</p>
+
+<div class="math-display">$$\int \ln \left( \frac{p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t+1)})}{p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)})} \right) p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)}) \, d\mathbf{z} \le \ln \left( \int \frac{p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t+1)})}{p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)})} p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)}) \, d\mathbf{z} \right)$$</div>
+
+<p>The terms $p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)})$ cancel in the integral:</p>
+
+<div class="math-display">$$= \ln \left( \int p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t+1)}) \, d\mathbf{z} \right) = \ln(1) = 0$$</div>
+
+<p>Thus:</p>
+
+<div class="math-display">$$H(\boldsymbol{\theta}^{(t+1)} \mid \boldsymbol{\theta}^{(t)}) - H(\boldsymbol{\theta}^{(t)} \mid \boldsymbol{\theta}^{(t)}) \le 0$$</div>
+
+<div class="math-display">$$- \left[ H(\boldsymbol{\theta}^{(t+1)} \mid \boldsymbol{\theta}^{(t)}) - H(\boldsymbol{\theta}^{(t)} \mid \boldsymbol{\theta}^{(t)}) \right] \ge 0$$</div>
+
+<p>Combining both inequalities:</p>
+
+<div class="math-display">$$\ell(\boldsymbol{\theta}^{(t+1)}) - \ell(\boldsymbol{\theta}^{(t)}) \ge 0 \implies \ell(\boldsymbol{\theta}^{(t+1)}) \ge \ell(\boldsymbol{\theta}^{(t)})$$</div>
+
+<p>This completes the mathematical proof that <strong>the observed log-likelihood increases monotonically at every single EM step</strong>.</p>
+
+<hr class="section-divider-hr">
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.6</span>
+            <span>Gaussian Mixture Models, Latent Cluster Responsibilities, and EM Singularities</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In multivariate cluster analysis and density estimation, observations often originate from a heterogeneous combination of $K$ unobserved sub-populations. The canonical parametric framework for unsupervised clustering is the <strong>Gaussian Mixture Model (GMM)</strong>. Because component memberships are unobserved latent variables, maximum likelihood estimation is executed via the Expectation–Maximization (EM) algorithm.</p>
+
+<h4>Formulation of the Gaussian Mixture Model</h4>
+
+<p>Let $\mathbf{y}_1, \dots, \mathbf{y}_n \in \mathbb{R}^d$ be an i.i.d. sample drawn from a mixture of $K$ multivariate Gaussian components:</p>
+
+<div class="math-display">$$p(\mathbf{y} \mid \boldsymbol{\theta}) = \sum_{k=1}^K \pi_k \mathcal{N}(\mathbf{y} \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)$$</div>
+
+<p>where:</p>
+
+<ul>
+
+  <li>$\pi_k \in (0, 1)$ are the <strong>mixture proportions (mixing weights)</strong>, satisfying $\sum_{k=1}^K \pi_k = 1$.</li>
+
+  <li>$\boldsymbol{\mu}_k \in \mathbb{R}^d$ is the mean vector of component $k$.</li>
+
+  <li>$\boldsymbol{\Sigma}_k \in \mathbb{R}^{d \times d}$ is the symmetric positive-definite covariance matrix of component $k$.</li>
+
+  <li>$\mathcal{N}(\mathbf{y} \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k) = \frac{1}{(2\pi)^{d/2} |\boldsymbol{\Sigma}_k|^{1/2}} \exp\left( -\frac{1}{2} (\mathbf{y} - \boldsymbol{\mu}_k)^\top \boldsymbol{\Sigma}_k^{-1} (\mathbf{y} - \boldsymbol{\mu}_k) \right)$.</li>
+
+</ul>
+
+<p>The complete parameter set is $\boldsymbol{\theta} = \{ \pi_k, \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k \}_{k=1}^K$.</p>
+
+<h5>Latent Variable Encoding:</h5>
+
+<p>For each observation $i \in \{1, \dots, n\}$, introduce a binary latent indicator vector $\mathbf{z}_i = (z_{i1}, \dots, z_{iK})^\top \in \{0, 1\}^K$, where $z_{ik} = 1$ if observation $i$ was generated by component $k$, and $z_{ik} = 0$ otherwise:</p>
+
+<div class="math-display">$$\mathbb{P}(z_{ik} = 1) = \pi_k, \quad \sum_{k=1}^K z_{ik} = 1$$</div>
+
+<p>The complete-data joint likelihood for the pair $(\mathbf{y}_i, \mathbf{z}_i)$ is:</p>
+
+<div class="math-display">$$p(\mathbf{y}_i, \mathbf{z}_i \mid \boldsymbol{\theta}) = \prod_{k=1}^K \left[ \pi_k \mathcal{N}(\mathbf{y}_i \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k) \right]^{z_{ik}}$$</div>
+
+<p>Taking the logarithm yields the <strong>complete-data log-likelihood</strong>:</p>
+
+<div class="math-display">$$\ell_c(\boldsymbol{\theta}) = \sum_{i=1}^n \sum_{k=1}^K z_{ik} \left[ \ln \pi_k + \ln \mathcal{N}(\mathbf{y}_i \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k) \right]$$</div>
+
+<h4>The EM Steps for GMM</h4>
+
+<h5>1. The E-Step (Computing Latent Responsibilities):</h5>
+
+<p>In the E-step, we evaluate the conditional expectation of the latent variables $z_{ik}$ given the observed data $\mathbf{y}_i$ and current parameters $\boldsymbol{\theta}^{(t)}$. Because $z_{ik} \in \{0, 1\}$, its conditional expectation is simply the posterior probability that observation $i$ belongs to component $k$, termed the <strong>responsibility $\gamma_{ik}^{(t)}$</strong>:</p>
+
+<div class="math-display">$$\gamma_{ik}^{(t)} = \mathbb{E}[z_{ik} \mid \mathbf{y}_i, \boldsymbol{\theta}^{(t)}] = \mathbb{P}(z_{ik} = 1 \mid \mathbf{y}_i, \boldsymbol{\theta}^{(t)})$$</div>
+
+<p>By Bayes' theorem:</p>
+
+<div class="math-display">$$\gamma_{ik}^{(t)} = \frac{\pi_k^{(t)} \mathcal{N}(\mathbf{y}_i \mid \boldsymbol{\mu}_k^{(t)}, \boldsymbol{\Sigma}_k^{(t)})}{\sum_{j=1}^K \pi_j^{(t)} \mathcal{N}(\mathbf{y}_i \mid \boldsymbol{\mu}_j^{(t)}, \boldsymbol{\Sigma}_j^{(t)})}$$</div>
+
+<p>Notice that $\sum_{k=1}^K \gamma_{ik} = 1$ for each observation $i$, representing a "soft" probabilistic assignment across the $K$ clusters.</p>
+
+<h5>2. The M-Step (Closed-Form Parameter Maximization):</h5>
+
+<p>Substituting $\gamma_{ik}^{(t)}$ into the expected complete log-likelihood:</p>
+
+<div class="math-display">$$Q(\boldsymbol{\theta} \mid \boldsymbol{\theta}^{(t)}) = \sum_{i=1}^n \sum_{k=1}^K \gamma_{ik}^{(t)} \left[ \ln \pi_k - \frac{d}{2}\ln(2\pi) - \frac{1}{2}\ln|\boldsymbol{\Sigma}_k| - \frac{1}{2}(\mathbf{y}_i - \boldsymbol{\mu}_k)^\top \boldsymbol{\Sigma}_k^{-1} (\mathbf{y}_i - \boldsymbol{\mu}_k) \right]$$</div>
+
+<p>Maximizing $Q$ with respect to each parameter yields closed-form update equations:</p>
+
+<h4>1. Effective Component Sample Size:</h4>
+
+<div class="math-display">$$N_k^{(t+1)} = \sum_{i=1}^n \gamma_{ik}^{(t)}$$</div>
+
+<h4>2. Updated Mixture Proportions:</h4>
+
+<p>Maximizing with respect to $\pi_k$ subject to $\sum \pi_k = 1$ using Lagrange multipliers:</p>
+
+<div class="math-display">$$\pi_k^{(t+1)} = \frac{N_k^{(t+1)}}{n} = \frac{1}{n} \sum_{i=1}^n \gamma_{ik}^{(t)}$$</div>
+
+<h4>3. Updated Component Means:</h4>
+
+<p>Setting $\nabla_{\boldsymbol{\mu}_k} Q = \mathbf{0}$:</p>
+
+<div class="math-display">$$\boldsymbol{\mu}_k^{(t+1)} = \frac{1}{N_k^{(t+1)}} \sum_{i=1}^n \gamma_{ik}^{(t)} \mathbf{y}_i$$</div>
+
+<p>The new mean is a weighted average of all observed data points, weighted by cluster responsibilities!</p>
+
+<h4>4. Updated Component Covariances:</h4>
+
+<p>Setting $\nabla_{\boldsymbol{\Sigma}_k^{-1}} Q = \mathbf{0}$:</p>
+
+<div class="math-display">$$\boldsymbol{\Sigma}_k^{(t+1)} = \frac{1}{N_k^{(t+1)}} \sum_{i=1}^n \gamma_{ik}^{(t)} (\mathbf{y}_i - \boldsymbol{\mu}_k^{(t+1)}) (\mathbf{y}_i - \boldsymbol{\mu}_k^{(t+1)})^\top$$</div>
+
+<h4>Likelihood Singularities and Practical Safeguards</h4>
+
+<p>A critical pathology of the Gaussian Mixture Model is that the unconstrained likelihood function is <strong>unbounded from above</strong>:</p>
+
+<div class="math-display">$$\sup_{\boldsymbol{\theta}} L(\boldsymbol{\theta} \mid \mathbf{Y}) = +\infty$$</div>
+
+<h5>The Mechanism of Component Collapse:</h5>
+
+<p>Suppose during EM iterations, component mean $\boldsymbol{\mu}_k$ becomes exactly equal to a single data point $\mathbf{y}_m$ ($\boldsymbol{\mu}_k = \mathbf{y}_m$), and its variance $\sigma_k^2 \to 0$. The likelihood contribution of observation $m$ evaluates to:</p>
+
+<div class="math-display">$$\mathcal{N}(\mathbf{y}_m \mid \mathbf{y}_m, \sigma_k^2) = \frac{1}{\sqrt{2\pi} \sigma_k} \exp(0) = \frac{1}{\sqrt{2\pi} \sigma_k} \to +\infty \quad \text{as } \sigma_k \to 0$$</div>
+
+<p>Even if the other $n - 1$ points have finite densities, the total likelihood explodes to infinity! This is not a true global maximum in a statistical sense; it is a <strong>spurious singularity</strong> of the parameterization.</p>
+
+<h5>Practical Remediation in Software:</h5>
+
+<h4>1. Covariance Regularization (Tikhonov Regularization):</h4>
+
+<p>Add a tiny diagonal ridge to the covariance matrix at every M-step:</p>
+
+<div class="math-display">$$\tilde{\boldsymbol{\Sigma}}_k = \boldsymbol{\Sigma}_k + \epsilon \mathbf{I}_d \quad (\text{e.g. } \epsilon = 10^{-6})$$</div>
+
+<p>This prevents the determinant $|\boldsymbol{\Sigma}_k|$ from dropping to zero.</p>
+
+<h4>2. K-Means++ Initialization:</h4>
+
+<p>The EM algorithm is sensitive to starting points. Initializing component means $\boldsymbol{\mu}_k^{(0)}$ using the $k$-means++ algorithm (which spaces initial centroids far apart based on squared Euclidean distance) dramatically accelerates convergence and avoids spurious local maxima.</p>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-7">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.7</span>
+            <span>Modern Stochastic and Non-Smooth Optimization: SGD, Adam, and Proximal Gradients for the Lasso</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In modern data science and deep statistical learning, dataset sizes often scale to millions of records ($n = 10^7$). In these settings, standard batch optimization (where evaluating the full gradient $\nabla \ell(\boldsymbol{\theta}) = \sum_{i=1}^n \nabla \ell_i(\boldsymbol{\theta})$ requires a complete pass over the entire multi-gigabyte dataset) is computationally intractable for each iterative step.</p>
+
+<p>Furthermore, penalized estimators such as the <strong>Lasso ($L_1$ penalty)</strong> introduce non-differentiable absolute value singularities that break classical gradient descent and Newton–Raphson.</p>
+
+<h4>Stochastic Gradient Descent (SGD) and Mini-Batching</h4>
+
+<p>In 1951, Herbert Robbins and Sutton Monro published the foundational theory of <strong>Stochastic Approximation</strong>. Instead of computing the exact full-sample gradient over all $n$ observations:</p>
+
+<div class="math-display">$$\nabla f(\boldsymbol{\theta}) = \frac{1}{n} \sum_{i=1}^n \nabla f_i(\boldsymbol{\theta})$$</div>
+
+<p><strong>Stochastic Gradient Descent (SGD)</strong> computes an unbiased gradient estimate using a small random mini-batch of observations $\mathcal{B} \subset \{1, \dots, n\}$ of size $B = |\mathcal{B}|$ (typically $B \in [32, 512]$):</p>
+
+<div class="math-display">$$\mathbf{g}_{\mathcal{B}}(\boldsymbol{\theta}) = \frac{1}{B} \sum_{i \in \mathcal{B}} \nabla f_i(\boldsymbol{\theta})$$</div>
+
+<p>Notice that:</p>
+
+<div class="math-display">$$\mathbb{E}[\mathbf{g}_{\mathcal{B}}(\boldsymbol{\theta})] = \nabla f(\boldsymbol{\theta})$$</div>
+
+<p>The mini-batch gradient is an <strong>unbiased estimator</strong> of the true population gradient!</p>
+
+<h5>The Robbins–Monro Learning Rate Conditions:</h5>
+
+<p>To guarantee that the noisy stochastic steps converge almost surely to the true stationary point $\boldsymbol{\theta}^*$, the step size sequence $\gamma_t$ must satisfy the Robbins–Monro conditions:</p>
+
+<div class="math-display">$$\sum_{t=1}^\infty \gamma_t = \infty \quad \text{and} \quad \sum_{t=1}^\infty \gamma_t^2 &lt; \infty$$</div>
+
+<ul>
+
+  <li>$\sum \gamma_t = \infty$ ensures the algorithm can travel arbitrarily far from the initial point.</li>
+
+  <li>$\sum \gamma_t^2 &lt; \infty$ ensures the cumulative variance of the stochastic gradient noise diminishes to zero, damping oscillations as the optimum is approached. A standard decaying schedule is $\gamma_t = \gamma_0 / (1 + \lambda t)$ or $\gamma_t = \gamma_0 t^{-0.51}$.</li>
+
+</ul>
+
+<h4>Adaptive Moment Estimation (Adam)</h4>
+
+<p>In deep learning and complex non-convex neural estimation, standard SGD struggles with disparate gradient scales across features. In 2014, Diederik Kingma and Jimmy Ba introduced <strong>Adam (Adaptive Moment Estimation)</strong>.</p>
+
+<p>Adam combines the physical concept of <strong>Momentum</strong> (exponential moving average of past gradients) with <strong>RMSProp</strong> (exponential moving average of squared past gradients), maintaining element-wise adaptive learning rates.</p>
+
+<h5>The Adam Algorithmic Recurrence:</h5>
+
+<p>At iteration $t$ with stochastic gradient $\mathbf{g}_t$:</p>
+
+<h4>1. Update Biased First Moment (Direction / Momentum):</h4>
+
+<div class="math-display">$$\mathbf{m}_t = \beta_1 \mathbf{m}_{t-1} + (1 - \beta_1) \mathbf{g}_t \quad (\text{default } \beta_1 = 0.9)$$</div>
+
+<h4>2. Update Biased Second Raw Moment (Uncentered Variance):</h4>
+
+<div class="math-display">$$\mathbf{v}_t = \beta_2 \mathbf{v}_{t-1} + (1 - \beta_2) \mathbf{g}_t^{\odot 2} \quad (\text{default } \beta_2 = 0.999)$$</div>
+
+<p>where $\mathbf{g}_t^{\odot 2}$ denotes element-wise squaring ($g_{t, j}^2$).</p>
+
+<h4>3. Compute Bias-Corrected Moments:</h4>
+
+<p>Because $\mathbf{m}_0 = \mathbf{0}$ and $\mathbf{v}_0 = \mathbf{0}$, the moving averages are biased toward zero in initial iterations. The exact analytical bias corrections are:</p>
+
+<div class="math-display">$$\hat{\mathbf{m}}_t = \frac{\mathbf{m}_t}{1 - \beta_1^t}, \quad \hat{\mathbf{v}}_t = \frac{\mathbf{v}_t}{1 - \beta_2^t}$$</div>
+
+<h4>4. Update Parameter Vector:</h4>
+
+<div class="math-display">$$\boldsymbol{\theta}_{t+1} = \boldsymbol{\theta}_t - \frac{\eta}{\sqrt{\hat{\mathbf{v}}_t} + \epsilon} \odot \hat{\mathbf{m}}_t$$</div>
+
+<p>where $\eta$ is the base step size (typically $10^{-3}$) and $\epsilon \approx 10^{-8}$ prevents division by zero.</p>
+
+<p>Adam automatically scales down steps for parameters with large, erratic gradients while boosting progress along flat, subtle directions, making it the universal default optimizer for modern deep neural networks.</p>
+
+<h4>Proximal Gradient Descent for Non-Smooth Regularization (Lasso)</h4>
+
+<p>In high-dimensional penalized regression, the <strong>Lasso (Least Absolute Shrinkage and Selection Operator)</strong>, introduced by Robert Tibshirani in 1996, minimizes the regularized objective:</p>
+
+<div class="math-display">$$\min_{\boldsymbol{\beta}} f(\boldsymbol{\beta}) = \frac{1}{2n} \|\mathbf{y} - \mathbf{X} \boldsymbol{\beta}\|_2^2 + \lambda \|\boldsymbol{\beta}\|_1$$</div>
+
+<p>where $\|\boldsymbol{\beta}\|_1 = \sum_{j=1}^p |\beta_j|$.</p>
+
+<h5>The Non-Smooth Singularity:</h5>
+
+<p>The function $|\beta_j|$ has a sharp corner at $\beta_j = 0$. The derivative does not exist at zero, meaning standard gradient descent $\nabla f(\boldsymbol{\beta})$ is undefined!</p>
+
+<p>To optimize non-smooth composite objectives $f(\boldsymbol{\beta}) = g(\boldsymbol{\beta}) + h(\boldsymbol{\beta})$ (where $g$ is smooth and convex, and $h$ is convex but non-differentiable), numerical analysts deploy <strong>Proximal Gradient Descent</strong>.</p>
+
+<h5>The Proximal Operator and Soft-Thresholding:</h5>
+
+<p>The proximal operator of the scaled $L_1$ penalty $\lambda \|\boldsymbol{\beta}\|_1$ with step size $\gamma$ is the <strong>Soft-Thresholding Operator</strong>:</p>
+
+<div class="math-display">$$\text{prox}_{\gamma \lambda \|\cdot\|_1}(\mathbf{u}) = \mathcal{S}_{\gamma \lambda}(\mathbf{u})$$</div>
+
+<p>where the scalar soft-thresholding function is defined as:</p>
+
+<div class="math-display">$$\mathcal{S}_{\tau}(u) = \text{sign}(u) \max(0, \, |u| - \tau) = \begin{cases} u - \tau &amp; \text{if } u &gt; \tau \\ 0 &amp; \text{if } |u| \le \tau \\ u + \tau &amp; \text{if } u &lt; -\tau \end{cases}$$</div>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>Soft-Thresholding Operator S_\tau(u):
+  Output ^
+         |              / (Slope = 1)
+         |             /
+         |       .----'
+  -------+-------+------+-------&gt; u
+        -\tau   0.0    +\tau
+         |    '----.
+         |          \
+         |           \ (Slope = 1)</code></pre>
+
+<p>Notice that for any input within the threshold window $[-\tau, \tau]$, the operator sets the value <strong>identically to zero</strong>! This is the exact mathematical mechanism that drives sparse feature selection in the Lasso.</p>
+
+<h5>The Iterative Shrinkage-Thresholding Algorithm (ISTA):</h5>
+
+<p>Each iteration executes a two-phase step:</p>
+
+<h4>1. Gradient Step on Smooth Loss:</h4>
+
+<div class="math-display">$$\mathbf{u}^{(t)} = \boldsymbol{\beta}^{(t)} - \gamma \nabla g(\boldsymbol{\beta}^{(t)}) = \boldsymbol{\beta}^{(t)} + \frac{\gamma}{n} \mathbf{X}^\top (\mathbf{y} - \mathbf{X} \boldsymbol{\beta}^{(t)})$$</div>
+
+<h4>2. Proximal Projection (Soft-Thresholding):</h4>
+
+<div class="math-display">$$\boldsymbol{\beta}^{(t+1)} = \mathcal{S}_{\gamma \lambda}(\mathbf{u}^{(t)})$$</div>
+
+<h5>Fast Iterative Shrinkage-Thresholding Algorithm (FISTA):</h5>
+
+<p>Standard ISTA converges at a linear rate of $\mathcal{O}(1/k)$. In 2009, Amir Beck and Marc Teboulle applied <strong>Nesterov Momentum Acceleration</strong> to construct <strong>FISTA</strong>:</p>
+
+<div class="math-display">$$t_{k+1} = \frac{1 + \sqrt{1 + 4 t_k^2}}{2}$$</div>
+
+<div class="math-display">$$\mathbf{y}_{k+1} = \boldsymbol{\beta}_{k+1} + \left( \frac{t_k - 1}{t_{k+1}} \right) (\boldsymbol{\beta}_{k+1} - \boldsymbol{\beta}_k)$$</div>
+
+<p>FISTA achieves optimal accelerated convergence of <strong>$\mathcal{O}(1/k^2)$</strong>, allowing high-dimensional sparse regressions with tens of thousands of features to be solved in seconds.</p>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-8">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.8</span>
+            <span>Constrained Optimization: Karush–Kuhn–Tucker Conditions, Barrier Methods, and Augmented Lagrangians</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Many statistical estimation problems impose physical, biological, or mathematical constraints on the parameter vector:</p>
+
+<ul>
+
+  <li>Non-negativity: $\beta_j \ge 0$ (e.g. concentrations, non-negative matrix factorization).</li>
+
+  <li>Probability simplex: $\sum \pi_k = 1, \pi_k \ge 0$ (mixture proportions, Markov transition matrices).</li>
+
+  <li>Bounded parameter domains: $L_j \le \theta_j \le U_j$.</li>
+
+  <li>Covariance positive definiteness: $\boldsymbol{\Sigma} \succ 0$.</li>
+
+</ul>
+
+<h4>The Karush–Kuhn–Tucker (KKT) Necessary Conditions</h4>
+
+<p>Consider the general constrained statistical optimization problem:</p>
+
+<div class="math-display">$$\min_{\boldsymbol{\theta}} f(\boldsymbol{\theta}) \quad \text{subject to } \begin{cases} g_i(\boldsymbol{\theta}) \le 0, &amp; i = 1, \dots, m \\ h_j(\boldsymbol{\theta}) = 0, &amp; j = 1, \dots, r \end{cases}$$</div>
+
+<p>Define the <strong>Lagrangian function</strong>:</p>
+
+<div class="math-display">$$\mathcal{L}(\boldsymbol{\theta}, \boldsymbol{\lambda}, \boldsymbol{\nu}) = f(\boldsymbol{\theta}) + \sum_{i=1}^m \lambda_i g_i(\boldsymbol{\theta}) + \sum_{j=1}^r \nu_j h_j(\boldsymbol{\theta})$$</div>
+
+<p>where $\lambda_i \ge 0$ are the Lagrange multipliers for inequality constraints and $\nu_j \in \mathbb{R}$ are multipliers for equality constraints.</p>
+
+<h5>The KKT First-Order Conditions:</h5>
+
+<p>At any local constrained minimum $\boldsymbol{\theta}^*$, under standard constraint qualifications (e.g. Slater's condition for convex problems), there exist multiplier vectors $\boldsymbol{\lambda}^*$ and $\boldsymbol{\nu}^*$ satisfying:</p>
+
+<h4>1. Stationarity:</h4>
+
+<div class="math-display">$$\nabla_{\boldsymbol{\theta}} \mathcal{L}(\boldsymbol{\theta}^*, \boldsymbol{\lambda}^*, \boldsymbol{\nu}^*) = \nabla f(\boldsymbol{\theta}^*) + \sum_{i=1}^m \lambda_i^* \nabla g_i(\boldsymbol{\theta}^*) + \sum_{j=1}^r \nu_j^* \nabla h_j(\boldsymbol{\theta}^*) = \mathbf{0}$$</div>
+
+<h4>2. Primal Feasibility:</h4>
+
+<div class="math-display">$$g_i(\boldsymbol{\theta}^*) \le 0 \quad (i = 1, \dots, m), \quad h_j(\boldsymbol{\theta}^*) = 0 \quad (j = 1, \dots, r)$$</div>
+
+<h4>3. Dual Feasibility:</h4>
+
+<div class="math-display">$$\lambda_i^* \ge 0 \quad (i = 1, \dots, m)$$</div>
+
+<h4>4. Complementary Slackness:</h4>
+
+<div class="math-display">$$\lambda_i^* g_i(\boldsymbol{\theta}^*) = 0 \quad \text{for all } i = 1, \dots, m$$</div>
+
+<p>The complementary slackness condition implies that either the constraint is strictly active (binding: $g_i(\boldsymbol{\theta}^*) = 0$), in which case its shadow price $\lambda_i^* \ge 0$; or the constraint is inactive ($g_i(\boldsymbol{\theta}^*) &lt; 0$), in which case $\lambda_i^* = 0$.</p>
+
+<h4>Interior Point and Logarithmic Barrier Methods</h4>
+
+<p>For inequality constraints $g_i(\boldsymbol{\theta}) \le 0$, <strong>Interior Point Methods</strong> replace the hard constraints with a smooth <strong>Logarithmic Barrier Function</strong>:</p>
+
+<div class="math-display">$$\phi(\boldsymbol{\theta}) = -\sum_{i=1}^m \ln(-g_i(\boldsymbol{\theta}))$$</div>
+
+<p>The algorithm solves a sequence of unconstrained problems indexed by barrier parameter $\mu &gt; 0$:</p>
+
+<div class="math-display">$$\min_{\boldsymbol{\theta}} f_\mu(\boldsymbol{\theta}) = f(\boldsymbol{\theta}) + \mu \phi(\boldsymbol{\theta}) = f(\boldsymbol{\theta}) - \mu \sum_{i=1}^m \ln(-g_i(\boldsymbol{\theta}))$$</div>
+
+<p>As $\boldsymbol{\theta}$ approaches the boundary of the feasible region ($g_i(\boldsymbol{\theta}) \to 0^-$), the logarithmic term $-\ln(-g_i) \to +\infty$, erecting an impassable barrier that prevents iterates from leaving the interior. By systematically shrinking $\mu \to 0$ (e.g. $\mu_{t+1} = 0.2 \mu_t$) and solving each sub-problem via Newton's method, the trajectory (central path) converges to the exact constrained optimum.</p>
+
+<h4>Coordinate Descent for Elastic Net and High-Dimensional Regression</h4>
+
+<p>For high-dimensional regularized regression models (Lasso, Elastic Net: $\lambda_1 \|\boldsymbol{\beta}\|_1 + \frac{\lambda_2}{2} \|\boldsymbol{\beta}\|_2^2$), Jerome Friedman, Trevor Hastie, and Robert Tibshirani (2007) popularized <strong>Coordinate Descent</strong> (the engine of the `glmnet` package in R and Python).</p>
+
+<p>Instead of updating all $p$ coefficients simultaneously:</p>
+
+<ol>
+
+  <li>Cycle through predictors $j = 1, 2, \dots, p$ one at a time.</li>
+
+  <li>Holding all other coefficients $\boldsymbol{\beta}_{-j}$ fixed, solve the exact univariate sub-problem for $\beta_j$:</li>
+
+</ol>
+
+<div class="math-display">$$\hat{\beta}_j = \frac{\mathcal{S}_{\lambda_1}( \mathbf{x}_j^\top (\mathbf{y} - \sum_{k \ne j} \mathbf{x}_k \beta_k) )}{\mathbf{x}_j^\top \mathbf{x}_j + \lambda_2}$$</div>
+
+<p>Because the univariate solution has a closed-form soft-thresholding expression, Coordinate Descent sweeps through thousands of variables in milliseconds, delivering state-of-the-art performance for sparse genomic regressions.</p>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-9">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.9</span>
+            <span>Stochastic Variance Reduction: SVRG, SAGA, and Wolfe Line-Search Conditions</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>While Stochastic Gradient Descent (SGD) achieves rapid early progress in large-scale machine learning, its constant gradient noise variance $\mathbb{E}[\|\mathbf{g}_{\mathcal{B}} - \nabla f\|^2] \ge \sigma^2 &gt; 0$ forces the algorithm to use decaying step sizes, slowing its asymptotic convergence rate from linear to sub-linear $\mathcal{O}(1/t)$.</p>
+
+<p>To overcome this fundamental limitation, Rie Johnson and Tong Zhang (2013) formulated <strong>Stochastic Variance Reduced Gradient (SVRG)</strong>, while Aaron Defazio, Francis Bach, and Simon Lacoste-Julien (2014) developed <strong>SAGA</strong>.</p>
+
+<h4>The SVRG Algorithmic Architecture</h4>
+
+<p>SVRG operates in two nested loops: an outer epoch loop and an inner stochastic update loop.</p>
+
+<h4>1. Outer Epoch Loop:</h4>
+
+<p>At the beginning of each epoch, compute the <strong>exact full-sample gradient</strong> across all $n$ observations at snapshot parameter $\tilde{\boldsymbol{\theta}}$:</p>
+
+<div class="math-display">$$\tilde{\boldsymbol{\mu}} = \nabla f(\tilde{\boldsymbol{\theta}}) = \frac{1}{n} \sum_{i=1}^n \nabla f_i(\tilde{\boldsymbol{\theta}})$$</div>
+
+<h4>2. Inner Stochastic Loop:</h4>
+
+<p>For $m$ steps (typically $m \approx 2n$), draw a single random observation index $i_t \in \{1, \dots, n\}$ and compute the <strong>variance-reduced gradient estimator</strong>:</p>
+
+<div class="math-display">$$\mathbf{v}_t = \nabla f_{i_t}(\boldsymbol{\theta}_t) - \nabla f_{i_t}(\tilde{\boldsymbol{\theta}}) + \tilde{\boldsymbol{\mu}}$$</div>
+
+<p>Update the parameter:</p>
+
+<div class="math-display">$$\boldsymbol{\theta}_{t+1} = \boldsymbol{\theta}_t - \gamma \mathbf{v}_t$$</div>
+
+<h5>Unbiasedness and Variance Decay:</h5>
+
+<p>Notice that:</p>
+
+<div class="math-display">$$\mathbb{E}[\mathbf{v}_t \mid \boldsymbol{\theta}_t] = \mathbb{E}[\nabla f_{i_t}(\boldsymbol{\theta}_t)] - \mathbb{E}[\nabla f_{i_t}(\tilde{\boldsymbol{\theta}})] + \tilde{\boldsymbol{\mu}} = \nabla f(\boldsymbol{\theta}_t) - \nabla f(\tilde{\boldsymbol{\theta}}) + \nabla f(\tilde{\boldsymbol{\theta}}) = \nabla f(\boldsymbol{\theta}_t)$$</div>
+
+<p>The estimator $\mathbf{v}_t$ is strictly unbiased! Furthermore, as $\boldsymbol{\theta}_t$ and $\tilde{\boldsymbol{\theta}}$ both converge to the true optimum $\boldsymbol{\theta}^*$:</p>
+
+<div class="math-display">$$\nabla f_{i_t}(\boldsymbol{\theta}_t) - \nabla f_{i_t}(\tilde{\boldsymbol{\theta}}) \to \mathbf{0} \quad \text{and} \quad \tilde{\boldsymbol{\mu}} \to \mathbf{0}$$</div>
+
+<p>The variance of $\mathbf{v}_t$ <strong>asymptotically vanishes to zero</strong> ($\text{Var}(\mathbf{v}_t) \to 0$) without requiring step size decay! Consequently, SVRG achieves <strong>geometric linear convergence</strong> $\mathcal{O}(\rho^k)$ like full-batch gradient descent, while requiring only two gradient evaluations per step.</p>
+
+<h4>The Wolfe Conditions for Quasi-Newton Line Search</h4>
+
+<p>In Quasi-Newton optimization (BFGS / L-BFGS), inexact line searches along search direction $\mathbf{p}_k$ must choose step size $\alpha_k$ to satisfy the <strong>Wolfe Conditions</strong>:</p>
+
+<h4>1. Sufficient Decrease (Armijo Condition):</h4>
+
+<div class="math-display">$$f(\boldsymbol{\theta}_k + \alpha_k \mathbf{p}_k) \le f(\boldsymbol{\theta}_k) + c_1 \alpha_k \nabla f(\boldsymbol{\theta}_k)^\top \mathbf{p}_k$$</div>
+
+<p>where $0 &lt; c_1 &lt; 1$ (typically $c_1 = 10^{-4}$). This prevents the step from being too large.</p>
+
+<h4>2. Curvature Condition:</h4>
+
+<div class="math-display">$$\nabla f(\boldsymbol{\theta}_k + \alpha_k \mathbf{p}_k)^\top \mathbf{p}_k \ge c_2 \nabla f(\boldsymbol{\theta}_k)^\top \mathbf{p}_k$$</div>
+
+<p>where $c_1 &lt; c_2 &lt; 1$ (typically $c_2 = 0.9$ for BFGS). This guarantees that the slope has decreased sufficiently, preventing steps from being infinitesimally small.</p>
+
+<p>The <strong>Strong Wolfe Conditions</strong> restrict the absolute curvature:</p>
+
+<div class="math-display">$$|\nabla f(\boldsymbol{\theta}_k + \alpha_k \mathbf{p}_k)^\top \mathbf{p}_k| \le c_2 |\nabla f(\boldsymbol{\theta}_k)^\top \mathbf{p}_k|$$</div>
+
+<p>Satisfying the Strong Wolfe conditions guarantees that the displacement vectors $\mathbf{s}_k = \alpha_k \mathbf{p}_k$ and $\mathbf{y}_k = \nabla f_{k+1} - \nabla f_k$ satisfy the positive definiteness condition:</p>
+
+<div class="math-display">$$\mathbf{s}_k^\top \mathbf{y}_k &gt; 0$$</div>
+
+<p>ensuring that the BFGS updated inverse Hessian approximation $\mathbf{B}_{k+1}$ remains strictly positive definite at every iteration.</p>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-10">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.10</span>
+            <span>Global Optimization: Simulated Annealing and Trust-Region Methods in Statistics</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In statistical estimation landscapes with complex multimodality, rugged surfaces, and non-differentiable thresholds—such as mixture models with unknown component counts, phylogenetics, changepoint detection, and non-linear pharmacokinetic models—local gradient-based methods (Newton–Raphson, BFGS) inevitably terminate in poor local optima.</p>
+
+<p>To locate the true global extremum, computational statisticians deploy <strong>Global Optimization Heuristics</strong> and <strong>Trust-Region Methods</strong>.</p>
+
+<h4>Simulated Annealing (Kirkpatrick, Gelatt, and Vecchi, 1983)</h4>
+
+<p><strong>Simulated Annealing</strong> adapts the physical thermodynamics of metal metallurgy to numerical optimization. In physical metallurgy, slow controlled cooling (annealing) allows atoms to escape high-energy crystalline defects and settle into the global minimum energy state.</p>
+
+<p>Let $E(\boldsymbol{\theta}) = f(\boldsymbol{\theta})$ denote the objective function (energy). At iteration $t$ with current state $\boldsymbol{\theta}_t$ and temperature parameter $T_t &gt; 0$:</p>
+
+<ol>
+
+  <li>Generate a candidate proposal $\boldsymbol{\theta}^* = \boldsymbol{\theta}_t + \boldsymbol{\Delta}$ from a proposal distribution.</li>
+
+  <li>Compute the energy difference: $\Delta E = f(\boldsymbol{\theta}^*) - f(\boldsymbol{\theta}_t)$.</li>
+
+  <li>Evaluate the <strong>Metropolis Acceptance Criterion</strong>:</li>
+
+</ol>
+
+<ul>
+
+  <li>If $\Delta E &lt; 0$ (the proposed state improves the objective), <strong>ACCEPT unconditionally</strong>: $\boldsymbol{\theta}_{t+1} = \boldsymbol{\theta}^*$.</li>
+
+  <li>If $\Delta E \ge 0$ (the proposed state worsens the objective), <strong>ACCEPT probabilistically</strong> with acceptance probability:</li>
+
+</ul>
+
+<div class="math-display">$$\mathbb{P}(\text{Accept uphill step}) = \exp\left( -\frac{\Delta E}{T_t} \right)$$</div>
+
+<p>Draw $U \sim \text{Uniform}(0, 1)$. If $U \le \exp(-\Delta E / T_t)$, accept; otherwise reject.</p>
+
+<h5>The Crucial Role of Temperature and Cooling Schedules:</h5>
+
+<ul>
+
+  <li><strong>At High Temperatures ($T \gg 1$)</strong>: $\exp(-\Delta E / T) \approx 1$. The algorithm accepts virtually all uphill steps, exploring the global space freely and escaping local traps.</li>
+
+  <li><strong>At Low Temperatures ($T \to 0$)</strong>: $\exp(-\Delta E / T) \to 0$. The algorithm accepts only downhill steps, converging greedily to the nearest local minimum.</li>
+
+</ul>
+
+<h5>The Hajek Convergence Theorem:</h5>
+
+<p>Bruce Hajek (1988) proved that Simulated Annealing is guaranteed to converge to the <strong>global minimum with probability 1</strong> if the cooling schedule satisfies the logarithmic decay condition:</p>
+
+<div class="math-display">$$T_t = \frac{c}{\ln(1 + t)}$$</div>
+
+<p>where $c$ is a constant greater than the maximum depth of any local energy barrier. While logarithmic cooling is slow, modern practical schedules deploy geometric cooling ($T_{t+1} = \alpha T_t$ with $\alpha \in [0.85, 0.98]$) to find near-optimal parameters across rugged likelihood landscapes.</p>
+
+<h4>Trust-Region Methods and the Powell Dogleg Step</h4>
+
+<p>In unconstrained optimization, line-search methods first choose a direction $\mathbf{p}_k$ and then search for an appropriate step size $\alpha_k$. In contrast, <strong>Trust-Region Methods</strong> first determine a maximum step radius $\Delta_k &gt; 0$, construct a local quadratic model:</p>
+
+<div class="math-display">$$m_k(\mathbf{p}) = f(\boldsymbol{\theta}_k) + \nabla f(\boldsymbol{\theta}_k)^\top \mathbf{p} + \frac{1}{2} \mathbf{p}^\top \mathbf{B}_k \mathbf{p}$$</div>
+
+<p>and solve the constrained sub-problem strictly inside the "trust region":</p>
+
+<div class="math-display">$$\min_{\mathbf{p}} m_k(\mathbf{p}) \quad \text{subject to } \|\mathbf{p}\|_2 \le \Delta_k$$</div>
+
+<h5>The Powell Dogleg Step:</h5>
+
+<p>To solve the trust-region sub-problem efficiently without computing exact constrained quadratics, M. J. D. Powell formulated the <strong>Dogleg Step</strong>. The dogleg trajectory connects three points:</p>
+
+<ol>
+
+  <li>The origin $\mathbf{p} = \mathbf{0}$.</li>
+
+  <li>The <strong>Cauchy Point</strong> $\mathbf{p}_C$: The unconstrained minimum of the quadratic model along the steepest descent direction:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{p}_C = -\frac{\|\mathbf{g}_k\|_2^2}{\mathbf{g}_k^\top \mathbf{B}_k \mathbf{g}_k} \mathbf{g}_k$$</div>
+
+<ol>
+
+  <li>The <strong>Newton Point</strong> $\mathbf{p}_N = -\mathbf{B}_k^{-1} \mathbf{g}_k$.</li>
+
+</ol>
+
+<p>The dogleg algorithm moves along the piecewise linear path from $\mathbf{0} \to \mathbf{p}_C \to \mathbf{p}_N$, intersecting the spherical trust-region boundary $\|\mathbf{p}\|_2 = \Delta_k$.</p>
+
+<ul>
+
+  <li>If the quadratic model accurately predicts the true function decrease ($\rho_k = \frac{f(\boldsymbol{\theta}_k) - f(\boldsymbol{\theta}_k + \mathbf{p}_k)}{m_k(\mathbf{0}) - m_k(\mathbf{p}_k)} \approx 1$), the trust region is expanded: $\Delta_{k+1} = 2 \Delta_k$.</li>
+
+  <li>If the model is inaccurate ($\rho_k &lt; 0.25$), the step is rejected and the trust region is shrunk: $\Delta_{k+1} = 0.5 \Delta_k$.</li>
+
+</ul>
+
+<p>Trust-region methods provide unconditional global convergence guarantees even for highly non-convex, ill-conditioned statistical likelihood surfaces.</p>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-11">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.11</span>
+            <span>Profile Likelihoods and the Backfitting Algorithm in Additive Modeling</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In semiparametric statistics and high-dimensional regression, optimization criteria often partition naturally into primary parameters of scientific interest $\boldsymbol{\theta} \in \mathbb{R}^p$ (e.g. treatment effect) and high-dimensional nuisance parameters $\boldsymbol{\eta} \in \mathbb{R}^q$ (e.g. baseline hazards, non-parametric smoothers, or nuisance intercepts).</p>
+
+<h4>The Profile Likelihood Method</h4>
+
+<p>Let $\ell(\boldsymbol{\theta}, \boldsymbol{\eta})$ be the joint log-likelihood. To eliminate the $q$ nuisance parameters without integrating them out (as in Bayesian marginalization), classical likelihood theory defines the <strong>Profile Log-Likelihood</strong>:</p>
+
+<div class="math-display">$$\ell_{prof}(\boldsymbol{\theta}) = \max_{\boldsymbol{\eta}} \ell(\boldsymbol{\theta}, \boldsymbol{\eta}) = \ell(\boldsymbol{\theta}, \, \hat{\boldsymbol{\eta}}(\boldsymbol{\theta}))$$</div>
+
+<p>where $\hat{\boldsymbol{\eta}}(\boldsymbol{\theta}) = \arg\max_{\boldsymbol{\eta}} \ell(\boldsymbol{\theta}, \boldsymbol{\eta})$ is the restricted maximum likelihood estimate of the nuisance parameters for any fixed $\boldsymbol{\theta}$.</p>
+
+<h5>Theoretical Properties of the Profile Likelihood:</h5>
+
+<h4>1. Identical Point Estimates: The global maximum of the profile likelihood matches the joint MLE:</h4>
+
+<div class="math-display">$$\hat{\boldsymbol{\theta}}_{MLE} = \arg\max_{\boldsymbol{\theta}} \ell_{prof}(\boldsymbol{\theta})$$</div>
+
+<h4>2. Profile Score Function: By the chain rule:</h4>
+
+<div class="math-display">$$\frac{d \ell_{prof}}{d\boldsymbol{\theta}} = \left. \frac{\partial \ell}{\partial \boldsymbol{\theta}} \right|_{\boldsymbol{\eta} = \hat{\boldsymbol{\eta}}} + \left. \frac{\partial \ell}{\partial \boldsymbol{\eta}} \right|_{\boldsymbol{\eta} = \hat{\boldsymbol{\eta}}} \frac{d\hat{\boldsymbol{\eta}}}{d\boldsymbol{\theta}}$$</div>
+
+<p>Because $\hat{\boldsymbol{\eta}}$ maximizes $\ell$ with respect to $\boldsymbol{\eta}$, the stationary condition requires $\left. \frac{\partial \ell}{\partial \boldsymbol{\eta}} \right|_{\boldsymbol{\eta} = \hat{\boldsymbol{\eta}}} = \mathbf{0}$. The second term vanishes! The profile score is simply the ordinary score evaluated at the constrained MLE:</p>
+
+<div class="math-display">$$\nabla_{\boldsymbol{\theta}} \ell_{prof}(\boldsymbol{\theta}) = \nabla_{\boldsymbol{\theta}} \ell(\boldsymbol{\theta}, \, \hat{\boldsymbol{\eta}}(\boldsymbol{\theta}))$$</div>
+
+<h4>3. Profile Likelihood Confidence Intervals:</h4>
+
+<p>Inverting the likelihood ratio test on the profile curve produces Wilks confidence intervals:</p>
+
+<div class="math-display">$$\text{CI}_{1-\alpha} = \{ \boldsymbol{\theta} : 2 [\ell_{prof}(\hat{\boldsymbol{\theta}}) - \ell_{prof}(\boldsymbol{\theta})] \le \chi_{p, 1-\alpha}^2 \}$$</div>
+
+<p>These profile intervals properly reflect the statistical uncertainty of estimating the nuisance parameters $\boldsymbol{\eta}$, providing far superior coverage over standard Wald intervals when nuisance parameters are non-linearly constrained.</p>
+
+<h4>The Backfitting Algorithm for Generalized Additive Models</h4>
+
+<p>In Generalized Additive Models (GAMs), the additive predictor is a sum of $p$ smooth univariate functions:</p>
+
+<div class="math-display">$$\mathbb{E}[Y \mid \mathbf{X}] = \alpha + \sum_{j=1}^p f_j(X_j)$$</div>
+
+<p>where each $f_j$ is an unknown smooth curve constrained to have zero mean ($\sum_{i=1}^n f_j(x_{ij}) = 0$). Fitting all $p$ functions simultaneously via a single high-dimensional spline matrix can be memory-intensive.</p>
+
+<p>Trevor Hastie and Robert Tibshirani (1990) formulated the <strong>Backfitting Algorithm</strong>, which decouples the multivariate problem into a sequence of simple 1D smoothing operations.</p>
+
+<h5>Algorithmic Recurrence:</h5>
+
+<ol>
+
+  <li>Initialize $\alpha = \frac{1}{n} \sum y_i$, and $f_1^{(0)} = f_2^{(0)} = \dots = f_p^{(0)} = \mathbf{0}$.</li>
+
+  <li>In a cyclic loop $j = 1, 2, \dots, p$:</li>
+
+</ol>
+
+<ul>
+
+  <li>Form the <strong>partial residual vector</strong> by subtracting the current fitted effects of all other $p - 1$ predictors:</li>
+
+</ul>
+
+<div class="math-display">$$\mathbf{r}_j = \mathbf{y} - \alpha \mathbf{1} - \sum_{k \ne j} \mathbf{f}_k$$</div>
+
+<ul>
+
+  <li>Apply a univariate smoother $\mathcal{S}_j$ (such as LOESS, smoothing spline, or local linear regression) to predict the partial residual from predictor $X_j$:</li>
+
+</ul>
+
+<div class="math-display">$$\mathbf{f}_j \leftarrow \mathcal{S}_j(\mathbf{r}_j \mid \mathbf{X}_j)$$</div>
+
+<ul>
+
+  <li>Center the updated curve: $\mathbf{f}_j \leftarrow \mathbf{f}_j - \text{mean}(\mathbf{f}_j)$.</li>
+
+</ul>
+
+<ol>
+
+  <li>Repeat step 2 until the relative change in all function estimates falls below convergence threshold $\epsilon$.</li>
+
+</ol>
+
+<h5>Gauss–Seidel Convergence:</h5>
+
+<p>Hastie and Tibshirani proved that if the individual smoothers $\mathcal{S}_j$ are linear operators ($\mathbf{f}_j = \mathbf{S}_j \mathbf{r}_j$) and self-adjoint (symmetric) with eigenvalues bounded in $[0, 1]$, the Backfitting algorithm is mathematically equivalent to the <strong>Gauss–Seidel iterative solver</strong> for the linear operator equation $(\mathbf{I} - \mathbf{M}) \mathbf{f} = \mathbf{d}$, guaranteeing global convergence to a unique stationary smooth surface.</p>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-12">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.12</span>
+            <span>Automatic Differentiation (AutoDiff): Forward Mode, Reverse Mode, and Modern Computational Graphs</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In modern statistical computing—such as fitting non-linear mixed models, deep neural networks, Hamiltonian Monte Carlo (HMC/NUTS), and variational inference—optimization algorithms require exact gradients $\nabla f(\boldsymbol{\theta})$ and Hessians $\nabla^2 f(\boldsymbol{\theta})$.</p>
+
+<p>Historically, statisticians relied on two flawed approaches:</p>
+
+<ul>
+
+  <li><strong>Numerical Differentiation (Finite Differences)</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$\frac{\partial f}{\partial \theta_j} \approx \frac{f(\boldsymbol{\theta} + h \mathbf{e}_j) - f(\boldsymbol{\theta})}{h}$$</div>
+
+<p>Suffers from truncation error when $h$ is large, and catastrophic floating-point cancellation when $h$ is small. Furthermore, computing a gradient for $p$ parameters requires $p + 1$ function evaluations, making it hopelessly slow for high-dimensional models.</p>
+
+<ul>
+
+  <li><strong>Symbolic Differentiation</strong>: Computes exact algebraic formulas via computer algebra systems (Mathematica, SymPy), but suffers from <strong>expression swell</strong>, producing exponentially complex equations that choke compilers.</li>
+
+</ul>
+
+<p>The modern solution that powers PyTorch, JAX, Stan, and TensorFlow is <strong>Automatic Differentiation (AutoDiff)</strong>. AutoDiff evaluates exact mathematical derivatives to machine precision by decomposing computer programs into elementary arithmetic operations and applying the chain rule algorithmically.</p>
+
+<h4>Forward-Mode AutoDiff and Dual Numbers</h4>
+
+<p>Forward-mode AutoDiff evaluates derivatives simultaneously alongside the primal function evaluation using the algebra of <strong>Dual Numbers</strong>:</p>
+
+<div class="math-display">$$x = a + b \epsilon, \quad \text{where } \epsilon^2 = 0 \text{ with } \epsilon \ne 0$$</div>
+
+<p>Let $f(x)$ be a function. Evaluating $f$ on a dual number expands via Taylor series:</p>
+
+<div class="math-display">$$f(a + b \epsilon) = f(a) + f'(a) b \epsilon + \frac{f''(a)}{2!} (b \epsilon)^2 + \dots = f(a) + f'(a) b \epsilon$$</div>
+
+<p>The real component yields the function value $f(a)$, and the dual component yields the exact derivative $f'(a) b$!</p>
+
+<ul>
+
+  <li><strong>Multi-Variable Scaling</strong>: For a function $f: \mathbb{R}^p \to \mathbb{R}^m$, evaluating the Jacobian requires $p$ forward passes (one per input coordinate).</li>
+
+  <li>Forward-mode is optimal when $p \ll m$ (few inputs, many outputs).</li>
+
+</ul>
+
+<h4>Reverse-Mode AutoDiff (Backpropagation)</h4>
+
+<p>When a statistical objective function maps a massive parameter vector $\boldsymbol{\theta} \in \mathbb{R}^p$ to a single scalar loss or log-likelihood value $\ell: \mathbb{R}^p \to \mathbb{R}$ (so $m = 1$ and $p \gg 1$, typical in regression, neural nets, and Bayesian posteriors), <strong>Reverse-Mode AutoDiff</strong> is vastly superior.</p>
+
+<h5>The Two-Pass Execution Mechanics:</h5>
+
+<h4>1. The Forward Pass (Tape Recording):</h4>
+
+<p>The computer evaluates the objective function from input parameters to the terminal scalar output. Every elementary operation ($+, -, \times, \div, \exp, \sin$) is recorded on an internal directed acyclic execution graph (the <strong>Wengert List</strong> or <strong>Tape</strong>), caching intermediate values.</p>
+
+<h4>2. The Reverse Pass (Adjoint Propagation):</h4>
+
+<p>The algorithm initializes the adjoint of the terminal scalar output:</p>
+
+<div class="math-display">$$\bar{\ell} = \frac{\partial \ell}{\partial \ell} = 1.0$$</div>
+
+<p>It then sweeps backward through the recorded tape in reverse topological order, applying the chain rule locally:</p>
+
+<div class="math-display">$$\bar{v}_i = \sum_{j \in \text{Children}(i)} \bar{v}_j \frac{\partial v_j}{\partial v_i}$$</div>
+
+<h5>The Fundamental Complexity Theorem:</h5>
+
+<p>The total computational cost of computing the <strong>entire $p$-dimensional gradient vector $\nabla \ell(\boldsymbol{\theta})$ via Reverse-Mode AutoDiff is at most 3 to 4 times the cost of evaluating the scalar function $\ell(\boldsymbol{\theta})$ once</strong>, completely independent of parameter dimension $p$!</p>
+
+<div class="math-display">$$\text{Cost}(\nabla \ell(\boldsymbol{\theta})) = \mathcal{O}(1) \times \text{Cost}(\ell(\boldsymbol{\theta}))$$</div>
+
+<p>This extraordinary algorithmic efficiency explains why modern probabilistic systems (Stan, PyMC, Pyro) can execute Hamiltonian Monte Carlo trajectories and variational optimizations across models with millions of parameters in seconds.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-13">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.13</span>
+            <span>Coordinate Descent, Proximal Gradients, and High-Dimensional Sparse Regression</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In contemporary genomic, econometric, and biostatistical modeling, researchers frequently confront high-dimensional regression regimes where the number of candidate covariates $p$ vastly exceeds the available sample size $n$ ($p \gg n$). In such ill-posed settings, the ordinary least squares Gram matrix $\mathbf{X}^T \mathbf{X} \in \mathbb{R}^{p \times p}$ has rank at most $n$, making it singular and non-invertible. To perform consistent parameter estimation and feature selection simultaneously, statisticians introduce sparsity-inducing penalties.</p>
+
+<h4>The Lasso and Elastic Net Regularization Objectives</h4>
+
+<p>The <strong>Least Absolute Shrinkage and Selection Operator (Lasso)</strong> (Tibshirani, 1996) regularizes the residual sum of squares by the $\ell_1$ norm of the parameter vector:</p>
+
+<div class="math-display">$$\min_{\boldsymbol{\beta} \in \mathbb{R}^p} \left\{ \frac{1}{2n} \|\mathbf{y} - \mathbf{X} \boldsymbol{\beta}\|_2^2 + \lambda \|\boldsymbol{\beta}\|_1 \right\} = \min_{\boldsymbol{\beta} \in \mathbb{R}^p} \left\{ \frac{1}{2n} \sum_{i=1}^n \left( y_i - \sum_{j=1}^p X_{ij} \beta_j \right)^2 + \lambda \sum_{j=1}^p |\beta_j| \right\}$$</div>
+
+<p>where $\lambda \ge 0$ is a tuning parameter controlling the degree of sparsity. When collinearity among predictors is severe, the <strong>Elastic Net</strong> (Zou &amp; Hastie, 2005) combines $\ell_1$ and $\ell_2$ penalties:</p>
+
+<div class="math-display">$$\mathcal{L}_{\text{enet}}(\boldsymbol{\beta}) = \frac{1}{2n} \|\mathbf{y} - \mathbf{X} \boldsymbol{\beta}\|_2^2 + \lambda \left[ \alpha \|\boldsymbol{\beta}\|_1 + \frac{1 - \alpha}{2} \|\boldsymbol{\beta}\|_2^2 \right]$$</div>
+
+<p>with mixing parameter $\alpha \in [0, 1]$. Because the $\ell_1$ norm $|\beta_j|$ has a sharp non-differentiable singularity (kink) at $\beta_j = 0$, classical smooth gradient descent and Newton–Raphson algorithms cannot be applied directly.</p>
+
+<h4>Cyclic Coordinate Descent and the Soft-Thresholding Operator</h4>
+
+<p>Friedman, Hastie, and Tibshirani (2007, 2010) demonstrated that <strong>Cyclic Coordinate Descent</strong> provides an astonishingly fast, numerically stable solver for Lasso and Elastic Net problems (implemented in the celebrated `glmnet` R package and `scikit-learn`'s `Lasso` and `ElasticNet`).</p>
+
+<p>Suppose all predictors are standardized so that $\frac{1}{n} \sum_{i=1}^n X_{ij}^2 = 1$. When optimizing with respect to a single coordinate $\beta_j$ while holding all other $p - 1$ coefficients $\boldsymbol{\beta}_{-j}$ fixed, the partial residual vector is:</p>
+
+<div class="math-display">$$\mathbf{r}_{-j} = \mathbf{y} - \sum_{k \ne j} \mathbf{x}_k \beta_k$$</div>
+
+<p>The univariate objective for coordinate $j$ reduces to:</p>
+
+<div class="math-display">$$g(\beta_j) = \frac{1}{2n} \|\mathbf{r}_{-j} - \mathbf{x}_j \beta_j\|_2^2 + \lambda |\beta_j| = \frac{1}{2} \beta_j^2 - \left( \frac{1}{n} \mathbf{x}_j^T \mathbf{r}_{-j} \right) \beta_j + \lambda |\beta_j| + \text{constant}$$</div>
+
+<p>Let $z_j = \frac{1}{n} \mathbf{x}_j^T \mathbf{r}_{-j}$ represent the simple OLS regression coefficient of the partial residuals on feature $j$. The global unconstrained minimizer of $g(\beta_j)$ is given in closed form by the <strong>Soft-Thresholding Operator</strong> $\mathcal{S}_\lambda(z)$:</p>
+
+<div class="math-display">$$\hat{\beta}_j = \mathcal{S}_\lambda(z_j) = \text{sign}(z_j) \max(0, |z_j| - \lambda) = \begin{cases} z_j - \lambda &amp; \text{if } z_j &gt; \lambda \\ 0 &amp; \text{if } |z_j| \le \lambda \\ z_j + \lambda &amp; \text{if } z_j &lt; -\lambda \end{cases}$$</div>
+
+<p>The coordinate descent algorithm repeatedly cycles through coordinates $j = 1, 2, \dots, p$:</p>
+
+<ol>
+
+  <li>Compute partial correlation $z_j = \frac{1}{n} \mathbf{x}_j^T \mathbf{r} + \beta_j$.</li>
+
+  <li>Update $\beta_j \leftarrow \mathcal{S}_\lambda(z_j)$.</li>
+
+  <li>Update residual vector $\mathbf{r} \leftarrow \mathbf{r} - \mathbf{x}_j (\beta_j^{\text{new}} - \beta_j^{\text{old}})$.</li>
+
+</ol>
+
+<p>Each univariate scalar step requires only $\mathcal{O}(n)$ operations! Because the objective function decomposes into a smooth convex loss plus a separable non-smooth penalty $\sum g_j(\beta_j)$, Tseng (2001) proved that coordinate descent is <strong>guaranteed to converge to the exact global minimum</strong>.</p>
+
+<h4>Active-Set Convergence and Pathwise Warm Starts</h4>
+
+<p>In production statistical software, coordinate descent achieves supercomputer-level efficiency through two algorithmic innovations:</p>
+
+<h4>1. Warm Starts along a Regularization Path: Models are solved over a descending grid of $K \approx 100$ penalty values $\lambda_{\max} &gt; \lambda_1 &gt; \dots &gt; \lambda_K$. At $\lambda_{\max} = \max_j \frac{1}{n} |\mathbf{x}_j^T \mathbf{y}|$, all coefficients are identically zero ($\boldsymbol{\beta} = \mathbf{0}$). For each subsequent $\lambda_k$, the algorithm initializes search from the optimal solution $\hat{\boldsymbol{\beta}}(\lambda_{k-1})$ of the preceding problem, requiring only a handful of coordinate cycles to reach machine precision.</h4>
+
+<h4>2. Active-Set Strategies: The algorithm maintains an active set $\mathcal{A} = \{j : \beta_j \ne 0\}$. Coordinate descent iterates exclusively over features in $\mathcal{A}$ until convergence. A single full cycle across all $p$ features is then executed to verify optimality via Karush–Kuhn–Tucker (KKT) conditions ($|z_k| \le \lambda$ for all $k \notin \mathcal{A}$). If any feature violates KKT, it is appended to $\mathcal{A}$ and active cycling resumes. In regimes where $p = 100,000$ and only $50$ features are active, this reduces computational effort by more than $99.9\%$.</h4>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Statistical Computing Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.1: Detailed Step-by-Step Derivation of IRLS for Logistic Regression and Equivalence to Fisher Scoring</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>In epidemiological research, an investigator fits a binary logistic regression model predicting myocardial infarction:</p>
+
+<div class="math-display">$$Y_i \sim \text{Bernoulli}(p_i), \quad i = 1, \dots, n$$</div>
+
+<p>where the success probability $p_i = \mathbb{P}(Y_i = 1 \mid \mathbf{x}_i)$ is linked to a linear predictor $\eta_i = \mathbf{x}_i^\top \boldsymbol{\beta}$ via the canonical logit link:</p>
+
+<div class="math-display">$$\text{logit}(p_i) = \ln\left( \frac{p_i}{1 - p_i} \right) = \mathbf{x}_i^\top \boldsymbol{\beta} \implies p_i = \frac{1}{1 + e^{-\mathbf{x}_i^\top \boldsymbol{\beta}}}$$</div>
+
+<ol>
+
+  <li>Formulate the total log-likelihood function $\ell(\boldsymbol{\beta})$ of the sample.</li>
+
+  <li>Derive the exact gradient vector (score vector) $\mathbf{g}(\boldsymbol{\beta}) = \nabla \ell(\boldsymbol{\beta})$ and the observed Hessian matrix $\mathbf{H}(\boldsymbol{\beta}) = \nabla^2 \ell(\boldsymbol{\beta})$.</li>
+
+  <li>Derive the Expected (Fisher) Information Matrix $\mathcal{I}(\boldsymbol{\beta}) = \mathbb{E}[-\mathbf{H}(\boldsymbol{\beta})]$ and prove that $\mathbf{H}(\boldsymbol{\beta})$ is strictly non-stochastic, establishing exact mathematical equivalence between Newton–Raphson and Fisher Scoring.</li>
+
+  <li>Formulate the Iteratively Reweighted Least Squares (IRLS) representation, defining the working diagonal weight matrix $\mathbf{W}$ and adjusted working response vector $\mathbf{z}$.</li>
+
+  <li>Given a toy dataset of $n = 3$ subjects with single predictor $x$:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{y} = [1, \, 0, \, 1]^\top, \quad \mathbf{x} = [0.5, \, -1.0, \, 1.5]^\top, \quad (\text{no intercept model: } \eta_i = \beta x_i)$$</div>
+
+<p>Starting from initial guess $\beta^{(0)} = 0.0$, compute the first iteration values:</p>
+
+<ul>
+
+  <li>Predicted probabilities $p_i^{(0)}$</li>
+
+  <li>Working weights $W_i^{(0)}$</li>
+
+  <li>Working responses $z_i^{(0)}$</li>
+
+  <li>Updated parameter estimate $\beta^{(1)}$ to four decimal places.</li>
+
+</ul>
+
+<hr class="section-divider-hr">
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-comp-7-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-comp-7-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Formulate the logistic regression log-likelihood</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 1: Formulate the logistic regression log-likelihood.</strong></p>
+
+<p>For a binary Bernoulli observation $y_i \in \{0, 1\}$:</p>
+
+<div class="math-display">$$\mathbb{P}(Y_i = y_i) = p_i^{y_i} (1 - p_i)^{1 - y_i}$$</div>
+
+<p>The log-likelihood for observation $i$ is:</p>
+
+<div class="math-display">$$\ell_i(\boldsymbol{\beta}) = y_i \ln p_i + (1 - y_i) \ln(1 - p_i) = y_i \ln\left( \frac{p_i}{1 - p_i} \right) + \ln(1 - p_i)$$</div>
+
+<p>Substitute the logit link $\ln(p_i / (1 - p_i)) = \mathbf{x}_i^\top \boldsymbol{\beta}$ and $1 - p_i = \frac{1}{1 + e^{\mathbf{x}_i^\top \boldsymbol{\beta}}}$:</p>
+
+<div class="math-display">$$\ell_i(\boldsymbol{\beta}) = y_i (\mathbf{x}_i^\top \boldsymbol{\beta}) - \ln(1 + e^{\mathbf{x}_i^\top \boldsymbol{\beta}})$$</div>
+
+<p>Summing across all $n$ independent observations:</p>
+
+<div class="math-display">$$\ell(\boldsymbol{\beta}) = \sum_{i=1}^n \left[ y_i (\mathbf{x}_i^\top \boldsymbol{\beta}) - \ln(1 + e^{\mathbf{x}_i^\top \boldsymbol{\beta}}) \right]$$</div>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Derive score vector and observed Hessian matrix</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 2: Derive score vector and observed Hessian matrix.</strong></p>
+
+<h4>1. Gradient (Score Vector):</h4>
+
+<p>Differentiate $\ell(\boldsymbol{\beta})$ with respect to $\beta_j$:</p>
+
+<div class="math-display">$$\frac{\partial \ell}{\partial \beta_j} = \sum_{i=1}^n \left[ y_i x_{ij} - \frac{e^{\mathbf{x}_i^\top \boldsymbol{\beta}}}{1 + e^{\mathbf{x}_i^\top \boldsymbol{\beta}}} x_{ij} \right]$$</div>
+
+<p>Since $p_i = \frac{e^{\mathbf{x}_i^\top \boldsymbol{\beta}}}{1 + e^{\mathbf{x}_i^\top \boldsymbol{\beta}}}$:</p>
+
+<div class="math-display">$$\frac{\partial \ell}{\partial \beta_j} = \sum_{i=1}^n (y_i - p_i) x_{ij}$$</div>
+
+<p>In compact matrix notation:</p>
+
+<div class="math-display">$$\mathbf{g}(\boldsymbol{\beta}) = \nabla \ell(\boldsymbol{\beta}) = \mathbf{X}^\top (\mathbf{y} - \mathbf{p})$$</div>
+
+<p>where $\mathbf{p} = (p_1, \dots, p_n)^\top$.</p>
+
+<h4>2. Hessian Matrix:</h4>
+
+<p>Differentiate $\frac{\partial \ell}{\partial \beta_j}$ with respect to $\beta_k$:</p>
+
+<div class="math-display">$$H_{jk}(\boldsymbol{\beta}) = \frac{\partial^2 \ell}{\partial \beta_j \partial \beta_k} = \sum_{i=1}^n \left( -\frac{\partial p_i}{\partial \beta_k} \right) x_{ij}$$</div>
+
+<p>Using the quotient rule on $p_i = \frac{1}{1 + e^{-\mathbf{x}_i^\top \boldsymbol{\beta}}}$:</p>
+
+<div class="math-display">$$\frac{\partial p_i}{\partial \beta_k} = p_i (1 - p_i) x_{ik}$$</div>
+
+<p>Therefore:</p>
+
+<div class="math-display">$$H_{jk}(\boldsymbol{\beta}) = -\sum_{i=1}^n p_i (1 - p_i) x_{ij} x_{ik}$$</div>
+
+<p>In matrix notation, let $\mathbf{W} \in \mathbb{R}^{n \times n}$ be the diagonal matrix of binomial variances:</p>
+
+<div class="math-display">$$\mathbf{W} = \text{diag}(p_1 (1 - p_1), \, p_2 (1 - p_2), \, \dots, \, p_n (1 - p_n))$$</div>
+
+<p>The Hessian matrix is:</p>
+
+<div class="math-display">$$\mathbf{H}(\boldsymbol{\beta}) = -\mathbf{X}^\top \mathbf{W} \mathbf{X}$$</div>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Expected information and equivalence of Newton–Raphson and Fisher Scoring</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 3: Expected information and equivalence of Newton–Raphson and Fisher Scoring.</strong></p>
+
+<p>Notice that the Hessian matrix:</p>
+
+<div class="math-display">$$\mathbf{H}(\boldsymbol{\beta}) = -\mathbf{X}^\top \mathbf{W}(\boldsymbol{\beta}) \mathbf{X}$$</div>
+
+<p>depends on the parameters $\boldsymbol{\beta}$ and explanatory variables $\mathbf{X}$, but does <strong>not depend on the random observations $\mathbf{y}$</strong>!</p>
+
+<p>Therefore, taking the expectation over $\mathbf{y}$:</p>
+
+<div class="math-display">$$\mathcal{I}(\boldsymbol{\beta}) = \mathbb{E}[-\mathbf{H}(\boldsymbol{\beta})] = -\mathbf{H}(\boldsymbol{\beta}) = \mathbf{X}^\top \mathbf{W} \mathbf{X}$$</div>
+
+<p>Because $\mathcal{J}(\boldsymbol{\beta}) \equiv \mathcal{I}(\boldsymbol{\beta})$, the Newton–Raphson algorithm and the Fisher Scoring algorithm are <strong>mathematically and numerically identical</strong>:</p>
+
+<div class="math-display">$$\boldsymbol{\beta}^{(t+1)} = \boldsymbol{\beta}^{(t)} + (\mathbf{X}^\top \mathbf{W}_t \mathbf{X})^{-1} \mathbf{X}^\top (\mathbf{y} - \mathbf{p}_t)$$</div>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">IRLS formulation</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 4: IRLS formulation.</strong></p>
+
+<p>Rewrite the update step by factoring out $(\mathbf{X}^\top \mathbf{W}_t \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{W}_t$:</p>
+
+<div class="math-display">$$\boldsymbol{\beta}^{(t+1)} = (\mathbf{X}^\top \mathbf{W}_t \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{W}_t \left[ \mathbf{X} \boldsymbol{\beta}^{(t)} + \mathbf{W}_t^{-1} (\mathbf{y} - \mathbf{p}_t) \right]$$</div>
+
+<p>Define the working response vector $\mathbf{z}_t$:</p>
+
+<div class="math-display">$$\mathbf{z}_t = \mathbf{X} \boldsymbol{\beta}^{(t)} + \mathbf{W}_t^{-1} (\mathbf{y} - \mathbf{p}_t)$$</div>
+
+<p>In scalar components, for observation $i$:</p>
+
+<div class="math-display">$$z_{i, t} = \eta_{i, t} + \frac{y_i - p_{i, t}}{p_{i, t}(1 - p_{i, t})}$$</div>
+
+<div class="math-display">$$W_{i, t} = p_{i, t}(1 - p_{i, t})$$</div>
+
+<p>The update is computed as a standard Weighted Least Squares regression:</p>
+
+<div class="math-display">$$\boldsymbol{\beta}^{(t+1)} = (\mathbf{X}^\top \mathbf{W}_t \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{W}_t \mathbf{z}_t$$</div>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Numerical iteration 1 computation</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 5: Numerical iteration 1 computation.</strong></p>
+
+<p>We are given:</p>
+
+<ul>
+
+  <li>$\mathbf{y} = [1, \, 0, \, 1]^\top$</li>
+
+  <li>$\mathbf{x} = [0.5, \, -1.0, \, 1.5]^\top$</li>
+
+  <li>Initial parameter: $\beta^{(0)} = 0.0$.</li>
+
+</ul>
+
+<h4>1. Linear Predictors and Probabilities at Step 0:</h4>
+
+<div class="math-display">$$\eta_i^{(0)} = \beta^{(0)} x_i = 0.0 \times x_i = 0.0 \quad \text{for all } i$$</div>
+
+<div class="math-display">$$p_i^{(0)} = \frac{1}{1 + e^{-0}} = \frac{1}{1 + 1} = 0.50 \quad \text{for all } i$$</div>
+
+<div class="math-display">$$\mathbf{p}^{(0)} = [0.50, \, 0.50, \, 0.50]^\top$$</div>
+
+<h4>2. Working Weights $W_i^{(0)}$:</h4>
+
+<div class="math-display">$$W_i^{(0)} = p_i^{(0)} (1 - p_i^{(0)}) = 0.50 \times 0.50 = 0.25 \quad \text{for all } i$$</div>
+
+<div class="math-display">$$\mathbf{W}_0 = \text{diag}(0.25, \, 0.25, \, 0.25)$$</div>
+
+<h4>3. Working Responses $z_i^{(0)}$:</h4>
+
+<p>Using $z_i^{(0)} = \eta_i^{(0)} + \frac{y_i - p_i^{(0)}}{W_i^{(0)}} = 0.0 + \frac{y_i - 0.50}{0.25} = 4(y_i - 0.50)$:</p>
+
+<ul>
+
+  <li>For $i = 1$ ($y_1 = 1$): $z_1^{(0)} = 4(1 - 0.5) = 4(0.5) = \mathbf{2.0}$</li>
+
+  <li>For $i = 2$ ($y_2 = 0$): $z_2^{(0)} = 4(0 - 0.5) = 4(-0.5) = \mathbf{-2.0}$</li>
+
+  <li>For $i = 3$ ($y_3 = 1$): $z_3^{(0)} = 4(1 - 0.5) = 4(0.5) = \mathbf{2.0}$</li>
+
+</ul>
+
+<div class="math-display">$$\mathbf{z}_0 = [2.0, \, -2.0, \, 2.0]^\top$$</div>
+
+<h4>4. Updated Parameter Estimate $\beta^{(1)}$:</h4>
+
+<p>In our 1-parameter model:</p>
+
+<div class="math-display">$$\mathbf{X}^\top \mathbf{W}_0 \mathbf{X} = \sum_{i=1}^3 x_i^2 W_i^{(0)} = 0.25 \sum_{i=1}^3 x_i^2$$</div>
+
+<div class="math-display">$$\sum_{i=1}^3 x_i^2 = (0.5)^2 + (-1.0)^2 + (1.5)^2 = 0.25 + 1.00 + 2.25 = 3.50$$</div>
+
+<div class="math-display">$$\mathbf{X}^\top \mathbf{W}_0 \mathbf{X} = 0.25 \times 3.50 = 0.875$$</div>
+
+<p>Now evaluate $\mathbf{X}^\top \mathbf{W}_0 \mathbf{z}_0$:</p>
+
+<div class="math-display">$$\mathbf{X}^\top \mathbf{W}_0 \mathbf{z}_0 = \sum_{i=1}^3 x_i W_i^{(0)} z_i^{(0)} = 0.25 \sum_{i=1}^3 x_i z_i^{(0)}$$</div>
+
+<div class="math-display">$$\sum_{i=1}^3 x_i z_i^{(0)} = (0.5)(2.0) + (-1.0)(-2.0) + (1.5)(2.0) = 1.0 + 2.0 + 3.0 = 6.0$$</div>
+
+<div class="math-display">$$\mathbf{X}^\top \mathbf{W}_0 \mathbf{z}_0 = 0.25 \times 6.0 = 1.50$$</div>
+
+<p>Therefore:</p>
+
+<div class="math-display">$$\beta^{(1)} = \frac{\mathbf{X}^\top \mathbf{W}_0 \mathbf{z}_0}{\mathbf{X}^\top \mathbf{W}_0 \mathbf{X}} = \frac{1.50}{0.875} = \frac{6}{3.5} = \frac{12}{7} \approx \mathbf{1.7143}$$</div>
+
+<p>In a single IRLS step, the parameter estimate updates from $0.0$ to $\beta^{(1)} \approx 1.7143$.</p>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.2: Mathematical Proof of Monotonic Likelihood Increase in the EM Algorithm via Jensen's Inequality</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>The Expectation–Maximization (EM) algorithm is deployed to estimate parameter vector $\boldsymbol{\theta}$ in a latent variable model with observed data $\mathbf{Y}$ and unobserved latent variables $\mathbf{Z}$.</p>
+
+<p>Let $p(\mathbf{Y}, \mathbf{Z} \mid \boldsymbol{\theta})$ be the complete-data joint probability density function. The observed data log-likelihood is:</p>
+
+<div class="math-display">$$\ell(\boldsymbol{\theta}) = \ln p(\mathbf{Y} \mid \boldsymbol{\theta})$$</div>
+
+<p>The EM algorithm constructs the $Q$-function:</p>
+
+<div class="math-display">$$Q(\boldsymbol{\theta} \mid \boldsymbol{\theta}^{(t)}) = \mathbb{E}_{\mathbf{Z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)}} [\ln p(\mathbf{Y}, \mathbf{Z} \mid \boldsymbol{\theta})]$$</div>
+
+<p>and updates the parameter via:</p>
+
+<div class="math-display">$$\boldsymbol{\theta}^{(t+1)} = \arg\max_{\boldsymbol{\theta}} Q(\boldsymbol{\theta} \mid \boldsymbol{\theta}^{(t)})$$</div>
+
+<ol>
+
+  <li>Define the Kullback–Leibler (KL) divergence between two probability distributions $q(\mathbf{z})$ and $p(\mathbf{z})$:</li>
+
+</ol>
+
+<div class="math-display">$$\mathcal{D}_{KL}(q \,\|\, p) = \int q(\mathbf{z}) \ln\left( \frac{q(\mathbf{z})}{p(\mathbf{z})} \right) d\mathbf{z}$$</div>
+
+<p>Using Jensen's inequality for convex functions, prove Gibbs' Inequality: $\mathcal{D}_{KL}(q \,\|\, p) \ge 0$, with equality if and only if $q(\mathbf{z}) = p(\mathbf{z})$ almost everywhere.</p>
+
+<ol>
+
+  <li>For any arbitrary probability distribution $q(\mathbf{z})$ over the latent space, prove that the observed log-likelihood admits the exact variational decomposition:</li>
+
+</ol>
+
+<div class="math-display">$$\ell(\boldsymbol{\theta}) = \mathcal{L}(q, \boldsymbol{\theta}) + \mathcal{D}_{KL}(q(\mathbf{Z}) \,\|\, p(\mathbf{Z} \mid \mathbf{Y}, \boldsymbol{\theta}))$$</div>
+
+<p>where $\mathcal{L}(q, \boldsymbol{\theta}) = \int q(\mathbf{z}) \ln\left( \frac{p(\mathbf{Y}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})} \right) d\mathbf{z}$ is the Evidence Lower Bound (ELBO).</p>
+
+<ol>
+
+  <li>Using the ELBO decomposition, demonstrate what occurs during the <strong>E-step</strong> when $q(\mathbf{z})$ is set to $p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)})$.</li>
+
+  <li>Prove that $\ell(\boldsymbol{\theta}^{(t+1)}) \ge \ell(\boldsymbol{\theta}^{(t)})$, establishing monotonic non-decreasing convergence.</li>
+
+</ol>
+
+<hr class="section-divider-hr">
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-comp-7-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-comp-7-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Proof of Gibbs' Inequality via Jensen's Inequality</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 1: Proof of Gibbs' Inequality via Jensen's Inequality.</strong></p>
+
+<p>The Kullback–Leibler divergence is:</p>
+
+<div class="math-display">$$\mathcal{D}_{KL}(q \,\|\, p) = \int q(\mathbf{z}) \ln\left( \frac{q(\mathbf{z})}{p(\mathbf{z})} \right) d\mathbf{z} = -\int q(\mathbf{z}) \ln\left( \frac{p(\mathbf{z})}{q(\mathbf{z})} \right) d\mathbf{z} = -\mathbb{E}_q \left[ \ln\left( \frac{p(\mathbf{Z})}{q(\mathbf{Z})} \right) \right]$$</div>
+
+<p>Recall that the negative logarithm $-\ln(t)$ is a strictly convex function on $(0, \infty)$ (since its second derivative $\frac{d^2}{dt^2}(-\ln t) = \frac{1}{t^2} &gt; 0$).</p>
+
+<p>By <strong>Jensen's Inequality</strong>, for any strictly convex function $\phi$ and random variable $X$:</p>
+
+<div class="math-display">$$\mathbb{E}[\phi(X)] \ge \phi(\mathbb{E}[X])$$</div>
+
+<p>Applying this with $\phi(t) = -\ln(t)$ and $X = \frac{p(\mathbf{Z})}{q(\mathbf{Z})}$:</p>
+
+<div class="math-display">$$-\mathbb{E}_q \left[ \ln\left( \frac{p(\mathbf{Z})}{q(\mathbf{Z})} \right) \right] \ge -\ln\left( \mathbb{E}_q \left[ \frac{p(\mathbf{Z})}{q(\mathbf{Z})} \right] \right)$$</div>
+
+<p>Evaluate the inner expectation:</p>
+
+<div class="math-display">$$\mathbb{E}_q \left[ \frac{p(\mathbf{Z})}{q(\mathbf{Z})} \right] = \int q(\mathbf{z}) \frac{p(\mathbf{z})}{q(\mathbf{z})} \, d\mathbf{z} = \int p(\mathbf{z}) \, d\mathbf{z} = 1$$</div>
+
+<p>Substitute this back:</p>
+
+<div class="math-display">$$\mathcal{D}_{KL}(q \,\|\, p) \ge -\ln(1) = 0$$</div>
+
+<p>Furthermore, because $-\ln(t)$ is strictly convex, equality holds if and only if $X = \frac{p(\mathbf{Z})}{q(\mathbf{Z})}$ is constant with probability 1. Since both $p$ and $q$ integrate to 1, this constant must be 1, meaning $q(\mathbf{z}) = p(\mathbf{z})$ almost everywhere.</p>
+
+<p>This proves <strong>Gibbs' Inequality</strong>:</p>
+
+<div class="math-display">$$\mathcal{D}_{KL}(q \,\|\, p) \ge 0$$</div>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Variational decomposition of the log-likelihood (ELBO)</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 2: Variational decomposition of the log-likelihood (ELBO).</strong></p>
+
+<p>Let $q(\mathbf{z})$ be an arbitrary probability density function on the latent space $\mathcal{Z}$ satisfying $\int q(\mathbf{z}) d\mathbf{z} = 1$.</p>
+
+<p>Start from the observed log-likelihood $\ell(\boldsymbol{\theta}) = \ln p(\mathbf{Y} \mid \boldsymbol{\theta})$:</p>
+
+<div class="math-display">$$\ell(\boldsymbol{\theta}) = \ln p(\mathbf{Y} \mid \boldsymbol{\theta}) \int q(\mathbf{z}) \, d\mathbf{z} = \int q(\mathbf{z}) \ln p(\mathbf{Y} \mid \boldsymbol{\theta}) \, d\mathbf{z}$$</div>
+
+<p>By Bayes' rule:</p>
+
+<div class="math-display">$$p(\mathbf{Y} \mid \boldsymbol{\theta}) = \frac{p(\mathbf{Y}, \mathbf{z} \mid \boldsymbol{\theta})}{p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta})}$$</div>
+
+<p>Multiply top and bottom by $q(\mathbf{z})$:</p>
+
+<div class="math-display">$$p(\mathbf{Y} \mid \boldsymbol{\theta}) = \frac{p(\mathbf{Y}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})} \cdot \frac{q(\mathbf{z})}{p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta})}$$</div>
+
+<p>Take the logarithm:</p>
+
+<div class="math-display">$$\ln p(\mathbf{Y} \mid \boldsymbol{\theta}) = \ln\left( \frac{p(\mathbf{Y}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})} \right) + \ln\left( \frac{q(\mathbf{z})}{p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta})} \right)$$</div>
+
+<p>Integrate with respect to $q(\mathbf{z}) d\mathbf{z}$:</p>
+
+<div class="math-display">$$\ell(\boldsymbol{\theta}) = \int q(\mathbf{z}) \ln\left( \frac{p(\mathbf{Y}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})} \right) d\mathbf{z} + \int q(\mathbf{z}) \ln\left( \frac{q(\mathbf{z})}{p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta})} \right) d\mathbf{z}$$</div>
+
+<p>Recognize the two terms:</p>
+
+<ol>
+
+  <li>The first term is the <strong>Evidence Lower Bound (ELBO)</strong> $\mathcal{L}(q, \boldsymbol{\theta})$:</li>
+
+</ol>
+
+<div class="math-display">$$\mathcal{L}(q, \boldsymbol{\theta}) = \int q(\mathbf{z}) \ln\left( \frac{p(\mathbf{Y}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})} \right) d\mathbf{z}$$</div>
+
+<ol>
+
+  <li>The second term is the Kullback–Leibler divergence $\mathcal{D}_{KL}(q(\mathbf{Z}) \,\|\, p(\mathbf{Z} \mid \mathbf{Y}, \boldsymbol{\theta}))$.</li>
+
+</ol>
+
+<p>Therefore:</p>
+
+<div class="math-display">$$\ell(\boldsymbol{\theta}) = \mathcal{L}(q, \boldsymbol{\theta}) + \mathcal{D}_{KL}(q(\mathbf{Z}) \,\|\, p(\mathbf{Z} \mid \mathbf{Y}, \boldsymbol{\theta}))$$</div>
+
+<p>Because $\mathcal{D}_{KL} \ge 0$, this establishes that $\mathcal{L}(q, \boldsymbol{\theta})$ is a strict <strong>lower bound</strong> on the log-likelihood:</p>
+
+<div class="math-display">$$\ell(\boldsymbol{\theta}) \ge \mathcal{L}(q, \boldsymbol{\theta})$$</div>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Action of the E-step</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 3: Action of the E-step.</strong></p>
+
+<p>In the E-step, the parameter is fixed at its current value $\boldsymbol{\theta}^{(t)}$. We maximize the lower bound $\mathcal{L}(q, \boldsymbol{\theta}^{(t)})$ with respect to the distribution $q$:</p>
+
+<div class="math-display">$$\max_q \mathcal{L}(q, \boldsymbol{\theta}^{(t)}) \iff \min_q \mathcal{D}_{KL}(q(\mathbf{Z}) \,\|\, p(\mathbf{Z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)}))$$</div>
+
+<p>By Gibbs' Inequality, the KL divergence attains its absolute minimum of <strong>zero</strong> if and only if:</p>
+
+<div class="math-display">$$q^*(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t)})$$</div>
+
+<p>When $q$ is set to the exact posterior of the latent variables:</p>
+
+<div class="math-display">$$\mathcal{D}_{KL} = 0 \implies \mathcal{L}(q^*, \boldsymbol{\theta}^{(t)}) = \ell(\boldsymbol{\theta}^{(t)})$$</div>
+
+<p>The lower bound becomes <strong>tangent to the true log-likelihood curve</strong> at $\boldsymbol{\theta}^{(t)}$!</p>
+
+<p>Furthermore, evaluate $\mathcal{L}(q^*, \boldsymbol{\theta})$:</p>
+
+<div class="math-display">$$\mathcal{L}(q^*, \boldsymbol{\theta}) = \int q^*(\mathbf{z}) \ln p(\mathbf{Y}, \mathbf{z} \mid \boldsymbol{\theta}) \, d\mathbf{z} - \int q^*(\mathbf{z}) \ln q^*(\mathbf{z}) \, d\mathbf{z}$$</div>
+
+<div class="math-display">$$= Q(\boldsymbol{\theta} \mid \boldsymbol{\theta}^{(t)}) + \text{Entropy}(q^*)$$</div>
+
+<p>Since the entropy of $q^*$ does not depend on $\boldsymbol{\theta}$, maximizing $\mathcal{L}(q^*, \boldsymbol{\theta})$ with respect to $\boldsymbol{\theta}$ is <strong>identical to maximizing the $Q$-function</strong>!</p>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Complete proof of monotonic ascent</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 4: Complete proof of monotonic ascent.</strong></p>
+
+<p>Now evaluate the progression across the two steps:</p>
+
+<h4>1. E-step Tangency:</h4>
+
+<div class="math-display">$$\ell(\boldsymbol{\theta}^{(t)}) = \mathcal{L}(q^*, \boldsymbol{\theta}^{(t)})$$</div>
+
+<h4>2. M-step Maximization:</h4>
+
+<p>The M-step updates $\boldsymbol{\theta}^{(t+1)} = \arg\max_{\boldsymbol{\theta}} Q(\boldsymbol{\theta} \mid \boldsymbol{\theta}^{(t)}) = \arg\max_{\boldsymbol{\theta}} \mathcal{L}(q^*, \boldsymbol{\theta})$. Therefore:</p>
+
+<div class="math-display">$$\mathcal{L}(q^*, \boldsymbol{\theta}^{(t+1)}) \ge \mathcal{L}(q^*, \boldsymbol{\theta}^{(t)})$$</div>
+
+<h4>3. Lower Bound Property:</h4>
+
+<p>By the variational decomposition, for any $\boldsymbol{\theta}$, including $\boldsymbol{\theta}^{(t+1)}$:</p>
+
+<div class="math-display">$$\ell(\boldsymbol{\theta}^{(t+1)}) = \mathcal{L}(q^*, \boldsymbol{\theta}^{(t+1)}) + \mathcal{D}_{KL}(q^*(\mathbf{Z}) \,\|\, p(\mathbf{Z} \mid \mathbf{Y}, \boldsymbol{\theta}^{(t+1)}))$$</div>
+
+<p>Since $\mathcal{D}_{KL} \ge 0$:</p>
+
+<div class="math-display">$$\ell(\boldsymbol{\theta}^{(t+1)}) \ge \mathcal{L}(q^*, \boldsymbol{\theta}^{(t+1)})$$</div>
+
+<p>Chaining the inequalities together:</p>
+
+<div class="math-display">$$\ell(\boldsymbol{\theta}^{(t+1)}) \ge \mathcal{L}(q^*, \boldsymbol{\theta}^{(t+1)}) \ge \mathcal{L}(q^*, \boldsymbol{\theta}^{(t)}) = \ell(\boldsymbol{\theta}^{(t)})$$</div>
+
+<p>Therefore:</p>
+
+<div class="math-display">$$\ell(\boldsymbol{\theta}^{(t+1)}) \ge \ell(\boldsymbol{\theta}^{(t)})$$</div>
+
+<p>This completes the mathematical proof that the observed log-likelihood <strong>monotonically increases at every iteration of the EM algorithm</strong>.</p>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.3: Newton–Raphson vs Fisher Scoring Convergence Rate and Numerical Step Computation for a Gamma GLM</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An environmental engineer models rainfall depth $Y_i &gt; 0$ using a <strong>Gamma Generalized Linear Model</strong> with a reciprocal link function (the canonical link):</p>
+
+<div class="math-display">$$Y_i \sim \text{Gamma}(\mu_i, \nu), \quad g(\mu_i) = \frac{1}{\mu_i} = \eta_i = \mathbf{x}_i^\top \boldsymbol{\beta}$$</div>
+
+<p>The probability density function of $Y \sim \text{Gamma}(\mu, \nu)$ is:</p>
+
+<div class="math-display">$$f(y \mid \mu, \nu) = \frac{1}{\Gamma(\nu)} \left( \frac{\nu}{\mu} \right)^\nu y^{\nu - 1} \exp\left( -\frac{\nu y}{\mu} \right), \quad y &gt; 0$$</div>
+
+<p>where $\nu &gt; 0$ is the known shape parameter.</p>
+
+<ol>
+
+  <li>Show that the Gamma distribution belongs to the exponential dispersion family, and identify the natural parameter $\theta$, cumulant function $b(\theta)$, and variance function $V(\mu)$.</li>
+
+  <li>Derive the log-likelihood function $\ell(\boldsymbol{\beta})$, the score vector $\mathbf{g}(\boldsymbol{\beta})$, and the observed Hessian matrix $\mathbf{H}(\boldsymbol{\beta})$.</li>
+
+  <li>Derive the Expected (Fisher) Information Matrix $\mathcal{I}(\boldsymbol{\beta})$ and prove whether Newton–Raphson and Fisher Scoring are identical for this canonical Gamma GLM.</li>
+
+  <li>An empirical calibration collects $n = 3$ precipitation observations:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{y} = [0.8, \, 1.2, \, 2.0]^\top, \quad \mathbf{x} = [1.0, \, 2.0, \, 3.0]^\top, \quad \nu = 1.0 \quad (\text{standard Exponential})$$</div>
+
+<p>Under model $\frac{1}{\mu_i} = \beta x_i$, starting from initial estimate $\beta^{(0)} = 0.50$:</p>
+
+<ul>
+
+  <li>Compute the fitted means $\mu_i^{(0)}$</li>
+
+  <li>Compute the score value $g(\beta^{(0)})$</li>
+
+  <li>Compute the information value $\mathcal{I}(\beta^{(0)})$</li>
+
+  <li>Calculate the updated parameter $\beta^{(1)}$ to four decimal places.</li>
+
+</ul>
+
+<hr class="section-divider-hr">
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-comp-7-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-comp-7-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Exponential dispersion formulation of the Gamma distribution</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 1: Exponential dispersion formulation of the Gamma distribution.</strong></p>
+
+<p>Rewrite the density $f(y \mid \mu, \nu)$:</p>
+
+<div class="math-display">$$f(y \mid \mu, \nu) = \exp\left( \ln\left[ \frac{1}{\Gamma(\nu)} \left( \frac{\nu}{\mu} \right)^\nu y^{\nu - 1} \exp\left( -\frac{\nu y}{\mu} \right) \right] \right)$$</div>
+
+<div class="math-display">$$= \exp\left( -\frac{\nu y}{\mu} - \nu \ln \mu + \nu \ln\nu + (\nu - 1)\ln y - \ln\Gamma(\nu) \right)$$</div>
+
+<p>Multiply and divide by $\nu = 1/\phi$ (where dispersion $\phi = 1/\nu$):</p>
+
+<div class="math-display">$$= \exp\left( \frac{y (-1/\mu) - \ln\mu}{1/\nu} + (\nu - 1)\ln y + \nu\ln\nu - \ln\Gamma(\nu) \right)$$</div>
+
+<p>This matches the canonical exponential dispersion family format:</p>
+
+<div class="math-display">$$f(y \mid \theta, \phi) = \exp\left( \frac{y \theta - b(\theta)}{a(\phi)} + c(y, \phi) \right)$$</div>
+
+<p>where:</p>
+
+<h4>1. Natural Parameter:</h4>
+
+<div class="math-display">$$\theta = -\frac{1}{\mu} \implies \mu = -\frac{1}{\theta}$$</div>
+
+<h4>2. Cumulant Generator Function:</h4>
+
+<div class="math-display">$$b(\theta) = \ln\mu = \ln\left( -\frac{1}{\theta} \right) = -\ln(-\theta)$$</div>
+
+<h4>3. Dispersion Parameter:</h4>
+
+<div class="math-display">$$a(\phi) = \phi = \frac{1}{\nu}$$</div>
+
+<h4>4. Mean and Variance Functions:</h4>
+
+<div class="math-display">$$\mathbb{E}[Y] = b'(\theta) = -\frac{1}{-\theta} (-1) = -\frac{1}{\theta} = \mu$$</div>
+
+<div class="math-display">$$\text{Var}(Y) = b''(\theta) a(\phi) = \frac{1}{\theta^2} \phi = \mu^2 \phi$$</div>
+
+<p>Therefore, the <strong>variance function</strong> is:</p>
+
+<div class="math-display">$$V(\mu) = \mu^2$$</div>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Log-likelihood, score vector, and observed Hessian</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 2: Log-likelihood, score vector, and observed Hessian.</strong></p>
+
+<p>With canonical link $\eta_i = \frac{1}{\mu_i} = \mathbf{x}_i^\top \boldsymbol{\beta}$, the natural parameter is:</p>
+
+<div class="math-display">$$\theta_i = -\frac{1}{\mu_i} = -\mathbf{x}_i^\top \boldsymbol{\beta}$$</div>
+
+<h4>1. Log-Likelihood Function:</h4>
+
+<div class="math-display">$$\ell(\boldsymbol{\beta}) = \sum_{i=1}^n \left[ \frac{y_i (-\mathbf{x}_i^\top \boldsymbol{\beta}) - (-\ln(\mathbf{x}_i^\top \boldsymbol{\beta}))}{1/\nu} \right] + \text{constant}$$</div>
+
+<div class="math-display">$$\ell(\boldsymbol{\beta}) = \nu \sum_{i=1}^n \left[ -y_i (\mathbf{x}_i^\top \boldsymbol{\beta}) + \ln(\mathbf{x}_i^\top \boldsymbol{\beta}) \right] + \text{constant}$$</div>
+
+<h4>2. Score Vector (Gradient):</h4>
+
+<p>Differentiate with respect to $\beta_j$:</p>
+
+<div class="math-display">$$\frac{\partial \ell}{\partial \beta_j} = \nu \sum_{i=1}^n \left[ -y_i x_{ij} + \frac{x_{ij}}{\mathbf{x}_i^\top \boldsymbol{\beta}} \right] = \nu \sum_{i=1}^n \left( \frac{1}{\mathbf{x}_i^\top \boldsymbol{\beta}} - y_i \right) x_{ij}$$</div>
+
+<p>Since $\mu_i = \frac{1}{\mathbf{x}_i^\top \boldsymbol{\beta}}$:</p>
+
+<div class="math-display">$$\frac{\partial \ell}{\partial \beta_j} = \nu \sum_{i=1}^n (\mu_i - y_i) x_{ij}$$</div>
+
+<p>In matrix notation:</p>
+
+<div class="math-display">$$\mathbf{g}(\boldsymbol{\beta}) = \nu \mathbf{X}^\top (\boldsymbol{\mu} - \mathbf{y})$$</div>
+
+<h4>3. Observed Hessian Matrix:</h4>
+
+<p>Differentiate $\frac{\partial \ell}{\partial \beta_j}$ with respect to $\beta_k$:</p>
+
+<div class="math-display">$$H_{jk}(\boldsymbol{\beta}) = \frac{\partial^2 \ell}{\partial \beta_j \partial \beta_k} = \nu \sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_k} x_{ij}$$</div>
+
+<p>Since $\mu_i = (\mathbf{x}_i^\top \boldsymbol{\beta})^{-1}$:</p>
+
+<div class="math-display">$$\frac{\partial \mu_i}{\partial \beta_k} = -\frac{x_{ik}}{(\mathbf{x}_i^\top \boldsymbol{\beta})^2} = -\mu_i^2 x_{ik}$$</div>
+
+<p>Therefore:</p>
+
+<div class="math-display">$$H_{jk}(\boldsymbol{\beta}) = -\nu \sum_{i=1}^n \mu_i^2 x_{ij} x_{ik}$$</div>
+
+<p>In matrix notation:</p>
+
+<div class="math-display">$$\mathbf{H}(\boldsymbol{\beta}) = -\nu \mathbf{X}^\top \text{diag}(\mu_1^2, \dots, \mu_n^2) \mathbf{X}$$</div>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Expected information and equivalence proof</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 3: Expected information and equivalence proof.</strong></p>
+
+<p>Notice that the Hessian matrix:</p>
+
+<div class="math-display">$$\mathbf{H}(\boldsymbol{\beta}) = -\nu \mathbf{X}^\top \text{diag}(\mu_i^2) \mathbf{X}$$</div>
+
+<p>depends solely on the model means $\mu_i = 1 / (\mathbf{x}_i^\top \boldsymbol{\beta})$ and covariates $\mathbf{X}$. It is <strong>completely independent of the random realizations $y_i$</strong>!</p>
+
+<p>Therefore:</p>
+
+<div class="math-display">$$\mathcal{I}(\boldsymbol{\beta}) = \mathbb{E}[-\mathbf{H}(\boldsymbol{\beta})] = -\mathbf{H}(\boldsymbol{\beta}) = \nu \mathbf{X}^\top \text{diag}(\mu_1^2, \dots, \mu_n^2) \mathbf{X}$$</div>
+
+<p>Because $\mathcal{J}(\boldsymbol{\beta}) \equiv \mathcal{I}(\boldsymbol{\beta})$, the Newton–Raphson algorithm and the Fisher Scoring algorithm are <strong>strictly mathematically identical</strong> for this canonical Gamma GLM!</p>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Numerical computation of update step 1</div>
+              
+              <div class="step-explanation"><p><strong>Solution, step 4: Numerical computation of update step 1.</strong></p>
+
+<p>We are given:</p>
+
+<ul>
+
+  <li>$\nu = 1.0$</li>
+
+  <li>$\mathbf{y} = [0.8, \, 1.2, \, 2.0]^\top$</li>
+
+  <li>$\mathbf{x} = [1.0, \, 2.0, \, 3.0]^\top$</li>
+
+  <li>Model: $\frac{1}{\mu_i} = \beta x_i$</li>
+
+  <li>Initial parameter: $\beta^{(0)} = 0.50$.</li>
+
+</ul>
+
+<h4>1. Calculate Fitted Means at Step 0:</h4>
+
+<div class="math-display">$$\mu_i^{(0)} = \frac{1}{\beta^{(0)} x_i} = \frac{1}{0.50 \times x_i} = \frac{2.0}{x_i}$$</div>
+
+<ul>
+
+  <li>For $i = 1$ ($x_1 = 1.0$): $\mu_1^{(0)} = \frac{2.0}{1.0} = \mathbf{2.0}$</li>
+
+  <li>For $i = 2$ ($x_2 = 2.0$): $\mu_2^{(0)} = \frac{2.0}{2.0} = \mathbf{1.0}$</li>
+
+  <li>For $i = 3$ ($x_3 = 3.0$): $\mu_3^{(0)} = \frac{2.0}{3.0} \approx \mathbf{0.666667}$</li>
+
+</ul>
+
+<h4>2. Calculate the Score Function $g(\beta^{(0)})$:</h4>
+
+<div class="math-display">$$g(\beta) = \nu \sum_{i=1}^3 x_i (\mu_i - y_i) = 1.0 \sum_{i=1}^3 x_i (\mu_i - y_i)$$</div>
+
+<p>Compute each observation's contribution:</p>
+
+<ul>
+
+  <li>$i = 1$: $x_1 (\mu_1 - y_1) = 1.0 \times (2.0 - 0.8) = 1.0 \times 1.2 = \mathbf{1.20}$</li>
+
+  <li>$i = 2$: $x_2 (\mu_2 - y_2) = 2.0 \times (1.0 - 1.2) = 2.0 \times (-0.2) = \mathbf{-0.40}$</li>
+
+  <li>$i = 3$: $x_3 (\mu_3 - y_3) = 3.0 \times (0.666667 - 2.0) = 3.0 \times (-1.333333) = \mathbf{-4.00}$</li>
+
+</ul>
+
+<p>Summing across all 3 observations:</p>
+
+<div class="math-display">$$g(\beta^{(0)}) = 1.20 - 0.40 - 4.00 = \mathbf{-3.20}$$</div>
+
+<h4>3. Calculate Fisher Information $\mathcal{I}(\beta^{(0)})$:</h4>
+
+<div class="math-display">$$\mathcal{I}(\beta) = \nu \sum_{i=1}^3 x_i^2 \mu_i^2 = 1.0 \sum_{i=1}^3 (x_i \mu_i)^2$$</div>
+
+<p>Notice that $x_i \mu_i = x_i \left( \frac{1}{\beta x_i} \right) = \frac{1}{\beta} = \frac{1}{0.50} = 2.0$ for <strong>all</strong> observations!</p>
+
+<div class="math-display">$$(x_i \mu_i)^2 = (2.0)^2 = 4.0 \quad \text{for each observation } i$$</div>
+
+<p>Summing across all 3 observations:</p>
+
+<div class="math-display">$$\mathcal{I}(\beta^{(0)}) = 4.0 + 4.0 + 4.0 = \mathbf{12.0}$$</div>
+
+<h4>4. Compute the Updated Parameter $\beta^{(1)}$:</h4>
+
+<p>The Fisher scoring update step is:</p>
+
+<div class="math-display">$$\beta^{(1)} = \beta^{(0)} + [\mathcal{I}(\beta^{(0)})]^{-1} g(\beta^{(0)})$$</div>
+
+<div class="math-display">$$\beta^{(1)} = 0.50 + \frac{-3.20}{12.0} = 0.50 - \frac{3.2}{12.0} = 0.50 - \frac{8}{30} = 0.50 - 0.266667$$</div>
+
+<div class="math-display">$$\beta^{(1)} = \mathbf{0.2333}$$</div>
+
+<p>The parameter estimate updates from $\beta^{(0)} = 0.5000$ to $\beta^{(1)} \approx 0.2333$ in a single iteration.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Courses Stat H-108 Computer Programming, Stat H-209 Statistical Computing I, Stat H-310 Statistical Computing II, Stat H-311 Simulation and Resampling)</a></li><li><a href="https://openstemlibrary.com/references/gentle-computational-statistics" target="_blank" rel="noopener noreferrer">Gentle, J.E. (2009). Computational Statistics: Theoretical and algorithmic foundation for random number generation, numerical optimization, and Monte Carlo integration</a></li><li><a href="https://openstemlibrary.com/references/efron-hastie-computer-age-inference" target="_blank" rel="noopener noreferrer">Efron, B. &amp; Hastie, T. (2016). Computer Age Statistical Inference: Conceptual and algorithmic synthesis of bootstrap, jackknife, cross-validation, and modern computational inference</a></li><li><a href="https://openstemlibrary.com/references/wickham-advanced-r" target="_blank" rel="noopener noreferrer">Wickham, H. (2019). Advanced R (2nd ed.): Definitive architectural reference for R memory layout, copy-on-modify semantics, and object-oriented paradigms</a></li><li><a href="https://openstemlibrary.com/references/numpy-array-programming-nature" target="_blank" rel="noopener noreferrer">Harris, C.R. et al. (2020). Array programming with NumPy. Nature: Authoritative standard for Python strided multidimensional array models, memory buffers, and SIMD vectorization</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="statistical-computing-with-python-and-r-chapter-6">← Previous chapter</a><a href="statistical-computing-with-python-and-r">Book contents</a><a href="statistical-computing-with-python-and-r-chapter-8">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="statistical-computing-with-python-and-r-sims.js?v=1"></script>
+  <script src="statistical-computing-with-python-and-r-data.js?v=1"></script>
+  <script src="app.js?v=20261013_math_comparisons_v1"></script>
+
+
+</body></html>
