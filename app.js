@@ -111,7 +111,11 @@ function startApp() {
 
     if (isInitialLoad && document.querySelector("#textbook-sections .textbook-section-card")) {
       // Unit 1 already pre-rendered into HTML! Mount inline simulations safely
-      const simTypes = unit.simulations || [];
+      const simTypes = [...new Set([
+        ...(unit.simulations || []),
+        ...(unit.sections || []).flatMap(section => section.simulation
+          ? [section.simulation] : (section.simulations || []))
+      ])];
       simTypes.forEach(simType => {
         const simId = `sim-container-${simType}`;
         setTimeout(() => {

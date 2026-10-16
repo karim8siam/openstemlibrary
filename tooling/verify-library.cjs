@@ -10,7 +10,9 @@ for(const book of books){
   const tracked=cp.spawnSync('git',['cat-file','-e','HEAD:'+book.url],{cwd:root}).status===0;
   const original=tracked?cp.execFileSync('git',['show','HEAD:'+book.url],{cwd:root,encoding:'utf8',maxBuffer:10e6}):read(book.url);
   const old=new JSDOM(original), base=new JSDOM(read(book.url));
-  for(const selector of ['#textbook-sections .sec-content','.problem-question-box','.solution-content']){
+  // Quantum Mechanics was repaired from source; its old HTML was malformed.
+  if(book.url === 'reader.html') cp.execFileSync(process.execPath, [path.join(__dirname,'verify-reader-repair.cjs')]);
+  for(const selector of (book.url === 'reader.html' ? [] : ['#textbook-sections .sec-content','.problem-question-box','.solution-content'])){
     const a=[...old.window.document.querySelectorAll(selector)].map(n=>n.textContent);
     const b=[...base.window.document.querySelectorAll(selector)].map(n=>n.textContent);
     if(JSON.stringify(a)!==JSON.stringify(b))failures.push('Changed original academic content: '+book.url+' '+selector);

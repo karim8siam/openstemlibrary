@@ -17,7 +17,7 @@ const write = (file, text) => {
   }
 };
 const publicationDate = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Dhaka',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
-const version = '20261013_math_comparisons_v1';
+const version = '20261016_review_fix';
 const portalVersion = crypto.createHash('sha256').update(['departments-data.js','portal.js','portal.css'].map(read).join('\n')).digest('hex').slice(0,16);
 const context = { window: {} }; vm.createContext(context);
 vm.runInContext(read('departments-data.js'), context);
@@ -68,7 +68,7 @@ function prepare(html, filename, book, index) {
   }
   // Presentation text must not imply Google approval while review is pending.
   for (const el of doc.querySelectorAll('.reader-trust-copy')) {
-    el.textContent = el.textContent.replace('Google AdSense Certified Academic Publisher', 'Free Open-Access Academic Library');
+    el.textContent = el.textContent.replace('Google AdSense Certified Academic Publisher', 'Free Open-Access Academic Library').replace('Peer-Reviewed University Textbooks', 'Interactive University Study Resources');
   }
   const dataScript = [...doc.querySelectorAll('script[src]')].map(el => el.getAttribute('src').split('?')[0]).find(src => /(?:-data|course-data)\.js$/.test(src));
   if (!dataScript) throw Error(`No course data for ${book.url}`);
@@ -107,7 +107,19 @@ for (const book of books.filter(book => !process.env.OPENSTEM_BOOK || book.id ==
   const units = base.w.COURSE_DATA.units;
   if (!Array.isArray(units) || !units.length) throw Error(`Empty course: ${book.url}`);
   navigation(base.doc,book,units,0);
-  if (book.url !== 'reader.html') write(book.url,base.dom.serialize());
+  // The legacy Quantum Mechanics landing page contained nested duplicate
+  // sections and an empty worked-problem mount. Rebuild from its course data.
+  if (book.url === 'reader.html') {
+    base.doc.querySelectorAll('.textbook-section-card,.problem-card').forEach(el => el.remove());
+    base.doc.getElementById('textbook-sections').innerHTML = '';
+    base.w.eval(controller); base.w.startApp();
+    base.doc.getElementById('unit-title').textContent = units[0].title;
+    base.doc.getElementById('unit-desc').textContent = units[0].leadSummary || units[0].description || '';
+    base.doc.querySelectorAll('.mobile-chapters-button,.chapter-menu-close,.chapter-menu-backdrop').forEach(el => el.remove());
+    base.doc.querySelector('.sidebar')?.removeAttribute('id');
+    navigation(base.doc, book, units, 0);
+  }
+  write(book.url,base.dom.serialize().replace(/^[ \t]+$/gm, ''));
   base.w.close();
   for (let index=1; index<units.length; index++) {
     const filename = chapterUrl(book,index)+'.html';
