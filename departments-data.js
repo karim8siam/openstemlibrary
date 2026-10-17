@@ -1268,6 +1268,25 @@ window.LIBRARY_CATALOG = {
             "Numerical Optimization in Statistics: Newton–Raphson, Fisher Scoring, Nelder–Mead, and the EM Algorithm",
             "Statistical Modeling Workflows, Formula Syntaxes, Reproducible Research, and Cross-Language Pipelines"
           ]
+        },
+        {
+          "id": "mathematical-statistics",
+          "title": "Mathematical Statistics",
+          "subtitle": "Likelihood, Exact Sampling Distributions, Sufficiency, Exponential Families, Limit Theorems & Asymptotics",
+          "status": "AVAILABLE",
+          "url": "mathematical-statistics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering parametric families & likelihood principles, multi-parameter transformations & Jacobians, exact normal-sample theory & Cochran's theorem, order statistics & sample quantiles, sufficiency & completeness, exponential families, limit theorems, and asymptotic distribution theory with 24 solved questions and 4 interactive simulations.",
+          "topics": [
+            "Foundations of Statistical Models, Parametric Families, Identifiability, and Likelihood Principles",
+            "Random Samples, Joint Distributions, Sampling Statistics, and Moment Generating Techniques",
+            "Normal-Sample Theory, Quadratic Forms, and Exact Sampling Distributions",
+            "Order Statistics, Joint Densities, Extremes, Spacings, and Sample Quantiles",
+            "Data Reduction and Sufficiency: Factorization, Minimal Sufficiency, and Ancillarity",
+            "Exponential Families of Distributions: Natural Parameters, Completeness, and Information Bounds",
+            "Stochastic Convergence and Limit Theorems: Laws of Large Numbers and Central Limit Theorems",
+            "Asymptotic Distribution Theory: Continuous Mapping, Slutsky's Theorem, and the Delta Method"
+          ]
         }
       ]
     }
