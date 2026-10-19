@@ -178,7 +178,7 @@ live_checks = {
     "checked_date": "2026-10-15",
     "portal_available": True,
     "schema_ldjson_valid": True,
-    "adsense_client": "ca-pub-4546869673631824"
+    "ad_free_open_access": True
 }
 (DRAFT_DIR / "live-checks.json").write_text(json.dumps(live_checks, indent=2), encoding="utf-8")
 

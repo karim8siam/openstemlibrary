@@ -701,7 +701,7 @@ function startApp() {
     // Disable right click
     document.addEventListener("contextmenu", (e) => {
       e.preventDefault();
-      showToast("Right-click is protected to support free ad-supported academic access.");
+      showToast("Right-click is protected to support free open-access academic reading.");
     });
 
     // Disable keyboard shortcuts for saving or printing

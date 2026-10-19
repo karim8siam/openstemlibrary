@@ -62,6 +62,7 @@ function prepare(html, filename, book, index) {
     for (const [old, target] of Object.entries(legacy)) script.textContent = script.textContent.replaceAll(old, 'https://openstemlibrary.com/'+target);
     script.textContent = script.textContent.replace(/https:\/\/openstemlibrary\.com\/([a-z0-9-]+)\.html/g, 'https://openstemlibrary.com/$1');
   }
+  for (const s of doc.querySelectorAll('script[src*="pagead2"]')) s.remove();
   for (const link of doc.querySelectorAll('a[href]')) {
     const href=link.getAttribute('href');
     if (!/^(https?:|mailto:|#)/.test(href)) link.setAttribute('href',href.replace(/\.html(?=[?#]|$)/,''));
