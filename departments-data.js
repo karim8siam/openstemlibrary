@@ -1287,6 +1287,63 @@ window.LIBRARY_CATALOG = {
             "Stochastic Convergence and Limit Theorems: Laws of Large Numbers and Central Limit Theorems",
             "Asymptotic Distribution Theory: Continuous Mapping, Slutsky's Theorem, and the Delta Method"
           ]
+        },
+        {
+          "id": "statistical-estimation",
+          "title": "Statistical Estimation",
+          "subtitle": "Unbiasedness, CRLB, Sufficiency, Maximum Likelihood, Confidence Sets & Bayes",
+          "status": "AVAILABLE",
+          "url": "statistical-estimation.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering point estimation, unbiasedness & MSE, Cramér–Rao inequality & Fisher information, sufficiency & Lehmann–Scheffé theorem, method of moments & maximum likelihood, asymptotic normality, exact & approximate confidence intervals, and Bayesian estimation with 24 solved questions and 4 interactive simulations.",
+          "topics": [
+            "Foundations of Point Estimation, Unbiasedness & Minimum Variance Criteria",
+            "Cramér–Rao Inequality, Fisher Information & Efficiency",
+            "Sufficiency, Completeness & the Rao–Blackwell and Lehmann–Scheffé Theorems",
+            "Methods of Point Estimation: Method of Moments & Maximum Likelihood",
+            "Asymptotic Properties of Maximum Likelihood Estimators",
+            "Interval Estimation: Pivotal Quantities & Exact Confidence Sets",
+            "Approximate and Asymptotic Confidence Intervals",
+            "Bayesian Estimation, Conjugacy & Loss Function Decision Theory"
+          ]
+        },
+        {
+          "id": "demography-and-population-statistics",
+          "title": "Demography and Population Statistics",
+          "subtitle": "Data Quality, Life Tables, Fertility, Mortality, Growth Models & Lotka Theory",
+          "status": "AVAILABLE",
+          "url": "demography-and-population-statistics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering census evaluation, Whipple & Myers digit preference, population composition & dependency, mortality & standardization, complete & abridged life tables, fertility & reproduction rates (TFR, GRR, NRR), logistic growth modeling, Lotka stable population theory, and cohort-component projections with 24 solved questions and 4 interactive simulations.",
+          "topics": [
+            "Sources, Evaluation & Quality of Demographic Data",
+            "Population Composition, Sex Ratios & Age Structural Dynamics",
+            "Measures of Mortality & Standardization Techniques",
+            "Life Tables: Mathematical Construction, Complete & Abridged Models",
+            "Measures of Fertility, Nuptiality & Reproduction",
+            "Mathematical Models of Population Growth",
+            "Stable and Stationary Population Theory (Lotka System)",
+            "Migration Analysis, Intercensal Estimation & Cohort-Component Projections"
+          ]
+        },
+        {
+          "id": "economic-statistics",
+          "title": "Economic Statistics",
+          "subtitle": "Index Numbers, Time Series, Inequality, National Accounts & Input-Output",
+          "status": "AVAILABLE",
+          "url": "economic-statistics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering index numbers (Laspeyres, Paasche, Fisher, Törnqvist), axiomatic reversal tests, CPI & cost of living, time series decomposition, moving averages & polynomial trends, seasonal variations & X-11 adjustment, income distribution & Pareto's Law, Lorenz curves & Gini concentration, FGT poverty measurement, System of National Accounts (GDP, GNP, GNI, Value Added), Leontief input-output models, Hawkins-Simon conditions, Social Accounting Matrices (SAM), and econometric demand elasticity estimation with 24 solved questions and 4 interactive simulations.",
+          "topics": [
+            "Index Numbers: Foundations, Weighted Aggregates & Construction Methods",
+            "Axiomatic Tests of Index Numbers & Cost-of-Living Metrics",
+            "Time Series Analysis: Decomposition Models & Secular Trend Estimation",
+            "Measurement of Seasonal Variations & Cyclical Fluctuations",
+            "Income Distribution, Economic Inequality & Poverty Measurement",
+            "Macroeconomic Statistics & National Income Accounting",
+            "Input-Output Analysis & Social Accounting Systems",
+            "Statistical Demand, Supply & Econometric Elasticity Analysis"
+          ]
         }
       ]
     }

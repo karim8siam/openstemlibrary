@@ -1,0 +1,566 @@
+#!/usr/bin/env python3
+import sys
+from pathlib import Path
+
+OUT_DIR = Path("publishing/drafts/statistics-probability-statistical-estimation")
+OUT_DIR.mkdir(parents=True, exist_ok=True)
+
+# -------------------------------------------------------------
+# UNIT 1
+# -------------------------------------------------------------
+u1 = """# Unit 1: Foundations of Point Estimation, Unbiasedness & Minimum Variance Criteria
+
+The primary mathematical objective of statistical point estimation is to extract an optimal numerical approximation of an unknown, unobservable parameter governing a physical or experimental system from an observed random sample. Unlike probability theory, where the data-generating mechanism is fully articulated and deductive consequences are examined, statistical point estimation operates inductively: from realized empirical observations, we seek to determine or approximate the unknown state of nature. In this foundational unit, we establish the rigorous mathematical framework of point estimation, formulate statistical models on measurable spaces, formalize parameter spaces, and investigate fundamental evaluation criteria including the bias function, mean squared error decomposition, the variance-bias trade-off, and the concept of Uniformly Minimum Variance Unbiased Estimators (UMVUE).
+
+## 1.1 Parameter Spaces, Measurable Estimators, and Statistical Models
+
+In modern mathematical statistics, an estimation problem is formalized through the concept of a statistical experiment or statistical model. Let $(\\mathcal{X}, \\mathcal{A})$ denote a measurable space, where $\\mathcal{X}$ is the sample space containing all conceivable realizations of a random sample $\\mathbf{X} = (X_1, X_2, \\dots, X_n)^T$, and $\\mathcal{A}$ is a designated $\\sigma$-algebra of observable events defined on $\\mathcal{X}$, conventionally taken as the Borel $\\sigma$-algebra $\\mathcal{B}(\\mathbb{R}^n)$.
+
+A parametric statistical model is specified as a triplet:
+
+$$\\mathcal{E} = (\\mathcal{X}, \\mathcal{A}, \\mathcal{P})$$
+
+where $\\mathcal{P} = \\{P_\\theta : \\theta \\in \\Theta\\}$ is a known collection of candidate probability measures defined on $(\\mathcal{X}, \\mathcal{A})$, indexed by a parameter $\\theta$ residing in a parameter space $\\Theta$. The parameter space $\\Theta$ is typically an open or closed subset of Euclidean space $\\mathbb{R}^k$. If $k = 1$, the model involves a scalar parameter; if $k > 1$, $\\boldsymbol{\\theta} = (\\theta_1, \\dots, \\theta_k)^T$ represents a parameter vector. In many physical settings, the parameter of interest is not $\\theta$ directly, but a known, real-valued parametric function $\\tau(\\theta): \\Theta \\to \\mathbb{R}$.
+
+A **point estimator** $T$ of a parametric function $\\tau(\\theta)$ is defined as any Borel-measurable mapping from the sample space $\\mathcal{X}$ into the parameter space or the range of $\\tau$:
+
+$$T: \\mathcal{X} \\to \\mathbb{R}$$
+
+Because $T$ is a measurable function of the random vector $\\mathbf{X}$, the estimator $T = T(\\mathbf{X})$ is itself a random variable. Prior to data collection, $T(\\mathbf{X})$ possesses a sampling distribution that depends entirely on the true, underlying parameter $\\theta$. Once the experiment is conducted and specific numerical data $\\mathbf{x} = (x_1, \\dots, x_n)$ are observed, the evaluated quantity $T(\\mathbf{x}) = t \\in \\mathbb{R}$ is termed a **point estimate**. An estimate is a fixed real number; an estimator is a random variable equipped with a well-defined probability law induced by $P_\\theta$.
+
+An essential requirement of an estimator is that it must be an observable statistic: $T(\\mathbf{x})$ cannot depend on any unknown parameters. For example, while $\\bar{X} = \\frac{1}{n} \\sum_{i=1}^n X_i$ is a legitimate estimator of the population mean $\\mu$, the expression $\\frac{1}{n} \\sum_{i=1}^n (X_i - \\mu)^2$ is not an estimator when $\\mu$ is unknown, because it cannot be computed from the sample data alone.
+
+## 1.2 Unbiasedness: Mathematical Definition, Properties, and Finite-Sample Behavior
+
+Among the classical criteria for judging the performance of a point estimator, the property of **unbiasedness** occupies a central historical and theoretical position. An estimator is unbiased if, on average across infinite hypothetical repetitions of the experiment under identical conditions, its sampling distribution is centered precisely at the true parameter value.
+
+Formally, let $\\mathbf{X} \\sim P_\\theta$ with $\\theta \\in \\Theta$. An estimator $T(\\mathbf{X})$ is said to be an **unbiased estimator** of $\\tau(\\theta)$ if its expected value under $P_\\theta$ exists and satisfies:
+
+$$\\mathbb{E}_\\theta[T(\\mathbf{X})] = \\tau(\\theta) \\quad \\forall \\theta \\in \\Theta$$
+
+If this condition fails for at least one parameter value $\\theta_0 \\in \\Theta$, the estimator is said to be **biased**. The **bias function** of $T$ at $\\theta$ is defined as the deviation between its expected value and the true parametric target:
+
+$$\\text{Bias}_\\theta(T) = \\mathbb{E}_\\theta[T(\\mathbf{X})] - \\tau(\\theta)$$
+
+When $\\text{Bias}_\\theta(T) > 0$, the estimator systematically overestimates $\\tau(\\theta)$ on average; when $\\text{Bias}_\\theta(T) < 0$, it systematically underestimates $\\tau(\\theta)$.
+
+### Linearity of Unbiased Estimators
+
+Unbiasedness possesses notable structural properties under linear transformations. If $T_1$ is an unbiased estimator of $\\tau_1(\\theta)$ and $T_2$ is an unbiased estimator of $\\tau_2(\\theta)$, then for any real constants $c_1, c_2 \\in \\mathbb{R}$, by the linearity of expectation:
+
+$$\\mathbb{E}_\\theta[c_1 T_1 + c_2 T_2] = c_1 \\mathbb{E}_\\theta[T_1] + c_2 \\mathbb{E}_\\theta[T_2] = c_1 \\tau_1(\\theta) + c_2 \\tau_2(\\theta)$$
+
+Thus, $c_1 T_1 + c_2 T_2$ is strictly an unbiased estimator of the linear combination $c_1 \\tau_1(\\theta) + c_2 \\tau_2(\\theta)$.
+
+### Lack of Invariance under Non-Linear Transformations
+
+In sharp contrast to linearity, unbiasedness is fundamentally **not invariant** under non-linear transformations. If $T$ is an unbiased estimator of $\\theta$, and $g: \\mathbb{R} \\to \\mathbb{R}$ is a non-linear function, $g(T)$ is almost never an unbiased estimator of $g(\\theta)$. This mathematical reality follows directly from **Jensen's Inequality**:
+
+Let $g$ be a strictly convex function on an open interval containing the support of $T$. If $\\mathbb{E}[T] = \\theta$ and $T$ is non-degenerate (i.e., $\\text{Var}(T) > 0$), then:
+
+$$\\mathbb{E}_\\theta[g(T)] > g(\\mathbb{E}_\\theta[T]) = g(\\theta)$$
+
+Consequently, $\\text{Bias}_\\theta(g(T)) = \\mathbb{E}_\\theta[g(T)] - g(\\theta) > 0$. For instance, in an i.i.d. Gaussian sample $X_1, \\dots, X_n \\sim \\mathcal{N}(\\mu, \\sigma^2)$, the sample variance:
+
+$$S^2 = \\frac{1}{n-1} \\sum_{i=1}^n (X_i - \\bar{X})^2$$
+
+is an unbiased estimator of $\\sigma^2$, since $\\mathbb{E}[S^2] = \\sigma^2$. However, because the square root function $g(v) = \\sqrt{v}$ is strictly concave on $(0, \\infty)$, Jensen's inequality implies:
+
+$$\\mathbb{E}[S] = \\mathbb{E}[\\sqrt{S^2}] < \\sqrt{\\mathbb{E}[S^2]} = \\sigma$$
+
+Therefore, the sample standard deviation $S$ is systematically biased downwards as an estimator of $\\sigma$. The exact expectation is given by:
+
+$$\\mathbb{E}[S] = \\sqrt{\\frac{2}{n-1}} \\, \\frac{\\Gamma(n/2)}{\\Gamma((n-1)/2)} \\, \\sigma < \\sigma$$
+
+To achieve unbiasedness for $\\sigma$, one must scale $S$ by an explicit unbiasing factor $c_4(n) = \\sqrt{\\frac{2}{n-1}} \\frac{\\Gamma(n/2)}{\\Gamma((n-1)/2)}$.
+
+## 1.3 Non-Existence of Unbiased Estimators and Boundary Pathologies
+
+While unbiasedness is intuitively appealing, it is by no means universally achievable. There exist standard, physically meaningful statistical models in which certain parametric functions possess no unbiased estimator whatsoever, or where the unique unbiased estimator is absurd and unusable in practice.
+
+### Mathematical Proof of Non-Existence: Reciprocal of a Binomial Parameter
+
+Consider an experiment where $X \\sim \\text{Binomial}(n, p)$ with sample size $n \\ge 1$ and success probability $p \\in (0, 1)$. Suppose an investigator wishes to estimate the odds or reciprocal parameter:
+
+$$\\tau(p) = \\frac{1}{p}$$
+
+We ask: Does there exist any statistic $T(X)$ such that $\\mathbb{E}_p[T(X)] = \\frac{1}{p}$ for all $p \\in (0, 1)$?
+
+Suppose such an estimator $T(x)$ exists for $x \\in \\{0, 1, 2, \\dots, n\\}$. Then by definition of mathematical expectation:
+
+$$\\mathbb{E}_p[T(X)] = \\sum_{x=0}^n T(x) \\binom{n}{x} p^x (1 - p)^{n - x} = \\frac{1}{p} \\quad \\forall p \\in (0, 1)$$
+
+Multiplying both sides of this equation by $p$:
+
+$$\\sum_{x=0}^n T(x) \\binom{n}{x} p^{x+1} (1 - p)^{n - x} = 1 \\quad \\forall p \\in (0, 1)$$
+
+Notice the analytical nature of the left-hand side: it is a polynomial in $p$ of degree at most $n + 1$. The right-hand side is the constant function $1$. Now, consider taking the limit as $p \\to 0^+$ on both sides. On the left-hand side, every term contains a factor of $p^{x+1}$ with $x \\ge 0$, which implies that every term vanishes:
+
+$$\\lim_{p \\to 0^+} \\sum_{x=0}^n T(x) \\binom{n}{x} p^{x+1} (1 - p)^{n - x} = 0$$
+
+However, the right-hand side is identically $1$ for all $p$, so its limit as $p \\to 0^+$ is $1$. This yields the contradiction $0 = 1$. Consequently, no function $T(X)$ can satisfy the unbiasedness equation across the entire open interval $p \\in (0, 1)$. We conclude that **no unbiased estimator exists for $\\frac{1}{p}$ under finite binomial sampling**.
+
+### Pathological Unbiased Estimators: Alternating Poisson Estimator
+
+Even when an unbiased estimator exists and is mathematically unique, it may violate physical reality. Consider an observation $X \\sim \\text{Poisson}(\\lambda)$ with parameter $\\lambda > 0$, and suppose we seek an unbiased estimator for:
+
+$$\\tau(\\lambda) = e^{-2\\lambda}$$
+
+Let $T(X)$ be an unbiased estimator. Then:
+
+$$\\mathbb{E}_\\lambda[T(X)] = \\sum_{x=0}^\\infty T(x) \\frac{e^{-\\lambda} \\lambda^x}{x!} = e^{-2\\lambda} \\quad \\forall \\lambda > 0$$
+
+Multiplying both sides by $e^\\lambda$:
+
+$$\\sum_{x=0}^\\infty T(x) \\frac{\\lambda^x}{x!} = e^{-\\lambda} = \\sum_{x=0}^\\infty \\frac{(-\\lambda)^x}{x!} = \\sum_{x=0}^\\infty \\frac{(-1)^x}{x!} \\lambda^x$$
+
+Since two power series that agree on an open interval must have identical coefficients, we equate the coefficients of $\\lambda^x$ for each $x = 0, 1, 2, \\dots$:
+
+$$\\frac{T(x)}{x!} = \\frac{(-1)^x}{x!} \\implies T(x) = (-1)^x$$
+
+This proves that the unique unbiased estimator of $e^{-2\\lambda}$ is:
+
+$$T(X) = (-1)^X = \\begin{cases} +1, & \\text{if } X \\text{ is even} \\\\ -1, & \\text{if } X \\text{ is odd} \\end{cases}$$
+
+Notice the absurdity: the target quantity $\\tau(\\lambda) = e^{-2\\lambda}$ is strictly positive and bounded in $(0, 1)$ for all $\\lambda > 0$. Yet the unique unbiased estimator $T(X)$ produces negative estimates ($-1$) whenever an odd count is observed! An estimate of $-1$ for an inherently positive quantity is physically meaningless. This classic counterexample demonstrates that strict adherence to unbiasedness can force estimators to exhibit pathological behavior, motivating alternative criteria that permit small biases in exchange for substantially reduced variance.
+
+## 1.4 Mean Squared Error (MSE) Decomposition and the Variance-Bias Trade-Off
+
+To overcome the limitations of unbiasedness, mathematical statistics adopts decision-theoretic loss criteria. The most ubiquitous risk metric for point estimators is the **Mean Squared Error (MSE)**.
+
+Let $T(\\mathbf{X})$ be an estimator of $\\tau(\\theta)$. The Mean Squared Error of $T$ under parameter $\\theta$ is defined as the expected squared Euclidean distance between the estimator and the true parameter:
+
+$$\\text{MSE}_\\theta(T) = \\mathbb{E}_\\theta\\left[ (T - \\tau(\\theta))^2 \\right]$$
+
+### The Canonical MSE Decomposition
+
+A fundamental theorem of point estimation states that the Mean Squared Error decomposes cleanly into the sum of the variance of the estimator and the square of its bias:
+
+$$\\text{MSE}_\\theta(T) = \\text{Var}_\\theta(T) + \\left[ \\text{Bias}_\\theta(T) \\right]^2$$
+
+#### Formal Algebraic Derivation:
+Add and subtract the expected value $\\mathbb{E}_\\theta[T]$ inside the squared error term:
+
+$$T - \\tau(\\theta) = \\left( T - \\mathbb{E}_\\theta[T] \\right) + \\left( \\mathbb{E}_\\theta[T] - \\tau(\\theta) \\right)$$
+
+Notice that the first term $\\left( T - \\mathbb{E}_\\theta[T] \\right)$ is a random variable with mean zero, while the second term $\\left( \\mathbb{E}_\\theta[T] - \\tau(\\theta) \\right) = \\text{Bias}_\\theta(T)$ is a deterministic constant with respect to the distribution $P_\\theta$.
+
+Expanding the square:
+
+$$(T - \\tau(\\theta))^2 = \\left( T - \\mathbb{E}_\\theta[T] \\right)^2 + 2 \\left( T - \\mathbb{E}_\\theta[T] \\right) \\text{Bias}_\\theta(T) + \\left[ \\text{Bias}_\\theta(T) \\right]^2$$
+
+Taking expectations on both sides under $P_\\theta$:
+
+$$\\mathbb{E}_\\theta\\left[ (T - \\tau(\\theta))^2 \\right] = \\mathbb{E}_\\theta\\left[ \\left( T - \\mathbb{E}_\\theta[T] \\right)^2 \\right] + 2 \\, \\text{Bias}_\\theta(T) \\, \\mathbb{E}_\\theta\\left[ T - \\mathbb{E}_\\theta[T] \\right] + \\left[ \\text{Bias}_\\theta(T) \\right]^2$$
+
+By definition of expectation, $\\mathbb{E}_\\theta\\left[ T - \\mathbb{E}_\\theta[T] \\right] = \\mathbb{E}_\\theta[T] - \\mathbb{E}_\\theta[T] = 0$. The cross-product term vanishes identically. Recognizing the first term as the variance of $T$:
+
+$$\\text{MSE}_\\theta(T) = \\text{Var}_\\theta(T) + \\left[ \\text{Bias}_\\theta(T) \\right]^2$$
+
+### The Variance-Bias Dilemma
+
+This decomposition reveals the fundamental **variance-bias trade-off**:
+1. If an estimator $T$ is strictly unbiased, its bias is identically zero, so $\\text{MSE}_\\theta(T) = \\text{Var}_\\theta(T)$.
+2. An estimator with a small, controlled bias may achieve a substantially lower variance than any unbiased competitor, resulting in a strictly smaller overall Mean Squared Error.
+
+A classic illustration arises in estimating the variance $\\sigma^2$ of a Gaussian distribution $\\mathcal{N}(\\mu, \\sigma^2)$ from an i.i.d. sample $X_1, \\dots, X_n$. Consider the class of scale estimators proportional to the sum of squared deviations from the sample mean:
+
+$$S_c^2 = c \\sum_{i=1}^n (X_i - \\bar{X})^2 = c (n - 1) S^2$$
+
+where $c > 0$ is a tuning constant. Since $\\frac{(n-1)S^2}{\\sigma^2} \\sim \\chi_{n-1}^2$, we know that $\\mathbb{E}\\left[ \\sum (X_i - \\bar{X})^2 \\right] = (n - 1)\\sigma^2$ and $\\text{Var}\\left( \\sum (X_i - \\bar{X})^2 \\right) = 2(n - 1)\\sigma^4$.
+
+The expectation and variance of $S_c^2$ are:
+
+$$\\mathbb{E}[S_c^2] = c(n - 1)\\sigma^2 \\implies \\text{Bias}(S_c^2) = [c(n - 1) - 1]\\sigma^2$$
+
+$$\\text{Var}(S_c^2) = c^2 \\cdot 2(n - 1)\\sigma^4$$
+
+Substituting these into the MSE decomposition:
+
+$$\\text{MSE}(S_c^2) = 2c^2(n - 1)\\sigma^4 + [c(n - 1) - 1]^2 \\sigma^4 = \\sigma^4 \\left\\{ 2(n - 1)c^2 + (n - 1)^2 c^2 - 2(n - 1)c + 1 \\right\\}$$
+
+$$\\text{MSE}(S_c^2) = \\sigma^4 \\left\\{ (n - 1)(n + 1)c^2 - 2(n - 1)c + 1 \\right\\}$$
+
+To find the value of $c$ that minimizes the Mean Squared Error, differentiate with respect to $c$ and set to zero:
+
+$$\\frac{d}{dc} \\text{MSE}(S_c^2) = \\sigma^4 \\left[ 2(n - 1)(n + 1)c - 2(n - 1) \\right] = 0$$
+
+$$c^* = \\frac{1}{n + 1}$$
+
+Comparing three notable choices of $c$:
+1. **Unbiased Estimator ($c = \\frac{1}{n-1}$)**: $S^2 = \\frac{1}{n-1} \\sum (X_i - \\bar{X})^2$.
+   $$\\text{MSE}(S^2) = \\text{Var}(S^2) = \\frac{2}{n - 1} \\sigma^4$$
+2. **Maximum Likelihood Estimator ($c = \\frac{1}{n}$)**: $\\hat{\\sigma}_{\\text{MLE}}^2 = \\frac{1}{n} \\sum (X_i - \\bar{X})^2$.
+   $$\\text{MSE}(\\hat{\\sigma}_{\\text{MLE}}^2) = \\sigma^4 \\left[ \\frac{(n-1)(n+1)}{n^2} - \\frac{2(n-1)}{n} + 1 \\right] = \\frac{2n - 1}{n^2} \\sigma^4 < \\frac{2}{n - 1} \\sigma^4$$
+3. **Minimum MSE Estimator ($c = \\frac{1}{n+1}$)**: $S_{\\text{min}}^2 = \\frac{1}{n+1} \\sum (X_i - \\bar{X})^2$.
+   $$\\text{MSE}(S_{\\text{min}}^2) = \\sigma^4 \\left[ \\frac{n-1}{n+1} - \\frac{2(n-1)}{n+1} + 1 \\right] = \\frac{2}{n + 1} \\sigma^4$$
+
+For every sample size $n \\ge 2$, we have the strict inequality:
+
+$$\\text{MSE}(S_{\\text{min}}^2) < \\text{MSE}(\\hat{\\sigma}_{\\text{MLE}}^2) < \\text{MSE}(S^2)$$
+
+By introducing a negative bias (dividing by $n + 1$ rather than $n - 1$), the estimator shrinks toward zero, reducing sampling variance by more than the squared bias penalty, achieving uniform superiority in Mean Squared Error over the classical unbiased estimator!
+
+## 1.5 Pitman Closeness Criterion: Definition and Intransitivity
+
+An alternative non-loss criterion for evaluating competing estimators was proposed by E. J. G. Pitman (1937). Rather than averaging squared losses across the entire sample space, the **Pitman Closeness Criterion** asks which estimator is closer to the true parameter with greater probability on any given sample realization.
+
+Let $T_1$ and $T_2$ be two competing estimators of a parameter $\\theta \\in \\Theta$. Estimator $T_1$ is said to be **Pitman-closer** than $T_2$ to $\\theta$ if:
+
+$$P_\\theta\\left( |T_1 - \\theta| < |T_2 - \\theta| \\right) > \\frac{1}{2} \\quad \\forall \\theta \\in \\Theta$$
+
+If this probability equals $1/2$, the two estimators are equally close in the Pitman sense.
+
+### Strengths and Intransitivity Anomalies of Pitman Closeness
+
+The Pitman closeness criterion appeals directly to practitioners because it answers an intuitive question: \"Which estimator is more likely to be closer to the truth in a single experimental run?\" Furthermore, unlike MSE, Pitman closeness does not require the existence of finite second moments, allowing comparison of heavy-tailed distributions (such as Cauchy estimators).
+
+However, Pitman closeness suffers from a severe mathematical pathology: **it is not a transitive relation**.
+
+In decision theory, a rational preference ordering $\\prec$ must satisfy transitivity: if $T_1$ is preferred to $T_2$ and $T_2$ is preferred to $T_3$, then $T_1$ must be preferred to $T_3$. Under Pitman closeness, this axiom can fail spectacularly, producing cyclical (intransitive) preferences reminiscent of Condorcet's voting paradox:
+
+$$P( |T_1 - \\theta| < |T_2 - \\theta| ) > \\frac{1}{2}, \\quad P( |T_2 - \\theta| < |T_3 - \\theta| ) > \\frac{1}{2}, \\quad \\text{yet} \\quad P( |T_3 - \\theta| < |T_1 - \\theta| ) > \\frac{1}{2}$$
+
+Because of this intransitivity, there may exist no \"best\" estimator under the Pitman criterion. Consequently, mathematical statistics predominantly relies on transitive loss-based frameworks, such as Mean Squared Error, while employing Pitman closeness as an auxiliary diagnostic tool.
+
+## 1.6 Uniformly Minimum Variance Unbiased Estimators (UMVUE)
+
+When statisticians restrict attention to the class of unbiased estimators, the variance-bias trade-off simplifies dramatically: since the bias is zero, minimizing Mean Squared Error is equivalent to minimizing variance. This leads directly to the foundational concept of the **Uniformly Minimum Variance Unbiased Estimator (UMVUE)**.
+
+Let $\\mathcal{U}_{\\tau}$ denote the class of all unbiased estimators of $\\tau(\\theta)$ with finite variance for all $\\theta \\in \\Theta$:
+
+$$\\mathcal{U}_{\\tau} = \\left\\{ T(\\mathbf{X}) : \\mathbb{E}_\\theta[T(\\mathbf{X})] = \\tau(\\theta) \\text{ and } \\text{Var}_\\theta(T(\\mathbf{X})) < \\infty \\, \\forall \\theta \\in \\Theta \\right\\}$$
+
+An estimator $T^* \\in \\mathcal{U}_{\\tau}$ is said to be a **Uniformly Minimum Variance Unbiased Estimator (UMVUE)** of $\\tau(\\theta)$ if:
+
+$$\\text{Var}_\\theta(T^*) \\le \\text{Var}_\\theta(T) \\quad \\forall T \\in \\mathcal{U}_{\\tau}, \\, \\forall \\theta \\in \\Theta$$
+
+The word \"Uniformly\" is crucial: $T^*$ must achieve variance smaller than or equal to that of *any* other unbiased estimator for *every possible parameter value* $\\theta \\in \\Theta$. It is not sufficient for $T^*$ to have lower variance in some regions of $\\Theta$ while performing worse in others; it must be globally optimal across the entire parameter space.
+
+### Uniqueness of UMVUE
+
+A celebrated theorem of point estimation establishes that if a UMVUE exists, it is **almost surely unique**.
+
+#### Theorem (Uniqueness of UMVUE):
+If $T_1^*$ and $T_2^*$ are both UMVUEs of $\\tau(\\theta)$, then:
+
+$$P_\\theta(T_1^* = T_2^*) = 1 \\quad \\forall \\theta \\in \\Theta$$
+
+#### Formal Mathematical Proof:
+Suppose $T_1^*$ and $T_2^*$ are two UMVUEs of $\\tau(\\theta)$. By definition, they have identical variance for every $\\theta$:
+
+$$\\text{Var}_\\theta(T_1^*) = \\text{Var}_\\theta(T_2^*) = \\sigma_*^2(\\theta)$$
+
+Now, consider the candidate estimator formed by their arithmetic average:
+
+$$T_3 = \\frac{T_1^* + T_2^*}{2}$$
+
+By linearity of expectation:
+
+$$\\mathbb{E}_\\theta[T_3] = \\frac{\\mathbb{E}_\\theta[T_1^*] + \\mathbb{E}_\\theta[T_2^*]}{2} = \\frac{\\tau(\\theta) + \\tau(\\theta)}{2} = \\tau(\\theta)$$
+
+Thus, $T_3 \\in \\mathcal{U}_{\\tau}$ is also an unbiased estimator of $\\tau(\\theta)$. The variance of $T_3$ is:
+
+$$\\text{Var}_\\theta(T_3) = \\text{Var}_\\theta\\left( \\frac{T_1^* + T_2^*}{2} \\right) = \\frac{1}{4} \\text{Var}_\\theta(T_1^*) + \\frac{1}{4} \\text{Var}_\\theta(T_2^*) + \\frac{1}{2} \\text{Cov}_\\theta(T_1^*, T_2^*)$$
+
+$$\\text{Var}_\\theta(T_3) = \\frac{1}{2} \\sigma_*^2(\\theta) + \\frac{1}{2} \\text{Cov}_\\theta(T_1^*, T_2^*)$$
+
+Because $T_1^*$ is a UMVUE, no unbiased estimator can have a variance strictly smaller than $\\sigma_*^2(\\theta)$. Therefore:
+
+$$\\text{Var}_\\theta(T_3) \\ge \\sigma_*^2(\\theta)$$
+
+Substituting the expression for $\\text{Var}_\\theta(T_3)$:
+
+$$\\frac{1}{2} \\sigma_*^2(\\theta) + \\frac{1}{2} \\text{Cov}_\\theta(T_1^*, T_2^*) \\ge \\sigma_*^2(\\theta) \\implies \\text{Cov}_\\theta(T_1^*, T_2^*) \\ge \\sigma_*^2(\\theta)$$
+
+However, by the Cauchy–Schwarz inequality for covariances:
+
+$$\\text{Cov}_\\theta(T_1^*, T_2^*) \\le \\sqrt{\\text{Var}_\\theta(T_1^*) \\text{Var}_\\theta(T_2^*)} = \\sqrt{\\sigma_*^2(\\theta) \\sigma_*^2(\\theta)} = \\sigma_*^2(\\theta)$$
+
+Combining these two inequalities forces exact equality:
+
+$$\\text{Cov}_\\theta(T_1^*, T_2^*) = \\sigma_*^2(\\theta)$$
+
+The correlation coefficient between $T_1^*$ and $T_2^*$ is therefore:
+
+$$\\rho_\\theta(T_1^*, T_2^*) = \\frac{\\text{Cov}_\\theta(T_1^*, T_2^*)}{\\sqrt{\\text{Var}_\\theta(T_1^*) \\text{Var}_\\theta(T_2^*)}} = \\frac{\\sigma_*^2(\\theta)}{\\sigma_*^2(\\theta)} = 1$$
+
+A correlation coefficient of $+1$ implies that there exist deterministic constants $a(\\theta)$ and $b(\\theta) > 0$ such that $T_1^* = a(\\theta) + b(\\theta) T_2^*$ with probability $1$. Taking variances:
+
+$$\\text{Var}_\\theta(T_1^*) = b(\\theta)^2 \\text{Var}_\\theta(T_2^*) \\implies \\sigma_*^2(\\theta) = b(\\theta)^2 \\sigma_*^2(\\theta) \\implies b(\\theta) = 1$$
+
+Taking expectations:
+
+$$\\mathbb{E}_\\theta[T_1^*] = a(\\theta) + \\mathbb{E}_\\theta[T_2^*] \\implies \\tau(\\theta) = a(\\theta) + \\tau(\\theta) \\implies a(\\theta) = 0$$
+
+Therefore, $T_1^* = T_2^*$ almost surely for all $\\theta \\in \\Theta$. This establishes that the UMVUE, whenever it exists, is unique up to sets of measure zero.
+
+## Fully worked question 1: Proof of Non-Existence of an Unbiased Estimator for the Reciprocal of a Binomial Parameter and Truncated Adjustments
+
+### Question
+Let $X \\sim \\text{Binomial}(n, p)$ with known index $n \\ge 1$ and success probability $p \\in (0, 1)$.
+
+1. Prove analytically that there is no unbiased estimator of $\\tau(p) = \\frac{1}{p}$ based on $X$.
+2. In practical applications requiring an estimate of $\\frac{1}{p}$ (such as inverse sampling or capture-recapture abundance estimation), practitioners frequently employ the adjusted statistic:
+   $$T_c(X) = \\frac{n + 1}{X + 1}$$
+   Derive the exact expectation $\\mathbb{E}_p[T_c(X)]$ and show that $T_c(X)$ is an asymptotically unbiased estimator of $\\frac{1}{p}$ with an exponentially decaying finite-sample bias.
+
+### Solution, step 1: Formulate the expectation equation and demonstrate polynomial contradiction
+Let $T(x)$ be any candidate estimator defined on the sample space $x \\in \\{0, 1, 2, \\dots, n\\}$. If $T(X)$ were an unbiased estimator of $\\frac{1}{p}$, it would satisfy:
+
+$$\\mathbb{E}_p[T(X)] = \\sum_{x=0}^n T(x) \\binom{n}{x} p^x (1 - p)^{n - x} = \\frac{1}{p} \\quad \\forall p \\in (0, 1)$$
+
+Multiply both sides of this identity by $p$:
+
+$$p \\sum_{x=0}^n T(x) \\binom{n}{x} p^x (1 - p)^{n - x} = 1 \\quad \\forall p \\in (0, 1)$$
+
+$$\\sum_{x=0}^n T(x) \\binom{n}{x} p^{x+1} (1 - p)^{n - x} = 1 \\quad \\forall p \\in (0, 1)$$
+
+Notice that the left-hand side is a finite polynomial in $p$ of degree at most $n + 1$. The right-hand side is the constant function $1$.
+Now, take the limit as $p \\to 0^+$ on both sides. On the left-hand side:
+
+$$\\lim_{p \\to 0^+} \\sum_{x=0}^n T(x) \\binom{n}{x} p^{x+1} (1 - p)^{n - x} = \\sum_{x=0}^n T(x) \\binom{n}{x} (0)^{x+1} (1)^{n - x} = 0$$
+
+On the right-hand side:
+
+$$\\lim_{p \\to 0^+} 1 = 1$$
+
+This yields $0 = 1$, which is impossible. By the fundamental theorem of algebra, a polynomial of degree at most $n + 1$ can equal $1$ at at most $n + 1$ distinct points, and cannot equal $1$ identically across the entire continuous interval $p \\in (0, 1)$. Hence, no unbiased estimator exists.
+
+### Solution, step 2: Compute the expectation of the adjusted estimator T_c(X)
+Consider the statistic $T_c(X) = \\frac{n + 1}{X + 1}$. We evaluate its expected value directly:
+
+$$\\mathbb{E}_p[T_c(X)] = \\sum_{x=0}^n \\frac{n + 1}{x + 1} \\binom{n}{x} p^x (1 - p)^{n - x}$$
+
+Recall the combinatorial binomial coefficient identity:
+
+$$\\frac{n + 1}{x + 1} \\binom{n}{x} = \\frac{n + 1}{x + 1} \\frac{n!}{x! (n - x)!} = \\frac{(n + 1)!}{(x + 1)! (n - x)!} = \\binom{n + 1}{x + 1}$$
+
+Substituting this identity into the summation:
+
+$$\\mathbb{E}_p[T_c(X)] = \\sum_{x=0}^n \\binom{n + 1}{x + 1} p^x (1 - p)^{n - x}$$
+
+To align the exponent of $p$ with the index $x + 1$, factor out $\\frac{1}{p}$:
+
+$$\\mathbb{E}_p[T_c(X)] = \\frac{1}{p} \\sum_{x=0}^n \\binom{n + 1}{x + 1} p^{x + 1} (1 - p)^{n - x}$$
+
+Let $y = x + 1$. When $x = 0$, $y = 1$; when $x = n$, $y = n + 1$. The index $n - x$ becomes $(n + 1) - y$. Thus:
+
+$$\\mathbb{E}_p[T_c(X)] = \\frac{1}{p} \\sum_{y=1}^{n + 1} \\binom{n + 1}{y} p^y (1 - p)^{(n + 1) - y}$$
+
+### Solution, step 3: Evaluate the sum and establish asymptotic unbiasedness
+Notice that the summation over $y$ from $1$ to $n + 1$ represents the entire binomial expansion of $(p + (1 - p))^{n + 1}$ except for the single boundary term at $y = 0$:
+
+$$\\sum_{y=0}^{n + 1} \\binom{n + 1}{y} p^y (1 - p)^{(n + 1) - y} = [p + (1 - p)]^{n + 1} = 1^{n + 1} = 1$$
+
+The missing term at $y = 0$ is:
+
+$$\\binom{n + 1}{0} p^0 (1 - p)^{n + 1} = (1 - p)^{n + 1}$$
+
+Therefore:
+
+$$\\sum_{y=1}^{n + 1} \\binom{n + 1}{y} p^y (1 - p)^{(n + 1) - y} = 1 - (1 - p)^{n + 1}$$
+
+Substituting this back into the expectation:
+
+$$\\mathbb{E}_p[T_c(X)] = \\frac{1}{p} \\left[ 1 - (1 - p)^{n + 1} \\right] = \\frac{1}{p} - \\frac{(1 - p)^{n + 1}}{p}$$
+
+The bias of the adjusted estimator is:
+
+$$\\text{Bias}_p(T_c) = \\mathbb{E}_p[T_c(X)] - \\frac{1}{p} = -\\frac{(1 - p)^{n + 1}}{p}$$
+
+Because $0 < 1 - p < 1$, as sample size $n \\to \\infty$, the factor $(1 - p)^{n + 1} \\to 0$ exponentially fast. Therefore:
+
+$$\\lim_{n \\to \\infty} \\text{Bias}_p(T_c) = 0$$
+
+This establishes that while no strictly unbiased estimator exists, the simple adjustment $T_c(X) = \\frac{n+1}{X+1}$ has an exponentially vanishing bias and provides an excellent practical estimator.
+
+## Fully worked question 2: Minimum Variance Linear Unbiased Estimator (BLUE) Derivation via Gauss-Markov Theorem with Correlated Errors
+
+### Question
+Let $\\mathbf{Y} = (Y_1, Y_2, \\dots, Y_n)^T$ be an observable random vector following the general linear model:
+
+$$\\mathbf{Y} = \\mathbf{X} \\boldsymbol{\\beta} + \\boldsymbol{\\varepsilon}$$
+
+where $\\mathbf{X} \\in \\mathbb{R}^{n \\times p}$ is a known design matrix of full column rank ($\text{rank}(\\mathbf{X}) = p < n$), $\\boldsymbol{\\beta} \\in \\mathbb{R}^p$ is an unknown parameter vector, and $\\boldsymbol{\\varepsilon}$ is a random error vector satisfying:
+
+$$\\mathbb{E}[\\boldsymbol{\\varepsilon}] = \\mathbf{0}, \\quad \\text{Cov}(\\boldsymbol{\\varepsilon}) = \\sigma^2 \\mathbf{V}$$
+
+where $\\mathbf{V} \\in \\mathbb{R}^{n \\times n}$ is a known, symmetric, positive-definite matrix, and $\\sigma^2 > 0$ is an unknown scale factor.
+
+1. Formulate the class of linear unbiased estimators for a scalar parametric function $\\mathbf{c}^T \\boldsymbol{\\beta}$, where $\\mathbf{c} \\in \\mathbb{R}^p$ is an arbitrary non-zero vector.
+2. Using the method of Lagrange multipliers or vector projection, derive the Generalized Least Squares (GLS) estimator $\\hat{\\boldsymbol{\\beta}}_{\\text{GLS}}$ and prove that $\\mathbf{c}^T \\hat{\\boldsymbol{\\beta}}_{\\text{GLS}}$ is the unique Best Linear Unbiased Estimator (BLUE).
+
+### Solution, step 1: Characterize linear unbiased estimators
+A linear estimator of $\\mathbf{c}^T \\boldsymbol{\\beta}$ is of the form:
+
+$$T(\\mathbf{Y}) = \\mathbf{a}^T \\mathbf{Y} = \\sum_{i=1}^n a_i Y_i$$
+
+for some deterministic vector of weights $\\mathbf{a} \\in \\mathbb{R}^n$.
+The expectation of $T(\\mathbf{Y})$ is:
+
+$$\\mathbb{E}[T(\\mathbf{Y})] = \\mathbb{E}[\\mathbf{a}^T \\mathbf{Y}] = \\mathbf{a}^T \\mathbb{E}[\\mathbf{Y}] = \\mathbf{a}^T \\mathbf{X} \\boldsymbol{\\beta}$$
+
+For $T(\\mathbf{Y})$ to be unbiased for $\\mathbf{c}^T \\boldsymbol{\\beta}$ for all $\\boldsymbol{\\beta} \\in \\mathbb{R}^p$, we must have:
+
+$$\\mathbf{a}^T \\mathbf{X} \\boldsymbol{\\beta} = \\mathbf{c}^T \\boldsymbol{\\beta} \\quad \\forall \\boldsymbol{\\beta} \\in \\mathbb{R}^p \\implies \\mathbf{X}^T \\mathbf{a} = \\mathbf{c}$$
+
+This matrix equation $\\mathbf{X}^T \\mathbf{a} = \\mathbf{c}$ forms the linear constraint on the weight vector $\\mathbf{a}$.
+The variance of $T(\\mathbf{Y})$ is given by:
+
+$$\\text{Var}(T(\\mathbf{Y})) = \\text{Var}(\\mathbf{a}^T \\mathbf{Y}) = \\mathbf{a}^T \\text{Cov}(\\mathbf{Y}) \\mathbf{a} = \\sigma^2 \\mathbf{a}^T \\mathbf{V} \\mathbf{a}$$
+
+Finding the BLUE requires finding $\\mathbf{a} \\in \\mathbb{R}^n$ that minimizes $\\mathbf{a}^T \\mathbf{V} \\mathbf{a}$ subject to the linear constraints $\\mathbf{X}^T \\mathbf{a} = \\mathbf{c}$.
+
+### Solution, step 2: Minimize variance using Lagrange multipliers
+Construct the Lagrangian function $\\mathcal{L}(\\mathbf{a}, \\boldsymbol{\\lambda})$ with a $p$-dimensional vector of Lagrange multipliers $\\boldsymbol{\\lambda} \\in \\mathbb{R}^p$:
+
+$$\\mathcal{L}(\\mathbf{a}, \\boldsymbol{\\lambda}) = \\frac{1}{2} \\mathbf{a}^T \\mathbf{V} \\mathbf{a} - \\boldsymbol{\\lambda}^T (\\mathbf{X}^T \\mathbf{a} - \\mathbf{c})$$
+
+Differentiating with respect to the vector $\\mathbf{a}$ and setting to zero:
+
+$$\\nabla_\\mathbf{a} \\mathcal{L} = \\mathbf{V} \\mathbf{a} - \\mathbf{X} \\boldsymbol{\\lambda} = \\mathbf{0} \\implies \\mathbf{V} \\mathbf{a} = \\mathbf{X} \\boldsymbol{\\lambda}$$
+
+Because $\\mathbf{V}$ is positive-definite, its inverse $\\mathbf{V}^{-1}$ exists and is positive-definite. Premultiplying by $\\mathbf{V}^{-1}$:
+
+$$\\mathbf{a} = \\mathbf{V}^{-1} \\mathbf{X} \\boldsymbol{\\lambda}$$
+
+To eliminate the unknown multiplier vector $\\boldsymbol{\\lambda}$, substitute this expression for $\\mathbf{a}$ into the unbiasedness constraint $\\mathbf{X}^T \\mathbf{a} = \\mathbf{c}$:
+
+$$\\mathbf{X}^T (\\mathbf{V}^{-1} \\mathbf{X} \\boldsymbol{\\lambda}) = \\mathbf{c} \\implies (\\mathbf{X}^T \\mathbf{V}^{-1} \\mathbf{X}) \\boldsymbol{\\lambda} = \\mathbf{c}$$
+
+Because $\\mathbf{X}$ has full column rank $p$ and $\\mathbf{V}^{-1}$ is positive-definite, the matrix $(\\mathbf{X}^T \\mathbf{V}^{-1} \\mathbf{X}) \\in \\mathbb{R}^{p \\times p}$ is symmetric and strictly positive-definite, hence invertible. Solving for $\\boldsymbol{\\lambda}$:
+
+$$\\boldsymbol{\\lambda} = (\\mathbf{X}^T \\mathbf{V}^{-1} \\mathbf{X})^{-1} \\mathbf{c}$$
+
+Substitute $\\boldsymbol{\\lambda}$ back into the equation for $\\mathbf{a}$:
+
+$$\\mathbf{a}^* = \\mathbf{V}^{-1} \\mathbf{X} (\\mathbf{X}^T \\mathbf{V}^{-1} \\mathbf{X})^{-1} \\mathbf{c}$$
+
+### Solution, step 3: Establish optimality and uniqueness
+The optimal linear unbiased estimator is:
+
+$$T^*(\\mathbf{Y}) = (\\mathbf{a}^*)^T \\mathbf{Y} = \\mathbf{c}^T (\\mathbf{X}^T \\mathbf{V}^{-1} \\mathbf{X})^{-1} \\mathbf{X}^T \\mathbf{V}^{-1} \\mathbf{Y} = \\mathbf{c}^T \\hat{\\boldsymbol{\\beta}}_{\\text{GLS}}$$
+
+where:
+
+$$\\hat{\\boldsymbol{\\beta}}_{\\text{GLS}} = (\\mathbf{X}^T \\mathbf{V}^{-1} \\mathbf{X})^{-1} \\mathbf{X}^T \\mathbf{V}^{-1} \\mathbf{Y}$$
+
+is the Generalized Least Squares (Aitken) estimator of $\\boldsymbol{\\beta}$.
+To prove that $\\mathbf{a}^*$ strictly minimizes variance, let $\\mathbf{a}$ be any other vector satisfying $\\mathbf{X}^T \\mathbf{a} = \\mathbf{c}$. Define the difference vector $\\mathbf{d} = \\mathbf{a} - \\mathbf{a}^*$.
+Notice that:
+
+$$\\mathbf{X}^T \\mathbf{d} = \\mathbf{X}^T (\\mathbf{a} - \\mathbf{a}^*) = \\mathbf{c} - \\mathbf{c} = \\mathbf{0}$$
+
+Now compute the variance of $\\mathbf{a}^T \\mathbf{Y}$:
+
+$$\\mathbf{a}^T \\mathbf{V} \\mathbf{a} = (\\mathbf{a}^* + \\mathbf{d})^T \\mathbf{V} (\\mathbf{a}^* + \\mathbf{d}) = (\\mathbf{a}^*)^T \\mathbf{V} \\mathbf{a}^* + 2 \\mathbf{d}^T \\mathbf{V} \\mathbf{a}^* + \\mathbf{d}^T \\mathbf{V} \\mathbf{d}$$
+
+Evaluate the cross-product term:
+
+$$\\mathbf{d}^T \\mathbf{V} \\mathbf{a}^* = \\mathbf{d}^T \\mathbf{V} \\left[ \\mathbf{V}^{-1} \\mathbf{X} (\\mathbf{X}^T \\mathbf{V}^{-1} \\mathbf{X})^{-1} \\mathbf{c} \\right] = (\\mathbf{d}^T \\mathbf{X}) (\\mathbf{X}^T \\mathbf{V}^{-1} \\mathbf{X})^{-1} \\mathbf{c} = \\mathbf{0}^T (\\mathbf{X}^T \\mathbf{V}^{-1} \\mathbf{X})^{-1} \\mathbf{c} = 0$$
+
+Therefore:
+
+$$\\mathbf{a}^T \\mathbf{V} \\mathbf{a} = (\\mathbf{a}^*)^T \\mathbf{V} \\mathbf{a}^* + \\mathbf{d}^T \\mathbf{V} \\mathbf{d}$$
+
+Because $\\mathbf{V}$ is positive-definite, $\\mathbf{d}^T \\mathbf{V} \\mathbf{d} \\ge 0$, with equality if and only if $\\mathbf{d} = \\mathbf{0}$, meaning $\\mathbf{a} = \\mathbf{a}^*$.
+Thus:
+
+$$\\text{Var}(\\mathbf{a}^T \\mathbf{Y}) \\ge \\text{Var}((\\mathbf{a}^*)^T \\mathbf{Y})$$
+
+This proves that $\\mathbf{c}^T \\hat{\\boldsymbol{\\beta}}_{\\text{GLS}}$ is the unique Best Linear Unbiased Estimator (BLUE) under arbitrary error covariance $\\mathbf{V}$.
+
+## Fully worked question 3: Mean Squared Error Superiority of Shrinkage Estimators over Classical Unbiased Sample Variance
+
+### Question
+Let $X_1, X_2, \\dots, X_n \\overset{\\text{iid}}{\\sim} \\mathcal{N}(\\mu, \\sigma^2)$ be a random sample of size $n \\ge 2$ from a normal population where both $\\mu \\in \\mathbb{R}$ and $\\sigma^2 > 0$ are unknown parameters.
+Consider the family of estimators of $\\sigma^2$ defined by:
+
+$$T_k = k \\sum_{i=1}^n (X_i - \\bar{X})^2$$
+
+where $k > 0$ is a scalar multiplier.
+
+1. Express $\\text{MSE}(T_k)$ as an explicit mathematical function of $k, n,$ and $\\sigma^4$.
+2. Find the optimal value $k^*$ that minimizes $\\text{MSE}(T_k)$ globally.
+3. Calculate the percentage reduction in Mean Squared Error achieved by the optimal shrinkage estimator $T_{k^*}$ compared to the standard unbiased estimator $S^2 = T_{1/(n-1)}$ for $n = 5$ and $n = 10$.
+
+### Solution, step 1: Compute the distribution and moments of the quadratic sum
+Let $Q = \\sum_{i=1}^n (X_i - \\bar{X})^2$. From standard normal-sample distribution theory (Cochran's theorem), the standardized quadratic form follows a chi-square distribution with $\\nu = n - 1$ degrees of freedom:
+
+$$\\frac{Q}{\\sigma^2} \\sim \\chi_{n-1}^2$$
+
+The mean and variance of a chi-square random variable with $\\nu$ degrees of freedom are:
+
+$$\\mathbb{E}\\left[ \\frac{Q}{\\sigma^2} \\right] = n - 1 \\implies \\mathbb{E}[Q] = (n - 1) \\sigma^2$$
+
+$$\\text{Var}\\left( \\frac{Q}{\\sigma^2} \\right) = 2(n - 1) \\implies \\text{Var}(Q) = 2(n - 1) \\sigma^4$$
+
+The second raw moment of $Q$ is:
+
+$$\\mathbb{E}[Q^2] = \\text{Var}(Q) + (\\mathbb{E}[Q])^2 = 2(n - 1)\\sigma^4 + (n - 1)^2 \\sigma^4 = (n - 1)(n + 1) \\sigma^4$$
+
+Now evaluate the estimator $T_k = k Q$:
+
+$$\\mathbb{E}[T_k] = k \\mathbb{E}[Q] = k(n - 1)\\sigma^2$$
+
+$$\\text{Var}(T_k) = k^2 \\text{Var}(Q) = 2 k^2 (n - 1)\\sigma^4$$
+
+### Solution, step 2: Express MSE and find the global minimizer k*
+The bias of $T_k$ as an estimator of $\\sigma^2$ is:
+
+$$\\text{Bias}(T_k) = \\mathbb{E}[T_k] - \\sigma^2 = [k(n - 1) - 1] \\sigma^2$$
+
+Applying the MSE decomposition:
+
+$$\\text{MSE}(T_k) = \\text{Var}(T_k) + [\\text{Bias}(T_k)]^2 = 2 k^2 (n - 1) \\sigma^4 + [k(n - 1) - 1]^2 \\sigma^4$$
+
+Factor out $\\sigma^4$:
+
+$$\\text{MSE}(T_k) = \\sigma^4 \\left\\{ 2(n - 1)k^2 + (n - 1)^2 k^2 - 2(n - 1)k + 1 \\right\\}$$
+
+$$\\text{MSE}(T_k) = \\sigma^4 \\left\\{ (n - 1)(n + 1) k^2 - 2(n - 1) k + 1 \\right\\}$$
+
+This is a strictly convex quadratic function of $k$ because the coefficient of $k^2$ is $(n - 1)(n + 1) > 0$ for all $n \\ge 2$.
+To find the global minimizer, differentiate with respect to $k$ and set to zero:
+
+$$\\frac{d}{dk} \\text{MSE}(T_k) = \\sigma^4 \\left[ 2(n - 1)(n + 1) k - 2(n - 1) \\right] = 0$$
+
+$$2(n - 1)(n + 1) k = 2(n - 1) \\implies k^* = \\frac{1}{n + 1}$$
+
+The second derivative is:
+
+$$\\frac{d^2}{dk^2} \\text{MSE}(T_k) = 2(n - 1)(n + 1) \\sigma^4 > 0$$
+
+confirming that $k^* = \\frac{1}{n + 1}$ achieves the unique global minimum of Mean Squared Error.
+
+### Solution, step 3: Evaluate MSE values and compare percentage reductions
+Substitute $k^* = \\frac{1}{n + 1}$ into the MSE formula:
+
+$$\\text{MSE}(T_{k^*}) = \\sigma^4 \\left\\{ (n - 1)(n + 1) \\frac{1}{(n + 1)^2} - 2(n - 1) \\frac{1}{n + 1} + 1 \\right\\}$$
+
+$$\\text{MSE}(T_{k^*}) = \\sigma^4 \\left\\{ \\frac{n - 1}{n + 1} - \\frac{2(n - 1)}{n + 1} + 1 \\right\\} = \\sigma^4 \\left\\{ 1 - \\frac{n - 1}{n + 1} \\right\\} = \\frac{2}{n + 1} \\sigma^4$$
+
+For the standard unbiased estimator $S^2 = T_{1/(n-1)}$:
+
+$$\\text{MSE}(S^2) = \\text{Var}(S^2) = \\frac{2}{n - 1} \\sigma^4$$
+
+The ratio of Mean Squared Errors is:
+
+$$\\frac{\\text{MSE}(T_{k^*})}{\\text{MSE}(S^2)} = \\frac{\\frac{2}{n + 1} \\sigma^4}{\\frac{2}{n - 1} \\sigma^4} = \\frac{n - 1}{n + 1}$$
+
+The relative percentage reduction in MSE is:
+
+$$\\text{Percentage Reduction} = \\left( 1 - \\frac{n - 1}{n + 1} \\right) \\times 100\\% = \\frac{2}{n + 1} \\times 100\\%$$
+
+1. For sample size $n = 5$:
+   $$\\text{Percentage Reduction} = \\frac{2}{5 + 1} \\times 100\\% = \\frac{2}{6} \\times 100\\% = 33.33\\%$$
+   The shrinkage estimator $T_{1/6}$ reduces Mean Squared Error by a full one-third compared to the unbiased estimator $S^2 = T_{1/4}$!
+2. For sample size $n = 10$:
+   $$\\text{Percentage Reduction} = \\frac{2}{10 + 1} \\times 100\\% = \\frac{2}{11} \\times 100\\% \\approx 18.18\\%$$
+
+This demonstrates that for moderate and small sample sizes, shrinkage estimators provide substantial risk reductions over unbiased estimators by strategically trading a slight downward bias for a major reduction in sampling variance.
+"""
+
+(OUT_DIR / "unit-1.md").write_text(u1, encoding="utf-8")
+print("Unit 1 generated successfully.")
