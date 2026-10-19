@@ -91,8 +91,8 @@ Every textbook in the library features:
 ## 🤝 Global STEM Ecosystem Initiatives
 
 1. **[Open Academic Library](https://openstemlibrary.com/)**: 62 live digital university textbooks scaling toward 1,000 comprehensive titles.
-2. **Global Research Network**: International research exchange bridging students and university researchers for preprint reviews and open science.
-3. **Scholarship & Fellowship Desk**: Curated tracker of fully funded graduate scholarships, CERN/DESY fellowships, and international research internships.
+2. **[Global Research Network](https://openstemfield.org/)**: International research exchange bridging students and university researchers for preprint reviews and open science.
+3. **[Scholarship & Fellowship Desk](https://openstemfield.org/)**: Curated tracker of fully funded graduate scholarships, CERN/DESY fellowships, and international research internships.
 4. **Student Projects & Assignments**: Solved computational physics repositories, honors problem sets, and analytical implementations.
 5. **Global Student Community**: Active academic Discord peer network with specialized study rooms across all STEM branches.
 6. **Academic Mentorship**: 1-on-1 guidance and exam strategy sessions led by university toppers and Olympiad medalists.
