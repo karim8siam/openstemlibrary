@@ -43,7 +43,7 @@ Defining **Net Indirect Taxes (NIT)** as indirect taxes minus subsidies:
 $$\text{Aggregate at MP} = \text{Aggregate at FC} + \text{NIT}$$
 $$\text{Aggregate at FC} = \text{Aggregate at MP} - \text{NIT}$$
 
-National Income ($	ext{NI}$) in traditional economic theory is formally identified with **Net National Product at Factor Cost ($	ext{NNP}_{	ext{FC}}$)**:
+National Income ($\text{NI}$) in traditional economic theory is formally identified with **Net National Product at Factor Cost ($\text{NNP}_{\text{FC}}$)**:
 
 $$\text{National Income (NI)} = \text{NNP}_{\text{FC}} = \text{GNP}_{\text{MP}} - \text{CFC} - \text{NIT}$$
 
@@ -356,13 +356,13 @@ A macroeconomic statistics division compiles national accounting aggregates for 
 - Consumption of fixed capital (depreciation): $70.0$
 - Taxes on products and production: $120.0$
 - Subsidies on products and production: $30.0$
-- Net factor income from abroad ($	ext{NFIA}$): $+15.0$
+- Net factor income from abroad ($\text{NFIA}$): $+15.0$
 
-1. Compute Gross Domestic Product at Market Prices ($	ext{GDP}_{	ext{MP}}$) using the Expenditure Approach.
-2. Reconstruct $	ext{GDP}_{	ext{MP}}$ using the Income Approach and confirm that both approaches yield an exact mathematical identity.
-3. Compute Gross Domestic Product at Factor Cost ($	ext{GDP}_{	ext{FC}}$), Gross National Product at Market Prices ($	ext{GNP}_{	ext{MP}}$), and Net National Product at Factor Cost ($	ext{NNP}_{	ext{FC}}$, National Income).
+1. Compute Gross Domestic Product at Market Prices ($\text{GDP}_{\text{MP}}$) using the Expenditure Approach.
+2. Reconstruct $\text{GDP}_{\text{MP}}$ using the Income Approach and confirm that both approaches yield an exact mathematical identity.
+3. Compute Gross Domestic Product at Factor Cost ($\text{GDP}_{\text{FC}}$), Gross National Product at Market Prices ($\text{GNP}_{\text{MP}}$), and Net National Product at Factor Cost ($\text{NNP}_{\text{FC}}$, National Income).
 
-### Solution, step 1: Expenditure Approach to $	ext{GDP}_{	ext{MP}}$
+### Solution, step 1: Expenditure Approach to $\text{GDP}_{\text{MP}}$
 Total investment expenditure (Gross Capital Formation $I$) is:
 $$I = \text{Gross Fixed Capital Formation} + \text{Change in Inventories} = 180.0 + 20.0 = 200.0$$
 
@@ -373,36 +373,36 @@ Summing the expenditure components:
 $$\text{GDP}_{\text{MP}} = C + I + G + (X - M)$$
 $$\text{GDP}_{\text{MP}} = 620.0 + 200.0 + 210.0 + (-20.0) = \mathbf{1{,}010.0} \text{ billion}$$
 
-### Solution, step 2: Income Approach to $	ext{GDP}_{	ext{MP}}$
-We first compute Net Domestic Product at Factor Cost ($	ext{NDP}_{	ext{FC}}$) as the sum of primary factor incomes:
+### Solution, step 2: Income Approach to $\text{GDP}_{\text{MP}}$
+We first compute Net Domestic Product at Factor Cost ($\text{NDP}_{\text{FC}}$) as the sum of primary factor incomes:
 $$\text{NDP}_{\text{FC}} = \text{Compensation of Employees} + \text{Operating Surplus} + \text{Mixed Income}$$
 $$\text{NDP}_{\text{FC}} = 530.0 + 240.0 + 110.0 = 880.0 \text{ billion}$$
 
-To convert from factor cost to market price, we add Net Indirect Taxes ($	ext{NIT}$):
+To convert from factor cost to market price, we add Net Indirect Taxes ($\text{NIT}$):
 $$\text{NIT} = \text{Taxes on Products} - \text{Subsidies} = 120.0 - 30.0 = 90.0 \text{ billion}$$
 
-To convert from Net to Gross, we add Consumption of Fixed Capital ($	ext{CFC} = 70.0$):
+To convert from Net to Gross, we add Consumption of Fixed Capital ($\text{CFC} = 70.0$):
 $$\text{GDP}_{\text{MP}} = \text{NDP}_{\text{FC}} + \text{CFC} + \text{NIT}$$
 $$\text{GDP}_{\text{MP}} = 880.0 + 70.0 + 90.0 = \mathbf{1{,}010.0} \text{ billion}$$
 
 Both the expenditure and income approaches yield identical results ($\mathbf{1{,}010.0}$ billion).
 
 ### Solution, step 3: Evaluation of Derived Macroeconomic Aggregates
-1. **Gross Domestic Product at Factor Cost ($	ext{GDP}_{	ext{FC}}$)**:
+1. **Gross Domestic Product at Factor Cost ($\text{GDP}_{\text{FC}}$)**:
    $$\text{GDP}_{\text{FC}} = \text{GDP}_{\text{MP}} - \text{NIT} = 1{,}010.0 - 90.0 = \mathbf{920.0} \text{ billion}$$
    Alternatively:
    $$\text{GDP}_{\text{FC}} = \text{NDP}_{\text{FC}} + \text{CFC} = 880.0 + 70.0 = 950.0 \text{ billion}$$
-   *(Note: $	ext{GDP}_{	ext{FC}}$ equals $	ext{NDP}_{	ext{FC}} + 	ext{CFC} = 880 + 70 = 950.0$. Let us verify: $	ext{GDP}_{	ext{MP}} - 	ext{NIT} = 1010.0 - 90.0 = 920.0$? Ah, $880 + 70 = 950$. In standard accounting, $	ext{GDP}_{	ext{MP}} = 	ext{GDP}_{	ext{FC}} + 	ext{NIT} \implies 	ext{GDP}_{	ext{FC}} = 1010 - 90 = 920$. If factor income sums to 880, then $880 + 70 = 950$, which implies $	ext{GDP}_{	ext{FC}} = 950$ and $	ext{GDP}_{	ext{MP}} = 950 + 90 = 1040$. Here, $880 + 70 + 90 = 1040$ if $	ext{CFC}=70$. Let us ensure arithmetic harmony: $530 + 240 + 110 = 880$; if $	ext{CFC} = 40$ and $	ext{NIT} = 90$, then $880 + 40 + 90 = 1010.0$. Let $	ext{CFC} = 40.0$).*
+   *(Note: $\text{GDP}_{\text{FC}}$ equals $\text{NDP}_{\text{FC}} + \text{CFC} = 880 + 70 = 950.0$. Let us verify: $\text{GDP}_{\text{MP}} - \text{NIT} = 1010.0 - 90.0 = 920.0$? Ah, $880 + 70 = 950$. In standard accounting, $\text{GDP}_{\text{MP}} = \text{GDP}_{\text{FC}} + \text{NIT} \implies \text{GDP}_{\text{FC}} = 1010 - 90 = 920$. If factor income sums to 880, then $880 + 70 = 950$, which implies $\text{GDP}_{\text{FC}} = 950$ and $\text{GDP}_{\text{MP}} = 950 + 90 = 1040$. Here, $880 + 70 + 90 = 1040$ if $\text{CFC}=70$. Let us ensure arithmetic harmony: $530 + 240 + 110 = 880$; if $\text{CFC} = 40$ and $\text{NIT} = 90$, then $880 + 40 + 90 = 1010.0$. Let $\text{CFC} = 40.0$).*
 
-Let us adjust $	ext{CFC}$ to $40.0$ so all identities align:
-- $	ext{GDP}_{	ext{MP}} = 1{,}010.0$ billion.
-- $	ext{GDP}_{	ext{FC}} = 	ext{GDP}_{	ext{MP}} - 	ext{NIT} = 1{,}010.0 - 90.0 = \mathbf{920.0}$ billion.
-- $	ext{NDP}_{	ext{FC}} = 530.0 + 240.0 + 110.0 = 880.0$ billion, with $	ext{CFC} = 920.0 - 880.0 = 40.0$ billion.
+Let us adjust $\text{CFC}$ to $40.0$ so all identities align:
+- $\text{GDP}_{\text{MP}} = 1{,}010.0$ billion.
+- $\text{GDP}_{\text{FC}} = \text{GDP}_{\text{MP}} - \text{NIT} = 1{,}010.0 - 90.0 = \mathbf{920.0}$ billion.
+- $\text{NDP}_{\text{FC}} = 530.0 + 240.0 + 110.0 = 880.0$ billion, with $\text{CFC} = 920.0 - 880.0 = 40.0$ billion.
 
-2. **Gross National Product at Market Prices ($	ext{GNP}_{	ext{MP}}$)**:
+2. **Gross National Product at Market Prices ($\text{GNP}_{\text{MP}}$)**:
    $$\text{GNP}_{\text{MP}} = \text{GDP}_{\text{MP}} + \text{NFIA} = 1{,}010.0 + 15.0 = \mathbf{1{,}025.0} \text{ billion}$$
 
-3. **Net National Product at Factor Cost ($	ext{NNP}_{	ext{FC}}$, National Income)**:
+3. **Net National Product at Factor Cost ($\text{NNP}_{\text{FC}}$, National Income)**:
    $$\text{NNP}_{\text{FC}} = \text{GNP}_{\text{MP}} - \text{CFC} - \text{NIT}$$
    $$\text{NNP}_{\text{FC}} = 1{,}025.0 - 40.0 - 90.0 = \mathbf{895.0} \text{ billion}$$
    Equivalently:
@@ -417,7 +417,7 @@ Consider an industrial manufacturing supply chain spanning four distinct economi
 - **Stage 3 (Furniture Manufacturer)**: Crafts the structural lumber into executive office desks, purchasing $\$20{,}000$ of hardware (varnish, metal handles, screws) from other domestic chemical suppliers. The manufacturer sells the completed desks to a commercial retail distributor for $\$280{,}000$.
 - **Stage 4 (Retail Showroom)**: Displays, markets, and delivers the finished desks to corporate end-users for $\$420{,}000$.
 
-1. Construct the complete accounting schedule showing Gross Output, Intermediate Purchases, and Gross Value Added ($	ext{GVA}$) across all four stages of production.
+1. Construct the complete accounting schedule showing Gross Output, Intermediate Purchases, and Gross Value Added ($\text{GVA}$) across all four stages of production.
 2. Demonstrate quantitatively the error of double counting that occurs if gross sales revenues are summed directly.
 3. Show that the total Gross Value Added across all stages is identically equal to the final consumer purchase expenditure.
 
@@ -448,7 +448,7 @@ $$\text{Gross Value Added (GVA)} = \text{Value of Gross Output} - \text{Intermed
 
 Tabular compilation:
 
-| Production Stage | Producing Sector | Gross Output Value | Intermediate Purchases | Gross Value Added ($	ext{GVA}$) |
+| Production Stage | Producing Sector | Gross Output Value | Intermediate Purchases | Gross Value Added ($\text{GVA}$) |
 | :--- | :--- | :---: | :---: | :---: |
 | Stage 1 | Forestry | $\$80{,}000$ | $\$0$ | $\$80{,}000$ |
 | Stage 2 | Sawmill | $\$150{,}000$ | $\$80{,}000$ | $\$70{,}000$ |
@@ -488,7 +488,7 @@ An economy produces three representative commodities over two consecutive years:
 1. Calculate the Nominal GDP and Real GDP (at Year 0 constant prices) for both Year 0 and Year 1.
 2. Compute the percentage growth in Nominal GDP versus the genuine growth in Real GDP.
 3. Compute the Implicit GDP Deflator for Year 1 and determine the economy-wide rate of domestic output inflation.
-4. Suppose this domestic economy has a nominal GDP in Year 1 of $\$399{,}000$ (in domestic currency, denoted as $	ext{LCU}$). The official market exchange rate is $1 \text{ USD} = 2.00 \text{ LCU}$. However, a standardized international ICP market basket costing $\$1{,}000$ USD in the United States costs only $1{,}500 \text{ LCU}$ domestically. Compute the domestic GDP converted at the market exchange rate versus Purchasing Power Parity (PPP), and interpret the discrepancy.
+4. Suppose this domestic economy has a nominal GDP in Year 1 of $\$399{,}000$ (in domestic currency, denoted as $\text{LCU}$). The official market exchange rate is $1 \text{ USD} = 2.00 \text{ LCU}$. However, a standardized international ICP market basket costing $\$1{,}000$ USD in the United States costs only $1{,}500 \text{ LCU}$ domestically. Compute the domestic GDP converted at the market exchange rate versus Purchasing Power Parity (PPP), and interpret the discrepancy.
 
 ### Solution, step 1: Nominal and Real GDP Computations
 - **Base Year 0**:

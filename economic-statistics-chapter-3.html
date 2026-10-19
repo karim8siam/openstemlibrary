@@ -182,7 +182,7 @@
 
 <p>To capture proportionate scaling, the multiplicative decomposition model expresses the observed series as the continuous product of its latent components:</p>
 
-<div class="math-display">$$Y_t = T_t 	imes S_t 	imes C_t 	imes I_t$$</div>
+<div class="math-display">$$Y_t = T_t \times S_t \times C_t \times I_t$$</div>
 
 <p>In the multiplicative framework:</p>
 
@@ -194,9 +194,9 @@
 
 </ul>
 
-<div class="math-display">$$rac{1}{m} \sum_{s=1}^{m} S_s = 1.00 \quad \left( 	ext{or } \sum_{s=1}^{m} S_s = m  ight)$$</div>
+<div class="math-display">$$\frac{1}{m} \sum_{s=1}^{m} S_s = 1.00 \quad \left( \text{or } \sum_{s=1}^{m} S_s = m  \right)$$</div>
 
-<p>For example, a seasonal index of $S_{	ext{Q4}} = 1.25$ indicates that fourth-quarter sales routinely exceed the deseasonalized baseline trend by 25%.</p>
+<p>For example, a seasonal index of $S_{\text{Q4}} = 1.25$ indicates that fourth-quarter sales routinely exceed the deseasonalized baseline trend by 25%.</p>
 
 <ul>
 
@@ -212,9 +212,9 @@
 
 <div class="math-display">$$\ln(Y_t) = \ln(T_t) + \ln(S_t) + \ln(C_t) + \ln(I_t)$$</div>
 
-<p>Defining $y_t = \ln(Y_t)$, $	au_t = \ln(T_t)$, $s_t = \ln(S_t)$, $c_t = \ln(C_t)$, and $arepsilon_t = \ln(I_t)$, we obtain:</p>
+<p>Defining $y_t = \ln(Y_t)$, $\tau_t = \ln(T_t)$, $s_t = \ln(S_t)$, $c_t = \ln(C_t)$, and $\varepsilon_t = \ln(I_t)$, we obtain:</p>
 
-<div class="math-display">$$y_t = 	au_t + s_t + c_t + arepsilon_t$$</div>
+<div class="math-display">$$y_t = \tau_t + s_t + c_t + \varepsilon_t$$</div>
 
 <p>Linear estimation algorithms, least squares regression, and filtering procedures designed for additive decomposition can therefore be deployed directly on log-transformed economic series, stabilizing variance and linearizing exponential growth trajectories.</p>
 
@@ -235,19 +235,19 @@
 
 <p>The method of semi-averages provides a rapid, intuitive baseline for estimating a linear secular trend. The procedure divides the ordered time series of $N$ observations into two equal temporal halves. If $N$ is even, each half contains $k = N/2$ observations. If $N$ is odd, the middle observation is omitted, leaving two symmetric halves of $k = (N-1)/2$ observations.</p>
 
-<p>For each half, the arithmetic mean of the time index ($ar{t}_1$ and $ar{t}_2$) and the arithmetic mean of the observed variable ($ar{Y}_1$ and $ar{Y}_2$) are calculated:</p>
+<p>For each half, the arithmetic mean of the time index ($\bar{t}_1$ and $\bar{t}_2$) and the arithmetic mean of the observed variable ($\bar{Y}_1$ and $\bar{Y}_2$) are calculated:</p>
 
-<div class="math-display">$$ar{t}_1 = rac{1}{k} \sum_{t=1}^{k} t, \quad ar{Y}_1 = rac{1}{k} \sum_{t=1}^{k} Y_t$$</div>
+<div class="math-display">$$\bar{t}_1 = \frac{1}{k} \sum_{t=1}^{k} t, \quad \bar{Y}_1 = \frac{1}{k} \sum_{t=1}^{k} Y_t$$</div>
 
-<div class="math-display">$$ar{t}_2 = rac{1}{k} \sum_{t=N-k+1}^{N} t, \quad ar{Y}_2 = rac{1}{k} \sum_{t=N-k+1}^{N} Y_t$$</div>
+<div class="math-display">$$\bar{t}_2 = \frac{1}{k} \sum_{t=N-k+1}^{N} t, \quad \bar{Y}_2 = \frac{1}{k} \sum_{t=N-k+1}^{N} Y_t$$</div>
 
-<p>Plotting the two coordinate points $(ar{t}_1, ar{Y}_1)$ and $(ar{t}_2, ar{Y}_2)$ on a Cartesian scatter plot and connecting them with a straight line defines the semi-average trend line. The linear equation is given by:</p>
+<p>Plotting the two coordinate points $(\bar{t}_1, \bar{Y}_1)$ and $(\bar{t}_2, \bar{Y}_2)$ on a Cartesian scatter plot and connecting them with a straight line defines the semi-average trend line. The linear equation is given by:</p>
 
 <div class="math-display">$$T_t = a + b t$$</div>
 
-<div class="math-display">$$ext{Slope } b = rac{ar{Y}_2 - ar{Y}_1}{ar{t}_2 - ar{t}_1}$$</div>
+<div class="math-display">$$\text{Slope } b = \frac{\bar{Y}_2 - \bar{Y}_1}{\bar{t}_2 - \bar{t}_1}$$</div>
 
-<div class="math-display">$$ext{Intercept } a = ar{Y}_1 - b ar{t}_1$$</div>
+<div class="math-display">$$\text{Intercept } a = \bar{Y}_1 - b \bar{t}_1$$</div>
 
 <p>While computationally elementary, the method of semi-averages possesses substantial limitations: it is sensitive to extreme outliers at the boundaries and presupposes that the underlying trend is strictly linear.</p>
 
@@ -259,11 +259,11 @@
 
 <p>When the filter window width $k$ is an odd integer (e.g., 3-year, 5-year, or 7-year moving averages), the window possesses an unambiguous, exact integer temporal center. For a symmetric window of width $2m + 1$, the smoothed trend estimate at time $t$ is:</p>
 
-<div class="math-display">$$M_t = rac{1}{2m + 1} \sum_{j=-m}^{m} Y_{t+j}$$</div>
+<div class="math-display">$$M_t = \frac{1}{2m + 1} \sum_{j=-m}^{m} Y_{t+j}$$</div>
 
 <p>For example, a 5-period moving average ($m = 2$) computes:</p>
 
-<div class="math-display">$$M_t = rac{Y_{t-2} + Y_{t-1} + Y_t + Y_{t+1} + Y_{t+2}}{5}$$</div>
+<div class="math-display">$$M_t = \frac{Y_{t-2} + Y_{t-1} + Y_t + Y_{t+1} + Y_{t+2}}{5}$$</div>
 
 <p>The moving average filter functions as a mathematical low-pass frequency filter. It attenuates high-frequency oscillations (such as seasonal variations and random noise) while transmitting low-frequency secular trends.</p>
 
@@ -271,13 +271,13 @@
 
 <p>When dealing with quarterly data ($k = 4$) or monthly data ($k = 12$), the filter window width is even. An unweighted average of an even number of points falls temporally halfway between two observation periods:</p>
 
-<div class="math-display">$$M_{t + 0.5} = rac{1}{4} \left( Y_t + Y_{t+1} + Y_{t+2} + Y_{t+3}  ight)$$</div>
+<div class="math-display">$$M_{t + 0.5} = \frac{1}{4} \left( Y_t + Y_{t+1} + Y_{t+2} + Y_{t+3}  \right)$$</div>
 
 <p>Because economic data cannot be indexed at fractional calendar periods, a second 2-period moving average filter must be applied to center the smoothed estimates onto actual observation periods. The resulting <strong>Centered Moving Average (CMA)</strong> is:</p>
 
-<div class="math-display">$$ext{CMA}_t = rac{M_{t-0.5} + M_{t+0.5}}{2} = rac{1}{8} Y_{t-2} + rac{1}{4} Y_{t-1} + rac{1}{4} Y_t + rac{1}{4} Y_{t+1} + rac{1}{8} Y_{t+2}$$</div>
+<div class="math-display">$$\text{CMA}_t = \frac{M_{t-0.5} + M_{t+0.5}}{2} = \frac{1}{8} Y_{t-2} + \frac{1}{4} Y_{t-1} + \frac{1}{4} Y_t + \frac{1}{4} Y_{t+1} + \frac{1}{8} Y_{t+2}$$</div>
 
-<p>This symmetric 5-point weighting scheme with boundary weights of $1/8$ and interior weights of $1/4$ completely annihilates quarterly seasonality of any amplitude, preserving an undistorted estimate of the combined trend-cycle component $T_t 	imes C_t$.</p>
+<p>This symmetric 5-point weighting scheme with boundary weights of $1/8$ and interior weights of $1/4$ completely annihilates quarterly seasonality of any amplitude, preserving an undistorted estimate of the combined trend-cycle component $T_t \times C_t$.</p>
 
 <h5>The Boundary Loss Problem:</h5>
 
@@ -316,13 +316,13 @@
 
 <p>To decouple the normal equations and simplify manual calculations, we shift the time origin to the exact midpoint of the observation range:</p>
 
-<div class="math-display">$$x_t = t - ar{t} = t - rac{N+1}{2}$$</div>
+<div class="math-display">$$x_t = t - \bar{t} = t - \frac{N+1}{2}$$</div>
 
 <p>Because $\sum x_t = 0$, the normal equations decouple into two independent, single-variable linear equations:</p>
 
-<div class="math-display">$$\sum Y_t = N a \implies a = rac{\sum Y_t}{N} = ar{Y}$$</div>
+<div class="math-display">$$\sum Y_t = N a \implies a = \frac{\sum Y_t}{N} = \bar{Y}$$</div>
 
-<div class="math-display">$$\sum x_t Y_t = b \sum x_t^2 \implies b = rac{\sum x_t Y_t}{\sum x_t^2}$$</div>
+<div class="math-display">$$\sum x_t Y_t = b \sum x_t^2 \implies b = \frac{\sum x_t Y_t}{\sum x_t^2}$$</div>
 
 <p>The parameter $a$ represents the estimated trend value at the center of the sample timeline, while $b$ represents the constant rate of absolute change per unit period.</p>
 
@@ -336,15 +336,15 @@
 
 <div class="math-display">$$\sum Y = N a + c \sum x^2$$</div>
 
-<div class="math-display">$$\sum x Y = b \sum x^2 \implies b = rac{\sum x Y}{\sum x^2}$$</div>
+<div class="math-display">$$\sum x Y = b \sum x^2 \implies b = \frac{\sum x Y}{\sum x^2}$$</div>
 
 <div class="math-display">$$\sum x^2 Y = a \sum x^2 + c \sum x^4$$</div>
 
 <p>Solving the simultaneous system for $a$ and $c$:</p>
 
-<div class="math-display">$$a = rac{(\sum Y)(\sum x^4) - (\sum x^2 Y)(\sum x^2)}{N \sum x^4 - (\sum x^2)^2}$$</div>
+<div class="math-display">$$a = \frac{(\sum Y)(\sum x^4) - (\sum x^2 Y)(\sum x^2)}{N \sum x^4 - (\sum x^2)^2}$$</div>
 
-<div class="math-display">$$c = rac{N \sum x^2 Y - (\sum x^2)(\sum Y)}{N \sum x^4 - (\sum x^2)^2}$$</div>
+<div class="math-display">$$c = \frac{N \sum x^2 Y - (\sum x^2)(\sum Y)}{N \sum x^4 - (\sum x^2)^2}$$</div>
 
 <p>If the quadratic parameter $c &gt; 0$, the series exhibits upward convex acceleration (increasing returns or exponential-like expansion); if $c &lt; 0$, it exhibits downward concave deceleration (diminishing marginal returns or saturation).</p>
 
@@ -352,7 +352,7 @@
 
 <p>Many financial and demographic series grow at a constant percentage rate rather than a constant absolute increment. The continuous exponential trend is expressed as:</p>
 
-<div class="math-display">$$Y_t = A B^t \quad 	ext{or} \quad Y_t = A e^{r t}$$</div>
+<div class="math-display">$$Y_t = A B^t \quad \text{or} \quad Y_t = A e^{r t}$$</div>
 
 <p>Taking the natural logarithm of both sides transforms the equation into a linear form:</p>
 
@@ -393,9 +393,9 @@
 
 <div class="math-display">$$Y_t = k + a b^t, \quad a &lt; 0, \quad 0 &lt; b &lt; 1$$</div>
 
-<p>As $t 	o \infty$, the term $b^t 	o 0$, causing $Y_t$ to approach the upper asymptote $k$ asymptotically from below. The difference between the curve and its asymptote diminishes at a constant geometric ratio:</p>
+<p>As $t \to \infty$, the term $b^t \to 0$, causing $Y_t$ to approach the upper asymptote $k$ asymptotically from below. The difference between the curve and its asymptote diminishes at a constant geometric ratio:</p>
 
-<div class="math-display">$$rac{Y_{t+1} - Y_t}{Y_t - Y_{t-1}} = b$$</div>
+<div class="math-display">$$\frac{Y_{t+1} - Y_t}{Y_t - Y_{t-1}} = b$$</div>
 
 <h4>2. The Gompertz Growth Curve</h4>
 
@@ -413,7 +413,7 @@
 
 <p>The Gompertz curve possesses an asymmetric inflection point occurring at an early stage of growth:</p>
 
-<div class="math-display">$$Y_{	ext{inflection}} = rac{k}{e} pprox 0.368 k$$</div>
+<div class="math-display">$$Y_{\text{inflection}} = \frac{k}{e} \approx 0.368 k$$</div>
 
 <p>Growth accelerates rapidly during the first 36.8% of expansion and decelerates over the remaining 63.2% of its trajectory. This asymmetry makes Gompertz curves suitable for modeling newly invented industrial goods, agricultural commodity yields, and mortal survival dynamics.</p>
 
@@ -421,15 +421,15 @@
 
 <p>The logistic curve, formalized by Pierre François Verhulst (1838) and popularized by Raymond Pearl and Lowell Reed (1920), assumes that the <em>reciprocal</em> of the variable follows a modified exponential equation:</p>
 
-<div class="math-display">$$rac{1}{Y_t} = k + a b^t \implies Y_t = rac{L}{1 + m e^{-r t}}$$</div>
+<div class="math-display">$$\frac{1}{Y_t} = k + a b^t \implies Y_t = \frac{L}{1 + m e^{-r t}}$$</div>
 
 <p>The logistic curve is symmetric around its inflection point, which occurs precisely at half of its upper asymptotic capacity:</p>
 
-<div class="math-display">$$Y_{	ext{inflection}} = rac{L}{2}$$</div>
+<div class="math-display">$$Y_{\text{inflection}} = \frac{L}{2}$$</div>
 
 <p>The growth rate of the variable is proportional to both its current level and the remaining distance to carrying capacity:</p>
 
-<div class="math-display">$$rac{dY_t}{dt} = r Y_t \left( 1 - rac{Y_t}{L}  ight)$$</div>
+<div class="math-display">$$\frac{dY_t}{dt} = r Y_t \left( 1 - \frac{Y_t}{L}  \right)$$</div>
 
 <p>The logistic model forms the standard empirical framework for modeling market penetration of durable consumer goods (smartphones, electric vehicles, broadband internet) where peer adoption dynamics generate symmetric diffusion.</p>
 
@@ -736,7 +736,7 @@
         <div class="problem-question-box">
           <p>An empirical investigation into national manufacturing output records the following index of industrial production over a consecutive seven-year period ($t = 1, 2, \dots, 7$):</p>
 
-<p>| Year ($t$) | 2018 ($1$) | 2019 ($2$) | 2020 ($3$) | 2021 ($4$) | 2022 ($5$) | 2023 ($6$) | 2024 ($7$) | | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | | Industrial Index ($Y_t$) | 102.0 | 108.5 | 114.0 | 122.5 | 134.0 | 148.5 | 165.0 |</p>
+<div class="stat-table-scroll"><table class="stat-table"><thead><tr><th style="text-align: left;">Year ($t$)</th><th style="text-align: center;">2018 ($1$)</th><th style="text-align: center;">2019 ($2$)</th><th style="text-align: center;">2020 ($3$)</th><th style="text-align: center;">2021 ($4$)</th><th style="text-align: center;">2022 ($5$)</th><th style="text-align: center;">2023 ($6$)</th><th style="text-align: center;">2024 ($7$)</th></tr></thead><tbody><tr><td style="text-align: left;">Industrial Index ($Y_t$)</td><td style="text-align: center;">102.0</td><td style="text-align: center;">108.5</td><td style="text-align: center;">114.0</td><td style="text-align: center;">122.5</td><td style="text-align: center;">134.0</td><td style="text-align: center;">148.5</td><td style="text-align: center;">165.0</td></tr></tbody></table></div>
 
 <ol>
 
@@ -744,7 +744,7 @@
 
   <li>Formulate the normal equations and estimate the parameters of the quadratic trend equation $T_t = a_q + b_q x_t + c_q x_t^2$.</li>
 
-  <li>Compute the fitted trend values for both models across all seven historical years, evaluate the Sum of Squared Errors ($	ext{SSE} = \sum (Y_t - T_t)^2$) for each model, and determine whether the quadratic specification provides a superior empirical fit.</li>
+  <li>Compute the fitted trend values for both models across all seven historical years, evaluate the Sum of Squared Errors ($\text{SSE} = \sum (Y_t - T_t)^2$) for each model, and determine whether the quadratic specification provides a superior empirical fit.</li>
 
   <li>Generate out-of-sample projections of industrial production for the years 2025 ($t = 8$) and 2026 ($t = 9$) using both fitted models.</li>
 
@@ -758,7 +758,7 @@
             <div class="solution-step">
               <div class="step-title">OLS Linear Trend Estimation</div>
               
-              <div class="step-explanation"><p>The number of observations is $N = 7$ (an odd integer). The temporal center is the fourth year: $ar{t} = (7 + 1) / 2 = 4$ (representing 2021). We apply the centering transformation $x_t = t - 4$. The centered coordinates are:</p>
+              <div class="step-explanation"><p>The number of observations is $N = 7$ (an odd integer). The temporal center is the fourth year: $\bar{t} = (7 + 1) / 2 = 4$ (representing 2021). We apply the centering transformation $x_t = t - 4$. The centered coordinates are:</p>
 
 <div class="math-display">$$x = [-3, -2, -1, 0, 1, 2, 3]$$</div>
 
@@ -776,19 +776,19 @@
 
   <li>Products $x_t Y_t$:</li>
 
-  <li>$t = 1$: $(-3) 	imes 102.0 = -306.0$</li>
+  <li>$t = 1$: $(-3) \times 102.0 = -306.0$</li>
 
-  <li>$t = 2$: $(-2) 	imes 108.5 = -217.0$</li>
+  <li>$t = 2$: $(-2) \times 108.5 = -217.0$</li>
 
-  <li>$t = 3$: $(-1) 	imes 114.0 = -114.0$</li>
+  <li>$t = 3$: $(-1) \times 114.0 = -114.0$</li>
 
-  <li>$t = 4$: $0 	imes 122.5 = 0.0$</li>
+  <li>$t = 4$: $0 \times 122.5 = 0.0$</li>
 
-  <li>$t = 5$: $1 	imes 134.0 = 134.0$</li>
+  <li>$t = 5$: $1 \times 134.0 = 134.0$</li>
 
-  <li>$t = 6$: $2 	imes 148.5 = 297.0$</li>
+  <li>$t = 6$: $2 \times 148.5 = 297.0$</li>
 
-  <li>$t = 7$: $3 	imes 165.0 = 495.0$</li>
+  <li>$t = 7$: $3 \times 165.0 = 495.0$</li>
 
   <li>Sum: $\sum x_t Y_t = -306.0 - 217.0 - 114.0 + 0 + 134.0 + 297.0 + 495.0 = 289.0$</li>
 
@@ -796,9 +796,9 @@
 
 <p>Computing the linear OLS parameters:</p>
 
-<div class="math-display">$$a = rac{\sum Y_t}{N} = rac{894.5}{7} pprox 127.7857$$</div>
+<div class="math-display">$$a = \frac{\sum Y_t}{N} = \frac{894.5}{7} \approx 127.7857$$</div>
 
-<div class="math-display">$$b = rac{\sum x_t Y_t}{\sum x_t^2} = rac{289.0}{28} pprox 10.3214$$</div>
+<div class="math-display">$$b = \frac{\sum x_t Y_t}{\sum x_t^2} = \frac{289.0}{28} \approx 10.3214$$</div>
 
 <p>The fitted linear trend equation with origin at 2021 ($x = 0$) is:</p>
 
@@ -814,11 +814,11 @@
               
               <div class="step-explanation"><p>For the second-degree polynomial model $T_t = a_q + b_q x_t + c_q x_t^2$ with centered coordinates:</p>
 
-<div class="math-display">$$\sum x_t = 0 \quad 	ext{and} \quad \sum x_t^3 = 0$$</div>
+<div class="math-display">$$\sum x_t = 0 \quad \text{and} \quad \sum x_t^3 = 0$$</div>
 
 <p>The parameter $b_q$ decouples completely from $a_q$ and $c_q$:</p>
 
-<div class="math-display">$$b_q = rac{\sum x_t Y_t}{\sum x_t^2} = rac{289.0}{28} pprox 10.3214$$</div>
+<div class="math-display">$$b_q = \frac{\sum x_t Y_t}{\sum x_t^2} = \frac{289.0}{28} \approx 10.3214$$</div>
 
 <p>Notice that the linear coefficient is identical to that of the linear model.</p>
 
@@ -830,19 +830,19 @@
 
   <li>Products $x_t^2 Y_t$:</li>
 
-  <li>$t = 1$: $9 	imes 102.0 = 918.0$</li>
+  <li>$t = 1$: $9 \times 102.0 = 918.0$</li>
 
-  <li>$t = 2$: $4 	imes 108.5 = 434.0$</li>
+  <li>$t = 2$: $4 \times 108.5 = 434.0$</li>
 
-  <li>$t = 3$: $1 	imes 114.0 = 114.0$</li>
+  <li>$t = 3$: $1 \times 114.0 = 114.0$</li>
 
-  <li>$t = 4$: $0 	imes 122.5 = 0.0$</li>
+  <li>$t = 4$: $0 \times 122.5 = 0.0$</li>
 
-  <li>$t = 5$: $1 	imes 134.0 = 134.0$</li>
+  <li>$t = 5$: $1 \times 134.0 = 134.0$</li>
 
-  <li>$t = 6$: $4 	imes 148.5 = 594.0$</li>
+  <li>$t = 6$: $4 \times 148.5 = 594.0$</li>
 
-  <li>$t = 7$: $9 	imes 165.0 = 1485.0$</li>
+  <li>$t = 7$: $9 \times 165.0 = 1485.0$</li>
 
   <li>Sum: $\sum x_t^2 Y_t = 918.0 + 434.0 + 114.0 + 0 + 134.0 + 594.0 + 1485.0 = 3679.0$</li>
 
@@ -850,7 +850,7 @@
 
 <p>The simultaneous system for $a_q$ and $c_q$ is:</p>
 
-<div class="math-display">$$egin{cases} N a_q + c_q \sum x_t^2 = \sum Y_t \ a_q \sum x_t^2 + c_q \sum x_t^4 = \sum x_t^2 Y_t \end{cases} \implies egin{cases} 7 a_q + 28 c_q = 894.5 \ 28 a_q + 196 c_q = 3679.0 \end{cases}$$</div>
+<div class="math-display">$$\begin{cases} N a_q + c_q \sum x_t^2 = \sum Y_t \ a_q \sum x_t^2 + c_q \sum x_t^4 = \sum x_t^2 Y_t \end{cases} \implies \begin{cases} 7 a_q + 28 c_q = 894.5 \ 28 a_q + 196 c_q = 3679.0 \end{cases}$$</div>
 
 <p>Multiplying the first equation by 4:</p>
 
@@ -860,13 +860,13 @@
 
 <div class="math-display">$$(196 - 112) c_q = 3679.0 - 3578.0$$</div>
 
-<div class="math-display">$$84 c_q = 101.0 \implies c_q = rac{101.0}{84} pprox 1.20238$$</div>
+<div class="math-display">$$84 c_q = 101.0 \implies c_q = \frac{101.0}{84} \approx 1.20238$$</div>
 
 <p>Substituting $c_q$ back into the first equation:</p>
 
 <div class="math-display">$$7 a_q + 28(1.20238) = 894.5$$</div>
 
-<div class="math-display">$$7 a_q + 33.6667 = 894.5 \implies 7 a_q = 860.8333 \implies a_q pprox 122.9762$$</div>
+<div class="math-display">$$7 a_q + 33.6667 = 894.5 \implies 7 a_q = 860.8333 \implies a_q \approx 122.9762$$</div>
 
 <p>The fitted quadratic trend equation (with origin at 2021) is:</p>
 
@@ -878,13 +878,13 @@
               
               <div class="step-explanation"><p>Let us compute the fitted values and squared residuals for both specifications:</p>
 
-<p>| Year | $x_t$ | Observed $Y_t$ | Linear $T_{	ext{lin}}$ | Residual $(Y - T_{	ext{lin}})^2$ | Quadratic $T_{	ext{quad}}$ | Residual $(Y - T_{	ext{quad}})^2$ | | :---: | :---: | :---: | :---: | :---: | :---: | :---: | | 2018 | $-3$ | 102.0 | $127.786 - 30.964 = 96.822$ | $(102.0 - 96.822)^2 = 26.812$ | $122.976 - 30.964 + 10.821 = 102.833$ | $(102.0 - 102.833)^2 = 0.694$ | | 2019 | $-2$ | 108.5 | $127.786 - 20.643 = 107.143$ | $(108.5 - 107.143)^2 = 1.841$ | $122.976 - 20.643 + 4.810 = 107.143$ | $(108.5 - 107.143)^2 = 1.841$ | | 2020 | $-1$ | 114.0 | $127.786 - 10.321 = 117.465$ | $(114.0 - 117.465)^2 = 12.006$ | $122.976 - 10.321 + 1.202 = 113.857$ | $(114.0 - 113.857)^2 = 0.020$ | | 2021 | $0$ | 122.5 | $127.786 + 0 = 127.786$ | $(122.5 - 127.786)^2 = 27.942$ | $122.976 + 0 + 0 = 122.976$ | $(122.5 - 122.976)^2 = 0.227$ | | 2022 | $1$ | 134.0 | $127.786 + 10.321 = 138.107$ | $(134.0 - 138.107)^2 = 16.867$ | $122.976 + 10.321 + 1.202 = 134.499$ | $(134.0 - 134.499)^2 = 0.249$ | | 2023 | $2$ | 148.5 | $127.786 + 20.643 = 148.429$ | $(148.5 - 148.429)^2 = 0.005$ | $122.976 + 20.643 + 4.810 = 148.429$ | $(148.5 - 148.429)^2 = 0.005$ | | 2024 | $3$ | 165.0 | $127.786 + 30.964 = 158.750$ | $(165.0 - 158.750)^2 = 39.063$ | $122.976 + 30.964 + 10.821 = 164.761$ | $(165.0 - 164.761)^2 = 0.057$ |</p>
+<div class="stat-table-scroll"><table class="stat-table"><thead><tr><th style="text-align: center;">Year</th><th style="text-align: center;">$x_t$</th><th style="text-align: center;">Observed $Y_t$</th><th style="text-align: center;">Linear $T_{\text{lin}}$</th><th style="text-align: center;">Residual $(Y - T_{\text{lin}})^2$</th><th style="text-align: center;">Quadratic $T_{\text{quad}}$</th><th style="text-align: center;">Residual $(Y - T_{\text{quad}})^2$</th></tr></thead><tbody><tr><td style="text-align: center;">2018</td><td style="text-align: center;">$-3$</td><td style="text-align: center;">102.0</td><td style="text-align: center;">$127.786 - 30.964 = 96.822$</td><td style="text-align: center;">$(102.0 - 96.822)^2 = 26.812$</td><td style="text-align: center;">$122.976 - 30.964 + 10.821 = 102.833$</td><td style="text-align: center;">$(102.0 - 102.833)^2 = 0.694$</td></tr><tr><td style="text-align: center;">2019</td><td style="text-align: center;">$-2$</td><td style="text-align: center;">108.5</td><td style="text-align: center;">$127.786 - 20.643 = 107.143$</td><td style="text-align: center;">$(108.5 - 107.143)^2 = 1.841$</td><td style="text-align: center;">$122.976 - 20.643 + 4.810 = 107.143$</td><td style="text-align: center;">$(108.5 - 107.143)^2 = 1.841$</td></tr><tr><td style="text-align: center;">2020</td><td style="text-align: center;">$-1$</td><td style="text-align: center;">114.0</td><td style="text-align: center;">$127.786 - 10.321 = 117.465$</td><td style="text-align: center;">$(114.0 - 117.465)^2 = 12.006$</td><td style="text-align: center;">$122.976 - 10.321 + 1.202 = 113.857$</td><td style="text-align: center;">$(114.0 - 113.857)^2 = 0.020$</td></tr><tr><td style="text-align: center;">2021</td><td style="text-align: center;">$0$</td><td style="text-align: center;">122.5</td><td style="text-align: center;">$127.786 + 0 = 127.786$</td><td style="text-align: center;">$(122.5 - 127.786)^2 = 27.942$</td><td style="text-align: center;">$122.976 + 0 + 0 = 122.976$</td><td style="text-align: center;">$(122.5 - 122.976)^2 = 0.227$</td></tr><tr><td style="text-align: center;">2022</td><td style="text-align: center;">$1$</td><td style="text-align: center;">134.0</td><td style="text-align: center;">$127.786 + 10.321 = 138.107$</td><td style="text-align: center;">$(134.0 - 138.107)^2 = 16.867$</td><td style="text-align: center;">$122.976 + 10.321 + 1.202 = 134.499$</td><td style="text-align: center;">$(134.0 - 134.499)^2 = 0.249$</td></tr><tr><td style="text-align: center;">2023</td><td style="text-align: center;">$2$</td><td style="text-align: center;">148.5</td><td style="text-align: center;">$127.786 + 20.643 = 148.429$</td><td style="text-align: center;">$(148.5 - 148.429)^2 = 0.005$</td><td style="text-align: center;">$122.976 + 20.643 + 4.810 = 148.429$</td><td style="text-align: center;">$(148.5 - 148.429)^2 = 0.005$</td></tr><tr><td style="text-align: center;">2024</td><td style="text-align: center;">$3$</td><td style="text-align: center;">165.0</td><td style="text-align: center;">$127.786 + 30.964 = 158.750$</td><td style="text-align: center;">$(165.0 - 158.750)^2 = 39.063$</td><td style="text-align: center;">$122.976 + 30.964 + 10.821 = 164.761$</td><td style="text-align: center;">$(165.0 - 164.761)^2 = 0.057$</td></tr></tbody></table></div>
 
 <p>Summing the squared errors:</p>
 
-<div class="math-display">$$ext{SSE}_{	ext{linear}} = 26.812 + 1.841 + 12.006 + 27.942 + 16.867 + 0.005 + 39.063 = 124.536$$</div>
+<div class="math-display">$$\text{SSE}_{\text{linear}} = 26.812 + 1.841 + 12.006 + 27.942 + 16.867 + 0.005 + 39.063 = 124.536$$</div>
 
-<div class="math-display">$$ext{SSE}_{	ext{quadratic}} = 0.694 + 1.841 + 0.020 + 0.227 + 0.249 + 0.005 + 0.057 = 3.093$$</div>
+<div class="math-display">$$\text{SSE}_{\text{quadratic}} = 0.694 + 1.841 + 0.020 + 0.227 + 0.249 + 0.005 + 0.057 = 3.093$$</div>
 
 <p>The quadratic model reduces the residual sum of squares by <strong>97.5%</strong> (from 124.54 down to 3.09). The positive curvature parameter ($c_q = +1.2024$) confirms that industrial manufacturing output is expanding with accelerating convex momentum, reflecting cumulative capital deepening and technological scale economies.</p></div>
             </div>
@@ -944,13 +944,13 @@
         <div class="problem-question-box">
           <p>A statistical agency monitors quarterly export revenues (in millions of dollars) for an agro-industrial sector over three consecutive years (12 calendar quarters):</p>
 
-<p>| Year | Q1 | Q2 | Q3 | Q4 | | :---: | :---: | :---: | :---: | :---: | | <strong>Year 1</strong> | 42.0 | 68.0 | 54.0 | 36.0 | | <strong>Year 2</strong> | 48.0 | 76.0 | 62.0 | 40.0 | | <strong>Year 3</strong> | 56.0 | 88.0 | 70.0 | 46.0 |</p>
+<div class="stat-table-scroll"><table class="stat-table"><thead><tr><th style="text-align: center;">Year</th><th style="text-align: center;">Q1</th><th style="text-align: center;">Q2</th><th style="text-align: center;">Q3</th><th style="text-align: center;">Q4</th></tr></thead><tbody><tr><td style="text-align: center;"><strong>Year 1</strong></td><td style="text-align: center;">42.0</td><td style="text-align: center;">68.0</td><td style="text-align: center;">54.0</td><td style="text-align: center;">36.0</td></tr><tr><td style="text-align: center;"><strong>Year 2</strong></td><td style="text-align: center;">48.0</td><td style="text-align: center;">76.0</td><td style="text-align: center;">62.0</td><td style="text-align: center;">40.0</td></tr><tr><td style="text-align: center;"><strong>Year 3</strong></td><td style="text-align: center;">56.0</td><td style="text-align: center;">88.0</td><td style="text-align: center;">70.0</td><td style="text-align: center;">46.0</td></tr></tbody></table></div>
 
 <ol>
 
-  <li>Explain mathematically why an unweighted 4-quarter moving average cannot be placed directly against a specific calendar quarter, and formulate the exact 2-period centering filter needed to produce Centered Moving Averages ($	ext{CMA}_t$).</li>
+  <li>Explain mathematically why an unweighted 4-quarter moving average cannot be placed directly against a specific calendar quarter, and formulate the exact 2-period centering filter needed to produce Centered Moving Averages ($\text{CMA}_t$).</li>
 
-  <li>Calculate the complete series of 4-quarter moving totals, 4-quarter uncentered moving averages, and 4-quarter Centered Moving Averages ($	ext{CMA}_t$) across all available quarters.</li>
+  <li>Calculate the complete series of 4-quarter moving totals, 4-quarter uncentered moving averages, and 4-quarter Centered Moving Averages ($\text{CMA}_t$) across all available quarters.</li>
 
   <li>Quantify exactly how many quarters of data are lost at the beginning and end of the series due to moving average centering, and evaluate the trade-off between smoothing filter length and timely macroeconomic monitoring.</li>
 
@@ -966,15 +966,15 @@
               
               <div class="step-explanation"><p>An unweighted moving average over an even window $k = 4$ computes:</p>
 
-<div class="math-display">$$M_{t + 0.5} = rac{Y_t + Y_{t+1} + Y_{t+2} + Y_{t+3}}{4}$$</div>
+<div class="math-display">$$M_{t + 0.5} = \frac{Y_t + Y_{t+1} + Y_{t+2} + Y_{t+3}}{4}$$</div>
 
 <p>This arithmetic mean corresponds temporally to the midpoint between period $t+1$ and period $t+2$. In our quarterly series, the average of Q1, Q2, Q3, and Q4 represents the calendar instant between Q2 and Q3 (i.e., July 1st). Placing this value on either Q2 or Q3 introduces a half-quarter (1.5 month) phase shift or timing distortion.</p>
 
 <p>To restore chronological alignment with observable quarters, we take a 2-period moving average of adjacent uncentered averages:</p>
 
-<div class="math-display">$$ext{CMA}_{t+1.5} = rac{M_{t+0.5} + M_{t+1.5}}{2} = rac{rac{Y_t + Y_{t+1} + Y_{t+2} + Y_{t+3}}{4} + rac{Y_{t+1} + Y_{t+2} + Y_{t+3} + Y_{t+4}}{4}}{2}$$</div>
+<div class="math-display">$$\text{CMA}_{t+1.5} = \frac{M_{t+0.5} + M_{t+1.5}}{2} = \frac{\frac{Y_t + Y_{t+1} + Y_{t+2} + Y_{t+3}}{4} + \frac{Y_{t+1} + Y_{t+2} + Y_{t+3} + Y_{t+4}}{4}}{2}$$</div>
 
-<div class="math-display">$$ext{CMA}_{t+1.5} = rac{Y_t + 2Y_{t+1} + 2Y_{t+2} + 2Y_{t+3} + Y_{t+4}}{8}$$</div>
+<div class="math-display">$$\text{CMA}_{t+1.5} = \frac{Y_t + 2Y_{t+1} + 2Y_{t+2} + 2Y_{t+3} + Y_{t+4}}{8}$$</div>
 
 <p>This weighted moving average assigns a weight of $1/8$ to the boundary quarters and $2/8 = 1/4$ to the interior quarters, placing the resulting smoothed estimate at the exact temporal center of the 5-quarter window.</p></div>
             </div>
@@ -1012,7 +1012,7 @@
 
 </ul>
 
-<p>Let us calculate the 4-quarter moving totals ($	ext{MT}_4$) and uncentered averages ($M$):</p>
+<p>Let us calculate the 4-quarter moving totals ($\text{MT}_4$) and uncentered averages ($M$):</p>
 
 <ol>
 
@@ -1020,7 +1020,7 @@
 
 </ol>
 
-<div class="math-display">$$ext{MT} = 42 + 68 + 54 + 36 = 200.0 \implies M_{2.5} = 50.00$$</div>
+<div class="math-display">$$\text{MT} = 42 + 68 + 54 + 36 = 200.0 \implies M_{2.5} = 50.00$$</div>
 
 <ol>
 
@@ -1028,7 +1028,7 @@
 
 </ol>
 
-<div class="math-display">$$ext{MT} = 68 + 54 + 36 + 48 = 206.0 \implies M_{3.5} = 51.50$$</div>
+<div class="math-display">$$\text{MT} = 68 + 54 + 36 + 48 = 206.0 \implies M_{3.5} = 51.50$$</div>
 
 <ol>
 
@@ -1036,7 +1036,7 @@
 
 </ol>
 
-<div class="math-display">$$ext{MT} = 54 + 36 + 48 + 76 = 214.0 \implies M_{4.5} = 53.50$$</div>
+<div class="math-display">$$\text{MT} = 54 + 36 + 48 + 76 = 214.0 \implies M_{4.5} = 53.50$$</div>
 
 <ol>
 
@@ -1044,7 +1044,7 @@
 
 </ol>
 
-<div class="math-display">$$ext{MT} = 36 + 48 + 76 + 62 = 222.0 \implies M_{5.5} = 55.50$$</div>
+<div class="math-display">$$\text{MT} = 36 + 48 + 76 + 62 = 222.0 \implies M_{5.5} = 55.50$$</div>
 
 <ol>
 
@@ -1052,7 +1052,7 @@
 
 </ol>
 
-<div class="math-display">$$ext{MT} = 48 + 76 + 62 + 40 = 226.0 \implies M_{6.5} = 56.50$$</div>
+<div class="math-display">$$\text{MT} = 48 + 76 + 62 + 40 = 226.0 \implies M_{6.5} = 56.50$$</div>
 
 <ol>
 
@@ -1060,7 +1060,7 @@
 
 </ol>
 
-<div class="math-display">$$ext{MT} = 76 + 62 + 40 + 56 = 234.0 \implies M_{7.5} = 58.50$$</div>
+<div class="math-display">$$\text{MT} = 76 + 62 + 40 + 56 = 234.0 \implies M_{7.5} = 58.50$$</div>
 
 <ol>
 
@@ -1068,7 +1068,7 @@
 
 </ol>
 
-<div class="math-display">$$ext{MT} = 62 + 40 + 56 + 88 = 246.0 \implies M_{8.5} = 61.50$$</div>
+<div class="math-display">$$\text{MT} = 62 + 40 + 56 + 88 = 246.0 \implies M_{8.5} = 61.50$$</div>
 
 <ol>
 
@@ -1076,7 +1076,7 @@
 
 </ol>
 
-<div class="math-display">$$ext{MT} = 40 + 56 + 88 + 70 = 254.0 \implies M_{9.5} = 63.50$$</div>
+<div class="math-display">$$\text{MT} = 40 + 56 + 88 + 70 = 254.0 \implies M_{9.5} = 63.50$$</div>
 
 <ol>
 
@@ -1084,9 +1084,9 @@
 
 </ol>
 
-<div class="math-display">$$ext{MT} = 56 + 88 + 70 + 46 = 260.0 \implies M_{10.5} = 65.00$$</div>
+<div class="math-display">$$\text{MT} = 56 + 88 + 70 + 46 = 260.0 \implies M_{10.5} = 65.00$$</div>
 
-<p>Now we compute the Centered Moving Averages ($	ext{CMA}_t$) by averaging adjacent pairs:</p>
+<p>Now we compute the Centered Moving Averages ($\text{CMA}_t$) by averaging adjacent pairs:</p>
 
 <ul>
 
@@ -1094,7 +1094,7 @@
 
 </ul>
 
-<div class="math-display">$$ext{CMA}_3 = rac{M_{2.5} + M_{3.5}}{2} = rac{50.00 + 51.50}{2} = 50.75$$</div>
+<div class="math-display">$$\text{CMA}_3 = \frac{M_{2.5} + M_{3.5}}{2} = \frac{50.00 + 51.50}{2} = 50.75$$</div>
 
 <ul>
 
@@ -1102,7 +1102,7 @@
 
 </ul>
 
-<div class="math-display">$$ext{CMA}_4 = rac{M_{3.5} + M_{4.5}}{2} = rac{51.50 + 53.50}{2} = 52.50$$</div>
+<div class="math-display">$$\text{CMA}_4 = \frac{M_{3.5} + M_{4.5}}{2} = \frac{51.50 + 53.50}{2} = 52.50$$</div>
 
 <ul>
 
@@ -1110,7 +1110,7 @@
 
 </ul>
 
-<div class="math-display">$$ext{CMA}_5 = rac{M_{4.5} + M_{5.5}}{2} = rac{53.50 + 55.50}{2} = 54.50$$</div>
+<div class="math-display">$$\text{CMA}_5 = \frac{M_{4.5} + M_{5.5}}{2} = \frac{53.50 + 55.50}{2} = 54.50$$</div>
 
 <ul>
 
@@ -1118,7 +1118,7 @@
 
 </ul>
 
-<div class="math-display">$$ext{CMA}_6 = rac{M_{5.5} + M_{6.5}}{2} = rac{55.50 + 56.50}{2} = 56.00$$</div>
+<div class="math-display">$$\text{CMA}_6 = \frac{M_{5.5} + M_{6.5}}{2} = \frac{55.50 + 56.50}{2} = 56.00$$</div>
 
 <ul>
 
@@ -1126,7 +1126,7 @@
 
 </ul>
 
-<div class="math-display">$$ext{CMA}_7 = rac{M_{6.5} + M_{7.5}}{2} = rac{56.50 + 58.50}{2} = 57.50$$</div>
+<div class="math-display">$$\text{CMA}_7 = \frac{M_{6.5} + M_{7.5}}{2} = \frac{56.50 + 58.50}{2} = 57.50$$</div>
 
 <ul>
 
@@ -1134,7 +1134,7 @@
 
 </ul>
 
-<div class="math-display">$$ext{CMA}_8 = rac{M_{7.5} + M_{8.5}}{2} = rac{58.50 + 61.50}{2} = 60.00$$</div>
+<div class="math-display">$$\text{CMA}_8 = \frac{M_{7.5} + M_{8.5}}{2} = \frac{58.50 + 61.50}{2} = 60.00$$</div>
 
 <ul>
 
@@ -1142,7 +1142,7 @@
 
 </ul>
 
-<div class="math-display">$$ext{CMA}_9 = rac{M_{8.5} + M_{9.5}}{2} = rac{61.50 + 63.50}{2} = 62.50$$</div>
+<div class="math-display">$$\text{CMA}_9 = \frac{M_{8.5} + M_{9.5}}{2} = \frac{61.50 + 63.50}{2} = 62.50$$</div>
 
 <ul>
 
@@ -1150,11 +1150,11 @@
 
 </ul>
 
-<div class="math-display">$$ext{CMA}_{10} = rac{M_{9.5} + M_{10.5}}{2} = rac{63.50 + 65.00}{2} = 64.25$$</div>
+<div class="math-display">$$\text{CMA}_{10} = \frac{M_{9.5} + M_{10.5}}{2} = \frac{63.50 + 65.00}{2} = 64.25$$</div>
 
 <p>Tabular summary:</p>
 
-<p>| Period ($t$) | Calendar Quarter | Observed Export ($Y_t$) | 4-Quarter MT | Uncentered $M$ | Centered $	ext{CMA}_t$ | | :---: | :---: | :---: | :---: | :---: | :---: | | 1 | Y1 Q1 | 42.0 | — | — | — | | 2 | Y1 Q2 | 68.0 | — | — | — | | — | Mid 1-4 | — | 200.0 | 50.00 | — | | 3 | Y1 Q3 | 54.0 | — | — | <strong>50.75</strong> | | — | Mid 2-5 | — | 206.0 | 51.50 | — | | 4 | Y1 Q4 | 36.0 | — | — | <strong>52.50</strong> | | — | Mid 3-6 | — | 214.0 | 53.50 | — | | 5 | Y2 Q1 | 48.0 | — | — | <strong>54.50</strong> | | — | Mid 4-7 | — | 222.0 | 55.50 | — | | 6 | Y2 Q2 | 76.0 | — | — | <strong>56.00</strong> | | — | Mid 5-8 | — | 226.0 | 56.50 | — | | 7 | Y2 Q3 | 62.0 | — | — | <strong>57.50</strong> | | — | Mid 6-9 | — | 234.0 | 58.50 | — | | 8 | Y2 Q4 | 40.0 | — | — | <strong>60.00</strong> | | — | Mid 7-10 | — | 246.0 | 61.50 | — | | 9 | Y3 Q1 | 56.0 | — | — | <strong>62.50</strong> | | — | Mid 8-11 | — | 254.0 | 63.50 | — | | 10 | Y3 Q2 | 88.0 | — | — | <strong>64.25</strong> | | — | Mid 9-12 | — | 260.0 | 65.00 | — | | 11 | Y3 Q3 | 70.0 | — | — | — | | 12 | Y3 Q4 | 46.0 | — | — | — |</p></div>
+<div class="stat-table-scroll"><table class="stat-table"><thead><tr><th style="text-align: center;">Period ($t$)</th><th style="text-align: center;">Calendar Quarter</th><th style="text-align: center;">Observed Export ($Y_t$)</th><th style="text-align: center;">4-Quarter MT</th><th style="text-align: center;">Uncentered $M$</th><th style="text-align: center;">Centered $\text{CMA}_t$</th></tr></thead><tbody><tr><td style="text-align: center;">1</td><td style="text-align: center;">Y1 Q1</td><td style="text-align: center;">42.0</td><td style="text-align: center;">—</td><td style="text-align: center;">—</td><td style="text-align: center;">—</td></tr><tr><td style="text-align: center;">2</td><td style="text-align: center;">Y1 Q2</td><td style="text-align: center;">68.0</td><td style="text-align: center;">—</td><td style="text-align: center;">—</td><td style="text-align: center;">—</td></tr><tr><td style="text-align: center;">—</td><td style="text-align: center;">Mid 1-4</td><td style="text-align: center;">—</td><td style="text-align: center;">200.0</td><td style="text-align: center;">50.00</td><td style="text-align: center;">—</td></tr><tr><td style="text-align: center;">3</td><td style="text-align: center;">Y1 Q3</td><td style="text-align: center;">54.0</td><td style="text-align: center;">—</td><td style="text-align: center;">—</td><td style="text-align: center;"><strong>50.75</strong></td></tr><tr><td style="text-align: center;">—</td><td style="text-align: center;">Mid 2-5</td><td style="text-align: center;">—</td><td style="text-align: center;">206.0</td><td style="text-align: center;">51.50</td><td style="text-align: center;">—</td></tr><tr><td style="text-align: center;">4</td><td style="text-align: center;">Y1 Q4</td><td style="text-align: center;">36.0</td><td style="text-align: center;">—</td><td style="text-align: center;">—</td><td style="text-align: center;"><strong>52.50</strong></td></tr><tr><td style="text-align: center;">—</td><td style="text-align: center;">Mid 3-6</td><td style="text-align: center;">—</td><td style="text-align: center;">214.0</td><td style="text-align: center;">53.50</td><td style="text-align: center;">—</td></tr><tr><td style="text-align: center;">5</td><td style="text-align: center;">Y2 Q1</td><td style="text-align: center;">48.0</td><td style="text-align: center;">—</td><td style="text-align: center;">—</td><td style="text-align: center;"><strong>54.50</strong></td></tr><tr><td style="text-align: center;">—</td><td style="text-align: center;">Mid 4-7</td><td style="text-align: center;">—</td><td style="text-align: center;">222.0</td><td style="text-align: center;">55.50</td><td style="text-align: center;">—</td></tr><tr><td style="text-align: center;">6</td><td style="text-align: center;">Y2 Q2</td><td style="text-align: center;">76.0</td><td style="text-align: center;">—</td><td style="text-align: center;">—</td><td style="text-align: center;"><strong>56.00</strong></td></tr><tr><td style="text-align: center;">—</td><td style="text-align: center;">Mid 5-8</td><td style="text-align: center;">—</td><td style="text-align: center;">226.0</td><td style="text-align: center;">56.50</td><td style="text-align: center;">—</td></tr><tr><td style="text-align: center;">7</td><td style="text-align: center;">Y2 Q3</td><td style="text-align: center;">62.0</td><td style="text-align: center;">—</td><td style="text-align: center;">—</td><td style="text-align: center;"><strong>57.50</strong></td></tr><tr><td style="text-align: center;">—</td><td style="text-align: center;">Mid 6-9</td><td style="text-align: center;">—</td><td style="text-align: center;">234.0</td><td style="text-align: center;">58.50</td><td style="text-align: center;">—</td></tr><tr><td style="text-align: center;">8</td><td style="text-align: center;">Y2 Q4</td><td style="text-align: center;">40.0</td><td style="text-align: center;">—</td><td style="text-align: center;">—</td><td style="text-align: center;"><strong>60.00</strong></td></tr><tr><td style="text-align: center;">—</td><td style="text-align: center;">Mid 7-10</td><td style="text-align: center;">—</td><td style="text-align: center;">246.0</td><td style="text-align: center;">61.50</td><td style="text-align: center;">—</td></tr><tr><td style="text-align: center;">9</td><td style="text-align: center;">Y3 Q1</td><td style="text-align: center;">56.0</td><td style="text-align: center;">—</td><td style="text-align: center;">—</td><td style="text-align: center;"><strong>62.50</strong></td></tr><tr><td style="text-align: center;">—</td><td style="text-align: center;">Mid 8-11</td><td style="text-align: center;">—</td><td style="text-align: center;">254.0</td><td style="text-align: center;">63.50</td><td style="text-align: center;">—</td></tr><tr><td style="text-align: center;">10</td><td style="text-align: center;">Y3 Q2</td><td style="text-align: center;">88.0</td><td style="text-align: center;">—</td><td style="text-align: center;">—</td><td style="text-align: center;"><strong>64.25</strong></td></tr><tr><td style="text-align: center;">—</td><td style="text-align: center;">Mid 9-12</td><td style="text-align: center;">—</td><td style="text-align: center;">260.0</td><td style="text-align: center;">65.00</td><td style="text-align: center;">—</td></tr><tr><td style="text-align: center;">11</td><td style="text-align: center;">Y3 Q3</td><td style="text-align: center;">70.0</td><td style="text-align: center;">—</td><td style="text-align: center;">—</td><td style="text-align: center;">—</td></tr><tr><td style="text-align: center;">12</td><td style="text-align: center;">Y3 Q4</td><td style="text-align: center;">46.0</td><td style="text-align: center;">—</td><td style="text-align: center;">—</td><td style="text-align: center;">—</td></tr></tbody></table></div></div>
             </div>
           
             <div class="solution-step">
@@ -1188,7 +1188,7 @@
         <div class="problem-question-box">
           <p>An empirical study of rural telecommunication infrastructure measures the percentage of households connected to fiber broadband over nine consecutive biennial periods ($N = 9$, $t = 0, 1, 2, \dots, 8$):</p>
 
-<p>| Period ($t$) | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | | Adoption % ($Y_t$) | 14.2 | 22.8 | 29.8 | 35.5 | 40.1 | 43.8 | 46.7 | 49.1 | 51.0 |</p>
+<div class="stat-table-scroll"><table class="stat-table"><thead><tr><th style="text-align: left;">Period ($t$)</th><th style="text-align: center;">0</th><th style="text-align: center;">1</th><th style="text-align: center;">2</th><th style="text-align: center;">3</th><th style="text-align: center;">4</th><th style="text-align: center;">5</th><th style="text-align: center;">6</th><th style="text-align: center;">7</th><th style="text-align: center;">8</th></tr></thead><tbody><tr><td style="text-align: left;">Adoption % ($Y_t$)</td><td style="text-align: center;">14.2</td><td style="text-align: center;">22.8</td><td style="text-align: center;">29.8</td><td style="text-align: center;">35.5</td><td style="text-align: center;">40.1</td><td style="text-align: center;">43.8</td><td style="text-align: center;">46.7</td><td style="text-align: center;">49.1</td><td style="text-align: center;">51.0</td></tr></tbody></table></div>
 
 <ol>
 
@@ -1218,7 +1218,7 @@
 
 <ul>
 
-  <li><strong>Asymptotic Limit ($k$)</strong>: As $t 	o \infty$, since $0 &lt; b &lt; 1$, the term $b^t 	o 0$. Thus, $Y_t 	o k$. The parameter $k$ represents the maximum carrying capacity or long-run market saturation level of broadband adoption in the rural population.</li>
+  <li><strong>Asymptotic Limit ($k$)</strong>: As $t \to \infty$, since $0 &lt; b &lt; 1$, the term $b^t \to 0$. Thus, $Y_t \to k$. The parameter $k$ represents the maximum carrying capacity or long-run market saturation level of broadband adoption in the rural population.</li>
 
   <li><strong>Initial Deficit Parameter ($a$)</strong>: At initial period $t = 0$, $Y_0 = k + a$. Since adoption starts below saturation, $a &lt; 0$, and $|a| = k - Y_0$ represents the total initial market deficit yet to be penetrated.</li>
 
@@ -1226,7 +1226,7 @@
 
 </ul>
 
-<div class="math-display">$$rac{Y_{t+1} - Y_t}{Y_t - Y_{t-1}} = rac{a b^t (b - 1)}{a b^{t-1} (b - 1)} = b$$</div>
+<div class="math-display">$$\frac{Y_{t+1} - Y_t}{Y_t - Y_{t-1}} = \frac{a b^t (b - 1)}{a b^{t-1} (b - 1)} = b$$</div>
 
 <p>A value of $b$ close to 0 indicates rapid saturation convergence, whereas $b$ close to 1 denotes protracted adoption diffusion.</p></div>
             </div>
@@ -1262,37 +1262,37 @@
 
 <p>Now, we express each partial sum theoretically in terms of $k, a, b$:</p>
 
-<div class="math-display">$$S_1 = \sum_{t=0}^{m-1} (k + a b^t) = m k + a \left( rac{1 - b^m}{1 - b}  ight)$$</div>
+<div class="math-display">$$S_1 = \sum_{t=0}^{m-1} (k + a b^t) = m k + a \left( \frac{1 - b^m}{1 - b}  \right)$$</div>
 
-<div class="math-display">$$S_2 = \sum_{t=m}^{2m-1} (k + a b^t) = m k + a b^m \left( rac{1 - b^m}{1 - b}  ight)$$</div>
+<div class="math-display">$$S_2 = \sum_{t=m}^{2m-1} (k + a b^t) = m k + a b^m \left( \frac{1 - b^m}{1 - b}  \right)$$</div>
 
-<div class="math-display">$$S_3 = \sum_{t=2m}^{3m-1} (k + a b^t) = m k + a b^{2m} \left( rac{1 - b^m}{1 - b}  ight)$$</div>
+<div class="math-display">$$S_3 = \sum_{t=2m}^{3m-1} (k + a b^t) = m k + a b^{2m} \left( \frac{1 - b^m}{1 - b}  \right)$$</div>
 
 <p>Taking successive differences to eliminate the constant term $m k$:</p>
 
-<div class="math-display">$$D_1 = S_2 - S_1 = a (b^m - 1) \left( rac{1 - b^m}{1 - b}  ight) = - a rac{(1 - b^m)^2}{1 - b} = a rac{(b^m - 1)^2}{1 - b}$$</div>
+<div class="math-display">$$D_1 = S_2 - S_1 = a (b^m - 1) \left( \frac{1 - b^m}{1 - b}  \right) = - a \frac{(1 - b^m)^2}{1 - b} = a \frac{(b^m - 1)^2}{1 - b}$$</div>
 
-<div class="math-display">$$D_2 = S_3 - S_2 = a b^m rac{(b^m - 1)^2}{1 - b}$$</div>
+<div class="math-display">$$D_2 = S_3 - S_2 = a b^m \frac{(b^m - 1)^2}{1 - b}$$</div>
 
 <p>Taking the ratio of the two differences:</p>
 
-<div class="math-display">$$rac{D_2}{D_1} = rac{S_3 - S_2}{S_2 - S_1} = b^m$$</div>
+<div class="math-display">$$\frac{D_2}{D_1} = \frac{S_3 - S_2}{S_2 - S_1} = b^m$$</div>
 
 <p>Hence, the parameter $b$ is given by:</p>
 
-<div class="math-display">$$b = \left( rac{S_3 - S_2}{S_2 - S_1}  ight)^{1/m}$$</div>
+<div class="math-display">$$b = \left( \frac{S_3 - S_2}{S_2 - S_1}  \right)^{1/m}$$</div>
 
 <p>Once $b$ is determined, parameter $a$ is recovered from $D_1$:</p>
 
-<div class="math-display">$$a = rac{(S_2 - S_1)(b - 1)}{(b^m - 1)^2} = rac{(S_2 - S_1)(b - 1)}{(b^m - 1)(b^m - 1)}$$</div>
+<div class="math-display">$$a = \frac{(S_2 - S_1)(b - 1)}{(b^m - 1)^2} = \frac{(S_2 - S_1)(b - 1)}{(b^m - 1)(b^m - 1)}$$</div>
 
 <p>More directly:</p>
 
-<div class="math-display">$$S_2 - S_1 = a b^0 (b^m - 1) rac{b^m - 1}{b - 1} \implies a = rac{(S_2 - S_1)(1 - b)}{(1 - b^m)^2} 	imes (-1) = rac{(S_2 - S_1)(b - 1)}{(1 - b^m)^2}$$</div>
+<div class="math-display">$$S_2 - S_1 = a b^0 (b^m - 1) \frac{b^m - 1}{b - 1} \implies a = \frac{(S_2 - S_1)(1 - b)}{(1 - b^m)^2} \times (-1) = \frac{(S_2 - S_1)(b - 1)}{(1 - b^m)^2}$$</div>
 
 <p>Finally, parameter $k$ is obtained from $S_1$:</p>
 
-<div class="math-display">$$k = rac{1}{m} \left[ S_1 - a \left( rac{1 - b^m}{1 - b}  ight)  ight]$$</div></div>
+<div class="math-display">$$k = \frac{1}{m} \left[ S_1 - a \left( \frac{1 - b^m}{1 - b}  \right)  \right]$$</div></div>
             </div>
           
             <div class="solution-step">
@@ -1306,29 +1306,29 @@
 
 <h4>1. Calculate $b$:</h4>
 
-<div class="math-display">$$b^3 = rac{S_3 - S_2}{S_2 - S_1} = rac{27.4}{52.6} pprox 0.5209125$$</div>
+<div class="math-display">$$b^3 = \frac{S_3 - S_2}{S_2 - S_1} = \frac{27.4}{52.6} \approx 0.5209125$$</div>
 
-<div class="math-display">$$b = (0.5209125)^{1/3} pprox 0.8046$$</div>
+<div class="math-display">$$b = (0.5209125)^{1/3} \approx 0.8046$$</div>
 
 <h4>2. Calculate $a$:</h4>
 
 <div class="math-display">$$b^3 - 1 = 0.5209125 - 1 = -0.4790875$$</div>
 
-<div class="math-display">$$(b^3 - 1)^2 = (-0.4790875)^2 pprox 0.229525$$</div>
+<div class="math-display">$$(b^3 - 1)^2 = (-0.4790875)^2 \approx 0.229525$$</div>
 
 <div class="math-display">$$b - 1 = 0.8046 - 1 = -0.1954$$</div>
 
-<div class="math-display">$$a = rac{(52.6) 	imes (-0.1954)}{0.229525} = rac{-10.27804}{0.229525} pprox -44.78$$</div>
+<div class="math-display">$$a = \frac{(52.6) \times (-0.1954)}{0.229525} = \frac{-10.27804}{0.229525} \approx -44.78$$</div>
 
 <h4>3. Calculate $k$:</h4>
 
-<div class="math-display">$$rac{1 - b^3}{1 - b} = rac{1 - 0.5209125}{1 - 0.8046} = rac{0.4790875}{0.1954} pprox 2.4518$$</div>
+<div class="math-display">$$\frac{1 - b^3}{1 - b} = \frac{1 - 0.5209125}{1 - 0.8046} = \frac{0.4790875}{0.1954} \approx 2.4518$$</div>
 
-<div class="math-display">$$a \left( rac{1 - b^3}{1 - b}  ight) = -44.78 	imes 2.4518 pprox -109.79$$</div>
+<div class="math-display">$$a \left( \frac{1 - b^3}{1 - b}  \right) = -44.78 \times 2.4518 \approx -109.79$$</div>
 
-<div class="math-display">$$S_1 - a \left( rac{1 - b^3}{1 - b}  ight) = 66.8 - (-109.79) = 66.8 + 109.79 = 176.59$$</div>
+<div class="math-display">$$S_1 - a \left( \frac{1 - b^3}{1 - b}  \right) = 66.8 - (-109.79) = 66.8 + 109.79 = 176.59$$</div>
 
-<div class="math-display">$$k = rac{176.59}{3} pprox 58.86$$</div>
+<div class="math-display">$$k = \frac{176.59}{3} \approx 58.86$$</div>
 
 <p>The fitted modified exponential equation is:</p>
 
@@ -1336,7 +1336,7 @@
 
 <p>Verification at initial baseline ($t = 0$):</p>
 
-<div class="math-display">$$Y_0 = 58.86 - 44.78(1.0) = 14.08\% \quad (	ext{Observed } = 14.2\%)$$</div></div>
+<div class="math-display">$$Y_0 = 58.86 - 44.78(1.0) = 14.08\% \quad (\text{Observed } = 14.2\%)$$</div></div>
             </div>
           
             <div class="solution-step">
@@ -1348,7 +1348,7 @@
 
 </ul>
 
-<p>As $t 	o \infty$, $b^t 	o 0$, so the maximum broadband adoption ceiling in this rural market is <strong>$k = 58.86\%$</strong>. Approximately 41.1% of households are projected to remain unconnected due to geographical remoteness, affordability constraints, or demographic factors.</p>
+<p>As $t \to \infty$, $b^t \to 0$, so the maximum broadband adoption ceiling in this rural market is <strong>$k = 58.86\%$</strong>. Approximately 41.1% of households are projected to remain unconnected due to geographical remoteness, affordability constraints, or demographic factors.</p>
 
 <ul>
 
@@ -1356,7 +1356,7 @@
 
 </ul>
 
-<div class="math-display">$$b^9 = (b^3)^3 = (0.5209125)^3 pprox 0.14134$$</div>
+<div class="math-display">$$b^9 = (b^3)^3 = (0.5209125)^3 \approx 0.14134$$</div>
 
 <div class="math-display">$$Y_9 = 58.86 - 44.78(0.14134) = 58.86 - 6.33 = \mathbf{52.53\%}$$</div>
 
@@ -1366,7 +1366,7 @@
 
 </ul>
 
-<div class="math-display">$$b^{10} = b^9 	imes b = 0.14134 	imes 0.8046 pprox 0.11372$$</div>
+<div class="math-display">$$b^{10} = b^9 \times b = 0.14134 \times 0.8046 \approx 0.11372$$</div>
 
 <div class="math-display">$$Y_{10} = 58.86 - 44.78(0.11372) = 58.86 - 5.09 = \mathbf{53.77\%}$$</div>
 

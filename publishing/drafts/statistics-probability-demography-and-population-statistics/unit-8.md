@@ -170,7 +170,7 @@ Inspired by Isaac Newton's law of universal gravitation in classical physics, de
 
 Let i and j denote two distinct metropolitan regions or provinces. The gross migration flow M_ij from origin region i to destination region j is hypothesized to be directly proportional to the product of their population sizes, and inversely proportional to the physical or economic distance separating them:
 
-$$M_{ij} = G \cdot rac{P_i^{lpha} \cdot P_j^{eta}}{D_{ij}^{\gamma}}$$
+$$M_{ij} = G \cdot \frac{P_i^{\alpha} \cdot P_j^{\beta}}{D_{ij}^{\gamma}}$$
 
 where:
 - P_i is the population of the origin region (measuring the pool of potential migrants).
@@ -181,7 +181,7 @@ where:
 
 Taking the natural logarithm transforms the gravity model into a linear econometric equation:
 
-$$\ln M_{ij} = \ln G + lpha \ln P_i + eta \ln P_j - \gamma \ln D_{ij} + arepsilon_{ij}$$
+$$\ln M_{ij} = \ln G + \alpha \ln P_i + \beta \ln P_j - \gamma \ln D_{ij} + \varepsilon_{ij}$$
 
 Demographers estimate these elasticities via Poisson pseudo-maximum likelihood (PPML) regression. The parameter gamma represents the **distance friction coefficient**: in modern high-speed transportation networks and digital job search environments, gamma has declined from historical values of 2.0 down to 0.8 or 1.0, reflecting the diminishing barrier of physical distance.
 
@@ -216,7 +216,7 @@ In Andrei Rogers’ multiregional demographic accounts, life expectancy is gener
 
 By integrating the multiregional transition probability matrix across all ages, Rogers derived the **Multiregional Expectation of Life Matrix**:
 
-$$\mathbf{E} = egin{pmatrix} e_{AA} & e_{AB} \\ e_{BA} & e_{BB} \end{pmatrix}$$
+$$\mathbf{E} = \begin{pmatrix} e_{AA} & e_{AB} \\ e_{BA} & e_{BB} \end{pmatrix}$$
 
 where e_{AB} represents the expected person-years an individual born in Region A will spend residing in Region B over their lifetime.
 In highly mobile federal nations (such as the United States, Australia, or Canada), e_{AB} frequently accounts for thirty to forty percent of total life expectancy at birth! These spatial person-year decompositions are used by national health ministries and transportation departments to allocate inter-provincial infrastructure transfers and regional healthcare subsidies fairly.
@@ -313,7 +313,7 @@ In 1940, Samuel A. Stouffer formulated a mathematical law that refined the class
 
 Stouffer asserted that the number of migrants moving from origin city i to destination city j is not inversely proportional to the physical distance between them, but directly proportional to the number of economic opportunities (e.g., job vacancies, housing units) available at city j, and inversely proportional to the number of **intervening opportunities** encountered along the route between city i and city j:
 
-$$M_{ij} = k \cdot rac{\Delta Y_j}{X_{ij}}$$
+$$M_{ij} = k \cdot \frac{\Delta Y_j}{X_{ij}}$$
 
 where:
 - Delta Y_j is the volume of available opportunities at destination j.
@@ -408,13 +408,13 @@ The probability vector l(x) = (l_1(x), l_2(x), ..., l_K(x))^T represents the exp
 
 The system of continuous differential equations governing the multi-state life table is:
 
-$$rac{d \mathbf{l}(x)}{dx} = -oldsymbol{\mu}(x) \cdot \mathbf{l}(x)$$
+$$\frac{d \mathbf{l}(x)}{dx} = -\boldsymbol{\mu}(x) \cdot \mathbf{l}(x)$$
 
 where the transition rate matrix mu(x) contains the total force of exit on the diagonal and the negative transition forces -mu_ji(x) on the off-diagonals.
 Solving this matrix differential equation across age intervals yields the multi-state transition probability matrix:
 
-$$\mathbf{P}(x, x+n) = \exp\left( -\int_x^{x+n} oldsymbol{\mu}(t) \, dt 
-ight)$$
+$$\mathbf{P}(x, x+n) = \exp\left( -\int_x^{x+n} \boldsymbol{\mu}(t) \, dt 
+\right)$$
 
 Multi-state life tables allow demographers to compute profound actuarial metrics:
 - The expected duration of a marriage from wedding to divorce or widowhood.

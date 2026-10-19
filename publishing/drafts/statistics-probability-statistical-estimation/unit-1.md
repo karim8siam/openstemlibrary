@@ -623,7 +623,7 @@ Let $\mathbf{Y} = (Y_1, Y_2, \dots, Y_n)^T$ be an observable random vector follo
 
 $$\mathbf{Y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}$$
 
-where $\mathbf{X} \in \mathbb{R}^{n \times p}$ is a known design matrix of full column rank ($	ext{rank}(\mathbf{X}) = p < n$), $\boldsymbol{\beta} \in \mathbb{R}^p$ is an unknown parameter vector, and $\boldsymbol{\varepsilon}$ is a random error vector satisfying:
+where $\mathbf{X} \in \mathbb{R}^{n \times p}$ is a known design matrix of full column rank ($\text{rank}(\mathbf{X}) = p < n$), $\boldsymbol{\beta} \in \mathbb{R}^p$ is an unknown parameter vector, and $\boldsymbol{\varepsilon}$ is a random error vector satisfying:
 
 $$\mathbb{E}[\boldsymbol{\varepsilon}] = \mathbf{0}, \quad \text{Cov}(\boldsymbol{\varepsilon}) = \sigma^2 \mathbf{V}$$
 

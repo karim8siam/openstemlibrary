@@ -979,7 +979,7 @@ $$\text{MSE}(\bar{y}_A) \approx \rho_{R, Y}^2 \sigma_Y^2 \left( \frac{N - n_A}{n
 Meng deduced the **Effective Sample Size ($n_{eff}$)** of a non-probability sample compared to a simple random sample:
 $$n_{eff} \approx \frac{n_A}{1 + (N - 1) \rho_{R, Y}^2}$$
 
-If the target population is $N = 300,000,000$ (e.g. the United States) and the data defect correlation is merely $ho_{R, Y} = 0.005$ (a minuscule $0.5\%$ correlation), then:
+If the target population is $N = 300,000,000$ (e.g. the United States) and the data defect correlation is merely $\rho_{R, Y} = 0.005$ (a minuscule $0.5\%$ correlation), then:
 $$n_{eff} \approx \frac{n_A}{1 + 300,000,000 \times (0.005)^2} = \frac{n_A}{1 + 300,000,000 \times 0.000025} = \frac{n_A}{1 + 7,500} \approx \frac{n_A}{7,501}$$
 If the non-probability dataset has $n_A = 2,300,000$ respondents (as observed in COVID-19 vaccine uptake web surveys), its statistical accuracy is mathematically equivalent to an SRS of merely:
 $$n_{eff} = \frac{2,300,000}{7,501} \approx 306 \text{ individuals}$$

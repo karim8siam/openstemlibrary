@@ -591,7 +591,7 @@ With $l = [4.0, \; 12.0, \; 25.0]$:
 3. **Employment Multiplier for Services ($e_3$)**:
    $$e_3 = (4.0 \times 0.15) + (12.0 \times 0.20) + (25.0 \times 1.25) = 0.60 + 2.40 + 31.25 = \mathbf{34.25} \text{ jobs per \$1M}$$
 
-### Solution, step 3: Evaluation of the $\$50	ext{M}$ Stimulus Allocation
+### Solution, step 3: Evaluation of the $\$50\text{M}$ Stimulus Allocation
 We multiply the total employment multipliers by the $\$50\text{M}$ shock:
 - **Heavy Industry Stimulus**:
   $$\text{Total Jobs Created} = 50 \times 27.15 = \mathbf{1{,}357.5} \text{ jobs}$$
@@ -624,7 +624,7 @@ The transaction matrix (in billions of dollars) with two missing values, $X$ and
 
 1. Formulate the fundamental row-and-column accounting identity governing all Social Accounting Matrices.
 2. Solve for the missing household/institution consumption expenditure $X$ and foreign transfer $Y$.
-3. Compute the Gross Domestic Product ($	ext{GDP}$) of this economy from the SAM entries using the Value-Added Approach and confirm it against the Final Expenditure Approach.
+3. Compute the Gross Domestic Product ($\text{GDP}$) of this economy from the SAM entries using the Value-Added Approach and confirm it against the Final Expenditure Approach.
 
 ### Solution, step 1: The SAM Balancing Identity
 A Social Accounting Matrix is a closed double-entry system. For every account $k$:

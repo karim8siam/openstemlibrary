@@ -165,18 +165,18 @@ $$H = \frac{Q}{N}$$
 
 **Limitation**: The Headcount Ratio captures only the incidence of poverty. It is completely insensitive to the depth of poverty: if a catastrophic shock halves the income of already destitute individuals, $H$ remains unchanged. Furthermore, it violates the Pigou-Dalton transfer principle: a regressive cash transfer from a destitute person to a marginally poor person that pushes the latter above $z$ paradoxically causes $H$ to decrease.
 
-### 2. The Income Poverty Gap Ratio ($I$) and Poverty Gap Index ($	ext{PGI}$)
+### 2. The Income Poverty Gap Ratio ($I$) and Poverty Gap Index ($\text{PGI}$)
 To incorporate depth, the **Income Gap Ratio ($I$)** measures the average proportional shortfall of the poor from the poverty line:
 
 $$I = \frac{1}{Q} \sum_{i=1}^{Q} \left( \frac{z - y_i}{z} \right) = 1 - \frac{\bar{y}_p}{z}$$
 
 where $\bar{y}_p$ is the mean income of the poor.
 
-The **Poverty Gap Index ($	ext{PGI}$)**, also denoted as $P_1$, aggregates this shortfall across the entire national population:
+The **Poverty Gap Index ($\text{PGI}$)**, also denoted as $P_1$, aggregates this shortfall across the entire national population:
 
 $$\text{PGI} = \frac{1}{N} \sum_{i=1}^{Q} \left( \frac{z - y_i}{z} \right) = H \times I$$
 
-$	ext{PGI}$ measures the total financial resources per capita (expressed as a fraction of $z$) required to lift all poor individuals to the poverty line through perfectly targeted transfers.
+$\text{PGI}$ measures the total financial resources per capita (expressed as a fraction of $z$) required to lift all poor individuals to the poverty line through perfectly targeted transfers.
 
 ### 3. The Foster-Greer-Thorbecke (FGT) Metric Family
 In 1984, Erik Foster, Joel Greer, and Erik Thorbecke formulated the **FGT Family of Poverty Indices ($P_\alpha$)**:

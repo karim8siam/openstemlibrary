@@ -174,7 +174,7 @@ While the life table survival function p(x) measures an individual's probability
 #### Mathematical Derivation of Fisher's Reproductive Value
 Let a female population grow at constant intrinsic rate r with stable age distribution. Consider a cohort of females alive at exact age x. The expected future offspring that will be born to a female who has already attained age x, discounted back to age x at the continuous rate of population growth r, is defined as the **Reproductive Value** v(x):
 
-$$v(x) = rac{e^{r x}}{p(x)} \int_x^{\infty} e^{-r t} \, p(t) \, m(t) \, dt$$
+$$v(x) = \frac{e^{r x}}{p(x)} \int_x^{\infty} e^{-r t} \, p(t) \, m(t) \, dt$$
 
 where the ratio v(x) / v(0) is normalized so that the reproductive value of a newborn female infant at birth is unity: v(0) = 1.
 
@@ -216,7 +216,7 @@ Coale proved through comparative stable population matrices that a thirty percen
 How quickly does an actual human population converge to its stable age distribution?
 In 1968, Nathan Keyfitz demonstrated that the speed of convergence is governed by the damping ratio:
 
-$$d = rac{|\lambda_1|}{|\lambda_2|}$$
+$$d = \frac{|\lambda_1|}{|\lambda_2|}$$
 
 where lambda_1 is the dominant real eigenvalue and lambda_2 is the complex eigenvalue with the next largest modulus. In typical human populations, lambda_1 is between 1.00 and 1.25 (for five-year steps), while |lambda_2| is approximately 0.60 to 0.75. The damping ratio is therefore typically between 1.4 and 1.8.
 The transient cyclical components decay as (1 / d)^t. Because (1 / 1.5)^4 = (2/3)^4 ~ 0.20, after four generations (approximately one century), more than eighty percent of the initial age-structural distortion has evaporated. This quantitative decay rate guarantees that stable population approximations remain highly reliable even in populations that experienced significant historical mortality or fertility shocks.
@@ -346,9 +346,9 @@ In 1961, Ansley J. Coale and Alvaro Lopez established the foundational Weak Ergo
 #### The Hilbert Projective Metric Formulation
 Let R_+^n denote the positive cone of non-zero population age vectors with non-negative coordinates. For any two non-zero population vectors x, y in R_+^n, Hilbert's projective metric d_H(x, y) is defined as:
 
-$$d_H(\mathbf{x}, \mathbf{y}) = \ln\left( \max_{i, j} rac{x_i y_j}{x_j y_i} 
-ight) = \ln\left( rac{\max_i (x_i / y_i)}{\min_j (x_j / y_j)} 
-ight)$$
+$$d_H(\mathbf{x}, \mathbf{y}) = \ln\left( \max_{i, j} \frac{x_i y_j}{x_j y_i} 
+\right) = \ln\left( \frac{\max_i (x_i / y_i)}{\min_j (x_j / y_j)} 
+\right)$$
 
 Hilbert's metric satisfies the essential properties of a distance metric on projective space:
 1. Non-negativity: d_H(x, y) >= 0.
@@ -359,27 +359,27 @@ Hilbert's metric satisfies the essential properties of a distance metric on proj
 #### Birkhoff's Contraction Theorem
 Let L_t denote the time-varying Leslie projection matrix applied at time t. Garrett Birkhoff (1957) proved that if a non-negative matrix L maps the positive cone into its interior, it acts as a strict contraction mapping in the Hilbert projective metric:
 
-$$d_H(\mathbf{L} \mathbf{x}, \mathbf{L} \mathbf{y}) \le 	au(\mathbf{L}) \cdot d_H(\mathbf{x}, \mathbf{y})$$
+$$d_H(\mathbf{L} \mathbf{x}, \mathbf{L} \mathbf{y}) \le \tau(\mathbf{L}) \cdot d_H(\mathbf{x}, \mathbf{y})$$
 
 where tau(L) is the **Birkhoff Contraction Coefficient**, defined as:
 
-$$	au(\mathbf{L}) = rac{1 - \sqrt{\phi(\mathbf{L})}}{1 + \sqrt{\phi(\mathbf{L})}} < 1$$
+$$\tau(\mathbf{L}) = \frac{1 - \sqrt{\phi(\mathbf{L})}}{1 + \sqrt{\phi(\mathbf{L})}} < 1$$
 
 where phi(L) is the minimum cross-ratio of matrix elements:
 
-$$\phi(\mathbf{L}) = \min_{i, j, k, m} rac{L_{ik} L_{jm}}{L_{im} L_{jk}} > 0$$
+$$\phi(\mathbf{L}) = \min_{i, j, k, m} \frac{L_{ik} L_{jm}}{L_{im} L_{jk}} > 0$$
 
 Now consider advancing two arbitrary initial age structures x_0 and y_0 across a sequence of Leslie matrices L_1, L_2, ..., L_t:
 
 $$d_H(\mathbf{x}_t, \mathbf{y}_t) = d_H\left( \left(\prod_{s=1}^t \mathbf{L}_s
-ight) \mathbf{x}_0, \, \left(\prod_{s=1}^t \mathbf{L}_s
-ight) \mathbf{y}_0 
-ight) \le \left( \prod_{s=1}^t 	au(\mathbf{L}_s) 
-ight) d_H(\mathbf{x}_0, \mathbf{y}_0)$$
+\right) \mathbf{x}_0, \, \left(\prod_{s=1}^t \mathbf{L}_s
+\right) \mathbf{y}_0 
+\right) \le \left( \prod_{s=1}^t \tau(\mathbf{L}_s) 
+\right) d_H(\mathbf{x}_0, \mathbf{y}_0)$$
 
 Because human demographic schedules ensure that the product of Leslie matrices across five consecutive steps (25 years) becomes strictly positive (since all fertile cohorts contribute to the newborn row), the product of contraction coefficients decays exponentially to zero as time t tends to infinity:
 
-$$\lim_{t 	o \infty} \prod_{s=1}^t 	au(\mathbf{L}_s) = 0 \implies \lim_{t 	o \infty} d_H(\mathbf{x}_t, \mathbf{y}_t) = 0$$
+$$\lim_{t \to \infty} \prod_{s=1}^t \tau(\mathbf{L}_s) = 0 \implies \lim_{t \to \infty} d_H(\mathbf{x}_t, \mathbf{y}_t) = 0$$
 
 This rigorous topological proof demonstrates that **demographic memory is strictly contractive**: regardless of whether an initial population was skewed by wartime male casualties or a localized refugee surge, any two populations subjected to the same historical vital rate schedules converge to identical proportional age structures.
 
@@ -511,14 +511,14 @@ $$r_j = u_j \pm i \, v_j \quad (j = 2, 3, 4, \dots)$$
 
 Alfred J. Lotka proved that:
 1. The unique real root r_1 is strictly greater than the real part of all complex roots:
-   $$r_1 > u_j \quad orall j \ge 2$$
+   $$r_1 > u_j \quad \forall j \ge 2$$
 2. The general time-dependent birth trajectory B(t) is expressed as a Fourier-type spectral summation across all roots:
-   $$B(t) = Q_1 \, e^{r_1 t} + \sum_{j=2}^{\infty} Q_j \, e^{u_j t} \cos(v_j t + 	heta_j)$$
+   $$B(t) = Q_1 \, e^{r_1 t} + \sum_{j=2}^{\infty} Q_j \, e^{u_j t} \cos(v_j t + \theta_j)$$
 
 #### Transient Demographic Cycles and Generation Echoes
 The imaginary part v_j represents an angular frequency of demographic oscillation. The primary complex conjugate pair (j = 2) has an imaginary part approximately equal to:
 
-$$v_2 pprox rac{2 \pi}{T}$$
+$$v_2 \approx \frac{2 \pi}{T}$$
 
 where T is the mean length of generation (approximately 28 to 30 years).
 The corresponding real part u_2 is strictly negative relative to r_1: u_2 - r_1 < 0.

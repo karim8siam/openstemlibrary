@@ -362,7 +362,7 @@ function startApp() {
     if (!text) return "";
     
     // If already pre-structured semantic HTML with tags, return directly
-    if (text.includes("<h4") || text.includes("<p>") || text.includes("<ul") || text.includes("<ol") || text.includes("<div")) {
+    if (text.includes("<h4") || text.includes("<p>") || text.includes("<ul") || text.includes("<ol") || text.includes("<div") || text.includes("<table")) {
       return text;
     }
 
@@ -403,7 +403,7 @@ function startApp() {
     function applyInlineMarkdown(str) {
       if (!str) return "";
       const mathTokens = [];
-      let protectedStr = str.replace(/(\$\$[\s\S]*?\$\$|\\\[[\s\S]*?\\\]|\\\([\s\S]*?\\\)|\$[^$\n]+?\$)/g, (m) => {
+      let protectedStr = str.replace(/(\$\$[\s\S]*?\$\$|\\\[[\s\S]*?\\\]|\\\([\s\S]*?\\\)|\$(?:\\\$|[^\$\n])+?(?<!\\)\$)/g, (m) => {
         const id = `@@MATH_TOKEN_${mathTokens.length}@@`;
         mathTokens.push(escapeMathHtml(normalizeMath(m)));
         return id;
@@ -467,6 +467,45 @@ function startApp() {
           i++;
         }
         output.push("<pre class=\"diagram-code-block\" style=\"background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;\"><code>" + codeLines.join("\n") + "</code></pre>");
+        continue;
+      }
+
+      // Markdown Tables (| Col 1 | Col 2 |)
+      if (s.startsWith("|") && s.endsWith("|") && i + 1 < lines.length && lines[i + 1].trim().startsWith("|") && /^\|(?:\s*:?-+:?\s*\|)+$/.test(lines[i + 1].trim())) {
+        flushPara();
+        closeLists();
+        const headerRow = s.split("|").slice(1, -1).map(c => c.trim());
+        const sepLine = lines[i + 1].trim();
+        const aligns = sepLine.split("|").slice(1, -1).map(c => {
+          c = c.trim();
+          if (c.startsWith(":") && c.endsWith(":")) return "center";
+          if (c.endsWith(":")) return "right";
+          if (c.startsWith(":")) return "left";
+          return "";
+        });
+        i += 2;
+        const rows = [];
+        while (i < lines.length && lines[i].trim().startsWith("|") && lines[i].trim().endsWith("|")) {
+          const cells = lines[i].trim().split("|").slice(1, -1).map(c => c.trim());
+          rows.push(cells);
+          i++;
+        }
+        let tblHtml = '<div class="stat-table-scroll"><table class="stat-table"><thead><tr>';
+        headerRow.forEach((h, colIdx) => {
+          const align = aligns[colIdx] ? ` style="text-align: ${aligns[colIdx]};"` : "";
+          tblHtml += `<th${align}>${applyInlineMarkdown(h)}</th>`;
+        });
+        tblHtml += '</tr></thead><tbody>';
+        rows.forEach(r => {
+          tblHtml += '<tr>';
+          r.forEach((cell, colIdx) => {
+            const align = aligns[colIdx] ? ` style="text-align: ${aligns[colIdx]};"` : "";
+            tblHtml += `<td${align}>${applyInlineMarkdown(cell)}</td>`;
+          });
+          tblHtml += '</tr>';
+        });
+        tblHtml += '</tbody></table></div>';
+        output.push(tblHtml);
         continue;
       }
 

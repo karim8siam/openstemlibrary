@@ -193,7 +193,7 @@ $$P(t) = \frac{K}{1 + \beta \, e^{-r t}}$$
    - As $t \to -\infty$: $P(t) \to 0$.
    - As $t \to +\infty$: $P(t) \to K$.
 2. **Point of Inflection ($P^*$)**:
-   The point of maximum absolute growth rate ($rac{d^2 P}{dt^2} = 0$) is found by differentiating $\frac{dP}{dt} = \frac{r}{K} (K P - P^2)$:
+   The point of maximum absolute growth rate ($\frac{d^2 P}{dt^2} = 0$) is found by differentiating $\frac{dP}{dt} = \frac{r}{K} (K P - P^2)$:
    $$\frac{d^2 P}{dt^2} = \frac{r}{K} (K - 2P) \frac{dP}{dt} = 0$$
    Since $\frac{dP}{dt} > 0$, the inflection point occurs strictly when:
    $$K - 2P = 0 \implies P^* = \frac{K}{2}$$
@@ -267,7 +267,7 @@ Boserup traced the historical evolution of farming systems through five successi
 
 In mathematical modeling, Boserup's insight transforms the carrying capacity K from a fixed, immutable ceiling into a dynamic, endogenous state variable that expands in response to population pressure:
 
-$$rac{dK}{dt} = \gamma \cdot rac{dP}{dt}$$
+$$\frac{dK}{dt} = \gamma \cdot \frac{dP}{dt}$$
 
 When human intellectual capital and technological innovation expand faster than population numbers (as occurred during the Industrial Revolution and the mid-twentieth-century Green Revolution developed by Norman Borlaug), output per person increases continuously alongside expanding populations, permanently breaking the Malthusian trap.
 
@@ -279,7 +279,7 @@ In the first stage, traditional hunter-gatherer foraging limits population to an
 
 To quantify the total growth achieved during a demographic transition, demographers compute the **Demographic Multiplier (M_D)**:
 
-$$M_D = rac{P_{	ext{post-transition}}}{P_{	ext{pre-transition}}}$$
+$$M_D = \frac{P_{\text{post-transition}}}{P_{\text{pre-transition}}}$$
 
 In Western European nations (such as the United Kingdom, France, and Sweden), the demographic multiplier of the eighteenth- and nineteenth-century transition was approximately 3.0 to 4.5: populations expanded by three- to four-fold between the onset of mortality decline and the final stabilization of fertility. However, in twentieth-century developing nations (such as Egypt, Mexico, Bangladesh, and the Philippines), where modern antibiotics, DDT malaria eradication, and clean water infrastructure were imported rapidly while fertility remained elevated for decades, the demographic multiplier reached 7.0 to 10.0! Understanding the magnitude of the demographic multiplier is essential for designing sustainable urban housing, national electrical grids, and water sanitation systems.
 
@@ -297,7 +297,7 @@ As the intrinsic growth parameter R is systematically varied, the dynamical beha
 2. **Monotonic Stable Equilibrium (1 < R <= 3)**: The population converges smoothly to a unique, stable non-zero carrying capacity point x^* = (R - 1) / R. For 2 < R <= 3, convergence exhibits damped oscillatory behavior.
 3. **Period-Doubling Bifurcation (3 < R <= 3.449)**: The single stable fixed point becomes unstable and splits into a stable two-point cycle: the population alternates perpetually between high density and low density every two generations!
 4. **Cascade of Period Doublings (3.449 < R < 3.57)**: As R increases, the system bifurcates into a 4-cycle, then an 8-cycle, 16-cycle, and 2^k-cycle in rapid succession. The spacing between successive bifurcation thresholds converges to Mitchell Feigenbaum's universal mathematical constant:
-   $$\delta = \lim_{k 	o \infty} rac{R_k - R_{k-1}}{R_{k+1} - R_k} pprox 4.6692016$$
+   $$\delta = \lim_{k \to \infty} \frac{R_k - R_{k-1}}{R_{k+1} - R_k} \approx 4.6692016$$
 5. **Deterministic Chaos (R >= 3.57)**: Beyond the Feigenbaum point R_\infty ~ 3.5699456, periodic predictability breaks down completely! The population trajectory wanders ergodically across the interval, exhibiting extreme sensitivity to initial conditions (the butterfly effect). Two populations starting with imperceptible differences (e.g., 0.500000 versus 0.500001) diverge exponentially over time, rendering long-term demographic forecasting impossible even in a purely deterministic universe without random noise.
 
 May's revelation transformed ecological demography, demonstrating that irregular, volatile population crashes do not necessarily require external catastrophes (such as droughts or plagues); they can emerge purely from the endogenous non-linear feedback of reproduction itself.
@@ -416,8 +416,8 @@ While the classical Pearl–Reed three-point method provides an exact algebraic 
 #### Objective Function Formulation
 The residual sum of squares (RSS) to be minimized across all m census observations is:
 
-$$S(K, eta, r) = \sum_{i=1}^m \left[ P_i - rac{K}{1 + eta \, e^{-r t_i}} 
-ight]^2$$
+$$S(K, \beta, r) = \sum_{i=1}^m \left[ P_i - \frac{K}{1 + \beta \, e^{-r t_i}} 
+\right]^2$$
 
 Because the logistic parameters appear non-linearly inside the denominator and exponent, the first-order partial derivative equations (the normal equations) cannot be solved analytically. Demographers deploy the iterative **Gauss–Newton Algorithm** (or Levenberg–Marquardt dampening):
 
@@ -426,15 +426,15 @@ Because the logistic parameters appear non-linearly inside the denominator and e
 2. **Jacobian Gradient Matrix (J)**:
    The elements of the m x 3 Jacobian matrix J are the partial derivatives of the model function with respect to the parameters evaluated at census year t_i:
    - Partial with respect to K:
-     $$rac{\partial f}{\partial K} = rac{1}{1 + eta e^{-r t_i}}$$
+     $$\frac{\partial f}{\partial K} = \frac{1}{1 + \beta e^{-r t_i}}$$
    - Partial with respect to beta:
-     $$rac{\partial f}{\partial eta} = -rac{K e^{-r t_i}}{(1 + eta e^{-r t_i})^2}$$
+     $$\frac{\partial f}{\partial \beta} = -\frac{K e^{-r t_i}}{(1 + \beta e^{-r t_i})^2}$$
    - Partial with respect to r:
-     $$rac{\partial f}{\partial r} = rac{K eta t_i e^{-r t_i}}{(1 + eta e^{-r t_i})^2}$$
+     $$\frac{\partial f}{\partial r} = \frac{K \beta t_i e^{-r t_i}}{(1 + \beta e^{-r t_i})^2}$$
 3. **Iterative Parameter Updating**:
    At each iteration step k, the parameter update vector delta_theta is obtained by solving the linear normal system:
-   $$\mathbf{J}^T \mathbf{J} \, \Delta oldsymbol{	heta} = \mathbf{J}^T \mathbf{r}(oldsymbol{	heta}^{(k)})$$
-   $$oldsymbol{	heta}^{(k+1)} = oldsymbol{	heta}^{(k)} + \Delta oldsymbol{	heta}$$
+   $$\mathbf{J}^T \mathbf{J} \, \Delta \boldsymbol{\theta} = \mathbf{J}^T \mathbf{r}(\boldsymbol{\theta}^{(k)})$$
+   $$\boldsymbol{\theta}^{(k+1)} = \boldsymbol{\theta}^{(k)} + \Delta \boldsymbol{\theta}$$
 
 Iterating until convergence (when ||delta_theta|| < 10^{-6}) yields the unique maximum likelihood parameter estimates under Gaussian measurement errors. Furthermore, the inverse Fisher information matrix (J^T J)^{-1} provides the asymptotic covariance matrix of the estimated carrying capacity K and growth rate r, allowing demographers to compute formal statistical standard errors for long-term population asymptotes.
 
@@ -523,8 +523,8 @@ While deterministic differential equations like the Verhulst–Pearl logistic mo
 #### The Stochastic Logistic Model (Itô Calculus Formulation)
 To incorporate continuous environmental randomness, mathematical demographers formulate the stochastic logistic differential equation driven by a standard Brownian motion (Wiener process) W(t):
 
-$$dP(t) = r P(t) \left( 1 - rac{P(t)}{K} 
-ight) dt + \sigma P(t) \, dW(t)$$
+$$dP(t) = r P(t) \left( 1 - \frac{P(t)}{K} 
+\right) dt + \sigma P(t) \, dW(t)$$
 
 where:
 - sigma > 0 represents the environmental volatility parameter.
@@ -537,9 +537,9 @@ In 1931, the ecologist Warder Clyde Allee discovered that the assumption of mono
 
 To model demographic depensation, the logistic equation is modified by introducing a critical minimum density threshold A > 0 (where 0 < A < K):
 
-$$rac{dP}{dt} = r P \left( rac{P}{A} - 1 
-ight) \left( 1 - rac{P}{K} 
-ight)$$
+$$\frac{dP}{dt} = r P \left( \frac{P}{A} - 1 
+\right) \left( 1 - \frac{P}{K} 
+\right)$$
 
 The dynamical behavior of this non-linear cubic system reveals profound topological bifurcation:
 1. **If P > A**: The term (P/A - 1) is positive, and the population grows toward the carrying capacity K.
@@ -572,7 +572,7 @@ $$\frac{dP}{dt} = 0.05 \, P \left( 1 - \frac{P}{2{,}000{,}000} \right)$$
 
 where $P(t)$ is population size and $t$ is measured in years. The metropolis currently has an enumerated population of $P(0) = 500{,}000$ inhabitants.
 
-1. Identify the intrinsic growth rate $r$ and carrying capacity $K$. Calculate the current instantaneous rate of population growth in persons per year ($rac{dP}{dt}$ at $P = 500{,}000$).
+1. Identify the intrinsic growth rate $r$ and carrying capacity $K$. Calculate the current instantaneous rate of population growth in persons per year ($\frac{dP}{dt}$ at $P = 500{,}000$).
 2. Determine the population size and calendar time at which the metropolis will experience its absolute peak growth velocity. Compute this maximum growth velocity.
 3. Solve for the exact time $T_{90}$ required for the metropolitan population to reach $90\%$ of its carrying capacity ($P = 1{,}800{,}000$).
 

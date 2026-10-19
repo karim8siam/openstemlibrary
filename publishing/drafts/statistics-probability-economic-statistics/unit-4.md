@@ -10,7 +10,7 @@ Seasonality stems from two primary drivers:
 - **Natural and Climatic Factors**: Agricultural sowing and harvesting calendars, winter heating demand, summer cooling surges, and weather constraints on maritime shipping and civil construction.
 - **Institutional and Social Conventions**: Calendar milestones such as tax filing deadlines, school calendar reopenings, holiday shopping surges (Black Friday, Christmas), and religious festivals (Eid-ul-Fitr, Diwali).
 
-To quantify seasonal effects, statisticians construct **Seasonal Indices**. In the multiplicative model ($Y_t = T_t 	imes S_t 	imes C_t 	imes I_t$), a seasonal index is expressed as a percentage centered on 100%. An index of 115% for the fourth quarter indicates that seasonal factors elevate fourth-quarter activity by 15% above the annual baseline, while an index of 82% for the first quarter reflects an 18% seasonal contraction.
+To quantify seasonal effects, statisticians construct **Seasonal Indices**. In the multiplicative model ($Y_t = T_t \times S_t \times C_t \times I_t$), a seasonal index is expressed as a percentage centered on 100%. An index of 115% for the fourth quarter indicates that seasonal factors elevate fourth-quarter activity by 15% above the annual baseline, while an index of 82% for the first quarter reflects an 18% seasonal contraction.
 
 ---
 
@@ -19,18 +19,18 @@ To quantify seasonal effects, statisticians construct **Seasonal Indices**. In t
 Over the past century, several statistical methodologies have been developed to isolate seasonal factors from time series.
 
 ### 1. The Method of Simple Averages
-The method of simple averages is the most rudimentary procedure for estimating seasonal indices. It assumes that the time series contains no secular trend ($T_t = 	ext{constant}$) or that the trend has already been removed.
+The method of simple averages is the most rudimentary procedure for estimating seasonal indices. It assumes that the time series contains no secular trend ($T_t = \text{constant}$) or that the trend has already been removed.
 
 The algorithm proceeds as follows:
 1. Arrange the data in a two-dimensional grid of $Y_{y,s}$, where rows denote years ($y = 1, \dots, K$) and columns denote seasons ($s = 1, \dots, m$, where $m=4$ for quarters, $m=12$ for months).
 2. Compute the unweighted arithmetic mean for each seasonal column across all $K$ years:
-   $$ar{Y}_s = rac{1}{K} \sum_{y=1}^{K} Y_{y,s}$$
+   $$\bar{Y}_s = \frac{1}{K} \sum_{y=1}^{K} Y_{y,s}$$
 3. Compute the grand mean across all seasons:
-   $$ar{Y} = rac{1}{m} \sum_{s=1}^{m} ar{Y}_s$$
+   $$\bar{Y} = \frac{1}{m} \sum_{s=1}^{m} \bar{Y}_s$$
 4. Compute the unadjusted seasonal index for season $s$:
-   $$	ilde{S}_s = rac{ar{Y}_s}{ar{Y}} 	imes 100$$
-5. Because $\sum_{s=1}^{m} 	ilde{S}_s$ must equal $100m$, apply a normalization factor $k = rac{100m}{\sum 	ilde{S}_s}$ to obtain normalized seasonal indices:
-   $$S_s = k 	imes 	ilde{S}_s$$
+   $$\tilde{S}_s = \frac{\bar{Y}_s}{\bar{Y}} \times 100$$
+5. Because $\sum_{s=1}^{m} \tilde{S}_s$ must equal $100m$, apply a normalization factor $k = \frac{100m}{\sum \tilde{S}_s}$ to obtain normalized seasonal indices:
+   $$S_s = k \times \tilde{S}_s$$
 
 **Theoretical Flaw**: If the time series possesses an upward secular trend, later seasons within each year will consistently register higher values solely due to trend growth rather than genuine seasonal demand. Consequently, the simple averages method produces upwardly biased indices for late calendar seasons.
 
@@ -40,7 +40,7 @@ The ratio-to-trend method explicitly corrects for secular trend by fitting a par
 1. Fit an OLS trend equation $T_t = a + b t$ to the raw series.
 2. Compute the estimated trend value $T_t$ for every observation period.
 3. In a multiplicative model, divide the observed value by its trend value:
-   $$R_t = rac{Y_t}{T_t} = rac{T_t 	imes S_t 	imes C_t 	imes I_t}{T_t} = S_t 	imes C_t 	imes I_t$$
+   $$R_t = \frac{Y_t}{T_t} = \frac{T_t \times S_t \times C_t \times I_t}{T_t} = S_t \times C_t \times I_t$$
    The resulting ratio $R_t$ isolates the combined seasonal, cyclical, and irregular component.
 4. Group the ratios by season across years and compute the median or trimmed mean for each season, effectively neutralizing cyclical and random outliers.
 5. Normalize the seasonal indices to sum to $100m$.
@@ -50,11 +50,11 @@ While superior to simple averages, the ratio-to-trend method depends heavily on 
 ### 3. The Ratio-to-Moving Average Method (The Benchmark Approach)
 The **Ratio-to-Moving Average** method (formalized by the National Bureau of Economic Research and serving as the mathematical bedrock for the U.S. Census Bureau's X-11, X-12-ARIMA, and X-13ARIMA-SEATS procedures) is the most robust, non-parametric decomposition technique.
 
-Instead of imposing a parametric trend curve, it utilizes a Centered Moving Average ($	ext{CMA}_t$) to filter out both seasonal and high-frequency irregular variations simultaneously, leaving a clean estimate of the combined trend-cycle component:
-$$	ext{CMA}_t pprox T_t 	imes C_t$$
+Instead of imposing a parametric trend curve, it utilizes a Centered Moving Average ($\text{CMA}_t$) to filter out both seasonal and high-frequency irregular variations simultaneously, leaving a clean estimate of the combined trend-cycle component:
+$$\text{CMA}_t \approx T_t \times C_t$$
 
 The ratio of observed data to the centered moving average yields:
-$$z_t = rac{Y_t}{	ext{CMA}_t} = rac{T_t 	imes S_t 	imes C_t 	imes I_t}{T_t 	imes C_t} = S_t 	imes I_t$$
+$$z_t = \frac{Y_t}{\text{CMA}_t} = \frac{T_t \times S_t \times C_t \times I_t}{T_t \times C_t} = S_t \times I_t$$
 
 The ratio $z_t$ isolates the pure seasonal and irregular fluctuations. By averaging these ratios across multiple years for each specific season using a modified mean or median, random shocks ($I_t$) cancel out, isolating the pure seasonal index $S_s$.
 
@@ -65,21 +65,21 @@ The ratio $z_t$ isolates the pure seasonal and irregular fluctuations. By averag
 Developed by Karl Pearson, the **Link Relative Method** measures period-to-period relative changes without requiring explicit trend fitting or moving average centering.
 
 1. **Calculate Link Relatives**: For each observation, calculate the percentage ratio relative to the immediately preceding period:
-   $$	ext{LR}_t = rac{Y_t}{Y_{t-1}} 	imes 100$$
-2. **Seasonal Link Relative Averages**: For each season $s$, compute the arithmetic mean or median of the link relatives across all available years: $\overline{	ext{LR}}_s$.
-3. **Chaining to Base Period**: Choose Season 1 as the arbitrary base ($	ext{CR}_1 = 100$). Convert the seasonal link relatives into **Chain Relatives** ($	ext{CR}_s$) relative to Season 1:
-   $$	ext{CR}_2 = rac{\overline{	ext{LR}}_2 	imes 	ext{CR}_1}{100} = \overline{	ext{LR}}_2$$
-   $$	ext{CR}_3 = rac{\overline{	ext{LR}}_3 	imes 	ext{CR}_2}{100}$$
-   $$	ext{CR}_m = rac{\overline{	ext{LR}}_m 	imes 	ext{CR}_{m-1}}{100}$$
+   $$\text{LR}_t = \frac{Y_t}{Y_{t-1}} \times 100$$
+2. **Seasonal Link Relative Averages**: For each season $s$, compute the arithmetic mean or median of the link relatives across all available years: $\overline{\text{LR}}_s$.
+3. **Chaining to Base Period**: Choose Season 1 as the arbitrary base ($\text{CR}_1 = 100$). Convert the seasonal link relatives into **Chain Relatives** ($\text{CR}_s$) relative to Season 1:
+   $$\text{CR}_2 = \frac{\overline{\text{LR}}_2 \times \text{CR}_1}{100} = \overline{\text{LR}}_2$$
+   $$\text{CR}_3 = \frac{\overline{\text{LR}}_3 \times \text{CR}_2}{100}$$
+   $$\text{CR}_m = \frac{\overline{\text{LR}}_m \times \text{CR}_{m-1}}{100}$$
 4. **Closing the Loop and Estimating Trend Discrepancy**: Chaining the link relative of Season 1 back from Season $m$ yields a new estimate for Season 1:
-   $$	ext{CR}_1' = rac{\overline{	ext{LR}}_1 	imes 	ext{CR}_m}{100}$$
-   If the series has no secular trend, $	ext{CR}_1'$ equals 100. If an upward trend exists, $	ext{CR}_1' > 100$. The excess difference $\Delta = 	ext{CR}_1' - 100$ reflects cumulative secular growth over the course of the year.
+   $$\text{CR}_1' = \frac{\overline{\text{LR}}_1 \times \text{CR}_m}{100}$$
+   If the series has no secular trend, $\text{CR}_1'$ equals 100. If an upward trend exists, $\text{CR}_1' > 100$. The excess difference $\Delta = \text{CR}_1' - 100$ reflects cumulative secular growth over the course of the year.
 5. **Trend Correction**: Distribute the cumulative discrepancy evenly across the seasons. The linear trend adjustment factor is:
-   $$d = rac{	ext{CR}_1' - 100}{m}$$
-   The trend-corrected chain relatives ($	ext{CCR}_s$) are:
-   $$	ext{CCR}_s = 	ext{CR}_s - (s - 1) d, \quad s = 1, 2, \dots, m$$
-6. **Normalization**: Normalize $	ext{CCR}_s$ so that the average seasonal index across all $m$ seasons is exactly 100%:
-   $$S_s = rac{	ext{CCR}_s}{rac{1}{m} \sum_{j=1}^{m} 	ext{CCR}_j} 	imes 100$$
+   $$d = \frac{\text{CR}_1' - 100}{m}$$
+   The trend-corrected chain relatives ($\text{CCR}_s$) are:
+   $$\text{CCR}_s = \text{CR}_s - (s - 1) d, \quad s = 1, 2, \dots, m$$
+6. **Normalization**: Normalize $\text{CCR}_s$ so that the average seasonal index across all $m$ seasons is exactly 100%:
+   $$S_s = \frac{\text{CCR}_s}{\frac{1}{m} \sum_{j=1}^{m} \text{CCR}_j} \times 100$$
 
 ---
 
@@ -88,13 +88,13 @@ Developed by Karl Pearson, the **Link Relative Method** measures period-to-perio
 Once secular trend ($T_t$) and seasonal indices ($S_t$) have been estimated, cyclical oscillations ($C_t$) can be isolated via the **Residual Method**.
 
 In the multiplicative model:
-$$	ext{Deseasonalized Series } D_t = rac{Y_t}{S_t} = T_t 	imes C_t 	imes I_t$$
+$$\text{Deseasonalized Series } D_t = \frac{Y_t}{S_t} = T_t \times C_t \times I_t$$
 Dividing the deseasonalized series by the secular trend $T_t$ yields the cyclical-irregular residual:
-$$rac{D_t}{T_t} = rac{Y_t}{T_t 	imes S_t} = C_t 	imes I_t$$
+$$\frac{D_t}{T_t} = \frac{Y_t}{T_t \times S_t} = C_t \times I_t$$
 
 Expressed as a percentage:
-$$	ext{Cyclical Residual } \% = \left( rac{Y_t}{T_t 	imes S_t} 
-ight) 	imes 100$$
+$$\text{Cyclical Residual } \% = \left( \frac{Y_t}{T_t \times S_t} 
+\right) \times 100$$
 
 To purge high-frequency irregular noise ($I_t$) from the cyclical-irregular residual, economists apply a short weighted moving average filter (such as a 3-month or 5-quarter Spencer/Henderson smoothing filter), isolating the underlying business cycle trajectory $C_t$.
 
@@ -379,80 +379,80 @@ An agricultural distribution board tracks quarterly grain shipments (in thousand
 | **2023** | 86.0 | 138.0 | 108.0 | 70.0 |
 | **2024** | 92.0 | 148.0 | 116.0 | 76.0 |
 
-1. Compute 4-quarter centered moving averages ($	ext{CMA}_t$) for all eligible quarters.
-2. Calculate the seasonal-irregular percentage ratios $z_t = (Y_t / 	ext{CMA}_t) 	imes 100$.
+1. Compute 4-quarter centered moving averages ($\text{CMA}_t$) for all eligible quarters.
+2. Calculate the seasonal-irregular percentage ratios $z_t = (Y_t / \text{CMA}_t) \times 100$.
 3. Compute the unadjusted seasonal index for each quarter using the arithmetic mean of the available quarterly ratios, apply the normalization factor, and report the final seasonal indices.
 4. Deseasonalize the raw shipment data for all four quarters of 2024, and evaluate the underlying economic trend between Q2 and Q3 of 2024.
 
 ### Solution, step 1: Computation of Centered Moving Averages
-We arrange the 16 observations sequentially ($t = 1, \dots, 16$) and compute 4-quarter moving totals ($	ext{MT}_4$), uncentered moving averages ($M$), and centered moving averages ($	ext{CMA}$):
+We arrange the 16 observations sequentially ($t = 1, \dots, 16$) and compute 4-quarter moving totals ($\text{MT}_4$), uncentered moving averages ($M$), and centered moving averages ($\text{CMA}$):
 
 - **2021**:
   - Q1 ($t=1$): $72.0$
   - Q2 ($t=2$): $118.0$
   - Q3 ($t=3$): $90.0$.
-    - $	ext{MT}_{1-4} = 72 + 118 + 90 + 58 = 338.0 \implies M_{2.5} = 84.50$
-    - $	ext{MT}_{2-5} = 118 + 90 + 58 + 78 = 344.0 \implies M_{3.5} = 86.00$
-    - $	ext{CMA}_3 = rac{84.50 + 86.00}{2} = 85.25$
+    - $\text{MT}_{1-4} = 72 + 118 + 90 + 58 = 338.0 \implies M_{2.5} = 84.50$
+    - $\text{MT}_{2-5} = 118 + 90 + 58 + 78 = 344.0 \implies M_{3.5} = 86.00$
+    - $\text{CMA}_3 = \frac{84.50 + 86.00}{2} = 85.25$
   - Q4 ($t=4$): $58.0$.
-    - $	ext{MT}_{3-6} = 90 + 58 + 78 + 126 = 352.0 \implies M_{4.5} = 88.00$
-    - $	ext{CMA}_4 = rac{86.00 + 88.00}{2} = 87.00$
+    - $\text{MT}_{3-6} = 90 + 58 + 78 + 126 = 352.0 \implies M_{4.5} = 88.00$
+    - $\text{CMA}_4 = \frac{86.00 + 88.00}{2} = 87.00$
 
 - **2022**:
   - Q1 ($t=5$): $78.0$.
-    - $	ext{MT}_{4-7} = 58 + 78 + 126 + 98 = 360.0 \implies M_{5.5} = 90.00$
-    - $	ext{CMA}_5 = rac{88.00 + 90.00}{2} = 89.00$
+    - $\text{MT}_{4-7} = 58 + 78 + 126 + 98 = 360.0 \implies M_{5.5} = 90.00$
+    - $\text{CMA}_5 = \frac{88.00 + 90.00}{2} = 89.00$
   - Q2 ($t=6$): $126.0$.
-    - $	ext{MT}_{5-8} = 78 + 126 + 98 + 64 = 366.0 \implies M_{6.5} = 91.50$
-    - $	ext{CMA}_6 = rac{90.00 + 91.50}{2} = 90.75$
+    - $\text{MT}_{5-8} = 78 + 126 + 98 + 64 = 366.0 \implies M_{6.5} = 91.50$
+    - $\text{CMA}_6 = \frac{90.00 + 91.50}{2} = 90.75$
   - Q3 ($t=7$): $98.0$.
-    - $	ext{MT}_{6-9} = 126 + 98 + 64 + 86 = 374.0 \implies M_{7.5} = 93.50$
-    - $	ext{CMA}_7 = rac{91.50 + 93.50}{2} = 92.50$
+    - $\text{MT}_{6-9} = 126 + 98 + 64 + 86 = 374.0 \implies M_{7.5} = 93.50$
+    - $\text{CMA}_7 = \frac{91.50 + 93.50}{2} = 92.50$
   - Q4 ($t=8$): $64.0$.
-    - $	ext{MT}_{7-10} = 98 + 64 + 86 + 138 = 386.0 \implies M_{8.5} = 96.50$
-    - $	ext{CMA}_8 = rac{93.50 + 96.50}{2} = 95.00$
+    - $\text{MT}_{7-10} = 98 + 64 + 86 + 138 = 386.0 \implies M_{8.5} = 96.50$
+    - $\text{CMA}_8 = \frac{93.50 + 96.50}{2} = 95.00$
 
 - **2023**:
   - Q1 ($t=9$): $86.0$.
-    - $	ext{MT}_{8-11} = 64 + 86 + 138 + 108 = 396.0 \implies M_{9.5} = 99.00$
-    - $	ext{CMA}_9 = rac{96.50 + 99.00}{2} = 97.75$
+    - $\text{MT}_{8-11} = 64 + 86 + 138 + 108 = 396.0 \implies M_{9.5} = 99.00$
+    - $\text{CMA}_9 = \frac{96.50 + 99.00}{2} = 97.75$
   - Q2 ($t=10$): $138.0$.
-    - $	ext{MT}_{9-12} = 86 + 138 + 108 + 70 = 402.0 \implies M_{10.5} = 100.50$
-    - $	ext{CMA}_{10} = rac{99.00 + 100.50}{2} = 99.75$
+    - $\text{MT}_{9-12} = 86 + 138 + 108 + 70 = 402.0 \implies M_{10.5} = 100.50$
+    - $\text{CMA}_{10} = \frac{99.00 + 100.50}{2} = 99.75$
   - Q3 ($t=11$): $108.0$.
-    - $	ext{MT}_{10-13} = 138 + 108 + 70 + 92 = 408.0 \implies M_{11.5} = 102.00$
-    - $	ext{CMA}_{11} = rac{100.50 + 102.00}{2} = 101.25$
+    - $\text{MT}_{10-13} = 138 + 108 + 70 + 92 = 408.0 \implies M_{11.5} = 102.00$
+    - $\text{CMA}_{11} = \frac{100.50 + 102.00}{2} = 101.25$
   - Q4 ($t=12$): $70.0$.
-    - $	ext{MT}_{11-14} = 108 + 70 + 92 + 148 = 418.0 \implies M_{12.5} = 104.50$
-    - $	ext{CMA}_{12} = rac{102.00 + 104.50}{2} = 103.25$
+    - $\text{MT}_{11-14} = 108 + 70 + 92 + 148 = 418.0 \implies M_{12.5} = 104.50$
+    - $\text{CMA}_{12} = \frac{102.00 + 104.50}{2} = 103.25$
 
 - **2024**:
   - Q1 ($t=13$): $92.0$.
-    - $	ext{MT}_{12-15} = 70 + 92 + 148 + 116 = 426.0 \implies M_{13.5} = 106.50$
-    - $	ext{CMA}_{13} = rac{104.50 + 106.50}{2} = 105.50$
+    - $\text{MT}_{12-15} = 70 + 92 + 148 + 116 = 426.0 \implies M_{13.5} = 106.50$
+    - $\text{CMA}_{13} = \frac{104.50 + 106.50}{2} = 105.50$
   - Q2 ($t=14$): $148.0$.
-    - $	ext{MT}_{13-16} = 92 + 148 + 116 + 76 = 432.0 \implies M_{14.5} = 108.00$
-    - $	ext{CMA}_{14} = rac{106.50 + 108.00}{2} = 107.25$
+    - $\text{MT}_{13-16} = 92 + 148 + 116 + 76 = 432.0 \implies M_{14.5} = 108.00$
+    - $\text{CMA}_{14} = \frac{106.50 + 108.00}{2} = 107.25$
   - Q3 ($t=15$): $116.0$ (Lost)
   - Q4 ($t=16$): $76.0$ (Lost)
 
-### Solution, step 2: Calculate Seasonal-Irregular Ratios ($z_t = rac{Y_t}{	ext{CMA}_t} 	imes 100$)
+### Solution, step 2: Calculate Seasonal-Irregular Ratios ($z_t = \frac{Y_t}{\text{CMA}_t} \times 100$)
 - **2021**:
-  - Q3: $rac{90.0}{85.25} 	imes 100 pprox 105.57\%$
-  - Q4: $rac{58.0}{87.00} 	imes 100 pprox 66.67\%$
+  - Q3: $\frac{90.0}{85.25} \times 100 \approx 105.57\%$
+  - Q4: $\frac{58.0}{87.00} \times 100 \approx 66.67\%$
 - **2022**:
-  - Q1: $rac{78.0}{89.00} 	imes 100 pprox 87.64\%$
-  - Q2: $rac{126.0}{90.75} 	imes 100 pprox 138.84\%$
-  - Q3: $rac{98.0}{92.50} 	imes 100 pprox 105.95\%$
-  - Q4: $rac{64.0}{95.00} 	imes 100 pprox 67.37\%$
+  - Q1: $\frac{78.0}{89.00} \times 100 \approx 87.64\%$
+  - Q2: $\frac{126.0}{90.75} \times 100 \approx 138.84\%$
+  - Q3: $\frac{98.0}{92.50} \times 100 \approx 105.95\%$
+  - Q4: $\frac{64.0}{95.00} \times 100 \approx 67.37\%$
 - **2023**:
-  - Q1: $rac{86.0}{97.75} 	imes 100 pprox 87.98\%$
-  - Q2: $rac{138.0}{99.75} 	imes 100 pprox 138.35\%$
-  - Q3: $rac{108.0}{101.25} 	imes 100 pprox 106.67\%$
-  - Q4: $rac{70.0}{103.25} 	imes 100 pprox 67.80\%$
+  - Q1: $\frac{86.0}{97.75} \times 100 \approx 87.98\%$
+  - Q2: $\frac{138.0}{99.75} \times 100 \approx 138.35\%$
+  - Q3: $\frac{108.0}{101.25} \times 100 \approx 106.67\%$
+  - Q4: $\frac{70.0}{103.25} \times 100 \approx 67.80\%$
 - **2024**:
-  - Q1: $rac{92.0}{105.50} 	imes 100 pprox 87.20\%$
-  - Q2: $rac{148.0}{107.25} 	imes 100 pprox 138.00\%$
+  - Q1: $\frac{92.0}{105.50} \times 100 \approx 87.20\%$
+  - Q2: $\frac{148.0}{107.25} \times 100 \approx 138.00\%$
 
 ### Solution, step 3: Seasonal Index Averaging and Normalization
 We compile the available ratios into quarterly columns and compute the arithmetic mean:
@@ -463,41 +463,41 @@ We compile the available ratios into quarterly columns and compute the arithmeti
 | **2022** | 87.64 | 138.84 | 105.95 | 67.37 |
 | **2023** | 87.98 | 138.35 | 106.67 | 67.80 |
 | **2024** | 87.20 | 138.00 | — | — |
-| **Mean ($	ilde{S}_s$)** | **87.61%** | **138.40%** | **106.06%** | **67.28%** |
+| **Mean ($\tilde{S}_s$)** | **87.61%** | **138.40%** | **106.06%** | **67.28%** |
 
 Calculations:
-- $ar{S}_{	ext{Q1}} = rac{87.64 + 87.98 + 87.20}{3} = 87.6067 pprox 87.61\%$
-- $ar{S}_{	ext{Q2}} = rac{138.84 + 138.35 + 138.00}{3} = 138.3967 pprox 138.40\%$
-- $ar{S}_{	ext{Q3}} = rac{105.57 + 105.95 + 106.67}{3} = 106.0633 pprox 106.06\%$
-- $ar{S}_{	ext{Q4}} = rac{66.67 + 67.37 + 67.80}{3} = 67.2800 pprox 67.28\%$
+- $\bar{S}_{\text{Q1}} = \frac{87.64 + 87.98 + 87.20}{3} = 87.6067 \approx 87.61\%$
+- $\bar{S}_{\text{Q2}} = \frac{138.84 + 138.35 + 138.00}{3} = 138.3967 \approx 138.40\%$
+- $\bar{S}_{\text{Q3}} = \frac{105.57 + 105.95 + 106.67}{3} = 106.0633 \approx 106.06\%$
+- $\bar{S}_{\text{Q4}} = \frac{66.67 + 67.37 + 67.80}{3} = 67.2800 \approx 67.28\%$
 
 Sum of unadjusted seasonal indices:
-$$\sum_{s=1}^{4} 	ilde{S}_s = 87.61 + 138.40 + 106.06 + 67.28 = 399.35$$
+$$\sum_{s=1}^{4} \tilde{S}_s = 87.61 + 138.40 + 106.06 + 67.28 = 399.35$$
 
 The sum falls slightly short of the target 400.00. We compute the normalization factor:
-$$k = rac{400.00}{399.35} pprox 1.0016276$$
+$$k = \frac{400.00}{399.35} \approx 1.0016276$$
 
 Applying the normalization factor:
-- $S_{	ext{Q1}} = 87.6067 	imes 1.0016276 pprox \mathbf{87.75\%}$
-- $S_{	ext{Q2}} = 138.3967 	imes 1.0016276 pprox \mathbf{138.62\%}$
-- $S_{	ext{Q3}} = 106.0633 	imes 1.0016276 pprox \mathbf{106.24\%}$
-- $S_{	ext{Q4}} = 67.2800 	imes 1.0016276 pprox \mathbf{67.39\%}$
+- $S_{\text{Q1}} = 87.6067 \times 1.0016276 \approx \mathbf{87.75\%}$
+- $S_{\text{Q2}} = 138.3967 \times 1.0016276 \approx \mathbf{138.62\%}$
+- $S_{\text{Q3}} = 106.0633 \times 1.0016276 \approx \mathbf{106.24\%}$
+- $S_{\text{Q4}} = 67.2800 \times 1.0016276 \approx \mathbf{67.39\%}$
 
 Check sum: $87.75 + 138.62 + 106.24 + 67.39 = 400.00\%$.
 
 ### Solution, step 4: Deseasonalization of 2024 Data
 To deseasonalize observed values, we divide each by its normalized seasonal index:
-$$D_t = rac{Y_t}{S_s / 100}$$
+$$D_t = \frac{Y_t}{S_s / 100}$$
 
 For 2024:
 - **2024 Q1**:
-  $$D_{	ext{Q1}} = rac{92.0}{0.8775} pprox \mathbf{104.84} 	ext{ thousand tons}$$
+  $$D_{\text{Q1}} = \frac{92.0}{0.8775} \approx \mathbf{104.84} \text{ thousand tons}$$
 - **2024 Q2**:
-  $$D_{	ext{Q2}} = rac{148.0}{1.3862} pprox \mathbf{106.77} 	ext{ thousand tons}$$
+  $$D_{\text{Q2}} = \frac{148.0}{1.3862} \approx \mathbf{106.77} \text{ thousand tons}$$
 - **2024 Q3**:
-  $$D_{	ext{Q3}} = rac{116.0}{1.0624} pprox \mathbf{109.19} 	ext{ thousand tons}$$
+  $$D_{\text{Q3}} = \frac{116.0}{1.0624} \approx \mathbf{109.19} \text{ thousand tons}$$
 - **2024 Q4**:
-  $$D_{	ext{Q4}} = rac{76.0}{0.6739} pprox \mathbf{112.78} 	ext{ thousand tons}$$
+  $$D_{\text{Q4}} = \frac{76.0}{0.6739} \approx \mathbf{112.78} \text{ thousand tons}$$
 
 **Economic Interpretation**:
 Looking at the raw shipment data, shipments appear to plummet dramatically between Q2 and Q3 of 2024 (falling from 148.0 to 116.0 thousand tons, a nominal decline of $-21.6\%$).
@@ -515,90 +515,90 @@ An agro-statistical research institute analyzes quarterly tea harvest yields (in
 | **Year 3** | 36.0 | 55.0 | 72.0 | 31.0 |
 | **Year 4** | 40.0 | 61.0 | 80.0 | 34.0 |
 
-1. Calculate the link relatives ($	ext{LR}_t = rac{Y_t}{Y_{t-1}} 	imes 100$) for every quarterly transition.
+1. Calculate the link relatives ($\text{LR}_t = \frac{Y_t}{Y_{t-1}} \times 100$) for every quarterly transition.
 2. Determine the arithmetic mean of the link relatives for each of the four quarters.
-3. Compute the uncorrected chain relatives ($	ext{CR}_s$) with base Q1 = 100, calculate the loop-closing discrepancy $	ext{CR}_1'$, and evaluate the linear trend correction factor $d$.
+3. Compute the uncorrected chain relatives ($\text{CR}_s$) with base Q1 = 100, calculate the loop-closing discrepancy $\text{CR}_1'$, and evaluate the linear trend correction factor $d$.
 4. Compute the trend-corrected chain relatives and normalize them to produce the final quarterly seasonal indices.
 
 ### Solution, step 1: Calculation of Link Relatives
-The link relative formula is $	ext{LR}_t = rac{Y_t}{Y_{t-1}} 	imes 100$:
+The link relative formula is $\text{LR}_t = \frac{Y_t}{Y_{t-1}} \times 100$:
 
 - **Year 1**:
   - Q1: Base, no prior quarter.
-  - Q2: $rac{45.0}{30.0} 	imes 100 = 150.00\%$
-  - Q3: $rac{60.0}{45.0} 	imes 100 pprox 133.33\%$
-  - Q4: $rac{25.0}{60.0} 	imes 100 pprox 41.67\%$
+  - Q2: $\frac{45.0}{30.0} \times 100 = 150.00\%$
+  - Q3: $\frac{60.0}{45.0} \times 100 \approx 133.33\%$
+  - Q4: $\frac{25.0}{60.0} \times 100 \approx 41.67\%$
 
 - **Year 2**:
-  - Q1: $rac{33.0}{25.0} 	imes 100 = 132.00\%$
-  - Q2: $rac{50.0}{33.0} 	imes 100 pprox 151.52\%$
-  - Q3: $rac{66.0}{50.0} 	imes 100 = 132.00\%$
-  - Q4: $rac{28.0}{66.0} 	imes 100 pprox 42.42\%$
+  - Q1: $\frac{33.0}{25.0} \times 100 = 132.00\%$
+  - Q2: $\frac{50.0}{33.0} \times 100 \approx 151.52\%$
+  - Q3: $\frac{66.0}{50.0} \times 100 = 132.00\%$
+  - Q4: $\frac{28.0}{66.0} \times 100 \approx 42.42\%$
 
 - **Year 3**:
-  - Q1: $rac{36.0}{28.0} 	imes 100 pprox 128.57\%$
-  - Q2: $rac{55.0}{36.0} 	imes 100 pprox 152.78\%$
-  - Q3: $rac{72.0}{55.0} 	imes 100 pprox 130.91\%$
-  - Q4: $rac{31.0}{72.0} 	imes 100 pprox 43.06\%$
+  - Q1: $\frac{36.0}{28.0} \times 100 \approx 128.57\%$
+  - Q2: $\frac{55.0}{36.0} \times 100 \approx 152.78\%$
+  - Q3: $\frac{72.0}{55.0} \times 100 \approx 130.91\%$
+  - Q4: $\frac{31.0}{72.0} \times 100 \approx 43.06\%$
 
 - **Year 4**:
-  - Q1: $rac{40.0}{31.0} 	imes 100 pprox 129.03\%$
-  - Q2: $rac{61.0}{40.0} 	imes 100 = 152.50\%$
-  - Q3: $rac{80.0}{61.0} 	imes 100 pprox 131.15\%$
-  - Q4: $rac{34.0}{80.0} 	imes 100 = 42.50\%$
+  - Q1: $\frac{40.0}{31.0} \times 100 \approx 129.03\%$
+  - Q2: $\frac{61.0}{40.0} \times 100 = 152.50\%$
+  - Q3: $\frac{80.0}{61.0} \times 100 \approx 131.15\%$
+  - Q4: $\frac{34.0}{80.0} \times 100 = 42.50\%$
 
 ### Solution, step 2: Average Link Relatives
 We average the available link relatives for each quarter:
 
 - **Quarter 1** (transitions from preceding year's Q4):
-  $$\overline{	ext{LR}}_1 = rac{132.00 + 128.57 + 129.03}{3} = rac{389.60}{3} pprox 129.87\%$$
+  $$\overline{\text{LR}}_1 = \frac{132.00 + 128.57 + 129.03}{3} = \frac{389.60}{3} \approx 129.87\%$$
 - **Quarter 2** (transitions from Q1):
-  $$\overline{	ext{LR}}_2 = rac{150.00 + 151.52 + 152.78 + 152.50}{4} = rac{606.80}{4} = 151.70\%$$
+  $$\overline{\text{LR}}_2 = \frac{150.00 + 151.52 + 152.78 + 152.50}{4} = \frac{606.80}{4} = 151.70\%$$
 - **Quarter 3** (transitions from Q2):
-  $$\overline{	ext{LR}}_3 = rac{133.33 + 132.00 + 130.91 + 131.15}{4} = rac{527.39}{4} pprox 131.85\%$$
+  $$\overline{\text{LR}}_3 = \frac{133.33 + 132.00 + 130.91 + 131.15}{4} = \frac{527.39}{4} \approx 131.85\%$$
 - **Quarter 4** (transitions from Q3):
-  $$\overline{	ext{LR}}_4 = rac{41.67 + 42.42 + 43.06 + 42.50}{4} = rac{169.65}{4} pprox 42.41\%$$
+  $$\overline{\text{LR}}_4 = \frac{41.67 + 42.42 + 43.06 + 42.50}{4} = \frac{169.65}{4} \approx 42.41\%$$
 
 ### Solution, step 3: Chain Relatives and Trend Discrepancy
-Setting Q1 as base ($	ext{CR}_1 = 100.00$):
-- $	ext{CR}_1 = 100.00$
-- $	ext{CR}_2 = rac{\overline{	ext{LR}}_2 	imes 	ext{CR}_1}{100} = rac{151.70 	imes 100.00}{100} = 151.70$
-- $	ext{CR}_3 = rac{\overline{	ext{LR}}_3 	imes 	ext{CR}_2}{100} = rac{131.85 	imes 151.70}{100} pprox 200.02$
-- $	ext{CR}_4 = rac{\overline{	ext{LR}}_4 	imes 	ext{CR}_3}{100} = rac{42.41 	imes 200.02}{100} pprox 84.83$
+Setting Q1 as base ($\text{CR}_1 = 100.00$):
+- $\text{CR}_1 = 100.00$
+- $\text{CR}_2 = \frac{\overline{\text{LR}}_2 \times \text{CR}_1}{100} = \frac{151.70 \times 100.00}{100} = 151.70$
+- $\text{CR}_3 = \frac{\overline{\text{LR}}_3 \times \text{CR}_2}{100} = \frac{131.85 \times 151.70}{100} \approx 200.02$
+- $\text{CR}_4 = \frac{\overline{\text{LR}}_4 \times \text{CR}_3}{100} = \frac{42.41 \times 200.02}{100} \approx 84.83$
 
 Loop-closing calculation for Q1 of the following year:
-$$	ext{CR}_1' = rac{\overline{	ext{LR}}_1 	imes 	ext{CR}_4}{100} = rac{129.87 	imes 84.83}{100} pprox 110.17$$
+$$\text{CR}_1' = \frac{\overline{\text{LR}}_1 \times \text{CR}_4}{100} = \frac{129.87 \times 84.83}{100} \approx 110.17$$
 
 The new chain relative for Q1 is $110.17$, which exceeds the original base of $100.00$ by:
-$$\Delta = 	ext{CR}_1' - 100.00 = 110.17 - 100.00 = 10.17$$
+$$\Delta = \text{CR}_1' - 100.00 = 110.17 - 100.00 = 10.17$$
 
 This $+10.17\%$ excess reflects annual secular growth across the four quarters.
 We compute the per-quarter linear trend correction factor $d$:
-$$d = rac{\Delta}{4} = rac{10.17}{4} pprox 2.5425$$
+$$d = \frac{\Delta}{4} = \frac{10.17}{4} \approx 2.5425$$
 
 ### Solution, step 4: Trend Correction and Final Seasonal Indices
 We adjust the chain relatives by subtracting $(s - 1) d$:
 - **Quarter 1 ($s=1$)**:
-  $$	ext{CCR}_1 = 	ext{CR}_1 - 0 	imes d = 100.00$$
+  $$\text{CCR}_1 = \text{CR}_1 - 0 \times d = 100.00$$
 - **Quarter 2 ($s=2$)**:
-  $$	ext{CCR}_2 = 	ext{CR}_2 - 1 	imes d = 151.70 - 2.54 = 149.16$$
+  $$\text{CCR}_2 = \text{CR}_2 - 1 \times d = 151.70 - 2.54 = 149.16$$
 - **Quarter 3 ($s=3$)**:
-  $$	ext{CCR}_3 = 	ext{CR}_3 - 2 	imes d = 200.02 - 5.085 = 194.94$$
+  $$\text{CCR}_3 = \text{CR}_3 - 2 \times d = 200.02 - 5.085 = 194.94$$
 - **Quarter 4 ($s=4$)**:
-  $$	ext{CCR}_4 = 	ext{CR}_4 - 3 	imes d = 84.83 - 7.6275 = 77.20$$
+  $$\text{CCR}_4 = \text{CR}_4 - 3 \times d = 84.83 - 7.6275 = 77.20$$
 
 Sum of trend-corrected chain relatives:
-$$\sum_{s=1}^{4} 	ext{CCR}_s = 100.00 + 149.16 + 194.94 + 77.20 = 521.30$$
+$$\sum_{s=1}^{4} \text{CCR}_s = 100.00 + 149.16 + 194.94 + 77.20 = 521.30$$
 The arithmetic mean is:
-$$\overline{	ext{CCR}} = rac{521.30}{4} = 130.325$$
+$$\overline{\text{CCR}} = \frac{521.30}{4} = 130.325$$
 
 Normalizing so that the mean equals 100%:
-$$S_s = rac{	ext{CCR}_s}{130.325} 	imes 100$$
+$$S_s = \frac{\text{CCR}_s}{130.325} \times 100$$
 
-- $S_{	ext{Q1}} = rac{100.00}{130.325} 	imes 100 pprox \mathbf{76.73\%}$
-- $S_{	ext{Q2}} = rac{149.16}{130.325} 	imes 100 pprox \mathbf{114.45\%}$
-- $S_{	ext{Q3}} = rac{194.94}{130.325} 	imes 100 pprox \mathbf{149.58\%}$
-- $S_{	ext{Q4}} = rac{77.20}{130.325} 	imes 100 pprox \mathbf{59.24\%}$
+- $S_{\text{Q1}} = \frac{100.00}{130.325} \times 100 \approx \mathbf{76.73\%}$
+- $S_{\text{Q2}} = \frac{149.16}{130.325} \times 100 \approx \mathbf{114.45\%}$
+- $S_{\text{Q3}} = \frac{194.94}{130.325} \times 100 \approx \mathbf{149.58\%}$
+- $S_{\text{Q4}} = \frac{77.20}{130.325} \times 100 \approx \mathbf{59.24\%}$
 
 Check sum: $76.73 + 114.45 + 149.58 + 59.24 = 400.00\%$.
 The adjusted seasonal indices indicate that tea harvests peak in Q3 (49.58% above annual average) and reach their seasonal low in Q4 (40.76% below average).
@@ -618,50 +618,50 @@ The observed quarterly GDP figures ($Y_t$) are:
 - Year 1: Q1 ($t=1$) = 475.0, Q2 ($t=2$) = 548.0, Q3 ($t=3$) = 582.0, Q4 ($t=4$) = 530.0
 - Year 2: Q1 ($t=5$) = 492.0, Q2 ($t=6$) = 565.0, Q3 ($t=7$) = 585.0, Q4 ($t=8$) = 515.0
 
-1. Calculate the secular trend value $T_t$ and the combined trend-seasonal baseline $B_t = (T_t 	imes S_t) / 100$ for each of the eight quarters.
-2. Isolate the cyclical-irregular residual ratio $(C_t 	imes I_t) = (Y_t / B_t) 	imes 100$ for all eight quarters.
+1. Calculate the secular trend value $T_t$ and the combined trend-seasonal baseline $B_t = (T_t \times S_t) / 100$ for each of the eight quarters.
+2. Isolate the cyclical-irregular residual ratio $(C_t \times I_t) = (Y_t / B_t) \times 100$ for all eight quarters.
 3. Apply a 3-quarter weighted moving average filter with symmetric weights $[0.25, 0.50, 0.25]$ to smooth out irregular noise $I_t$, extracting the pure cyclical index $C_t$ for quarters 2 through 7.
 4. Identify the timing of the business cycle peak and trough over this two-year period, and characterize the macroeconomic cyclical stance in Year 2 Q4.
 
 ### Solution, step 1: Secular Trend and Combined Baseline
-We evaluate $T_t = 500.0 + 10.0 t$ and $B_t = rac{T_t 	imes S_t}{100}$:
+We evaluate $T_t = 500.0 + 10.0 t$ and $B_t = \frac{T_t \times S_t}{100}$:
 
 - **Quarter 1 ($t=1$, Y1 Q1)**:
   - $T_1 = 500 + 10(1) = 510.0$
-  - $B_1 = rac{510.0 	imes 92.0}{100} = 469.20$
+  - $B_1 = \frac{510.0 \times 92.0}{100} = 469.20$
 - **Quarter 2 ($t=2$, Y1 Q2)**:
   - $T_2 = 500 + 10(2) = 520.0$
-  - $B_2 = rac{520.0 	imes 104.0}{100} = 540.80$
+  - $B_2 = \frac{520.0 \times 104.0}{100} = 540.80$
 - **Quarter 3 ($t=3$, Y1 Q3)**:
   - $T_3 = 500 + 10(3) = 530.0$
-  - $B_3 = rac{530.0 	imes 108.0}{100} = 572.40$
+  - $B_3 = \frac{530.0 \times 108.0}{100} = 572.40$
 - **Quarter 4 ($t=4$, Y1 Q4)**:
   - $T_4 = 500 + 10(4) = 540.0$
-  - $B_4 = rac{540.0 	imes 96.0}{100} = 518.40$
+  - $B_4 = \frac{540.0 \times 96.0}{100} = 518.40$
 - **Quarter 5 ($t=5$, Y2 Q1)**:
   - $T_5 = 500 + 10(5) = 550.0$
-  - $B_5 = rac{550.0 	imes 92.0}{100} = 506.00$
+  - $B_5 = \frac{550.0 \times 92.0}{100} = 506.00$
 - **Quarter 6 ($t=6$, Y2 Q2)**:
   - $T_6 = 500 + 10(6) = 560.0$
-  - $B_6 = rac{560.0 	imes 104.0}{100} = 582.40$
+  - $B_6 = \frac{560.0 \times 104.0}{100} = 582.40$
 - **Quarter 7 ($t=7$, Y2 Q3)**:
   - $T_7 = 500 + 10(7) = 570.0$
-  - $B_7 = rac{570.0 	imes 108.0}{100} = 615.60$
+  - $B_7 = \frac{570.0 \times 108.0}{100} = 615.60$
 - **Quarter 8 ($t=8$, Y2 Q4)**:
   - $T_8 = 500 + 10(8) = 580.0$
-  - $B_8 = rac{580.0 	imes 96.0}{100} = 556.80$
+  - $B_8 = \frac{580.0 \times 96.0}{100} = 556.80$
 
 ### Solution, step 2: Cyclical-Irregular Residual Ratios
-We compute $(C_t 	imes I_t) = rac{Y_t}{B_t} 	imes 100$:
+We compute $(C_t \times I_t) = \frac{Y_t}{B_t} \times 100$:
 
-- $t = 1$: $rac{475.0}{469.20} 	imes 100 pprox \mathbf{101.24\%}$
-- $t = 2$: $rac{548.0}{540.80} 	imes 100 pprox \mathbf{101.33\%}$
-- $t = 3$: $rac{582.0}{572.40} 	imes 100 pprox \mathbf{101.68\%}$
-- $t = 4$: $rac{530.0}{518.40} 	imes 100 pprox \mathbf{102.24\%}$
-- $t = 5$: $rac{492.0}{506.00} 	imes 100 pprox \mathbf{97.23\%}$
-- $t = 6$: $rac{565.0}{582.40} 	imes 100 pprox \mathbf{97.01\%}$
-- $t = 7$: $rac{585.0}{615.60} 	imes 100 pprox \mathbf{95.03\%}$
-- $t = 8$: $rac{515.0}{556.80} 	imes 100 pprox \mathbf{92.49\%}$
+- $t = 1$: $\frac{475.0}{469.20} \times 100 \approx \mathbf{101.24\%}$
+- $t = 2$: $\frac{548.0}{540.80} \times 100 \approx \mathbf{101.33\%}$
+- $t = 3$: $\frac{582.0}{572.40} \times 100 \approx \mathbf{101.68\%}$
+- $t = 4$: $\frac{530.0}{518.40} \times 100 \approx \mathbf{102.24\%}$
+- $t = 5$: $\frac{492.0}{506.00} \times 100 \approx \mathbf{97.23\%}$
+- $t = 6$: $\frac{565.0}{582.40} \times 100 \approx \mathbf{97.01\%}$
+- $t = 7$: $\frac{585.0}{615.60} \times 100 \approx \mathbf{95.03\%}$
+- $t = 8$: $\frac{515.0}{556.80} \times 100 \approx \mathbf{92.49\%}$
 
 ### Solution, step 3: Smoothing with 3-Period Weighted Filter
 To remove high-frequency irregular noise $I_t$, we apply the symmetric filter:

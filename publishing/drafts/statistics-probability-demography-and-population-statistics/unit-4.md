@@ -190,17 +190,17 @@ In clinical trials and observational cohort studies, individuals are monitored o
 Let distinct death times be ordered chronologically: t_1 < t_2 < ... < t_k.
 At death time t_i, let d_i denote the number of recorded deaths, and let r_i denote the number of individuals at risk (alive and under observation immediately prior to t_i). The Kaplan-Meier estimator is:
 
-$$\hat{S}(t) = \prod_{t_i \le t} \left( 1 - rac{d_i}{r_i} 
-ight)$$
+$$\hat{S}(t) = \prod_{t_i \le t} \left( 1 - \frac{d_i}{r_i} 
+\right)$$
 
 Notice that this is identically the life table product of conditional survival probabilities: S(x) = product of (1 - q_i). When there is no right-censoring, the Kaplan-Meier product-limit formula simplifies exactly to the empirical life table cohort proportion l(x) / l_0! Greenwood's formula provides the asymptotic variance of the Kaplan-Meier estimator:
 
-$$\widehat{	ext{Var}}(\hat{S}(t)) = [\hat{S}(t)]^2 \sum_{t_i \le t} rac{d_i}{r_i (r_i - d_i)}$$
+$$\widehat{\text{Var}}(\hat{S}(t)) = [\hat{S}(t)]^2 \sum_{t_i \le t} \frac{d_i}{r_i (r_i - d_i)}$$
 
 #### The Cox Proportional Hazards Model
 In 1972, the British statistician David R. Cox revolutionized survival modeling by formulating the semiparametric **Proportional Hazards Model**. Cox expressed the hazard function (force of mortality mu(t; z)) for an individual with covariate vector z (such as blood pressure, smoking status, socioeconomic status, and genetic markers) as:
 
-$$\mu(t; \mathbf{z}) = \mu_0(t) \exp(oldsymbol{eta}^T \mathbf{z})$$
+$$\mu(t; \mathbf{z}) = \mu_0(t) \exp(\boldsymbol{\beta}^T \mathbf{z})$$
 
 where mu_0(t) is an unspecified, arbitrary baseline hazard function (analogous to the standard life table force of mortality), and beta is a vector of regression coefficients. Cox developed the method of **partial likelihood**, demonstrating that the parameter vector beta can be estimated with full asymptotic efficiency without estimating the baseline hazard function mu_0(t). This monumental breakthrough established the standard statistical framework used worldwide for evaluating medical treatments and demographic survival determinants.
 
@@ -216,16 +216,16 @@ Let i denote the annual effective interest rate, and let v = 1 / (1 + i) denote 
 2. **The N_x Column**:
    $$N_x = \sum_{y=x}^{\omega} D_y = D_x + D_{x+1} + D_{x+2} + \dots$$
    Represents the cumulative sum of D_x from age x to the end of the life table. The actuarial present value of an immediate whole life annuity of one dollar per year paying at the start of each year (annuity-due) is computed as:
-   $$\ddot{a}_x = rac{N_x}{D_x}$$
+   $$\ddot{a}_x = \frac{N_x}{D_x}$$
    A deferred life annuity paying starting at age 65 for a current 30-year-old is computed as the simple ratio:
-   $${}_{35|}\ddot{a}_{30} = rac{N_{65}}{D_{30}}$$
+   $${}_{35|}\ddot{a}_{30} = \frac{N_{65}}{D_{30}}$$
 3. **The C_x Column**:
    $$C_x = v^{x+1} \cdot d_x$$
    Represents the discounted value of death benefits payable at the end of the year of death for individuals dying between ages x and x+1.
 4. **The M_x Column**:
    $$M_x = \sum_{y=x}^{\omega} C_y = C_x + C_{x+1} + C_{x+2} + \dots$$
    Represents the cumulative sum of discounted death claims. The net single premium for a whole life assurance paying one dollar upon the death of an individual aged x is:
-   $$A_x = rac{M_x}{D_x}$$
+   $$A_x = \frac{M_x}{D_x}$$
 
 By organizing life tables into commutation columns, eighteenth- and nineteenth-century actuaries transformed complex continuous integrals into simple table lookups, establishing the mathematical infrastructure of the modern global life insurance industry.
 

@@ -179,16 +179,16 @@ $$\mu(x \mid z) = z \cdot \mu_0(x)$$
 where mu_0(x) is the baseline standard force of mortality for a person of standard frailty (z = 1).
 Assume frailty Z is distributed across the initial birth cohort according to a Gamma distribution with mean E[Z] = 1 and variance sigma^2:
 
-$$f(z) = rac{k^k}{\Gamma(k)} z^{k-1} e^{-k z} \quad 	ext{where } k = rac{1}{\sigma^2}$$
+$$f(z) = \frac{k^k}{\Gamma(k)} z^{k-1} e^{-k z} \quad \text{where } k = \frac{1}{\sigma^2}$$
 
 As the birth cohort ages, individuals with high frailty (z >> 1) die at much younger ages, whereas individuals with low frailty (z << 1, biologically exceptionally robust individuals) survive. Consequently, the mean frailty of the surviving cohort decreases continuously with age:
 
-$$ar{z}(x) = rac{1}{1 + \sigma^2 \int_0^x \mu_0(t) \, dt} = rac{1}{1 + \sigma^2 H_0(x)}$$
+$$\bar{z}(x) = \frac{1}{1 + \sigma^2 \int_0^x \mu_0(t) \, dt} = \frac{1}{1 + \sigma^2 H_0(x)}$$
 
 where H_0(x) is the cumulative baseline hazard.
 The observed population force of mortality is the average across survivors:
 
-$$ar{\mu}(x) = ar{z}(x) \cdot \mu_0(x) = rac{\mu_0(x)}{1 + \sigma^2 H_0(x)}$$
+$$\bar{\mu}(x) = \bar{z}(x) \cdot \mu_0(x) = \frac{\mu_0(x)}{1 + \sigma^2 H_0(x)}$$
 
 In a disadvantaged population subject to severe environmental hazards in early life, the attrition of frail individuals is intense and brutal, purging the cohort of high-frailty members early. By age 85, the survivors of the disadvantaged group represent an elite, biologically hyper-selected sub-sample whose mean frailty is significantly lower than that of the protected group, where modern medicine kept higher-frailty individuals alive into old age. This survival selection creates the apparent mortality crossover without requiring any late-life biological reversal.
 
@@ -457,7 +457,7 @@ In modern public health surveillance and biostatistical modeling, age-specific m
 
 Let D_x denote the observed number of deaths in age group x, and let P_x denote the person-years of exposure. Because death is a rare event occurring within a large exposed population, the count of deaths follows a Poisson distribution:
 
-$$D_x \sim 	ext{Poisson}(\mu_x \cdot P_x)$$
+$$D_x \sim \text{Poisson}(\mu_x \cdot P_x)$$
 
 where mu_x is the true underlying mortality rate. Taking the natural logarithm of the expected death count:
 
@@ -471,7 +471,7 @@ During infectious pandemic waves (such as the 1918 influenza pandemic or the 202
 
 Excess mortality is defined as the difference between the total observed deaths from all causes during a crisis period and the baseline expected deaths projected from pre-crisis historical seasonal trends:
 
-$$	ext{Excess Deaths} = D_{	ext{observed}} - \hat{D}_{	ext{expected}}$$
+$$\text{Excess Deaths} = D_{\text{observed}} - \hat{D}_{\text{expected}}$$
 
 Because total all-cause mortality requires no cause-of-death certification, excess mortality provides an objective, unvarnished measure of total pandemic mortality, capturing both direct viral fatalities and indirect deaths caused by healthcare system collapse.
 

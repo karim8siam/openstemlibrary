@@ -365,30 +365,30 @@ A tripartite national labor conciliation board investigates cost-of-living adjus
 | **4. Clothing** | $\$1{,}500$ | $\$100.00$ | $\$125.00$ |
 | **5. Miscellaneous Services** | $\$1{,}000$ | $\$40.00$ | $\$60.00$ |
 
-1. Calculate the price relatives ($R_i = rac{p_t}{p_0} 	imes 100$) for each expenditure category.
-2. Calculate the Consumer Price Index ($CPI$) for 2024 ($2018 = 100$) using the Family Budget Method: $CPI = rac{\sum W_i R_i}{\sum W_i}$.
+1. Calculate the price relatives ($R_i = \frac{p_t}{p_0} \times 100$) for each expenditure category.
+2. Calculate the Consumer Price Index ($CPI$) for 2024 ($2018 = 100$) using the Family Budget Method: $CPI = \frac{\sum W_i R_i}{\sum W_i}$.
 3. If an industrial worker earned a monthly wage of $\$500.00$ in 2018, determine the minimum nominal wage that must be paid in 2024 to fully insulate the worker from cost-of-living increases, and compute the required Dearness Allowance (DA).
 
 ### Solution, step 1: Calculate Price Relatives ($R_i$)
-The price relative formula is $R_i = rac{p_t}{p_0} 	imes 100$:
+The price relative formula is $R_i = \frac{p_t}{p_0} \times 100$:
 1. **Cereals & Food**:
-   $$R_1 = rac{32.00}{20.00} 	imes 100 = 160.00$$
+   $$R_1 = \frac{32.00}{20.00} \times 100 = 160.00$$
 2. **Housing Rent**:
-   $$R_2 = rac{700.00}{500.00} 	imes 100 = 140.00$$
+   $$R_2 = \frac{700.00}{500.00} \times 100 = 140.00$$
 3. **Fuel & Lighting**:
-   $$R_3 = rac{80.00}{50.00} 	imes 100 = 160.00$$
+   $$R_3 = \frac{80.00}{50.00} \times 100 = 160.00$$
 4. **Clothing**:
-   $$R_4 = rac{125.00}{100.00} 	imes 100 = 125.00$$
+   $$R_4 = \frac{125.00}{100.00} \times 100 = 125.00$$
 5. **Miscellaneous**:
-   $$R_5 = rac{60.00}{40.00} 	imes 100 = 150.00$$
+   $$R_5 = \frac{60.00}{40.00} \times 100 = 150.00$$
 
 ### Solution, step 2: Compute CPI via Family Budget Method
-We evaluate the weighted products $W_i 	imes R_i$:
-- Food: $4{,}000 	imes 160.00 = 640{,}000$
-- Rent: $2{,}500 	imes 140.00 = 350{,}000$
-- Fuel: $1{,}000 	imes 160.00 = 160{,}000$
-- Clothing: $1{,}500 	imes 125.00 = 187{,}500$
-- Misc: $1{,}000 	imes 150.00 = 150{,}000$
+We evaluate the weighted products $W_i \times R_i$:
+- Food: $4{,}000 \times 160.00 = 640{,}000$
+- Rent: $2{,}500 \times 140.00 = 350{,}000$
+- Fuel: $1{,}000 \times 160.00 = 160{,}000$
+- Clothing: $1{,}500 \times 125.00 = 187{,}500$
+- Misc: $1{,}000 \times 150.00 = 150{,}000$
 
 Summing the weights:
 $$\sum W_i = 4{,}000 + 2{,}500 + 1{,}000 + 1{,}500 + 1{,}000 = 10{,}000$$
@@ -398,7 +398,7 @@ $$\sum (W_i R_i) = 640{,}000 + 350{,}000 + 160{,}000 + 187{,}500 + 150{,}000 = 1
 
 The Consumer Price Index is:
 
-$$CPI = rac{\sum (W_i R_i)}{\sum W_i} = rac{1{,}487{,}500}{10{,}000} = 148.75$$
+$$CPI = \frac{\sum (W_i R_i)}{\sum W_i} = \frac{1{,}487{,}500}{10{,}000} = 148.75$$
 
 The cost of living for industrial workers rose by **$48.75\%$** between 2018 and 2024.
 
@@ -406,18 +406,18 @@ The cost of living for industrial workers rose by **$48.75\%$** between 2018 and
 The baseline wage in 2018 was $W_0 = \$500.00$.
 To maintain real purchasing power, the compensated 2024 wage $W_t$ must satisfy:
 
-$$W_t = W_0 	imes \left( rac{CPI}{100} 
-ight) = \$500.00 	imes \left( rac{148.75}{100} 
-ight) = \$500.00 	imes 1.4875 = \$743.75$$
+$$W_t = W_0 \times \left( \frac{CPI}{100} 
+\right) = \$500.00 \times \left( \frac{148.75}{100} 
+\right) = \$500.00 \times 1.4875 = \$743.75$$
 
 The required monthly nominal wage in 2024 is **$\$743.75$**.
 
 The required **Dearness Allowance (DA)**—the compensatory cash supplement added to basic pay—is:
 
-$$	ext{DA} = W_t - W_0 = \$743.75 - \$500.00 = \$243.75 	ext{ per month}$$
+$$\text{DA} = W_t - W_0 = \$743.75 - \$500.00 = \$243.75 \text{ per month}$$
 
 Expressed as a percentage of basic wage:
-$$	ext{DA Rate} = rac{\$243.75}{\$500.00} 	imes 100 = 48.75\%$$
+$$\text{DA Rate} = \frac{\$243.75}{\$500.00} \times 100 = 48.75\%$$
 
 Paying a monthly Dearness Allowance of $\$243.75$ exactly neutralizes the $48.75\%$ rise in the consumer price index, fully preserving the worker's real standard of living.
 

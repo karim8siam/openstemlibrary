@@ -206,7 +206,7 @@ The French historical demographer Louis Henry defined natural fertility as child
 Coale and Trussell demonstrated that age-specific marital fertility rates r(a) in any human population can be modeled by two parameters: M (the scale of overall marital fertility) and m (the index of deliberate fertility control):
 
 $$r(a) = M \cdot n(a) \cdot \exp\left( m \cdot v(a) 
-ight)$$
+\right)$$
 
 where:
 - a denotes maternal age in five-year age groups (20–24, 25–29, 30–34, 35–39, 40–44, 45–49).
@@ -219,8 +219,8 @@ where:
 
 By taking the natural logarithm and rearranging:
 
-$$\ln\left( rac{r(a)}{M \cdot n(a)} 
-ight) = m \cdot v(a)$$
+$$\ln\left( \frac{r(a)}{M \cdot n(a)} 
+\right) = m \cdot v(a)$$
 
 Demographers estimate m and M via simple linear regression across the age groups, providing an objective test of whether a historical demographic transition has begun.
 
@@ -445,7 +445,7 @@ In 1980, the economic demographer Richard A. Easterlin formulated the **Relative
 
 Easterlin posited that young adults' propensity to marry and have children is not determined by their absolute level of real income, but by their **relative economic status**—the ratio of their actual material earning potential to their subjective material aspirations:
 
-$$	ext{Relative Status} = rac{	ext{Actual Earning Capacity}}{	ext{Material Aspirations}}$$
+$$\text{Relative Status} = \frac{\text{Actual Earning Capacity}}{\text{Material Aspirations}}$$
 
 Subjective material aspirations are established during childhood and adolescence in their parents' households. The actual earning capacity of young labor market entrants is heavily governed by the size of their birth cohort relative to older age groups (labor market crowding):
 1. **Small Birth Cohort (e.g., 1930s Depression generation)**: When a small cohort enters the labor market, entry-level labor is scarce. Young workers experience low unemployment, rapid promotional advancement, and high relative wages. Because their actual wages far exceed the modest material standards of their childhood, young couples feel economically secure, marry early, and have large families, creating a baby boom!

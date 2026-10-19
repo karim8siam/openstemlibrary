@@ -702,7 +702,7 @@ $$1,200 + 1,500 \theta = 4,200 \theta \implies 2,700 \theta = 1,200$$
 
 $$\hat{\theta} = \frac{1,200}{2,700} = \frac{4}{9} \approx 0.4444$$
 
-The immunotherapy combination reduces the hazard of death by approximately $55.6\%$ ($	ext{HR} = 0.444$).
+The immunotherapy combination reduces the hazard of death by approximately $55.6\%$ ($\text{HR} = 0.444$).
 Now evaluate the profile log-likelihood at the peak:
 - At $\hat{\theta} = 0.4444$:
   $$120 + 150(0.4444) = 120 + 66.6667 = 186.6667$$

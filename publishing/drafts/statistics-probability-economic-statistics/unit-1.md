@@ -177,7 +177,7 @@ $$E(p, u) = \min_{q} \{ p^T q : U(q) \ge u \}$$
 
 Konüs defined the True Cost-of-Living Index as the ratio of minimum expenditures required to attain a specified base reference utility level u_0 under current prices p_t versus base prices p_0:
 
-$$P_K(p_t, p_0; u_0) = rac{E(p_t, u_0)}{E(p_0, u_0)}$$
+$$P_K(p_t, p_0; u_0) = \frac{E(p_t, u_0)}{E(p_0, u_0)}$$
 
 #### The Fundamental Konüs Bounds:
 Konüs established that the observable Laspeyres and Paasche index numbers provide rigorous upper and lower empirical bounds for the unobservable true cost of living:
@@ -185,11 +185,11 @@ Konüs established that the observable Laspeyres and Paasche index numbers provi
    Because the base-period bundle q_0 was chosen by the consumer under base prices p_0, it achieves utility U(q_0) = u_0. At current prices p_t, the consumer could choose to purchase the same bundle q_0, incurring cost p_t^T q_0. However, by substituting away from relatively expensive goods, the consumer can attain utility u_0 at a cost strictly less than or equal to p_t^T q_0:
    $$E(p_t, u_0) \le p_t^T q_0$$
    Dividing both sides by base expenditure E(p_0, u_0) = p_0^T q_0 yields the celebrated **Konüs Theorem**:
-   $$P_K(p_t, p_0; u_0) \le rac{p_t^T q_0}{p_0^T q_0} = P_L$$
+   $$P_K(p_t, p_0; u_0) \le \frac{p_t^T q_0}{p_0^T q_0} = P_L$$
    The Laspeyres index is a strict mathematical upper bound to the true cost-of-living index!
 2. **The Paasche Lower Bound**:
    Similarly, evaluating the true cost of living relative to current-period utility u_t yields:
-   $$P_K(p_t, p_0; u_t) \ge rac{p_t^T q_t}{p_0^T q_t} = P_P$$
+   $$P_K(p_t, p_0; u_t) \ge \frac{p_t^T q_t}{p_0^T q_t} = P_P$$
    The Paasche index is a strict mathematical lower bound!
 
 Combining the two bounds establishes that the true economic cost-of-living index is bounded between Paasche and Laspeyres:
@@ -203,10 +203,10 @@ Diewert established two foundational theorems:
 1. **The Fisher Ideal Index is Superlative**: Fisher's index P_F is exact for the flexible quadratic mean-of-order-r expenditure function when r = 2.
 2. **The Törnqvist Index is Superlative (Leo Törnqvist, 1936)**:
    The Törnqvist index P_T weights logarithmic price changes by the arithmetic mean of base-period and current-period expenditure shares:
-   $$\ln P_T = \sum_{i=1}^N rac{w_{i0} + w_{it}}{2} \ln\left( rac{p_{it}}{p_{i0}} 
-ight)$$
-   $$P_T = \prod_{i=1}^N \left( rac{p_{it}}{p_{i0}} 
-ight)^{rac{w_{i0} + w_{it}}{2}}$$
+   $$\ln P_T = \sum_{i=1}^N \frac{w_{i0} + w_{it}}{2} \ln\left( \frac{p_{it}}{p_{i0}} 
+\right)$$
+   $$P_T = \prod_{i=1}^N \left( \frac{p_{it}}{p_{i0}} 
+\right)^{\frac{w_{i0} + w_{it}}{2}}$$
    Diewert proved that the Törnqvist index is exact for the transcendental logarithmic (translog) expenditure function.
 
 Because both Fisher and Törnqvist indices allow consumer expenditure weights to adapt smoothly to price changes, they virtually eliminate the substitution bias that plagues the fixed-basket Laspeyres Consumer Price Index.
@@ -216,7 +216,7 @@ In modern digital economies, goods undergo rapid technological improvement: a mo
 
 To resolve this challenge, Zvi Griliches (1961, 1971) formalized **Hedonic Price Regression**:
 
-$$\ln p_i = eta_0 + \sum_{k=1}^K eta_k z_{ik} + arepsilon_i$$
+$$\ln p_i = \beta_0 + \sum_{k=1}^K \beta_k z_{ik} + \varepsilon_i$$
 
 where z_{ik} denotes the k-th physical characteristic of good i (e.g., processor speed, RAM, screen resolution, vehicle horsepower). The regression coefficient beta_k represents the marginal implicit shadow price of characteristic k. Statistical agencies use hedonic regressions to decompose observed price changes into a pure quality change component and a residual pure inflation component, ensuring that consumer price indices track true utility costs rather than technological upgrading.
 
@@ -231,7 +231,7 @@ $$E(p, u) = \min_{q} \{ p^T q : U(q) \ge u \}$$
 
 Konüs defined the True Cost-of-Living Index as the ratio of minimum expenditures required to attain a specified base reference utility level u_0 under current prices p_t versus base prices p_0:
 
-$$P_K(p_t, p_0; u_0) = rac{E(p_t, u_0)}{E(p_0, u_0)}$$
+$$P_K(p_t, p_0; u_0) = \frac{E(p_t, u_0)}{E(p_0, u_0)}$$
 
 #### The Fundamental Konüs Bounds:
 Konüs established that the observable Laspeyres and Paasche index numbers provide rigorous upper and lower empirical bounds for the unobservable true cost of living:
@@ -239,11 +239,11 @@ Konüs established that the observable Laspeyres and Paasche index numbers provi
    Because the base-period bundle q_0 was chosen by the consumer under base prices p_0, it achieves utility U(q_0) = u_0. At current prices p_t, the consumer could choose to purchase the same bundle q_0, incurring cost p_t^T q_0. However, by substituting away from relatively expensive goods, the consumer can attain utility u_0 at a cost strictly less than or equal to p_t^T q_0:
    $$E(p_t, u_0) \le p_t^T q_0$$
    Dividing both sides by base expenditure E(p_0, u_0) = p_0^T q_0 yields the celebrated **Konüs Theorem**:
-   $$P_K(p_t, p_0; u_0) \le rac{p_t^T q_0}{p_0^T q_0} = P_L$$
+   $$P_K(p_t, p_0; u_0) \le \frac{p_t^T q_0}{p_0^T q_0} = P_L$$
    The Laspeyres index is a strict mathematical upper bound to the true cost-of-living index!
 2. **The Paasche Lower Bound**:
    Similarly, evaluating the true cost of living relative to current-period utility u_t yields:
-   $$P_K(p_t, p_0; u_t) \ge rac{p_t^T q_t}{p_0^T q_t} = P_P$$
+   $$P_K(p_t, p_0; u_t) \ge \frac{p_t^T q_t}{p_0^T q_t} = P_P$$
    The Paasche index is a strict mathematical lower bound!
 
 Combining the two bounds establishes that the true economic cost-of-living index is bounded between Paasche and Laspeyres:
@@ -257,10 +257,10 @@ Diewert established two foundational theorems:
 1. **The Fisher Ideal Index is Superlative**: Fisher's index P_F is exact for the flexible quadratic mean-of-order-r expenditure function when r = 2.
 2. **The Törnqvist Index is Superlative (Leo Törnqvist, 1936)**:
    The Törnqvist index P_T weights logarithmic price changes by the arithmetic mean of base-period and current-period expenditure shares:
-   $$\ln P_T = \sum_{i=1}^N rac{w_{i0} + w_{it}}{2} \ln\left( rac{p_{it}}{p_{i0}} 
-ight)$$
-   $$P_T = \prod_{i=1}^N \left( rac{p_{it}}{p_{i0}} 
-ight)^{rac{w_{i0} + w_{it}}{2}}$$
+   $$\ln P_T = \sum_{i=1}^N \frac{w_{i0} + w_{it}}{2} \ln\left( \frac{p_{it}}{p_{i0}} 
+\right)$$
+   $$P_T = \prod_{i=1}^N \left( \frac{p_{it}}{p_{i0}} 
+\right)^{\frac{w_{i0} + w_{it}}{2}}$$
    Diewert proved that the Törnqvist index is exact for the transcendental logarithmic (translog) expenditure function.
 
 Because both Fisher and Törnqvist indices allow consumer expenditure weights to adapt smoothly to price changes, they virtually eliminate the substitution bias that plagues the fixed-basket Laspeyres Consumer Price Index.
@@ -270,7 +270,7 @@ In modern digital economies, goods undergo rapid technological improvement: a mo
 
 To resolve this challenge, Zvi Griliches (1961, 1971) formalized **Hedonic Price Regression**:
 
-$$\ln p_i = eta_0 + \sum_{k=1}^K eta_k z_{ik} + arepsilon_i$$
+$$\ln p_i = \beta_0 + \sum_{k=1}^K \beta_k z_{ik} + \varepsilon_i$$
 
 where z_{ik} denotes the k-th physical characteristic of good i (e.g., processor speed, RAM, screen resolution, vehicle horsepower). The regression coefficient beta_k represents the marginal implicit shadow price of characteristic k. Statistical agencies use hedonic regressions to decompose observed price changes into a pure quality change component and a residual pure inflation component, ensuring that consumer price indices track true utility costs rather than technological upgrading.
 
