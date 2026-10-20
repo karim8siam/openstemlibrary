@@ -21,6 +21,7 @@ const inbound=new Map(urls.map(url=>[url,new Set()]));
 const pageStats=[];
 const absentTitles=[];
 const unresolvableLinks=new Set();
+const unresolvedTargets=new Map();
 let internalLinks=0;
 const linkPattern=/<a\b[^>]*\bhref\s*=\s*(?:"([^"]*)"|'([^']*)')[^>]*>/gi;
 function normalizedURL(href,from) {
@@ -58,6 +59,7 @@ for(const url of urls) {
       // Non-sitemap links could be legacy redirect routes or support pages.
       const candidate=normalized.slice(site.length);
       if(!fs.existsSync(path.join(dist,candidate==='/'?'index.html':candidate.slice(1)+'.html'))){
+        unresolvedTargets.set(normalized,(unresolvedTargets.get(normalized)||0)+1);
         if(unresolvableLinks.size<60)unresolvableLinks.add(url+' → '+normalized);
       }
     }
@@ -75,6 +77,9 @@ const report={
   chaptersWithNoInbound:chapterOrphans,
   pagesWithOnlyOneInbound:weak.length,
   missingTitles:absentTitles,
+  unresolvedLinkOccurrences:[...unresolvedTargets.values()].reduce((sum,n)=>sum+n,0),
+  unresolvedTargetCount:unresolvedTargets.size,
+  unresolvedTargets:[...unresolvedTargets].sort((a,b)=>b[1]-a[1]).slice(0,60).map(([url,links])=>({url,links})),
   possibleBrokenInternalLinks:[...unresolvableLinks],
   sampledLowInbound:urls
     .map(url=>({url,inbound:inbound.get(url).size}))
