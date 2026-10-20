@@ -14,6 +14,8 @@ for(const file of fs.readdirSync(dist).filter(x=>x.endsWith('.html'))) {
   inspected++;
   assert(!html.includes('In-Browser Protected'),file+' still claims browser content is protected');
   assert(!html.includes('Direct Download Disabled'),file+' still claims downloads are blocked');
+  assert(!/href=["']https:\/\/openstemlibrary\.com\/references\//.test(html),
+    file+' still links to an unpublished reference page');
   if(!html.includes('protection-notice')) continue;
   readers++;
   assert(html.includes('Read freely · Cite responsibly'),file+' missing truthful reading notice');
