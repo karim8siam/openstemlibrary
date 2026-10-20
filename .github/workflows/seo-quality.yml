@@ -68,3 +68,20 @@ jobs:
           name: reader-browser-smoke-test
           path: browser-test-artifacts/
           if-no-files-found: ignore
+
+  academic-integrity:
+    name: Preserve all published textbook chapters and math
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out proposed repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install temporary academic verification library
+        run: npm install --no-save --no-package-lock jsdom@26.1.0
+      - name: Verify textbook structure, chapter URLs and worked solutions
+        run: node --expose-gc tooling/verify-library.cjs
