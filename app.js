@@ -744,6 +744,8 @@ function startApp() {
   window.addEventListener('resize', enableKeyboardMathScrolling);
   window.addEventListener('load', () => {
     setTimeout(enableKeyboardMathScrolling, 250);
+    // CDN typesetting can finish after the first reading-layout pass.
+    setTimeout(enableKeyboardMathScrolling, 700);
   });
 
   // 8. Student-friendly access. Do not trap normal browser gestures.
