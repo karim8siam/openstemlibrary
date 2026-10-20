@@ -19,7 +19,22 @@ vm.createContext(ctx);
 vm.runInContext(fs.readFileSync(path.join(root,'departments-data.js'),'utf8'),ctx,
   {filename:'departments-data.js',timeout:2000});
 const departments=ctx.window.LIBRARY_CATALOG.departments;
-const digest=file=>crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+// Ignore only the two deliberate publication-time presentation transforms.
+// Academic chapters, formulas, navigation and script source must still match.
+function normalizePresentation(text) {
+  return text
+    .replace(/🔒\s*<span>\s*In-Browser Protected\s*[•·]\s*Direct Download Disabled\s*<\/span>/g,
+      '<span>Read freely · Cite responsibly</span>')
+    .replace(/((?:app\.js|styles\.css|portal\.js|portal\.css))\?v=[A-Za-z0-9_-]+/g,
+      '$1?v=FINGERPRINT');
+}
+function digest(file) {
+  const bytes=fs.readFileSync(file);
+  const normalized=path.extname(file)==='.html'
+    ?Buffer.from(normalizePresentation(bytes.toString('utf8')),'utf8')
+    :bytes;
+  return crypto.createHash('sha256').update(normalized).digest('hex');
+}
 let books=0,chapters=0,verifiedAssets=0;
 const allNames=new Set();
 const sourceFolders=new Set();
