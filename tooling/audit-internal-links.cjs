@@ -14,7 +14,7 @@ const root=path.resolve(__dirname,'..');
 const dist=path.join(root,'dist');
 const sitemap=fs.readFileSync(path.join(dist,'sitemap.xml'),'utf8');
 const site='https://openstemlibrary.com';
-const urls=[...sitemap.matchAll(/<loc>\s*(https:\/\/openstemlibrary\.com\/[^<\s]+)\s*<\/loc>/g)].map(m=>m[1]);
+const urls=[...sitemap.matchAll(/<loc>\s*(https:\/\/openstemlibrary\.com\/[^<\s]*)\s*<\/loc>/g)].map(m=>m[1]);
 const canonicals=new Set(urls);
 assert(urls.length>100,'Expected full textbook library sitemap');
 const inbound=new Map(urls.map(url=>[url,new Set()]));
@@ -89,4 +89,4 @@ const report={
 fs.mkdirSync(path.join(root,'browser-test-artifacts'),{recursive:true});
 fs.writeFileSync(path.join(root,'browser-test-artifacts','internal-link-coverage.json'),JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify(report,null,2));
-if(chapterOrphans.length||absentTitles.length)process.exitCode=1;
+if(chapterOrphans.length||absentTitles.length||unresolvedTargets.size)process.exitCode=1;
