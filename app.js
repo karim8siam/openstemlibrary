@@ -694,7 +694,7 @@ function startApp() {
           }
         });
       }
-      window.requestAnimationFrame(enableKeyboardMathScrolling);
+      if (typeof window.requestAnimationFrame === 'function') window.requestAnimationFrame(enableKeyboardMathScrolling);
       if (!window.renderMathInElement) {
         // KaTeX bundle may still be loading, retry in 100ms
         setTimeout(renderMath, 100);
@@ -828,7 +828,7 @@ function startApp() {
       minus.disabled = sizeIndex === 0;
       plus.disabled = sizeIndex === allowedScales.length - 1;
       controls.setAttribute('data-reading-scale', String(size));
-      window.requestAnimationFrame(enableKeyboardMathScrolling);
+      if (typeof window.requestAnimationFrame === 'function') window.requestAnimationFrame(enableKeyboardMathScrolling);
       try { window.localStorage.setItem(fontSizeKey, String(size)); } catch (_) {}
     }
     minus.addEventListener('click', () => {
