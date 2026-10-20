@@ -1,0 +1,37 @@
+name: Reader Accessibility Diagnostics
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+concurrency:
+  group: wcag-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  wcag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser and axe-core
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1 axe-core@4
+          npx playwright install --with-deps chromium
+      - name: Build local production output
+        run: node tooling/prepare-static-site.cjs
+      - name: Scan 4 representative pages in desktop and mobile
+        run: |
+          python3 -m http.server 8765 --directory dist --bind 127.0.0.1 >/tmp/openstem-wcag.log 2>&1 &
+          node tooling/audit-reader-accessibility.cjs
+      - name: Upload actionable issue report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: openstem-wcag-report
+          path: browser-test-artifacts/accessibility-audit.json
+          if-no-files-found: ignore

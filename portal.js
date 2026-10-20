@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           </details>
           ${isAvailable ? `
-            <a href="${c.url.replace(/\.html$/, '')}" class="btn-open-course primary" title="Read ${c.title} Online" aria-label="Read ${c.title} textbook and simulations">
+            <a href="${c.url.replace(/\.html$/, '')}" class="btn-open-course primary" title="Read ${c.title} Online" aria-label="Read Textbook & Simulations — ${c.title}">
               <span>Read Textbook & Simulations</span>
               <span>→</span>
             </a>
@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="dept-showing-meta">
             Showing <strong class="meta-current-count">${isExpanded ? filteredCourses.length : DEFAULT_CARDS_PER_DEPT}</strong> of <strong>${filteredCourses.length}</strong> textbooks in ${dept.name}
           </div>
-          <button class="btn-see-more ${isExpanded ? 'is-expanded' : ''}" data-dept="${dept.id}" aria-expanded="${isExpanded}" aria-label="Toggle all textbooks in ${dept.name}">
+          <button class="btn-see-more ${isExpanded ? 'is-expanded' : ''}" data-dept="${dept.id}" aria-expanded="${isExpanded}" >
             <span class="btn-see-more-icon">${isExpanded ? '▲' : '📂'}</span>
             <span class="btn-see-more-text">${isExpanded ? `Show Fewer Textbooks (Collapse to ${DEFAULT_CARDS_PER_DEPT})` : `See More ${dept.name} Textbooks (+${excessCount} More)`}</span>
             <span class="btn-see-more-arrow">${isExpanded ? '↑' : '↓'}</span>

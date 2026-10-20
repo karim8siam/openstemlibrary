@@ -122,6 +122,7 @@ function startApp() {
         setTimeout(() => {
           if (window.SimulationEngine && window.SimulationEngine.initSimulation) {
             window.SimulationEngine.initSimulation(simId, simType);
+            labelSimulationControls(simId);
           }
         }, 60);
       });
@@ -224,6 +225,7 @@ function startApp() {
         setTimeout(() => {
           if (window.SimulationEngine && window.SimulationEngine.initSimulation) {
             window.SimulationEngine.initSimulation(simId, simType);
+            labelSimulationControls(simId);
           }
         }, 60);
       });
@@ -261,6 +263,7 @@ function startApp() {
       setTimeout(() => {
         if (window.SimulationEngine && window.SimulationEngine.initSimulation) {
           window.SimulationEngine.initSimulation(simId, simType);
+            labelSimulationControls(simId);
         }
       }, 60);
     });
@@ -690,12 +693,60 @@ function startApp() {
             console.warn("Math auto-render notice:", e);
           }
         });
-      } else if (!window.renderMathInElement) {
+      }
+      if (typeof window.requestAnimationFrame === 'function') window.requestAnimationFrame(enableKeyboardMathScrolling);
+      if (!window.renderMathInElement) {
         // KaTeX bundle may still be loading, retry in 100ms
         setTimeout(renderMath, 100);
       }
     }, 40);
   }
+
+
+  // Most simulations provide visible labels adjacent to sliders, but their
+  // older markup did not associate those labels with the actual control.
+  function labelSimulationControls(simId) {
+    const host = document.getElementById(simId);
+    if (!host) return;
+    host.querySelectorAll('input[type="range"]').forEach(input => {
+      if ((input.labels && input.labels.length) ||
+          input.hasAttribute('aria-label') || input.hasAttribute('aria-labelledby')) return;
+      const prev = input.previousElementSibling;
+      const label = prev && prev.tagName === 'LABEL'
+        ? prev : input.parentElement?.querySelector('label');
+      if (label && input.id) {
+        label.setAttribute('for', input.id);
+        return;
+      }
+      const idText = (input.id || '').replace(/-(slider|range)$/,'').replace(/[-_]/g,' ').trim();
+      const fallback = idText || input.parentElement?.textContent?.trim().slice(0,75)
+        || 'Simulation adjustment';
+      input.setAttribute('aria-label', fallback);
+    });
+  }
+
+  // Long equations intentionally scroll on small screens. Make only those
+  // overflow regions keyboard-focusable so users can reach the full formula.
+  function enableKeyboardMathScrolling() {
+    document.querySelectorAll('.katex-display').forEach(el => {
+      const css = window.getComputedStyle(el);
+      if ((el.scrollWidth > el.clientWidth || el.scrollHeight > el.clientHeight) &&
+          (css.overflowX === 'auto' || css.overflowX === 'scroll' ||
+           css.overflowY === 'auto' || css.overflowY === 'scroll')) {
+        el.setAttribute('tabindex', '0');
+        el.setAttribute('title','Use arrow keys to view the rest of this equation');
+      } else {
+        el.removeAttribute('tabindex');
+        el.removeAttribute('title');
+      }
+    });
+  }
+  window.addEventListener('resize', enableKeyboardMathScrolling);
+  window.addEventListener('load', () => {
+    setTimeout(enableKeyboardMathScrolling, 250);
+    // CDN typesetting can finish after the first reading-layout pass.
+    setTimeout(enableKeyboardMathScrolling, 700);
+  });
 
   // 8. Student-friendly access. Do not trap normal browser gestures.
   // Blocking text selection, printing, and the context menu is not a reliable
@@ -743,7 +794,7 @@ function startApp() {
       document.body.classList.toggle('reader-paper', paper);
       button.textContent = paper ? 'Night view' : 'Paper view';
       button.setAttribute('aria-pressed', String(paper));
-      button.setAttribute('aria-label', paper ? 'Switch to dark reading view' : 'Switch to paper reading view');
+      button.setAttribute('aria-label', paper ? 'Night view — switch to dark reading view' : 'Paper view — switch to paper reading view');
       button.title = paper ? 'Use the original dark reading theme' : 'Use a soft, high-contrast paper background';
     }
     update();
@@ -768,8 +819,8 @@ function startApp() {
     const minus = document.createElement('button');
     const plus = document.createElement('button');
     for (const [control, label, text] of [
-      [minus, 'Decrease reading text size', 'A−'],
-      [plus, 'Increase reading text size', 'A+']
+      [minus, 'A− Decrease reading text size', 'A−'],
+      [plus, 'A+ Increase reading text size', 'A+']
     ]) {
       control.type = 'button';
       control.className = 'btn-tool reader-size-button';
@@ -783,6 +834,7 @@ function startApp() {
       minus.disabled = sizeIndex === 0;
       plus.disabled = sizeIndex === allowedScales.length - 1;
       controls.setAttribute('data-reading-scale', String(size));
+      if (typeof window.requestAnimationFrame === 'function') window.requestAnimationFrame(enableKeyboardMathScrolling);
       try { window.localStorage.setItem(fontSizeKey, String(size)); } catch (_) {}
     }
     minus.addEventListener('click', () => {
