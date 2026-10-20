@@ -34,10 +34,15 @@ for(const dep of departments) {
   assert(entries.includes(book.url),'Missing book entry: '+book.url);
   const chapterNames=entries.filter(n=>n.startsWith(stem+'-chapter-') && n.endsWith('.html'));
   assert(chapterNames.length>0,'Missing book chapters: '+book.id);
-  assert(entries.includes(stem==='reader'?'course-data.js':stem+'-data.js'),
-    'Missing textbook data: '+book.id);
-  assert(entries.includes(stem==='reader'?'simulations.js':stem+'-sims.js'),
-    'Missing simulation source: '+book.id);
+  // Some legacy course JS assets use short names (e.g., statmech-data.js).
+  // The published HTML script references are authoritative.
+  const html=fs.readFileSync(path.join(folder,book.url),'utf8');
+  const courseScripts=[...html.matchAll(/<script[^>]+src=["']([^"']+)["']/g)]
+    .map(m=>m[1].split('?')[0])
+    .filter(n=>/^(?:course-data|simulations|.+-(?:data|sims))\.js$/.test(n));
+  assert.equal(courseScripts.length,2,'Expected source data and simulation references: '+book.id);
+  for(const script of courseScripts)
+    assert(entries.includes(script),'Missing referenced academic source '+book.id+'/'+script);
   for(const name of entries){
     assert(!allNames.has(name),'Filename collision across books: '+name);
     allNames.add(name);
