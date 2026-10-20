@@ -2,10 +2,10 @@
 'use strict';
 const crypto = require('node:crypto');
 const hosts = [
-  'https://4d3b6dcc.openstemlibrary.pages.dev',
+  'https://26cd99e6.openstemlibrary.pages.dev',
   'https://openstemlibrary.com'
 ];
-const paths = ['/', '/reader', '/sitemap.xml', '/tooling/README.md', '/publishing/README.md'];
+const paths = ['/', '/reader', '/calculus-1', '/calculus-1-chapter-2', '/calculus-1-data.js', '/sitemap.xml', '/tooling/README.md', '/publishing/README.md'];
 (async () => {
   const output = [];
   for (const host of hosts) {
