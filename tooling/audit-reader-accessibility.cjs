@@ -14,7 +14,7 @@ fs.mkdirSync(out,{recursive:true});
     for(const viewport of [{width:1440,height:900},{width:390,height:844}]){
      const page=await browser.newPage({viewport});
      await page.goto('http://127.0.0.1:8765/'+file,{waitUntil:'domcontentloaded'});
-     await page.waitForTimeout(850);
+     await page.waitForTimeout(1050);
      await page.addScriptTag({path:axePath});
      const result=await page.evaluate(()=>window.axe.run(document,{
        runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21a','wcag21aa']}
