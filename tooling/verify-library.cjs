@@ -1,6 +1,8 @@
 const fs=require('node:fs'), path=require('node:path'), vm=require('node:vm'), cp=require('node:child_process');
 const {JSDOM}=require(process.env.OPENSTEM_JSDOM_PATH || 'jsdom');
-const root=path.resolve(__dirname,'..'), read=f=>fs.readFileSync(path.join(root,f),'utf8');
+const root=path.resolve(__dirname,'..');
+const publicPath=f=>fs.existsSync(path.join(root,f))?path.join(root,f):path.join(root,'dist',f);
+const read=f=>fs.readFileSync(publicPath(f),'utf8');
 const catalog={window:{}}; vm.createContext(catalog); vm.runInContext(read('departments-data.js'),catalog);
 const books=catalog.window.LIBRARY_CATALOG.departments.flatMap(d=>d.courses.filter(c=>c.status==='AVAILABLE'));
 const failures=[]; let chapters=0, problems=0; const sitemap=new JSDOM(read('sitemap.xml'),{contentType:'text/xml'});
@@ -22,7 +24,7 @@ for(const book of books){
   old.window.close(); base.window.close();
   for(let i=0;i<data.window.COURSE_DATA.units.length;i++){
     const file=i===0?book.url:book.url.replace(/\.html$/,`-chapter-${i+1}.html`);
-    if(!fs.existsSync(path.join(root,file))){failures.push('Missing page: '+file);continue;}
+    if(!fs.existsSync(publicPath(file))){failures.push('Missing page: '+file);continue;}
     const dom=new JSDOM(read(file)), d=dom.window.document, unit=data.window.COURSE_DATA.units[i]; chapters++;
     if(d.querySelector('link[rel="canonical"]')?.getAttribute('href')!=='https://openstemlibrary.com/'+file.replace(/\.html$/, ''))failures.push('Wrong canonical '+file);
     if(!urls.has('https://openstemlibrary.com/'+file.replace(/\.html$/, '')))failures.push('Missing sitemap entry '+file);
@@ -34,7 +36,7 @@ for(const book of books){
       const url=el.getAttribute('href')||el.getAttribute('src');
       if(!url||/^(https?:|mailto:|data:|#)/.test(url))continue;
       const local=url.split(/[?#]/)[0];
-      if(local && !fs.existsSync(path.join(root,local)) && !fs.existsSync(path.join(root,local+'.html')))failures.push('Broken reference '+file+' -> '+local);
+      if(local && !fs.existsSync(publicPath(local)) && !fs.existsSync(publicPath(local+'.html')))failures.push('Broken reference '+file+' -> '+local);
     }
     if(d.querySelectorAll('.unit-nav-link').length!==data.window.COURSE_DATA.units.length)failures.push('Missing navigation '+file);
     dom.window.close();
