@@ -71,6 +71,13 @@ async function get(url) {
   const robots=results.get('robots')?.body||'';
   if(reader && !reader.includes('https://openstemlibrary.com/reader'))
     publicResults.errors.push('Reader missing its expected canonical URL');
+  // This is a reader-accessibility requirement, independent of Google indexing.
+  // The page must be truthful even if users block JavaScript or have old caches.
+  if(reader && reader.includes('In-Browser Protected'))
+    publicResults.errors.push('Static reader still contains a misleading content-protection claim');
+  if(reader && !reader.includes('Read freely · Cite responsibly'))
+    publicResults.errors.push('Static reader missing its accessible reading notice');
+
   if(js && !js.includes('initReadingAppearance'))
     publicResults.errors.push('Production app.js does not contain the reader theme control; check deployment cache');
   if(sitemap && !sitemap.includes('https://openstemlibrary.com/reader'))
