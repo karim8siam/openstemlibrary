@@ -30,6 +30,17 @@ jobs:
           node --check portal.js
       - name: Check sitemap and SEO metadata
         run: python tooling/check-search-metadata.py
+      - name: Prepare isolated deploy output without changing public URLs
+        run: node tooling/prepare-static-site.cjs
+      - name: Check generated site has no unpublished source directories
+        run: |
+          test -f dist/index.html
+          test -f dist/sitemap.xml
+          test -f dist/reader.html
+          test -f dist/_headers
+          test -f dist/_redirects
+          test ! -d dist/tooling
+          test ! -d dist/publishing
 
   browser:
     name: Reader appearance / functional browser test
