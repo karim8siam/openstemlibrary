@@ -54,3 +54,7 @@ Do not change its output name. Build and test before moving another book.
 ## Crawling and resilience
 Googlebot requests the deployed public URLs. Folder grouping in Git has no direct effect on request concurrency.
 Check actual 429/5xx responses and host analytics before considering crawler rate limits.
+
+## Production cutover verification (October 20, 2026)
+
+Cloudflare Pages now uses `node tooling/prepare-static-site.cjs` with output `dist` on `main`. The immutable Pages deployment and `https://openstemlibrary.com` both return HTTP 404 for `/tooling/README.md` and `/publishing/README.md`, while textbook pages return HTTP 200. The first actual subject move is staged as a separate draft pull request and must pass all checks before release.
