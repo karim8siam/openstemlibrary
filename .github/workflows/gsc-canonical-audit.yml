@@ -1,0 +1,31 @@
+name: Search Console URL Canonical Audit
+
+on:
+  push:
+    branches:
+      - 'audit/gsc-url-coverage-20261021'
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  canonical:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Inspect representative public and alternate URLs
+        run: node tooling/audit-canonical-variants.cjs
+      - name: Keep structured HTTP report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: canonical-url-diagnostics
+          path: browser-test-artifacts/canonical-variants.json
+          retention-days: 7
+          if-no-files-found: ignore
