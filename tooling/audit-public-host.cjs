@@ -32,7 +32,8 @@ async function get(url) {
     }});
     const body=await res.text();
     return {status:res.status,finalUrl:res.url,body,contentType:res.headers.get('content-type')||'',
-      server:res.headers.get('server')||'',cache:res.headers.get('cf-cache-status')||''};
+      server:res.headers.get('server')||'',cache:res.headers.get('cf-cache-status')||'',
+      xRobotsTag:res.headers.get('x-robots-tag')||''};
   } finally {
     clearTimeout(timeout);
   }
@@ -44,12 +45,15 @@ async function get(url) {
       const result=await get(base+route);
       results.set(name,result);
       const info={name,route,status:result.status,expected,bytes:Buffer.byteLength(result.body),contentType:result.contentType,
-        cache:result.cache,finalUrl:result.finalUrl};
+        cache:result.cache,xRobotsTag:result.xRobotsTag,finalUrl:result.finalUrl};
       publicResults.tests.push(info);
       if(expected!==null && result.status!==expected)
         publicResults.errors.push(name+' expected HTTP '+expected+', got '+result.status);
-      if((name==='publication_drafts'||name==='internal_tooling') && result.status===200)
+      if((name==='publication_drafts'||name==='internal_tooling') && result.status===200) {
         publicResults.warnings.push(name+' public source files reachable (these should be excluded after dist cutover)');
+        if (!result.xRobotsTag.toLowerCase().includes('noindex'))
+          publicResults.warnings.push(name+' lacks an X-Robots-Tag noindex response header');
+      }
     }catch(err){
       publicResults.tests.push({name,route,error:String(err)});
       if(expected!==null)publicResults.errors.push(name+' request failed: '+String(err));
