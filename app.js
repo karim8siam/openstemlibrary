@@ -730,8 +730,9 @@ function startApp() {
   function enableKeyboardMathScrolling() {
     document.querySelectorAll('.katex-display').forEach(el => {
       const css = window.getComputedStyle(el);
-      if (el.scrollWidth > el.clientWidth &&
-          (css.overflowX === 'auto' || css.overflowX === 'scroll')) {
+      if ((el.scrollWidth > el.clientWidth || el.scrollHeight > el.clientHeight) &&
+          (css.overflowX === 'auto' || css.overflowX === 'scroll' ||
+           css.overflowY === 'auto' || css.overflowY === 'scroll')) {
         el.setAttribute('tabindex', '0');
         el.setAttribute('title','Use arrow keys to view the rest of this equation');
       } else {
@@ -741,6 +742,9 @@ function startApp() {
     });
   }
   window.addEventListener('resize', enableKeyboardMathScrolling);
+  window.addEventListener('load', () => {
+    setTimeout(enableKeyboardMathScrolling, 250);
+  });
 
   // 8. Student-friendly access. Do not trap normal browser gestures.
   // Blocking text selection, printing, and the context menu is not a reliable
