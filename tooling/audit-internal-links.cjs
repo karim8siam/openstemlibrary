@@ -14,7 +14,7 @@ const root=path.resolve(__dirname,'..');
 const dist=path.join(root,'dist');
 const sitemap=fs.readFileSync(path.join(dist,'sitemap.xml'),'utf8');
 const site='https://openstemlibrary.com';
-const urls=[...sitemap.matchAll(/<loc>(https:\/\/openstemlibrary\.com\/[^<]+)<\/loc>/g)].map(m=>m[1]);
+const urls=[...sitemap.matchAll(/<loc>\s*(https:\/\/openstemlibrary\.com\/[^<\s]+)\s*<\/loc>/g)].map(m=>m[1]);
 const canonicals=new Set(urls);
 assert(urls.length>100,'Expected full textbook library sitemap');
 const inbound=new Map(urls.map(url=>[url,new Set()]));
