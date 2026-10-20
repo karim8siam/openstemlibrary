@@ -1,0 +1,72 @@
+name: Cloudflare Dist Cutover Readiness
+
+on:
+  push:
+    branches:
+      - main
+      - 'ops/**'
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudflare-readiness-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  package:
+    name: Check and archive public site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build public dist folder
+        run: node tooling/prepare-static-site.cjs
+      - name: Preserve all sitemap URLs
+        run: python3 tooling/check-search-metadata.py
+      - name: Validate published routes and absence of private drafts
+        run: |
+          test -f dist/index.html
+          test -f dist/reader.html
+          test -f dist/robots.txt
+          test -f dist/sitemap.xml
+          test -f dist/_headers
+          test -f dist/_redirects
+          test ! -e dist/publishing
+          test ! -e dist/tooling
+      - name: Store deployment-ready public files
+        uses: actions/upload-artifact@v4
+        with:
+          name: openstem-static-dist
+          path: dist/
+          retention-days: 7
+
+  live-audit:
+    name: Read-only production HTTP audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check real Cloudflare HTTP responses
+        id: probe
+        continue-on-error: true
+        run: node tooling/audit-public-host.cjs https://openstemlibrary.com
+      - name: Upload HTTP and exposure diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: openstem-live-route-diagnostics
+          path: browser-test-artifacts/live-site-audit.json
+          if-no-files-found: ignore
+          retention-days: 7
+      - name: Report site check outcome
+        run: |
+          if [ "${{ steps.probe.outcome }}" != "success" ]; then
+            echo "::warning::Live HTTP audit found an issue; download diagnostic artifact before Cloudflare cutover."
+          fi
