@@ -9,6 +9,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
+const {normalizeUnpublishedReferences}=require('./normalize-references.cjs');
 
 const root = path.resolve(__dirname, '..');
 const destination = path.join(root, 'dist');
@@ -92,13 +93,16 @@ const assetFingerprints = Object.fromEntries(readerAssets
     .update(fs.readFileSync(publishedFiles.get(name))).digest('hex').slice(0, 12)]));
 let updatedReaderNotices = 0;
 let versionedReferences = 0;
+let unpublishedCitationLinksRemoved = 0;
 function preparePublicHTML(html) {
   // The old lock label was still visible in the static HTML until scripts ran.
   // Reading, selecting and printing should be communicated truthfully even
   // when JS is delayed, blocked or served from a stale browser cache.
   const normalized = html.replace(/🔒\s*<span>\s*In-Browser Protected\s*[•·]\s*Direct Download Disabled\s*<\/span>/g,
     () => { updatedReaderNotices++; return '<span>Read freely · Cite responsibly</span>'; });
-  return normalized.replace(/((?:src|href)=["'])(?:\.\/)?(app\.js|styles\.css|portal\.js|portal\.css)(?:\?v=[^"']*)?(["'])/g,
+  const references=normalizeUnpublishedReferences(normalized,slug=>publishedFiles.has(slug+'.html'));
+  unpublishedCitationLinksRemoved+=references.normalizedCount;
+  return references.html.replace(/((?:src|href)=["'])(?:\.\/)?(app\.js|styles\.css|portal\.js|portal\.css)(?:\?v=[^"']*)?(["'])/g,
     (original, prefix, asset, closing) => {
       if(!assetFingerprints[asset]) return original;
       versionedReferences++;
@@ -120,6 +124,7 @@ const result = {
   output: 'dist/',
   publicAssets: publishedFiles.size,
   normalizedOutdatedReaderNotices: updatedReaderNotices,
+  unpublishedCitationLinksRemoved,
   cacheVersionedAssetReferences: versionedReferences,
   assetFingerprints,
   sitemapUrls: sitemapUrls.length,
