@@ -8,6 +8,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 
 const root = path.resolve(__dirname, '..');
 const destination = path.join(root, 'dist');
@@ -82,15 +83,45 @@ for (const department of departments) {
   });
 }
 
+// Each change to the reading controller or styles must invalidate the old
+// URL in students' browser caches, instead of reusing a fixed 20261016 suffix.
+const readerAssets = ['app.js', 'styles.css', 'portal.js', 'portal.css'];
+const assetFingerprints = Object.fromEntries(readerAssets
+  .filter(name => publishedFiles.has(name))
+  .map(name => [name, crypto.createHash('sha256')
+    .update(fs.readFileSync(publishedFiles.get(name))).digest('hex').slice(0, 12)]));
+let updatedReaderNotices = 0;
+let versionedReferences = 0;
+function preparePublicHTML(html) {
+  // The old lock label was still visible in the static HTML until scripts ran.
+  // Reading, selecting and printing should be communicated truthfully even
+  // when JS is delayed, blocked or served from a stale browser cache.
+  const normalized = html.replace(/🔒\s*<span>\s*In-Browser Protected\s*[•·]\s*Direct Download Disabled\s*<\/span>/g,
+    () => { updatedReaderNotices++; return '<span>Read freely · Cite responsibly</span>'; });
+  return normalized.replace(/((?:src|href)=["'])(?:\.\/)?(app\.js|styles\.css|portal\.js|portal\.css)(?:\?v=[^"']*)?(["'])/g,
+    (original, prefix, asset, closing) => {
+      if(!assetFingerprints[asset]) return original;
+      versionedReferences++;
+      return prefix + asset + '?v=' + assetFingerprints[asset] + closing;
+    });
+}
 fs.rmSync(destination, { recursive: true, force: true });
 fs.mkdirSync(destination, { recursive: true });
 for (const [name, source] of publishedFiles) {
-  fs.copyFileSync(source, path.join(destination, name));
+  const target = path.join(destination, name);
+  if(name.endsWith('.html')) {
+    fs.writeFileSync(target, preparePublicHTML(fs.readFileSync(source, 'utf8')), 'utf8');
+  } else {
+    fs.copyFileSync(source, target);
+  }
 }
 const totalBooks = Object.values(subjectInventory).reduce((n, courses) => n + courses.length, 0);
 const result = {
   output: 'dist/',
   publicAssets: publishedFiles.size,
+  normalizedOutdatedReaderNotices: updatedReaderNotices,
+  cacheVersionedAssetReferences: versionedReferences,
+  assetFingerprints,
   sitemapUrls: sitemapUrls.length,
   availableBooks: totalBooks,
   subjects: Object.fromEntries(Object.entries(subjectInventory).map(([id, books]) => [id, books.length])),
