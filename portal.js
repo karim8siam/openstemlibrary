@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           </details>
           ${isAvailable ? `
-            <a href="${c.url.replace(/\.html$/, '')}" class="btn-open-course primary" title="Read ${c.title} Online" aria-label="Read ${c.title} textbook and simulations">
+            <a href="${c.url.replace(/\.html$/, '')}" class="btn-open-course primary" title="Read ${c.title} Online" aria-label="Read Textbook & Simulations — ${c.title}">
               <span>Read Textbook & Simulations</span>
               <span>→</span>
             </a>
