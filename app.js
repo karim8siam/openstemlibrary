@@ -12,6 +12,7 @@ function startApp() {
   initMobileNavigation();
   initAntiCopyGuards();
   initFontToggle();
+  initReadingAppearance();
   initSearch();
 
   // 1. Sidebar Setup
@@ -696,49 +697,15 @@ function startApp() {
     }, 40);
   }
 
-  // 8. Anti-Copy & Anti-Download Protection
+  // 8. Student-friendly access. Do not trap normal browser gestures.
+  // Blocking text selection, printing, and the context menu is not a reliable
+  // content-protection mechanism and harms accessibility and study workflows.
   function initAntiCopyGuards() {
-    // Disable right click
-    document.addEventListener("contextmenu", (e) => {
-      e.preventDefault();
-      showToast("Right-click is protected to support free open-access academic reading.");
-    });
-
-    // Disable keyboard shortcuts for saving or printing
-    document.addEventListener("keydown", (e) => {
-      if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'p' || e.key === 'P')) {
-        e.preventDefault();
-        showToast("Saving and printing are disabled. Enjoy reading for free online!");
-      }
-    });
-  }
-
-  function showToast(msg) {
-    let toast = document.getElementById("app-toast");
-    if (!toast) {
-      toast = document.createElement("div");
-      toast.id = "app-toast";
-      toast.style.cssText = `
-        position: fixed;
-        bottom: 75px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: #0f172a;
-        color: #38bdf8;
-        border: 1px solid #38bdf8;
-        padding: 0.65rem 1.25rem;
-        border-radius: 8px;
-        font-size: 0.82rem;
-        z-index: 999;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-      `;
-      document.body.appendChild(toast);
+    const notice = document.querySelector('.protection-notice');
+    if (notice) {
+      notice.textContent = 'Read freely · Cite responsibly';
+      notice.removeAttribute('title');
     }
-    toast.innerText = msg;
-    toast.style.display = "block";
-    setTimeout(() => {
-      toast.style.display = "none";
-    }, 3200);
   }
 
   // 11. Font Toggle (Academic Serif vs Modern Sans)
@@ -749,6 +716,40 @@ function startApp() {
       document.body.classList.toggle("academic-font");
       const isSerif = document.body.classList.contains("academic-font");
       btn.innerText = isSerif ? "Aa Modern" : "Aa Academic";
+    });
+  }
+
+  // Reader-controlled paper appearance. Keeps interactive simulations on a dark canvas.
+  // The button is idempotent because the static HTML generator runs this controller.
+  function initReadingAppearance() {
+    const toolbar = document.querySelector('.top-navbar .navbar-actions')
+      || document.querySelector('.reader-toolbar')
+      || document.querySelector('.top-navbar');
+    if (!toolbar) return;
+    let button = toolbar.querySelector('.reader-theme-toggle');
+    if (!button) {
+      button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'btn-tool reader-theme-toggle';
+      toolbar.appendChild(button);
+    }
+    const preferenceKey = 'openstem-reader-theme';
+    let paper = false;
+    try { paper = window.localStorage.getItem(preferenceKey) === 'paper'; } catch (_) {
+      // Private browsing and restricted storage must not break reading.
+    }
+    function update() {
+      document.body.classList.toggle('reader-paper', paper);
+      button.textContent = paper ? 'Night view' : 'Paper view';
+      button.setAttribute('aria-pressed', String(paper));
+      button.setAttribute('aria-label', paper ? 'Switch to dark reading view' : 'Switch to paper reading view');
+      button.title = paper ? 'Use the original dark reading theme' : 'Use a soft, high-contrast paper background';
+    }
+    update();
+    button.addEventListener('click', () => {
+      paper = !paper;
+      update();
+      try { window.localStorage.setItem(preferenceKey, paper ? 'paper' : 'night'); } catch (_) {}
     });
   }
 

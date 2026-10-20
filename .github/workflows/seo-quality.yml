@@ -1,0 +1,92 @@
+name: SEO and Reader Quality
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check browser JavaScript syntax
+        run: |
+          node --check app.js
+          node --check portal.js
+      - name: Check sitemap and SEO metadata
+        run: python tooling/check-search-metadata.py
+      - name: Prepare isolated deploy output without changing public URLs
+        run: node tooling/prepare-static-site.cjs
+      - name: Check generated site has no unpublished source directories
+        run: |
+          test -f dist/index.html
+          test -f dist/sitemap.xml
+          test -f dist/reader.html
+          test -f dist/_headers
+          test -f dist/_redirects
+          test ! -d dist/tooling
+          test ! -d dist/publishing
+      - name: Dry-run subject folder migration with unchanged deployed URLs
+        run: node tooling/test-subject-migration.cjs
+
+  browser:
+    name: Reader appearance / functional browser test
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out proposed code
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install headless Chromium test environment
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Test desktop and mobile reading layouts
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/openstem-reader-server.log 2>&1 &
+          node tooling/check-reader-browser.cjs
+      - name: Save browser screenshots and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reader-browser-smoke-test
+          path: browser-test-artifacts/
+          if-no-files-found: ignore
+
+  academic-integrity:
+    name: Preserve all published textbook chapters and math
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out proposed repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install temporary academic verification library
+        run: npm install --no-save --no-package-lock jsdom@26.1.0
+      - name: Verify textbook structure, chapter URLs and worked solutions
+        run: node --expose-gc tooling/verify-library.cjs
