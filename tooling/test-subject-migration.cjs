@@ -10,15 +10,15 @@ const crypto=require('node:crypto');
 const cp=require('node:child_process');
 const assert=require('node:assert/strict');
 const root=path.resolve(__dirname,'..');
-const folder=path.join(root,'src','subjects','mathematics','calculus-1');
+const folder=path.join(root,'src','subjects','mathematics','calculus-2');
 const original=fs.readdirSync(root).filter(n =>
-  /^calculus-1(?:-chapter-\d+)?\.html$/.test(n) ||
-  /^calculus-1-(?:data|sims)\.js$/.test(n)
+  /^calculus-2(?:-chapter-\d+)?\.html$/.test(n) ||
+  /^calculus-2-(?:data|sims)\.js$/.test(n)
 );
-assert(original.includes('calculus-1.html'),'Missing Calculus I index');
+assert(original.includes('calculus-2.html'),'Missing Calculus I index');
 assert(original.some(n=>n.includes('-chapter-')),'Missing Calculus I chapters');
-assert(original.includes('calculus-1-data.js'),'Missing book data');
-assert(original.includes('calculus-1-sims.js'),'Missing simulation source');
+assert(original.includes('calculus-2-data.js'),'Missing book data');
+assert(original.includes('calculus-2-sims.js'),'Missing simulation source');
 assert(!fs.existsSync(folder),'Migration fixture collides with existing source folder');
 
 const digest=file=>crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
@@ -43,7 +43,7 @@ try {
   console.log(JSON.stringify({
     dryRun:'passed',sourceFilesRelocated:moved.length,
     outputFilesCompared:after.size,canonicalRoutesChanged:0,
-    expectedPublicUrl:'https://openstemlibrary.com/calculus-1'
+    expectedPublicUrl:'https://openstemlibrary.com/calculus-2'
   },null,2));
 } finally {
   for(const name of moved) {

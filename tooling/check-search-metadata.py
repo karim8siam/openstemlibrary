@@ -62,7 +62,10 @@ def check():
             continue
         if route.startswith(("publishing/", "tooling/")) or route == "404":
             failures.append(f"Internal/error page in sitemap: {url}")
-        file = ROOT / (route + ".html" if route else "index.html")
+        relative = route + ".html" if route else "index.html"
+        file = ROOT / relative
+        if not file.is_file() and (ROOT / "dist" / relative).is_file():
+            file = ROOT / "dist" / relative
         if not file.resolve().is_relative_to(ROOT) or not file.is_file():
             failures.append(f"Missing sitemap target: {url}")
             continue

@@ -7,10 +7,39 @@ const vm = require('node:vm');
 const crypto = require('node:crypto');
 const { JSDOM } = require(process.env.OPENSTEM_JSDOM_PATH || 'jsdom');
 const root = path.resolve(__dirname, '..');
-const read = file => fs.readFileSync(path.join(root, file), 'utf8');
+// Once Cloudflare serves dist/, published books may live under their STEM
+// subject directory without changing their output filenames or routes.
+const groupedRoot = path.join(root, 'src', 'subjects');
+const groupedFiles = new Map(), groupedBooks = new Map();
+if (fs.existsSync(groupedRoot)) {
+  for (const dept of fs.readdirSync(groupedRoot, { withFileTypes: true })) {
+    if (!dept.isDirectory()) continue;
+    for (const book of fs.readdirSync(path.join(groupedRoot, dept.name), { withFileTypes: true })) {
+      if (!book.isDirectory()) continue;
+      const folder = path.join(groupedRoot, dept.name, book.name);
+      for (const file of fs.readdirSync(folder, { withFileTypes: true })) {
+        if (!file.isFile()) continue;
+        if (groupedFiles.has(file.name)) throw Error('Duplicate grouped source: ' + file.name);
+        groupedFiles.set(file.name, path.join(folder, file.name));
+        if (file.name.endsWith('.html') && !/-chapter-\d+\.html$/.test(file.name)) {
+          groupedBooks.set(file.name.slice(0, -5), folder);
+        }
+      }
+    }
+  }
+}
+function sourcePath(file) {
+  const rootFile = path.join(root, file);
+  if (fs.existsSync(rootFile)) return rootFile;
+  if (groupedFiles.has(file)) return groupedFiles.get(file);
+  const chapterBook = file.match(/^(.*)-chapter-\d+\.html$/)?.[1];
+  if (chapterBook && groupedBooks.has(chapterBook)) return path.join(groupedBooks.get(chapterBook), file);
+  return rootFile;
+}
+const read = file => fs.readFileSync(sourcePath(file), 'utf8');
 const changedPages = new Set();
 const write = (file, text) => {
-  const target = path.join(root, file);
+  const target = sourcePath(file);
   if (!fs.existsSync(target) || fs.readFileSync(target, 'utf8') !== text) {
     if (file.endsWith('.html')) changedPages.add(file);
     fs.writeFileSync(target, text);
