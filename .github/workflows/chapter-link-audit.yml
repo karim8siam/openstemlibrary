@@ -1,0 +1,28 @@
+name: Student Chapter Discovery Audit
+on:
+  push:
+    branches:
+      - 'improve/reader-navigation-audit-20261021'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  chapter-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare HTML exactly as published
+        run: node tooling/prepare-static-site.cjs
+      - name: Audit chapter discoverability and standard navigation links
+        run: node tooling/audit-internal-links.cjs
+      - name: Save chapter discovery diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: student-chapter-links
+          path: browser-test-artifacts/internal-link-coverage.json
+          retention-days: 14
