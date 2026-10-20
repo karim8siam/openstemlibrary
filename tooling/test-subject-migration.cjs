@@ -10,6 +10,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const vm=require('node:vm');
 const crypto=require('node:crypto');
+const {normalizeUnpublishedReferences}=require('./normalize-references.cjs');
 const assert=require('node:assert/strict');
 const root=path.resolve(__dirname,'..');
 const dist=path.join(root,'dist');
@@ -22,7 +23,7 @@ const departments=ctx.window.LIBRARY_CATALOG.departments;
 // Ignore only the two deliberate publication-time presentation transforms.
 // Academic chapters, formulas, navigation and script source must still match.
 function normalizePresentation(text) {
-  return text
+  return normalizeUnpublishedReferences(text).html
     .replace(/🔒\s*<span>\s*In-Browser Protected\s*[•·]\s*Direct Download Disabled\s*<\/span>/g,
       '<span>Read freely · Cite responsibly</span>')
     .replace(/((?:app\.js|styles\.css|portal\.js|portal\.css))\?v=[A-Za-z0-9_-]+/g,
