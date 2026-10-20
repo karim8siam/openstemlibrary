@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const {JSDOM} = require('jsdom');
 const root = path.resolve(__dirname, '..');
-const read = f => fs.readFileSync(path.join(root, f), 'utf8');
+const read = f => fs.readFileSync(fs.existsSync(path.join(root, f)) ? path.join(root, f) : path.join(root, 'dist', f), 'utf8');
 const dom = new JSDOM(read('reader.html'), {url:'https://openstemlibrary.com/reader',runScripts:'outside-only'});
 const w=dom.window,d=w.document;
 const callbacks=[]; const mounted=[];
