@@ -19,7 +19,7 @@ async function verifyPage(browser, file, viewport, suffix) {
   assert.equal(response.status(), 200, file + ' returned ' + response.status());
   const button = page.locator('.reader-theme-toggle');
   await button.waitFor({ timeout: 20000 });
-  assert.equal(await button.getAttribute('aria-pressed'), 'false', 'Original night theme should be default');
+  assert.equal(await button.getAttribute('aria-pressed'), 'true', 'Calm paper theme should be default');
   assert.equal(await page.locator('body').evaluate(el => getComputedStyle(el).userSelect), 'text', 'Readers must be able to select and copy their study text');
   assert.ok(await page.locator('.textbook-section-card').count() > 0, 'Book must contain prerendered learning sections');
   const browserAccess = await page.evaluate(() => {
@@ -30,8 +30,7 @@ async function verifyPage(browser, file, viewport, suffix) {
   });
   assert.ok(browserAccess.contextMenuAllowed, 'Right-click should not be globally blocked');
   assert.ok(browserAccess.printShortcutAllowed, 'Print shortcut should not be globally blocked');
-  await button.click();
-  assert.equal(await button.textContent(), 'Night view', 'Paper theme toggle must update its label');
+  assert.equal(await button.textContent(), 'Night view', 'Paper theme must allow switching to Night view');
   const paper = await page.evaluate(() => {
     const section = document.querySelector('.textbook-section-card');
     return {
@@ -45,6 +44,20 @@ async function verifyPage(browser, file, viewport, suffix) {
   assert.equal(paper.body, 'rgb(244, 242, 236)', 'Expected calm paper background on ' + file);
   assert.equal(paper.section, 'rgb(255, 254, 250)', 'Expected high-contrast reading section on ' + file);
   assert.ok(paper.overflow <= 8, 'Unexpected mobile horizontal overflow: ' + file + ' ' + paper.overflow);
+  const increase = page.getByRole('button', {name: 'Increase reading text size'});
+  const decrease = page.getByRole('button', {name: 'Decrease reading text size'});
+  assert.equal(await increase.count(), 1, 'Reader font increase button missing');
+  assert.equal(await decrease.isDisabled(), true, 'Default minimum font scale expected');
+  const beforeFont = await page.locator('.sec-content').first().evaluate(el => getComputedStyle(el).fontSize);
+  await increase.click();
+  const afterFont = await page.locator('.sec-content').first().evaluate(el => getComputedStyle(el).fontSize);
+  assert.ok(parseFloat(afterFont)>parseFloat(beforeFont), 'Font resizing did not increase reading text size');
+  await page.reload({waitUntil:'domcontentloaded'});
+  await button.waitFor({timeout:20000});
+  const persistedFont=await page.locator('.sec-content').first().evaluate(el => getComputedStyle(el).fontSize);
+  assert.equal(persistedFont,afterFont,'Reader size must persist across page reload');
+  await decrease.click();
+
   await page.screenshot({ path: output + '/' + file.replace('.html','') + '-' + suffix + '-paper.png' });
   await page.reload({waitUntil: 'domcontentloaded'});
   await button.waitFor({timeout: 20000});
