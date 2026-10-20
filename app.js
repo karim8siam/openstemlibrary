@@ -12,6 +12,7 @@ function startApp() {
   initMobileNavigation();
   initAntiCopyGuards();
   initFontToggle();
+  initReadingAppearance();
   initSearch();
 
   // 1. Sidebar Setup
@@ -749,6 +750,40 @@ function startApp() {
       document.body.classList.toggle("academic-font");
       const isSerif = document.body.classList.contains("academic-font");
       btn.innerText = isSerif ? "Aa Modern" : "Aa Academic";
+    });
+  }
+
+  // Reader-controlled paper appearance. Keeps interactive simulations on a dark canvas.
+  // The button is idempotent because the static HTML generator runs this controller.
+  function initReadingAppearance() {
+    const toolbar = document.querySelector('.top-navbar .navbar-actions')
+      || document.querySelector('.reader-toolbar')
+      || document.querySelector('.top-navbar');
+    if (!toolbar) return;
+    let button = toolbar.querySelector('.reader-theme-toggle');
+    if (!button) {
+      button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'btn-tool reader-theme-toggle';
+      toolbar.appendChild(button);
+    }
+    const preferenceKey = 'openstem-reader-theme';
+    let paper = false;
+    try { paper = window.localStorage.getItem(preferenceKey) === 'paper'; } catch (_) {
+      // Private browsing and restricted storage must not break reading.
+    }
+    function update() {
+      document.body.classList.toggle('reader-paper', paper);
+      button.textContent = paper ? 'Night view' : 'Paper view';
+      button.setAttribute('aria-pressed', String(paper));
+      button.setAttribute('aria-label', paper ? 'Switch to dark reading view' : 'Switch to paper reading view');
+      button.title = paper ? 'Use the original dark reading theme' : 'Use a soft, high-contrast paper background';
+    }
+    update();
+    button.addEventListener('click', () => {
+      paper = !paper;
+      update();
+      try { window.localStorage.setItem(preferenceKey, paper ? 'paper' : 'night'); } catch (_) {}
     });
   }
 
