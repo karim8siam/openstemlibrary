@@ -730,13 +730,13 @@ function startApp() {
   function enableKeyboardMathScrolling() {
     document.querySelectorAll('.katex-display').forEach(el => {
       const css = window.getComputedStyle(el);
-      if (el.scrollWidth > el.clientWidth + 2 &&
+      if (el.scrollWidth > el.clientWidth &&
           (css.overflowX === 'auto' || css.overflowX === 'scroll')) {
         el.setAttribute('tabindex', '0');
-        if (!el.hasAttribute('aria-label')) el.setAttribute('aria-label','Scrollable mathematical equation');
+        el.setAttribute('title','Use arrow keys to view the rest of this equation');
       } else {
         el.removeAttribute('tabindex');
-        el.removeAttribute('aria-label');
+        el.removeAttribute('title');
       }
     });
   }
