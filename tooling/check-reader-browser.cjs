@@ -22,6 +22,14 @@ async function verifyPage(browser, file, viewport, suffix) {
   assert.equal(await button.getAttribute('aria-pressed'), 'false', 'Original night theme should be default');
   assert.equal(await page.locator('body').evaluate(el => getComputedStyle(el).userSelect), 'text', 'Readers must be able to select and copy their study text');
   assert.ok(await page.locator('.textbook-section-card').count() > 0, 'Book must contain prerendered learning sections');
+  const browserAccess = await page.evaluate(() => {
+    const copyContext = new MouseEvent('contextmenu', {bubbles: true, cancelable: true});
+    const printKey = new KeyboardEvent('keydown', {key: 'p', ctrlKey: true, bubbles: true, cancelable: true});
+    return { contextMenuAllowed: document.dispatchEvent(copyContext),
+      printShortcutAllowed: document.dispatchEvent(printKey) };
+  });
+  assert.ok(browserAccess.contextMenuAllowed, 'Right-click should not be globally blocked');
+  assert.ok(browserAccess.printShortcutAllowed, 'Print shortcut should not be globally blocked');
   await button.click();
   assert.equal(await button.textContent(), 'Night view', 'Paper theme toggle must update its label');
   const paper = await page.evaluate(() => {
