@@ -734,8 +734,9 @@ function startApp() {
       toolbar.appendChild(button);
     }
     const preferenceKey = 'openstem-reader-theme';
-    let paper = false;
-    try { paper = window.localStorage.getItem(preferenceKey) === 'paper'; } catch (_) {
+    // Use comfortable paper reading by default; respect existing Night preference.
+    let paper = true;
+    try { paper = window.localStorage.getItem(preferenceKey) !== 'night'; } catch (_) {
       // Private browsing and restricted storage must not break reading.
     }
     function update() {
@@ -751,6 +752,50 @@ function startApp() {
       update();
       try { window.localStorage.setItem(preferenceKey, paper ? 'paper' : 'night'); } catch (_) {}
     });
+    // Reader-size controls change only academic reading text, not diagrams/UI.
+    const fontSizeKey = 'openstem-reader-size';
+    const allowedScales = [1, 1.125, 1.25];
+    let sizeIndex = 0;
+    try {
+      const saved = Number(window.localStorage.getItem(fontSizeKey));
+      if (Number.isFinite(saved) && allowedScales.includes(saved))
+        sizeIndex = allowedScales.indexOf(saved);
+    } catch (_) {}
+    const controls = document.createElement('div');
+    controls.className = 'reader-text-controls';
+    controls.setAttribute('role', 'group');
+    controls.setAttribute('aria-label', 'Reading text size');
+    const minus = document.createElement('button');
+    const plus = document.createElement('button');
+    for (const [control, label, text] of [
+      [minus, 'Decrease reading text size', 'A−'],
+      [plus, 'Increase reading text size', 'A+']
+    ]) {
+      control.type = 'button';
+      control.className = 'btn-tool reader-size-button';
+      control.setAttribute('aria-label', label);
+      control.textContent = text;
+      controls.appendChild(control);
+    }
+    function applySize() {
+      const size = allowedScales[sizeIndex];
+      document.body.style.setProperty('--openstem-reader-font-scale', String(size));
+      minus.disabled = sizeIndex === 0;
+      plus.disabled = sizeIndex === allowedScales.length - 1;
+      controls.setAttribute('data-reading-scale', String(size));
+      try { window.localStorage.setItem(fontSizeKey, String(size)); } catch (_) {}
+    }
+    minus.addEventListener('click', () => {
+      sizeIndex = Math.max(0, sizeIndex - 1);
+      applySize();
+    });
+    plus.addEventListener('click', () => {
+      sizeIndex = Math.min(allowedScales.length - 1, sizeIndex + 1);
+      applySize();
+    });
+    toolbar.appendChild(controls);
+    applySize();
+
   }
 
   // 12. Search & Filter Input
