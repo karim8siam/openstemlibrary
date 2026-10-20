@@ -2,7 +2,7 @@
 'use strict';
 const crypto = require('node:crypto');
 const hosts = [
-  'https://26cd99e6.openstemlibrary.pages.dev',
+  'https://93c7f816.openstemlibrary.pages.dev',
   'https://openstemlibrary.com'
 ];
 const paths = ['/', '/reader', '/calculus-1', '/calculus-1-chapter-2', '/calculus-1-data.js', '/sitemap.xml', '/tooling/README.md', '/publishing/README.md'];
