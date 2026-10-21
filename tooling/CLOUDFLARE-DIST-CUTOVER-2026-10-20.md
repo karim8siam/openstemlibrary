@@ -13,3 +13,7 @@ Acceptance checks:
 
 The generated `dist/` output intentionally excludes `tooling/` and `publishing/`.
 The migration draft PR #4 must remain unmerged until this production cutover has passed validation.
+
+## Ecosystem Integration (October 21, 2026)
+- Connected OpenSTEM Replicate (`https://openstemreplicate.org/`) to Card 2.
+- Integrated OpenSTEM Tools (`https://openstemtool.org/`) with 155+ scientific calculators on Card 4.
