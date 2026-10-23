@@ -1,0 +1,741 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Multivariable Regression in Epidemiology: Logistic, Conditional Logistic, Log-Binomial &amp; Poisson Models | Epidemiological Statistics | OpenSTEM Library</title>
+  <meta name="description" content="Binary logistic regression: logit link, parameter interpretation as adjusted odds ratios, maximum likelihood estimation via Newton-Raphson; Matched case-control data and conditional logistic regression: profile likelihood eliminating nuisance stratum intercepts, 1:1 and 1:M matching; Direct estimation of adjusted relative risks: log-binomial regression models, convergence difficulties, and modified Poisson regression with robust sandwich variance; Poisson regression for incidence rates: log link with log(person-time) offset, rate ratio interpretations, and goodness-of-fit deviance tests; Overdispersion in count data: negative binomial regression model, dispersion parameter estimation, and zero-inflated models; Confounder selection strategies: change-in-estimate criterion, directed acyclic graph guided covariate adjustment, and avoiding collider stratification.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/epidemiological-statistics-chapter-5">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/epidemiological-statistics-chapter-5">
+  <meta property="og:title" content="Epidemiological Statistics: Disease Frequency, Causal Inference, Bias, Confounding &amp; Outbreak Modeling | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering measures of disease frequency (incidence, prevalence), measures of association (risk ratio, odds ratio, rate ratio), confounding and effect modification, Mantel-Haenszel methods, study designs (cohort, case-control, cross-sectional), selection and information bias, causal inference and DAGs, diagnostic testing and ROC curves, and mathematical infectious disease modeling (SIR models, R_0, herd immunity) with 24 solved questions and 4 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Epidemiological Statistics: Disease Frequency, Causal Inference, Bias, Confounding &amp; Outbreak Modeling | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering measures of disease frequency (incidence, prevalence), measures of association (risk ratio, odds ratio, rate ratio), confounding and effect modification, Mantel-Haenszel methods, study designs (cohort, case-control, cross-sectional), selection and information bias, causal inference and DAGs, diagnostic testing and ROC curves, and mathematical infectious disease modeling (SIR models, R_0, herd immunity) with 24 solved questions and 4 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="epidemiological-statistics.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Epidemiological Statistics: Multivariable Regression in Epidemiology: Logistic, Conditional Logistic, Log-Binomial & Poisson Models","description":"Comprehensive university textbook covering measures of disease frequency (incidence, prevalence), measures of association (risk ratio, odds ratio, rate ratio), confounding and effect modification, Mantel-Haenszel methods, study designs (cohort, case-control, cross-sectional), selection and information bias, causal inference and DAGs, diagnostic testing and ROC curves, and mathematical infectious disease modeling (SIR models, R_0, herd immunity) with 24 solved questions and 4 interactive simulations.","url":"https://openstemlibrary.com/epidemiological-statistics-chapter-5","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Epidemiology","Epidemiological statistics","Measures of disease frequency","Risk ratio and odds ratio","Confounding and effect modification","Mantel-Haenszel estimation","Study designs and case-control studies","Causal inference and directed acyclic graphs","Diagnostic testing and ROC curves","Mathematical epidemic modeling and SIR dynamics"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Epidemiological Statistics","item":"https://openstemlibrary.com/epidemiological-statistics"}]}</script></head>
+<body data-book-path="epidemiological-statistics.html" data-chapter-index="4" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Epidemiological Statistics</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search incidence, prevalence, odds ratio, risk ratio, confounding, Mantel-Haenszel, DAGs, selection bias, ROC curve, SIR model…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="epidemiological-statistics" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Foundations of Epidemiology, Surveillance &amp; Measures of Disease Frequency</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="epidemiological-statistics-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Measures of Association &amp; Public Health Impact: Risk Ratios, Odds Ratios &amp; Attributable Fractions</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="epidemiological-statistics-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Observational &amp; Experimental Study Designs: Cohort, Case-Control, Cross-Sectional &amp; Clinical Trials</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="epidemiological-statistics-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Methodological Validity: Confounding, Selection Bias, Information Bias &amp; Effect Modification</span></a></li><li class="unit-nav-item active" data-unit-index="4"><a href="epidemiological-statistics-chapter-5" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Multivariable Regression in Epidemiology: Logistic, Conditional Logistic, Log-Binomial &amp; Poisson Models</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="epidemiological-statistics-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Screening, Diagnostic Testing &amp; Receiver Operating Characteristic (ROC) Analysis</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="epidemiological-statistics-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Infectious Disease Epidemiology: Transmission Dynamics, Compartmental Models &amp; Outbreak Investigation</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="epidemiological-statistics-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Survival Analysis in Epidemiology &amp; Causal Inference Frameworks</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Epidemiological statistics major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 5 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Multivariable Regression in Epidemiology: Logistic, Conditional Logistic, Log-Binomial &amp; Poisson Models</h1>
+            <p class="unit-desc-lead" id="unit-desc">Binary logistic regression: logit link, parameter interpretation as adjusted odds ratios, maximum likelihood estimation via Newton-Raphson; Matched case-control data and conditional logistic regression: profile likelihood eliminating nuisance stratum intercepts, 1:1 and 1:M matching; Direct estimation of adjusted relative risks: log-binomial regression models, convergence difficulties, and modified Poisson regression with robust sandwich variance; Poisson regression for incidence rates: log link with log(person-time) offset, rate ratio interpretations, and goodness-of-fit deviance tests; Overdispersion in count data: negative binomial regression model, dispersion parameter estimation, and zero-inflated models; Confounder selection strategies: change-in-estimate criterion, directed acyclic graph guided covariate adjustment, and avoiding collider stratification.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-304 (Epidemiological Statistics). Eight units and exactly three solved questions per unit. Interactive simulations illustrate epidemiological measures, confounding stratification, diagnostic ROC curves, and SIR transmission dynamics. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-5-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.1</span>
+            <span>The Transition from Stratification to Multivariable Regression Modeling</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          In tabular stratification, controlling for $p$ discrete confounding variables requires partitioning the sample into $K = \prod_{j=1}^p k_j$ distinct strata, where $k_j$ represents the number of levels for covariate $j$. If an investigator wishes to adjust simultaneously for age (10 strata), smoking (3 strata), alcohol intake (3 strata), diabetes (2 strata), hypertension (2 strata), and geographic district (5 strata), the data are divided into $10 \times 3 \times 3 \times 2 \times 2 \times 5 = 1,800$ separate $2 \times 2$ tables. In a sample of $2,000$ individuals, the vast majority of these tables will contain zero cases or zero exposed participants. This **sparse-data problem** leads to catastrophic finite-sample bias, non-convergence of estimators, and severe loss of statistical power.
+
+Multivariable regression models resolve this dimensionality catastrophe by imposing smooth mathematical structure across the covariate space. Rather than evaluating each subpopulation independently, parametric regression models assume that the log-odds, log-risk, or log-rate is a continuous, additive (or multiplicative) function of the covariates:
+
+$$g(\mathbb{E}[Y \mid \mathbf{X}]) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p$$
+
+where $g(\cdot)$ is a monotonic **link function** that maps the bounded biological expectation into the real line $\mathbb{R}$.
+
+<div class="table-wrapper"><table class="data-table">
+<thead>
+<tr><th>Epidemiological Model</th><th>Link Function $g(\mu)$</th><th>Underlying Distribution</th><th>Exponentiated Parameter $\exp(\beta_1)$</th><th>Primary Methodological Application</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Binary Logistic Regression</strong></td><td>Logit: $\ln\left(\frac{\mu}{1 - \mu}\right)$</td><td>Bernoulli / Binomial</td><td>Adjusted Odds Ratio ($OR$)</td><td>Unmatched case-control studies, cross-sectional surveys.</td></tr>
+<tr><td><strong>Conditional Logistic Regression</strong></td><td>Stratified Logit</td><td>Conditional Permutation</td><td>Matched Odds Ratio ($OR$)</td><td>Individually matched case-control studies (1:1, 1:M).</td></tr>
+<tr><td><strong>Log-Binomial Regression</strong></td><td>Log: $\ln(\mu)$</td><td>Binomial</td><td>Adjusted Risk Ratio ($RR$)</td><td>Prospective cohort studies with common binary outcomes.</td></tr>
+<tr><td><strong>Modified Poisson Regression</strong></td><td>Log: $\ln(\mu)$</td><td>Quasi-Poisson with Huber-White SE</td><td>Adjusted Risk Ratio ($RR$)</td><td>Robust alternative when log-binomial fails to converge.</td></tr>
+<tr><td><strong>Poisson Rate Regression</strong></td><td>Log: $\ln(\mu / PT)$</td><td>Poisson with offset $\ln(PT)$</td><td>Adjusted Incidence Rate Ratio ($IRR$)</td><td>Open cohort tracking, incidence density analysis.</td></tr>
+<tr><td><strong>Negative Binomial Regression</strong></td><td>Log: $\ln(\mu / PT)$</td><td>Negative Binomial</td><td>Adjusted Rate Ratio ($IRR$)</td><td>Overdispersed disease event count monitoring.</td></tr>
+</tbody>
+</table></div>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.2</span>
+            <span>Binary Logistic Regression: Odds Ratios, Maximum Likelihood &amp; Newton-Raphson</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In binary logistic regression, the outcome variable $Y_i \in \{0, 1\}$ represents the presence ($1$) or absence ($0$) of disease for individual $i$. Let $\mathbf{x}_i = (1, x_{i1}, x_{i2}, \dots, x_{ip})^T$ denote the vector of explanatory covariates, where $x_{i1}$ represents the primary exposure of interest and $x_{i2}, \dots, x_{ip}$ are potential confounders. The conditional probability of disease is modeled through the logistic (sigmoid) cumulative distribution function:</p>
+
+<div class="math-display">$$\pi(\mathbf{x}_i) = P(Y_i = 1 \mid \mathbf{x}_i) = \frac{\exp(\mathbf{x}_i^T \boldsymbol{\beta})}{1 + \exp(\mathbf{x}_i^T \boldsymbol{\beta})} = \frac{1}{1 + \exp(-\mathbf{x}_i^T \boldsymbol{\beta})}$$</div>
+
+<p>Applying the <strong>logit link function</strong> yields the linear predictor:</p>
+
+<div class="math-display">$$\text{logit}(\pi(\mathbf{x}_i)) = \ln\left( \frac{\pi(\mathbf{x}_i)}{1 - \pi(\mathbf{x}_i)} \right) = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip}$$</div>
+
+<h4>Interpretation of Regression Coefficients as Adjusted Odds Ratios</h4>
+
+<p>Consider the primary exposure variable $x_1$, evaluated for a dichotomous exposure ($x_1 = 1$ vs $x_1 = 0$) while holding all other adjustment covariates $\mathbf{x}_{-1} = (x_2, \dots, x_p)$ strictly constant:</p>
+
+<ul>
+
+  <li>Log-odds among exposed: $\ln(\text{Odds}_1) = \beta_0 + \beta_1(1) + \sum_{j=2}^p \beta_j x_j$</li>
+
+  <li>Log-odds among unexposed: $\ln(\text{Odds}_0) = \beta_0 + \beta_1(0) + \sum_{j=2}^p \beta_j x_j$</li>
+
+</ul>
+
+<p>Subtracting the two equations:</p>
+
+<div class="math-display">$$\ln(\text{Odds}_1) - \ln(\text{Odds}_0) = \ln\left( \frac{\text{Odds}_1}{\text{Odds}_0} \right) = \beta_1$$</div>
+
+<p>Exponentiating both sides:</p>
+
+<div class="math-display">$$OR_{\text{adjusted}} = \exp(\beta_1)$$</div>
+
+<p>Thus, the exponentiated coefficient $\exp(\beta_1)$ represents the <strong>adjusted odds ratio</strong> for disease associated with exposure, holding all other covariates in the model mathematically constant. For a continuous covariate (such as age in years), $\exp(\beta_j)$ represents the multiplicative change in the odds of disease per 1-unit increase in that covariate. For a $c$-unit increase, the adjusted odds ratio is $\exp(c \cdot \beta_j)$.</p>
+
+<h4>Maximum Likelihood Estimation via the Newton-Raphson Algorithm</h4>
+
+<p>Because $Y_i$ takes values in $\{0, 1\}$, its probability mass function under the Bernoulli distribution is $P(Y_i = y_i) = \pi(\mathbf{x}_i)^{y_i} [1 - \pi(\mathbf{x}_i)]^{1 - y_i}$. Assuming independent observations across $n$ individuals, the likelihood function is:</p>
+
+<div class="math-display">$$L(\boldsymbol{\beta}) = \prod_{i=1}^n \pi(\mathbf{x}_i)^{y_i} [1 - \pi(\mathbf{x}_i)]^{1 - y_i}$$</div>
+
+<p>Taking the natural logarithm yields the log-likelihood function:</p>
+
+<div class="math-display">$$\ell(\boldsymbol{\beta}) = \sum_{i=1}^n \left[ y_i \ln \pi(\mathbf{x}_i) + (1 - y_i) \ln(1 - \pi(\mathbf{x}_i)) \right]$$</div>
+
+<p>Substituting $\ln(1 - \pi(\mathbf{x}_i)) = -\ln(1 + e^{\mathbf{x}_i^T \boldsymbol{\beta}})$ and $\ln \pi(\mathbf{x}_i) = \mathbf{x}_i^T \boldsymbol{\beta} - \ln(1 + e^{\mathbf{x}_i^T \boldsymbol{\beta}})$:</p>
+
+<div class="math-display">$$\ell(\boldsymbol{\beta}) = \sum_{i=1}^n \left[ y_i \mathbf{x}_i^T \boldsymbol{\beta} - \ln(1 + \exp(\mathbf{x}_i^T \boldsymbol{\beta})) \right]$$</div>
+
+<p>To maximize $\ell(\boldsymbol{\beta})$, we evaluate the first-order partial derivatives with respect to $\boldsymbol{\beta}$ (the <strong>Score Vector</strong> $\mathbf{U}(\boldsymbol{\beta})$):</p>
+
+<div class="math-display">$$\mathbf{U}(\boldsymbol{\beta}) = \frac{\partial \ell(\boldsymbol{\beta})}{\partial \boldsymbol{\beta}} = \sum_{i=1}^n \left[ y_i - \frac{\exp(\mathbf{x}_i^T \boldsymbol{\beta})}{1 + \exp(\mathbf{x}_i^T \boldsymbol{\beta})} \right] \mathbf{x}_i = \sum_{i=1}^n (y_i - \pi(\mathbf{x}_i)) \mathbf{x}_i = \mathbf{X}^T (\mathbf{y} - \boldsymbol{\pi})$$</div>
+
+<p>Setting $\mathbf{U}(\boldsymbol{\beta}) = \mathbf{0}$ yields a system of non-linear equations with no closed-form algebraic solution. We compute the Maximum Likelihood Estimate $\widehat{\boldsymbol{\beta}}$ iteratively using the <strong>Newton-Raphson algorithm</strong> (Iteratively Reweighted Least Squares). The second partial derivative matrix is the negative <strong>Hessian Matrix</strong> (observed Fisher Information $\mathbf{I}(\boldsymbol{\beta})$):</p>
+
+<div class="math-display">$$\mathbf{I}(\boldsymbol{\beta}) = -\frac{\partial^2 \ell(\boldsymbol{\beta})}{\partial \boldsymbol{\beta} \partial \boldsymbol{\beta}^T} = \sum_{i=1}^n \pi(\mathbf{x}_i)(1 - \pi(\mathbf{x}_i)) \mathbf{x}_i \mathbf{x}_i^T = \mathbf{X}^T \mathbf{W} \mathbf{X}$$</div>
+
+<p>where $\mathbf{W} = \text{diag}(\pi(\mathbf{x}_i)(1 - \pi(\mathbf{x}_i)))$ is an $n \times n$ diagonal weight matrix. The parameter vector is updated at iteration $(t + 1)$ via:</p>
+
+<div class="math-display">$$\boldsymbol{\beta}^{(t+1)} = \boldsymbol{\beta}^{(t)} + \left[ \mathbf{I}(\boldsymbol{\beta}^{(t)}) \right]^{-1} \mathbf{U}(\boldsymbol{\beta}^{(t)}) = \left( \mathbf{X}^T \mathbf{W}^{(t)} \mathbf{X} \right)^{-1} \mathbf{X}^T \mathbf{W}^{(t)} \mathbf{z}^{(t)}$$</div>
+
+<p>where $\mathbf{z}^{(t)} = \mathbf{X} \boldsymbol{\beta}^{(t)} + [\mathbf{W}^{(t)}]^{-1} (\mathbf{y} - \boldsymbol{\pi}^{(t)})$ is the adjusted working response vector. Upon convergence, the asymptotic covariance matrix of $\widehat{\boldsymbol{\beta}}$ is obtained directly as the inverse Fisher information:</p>
+
+<div class="math-display">$$\widehat{\text{Cov}}(\widehat{\boldsymbol{\beta}}) = \left( \mathbf{X}^T \widehat{\mathbf{W}} \mathbf{X} \right)^{-1}$$</div>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.3</span>
+            <span>Conditional Logistic Regression for Matched Studies &amp; Elimination of Nuisance Parameters</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In individually matched case-control studies (e.g., each case matched to $M$ controls on age, sex, and clinic), standard unconditional logistic regression encounters a fatal theoretical obstacle known as the <strong>Neyman-Scott Problem</strong>.</p>
+
+<h4>The Neyman-Scott Paradox</h4>
+
+<p>Suppose a study enrolls $K$ individually matched 1:1 pairs ($N = 2K$ total participants). To control for the matching strata in an unconditional logistic regression model, the investigator must include a separate indicator variable (intercept $\alpha_k$) for each matched pair:</p>
+
+<div class="math-display">$$\text{logit}(P(Y_{ki} = 1)) = \alpha_k + \beta_1 X_{ki}, \quad k = 1, \dots, K; \quad i \in \{1, 2\}$$</div>
+
+<p>As sample size grows by enrolling more pairs ($K \to \infty$), the number of incidental nuisance parameters $\alpha_1, \dots, \alpha_K$ increases at the exact same rate as the sample size! In 1948, Jerzy Neyman and Elizabeth Scott proved that when the number of nuisance parameters grows proportionally with $n$, the unconditional Maximum Likelihood Estimator of $\beta_1$ is <strong>asymptotically inconsistent</strong>. For 1:1 matched pairs, the unconditional estimator converges to exactly twice the true parameter value:</p>
+
+<div class="math-display">$$\widehat{\beta}_{1, \text{unconditional}} \xrightarrow{p} 2 \beta_1 \implies \widehat{OR}_{\text{unconditional}} \xrightarrow{p} (OR_{\text{true}})^2$$</div>
+
+<h4>The Conditional Likelihood Formulation</h4>
+
+<p>To eliminate the infinite nuisance intercepts $\alpha_k$, David Cox (1958) formulated <strong>Conditional Logistic Regression</strong>. Rather than maximizing the unconditional likelihood, we condition on the sufficient statistic for $\alpha_k$: the total number of cases observed in stratum $k$ (which is fixed at 1 for 1:$M$ matched designs).</p>
+
+<p>Consider matched stratum $k$ containing 1 case ($i = 0$) and $M$ controls ($i = 1, \dots, M$). The conditional probability that individual 0 is the case, given that exactly one person in the set developed the disease, is:</p>
+
+<div class="math-display">$$P(Y_{k0} = 1 \mid \sum_{i=0}^M Y_{ki} = 1) = \frac{\pi(\mathbf{x}_{k0}) \prod_{i=1}^M [1 - \pi(\mathbf{x}_{ki})]}{\sum_{j=0}^M \pi(\mathbf{x}_{kj}) \prod_{i \neq j} [1 - \pi(\mathbf{x}_{ki})]}$$</div>
+
+<p>Dividing numerator and denominator by $\prod_{i=0}^M [1 - \pi(\mathbf{x}_{ki})]$:</p>
+
+<div class="math-display">$$P(Y_{k0} = 1 \mid \sum_{i=0}^M Y_{ki} = 1) = \frac{\frac{\pi(\mathbf{x}_{k0})}{1 - \pi(\mathbf{x}_{k0})}}{\sum_{j=0}^M \frac{\pi(\mathbf{x}_{kj})}{1 - \pi(\mathbf{x}_{kj})}} = \frac{\exp(\alpha_k + \mathbf{x}_{k0}^T \boldsymbol{\beta})}{\sum_{j=0}^M \exp(\alpha_k + \mathbf{x}_{kj}^T \boldsymbol{\beta})}$$</div>
+
+<p>Notice that the stratum intercept $\exp(\alpha_k)$ factors out identically from both the numerator and every term in the denominator:</p>
+
+<div class="math-display">$$P(Y_{k0} = 1 \mid \sum_{i=0}^M Y_{ki} = 1) = \frac{\exp(\mathbf{x}_{k0}^T \boldsymbol{\beta})}{\sum_{j=0}^M \exp(\mathbf{x}_{kj}^T \boldsymbol{\beta})}$$</div>
+
+<p>The nuisance parameters $\alpha_k$ vanish completely! The <strong>conditional log-likelihood</strong> across all $K$ matched strata is:</p>
+
+<div class="math-display">$$\ell_{\text{cond}}(\boldsymbol{\beta}) = \sum_{k=1}^K \left[ \mathbf{x}_{k0}^T \boldsymbol{\beta} - \ln\left( \sum_{j=0}^M \exp(\mathbf{x}_{kj}^T \boldsymbol{\beta}) \right) \right]$$</div>
+
+<p>Maximizing $\ell_{\text{cond}}(\boldsymbol{\beta})$ yields estimators that are fully consistent, asymptotically normal, and semiparametrically efficient. For 1:1 matched pairs with a single binary exposure, conditional logistic regression reduces exactly to <strong>McNemar’s Test</strong> and the paired ratio $b / c$.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.4</span>
+            <span>Estimating Relative Risks Directly: Log-Binomial vs Modified Poisson Regression</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In prospective cohort studies, randomized clinical trials, and cross-sectional studies where the outcome is common ($P &gt; 10\%$), the odds ratio severely exaggerates the relative risk. Clinicians and policymakers naturally interpret adjusted effect estimates as relative risks. When analysts mistakenly interpret an adjusted odds ratio of $3.5$ from a logistic model as a "3.5-fold increase in risk," they mislead clinical audiences if the true risk ratio is only $1.8$.</p>
+
+<h4>The Log-Binomial Regression Model</h4>
+
+<p>To estimate the adjusted Relative Risk directly, we specify a Generalized Linear Model with a <strong>log link function</strong> applied to the binomial probability $\pi(\mathbf{x}_i) = P(Y_i = 1 \mid \mathbf{x}_i)$:</p>
+
+<div class="math-display">$$\ln(\pi(\mathbf{x}_i)) = \mathbf{x}_i^T \boldsymbol{\beta} \implies \pi(\mathbf{x}_i) = \exp(\mathbf{x}_i^T \boldsymbol{\beta})$$</div>
+
+<p>In this model, the parameter for a binary exposure $x_1$ has a direct relative risk interpretation:</p>
+
+<div class="math-display">$$\frac{\pi(x_1 = 1, \mathbf{x}_{-1})}{\pi(x_1 = 0, \mathbf{x}_{-1})} = \frac{\exp(\beta_0 + \beta_1(1) + \mathbf{x}_{-1}^T \boldsymbol{\beta}_{-1})}{\exp(\beta_0 + \beta_1(0) + \mathbf{x}_{-1}^T \boldsymbol{\beta}_{-1})} = \exp(\beta_1) \equiv RR_{\text{adjusted}}$$</div>
+
+<p>However, the log-binomial model suffers from a severe numerical limitation: <strong>convergence failure</strong>. Because probabilities must satisfy $\pi(\mathbf{x}_i) \le 1.0$, the parameter space is constrained by the boundary condition $\mathbf{x}_i^T \boldsymbol{\beta} \le 0$ for all observed covariate vectors $\mathbf{x}_i$. In multivariable settings with continuous covariates, standard Newton-Raphson optimization algorithms frequently step outside this bounded parameter space, causing standard statistical software to crash with convergence errors.</p>
+
+<h4>Modified Poisson Regression with Robust Sandwich Variance</h4>
+
+<p>To circumvent log-binomial non-convergence, George Zou (2004) proved that an investigator can fit a <strong>Poisson regression model</strong> to binary data while applying a <strong>Huber-White robust sandwich covariance estimator</strong>.</p>
+
+<p>In a Poisson model, the log link is standard: $\ln(\mu_i) = \mathbf{x}_i^T \boldsymbol{\beta}$. When applied to binary $Y_i \in \{0, 1\}$, the expectation is mathematically identical to the probability: $\mu_i = \mathbb{E}[Y_i \mid \mathbf{x}_i] = P(Y_i = 1 \mid \mathbf{x}_i) = \pi(\mathbf{x}_i)$. Thus, the exponentiated coefficients $\exp(\beta_j)$ yield consistent, unbiased estimates of the true adjusted Relative Risks!</p>
+
+<p>However, fitting a Poisson model to binary data violates the mean-variance equality assumption ($\text{Var}(Y) = \mu$), because binary data have variance $\text{Var}(Y) = \pi(1 - \pi) &lt; \pi$. The naive Poisson variance severely overestimates the true sampling variability. Zou demonstrated that applying the <strong>Huber-White Sandwich Estimator</strong> corrects this variance distortion:</p>
+
+<div class="math-display">$$\widehat{\text{Cov}}_{\text{robust}}(\widehat{\boldsymbol{\beta}}) = (\mathbf{X}^T \widehat{\mathbf{W}} \mathbf{X})^{-1} \left( \sum_{i=1}^n \mathbf{x}_i \mathbf{x}_i^T (y_i - \hat{\mu}_i)^2 \right) (\mathbf{X}^T \widehat{\mathbf{W}} \mathbf{X})^{-1}$$</div>
+
+<p>Modified Poisson regression with robust standard errors is guaranteed to converge, handles continuous covariates effortlessly, and provides mathematically sound, asymptotically valid confidence intervals for adjusted Relative Risks.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.5</span>
+            <span>Poisson and Negative Binomial Regression for Incidence Rates with Offsets</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When the epidemiological study tracks an open dynamic population or cohort where participants accumulate varying person-time at risk ($PT_i$), the outcome of interest is the count of incident events $Y_i \in \{0, 1, 2, \dots\}$.</p>
+
+<h4>Poisson Regression with Person-Time Offset</h4>
+
+<p>The Poisson probability mass function for event count $Y_i$ is:</p>
+
+<div class="math-display">$$P(Y_i = y_i) = \frac{\mu_i^{y_i} \exp(-\mu_i)}{y_i!}$$</div>
+
+<p>The expected count $\mu_i$ is the product of the underlying incidence rate $\lambda(\mathbf{x}_i)$ and the accumulated person-time $PT_i$:</p>
+
+<div class="math-display">$$\mu_i = \lambda(\mathbf{x}_i) \times PT_i$$</div>
+
+<p>Taking the natural logarithm:</p>
+
+<div class="math-display">$$\ln(\mu_i) = \ln(\lambda(\mathbf{x}_i)) + \ln(PT_i) = \mathbf{x}_i^T \boldsymbol{\beta} + \ln(PT_i)$$</div>
+
+<p>The term $\ln(PT_i)$ is included as a regression covariate whose coefficient is pre-fixed to exactly $1.0$. In generalized linear modeling, this fixed predictor is termed an <strong>offset</strong>.</p>
+
+<p>The exponentiated regression coefficient $\exp(\beta_1)$ for a binary exposure represents the adjusted <strong>Incidence Rate Ratio</strong> ($IRR$):</p>
+
+<div class="math-display">$$\frac{\lambda(x_1 = 1)}{\lambda(x_1 = 0)} = \frac{\exp(\beta_0 + \beta_1 + \dots)}{\exp(\beta_0 + \dots)} = \exp(\beta_1) \equiv IRR_{\text{adjusted}}$$</div>
+
+<h4>Overdispersion and Negative Binomial Regression</h4>
+
+<p>A strict property of the Poisson distribution is <strong>equidispersion</strong>: the conditional variance must equal the conditional mean ($\text{Var}(Y_i \mid \mathbf{x}_i) = \mathbb{E}[Y_i \mid \mathbf{x}_i] = \mu_i$). In real-world disease surveillance, biological clustering, unobserved heterogeneity, and contagion frequently cause <strong>overdispersion</strong>, where the observed variance substantially exceeds the mean ($\text{Var}(Y_i) &gt; \mu_i$).</p>
+
+<p>To diagnose overdispersion, we evaluate the Pearson dispersion statistic:</p>
+
+<div class="math-display">$$\phi = \frac{1}{n - p} \sum_{i=1}^n \frac{(y_i - \hat{\mu}_i)^2}{\hat{\mu}_i}$$</div>
+
+<p>If $\phi \gg 1.0$, standard Poisson standard errors are falsely deflated, leading to inflated Type I error rates. In such settings, epidemiologists employ the <strong>Negative Binomial Regression Model</strong>, which models unobserved subject heterogeneity through a gamma-distributed latent disturbance $\nu_i \sim \text{Gamma}(1/\alpha, \alpha)$. The resulting negative binomial variance is quadratic:</p>
+
+<div class="math-display">$$\text{Var}(Y_i \mid \mathbf{x}_i) = \mu_i + \alpha \mu_i^2$$</div>
+
+<p>where $\alpha \ge 0$ is the dispersion parameter. As $\alpha \to 0$, the negative binomial model converges back to the standard Poisson model.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.6</span>
+            <span>Model Building Strategies: DAGs, Change-in-Estimate, and Overadjustment Bias</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A central danger in multivariable epidemiological modeling is the uncritical use of automated algorithmic variable selection (such as forward stepwise selection or backward elimination based on $p$-values). Stepwise algorithms select variables based entirely on statistical significance in the sample, completely blind to the underlying biological causal structure.</p>
+
+<h4>Directed Acyclic Graph (DAG) Guided Covariate Selection</h4>
+
+<p>Modern epidemiologic practice mandates that covariate selection be guided by an explicit <strong>causal DAG</strong> formulated <em>a priori</em> from biological and clinical domain knowledge:</p>
+
+<ol>
+
+  <li>Identify all variables that satisfy Pearl's Backdoor Criterion (common causes of exposure and outcome). Include these confounders in the adjustment set.</li>
+
+  <li><strong>Never adjust for an intermediate variable</strong> on the causal pathway between exposure and disease ($E \to M \to D$), unless the explicit scientific goal is to estimate the direct effect via formal mediation analysis. Adjusting for an intermediate blocks the indirect causal mechanism, biasing total effect estimates toward the null (<strong>overadjustment bias</strong>).</li>
+
+  <li><strong>Never adjust for a collider</strong> ($E \to C \leftarrow D$), as conditioning on a collider opens a non-causal path, inducing artificial selection bias.</li>
+
+</ol>
+
+<h4>The Change-in-Estimate Criterion</h4>
+
+<p>In empirical data modeling, an informal criterion for assessing whether a candidate covariate $Z$ acts as an active confounder is the <strong>Change-in-Estimate Criterion</strong>:</p>
+
+<div class="math-display">$$\Delta \beta = \left| \frac{\widehat{\beta}_{\text{adjusted for } Z} - \widehat{\beta}_{\text{unadjusted for } Z}}{\widehat{\beta}_{\text{adjusted for } Z}} \right|$$</div>
+
+<p>If removing $Z$ alters the primary exposure effect estimate by more than $10\%$ (i.e., $\Delta \beta &gt; 0.10$), $Z$ is retained as an essential empirical confounder regardless of its individual $p$-value.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-7">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.7</span>
+            <span>Zero-Inflated and Two-Part Hurdle Models for Excess Zero Counts</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In healthcare utilization studies and environmental exposure monitoring, count data often exhibit a massive excess of zero observations far beyond what even a negative binomial distribution can accommodate. For example, in an annual survey of emergency department visits or days absent from work due to acute occupational asthma, $85\%$ of healthy workers may report exactly zero events.</p>
+
+<p>Epidemiologists model this phenomenon through two distinct statistical paradigms:</p>
+
+<h4>1. Zero-Inflated Poisson (ZIP) and Zero-Inflated Negative Binomial (ZINB) Models:</h4>
+
+<p>Postulate that the population is a mixture of two distinct latent subpopulations: an "always-zero" immune group who cannot experience the event (with probability $p_i$), and a susceptible count group whose event frequencies follow a Poisson or negative binomial distribution:</p>
+
+<div class="math-display">$$P(Y_i = 0 \mid \mathbf{x}_i) = p_i + (1 - p_i) \exp(-\mu_i)$$</div>
+
+<div class="math-display">$$P(Y_i = y_i \mid \mathbf{x}_i) = (1 - p_i) \frac{\mu_i^{y_i} \exp(-\mu_i)}{y_i!}, \quad y_i \ge 1$$</div>
+
+<p>The zero probability $p_i$ is modeled via a logistic link ($\text{logit}(p_i) = \mathbf{z}_i^T \boldsymbol{\gamma}$), while the count process $\mu_i$ is modeled via a log link ($\ln(\mu_i) = \mathbf{x}_i^T \boldsymbol{\beta}$).</p>
+
+<h4>2. Two-Part Hurdle Models:</h4>
+
+<p>Formulate a sequential hurdle process: first, a binary logistic model determines whether an individual crosses the hurdle from zero to at least one event ($P(Y_i &gt; 0)$); second, conditional on crossing the hurdle ($Y_i \ge 1$), a truncated-at-zero count distribution governs event frequency. Unlike zero-inflated models, hurdle models cleanly separate the initial propensity to use healthcare from subsequent frequency of use.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Epidemiological Statistics Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 5.1: Multivariable Binary Logistic Regression: Adjusted Odds Ratios and Likelihood Ratio Testing</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          A hospital-based case-control study at Dhaka Medical College Hospital investigates whether heavy tobacco smoking ($X_1 = 1$ for $\ge 20$ pack-years, $0$ otherwise) increases the risk of esophageal squamous cell carcinoma ($Y = 1$), while adjusting for chronic betel quid chewing ($X_2 = 1$ for daily use, $0$ otherwise) and age in decades above 40 ($X_3 = (\text{Age} - 40) / 10$). A multivariable binary logistic regression model fitted to data from $N = 500$ participants ($200$ cases, $300$ controls) yields the following Maximum Likelihood parameter estimates:
+
+<div class="table-wrapper"><table class="data-table">
+<thead>
+<tr><th>Parameter</th><th>Covariate Name</th><th>Estimated $\widehat{\beta}_j$</th><th>Standard Error $\text{SE}(\widehat{\beta}_j)$</th></tr>
+</thead>
+<tbody>
+<tr><td>$\beta_0$</td><td>Intercept</td><td>$-1.850$</td><td>$0.210$</td></tr>
+<tr><td>$\beta_1$</td><td>Heavy Smoking ($X_1$)</td><td>$+1.0986$</td><td>$0.2450$</td></tr>
+<tr><td>$\beta_2$</td><td>Betel Quid ($X_2$)</td><td>$+0.8473$</td><td>$0.2215$</td></tr>
+<tr><td>$\beta_3$</td><td>Age per Decade ($X_3$)</td><td>$+0.4055$</td><td>$0.0980$</td></tr>
+</tbody>
+</table></div>
+
+The maximized log-likelihood of this full 3-covariate model is $\ell_{\text{full}} = -282.40$. When a reduced model omitting the primary exposure $X_1$ is fitted to the identical data, the maximized log-likelihood is $\ell_{\text{reduced}} = -293.15$.
+
+1. Compute the adjusted Odds Ratios and 95% Wald confidence intervals for heavy smoking ($X_1$), betel quid chewing ($X_2$), and a 20-year increase in age ($2$ decades, $X_3$).
+2. Test the null hypothesis that heavy smoking is not associated with esophageal cancer ($H_0: \beta_1 = 0$) using both the **Wald Test** and the **Likelihood Ratio Test (LRT)**.
+3. For a 60-year-old individual who both smokes heavily ($X_1 = 1$) and chews betel quid ($X_2 = 1$), calculate the model-predicted probability of esophageal carcinoma, and compare it to the predicted probability for an unexposed 40-year-old individual ($X_1 = 0, X_2 = 0, X_3 = 0$).
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-epi-stat-5-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-epi-stat-5-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Adjusted odds ratios and 95% Wald confidence intervals</div>
+              
+              <div class="step-explanation"><h4>1. Heavy Smoking ($X_1$):</h4>
+
+<div class="math-display">$$\widehat{OR}_1 = \exp(\widehat{\beta}_1) = \exp(1.0986) \approx 3.000$$</div>
+
+<div class="math-display">$$\text{95\% CI} = \exp(1.0986 \pm 1.96 \times 0.2450) = \exp(1.0986 \pm 0.4802) = [\exp(0.6184), \, \exp(1.5788)] = [1.856, \, 4.849]$$</div>
+
+<p>After controlling for betel quid chewing and age, heavy smokers have $3.00$ times the odds of esophageal carcinoma compared to non-smokers ($95\%\text{ CI}: [1.86, \, 4.85]$).</p>
+
+<h4>2. Betel Quid Chewing ($X_2$):</h4>
+
+<div class="math-display">$$\widehat{OR}_2 = \exp(\widehat{\beta}_2) = \exp(0.8473) \approx 2.333$$</div>
+
+<div class="math-display">$$\text{95\% CI} = \exp(0.8473 \pm 1.96 \times 0.2215) = \exp(0.8473 \pm 0.4341) = [\exp(0.4132), \, \exp(1.2814)] = [1.512, \, 3.602]$$</div>
+
+<p>Daily betel quid chewing increases the odds of esophageal carcinoma by $2.33$ times ($95\%\text{ CI}: [1.51, \, 3.60]$).</p>
+
+<h4>3. Age per 2 Decades ($20\text{ years}$, $\Delta X_3 = 2$):</h4>
+
+<div class="math-display">$$\widehat{OR}_{3, \, 20\text{ yr}} = \exp(2 \times \widehat{\beta}_3) = \exp(2 \times 0.4055) = \exp(0.8110) \approx 2.250$$</div>
+
+<div class="math-display">$$\text{SE}(2 \widehat{\beta}_3) = 2 \times 0.0980 = 0.1960$$</div>
+
+<div class="math-display">$$\text{95\% CI} = \exp(0.8110 \pm 1.96 \times 0.1960) = \exp(0.8110 \pm 0.3842) = [\exp(0.4268), \, \exp(1.1952)] = [1.532, \, 3.304]$$</div>
+
+<p>Each 20-year increase in age increases the odds of esophageal cancer by $2.25$ times.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Hypothesis testing: Wald test vs Likelihood Ratio Test</div>
+              
+              <div class="step-explanation"><h4>1. Wald Test:</h4>
+
+<p>The Wald test statistic for $H_0: \beta_1 = 0$ is:</p>
+
+<div class="math-display">$$z_{\text{Wald}} = \frac{\widehat{\beta}_1 - 0}{\text{SE}(\widehat{\beta}_1)} = \frac{1.0986}{0.2450} \approx 4.484$$</div>
+
+<div class="math-display">$$\chi^2_{\text{Wald}} = z_{\text{Wald}}^2 = (4.484)^2 \approx 20.11$$</div>
+
+<p>With 1 degree of freedom, $p = P(\chi^2_1 \ge 20.11) \approx 7.3 \times 10^{-6}$.</p>
+
+<h4>2. Likelihood Ratio Test (LRT):</h4>
+
+<p>The deviance test statistic compares maximized log-likelihoods:</p>
+
+<div class="math-display">$$G^2 = 2 (\ell_{\text{full}} - \ell_{\text{reduced}}) = 2 (-282.40 - (-293.15)) = 2 (10.75) = 21.50$$</div>
+
+<p>With $df = 4 - 3 = 1$, the critical value at $\alpha = 0.001$ is $\chi^2_{0.001, 1} = 10.83$. Since $G^2 = 21.50 \gg 10.83$ ($p = 3.5 \times 10^{-6}$), the likelihood ratio test decisively confirms that heavy smoking is an independent risk factor for esophageal carcinoma.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Model-predicted probabilities</div>
+              
+              <div class="step-explanation"><h4>1. For a 60-year-old exposed individual:</h4>
+
+<p>Here, $X_1 = 1, X_2 = 1$, and $X_3 = (60 - 40) / 10 = 2.0$. The linear predictor is:</p>
+
+<div class="math-display">$$\eta = -1.850 + 1.0986(1) + 0.8473(1) + 0.4055(2.0) = -1.850 + 1.0986 + 0.8473 + 0.8110 = +0.9069$$</div>
+
+<p>The predicted probability of disease is:</p>
+
+<div class="math-display">$$\pi(60, \text{exp}) = \frac{\exp(0.9069)}{1 + \exp(0.9069)} = \frac{2.4766}{3.4766} \approx 0.7124 \quad (71.24\%)$$</div>
+
+<h4>2. For an unexposed 40-year-old individual:</h4>
+
+<p>Here, $X_1 = 0, X_2 = 0$, and $X_3 = (40 - 40) / 10 = 0.0$.</p>
+
+<div class="math-display">$$\eta = -1.850 + 0 + 0 + 0 = -1.850$$</div>
+
+<div class="math-display">$$\pi(40, \text{unexp}) = \frac{\exp(-1.850)}{1 + \exp(-1.850)} = \frac{0.1572}{1.1572} \approx 0.1359 \quad (13.59\%)$$</div>
+
+<p>The model predicts that a 60-year-old heavy smoker who chews betel quid faces a $71.24\%$ disease probability, compared to $13.59\%$ for a baseline unexposed 40-year-old individual.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 5.2: Modified Poisson Regression with Robust Error Variance for Common Binary Outcomes</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An institutional obstetrics cohort study investigates whether severe gestational maternal anemia ($X_1 = 1$, hemoglobin @@MATH_TOKEN_1@@lt; 8.0 \text{ g/dL}$) increases the risk of preterm delivery ($Y = 1$, birth before 37 completed weeks) among $N = 2,500$ pregnant women. Preterm delivery is common in this tertiary hospital population, occurring in $450$ births ($18.0\%$). An investigator initially attempts to fit a log-binomial regression model adjusting for maternal age ($X_2$), pre-pregnancy hypertension ($X_3$), and parity ($X_4$), but the software terminates with the error: `"Log-binomial model failed to converge: linear predictor out of bounds"`.</p>
+
+<p>The investigator switches to <strong>Modified Poisson Regression with Huber-White Robust Error Variance</strong>:</p>
+
+<ul>
+
+  <li>Model specification: $\ln(P(Y_i = 1 \mid \mathbf{X}_i)) = \beta_0 + \beta_1 X_{i1} + \beta_2 X_{i2} + \beta_3 X_{i3} + \beta_4 X_{i4}$.</li>
+
+  <li>The estimated coefficient for severe anemia is $\widehat{\beta}_1 = +0.5596$.</li>
+
+  <li>The naive model-based standard error from standard Poisson software is $\text{SE}_{\text{naive}}(\widehat{\beta}_1) = 0.0820$.</li>
+
+  <li>The Huber-White robust sandwich standard error is $\text{SE}_{\text{robust}}(\widehat{\beta}_1) = 0.1150$.</li>
+
+  <li>For comparison, a standard multivariable binary logistic regression model fitted to the exact same dataset yields $\widehat{\beta}_{1, \text{logistic}} = +0.7885$ with $\text{SE}(\widehat{\beta}_{1, \text{logistic}}) = 0.1280$.</li>
+
+</ul>
+
+<ol>
+
+  <li>Explain the mathematical cause of the convergence failure in the log-binomial model, and demonstrate why Modified Poisson regression provides valid point estimates of the Relative Risk.</li>
+
+  <li>Calculate the adjusted Risk Ratio ($RR_{\text{adjusted}}$) and its 95% confidence interval using the robust sandwich standard error. Compare this against the naive Poisson confidence interval and explain why the robust adjustment is mathematically mandatory.</li>
+
+  <li>Calculate the adjusted Odds Ratio ($OR_{\text{adjusted}}$) from the logistic regression model. Demonstrate how the Odds Ratio substantially overstates the true Relative Risk due to the high baseline prevalence ($18\%$) of preterm birth.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-epi-stat-5-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-epi-stat-5-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Mechanics of log-binomial convergence failure and Poisson equivalence</div>
+              
+              <div class="step-explanation"><p>In log-binomial regression, the model enforces $\pi(\mathbf{x}_i) = \exp(\mathbf{x}_i^T \boldsymbol{\beta})$. Because probabilities cannot exceed $1.0$, the parameter space is strictly constrained by the linear inequality:</p>
+
+<div class="math-display">$$\mathbf{x}_i^T \boldsymbol{\beta} \le 0 \quad \forall i = 1, \dots, n$$</div>
+
+<p>When covariates include continuous variables or multiple severe binary risk factors, the unconstrained Newton-Raphson update step attempts to evaluate likelihood gradients where $\mathbf{x}_i^T \boldsymbol{\beta} &gt; 0 \implies \pi(\mathbf{x}_i) &gt; 1.0$. Because $\ln(1 - \pi)$ is undefined for $\pi &gt; 1$, the optimization algorithm immediately crashes.</p>
+
+<p>By contrast, the Poisson likelihood does not contain a $1 - \pi$ term; its log-likelihood is:</p>
+
+<div class="math-display">$$\ell_{\text{Poisson}}(\boldsymbol{\beta}) = \sum_{i=1}^n [y_i \mathbf{x}_i^T \boldsymbol{\beta} - \exp(\mathbf{x}_i^T \boldsymbol{\beta}) - \ln(y_i!)]$$</div>
+
+<p>Because $\exp(\mathbf{x}_i^T \boldsymbol{\beta})$ is infinitely differentiable and real-valued for all $\mathbf{x}_i^T \boldsymbol{\beta} \in (-\infty, \infty)$, the Poisson log-likelihood surface is strictly concave everywhere, guaranteeing rapid, unconditional convergence. Furthermore, the first-order score equation is:</p>
+
+<div class="math-display">$$\frac{\partial \ell}{\partial \boldsymbol{\beta}} = \sum_{i=1}^n (y_i - \exp(\mathbf{x}_i^T \boldsymbol{\beta})) \mathbf{x}_i = \mathbf{0}$$</div>
+
+<p>Since $\mathbb{E}[Y_i \mid \mathbf{x}_i] = \pi(\mathbf{x}_i)$, the score equations are unbiased estimating equations. By the theory of Quasi-Maximum Likelihood, $\widehat{\boldsymbol{\beta}}$ is a consistent and asymptotically normal estimator of the true log-relative risk parameters.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Adjusted Risk Ratio and robust vs naive confidence intervals</div>
+              
+              <div class="step-explanation"><p>The adjusted Relative Risk is:</p>
+
+<div class="math-display">$$\widehat{RR}_{\text{adjusted}} = \exp(\widehat{\beta}_1) = \exp(0.5596) \approx 1.7500 \approx 1.75$$</div>
+
+<p>Severe gestational anemia increases the adjusted risk of preterm delivery by $75.0\%$.</p>
+
+<h4>1. Using the Robust Sandwich Standard Error ($\text{SE}_{\text{robust}} = 0.1150$):</h4>
+
+<div class="math-display">$$\text{95\% CI}_{\text{robust}} = \exp(0.5596 \pm 1.96 \times 0.1150) = \exp(0.5596 \pm 0.2254) = [\exp(0.3342), \, \exp(0.7850)] = [1.397, \, 2.192]$$</div>
+
+<div class="math-display">$$\text{95\% CI}_{\text{robust}} = [1.40, \, 2.19]$$</div>
+
+<h4>2. Using the Naive Poisson Standard Error ($\text{SE}_{\text{naive}} = 0.0820$):</h4>
+
+<div class="math-display">$$\text{95\% CI}_{\text{naive}} = \exp(0.5596 \pm 1.96 \times 0.0820) = \exp(0.5596 \pm 0.1607) = [\exp(0.3989), \, \exp(0.7203)] = [1.490, \, 2.055]$$</div>
+
+<p><strong>Why Robust Adjustment is Mandatory</strong>: Under the Poisson model, the variance is assumed to equal the mean ($\mu_i$). However, binary data have variance $\pi_i(1 - \pi_i)$. The ratio of true variance to Poisson assumed variance is:</p>
+
+<div class="math-display">$$\frac{\text{Var}(Y_i)}{\text{Assumed Var}} = \frac{\pi_i(1 - \pi_i)}{\pi_i} = 1 - \pi_i &lt; 1.0$$</div>
+
+<p>Because the Poisson model mis-specifies the variance structure, the naive model-based standard error is incorrect. The Huber-White sandwich estimator uses the empirical squared residuals $(y_i - \hat{\mu}_i)^2$ to evaluate true sampling variability, producing asymptotically exact coverage.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Comparison with logistic regression odds ratio</div>
+              
+              <div class="step-explanation"><p>From the logistic model:</p>
+
+<div class="math-display">$$\widehat{OR}_{\text{adjusted}} = \exp(\widehat{\beta}_{1, \text{logistic}}) = \exp(0.7885) \approx 2.200$$</div>
+
+<div class="math-display">$$\text{95\% CI}_{\text{logistic}} = \exp(0.7885 \pm 1.96 \times 0.1280) = \exp(0.7885 \pm 0.2509) = [\exp(0.5376), \, \exp(1.0394)] = [1.712, \, 2.828]$$</div>
+
+<p><strong>Clinical Comparison</strong>: The multivariable logistic regression model reports an adjusted Odds Ratio of $2.20$ ($120\%$ increase in odds). However, the true adjusted Relative Risk from the modified Poisson model is only $1.75$ ($75\%$ increase in risk). Because preterm delivery is a common outcome ($18.0\%$), the Odds Ratio dramatically overstates the true risk ratio by $25.7\%$ ($2.20 / 1.75 = 1.257$). If an investigator reported the $OR = 2.20$ as a "risk ratio" to clinical obstetricians, it would seriously distort clinical perception of drug or exposure effect magnitude.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 5.3: Poisson Regression with Person-Time Offsets and Overdispersion Testing</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          An open occupational cohort study at an industrial chemical processing facility in Chittagong tracks $N = 4,000$ chemical workers over a 10-year observation period to evaluate whether chronic inhalation of sulfur dioxide ($\text{SO}_2$) gas increases the incidence of severe acute bronchitis episodes. Workers accumulate varying person-years ($PT_i$) of observation due to staggered hiring dates and job transitions. The workers are grouped into $k = 4$ occupational exposure categories. The recorded person-time, total bronchitis events, and covariate summary are:
+
+<div class="table-wrapper"><table class="data-table">
+<thead>
+<tr><th>Exposure Group ($j$)</th><th>$\text{SO}_2$ Level</th><th>Person-Years ($PT_j$)</th><th>Bronchitis Events ($Y_j$)</th><th>Crude Rate per 1,000 PY</th></tr>
+</thead>
+<tbody>
+<tr><td>Group 0 (Reference)</td><td>Unexposed (Office)</td><td>12,000</td><td>120</td><td>10.00</td></tr>
+<tr><td>Group 1</td><td>Low ($\le 2.0\text{ ppm}$)</td><td>10,000</td><td>150</td><td>15.00</td></tr>
+<tr><td>Group 2</td><td>Moderate ($2.1–5.0\text{ ppm}$)</td><td>8,000</td><td>192</td><td>24.00</td></tr>
+<tr><td>Group 3</td><td>High ($&gt; 5.0\text{ ppm}$)</td><td>5,000</td><td>200</td><td>40.00</td></tr>
+</tbody>
+</table></div>
+
+A multivariable Poisson rate regression model with an offset $\ln(PT_j)$ and adjustment for smoking status ($X_{\text{smoke}} = 1$ for smoker, $0$ for non-smoker) is fitted:
+$$\ln(\mathbb{E}[Y_j]) = \ln(PT_j) + \beta_0 + \beta_1 X_{j1} + \beta_2 X_{j2} + \beta_3 X_{j3} + \beta_{\text{smoke}} X_{\text{smoke}}$$
+where $X_{j1}, X_{j2}, X_{j3}$ are indicator variables for Low, Moderate, and High $\text{SO}_2$ exposure. The estimated coefficients are:
+- Intercept: $\widehat{\beta}_0 = -4.6052$
+- Low $\text{SO}_2$ ($X_1$): $\widehat{\beta}_1 = +0.3365, \quad \text{SE}(\widehat{\beta}_1) = 0.1150$
+- Moderate $\text{SO}_2$ ($X_2$): $\widehat{\beta}_2 = +0.7885, \quad \text{SE}(\widehat{\beta}_2) = 0.1080$
+- High $\text{SO}_2$ ($X_3$): $\widehat{\beta}_3 = +1.2528, \quad \text{SE}(\widehat{\beta}_3) = 0.1120$
+- Smoking ($X_{\text{smoke}}$): $\widehat{\beta}_{\text{smoke}} = +0.4055, \quad \text{SE} = 0.0850$
+
+1. Explain the role of the offset term $\ln(PT_j)$ in Poisson regression.
+2. Compute the adjusted Incidence Rate Ratios ($IRR$) and 95% confidence intervals for Low, Moderate, and High $\text{SO}_2$ exposure relative to unexposed workers, adjusting for smoking.
+3. Across the entire cohort of individual records ($n = 4,000$), the residual deviance of the fitted Poisson model is $D = 4,785.0$ on $3,995$ degrees of freedom. Calculate the Pearson dispersion parameter $\hat{\phi}$, test for the presence of overdispersion, and describe how overdispersion affects statistical inferences if not corrected.
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-epi-stat-5-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-epi-stat-5-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Role of the offset term in Poisson rate regression</div>
+              
+              <div class="step-explanation"><p>The Poisson distribution models non-negative integer event counts $Y_j \sim \text{Poisson}(\mu_j)$. In longitudinal epidemiology, the expected count $\mu_j$ is proportional to the person-time at risk:</p>
+
+<div class="math-display">$$\mu_j = \lambda_j \times PT_j$$</div>
+
+<p>Taking logarithms:</p>
+
+<div class="math-display">$$\ln(\mu_j) = \ln(\lambda_j) + \ln(PT_j) = \mathbf{x}_j^T \boldsymbol{\beta} + \ln(PT_j)$$</div>
+
+<p>The term $\ln(PT_j)$ enters the linear predictor with a regression coefficient strictly constrained to $+1.0$. This allows the model to estimate the <strong>rate</strong> $\lambda_j = \mu_j / PT_j$ rather than the absolute count $\mu_j$, directly accommodating unequal follow-up durations across participants without converting rates into crude proportions.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Adjusted Incidence Rate Ratios and 95% confidence intervals</div>
+              
+              <div class="step-explanation"><p>The adjusted Incidence Rate Ratio for exposure level $k$ is $IRR_k = \exp(\widehat{\beta}_k)$:</p>
+
+<h4>1. Low $\text{SO}_2$ Exposure ($X_1$):</h4>
+
+<div class="math-display">$$\widehat{IRR}_1 = \exp(0.3365) \approx 1.400$$</div>
+
+<div class="math-display">$$\text{95\% CI} = \exp(0.3365 \pm 1.96 \times 0.1150) = \exp(0.3365 \pm 0.2254) = [\exp(0.1111), \, \exp(0.5619)] = [1.117, \, 1.754]$$</div>
+
+<p>Low $\text{SO}_2$ exposure increases the rate of acute bronchitis by $40.0\%$ ($95\%\text{ CI}: [1.12, \, 1.75]$).</p>
+
+<h4>2. Moderate $\text{SO}_2$ Exposure ($X_2$):</h4>
+
+<div class="math-display">$$\widehat{IRR}_2 = \exp(0.7885) \approx 2.200$$</div>
+
+<div class="math-display">$$\text{95\% CI} = \exp(0.7885 \pm 1.96 \times 0.1080) = \exp(0.7885 \pm 0.2117) = [\exp(0.5768), \, \exp(1.0002)] = [1.780, \, 2.719]$$</div>
+
+<p>Moderate $\text{SO}_2$ exposure increases bronchitis incidence by $2.20$ times ($95\%\text{ CI}: [1.78, \, 2.72]$).</p>
+
+<h4>3. High $\text{SO}_2$ Exposure ($X_3$):</h4>
+
+<div class="math-display">$$\widehat{IRR}_3 = \exp(1.2528) \approx 3.500$$</div>
+
+<div class="math-display">$$\text{95\% CI} = \exp(1.2528 \pm 1.96 \times 0.1120) = \exp(1.2528 \pm 0.2195) = [\exp(1.0333), \, \exp(1.4723)] = [2.810, \, 4.359]$$</div>
+
+<p>High $\text{SO}_2$ exposure increases the incidence rate of bronchitis by $3.50$ times ($95\%\text{ CI}: [2.81, \, 4.36]$).</p>
+
+<p>Notice the striking monotonic biological dose-response gradient: $IRR$ rises from $1.40 \to 2.20 \to 3.50$ as $\text{SO}_2$ concentrations escalate.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Overdispersion evaluation and methodological implications</div>
+              
+              <div class="step-explanation"><p>The dispersion parameter $\hat{\phi}$ is estimated from the residual deviance $D$ and residual degrees of freedom:</p>
+
+<div class="math-display">$$\hat{\phi} = \frac{D}{df} = \frac{4,785.0}{3,995} \approx 1.1977 \approx 1.20$$</div>
+
+<p>Under the null hypothesis of pure Poisson equidispersion ($\phi = 1.0$), the deviance asymptotically follows a chi-square distribution with $df = 3,995$. We evaluate the standard normal test statistic:</p>
+
+<div class="math-display">$$z = \frac{D - df}{\sqrt{2 \cdot df}} = \frac{4,785.0 - 3,995}{\sqrt{2 \times 3,995}} = \frac{790.0}{\sqrt{7,990}} = \frac{790.0}{89.387} \approx 8.838$$</div>
+
+<p>Because $z = 8.84 \gg 3.29$ ($p &lt; 10^{-18}$), the null hypothesis of equidispersion is decisively rejected: statistically significant <strong>overdispersion</strong> is present ($\phi = 1.20$).</p>
+
+<p><strong>Implications of Uncorrected Overdispersion</strong>: In standard Poisson regression, the covariance matrix of $\widehat{\boldsymbol{\beta}}$ assumes $\phi = 1.0$. When overdispersion is ignored:</p>
+
+<ol>
+
+  <li>True standard errors are understated by a factor of $\sqrt{\hat{\phi}} = \sqrt{1.1977} \approx 1.0944$ (nearly $10\%$ too narrow).</li>
+
+  <li>Test statistics (such as Wald $z$-scores) are artificially inflated by $9.4\%$.</li>
+
+  <li>$p$-values are falsely small, inflating the nominal Type I error rate above $\alpha = 0.05$.</li>
+
+</ol>
+
+<p>To correct for this overdispersion, the analyst must either multiply all standard errors by $\sqrt{\hat{\phi}} = 1.0944$ (quasi-Poisson model) or refit the data using a <strong>Negative Binomial Regression Model</strong>, ensuring rigorous, conservative public health conclusions.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="statistical-computing-with-python-and-r">Statistical Computing</a><a href="mathematical-statistics">Mathematical Statistics</a><a href="statistical-estimation">Statistical Estimation</a><a href="demography-and-population-statistics">Demography and Population Statistics</a><a href="economic-statistics">Economic Statistics</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Course Stat H-304 Epidemiological Statistics)</a></li><li><a href="https://openstemlibrary.com/references/rothman-greenland-modern-epidemiology" target="_blank" rel="noopener noreferrer">Rothman, K.J., Greenland, S., &amp; Lash, T.L. (2008). Modern Epidemiology (3rd ed.): Foundational treatise on measures of disease frequency, causal DAGs, confounding, effect modification, and study designs</a></li><li><a href="https://openstemlibrary.com/references/jewell-statistics-for-epidemiology" target="_blank" rel="noopener noreferrer">Jewell, N.P. (2003). Statistics for Epidemiology: Rigorous mathematical formulation of risk ratios, odds ratios, Mantel-Haenszel methods, and binary regression models</a></li><li><a href="https://openstemlibrary.com/references/breslow-day-cancer-research" target="_blank" rel="noopener noreferrer">Breslow, N.E., &amp; Day, N.E. (1980/1987). Statistical Methods in Cancer Research (Vols. 1 &amp; 2): Definitive reference for case-control design, matching, conditional logistic regression, and cohort survival methods</a></li><li><a href="https://openstemlibrary.com/references/anderson-may-infectious-diseases" target="_blank" rel="noopener noreferrer">Anderson, R.M., &amp; May, R.M. (1991). Infectious Diseases of Humans: Dynamics and Control: Classic text for mathematical modeling of epidemics, R_0 derivations, herd immunity, and transmission dynamics</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="epidemiological-statistics-chapter-4">← Previous chapter</a><a href="epidemiological-statistics">Book contents</a><a href="epidemiological-statistics-chapter-6">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="epidemiological-statistics-sims.js?v=1"></script>
+  <script src="epidemiological-statistics-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

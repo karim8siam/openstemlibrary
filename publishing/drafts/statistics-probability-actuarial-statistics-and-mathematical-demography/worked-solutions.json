@@ -1,0 +1,642 @@
+[
+  [
+    {
+      "id": "act-stat-1-1",
+      "title": "Exact Equivalence Across Nominal Rates and Force of Interest",
+      "question": "An institutional investment portfolio earns a constant effective annual rate of interest of $i = 8.00\\%$ ($i = 0.08$).\n\nPerform the following calculations:\n1. Compute the exact discount factor $v$ and the effective annual rate of discount $d$.\n2. Compute the nominal rate of interest compounded semi-annually ($i^{(2)}$), quarterly ($i^{(4)}$), and monthly ($i^{(12)}$).\n3. Compute the nominal rate of discount compounded semi-annually ($d^{(2)}$), quarterly ($d^{(4)}$), and monthly ($d^{(12)}$).\n4. Compute the continuous force of interest $\\delta$.\n5. Verify numerically the universal inequality chain:\n   $$d < d^{(2)} < d^{(4)} < d^{(12)} < \\delta < i^{(12)} < i^{(4)} < i^{(2)} < i$$",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Compute discount factor $v$ and effective discount rate $d$",
+          "explanation": "Given $i = 0.080000$:\n$$v = \\frac{1}{1 + i} = \\frac{1}{1.08} \\approx 0.925926$$\n$$d = \\frac{i}{1 + i} = 1 - v = 1 - 0.925926 = 0.074074 \\implies 7.4074\\%$$\nVerifying $i - d = i \\cdot d$:\n$$i - d = 0.080000 - 0.074074 = 0.005926$$\n$$i \\cdot d = 0.080000 \\times 0.074074 = 0.005926$$\nThe identity holds."
+        },
+        {
+          "stepName": "Compute nominal interest rates $i^{(m)}$",
+          "explanation": "Using $i^{(m)} = m \\left[ (1 + i)^{1/m} - 1 \\right]$:\n- For $m = 2$ (semi-annual):\n  $$i^{(2)} = 2 \\left[ (1.08)^{0.5} - 1 \\right] = 2 [1.0392305 - 1] = 2 \\times 0.0392305 = 0.078461 \\implies 7.8461\\%$$\n- For $m = 4$ (quarterly):\n  $$i^{(4)} = 4 \\left[ (1.08)^{0.25} - 1 \\right] = 4 [1.0194265 - 1] = 4 \\times 0.0194265 = 0.077706 \\implies 7.7706\\%$$\n- For $m = 12$ (monthly):\n  $$i^{(12)} = 12 \\left[ (1.08)^{1/12} - 1 \\right] = 12 [1.0064340 - 1] = 12 \\times 0.0064340 = 0.077208 \\implies 7.7208\\%$$"
+        },
+        {
+          "stepName": "Compute nominal discount rates $d^{(m)}$",
+          "explanation": "Using $d^{(m)} = m \\left[ 1 - v^{1/m} \\right] = m \\left[ 1 - (1.08)^{-1/m} \\right]$:\n- For $m = 2$:\n  $$d^{(2)} = 2 \\left[ 1 - (1.08)^{-0.5} \\right] = 2 [1 - 0.9622504] = 2 \\times 0.0377496 = 0.075499 \\implies 7.5499\\%$$\n- For $m = 4$:\n  $$d^{(4)} = 4 \\left[ 1 - (1.08)^{-0.25} \\right] = 4 [1 - 0.9809437] = 4 \\times 0.0190563 = 0.076225 \\implies 7.6225\\%$$\n- For $m = 12$:\n  $$d^{(12)} = 12 \\left[ 1 - (1.08)^{-1/12} \\right] = 12 [1 - 0.9936071] = 12 \\times 0.0063929 = 0.076715 \\implies 7.6715\\%$$"
+        },
+        {
+          "stepName": "Compute continuous force of interest $\\delta$",
+          "explanation": "$$\\delta = \\ln(1 + i) = \\ln(1.08) \\approx 0.076961 \\implies 7.6961\\%$$"
+        },
+        {
+          "stepName": "Verify the universal inequality chain",
+          "explanation": "Collating all values in percentage form:\n- $d = 7.4074\\%$\n- $d^{(2)} = 7.5499\\%$\n- $d^{(4)} = 7.6225\\%$\n- $d^{(12)} = 7.6715\\%$\n- $\\delta = 7.6961\\%$\n- $i^{(12)} = 7.7208\\%$\n- $i^{(4)} = 7.7706\\%$\n- $i^{(2)} = 7.8461\\%$\n- $i = 8.0000\\%$\n\nChecking ordering:\n$$7.4074\\% < 7.5499\\% < 7.6225\\% < 7.6715\\% < 7.6961\\% < 7.7208\\% < 7.7706\\% < 7.8461\\% < 8.0000\\%$$\nThe universal inequality chain holds with complete mathematical rigor."
+        }
+      ]
+    },
+    {
+      "id": "act-stat-1-2",
+      "title": "Time-Varying Force of Interest and Continuous Present Value",
+      "question": "An environmental reclamation trust fund guarantees a payment of $C = 1,000,000\\text{ BDT}$ at time $t = 10\\text{ years}$ to restore a retired open-pit bauxite mine. Because macroeconomic market conditions are transitioning, the instantaneous force of interest is not constant, but varies continuously according to the deterministic quadratic function:\n\n$$\\delta(t) = 0.03 + 0.008 t - 0.0004 t^2, \\qquad 0 \\le t \\le 10$$\n\nPerform the following calculations:\n1. Determine the accumulation function $a(t)$ for $0 \\le t \\le 10$.\n2. Compute the exact value of $a(10)$.\n3. Determine the equivalent level constant force of interest $\\bar{\\delta}$ over the 10-year horizon.\n4. Compute the present value $PV$ that must be deposited into the trust fund today at $t = 0$ to fund the $1,000,000\\text{ BDT}$ liability.\n5. If the trust fund earns an additional continuous cash inflow of $R(t) = 50,000\\text{ BDT/year}$ streaming continuously over the first 5 years ($0 \\le t \\le 5$), write the integral for the present value of this continuous annuity and compute its exact numerical value.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Derive the accumulation function $a(t)$",
+          "explanation": "Using $a(t) = \\exp\\left( \\int_0^t \\delta(u)\\,du \\right)$:\n$$\\int_0^t \\delta(u)\\,du = \\int_0^t (0.03 + 0.008 u - 0.0004 u^2)\\,du$$\nEvaluating the antiderivative:\n$$\\int_0^t \\delta(u)\\,du = \\left[ 0.03 u + 0.008 \\frac{u^2}{2} - 0.0004 \\frac{u^3}{3} \\right]_0^t = 0.03 t + 0.004 t^2 - \\frac{0.0004}{3} t^3$$\n\nThus, the accumulation function is:\n$$a(t) = \\exp\\left( 0.03 t + 0.004 t^2 - \\frac{0.0004}{3} t^3 \\right)$$"
+        },
+        {
+          "stepName": "Compute $a(10)$",
+          "explanation": "For $t = 10$:\n$$\\text{Exponent} = 0.03(10) + 0.004(10^2) - \\frac{0.0004}{3}(10^3) = 0.30 + 0.004(100) - \\frac{0.40}{3}$$\n$$= 0.30 + 0.40 - 0.133333 = 0.70 - 0.133333 = 0.566667$$\n$$a(10) = \\exp(0.566667) \\approx 1.76238$$\nOne unit invested at $t = 0$ accumulates to approximately $1.76238$ units at $t = 10$."
+        },
+        {
+          "stepName": "Determine equivalent level constant force of interest $\\bar{\\delta}$",
+          "explanation": "An equivalent level force of interest $\\bar{\\delta}$ satisfies:\n$$\\exp(10 \\bar{\\delta}) = a(10) = \\exp(0.566667)$$\n$$10 \\bar{\\delta} = 0.566667 \\implies \\bar{\\delta} = \\frac{0.566667}{10} = 0.056667 \\implies 5.6667\\%$$\nThe equivalent constant annual force of interest is **$5.6667\\%$** (effective annual rate $i = e^{\\bar{\\delta}} - 1 = e^{0.056667} - 1 \\approx 5.830\\%$)."
+        },
+        {
+          "stepName": "Compute the present value of the reclamation liability",
+          "explanation": "Discounting $1,000,000\\text{ BDT}$ back to $t = 0$:\n$$PV = \\frac{C}{a(10)} = C \\cdot \\exp(-0.566667) = \\frac{1,000,000}{1.76238} \\approx 567,415\\text{ BDT}$$\nThe trust fund must deposit **$567,415\\text{ BDT}$** today to guarantee the future reclamation obligations."
+        },
+        {
+          "stepName": "Value of continuous streaming cash inflows",
+          "explanation": "The present value of a continuous payment stream $R(t)$ from $t = 0$ to $t = 5$ is:\n$$PV_{\\text{annuity}} = \\int_0^5 R(t) [a(t)]^{-1} \\, dt = 50,000 \\int_0^5 \\exp\\left( -\\left(0.03 t + 0.004 t^2 - \\frac{0.0004}{3} t^3\\right) \\right) dt$$\nTo evaluate this integral accurately, compute the exponent values at discrete midpoints or use Simpson's rule across 5 sub-intervals ($h = 1$):\n- $t = 0$: $\\exp(0) = 1.00000$\n- $t = 1$: $0.03(1) + 0.004(1) - 0.000133 = 0.033867 \\implies e^{-0.033867} = 0.96669$\n- $t = 2$: $0.03(2) + 0.004(4) - 0.001067 = 0.074933 \\implies e^{-0.074933} = 0.92781$\n- $t = 3$: $0.03(3) + 0.004(9) - 0.003600 = 0.122400 \\implies e^{-0.122400} = 0.88479$\n- $t = 4$: $0.03(4) + 0.004(16) - 0.008533 = 0.175467 \\implies e^{-0.175467} = 0.83906$\n- $t = 5$: $0.03(5) + 0.004(25) - 0.016667 = 0.233333 \\implies e^{-0.233333} = 0.79189$\n\nUsing Simpson's composite rule with $h = 1$:\n$$\\text{Integral} \\approx \\frac{1}{3} \\left[ y_0 + 4(y_1 + y_3) + 2(y_2 + y_4) + y_5 \\right]$$\n$$y_1 + y_3 = 0.96669 + 0.88479 = 1.85148 \\implies 4 \\times 1.85148 = 7.40592$$\n$$y_2 + y_4 = 0.92781 + 0.83906 = 1.76687 \\implies 2 \\times 1.76687 = 3.53374$$\n$$y_0 + y_5 = 1.00000 + 0.79189 = 1.79189$$\n$$\\text{Sum} = 1.79189 + 7.40592 + 3.53374 = 12.73155$$\n$$\\text{Integral} = \\frac{12.73155}{3} \\approx 4.24385$$\nMultiply by annual stream $50,000$:\n$$PV_{\\text{annuity}} = 50,000 \\times 4.24385 \\approx 212,193\\text{ BDT}$$\nThe continuous cash inflow provides **$212,193\\text{ BDT}$** in present value."
+        }
+      ]
+    },
+    {
+      "id": "act-stat-1-3",
+      "title": "Bond Duration, Convexity, and Redington Immunization",
+      "question": "A life insurance company issues a guaranteed structured settlement liability that requires paying a single lump-sum payout of $L = 5,000,000\\text{ BDT}$ at time $t = 8\\text{ years}$. The current prevailing market yield across all maturities is flat at $i = 6.00\\%$ ($i = 0.06$).\n\nTo immunize this liability, the company's chief investment officer constructs an asset portfolio consisting of two zero-coupon government bonds:\n- Bond 1: Matures at time $t_1 = 5\\text{ years}$ (market price $P_1$)\n- Bond 2: Matures at time $t_2 = 12\\text{ years}$ (market price $P_2$)\n\nPerform the following actuarial calculations:\n1. Compute the present value ($PV_L$), Macaulay duration ($D_L$), and convexity ($C_L$) of the liability.\n2. Determine the exact amounts (in BDT of present value) that must be allocated to Bond 1 ($A_1$) and Bond 2 ($A_2$) to satisfy the first two Redington immunization conditions ($PV_A = PV_L$ and $D_A = D_L$).\n3. Compute the convexity of the resulting asset portfolio ($C_A$).\n4. Verify whether the third Redington condition ($C_A > C_L$) is satisfied.\n5. If the market yield shifts immediately upward by $100\\text{ basis points}$ ($\\Delta i = +0.01$, from $6\\%$ to $7\\%$), compute the exact change in asset value $\\Delta A$, liability value $\\Delta L$, and the change in the company's surplus $\\Delta S = \\Delta A - \\Delta L$.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Liability present value, duration, and convexity",
+          "explanation": "Discount factor at $i = 0.06$: $v = (1.06)^{-1} \\approx 0.943396$.\nFor a single cash flow of $5,000,000\\text{ BDT}$ at $t = 8$:\n1. **Present Value**:\n   $$PV_L = 5,000,000 \\times (1.06)^{-8} = \\frac{5,000,000}{1.593848} \\approx 3,137,062\\text{ BDT}$$\n2. **Macaulay Duration**:\n   For any single cash flow, Macaulay duration is identically equal to its maturity:\n   $$D_L = 8.000\\text{ years}$$\n   Modified duration:\n   $$D_{\\text{mod}, L} = \\frac{8.000}{1.06} \\approx 7.54717\\text{ years}$$\n3. **Convexity**:\n   $$C_L = \\frac{t(t + 1)}{(1 + i)^2} = \\frac{8 \\times 9}{(1.06)^2} = \\frac{72}{1.1236} \\approx 64.0797\\text{ years}^2$$"
+        },
+        {
+          "stepName": "Asset allocation via duration matching",
+          "explanation": "Let $A_1$ and $A_2$ denote the present value allocated to Bond 1 ($t_1 = 5$) and Bond 2 ($t_2 = 12$).\nThe two immunization equations are:\n1. **Present Value Matching**:\n   $$A_1 + A_2 = PV_L = 3,137,062$$\n2. **Duration Matching**:\n   The Macaulay duration of an asset portfolio is the weighted average of individual durations:\n   $$\\frac{5 A_1 + 12 A_2}{A_1 + A_2} = D_L = 8$$\n   $$5 A_1 + 12 A_2 = 8(A_1 + A_2) = 8 A_1 + 8 A_2$$\n   $$4 A_2 = 3 A_1 \\implies A_1 = \\frac{4}{3} A_2$$\n\nSubstitute into the present value equation:\n$$\\frac{4}{3} A_2 + A_2 = \\frac{7}{3} A_2 = 3,137,062$$\n$$A_2 = \\frac{3}{7} \\times 3,137,062 \\approx 1,344,455\\text{ BDT}$$\n$$A_1 = \\frac{4}{7} \\times 3,137,062 \\approx 1,792,607\\text{ BDT}$$\n\nThe portfolio allocates **$1,792,607\\text{ BDT}$** ($57.14\\%$) to the 5-year bond and **$1,344,455\\text{ BDT}$** ($42.86\\%$) to the 12-year bond."
+        },
+        {
+          "stepName": "Compute asset portfolio convexity",
+          "explanation": "For each zero-coupon bond:\n$$C_1 = \\frac{5 \\times 6}{(1.06)^2} = \\frac{30}{1.1236} \\approx 26.6999\\text{ years}^2$$\n$$C_2 = \\frac{12 \\times 13}{(1.06)^2} = \\frac{156}{1.1236} \\approx 138.8394\\text{ years}^2$$\n\nThe asset portfolio convexity is the weighted average:\n$$C_A = \\frac{A_1 C_1 + A_2 C_2}{A_1 + A_2} = \\frac{4}{7}(26.6999) + \\frac{3}{7}(138.8394)$$\n$$= 15.2571 + 59.5026 = 74.7597\\text{ years}^2$$"
+        },
+        {
+          "stepName": "Verify Redington's third condition",
+          "explanation": "Compare asset and liability convexities:\n$$C_A = 74.7597\\text{ years}^2 > C_L = 64.0797\\text{ years}^2$$\nBecause $C_A > C_L$, the asset portfolio has greater curvature than the liability. Redington's third condition is satisfied, guaranteeing that any small interest rate movement (up or down) will increase the insurer's net surplus!"
+        },
+        {
+          "stepName": "Exact surplus impact under $\\Delta i = +0.01$ (Yield increases to $7\\%$)",
+          "explanation": "At $i = 0.07$:\n1. **New Liability Value**:\n   $$L_{\\text{new}} = 5,000,000 \\times (1.07)^{-8} = \\frac{5,000,000}{1.718186} \\approx 2,909,929\\text{ BDT}$$\n   $$\\Delta L = 2,909,929 - 3,137,062 = -227,133\\text{ BDT}$$\n\n2. **New Asset Value**:\n   - Nominal face value of Bond 1: $F_1 = 1,792,607 \\times (1.06)^5 = 1,792,607 \\times 1.338226 = 2,398,913\\text{ BDT}$.\n     New value at $7\\%$: $A_{1, \\text{new}} = 2,398,913 \\times (1.07)^{-5} = 2,398,913 / 1.402552 \\approx 1,710,392\\text{ BDT}$.\n   - Nominal face value of Bond 2: $F_2 = 1,344,455 \\times (1.06)^{12} = 1,344,455 \\times 2.012196 = 2,705,307\\text{ BDT}$.\n     New value at $7\\%$: $A_{2, \\text{new}} = 2,705,307 \\times (1.07)^{-12} = 2,705,307 / 2.252192 \\approx 1,201,188\\text{ BDT}$.\n   - Total new asset value:\n     $$A_{\\text{new}} = 1,710,392 + 1,201,188 = 2,911,580\\text{ BDT}$$\n     $$\\Delta A = 2,911,580 - 3,137,062 = -225,482\\text{ BDT}$$\n\n3. **Surplus Change ($\\Delta S$)**:\n   $$\\Delta S = \\Delta A - \\Delta L = -225,482 - (-227,133) = +1,651\\text{ BDT}$$\n   Even though the yield spiked by a full percentage point, the company's surplus expanded by **$+1,651\\text{ BDT}$**, proving the power of Redington immunization!"
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "act-stat-2-1",
+      "title": "Constructing a Complete Loan Amortization Schedule and Balance Reconciliation",
+      "question": "An industrial manufacturing firm secures a commercial bank term loan of $L = 500,000\\text{ BDT}$ to install an automated packaging robot. The loan is amortized via $n = 5$ equal annual installments payable at the end of each year at an effective annual interest rate of $i = 9.00\\%$ ($i = 0.09$).\n\nPerform the following calculations:\n1. Compute the level annual installment payment $P$.\n2. Compute the outstanding balance at the end of Year 3 ($B_3$) using the **Prospective Method**.\n3. Compute the outstanding balance at the end of Year 3 ($B_3$) using the **Retrospective Method**, verifying exact equality.\n4. Construct the complete 5-year loan amortization schedule, showing for each year $t = 1, 2, 3, 4, 5$:\n   - Beginning balance $B_{t-1}$\n   - Total payment $P$\n   - Interest paid $I_t$\n   - Principal repaid $PR_t$\n   - Ending balance $B_t$\n5. Verify that the sum of all principal repayments equals the original loan principal ($L = 500,000\\text{ BDT}$).",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Compute annual installment payment $P$",
+          "explanation": "Given $L = 500,000$, $n = 5$, and $i = 0.09$:\n$$v = (1.09)^{-1} \\approx 0.917431$$\n$$v^5 = (1.09)^{-5} \\approx 0.649931$$\n$$a_{\\overline{5}|0.09} = \\frac{1 - v^5}{i} = \\frac{1 - 0.649931}{0.09} = \\frac{0.350069}{0.09} \\approx 3.889651$$\n\nThe annual installment payment is:\n$$P = \\frac{L}{a_{\\overline{5}|0.09}} = \\frac{500,000}{3.889651} \\approx 128,546.21\\text{ BDT}$$"
+        },
+        {
+          "stepName": "Outstanding balance at $t = 3$ via Prospective Method",
+          "explanation": "At $t = 3$, $n - t = 5 - 3 = 2$ payments remain:\n$$v^2 = (1.09)^{-2} \\approx 0.841680$$\n$$a_{\\overline{2}|0.09} = \\frac{1 - v^2}{0.09} = \\frac{1 - 0.841680}{0.09} = \\frac{0.158320}{0.09} \\approx 1.759111$$\n$$B_3 = P \\cdot a_{\\overline{2}|0.09} = 128,546.21 \\times 1.759111 \\approx 226,126.96\\text{ BDT}$$"
+        },
+        {
+          "stepName": "Outstanding balance at $t = 3$ via Retrospective Method",
+          "explanation": "Under the retrospective method:\n$$(1.09)^3 \\approx 1.295029$$\n$$s_{\\overline{3}|0.09} = \\frac{(1.09)^3 - 1}{0.09} = \\frac{0.295029}{0.09} \\approx 3.278100$$\n$$L (1.09)^3 = 500,000 \\times 1.295029 = 647,514.50\\text{ BDT}$$\n$$P \\cdot s_{\\overline{3}|0.09} = 128,546.21 \\times 3.278100 = 421,387.48\\text{ BDT}$$\n$$B_3 = 647,514.50 - 421,387.48 = 226,127.02\\text{ BDT}$$\nWithin rounding precision of $0.06\\text{ BDT}$, the prospective and retrospective methods match identically!"
+        },
+        {
+          "stepName": "Construct the complete 5-year amortization schedule",
+          "explanation": "- **Year 1**:\n  - $B_0 = 500,000.00$\n  - $I_1 = 0.09 \\times 500,000.00 = 45,000.00$\n  - $PR_1 = 128,546.21 - 45,000.00 = 83,546.21$\n  - $B_1 = 500,000.00 - 83,546.21 = 416,453.79$\n- **Year 2**:\n  - $B_1 = 416,453.79$\n  - $I_2 = 0.09 \\times 416,453.79 = 37,480.84$\n  - $PR_2 = 128,546.21 - 37,480.84 = 91,065.37$\n  - $B_2 = 416,453.79 - 91,065.37 = 325,388.42$\n- **Year 3**:\n  - $B_2 = 325,388.42$\n  - $I_3 = 0.09 \\times 325,388.42 = 29,284.96$\n  - $PR_3 = 128,546.21 - 29,284.96 = 99,261.25$\n  - $B_3 = 325,388.42 - 99,261.25 = 226,127.17$\n- **Year 4**:\n  - $B_3 = 226,127.17$\n  - $I_4 = 0.09 \\times 226,127.17 = 20,351.45$\n  - $PR_4 = 128,546.21 - 20,351.45 = 108,194.76$\n  - $B_4 = 226,127.17 - 108,194.76 = 117,932.41$\n- **Year 5**:\n  - $B_4 = 117,932.41$\n  - $I_5 = 0.09 \\times 117,932.41 = 10,613.92$\n  - $PR_5 = 128,546.21 - 10,613.92 = 117,932.29 \\approx 117,932.41$\n  - $B_5 = 0.00$\n\n<div class=\"table-wrapper\">\n<table class=\"data-table\">\n<thead>\n<tr>\n<th>Year $t$</th>\n<th>Beginning Balance $B_{t-1}$</th>\n<th>Payment $P$</th>\n<th>Interest $I_t$</th>\n<th>Principal $PR_t$</th>\n<th>Ending Balance $B_t$</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>1</td>\n<td>500,000.00</td>\n<td>128,546.21</td>\n<td>45,000.00</td>\n<td>83,546.21</td>\n<td>416,453.79</td>\n</tr>\n<tr>\n<td>2</td>\n<td>416,453.79</td>\n<td>128,546.21</td>\n<td>37,480.84</td>\n<td>91,065.37</td>\n<td>325,388.42</td>\n</tr>\n<tr>\n<td>3</td>\n<td>325,388.42</td>\n<td>128,546.21</td>\n<td>29,284.96</td>\n<td>99,261.25</td>\n<td>226,127.17</td>\n</tr>\n<tr>\n<td>4</td>\n<td>226,127.17</td>\n<td>128,546.21</td>\n<td>20,351.45</td>\n<td>108,194.76</td>\n<td>117,932.41</td>\n</tr>\n<tr>\n<td>5</td>\n<td>117,932.41</td>\n<td>128,546.21</td>\n<td>10,613.92</td>\n<td>117,932.29</td>\n<td>0.00</td>\n</tr>\n</tbody>\n</table>\n</div>"
+        },
+        {
+          "stepName": "Verify principal summation",
+          "explanation": "$$\\sum_{t=1}^5 PR_t = 83,546.21 + 91,065.37 + 99,261.25 + 108,194.76 + 117,932.29 = 499,999.88 \\approx 500,000\\text{ BDT}$$\nThe principal is completely amortized to zero over the 5-year loan term."
+        }
+      ]
+    },
+    {
+      "id": "act-stat-2-2",
+      "title": "Valuation of Arithmetically and Geometrically Varying Cash Flows",
+      "question": "An infrastructure concession consortium bids to finance a toll bridge under a Public-Private Partnership (PPP). The financial engineering model projects the following cash flow profiles over an operating concession of $n = 15\\text{ years}$ at a constant discount rate of $i = 7.00\\%$ ($i = 0.07$):\n\n**Project Alpha (Arithmetic Expansion)**:\nToll revenues start at $10,000,000\\text{ BDT}$ at $t = 1$ and increase by an arithmetic increment of $1,000,000\\text{ BDT}$ in each subsequent year (i.e., $11\\text{M}$ at $t=2$, $12\\text{M}$ at $t=3$, up to $24\\text{M}$ at $t=15$).\n\n**Project Beta (Geometric Expansion)**:\nToll revenues start at $10,000,000\\text{ BDT}$ at $t = 1$ and increase at a compound geometric growth rate of $g = 4.00\\%$ per year (i.e., $10(1.04)^{t-1}\\text{M}$ at year $t$).\n\nPerform the following calculations:\n1. Compute the present value of Project Alpha using the $(Ia)_{\\overline{n}|}$ formulation.\n2. Compute the present value of Project Beta using the adjusted interest rate $i^*$ formulation.\n3. Determine which revenue model yields higher economic present value to the concessionaire.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Value Project Alpha (Arithmetic Expansion)",
+          "explanation": "Let $P_t = 10 + (t - 1) \\times 1 = 9 + t$ (in millions of BDT).\nDecompose Project Alpha into a level annuity of $9\\text{M}$ and an increasing annuity $(Ia)_{\\overline{15}|}$ of $1\\text{M}$:\n$$PV_\\alpha = 9 \\cdot a_{\\overline{15}|0.07} + 1 \\cdot (Ia)_{\\overline{15}|0.07}$$\n\nCompute basic actuarial values for $n = 15, i = 0.07$:\n$$v = (1.07)^{-1} \\approx 0.934579$$\n$$v^{15} = (1.07)^{-15} \\approx 0.362446$$\n$$a_{\\overline{15}|0.07} = \\frac{1 - v^{15}}{0.07} = \\frac{1 - 0.362446}{0.07} = \\frac{0.637554}{0.07} \\approx 9.107914$$\n$$\\ddot{a}_{\\overline{15}|0.07} = (1.07) a_{\\overline{15}|0.07} = 1.07 \\times 9.107914 \\approx 9.745468$$\n\nNow evaluate $(Ia)_{\\overline{15}|0.07}$:\n$$(Ia)_{\\overline{15}|0.07} = \\frac{\\ddot{a}_{\\overline{15}|} - 15 v^{15}}{i} = \\frac{9.745468 - 15(0.362446)}{0.07}$$\n$$15 \\times 0.362446 = 5.436690$$\n$$\\text{Numerator} = 9.745468 - 5.436690 = 4.308778$$\n$$(Ia)_{\\overline{15}|0.07} = \\frac{4.308778}{0.07} \\approx 61.553971$$\n\nAggregate Project Alpha present value:\n$$PV_\\alpha = 9(9.107914) + 1(61.553971) = 81.971226 + 61.553971 = 143.525197\\text{ million BDT}$$\n$$PV_\\alpha \\approx 143,525,197\\text{ BDT}$$"
+        },
+        {
+          "stepName": "Value Project Beta (Geometric Expansion)",
+          "explanation": "Project Beta pays $C_t = 10(1 + g)^{t-1}$ with $g = 0.04$ and $i = 0.07$:\n$$i^* = \\frac{i - g}{1 + g} = \\frac{0.07 - 0.04}{1 + 0.04} = \\frac{0.03}{1.04} \\approx 0.02884615$$\n\nCompute the present value:\n$$PV_\\beta = \\frac{10}{1 + g} a_{\\overline{15}|i^*} = \\frac{10}{1.04} \\left[ \\frac{1 - (1 + i^*)^{-15}}{i^*} \\right]$$\nCalculate $(1 + i^*)^{-15}$:\n$$1 + i^* = \\frac{1.07}{1.04} \\approx 1.02884615$$\n$$(1 + i^*)^{-15} = \\left(\\frac{1.04}{1.07}\\right)^{15} = (0.9719626)^{15} \\approx 0.651759$$\n$$1 - (1 + i^*)^{-15} = 1 - 0.651759 = 0.348241$$\n$$a_{\\overline{15}|i^*} = \\frac{0.348241}{0.02884615} \\approx 12.07235$$\nNow multiply by $10 / 1.04$:\n$$PV_\\beta = \\frac{10}{1.04} \\times 12.07235 = 9.615385 \\times 12.07235 \\approx 116.0803\\text{ million BDT}$$\n$$PV_\\beta \\approx 116,080,288\\text{ BDT}$$"
+        },
+        {
+          "stepName": "Comparison",
+          "explanation": "- Project Alpha (Arithmetic increment): $PV = 143,525,197\\text{ BDT}$\n- Project Beta (Geometric growth): $PV = 116,080,288\\text{ BDT}$\n- **Conclusion**: Project Alpha delivers **$27,444,909\\text{ BDT}$** higher present value ($+23.6\\%$) because its absolute annual cash additions ($+1\\text{M}$ each year, representing $10\\%$ growth initially) expand cash flows significantly faster in early-to-mid years than the compound $4\\%$ growth rate."
+        }
+      ]
+    },
+    {
+      "id": "act-stat-2-3",
+      "title": "Multi-Frequency Annuity Valuations ($a_{\\overline{n}|}^{(m)}$) and Continuous Approximation",
+      "question": "A retiree purchases an immediate annuity that guarantees payments of $120,000\\text{ BDT}$ per year for $n = 20\\text{ years}$. The effective annual interest rate is $i = 6.00\\%$ ($i = 0.06$).\n\nPerform the following calculations:\n1. Compute the present value of the annuity if payments are made:\n   - Annually ($m = 1$)\n   - Semi-annually in installments of $60,000\\text{ BDT}$ ($m = 2$)\n   - Monthly in installments of $10,000\\text{ BDT}$ ($m = 12$)\n   - Continuously at a uniform rate of $120,000\\text{ BDT/year}$ ($m \\to \\infty$)\n2. Compute the exact dollar premium required for monthly payment timing compared to annual payment timing.\n3. Apply Woolhouse's three-term Euler-Maclaurin expansion formula:\n   $$a_{\\overline{n}|}^{(m)} \\approx a_{\\overline{n}|} + \\frac{m - 1}{2m} (1 - v^n)$$\n   and assess its approximation error relative to the exact monthly present value.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Compute exact present values across payment frequencies",
+          "explanation": "For $n = 20$ and $i = 0.06$:\n$$v = (1.06)^{-1} \\approx 0.943396$$\n$$v^{20} = (1.06)^{-20} \\approx 0.311805$$\n$$1 - v^{20} = 1 - 0.311805 = 0.688195$$\n\n1. **Annual Payment ($m = 1$)**:\n   $$a_{\\overline{20}|} = \\frac{0.688195}{0.06} \\approx 11.46992$$\n   $$PV_{\\text{annual}} = 120,000 \\times 11.46992 \\approx 1,376,390\\text{ BDT}$$\n\n2. **Semi-Annual Payment ($m = 2$)**:\n   $$i^{(2)} = 2 [(1.06)^{0.5} - 1] = 2 [1.029563 - 1] = 0.059126$$\n   $$a_{\\overline{20}|}^{(2)} = \\frac{0.688195}{0.059126} \\approx 11.63946$$\n   $$PV_{\\text{semi}} = 120,000 \\times 11.63946 \\approx 1,396,735\\text{ BDT}$$\n\n3. **Monthly Payment ($m = 12$)**:\n   $$i^{(12)} = 12 [(1.06)^{1/12} - 1] = 12 [1.00486755 - 1] = 0.0584106$$\n   $$a_{\\overline{20}|}^{(12)} = \\frac{0.688195}{0.0584106} \\approx 11.78202$$\n   $$PV_{\\text{monthly}} = 120,000 \\times 11.78202 \\approx 1,413,842\\text{ BDT}$$\n\n4. **Continuous Payment ($m \\to \\infty$)**:\n   $$\\delta = \\ln(1.06) \\approx 0.0582689$$\n   $$\\bar{a}_{\\overline{20}|} = \\frac{0.688195}{0.0582689} \\approx 11.81067$$\n   $$PV_{\\text{continuous}} = 120,000 \\times 11.81067 \\approx 1,417,280\\text{ BDT}$$"
+        },
+        {
+          "stepName": "Incremental cost of monthly payments",
+          "explanation": "$$PV_{\\text{monthly}} - PV_{\\text{annual}} = 1,413,842 - 1,376,390 = 37,452\\text{ BDT}$$\nThe insurer must charge an additional **$37,452\\text{ BDT}$** ($+2.72\\%$) to provide monthly payouts because the retiree receives funds earlier in each policy year, forfeiting intra-year interest to the company."
+        },
+        {
+          "stepName": "Evaluate Woolhouse's Euler-Maclaurin expansion",
+          "explanation": "Using Woolhouse's formula for $m = 12$:\n$$\\frac{m - 1}{2m} = \\frac{11}{24} \\approx 0.458333$$\n$$a_{\\overline{20}|}^{(12)} \\approx a_{\\overline{20}|} + \\frac{11}{24}(1 - v^{20}) = 11.46992 + 0.458333(0.688195) = 11.46992 + 0.31542 = 11.78534$$\nMultiply by annual benefit of $120,000$:\n$$PV_{\\text{Woolhouse}} = 120,000 \\times 11.78534 \\approx 1,414,241\\text{ BDT}$$\nApproximation error:\n$$\\text{Error} = 1,414,241 - 1,413,842 = +399\\text{ BDT}$$\n$$\\% \\text{Error} = \\frac{399}{1,413,842} \\times 100\\% \\approx 0.028\\%$$\nWoolhouse's formula achieves $99.97\\%$ numerical accuracy without requiring nominal rate root extraction!"
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "act-stat-3-1",
+      "title": "Evaluating Survival Probabilities and Expectations Under Makeham's Law",
+      "question": "An actuarial mortality study models adult mortality in an industrial workforce using Makeham’s Law:\n$$\\mu_x = A + B \\cdot c^x$$\nThe fitted parametric constants are:\n- $A = 0.00100$\n- $B = 0.00005$\n- $c = 1.10000$ (so $\\ln c = \\ln(1.10) \\approx 0.095310$)\n\nPerform the following calculations:\n1. Compute the exact force of mortality at age $x = 40$ ($\\mu_{40}$) and age $x = 70$ ($\\mu_{70}$).\n2. Compute the exact probability that a life aged $40$ survives to age $60$ (${}_{20} p_{40}$).\n3. Compute the deferred mortality probability that a life aged $40$ survives to age $60$ and subsequently dies before reaching age $65$ (${}_{20|5} q_{40}$).\n4. Calculate the doubling time of the senescent component of the force of mortality.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Evaluate force of mortality $\\mu_x$",
+          "explanation": "Given $A = 0.00100$, $B = 0.00005$, and $c = 1.10$:\n1. **At age $x = 40$**:\n   $$c^{40} = (1.10)^{40} \\approx 45.25926$$\n   $$\\mu_{40} = 0.00100 + (0.00005 \\times 45.25926) = 0.00100 + 0.002263 = 0.003263$$\n   The instantaneous hazard of death at age 40 is $0.3263\\%$ per year. Notice that the background hazard ($0.00100$) accounts for $30.6\\%$ of total mortality at age 40.\n\n2. **At age $x = 70$**:\n   $$c^{70} = (1.10)^{70} = (1.10)^{40} \\times (1.10)^{30} \\approx 45.25926 \\times 17.44940 \\approx 789.747$$\n   $$\\mu_{70} = 0.00100 + (0.00005 \\times 789.747) = 0.00100 + 0.039487 = 0.040487$$\n   The hazard of death at age 70 is $4.0487\\%$ per year—over $12\\times$ higher than at age 40!"
+        },
+        {
+          "stepName": "Compute survival probability ${}_{20} p_{40}$",
+          "explanation": "Under Makeham’s Law:\n$${}_{20} p_{40} = \\exp\\left( -20 A - \\frac{B c^{40}}{\\ln c} (c^{20} - 1) \\right)$$\nEvaluate each component:\n- Background component:\n  $$-20 A = -20 \\times 0.00100 = -0.020000$$\n- Senescent component:\n  $$c^{20} = (1.10)^{20} \\approx 6.727500 \\implies c^{20} - 1 = 5.727500$$\n  $$\\frac{B c^{40}}{\\ln c} = \\frac{0.00005 \\times 45.25926}{0.095310} = \\frac{0.00226296}{0.095310} \\approx 0.023743$$\n  $$\\text{Senescent Term} = 0.023743 \\times 5.727500 \\approx 0.135988$$\n- Total integrated hazard:\n  $$\\int_0^{20} \\mu_{40+s}\\,ds = 0.020000 + 0.135988 = 0.155988$$\n$${}_{20} p_{40} = \\exp(-0.155988) \\approx 0.855570 = 85.56\\%$$\nA 40-year-old worker has an $85.56\\%$ probability of surviving to age 60."
+        },
+        {
+          "stepName": "Compute deferred mortality probability ${}_{20|5} q_{40}$",
+          "explanation": "$${}_{20|5} q_{40} = {}_{20} p_{40} - {}_{25} p_{40} = {}_{20} p_{40} (1 - {}_5 p_{60})$$\nFirst compute ${}_5 p_{60}$:\n$${}_5 p_{60} = \\exp\\left( -5 A - \\frac{B c^{60}}{\\ln c} (c^5 - 1) \\right)$$\n- $c^{60} = c^{40} \\times c^{20} = 45.25926 \\times 6.727500 \\approx 304.4816$\n- $c^5 = (1.10)^5 = 1.61051 \\implies c^5 - 1 = 0.61051$\n- $-5 A = -5 \\times 0.00100 = -0.005000$\n- Senescent term:\n  $$\\frac{0.00005 \\times 304.4816}{0.095310} \\times 0.61051 = \\frac{0.015224}{0.095310} \\times 0.61051 = 0.159732 \\times 0.61051 \\approx 0.097518$$\n- Total integrated hazard: $0.005000 + 0.097518 = 0.102518$.\n$${}_5 p_{60} = \\exp(-0.102518) \\approx 0.902562$$\n$${}_5 q_{60} = 1 - 0.902562 = 0.097438$$\n\nNow compute deferred probability:\n$${}_{20|5} q_{40} = {}_{20} p_{40} \\times {}_5 q_{60} = 0.855570 \\times 0.097438 \\approx 0.083365 = 8.34\\%$$\nThere is an $8.34\\%$ chance that a 40-year-old will survive to age 60 and die between age 60 and 65."
+        },
+        {
+          "stepName": "Doubling time of the senescent mortality rate",
+          "explanation": "The senescent component is $\\mu_{\\text{sen}}(x) = B c^x$.\nLet $T_{\\text{double}}$ denote the time required for $\\mu_{\\text{sen}}$ to double:\n$$B c^{x + T_{\\text{double}}} = 2 B c^x \\implies c^{T_{\\text{double}}} = 2$$\n$$T_{\\text{double}} \\ln c = \\ln 2 \\implies T_{\\text{double}} = \\frac{\\ln 2}{\\ln(1.10)} = \\frac{0.693147}{0.095310} \\approx 7.27\\text{ years}$$\nSenescent mortality doubles every **$7.27\\text{ years}$**."
+        }
+      ]
+    },
+    {
+      "id": "act-stat-3-2",
+      "title": "Fractional Age Interpolation Under UDD and Constant Force Assumptions",
+      "question": "An extract from an official actuarial life table reports the following cohort survivor counts:\n- $\\ell_{50} = 90,000$\n- $\\ell_{51} = 88,200$\n- $\\ell_{52} = 86,100$\n\nPerform the following calculations:\n1. Compute the one-year mortality rates $q_{50}$ and $q_{51}$.\n2. Under the **Uniform Distribution of Deaths (UDD)** assumption:\n   - Compute the survival probability ${}_{0.6} p_{50}$.\n   - Compute the fractional probability that a life aged $50.4$ survives to age $51.8$ (${}_{1.4} p_{50.4}$).\n   - Compute the instantaneous force of mortality at exact age $50.5$ ($\\mu_{50.5}$).\n3. Under the **Constant Force of Mortality (CFM)** assumption:\n   - Compute the constant force of mortality $\\mu$ over the interval $[50, 51)$.\n   - Compute ${}_{1.4} p_{50.4}$ under CFM and compare with the UDD result.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Compute $q_{50}$ and $q_{51}$",
+          "explanation": "$$d_{50} = \\ell_{50} - \\ell_{51} = 90,000 - 88,200 = 1,800$$\n$$q_{50} = \\frac{d_{50}}{\\ell_{50}} = \\frac{1,800}{90,000} = 0.02000 \\implies p_{50} = 0.98000$$\n$$d_{51} = \\ell_{51} - \\ell_{52} = 88,200 - 86,100 = 2,100$$\n$$q_{51} = \\frac{d_{51}}{\\ell_{51}} = \\frac{2,100}{88,200} \\approx 0.02381 \\implies p_{51} \\approx 0.97619$$"
+        },
+        {
+          "stepName": "Calculations under UDD",
+          "explanation": "1. **${}_{0.6} p_{50}$**:\n   Under UDD, ${}_t q_x = t \\cdot q_x$:\n   $${}_{0.6} q_{50} = 0.6 \\times q_{50} = 0.6 \\times 0.02000 = 0.01200$$\n   $${}_{0.6} p_{50} = 1 - 0.01200 = 0.98800$$\n\n2. **${}_{1.4} p_{50.4}$**:\n   Decompose the path from age $50.4$ to $51.8$ into two segments:\n   $${}_{1.4} p_{50.4} = {}_{0.6} p_{50.4} \\cdot {}_{0.8} p_{51}$$\n   - For the first segment (surviving from $50.4$ to $51.0$):\n     $${}_{0.6} p_{50.4} = \\frac{{}_1 p_{50}}{{}_{0.4} p_{50}} = \\frac{1 - q_{50}}{1 - 0.4 q_{50}} = \\frac{1 - 0.02000}{1 - (0.4 \\times 0.02000)} = \\frac{0.98000}{1 - 0.00800} = \\frac{0.98000}{0.99200} \\approx 0.987903$$\n   - For the second segment (surviving from $51.0$ to $51.8$):\n     $${}_{0.8} p_{51} = 1 - 0.8 q_{51} = 1 - (0.8 \\times 0.023810) = 1 - 0.019048 = 0.980952$$\n   - Multiply the two segments:\n     $${}_{1.4} p_{50.4} = 0.987903 \\times 0.980952 \\approx 0.969085$$\n\n3. **Force of mortality $\\mu_{50.5}$ under UDD**:\n   $$\\mu_{50.5} = \\frac{q_{50}}{1 - 0.5 q_{50}} = \\frac{0.02000}{1 - (0.5 \\times 0.02000)} = \\frac{0.02000}{1 - 0.01000} = \\frac{0.02000}{0.99000} \\approx 0.020202$$"
+        },
+        {
+          "stepName": "Calculations under Constant Force of Mortality (CFM)",
+          "explanation": "1. **Constant force $\\mu$ on $[50, 51)$**:\n   $$\\mu = -\\ln p_{50} = -\\ln(0.98000) \\approx 0.020203$$\n   Notice that $\\mu_{50.5}^{\\text{UDD}} (0.020202) \\approx \\mu^{\\text{CFM}} (0.020203)$ at the midpoint!\n\n2. **${}_{1.4} p_{50.4}$ under CFM**:\n   - For $[50, 51)$, constant force is $\\mu_1 = 0.020203$.\n     Duration lived is $1.0 - 0.4 = 0.6$ years:\n     $${}_{0.6} p_{50.4} = \\exp(-0.6 \\mu_1) = \\exp(-0.6 \\times 0.020203) = \\exp(-0.012122) \\approx 0.987951$$\n   - For $[51, 52)$, constant force is $\\mu_2 = -\\ln p_{51} = -\\ln(0.976190) \\approx 0.024098$.\n     Duration lived is $0.8$ years:\n     $${}_{0.8} p_{51} = \\exp(-0.8 \\mu_2) = \\exp(-0.8 \\times 0.024098) = \\exp(-0.019278) \\approx 0.980905$$\n   - Multiply the two segments:\n     $${}_{1.4} p_{50.4}^{\\text{CFM}} = 0.987951 \\times 0.980905 \\approx 0.969086$$\n\n**Comparison**:\n- UDD Result: $0.969085$\n- CFM Result: $0.969086$\nThe two assumptions agree to within 1 part per million, confirming that for single-year intervals, both interpolation methods are virtually indistinguishable."
+        }
+      ]
+    },
+    {
+      "id": "act-stat-3-3",
+      "title": "Multi-Year Select and Ultimate Mortality Table Construction",
+      "question": "A life reinsurance company constructs a select-and-ultimate life table with a 2-year select period ($r = 2$). The mortality rates for underwriting select ages $[60]$ and $[61]$ are:\n- $q_{[60]} = 0.00800$\n- $q_{[60]+1} = 0.01200$\n- $q_{[61]} = 0.00900$\n- $q_{[61]+1} = 0.01350$\n- Ultimate rate at age 62: $q_{62} = 0.01600$\n- Ultimate rate at age 63: $q_{63} = 0.01900$\n\nSuppose a cohort of $100,000$ insured lives is underwritten at select age $[60]$ ($\\ell_{[60]} = 100,000$).\n\nPerform the following calculations:\n1. Compute the expected survivors $\\ell_{[60]+1}$, $\\ell_{62}$, and $\\ell_{63}$.\n2. Compute the 3-year survival probability of a life selected at age 60 (${}_3 p_{[60]}$).\n3. Compute the 3-year survival probability of a non-selected life aged 60 from the ultimate table if the ultimate rate at age 60 is $q_{60} = 0.01300$ and at age 61 is $q_{61} = 0.01450$.\n4. Calculate the percentage mortality reduction gained over the 3-year horizon from medical underwriting selection.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Trace the select cohort $\\ell_{[60]+t}$",
+          "explanation": "Starting with $\\ell_{[60]} = 100,000$:\n1. **At duration $t = 1$ (Attained age 61)**:\n   $$d_{[60]} = \\ell_{[60]} \\times q_{[60]} = 100,000 \\times 0.00800 = 800\\text{ deaths}$$\n   $$\\ell_{[60]+1} = 100,000 - 800 = 99,200\\text{ survivors}$$\n\n2. **At duration $t = 2$ (Attained age 62 - transitions to Ultimate)**:\n   $$d_{[60]+1} = \\ell_{[60]+1} \\times q_{[60]+1} = 99,200 \\times 0.01200 = 1,190.4 \\approx 1,190\\text{ deaths}$$\n   $$\\ell_{62} = 99,200 - 1,190.4 = 98,009.6\\text{ survivors}$$\n\n3. **At duration $t = 3$ (Attained age 63 - Ultimate rate applies)**:\n   $$d_{62} = \\ell_{62} \\times q_{62} = 98,009.6 \\times 0.01600 = 1,568.15\\text{ deaths}$$\n   $$\\ell_{63} = 98,009.6 - 1,568.15 = 96,441.45\\text{ survivors}$$"
+        },
+        {
+          "stepName": "3-year survival probability for select life (${}_3 p_{[60]}$)",
+          "explanation": "$${}_3 p_{[60]} = \\frac{\\ell_{63}}{\\ell_{[60]}} = \\frac{96,441.45}{100,000} \\approx 0.964415 = 96.44\\%$$\nEquivalently, via product of annual survival rates:\n$${}_3 p_{[60]} = (1 - q_{[60]})(1 - q_{[60]+1})(1 - q_{62}) = (1 - 0.00800)(1 - 0.01200)(1 - 0.01600)$$\n$$= 0.99200 \\times 0.98800 \\times 0.98400 = 0.980096 \\times 0.98400 \\approx 0.964414$$\n\nThe 3-year mortality probability is:\n$${}_3 q_{[60]} = 1 - 0.964414 = 0.035586 = 3.559\\%$$"
+        },
+        {
+          "stepName": "3-year survival probability for ultimate (unselected) life",
+          "explanation": "For an unselected life aged 60:\n$${}_3 p_{60}^{\\text{ultimate}} = (1 - q_{60})(1 - q_{61})(1 - q_{62}) = (1 - 0.01300)(1 - 0.01450)(1 - 0.01600)$$\n$$= 0.98700 \\times 0.98550 \\times 0.98400$$\n$$0.98700 \\times 0.98550 \\approx 0.9726885$$\n$${}_3 p_{60}^{\\text{ultimate}} = 0.9726885 \\times 0.98400 \\approx 0.957125 = 95.71\\%$$\n\nThe 3-year unselected mortality probability is:\n$${}_3 q_{60}^{\\text{ultimate}} = 1 - 0.957125 = 0.042875 = 4.288\\%$$"
+        },
+        {
+          "stepName": "Mortality reduction from underwriting selection",
+          "explanation": "Compare cumulative 3-year death rates:\n$$\\text{Relative Mortality Reduction} = \\frac{{}_3 q_{60}^{\\text{ultimate}} - {}_3 q_{[60]}}{{}_3 q_{60}^{\\text{ultimate}}} \\times 100\\% = \\frac{0.042875 - 0.035586}{0.042875} \\times 100\\% = \\frac{0.007289}{0.042875} \\times 100\\% \\approx 17.00\\%$$\nMedical underwriting selection reduces the 3-year mortality rate by **$17.00\\%$**, demonstrating why life insurance companies can offer substantial premium discounts to medically underwritten applicants."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "act-stat-4-1",
+      "title": "Discrete Whole Life and Endowment Insurance Valuation via Commutation Functions",
+      "question": "An extract from an actuarial valuation table compiled at an effective annual interest rate of $i = 5.00\\%$ ($i = 0.05$, $v = 1/1.05 \\approx 0.952381$) reports the following commutation values:\n- $D_{40} = 15,000$\n- $D_{50} = 8,800$\n- $D_{60} = 4,800$\n- $M_{40} = 4,200$\n- $M_{50} = 3,300$\n- $M_{60} = 2,400$\n- $R_{40} = 84,000$\n\nA life aged $40$ purchases various life insurance policies. Compute:\n1. The Net Single Premium for a Whole Life Insurance of $100,000\\text{ BDT}$ payable at the end of the year of death ($100,000 A_{40}$).\n2. The Net Single Premium for a 20-Year Term Insurance of $100,000\\text{ BDT}$ ($100,000 A_{40:\\overline{20}|}^1$).\n3. The Net Single Premium for a 20-Year Pure Endowment of $100,000\\text{ BDT}$ ($100,000 {}_{20} E_{40}$).\n4. The Net Single Premium for a 20-Year Endowment Insurance of $100,000\\text{ BDT}$ ($100,000 A_{40:\\overline{20}|}$).\n5. The Net Single Premium for an Increasing Whole Life Insurance paying $10,000\\text{ BDT}$ in Year 1, $20,000\\text{ BDT}$ in Year 2, increasing by $10,000\\text{ BDT}$ each year thereafter ($10,000 (IA)_{40}$).",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Whole life insurance valuation",
+          "explanation": "Using $A_x = M_x / D_x$:\n$$A_{40} = \\frac{M_{40}}{D_{40}} = \\frac{4,200}{15,000} = 0.28000$$\nFor a sum insured of $100,000\\text{ BDT}$:\n$$\\text{NSP}_{\\text{whole life}} = 100,000 \\times 0.28000 = 28,000\\text{ BDT}$$"
+        },
+        {
+          "stepName": "20-Year term insurance valuation",
+          "explanation": "For a 20-year term from age 40, terminal age is $40 + 20 = 60$:\n$$A_{40:\\overline{20}|}^1 = \\frac{M_{40} - M_{60}}{D_{40}} = \\frac{4,200 - 2,400}{15,000} = \\frac{1,800}{15,000} = 0.12000$$\nFor a sum insured of $100,000\\text{ BDT}$:\n$$\\text{NSP}_{\\text{term}} = 100,000 \\times 0.12000 = 12,000\\text{ BDT}$$"
+        },
+        {
+          "stepName": "20-Year pure endowment valuation",
+          "explanation": "$${}_{20} E_{40} = \\frac{D_{60}}{D_{40}} = \\frac{4,800}{15,000} = 0.32000$$\nFor a maturity benefit of $100,000\\text{ BDT}$:\n$$\\text{NSP}_{\\text{pure endowment}} = 100,000 \\times 0.32000 = 32,000\\text{ BDT}$$"
+        },
+        {
+          "stepName": "20-Year endowment insurance valuation",
+          "explanation": "An endowment insurance is the sum of term insurance and pure endowment:\n$$A_{40:\\overline{20}|} = A_{40:\\overline{20}|}^1 + {}_{20} E_{40} = 0.12000 + 0.32000 = 0.44000$$\nEquivalently, via commutation functions:\n$$A_{40:\\overline{20}|} = \\frac{M_{40} - M_{60} + D_{60}}{D_{40}} = \\frac{4,200 - 2,400 + 4,800}{15,000} = \\frac{6,600}{15,000} = 0.44000$$\nFor a sum insured of $100,000\\text{ BDT}$:\n$$\\text{NSP}_{\\text{endowment}} = 100,000 \\times 0.44000 = 44,000\\text{ BDT}$$"
+        },
+        {
+          "stepName": "Increasing whole life insurance valuation",
+          "explanation": "Using $(IA)_x = R_x / D_x$:\n$$(IA)_{40} = \\frac{R_{40}}{D_{40}} = \\frac{84,000}{15,000} = 5.60000$$\nFor a scale benefit of $10,000\\text{ BDT}$ per step:\n$$\\text{NSP}_{\\text{increasing}} = 10,000 \\times 5.60000 = 56,000\\text{ BDT}$$"
+        }
+      ]
+    },
+    {
+      "id": "act-stat-4-2",
+      "title": "Stochastic Variance of Present Value Loss Variable and Risk Pools",
+      "question": "An insurance company sells identical independent 10-year term insurance policies to a portfolio of $N = 100$ lives, each aged $x = 50$. Each policy pays a lump-sum death benefit of $B = 250,000\\text{ BDT}$ at the end of the year of death if the insured dies within 10 years.\n\nThe actuarial life table and interest rate parameters are:\n- Effective annual interest rate: $i = 6.00\\%$ ($i = 0.06$)\n- Single policy term actuarial values:\n  $$A_{50:\\overline{10}|}^1 = 0.06500, \\qquad {}^2 A_{50:\\overline{10}|}^1 = 0.02450$$\n\nLet $S = \\sum_{j=1}^{100} Z_j$ denote the aggregate present value of claims across the entire portfolio, where $Z_j = B \\cdot v^{K_{50, j} + 1} \\mathbb{I}(K_{50, j} < 10)$.\n\nPerform the following calculations:\n1. Compute the expected value $\\mathbb{E}[Z]$ and standard deviation $\\sigma_Z$ for a single policy.\n2. Compute the expected aggregate claims $\\mathbb{E}[S]$ and standard deviation $\\sigma_S$ for the portfolio of 100 policies.\n3. Compute the coefficient of variation ($CV = \\sigma / \\mathbb{E}$) for a single policy and for the 100-policy portfolio.\n4. Using the Central Limit Theorem, calculate the total capital reserve $C$ the insurer must establish at policy inception so that the probability of aggregate claims exceeding reserves is no more than $1.0\\%$ ($P(S > C) \\le 0.01$, with $Z_{0.01} = 2.326$).\n5. Compute the required contingency risk loading as a percentage of expected claims.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Single policy mean and standard deviation",
+          "explanation": "For a single policy with benefit $B = 250,000\\text{ BDT}$:\n$$\\mathbb{E}[Z] = B \\cdot A_{50:\\overline{10}|}^1 = 250,000 \\times 0.06500 = 16,250\\text{ BDT}$$\n\nThe variance of a single policy loss variable is:\n$$\\text{Var}(Z) = B^2 \\left[ {}^2 A_{50:\\overline{10}|}^1 - (A_{50:\\overline{10}|}^1)^2 \\right]$$\n$$(A_{50:\\overline{10}|}^1)^2 = (0.06500)^2 = 0.004225$$\n$${}^2 A_{50:\\overline{10}|}^1 - (A_{50:\\overline{10}|}^1)^2 = 0.02450 - 0.004225 = 0.020275$$\n$$\\text{Var}(Z) = (250,000)^2 \\times 0.020275 = 6.25 \\times 10^{10} \\times 0.020275 = 1,267,187,500\\text{ BDT}^2$$\n$$\\sigma_Z = \\sqrt{1,267,187,500} \\approx 35,597.58\\text{ BDT}$$"
+        },
+        {
+          "stepName": "Aggregate portfolio mean and standard deviation",
+          "explanation": "For $N = 100$ independent, identically distributed policies:\n$$\\mathbb{E}[S] = N \\cdot \\mathbb{E}[Z] = 100 \\times 16,250 = 1,625,000\\text{ BDT}$$\n$$\\text{Var}(S) = N \\cdot \\text{Var}(Z) = 100 \\times 1,267,187,500 = 126,718,750,000\\text{ BDT}^2$$\n$$\\sigma_S = \\sqrt{N} \\cdot \\sigma_Z = \\sqrt{100} \\times 35,597.58 = 10 \\times 35,597.58 = 355,975.80\\text{ BDT}$$"
+        },
+        {
+          "stepName": "Evaluate Coefficient of Variation ($CV$)",
+          "explanation": "- Single policy:\n  $$CV_Z = \\frac{\\sigma_Z}{\\mathbb{E}[Z]} = \\frac{35,597.58}{16,250} \\approx 2.1906 = 219.06\\%$$\n- 100-policy portfolio:\n  $$CV_S = \\frac{\\sigma_S}{\\mathbb{E}[S]} = \\frac{355,975.80}{1,625,000} = \\frac{CV_Z}{\\sqrt{N}} = \\frac{2.1906}{10} \\approx 0.2191 = 21.91\\%$$\nPooling 100 independent risks reduces relative volatility by a factor of $\\sqrt{100} = 10\\times$, illustrating the foundational economic law of insurance risk pooling!"
+        },
+        {
+          "stepName": "Compute $99\\%$ confidence solvency reserve $C$",
+          "explanation": "By the Central Limit Theorem, aggregate claims $S$ asymptotically follow a normal distribution $S \\sim \\mathcal{N}(\\mathbb{E}[S], \\sigma_S^2)$:\n$$P(S \\le C) = 0.99 \\implies \\frac{C - \\mathbb{E}[S]}{\\sigma_S} = Z_{0.01} = 2.326$$\n$$C = \\mathbb{E}[S] + 2.326 \\cdot \\sigma_S = 1,625,000 + (2.326 \\times 355,975.80)$$\n$$= 1,625,000 + 828,000 = 2,453,000\\text{ BDT}$$\nThe insurer must maintain **$2,453,000\\text{ BDT}$** in reserves to ensure solvency at a $99\\%$ confidence level."
+        },
+        {
+          "stepName": "Determine contingency risk loading",
+          "explanation": "$$\\text{Risk Loading} = C - \\mathbb{E}[S] = 2,453,000 - 1,625,000 = 828,000\\text{ BDT}$$\n$$\\% \\text{Risk Loading} = \\frac{828,000}{1,625,000} \\times 100\\% \\approx 50.95\\%$$\nThe insurer must collect a $50.95\\%$ safety buffer over expected claims to protect against extreme statistical mortality clusters in a small portfolio of 100 lives."
+        }
+      ]
+    },
+    {
+      "id": "act-stat-4-3",
+      "title": "Continuous Versus Discrete Insurance Under UDD and De Moivre's Law",
+      "question": "A continuous whole life insurance policy pays $100,000\\text{ BDT}$ at the moment of death of a life aged $x = 60$. Mortality follows De Moivre's Law with terminal age $\\omega = 100$. The effective annual interest rate is $i = 6.00\\%$ ($i = 0.06$).\n\nPerform the following calculations:\n1. Determine the force of interest $\\delta$ and the discount factor $v$.\n2. Compute the exact Actuarial Present Value $\\bar{A}_{60}$ using the continuous integral definition under De Moivre's Law.\n3. Compute the discrete Actuarial Present Value $A_{60}$ assuming payments at the end of the year of death.\n4. Compute the UDD approximation $\\bar{A}_{60} \\approx \\frac{i}{\\delta} A_{60}$ and determine the approximation error relative to the exact integral.\n5. Compute the second moment ${}^2\\bar{A}_{60}$ and the standard deviation of the present value loss variable.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Parameters under De Moivre's Law",
+          "explanation": "For $x = 60$ and $\\omega = 100$:\n$$\\omega - x = 100 - 60 = 40\\text{ years}$$\nUnder De Moivre's Law, the future lifetime $T_{60}$ is uniformly distributed on $[0, 40]$:\n$$f_{60}(t) = \\frac{1}{40}, \\qquad 0 \\le t \\le 40$$\nThe financial interest parameters are:\n$$i = 0.06 \\implies \\delta = \\ln(1.06) \\approx 0.0582689$$\n$$v = (1.06)^{-1} \\approx 0.943396$$"
+        },
+        {
+          "stepName": "Exact continuous APV $\\bar{A}_{60}$",
+          "explanation": "$$\\bar{A}_{60} = \\int_0^{40} e^{-\\delta t} f_{60}(t)\\,dt = \\frac{1}{40} \\int_0^{40} e^{-\\delta t}\\,dt = \\frac{1}{40} \\left[ \\frac{1 - e^{-40 \\delta}}{\\delta} \\right] = \\frac{\\bar{a}_{\\overline{40}|}}{40}$$\nCalculate $e^{-40 \\delta}$:\n$$e^{-40 \\delta} = (1.06)^{-40} \\approx 0.097222$$\n$$1 - e^{-40 \\delta} = 1 - 0.097222 = 0.902778$$\n$$\\bar{a}_{\\overline{40}|} = \\frac{0.902778}{0.0582689} \\approx 15.49331$$\n$$\\bar{A}_{60} = \\frac{15.49331}{40} \\approx 0.387333$$\nFor a $100,000\\text{ BDT}$ benefit:\n$$\\text{APV}_{\\text{continuous}} = 100,000 \\times 0.387333 = 38,733.30\\text{ BDT}$$"
+        },
+        {
+          "stepName": "Discrete APV $A_{60}$",
+          "explanation": "Under De Moivre's Law, $q_{60+k} = \\frac{1}{40 - k}$, and ${}_k| q_{60} = \\frac{1}{40}$ for each integer year $k = 0, 1, \\dots, 39$:\n$$A_{60} = \\sum_{k=0}^{39} v^{k+1} \\cdot \\frac{1}{40} = \\frac{1}{40} \\sum_{k=0}^{39} v^{k+1} = \\frac{a_{\\overline{40}|}}{40}$$\nCalculate $a_{\\overline{40}|0.06}$:\n$$a_{\\overline{40}|} = \\frac{1 - (1.06)^{-40}}{0.06} = \\frac{1 - 0.097222}{0.06} = \\frac{0.902778}{0.06} \\approx 15.04630$$\n$$A_{60} = \\frac{15.04630}{40} \\approx 0.376158$$\n$$\\text{APV}_{\\text{discrete}} = 100,000 \\times 0.376158 = 37,615.80\\text{ BDT}$$"
+        },
+        {
+          "stepName": "UDD approximation and error assessment",
+          "explanation": "The UDD multiplier is:\n$$\\frac{i}{\\delta} = \\frac{0.06}{0.0582689} \\approx 1.029709$$\nApproximating $\\bar{A}_{60}$:\n$$\\bar{A}_{60}^{\\text{UDD}} \\approx \\frac{i}{\\delta} A_{60} = 1.029709 \\times 0.376158 \\approx 0.387333$$\nNotice that because De Moivre’s Law has a constant death density $f(t) = 1/40$, deaths are *exactly* uniformly distributed over each single year of age! \nConsequently, the UDD approximation is not merely an approximation—it is **mathematically exact to 6 decimal places**!\n$$\\text{Exact } \\bar{A}_{60} = 0.387333, \\qquad \\text{UDD } \\bar{A}_{60} = 0.387333$$"
+        },
+        {
+          "stepName": "Second moment and standard deviation",
+          "explanation": "Evaluate at $2\\delta = 2 \\times 0.0582689 = 0.1165378$:\n$$e^{-40(2\\delta)} = (e^{-40\\delta})^2 = (0.097222)^2 \\approx 0.009452$$\n$${}^2\\bar{A}_{60} = \\frac{1 - e^{-40(2\\delta)}}{40(2\\delta)} = \\frac{1 - 0.009452}{40 \\times 0.1165378} = \\frac{0.990548}{4.661512} \\approx 0.212495$$\nThe variance is:\n$$\\text{Var}(Z) = B^2 [{}^2\\bar{A}_{60} - (\\bar{A}_{60})^2]$$\n$$(\\bar{A}_{60})^2 = (0.387333)^2 \\approx 0.150027$$\n$${}^2\\bar{A}_{60} - (\\bar{A}_{60})^2 = 0.212495 - 0.150027 = 0.062468$$\n$$\\sigma_Z = 100,000 \\times \\sqrt{0.062468} = 100,000 \\times 0.249936 \\approx 24,994\\text{ BDT}$$\nThe standard deviation of the present value of the death claim is **$24,994\\text{ BDT}$**."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "act-stat-5-1",
+      "title": "Evaluating Life Annuities and Commutation Relationships",
+      "question": "An extract from an actuarial valuation table compiled at an effective annual interest rate of $i = 6.00\\%$ ($i = 0.06$, $d = 0.06/1.06 \\approx 0.0566038$) provides the following commutation values:\n- $D_{65} = 5,000$\n- $D_{70} = 3,600$\n- $D_{75} = 2,400$\n- $N_{65} = 55,000$\n- $N_{70} = 33,500$\n- $N_{75} = 18,500$\n- $S_{65} = 420,000$\n\nA retiree aged $65$ purchases various retirement income policies. Compute:\n1. The Actuarial Present Value of a Whole Life Annuity-Due of $120,000\\text{ BDT}$ per year ($120,000 \\ddot{a}_{65}$).\n2. The Actuarial Present Value of a Whole Life Insurance on $(65)$ using the duality theorem ($A_{65} = 1 - d \\ddot{a}_{65}$).\n3. The Actuarial Present Value of a 10-Year Temporary Life Annuity-Due of $120,000\\text{ BDT}$ per year ($120,000 \\ddot{a}_{65:\\overline{10}|}$).\n4. The Actuarial Present Value of a Life Annuity-Due of $120,000\\text{ BDT}$ deferred by 5 years (${}_{5|} \\ddot{a}_{65}$).\n5. The Actuarial Present Value of a 5-Year Guaranteed Life Annuity-Due of $120,000\\text{ BDT}$ per year ($\\ddot{a}_{\\overline{65:\\overline{5}|}}$).\n6. The Actuarial Present Value of an Increasing Life Annuity-Due paying $10,000\\text{ BDT}$ in Year 1, $20,000\\text{ BDT}$ in Year 2, increasing by $10,000\\text{ BDT}$ per year for life ($10,000 (I\\ddot{a})_{65}$).",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Whole life annuity-due $\\ddot{a}_{65}$",
+          "explanation": "Using $\\ddot{a}_x = N_x / D_x$:\n$$\\ddot{a}_{65} = \\frac{N_{65}}{D_{65}} = \\frac{55,000}{5,000} = 11.0000$$\nFor an annual pension of $120,000\\text{ BDT}$:\n$$\\text{APV}_{\\text{whole life}} = 120,000 \\times 11.0000 = 1,320,000\\text{ BDT}$$"
+        },
+        {
+          "stepName": "Whole life insurance $A_{65}$ via duality",
+          "explanation": "Using $A_{65} = 1 - d \\ddot{a}_{65}$:\n$$d = \\frac{i}{1 + i} = \\frac{0.06}{1.06} \\approx 0.05660377$$\n$$A_{65} = 1 - (0.05660377 \\times 11.0000) = 1 - 0.6226415 = 0.377358$$\nA whole life insurance of $100,000\\text{ BDT}$ on $(65)$ has a net single premium of:\n$$100,000 \\times 0.377358 \\approx 37,736\\text{ BDT}$$"
+        },
+        {
+          "stepName": "10-Year temporary life annuity-due $\\ddot{a}_{65:\\overline{10}|}$",
+          "explanation": "For a 10-year term from age 65, terminal age is $65 + 10 = 75$:\n$$\\ddot{a}_{65:\\overline{10}|} = \\frac{N_{65} - N_{75}}{D_{65}} = \\frac{55,000 - 18,500}{5,000} = \\frac{36,500}{5,000} = 7.3000$$\nFor an annual pension of $120,000\\text{ BDT}$:\n$$\\text{APV}_{\\text{temporary}} = 120,000 \\times 7.3000 = 876,000\\text{ BDT}$$"
+        },
+        {
+          "stepName": "5-Year deferred life annuity-due ${}_{5|} \\ddot{a}_{65}$",
+          "explanation": "$${}_{5|} \\ddot{a}_{65} = \\frac{N_{70}}{D_{65}} = \\frac{33,500}{5,000} = 6.7000$$\nFor an annual pension of $120,000\\text{ BDT}$:\n$$\\text{APV}_{\\text{deferred}} = 120,000 \\times 6.7000 = 804,000\\text{ BDT}$$\nCheck consistency:\n$$\\ddot{a}_{65:\\overline{5}|} = \\frac{N_{65} - N_{70}}{D_{65}} = \\frac{55,000 - 33,500}{5,000} = \\frac{21,500}{5,000} = 4.3000$$\n$$\\ddot{a}_{65:\\overline{5}|} + {}_{5|} \\ddot{a}_{65} = 4.3000 + 6.7000 = 11.0000 = \\ddot{a}_{65}$$\nThe sum matches the whole life annuity perfectly."
+        },
+        {
+          "stepName": "5-Year guaranteed life annuity-due $\\ddot{a}_{\\overline{65:\\overline{5}|}}$",
+          "explanation": "Annuity-due certain for 5 years at $i = 0.06$:\n$$\\ddot{a}_{\\overline{5}|} = (1.06) a_{\\overline{5}|0.06} = 1.06 \\times \\left[ \\frac{1 - (1.06)^{-5}}{0.06} \\right] = 1.06 \\times 4.212364 \\approx 4.465106$$\nAdding the deferred life annuity component:\n$$\\ddot{a}_{\\overline{65:\\overline{5}|}} = \\ddot{a}_{\\overline{5}|} + {}_{5|} \\ddot{a}_{65} = 4.465106 + 6.7000 = 11.165106$$\nFor an annual pension of $120,000\\text{ BDT}$:\n$$\\text{APV}_{\\text{guaranteed}} = 120,000 \\times 11.165106 \\approx 1,339,813\\text{ BDT}$$\nAdding a 5-year guarantee costs an additional $1,339,813 - 1,320,000 = 19,813\\text{ BDT}$ ($+1.5\\%$)."
+        },
+        {
+          "stepName": "Increasing life annuity-due $(I\\ddot{a})_{65}$",
+          "explanation": "Using $(I\\ddot{a})_x = S_x / D_x$:\n$$(I\\ddot{a})_{65} = \\frac{S_{65}}{D_{65}} = \\frac{420,000}{5,000} = 84.0000$$\nFor a scale step of $10,000\\text{ BDT}$:\n$$\\text{APV}_{\\text{increasing}} = 10,000 \\times 84.0000 = 840,000\\text{ BDT}$$"
+        }
+      ]
+    },
+    {
+      "id": "act-stat-5-2",
+      "title": "Variance Analysis of Life Annuity Present Value",
+      "question": "A life insurance company issues a single-premium continuous whole life annuity of $B = 50,000\\text{ BDT}$ per year to a life aged $x = 55$. \n\nMortality is governed by a constant force of mortality $\\mu = 0.0200$, and interest is governed by a constant force of interest $\\delta = 0.0500$.\n\nPerform the following calculations:\n1. Compute the exact Actuarial Present Value $\\bar{a}_{55}$.\n2. Compute the Net Single Premium charged for the $50,000\\text{ BDT/year}$ annuity.\n3. Compute the continuous whole life insurance values $\\bar{A}_{55}$ and ${}^2\\bar{A}_{55}$.\n4. Compute the variance $\\text{Var}(\\bar{Z})$ of the whole life insurance loss variable.\n5. Using the equivalence relation $\\text{Var}(\\bar{Y}) = \\text{Var}(\\bar{Z}) / \\delta^2$, compute the variance and standard deviation of the annuity present value random variable.\n6. Compute the probability that the actual present value payout to the annuitant exceeds the premium collected ($P(Y > \\bar{a}_{55})$).",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Compute $\\bar{a}_{55}$ under constant forces",
+          "explanation": "Under constant force of mortality $\\mu = 0.02$ and constant force of interest $\\delta = 0.05$:\n$${}_t p_{55} = e^{-\\mu t} = e^{-0.02 t}$$\n$$\\bar{a}_{55} = \\int_0^\\infty e^{-\\delta t} e^{-\\mu t}\\,dt = \\int_0^\\infty e^{-(\\delta + \\mu) t}\\,dt = \\frac{1}{\\delta + \\mu} = \\frac{1}{0.05 + 0.02} = \\frac{1}{0.07} \\approx 14.285714$$"
+        },
+        {
+          "stepName": "Net Single Premium",
+          "explanation": "For an annual benefit rate of $50,000\\text{ BDT/year}$:\n$$\\text{NSP} = 50,000 \\times \\bar{a}_{55} = 50,000 \\times \\frac{1}{0.07} \\approx 714,286\\text{ BDT}$$"
+        },
+        {
+          "stepName": "Life insurance values $\\bar{A}_{55}$ and ${}^2\\bar{A}_{55}$",
+          "explanation": "$$\\bar{A}_{55} = \\frac{\\mu}{\\delta + \\mu} = \\frac{0.02}{0.07} \\approx 0.285714$$\nVerifying duality:\n$$\\bar{a}_{55} = \\frac{1 - \\bar{A}_{55}}{\\delta} = \\frac{1 - 0.285714}{0.05} = \\frac{0.714286}{0.05} = 14.285714$$\nFor the second moment, evaluate at $2\\delta = 2 \\times 0.05 = 0.10$:\n$${}^2\\bar{A}_{55} = \\frac{\\mu}{2\\delta + \\mu} = \\frac{0.02}{0.10 + 0.02} = \\frac{0.02}{0.12} = \\frac{1}{6} \\approx 0.166667$$"
+        },
+        {
+          "stepName": "Variance of insurance random variable $\\bar{Z}$",
+          "explanation": "$$\\text{Var}(\\bar{Z}) = {}^2\\bar{A}_{55} - (\\bar{A}_{55})^2 = \\frac{1}{6} - \\left( \\frac{2}{7} \\right)^2 = \\frac{1}{6} - \\frac{4}{49} = \\frac{49 - 24}{294} = \\frac{25}{294} \\approx 0.085034$$"
+        },
+        {
+          "stepName": "Variance and standard deviation of annuity random variable $\\bar{Y}$",
+          "explanation": "For a unit annuity:\n$$\\text{Var}(\\bar{Y}) = \\frac{\\text{Var}(\\bar{Z})}{\\delta^2} = \\frac{25 / 294}{(0.05)^2} = \\frac{0.085034}{0.0025} \\approx 34.0136$$\nFor the $50,000\\text{ BDT/year}$ policy ($Y_{\\text{policy}} = 50,000 \\bar{Y}$):\n$$\\text{Var}(Y_{\\text{policy}}) = (50,000)^2 \\times 34.0136 = 2.5 \\times 10^9 \\times 34.0136 = 8.5034 \\times 10^{10}\\text{ BDT}^2$$\n$$\\sigma(Y_{\\text{policy}}) = 50,000 \\times \\sqrt{34.0136} = 50,000 \\times 5.8321 \\approx 291,606\\text{ BDT}$$\nThe standard deviation of the payout present value is **$291,606\\text{ BDT}$** ($40.8\\%$ of the expected premium!)."
+        },
+        {
+          "stepName": "Probability that actual payout exceeds the premium",
+          "explanation": "We seek $P(Y > \\mathbb{E}[Y]) = P\\left( \\frac{1 - e^{-\\delta T_{55}}}{\\delta} > \\bar{a}_{55} \\right)$:\n$$\\frac{1 - e^{-\\delta T_{55}}}{\\delta} > 14.285714$$\n$$1 - e^{-\\delta T_{55}} > 0.05 \\times 14.285714 = 0.714286$$\n$$e^{-\\delta T_{55}} < 1 - 0.714286 = 0.285714$$\n$$-\\delta T_{55} < \\ln(0.285714) = -1.252763$$\n$$T_{55} > \\frac{1.252763}{\\delta} = \\frac{1.252763}{0.05} = 25.055\\text{ years}$$\nThus, the actual payout exceeds the collected premium if and only if the annuitant survives for more than $25.055$ years (attains age $80.055$).\n\nUnder exponential survival with $\\mu = 0.02$:\n$$P(T_{55} > 25.055) = e^{-\\mu(25.055)} = e^{-0.02 \\times 25.055} = e^{-0.5011} \\approx 0.60586 = 60.59\\%$$\nRemarkably, because the exponential distribution is right-skewed, there is a **$60.59\\%$ probability** that the annuitant receives more than the expected present value of benefits!"
+        }
+      ]
+    },
+    {
+      "id": "act-stat-5-3",
+      "title": "Monthly Pension Valuation via Woolhouse's Formula",
+      "question": "A university professor aged $60$ retires with an accumulated defined-contribution pension balance of $2,000,000\\text{ BDT}$. The professor wishes to purchase a single-premium life annuity payable in equal monthly installments of $M$ at the beginning of each month for life.\n\nThe actuarial life table compiled at an effective annual interest rate of $i = 5.00\\%$ ($i = 0.05$) reports:\n- $\\ddot{a}_{60} = 12.8450$\n- Force of mortality at age 60: $\\mu_{60} = 0.0125$\n\nPerform the following calculations:\n1. Compute the nominal discount rate $d^{(12)}$ and the continuous force of interest $\\delta$.\n2. Compute the monthly annuity-due value $\\ddot{a}_{60}^{(12)}$ using:\n   - Woolhouse's two-term formula ($\\ddot{a}_x^{(12)} \\approx \\ddot{a}_x - 11/24$)\n   - Woolhouse's three-term formula ($\\ddot{a}_x^{(12)} \\approx \\ddot{a}_x - 11/24 - \\frac{143}{1728}(\\mu_x + \\delta)$)\n3. Calculate the monthly pension installment $M$ that can be purchased with the $2,000,000\\text{ BDT}$ retirement balance under the three-term Woolhouse value.\n4. If the contract is structured as a **10-Year Guaranteed Monthly Life Annuity** ($\\ddot{a}_{\\overline{60:\\overline{10}|}}^{(12)}$) with ${}_{10} E_{60} = 0.5420$ and $\\ddot{a}_{70}^{(12)} = 9.4250$, compute the revised monthly pension payment and assess the cost of the guarantee.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Compute interest parameters",
+          "explanation": "Given $i = 0.05$:\n$$\\delta = \\ln(1.05) \\approx 0.048790$$\n$$d = \\frac{0.05}{1.05} \\approx 0.047619$$\n$$d^{(12)} = 12 [1 - (1.05)^{-1/12}] \\approx 0.048691$$"
+        },
+        {
+          "stepName": "Evaluate $\\ddot{a}_{60}^{(12)}$ via Woolhouse's formula",
+          "explanation": "1. **Two-term formula**:\n   $$\\frac{m - 1}{2m} = \\frac{11}{24} \\approx 0.458333$$\n   $$\\ddot{a}_{60}^{(12)} \\approx 12.8450 - 0.458333 = 12.386667 \\approx 12.3867$$\n\n2. **Three-term formula**:\n   $$\\frac{m^2 - 1}{12 m^2} = \\frac{144 - 1}{12(144)} = \\frac{143}{1728} \\approx 0.082755$$\n   $$\\mu_{60} + \\delta = 0.0125 + 0.048790 = 0.061290$$\n   $$\\text{Correction} = 0.082755 \\times 0.061290 \\approx 0.005072$$\n   $$\\ddot{a}_{60}^{(12)} = 12.386667 - 0.005072 = 12.381595 \\approx 12.3816$$"
+        },
+        {
+          "stepName": "Determine monthly pension payout $M$",
+          "explanation": "The total annual pension is $12 M$. The equation of value is:\n$$12 M \\cdot \\ddot{a}_{60}^{(12)} = 2,000,000\\text{ BDT}$$\n$$12 M = \\frac{2,000,000}{12.381595} \\approx 161,529.98\\text{ BDT/year}$$\nThe monthly installment is:\n$$M = \\frac{161,529.98}{12} \\approx 13,460.83\\text{ BDT/month}$$\nThe retiree receives a guaranteed lifelong income of **$13,461\\text{ BDT}$** at the start of every month."
+        },
+        {
+          "stepName": "Guaranteed 10-Year monthly annuity evaluation",
+          "explanation": "For an annuity with a 10-year term certain payable monthly:\n$$\\ddot{a}_{\\overline{60:\\overline{10}|}}^{(12)} = \\ddot{a}_{\\overline{10}|}^{(12)} + {}_{10} E_{60} \\cdot \\ddot{a}_{70}^{(12)}$$\nCalculate the 10-year annuity-certain due payable monthly:\n$$\\ddot{a}_{\\overline{10}|}^{(12)} = \\frac{1 - (1.05)^{-10}}{d^{(12)}} = \\frac{1 - 0.613913}{0.048691} = \\frac{0.386087}{0.048691} \\approx 7.92933$$\nAdding the deferred life annuity:\n$${}_{10} E_{60} \\cdot \\ddot{a}_{70}^{(12)} = 0.5420 \\times 9.4250 = 5.10835$$\n$$\\ddot{a}_{\\overline{60:\\overline{10}|}}^{(12)} = 7.92933 + 5.10835 = 13.03768$$\n\nCompute the revised monthly pension:\n$$12 M_{\\text{guaranteed}} = \\frac{2,000,000}{13.03768} \\approx 153,401.52\\text{ BDT/year}$$\n$$M_{\\text{guaranteed}} = \\frac{153,401.52}{12} \\approx 12,783.46\\text{ BDT/month}$$\n\n**Cost of Guarantee**:\n- Non-guaranteed pension: $13,461\\text{ BDT/month}$\n- 10-Year guaranteed pension: $12,783\\text{ BDT/month}$\nThe retiree forfeits $13,461 - 12,783 = 678\\text{ BDT/month}$ (a $5.04\\%$ reduction in monthly income) in exchange for ensuring that if death occurs during the next 10 years, their heirs will continue receiving the monthly pension until the 10-year milestone."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "act-stat-6-1",
+      "title": "Net Level Premium Derivation and Commutation Calculations",
+      "question": "An actuarial life table extract at an effective annual interest rate of $i = 6.00\\%$ ($i = 0.06$, $d = 0.06/1.06 \\approx 0.0566038$) provides the following commutation values:\n- $D_{35} = 22,000$\n- $D_{55} = 6,600$\n- $D_{65} = 3,300$\n- $M_{35} = 5,500$\n- $M_{55} = 3,850$\n- $M_{65} = 2,640$\n- $N_{35} = 330,000$\n- $N_{55} = 88,000$\n- $N_{65} = 36,300$\n\nA life aged $35$ purchases a policy with a sum insured of $b = 500,000\\text{ BDT}$. Compute the net level annual premium payable annually in advance for:\n1. A Whole Life Insurance policy ($500,000 P_{35}$).\n2. A 20-Year Term Insurance policy ($500,000 P_{35:\\overline{20}|}^1$).\n3. A 20-Year Endowment Insurance policy ($500,000 P_{35:\\overline{20}|}$).\n4. A 20-Year Limited-Payment Whole Life Insurance policy ($500,000 {}_{20} P_{35}$).\n5. Verify numerically that $P_{35:\\overline{20}|} > P_{35} > {}_{20} P_{35} > P_{35:\\overline{20}|}^1$.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Whole life net annual premium $P_{35}$",
+          "explanation": "Using $P_x = M_x / N_x$:\n$$P_{35} = \\frac{M_{35}}{N_{35}} = \\frac{5,500}{330,000} = \\frac{1}{60} \\approx 0.016667$$\nFor a sum insured of $500,000\\text{ BDT}$:\n$$\\text{Premium}_{\\text{whole life}} = 500,000 \\times 0.016667 = 8,333.33\\text{ BDT/year}$$"
+        },
+        {
+          "stepName": "20-Year term insurance net annual premium $P_{35:\\overline{20}|}^1$",
+          "explanation": "For a 20-year term from age 35, terminal age is $35 + 20 = 55$:\n$$P_{35:\\overline{20}|}^1 = \\frac{M_{35} - M_{55}}{N_{35} - N_{55}} = \\frac{5,500 - 3,850}{330,000 - 88,000} = \\frac{1,650}{242,000} \\approx 0.00681818$$\nFor a sum insured of $500,000\\text{ BDT}$:\n$$\\text{Premium}_{\\text{term}} = 500,000 \\times 0.00681818 = 3,409.09\\text{ BDT/year}$$"
+        },
+        {
+          "stepName": "20-Year endowment insurance net annual premium $P_{35:\\overline{20}|}$",
+          "explanation": "$$P_{35:\\overline{20}|} = \\frac{M_{35} - M_{55} + D_{55}}{N_{35} - N_{55}} = \\frac{5,500 - 3,850 + 6,600}{242,000} = \\frac{1,650 + 6,600}{242,000} = \\frac{8,250}{242,000} \\approx 0.03409091$$\nFor a sum insured of $500,000\\text{ BDT}$:\n$$\\text{Premium}_{\\text{endowment}} = 500,000 \\times 0.03409091 = 17,045.45\\text{ BDT/year}$$"
+        },
+        {
+          "stepName": "20-Year limited-payment whole life net annual premium ${}_{20} P_{35}$",
+          "explanation": "Coverage is for whole life ($M_{35}$), but premiums are paid for at most 20 years ($N_{35} - N_{55}$):\n$${}_{20} P_{35} = \\frac{M_{35}}{N_{35} - N_{55}} = \\frac{5,500}{242,000} \\approx 0.02272727$$\nFor a sum insured of $500,000\\text{ BDT}$:\n$$\\text{Premium}_{\\text{limited}} = 500,000 \\times 0.02272727 = 11,363.64\\text{ BDT/year}$$"
+        },
+        {
+          "stepName": "Comparison of net annual premiums",
+          "explanation": "Collating annual premiums for $500,000\\text{ BDT}$ coverage:\n- 20-Year Endowment: $17,045.45\\text{ BDT/year}$\n- 20-Pay Whole Life: $11,363.64\\text{ BDT/year}$\n- Ordinary Whole Life: $8,333.33\\text{ BDT/year}$\n- 20-Year Term: $3,409.09\\text{ BDT/year}$\n\nChecking ordering:\n$$17,045.45 > 11,363.64 > 8,333.33 > 3,409.09$$\n$$P_{35:\\overline{20}|} > {}_{20} P_{35} > P_{35} > P_{35:\\overline{20}|}^1$$\nThe economic ordering holds: Endowment is highest because it guarantees a payout whether $(x)$ lives or dies; Term is lowest because it pays only if $(x)$ dies within 20 years."
+        }
+      ]
+    },
+    {
+      "id": "act-stat-6-2",
+      "title": "Loss-at-Issue Variance and Policyholder Risk Profiles",
+      "question": "An insurance company issues a discrete whole life policy of $b = 100,000\\text{ BDT}$ to a life aged $x = 45$. Net level annual premiums $P = 100,000 P_{45}$ are payable at the start of each year for life.\n\nThe actuarial parameters at effective interest rate $i = 5.00\\%$ ($i = 0.05, d = 0.05/1.05 \\approx 0.047619$) are:\n- $A_{45} = 0.20120$\n- ${}^2 A_{45} = 0.06850$\n\nPerform the following calculations:\n1. Compute the net level annual premium $P$.\n2. Compute the variance of the present value of the death benefit $\\text{Var}(b v^{K_{45} + 1})$.\n3. Compute the variance $\\text{Var}({}_0 L)$ and standard deviation $\\sigma({}_0 L)$ of the future loss-at-issue random variable.\n4. Calculate the financial loss ${}_0 L$ incurred by the insurer if the policyholder dies:\n   - In Policy Year 1 ($K_{45} = 0$)\n   - In Policy Year 5 ($K_{45} = 4$)\n   - In Policy Year 30 ($K_{45} = 29$)",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Net level annual premium $P$",
+          "explanation": "Using the duality relation $\\ddot{a}_{45} = (1 - A_{45}) / d$:\n$$\\ddot{a}_{45} = \\frac{1 - 0.20120}{0.047619} = \\frac{0.79880}{0.047619} \\approx 16.7748$$\n$$P_{45} = \\frac{A_{45}}{\\ddot{a}_{45}} = \\frac{0.20120}{16.7748} \\approx 0.011994$$\nFor a sum insured of $100,000\\text{ BDT}$:\n$$P = 100,000 \\times 0.011994 = 1,199.40\\text{ BDT/year}$$"
+        },
+        {
+          "stepName": "Variance of death benefit present value",
+          "explanation": "$$\\text{Var}(Z) = b^2 [{}^2 A_{45} - (A_{45})^2] = (100,000)^2 [0.06850 - (0.20120)^2]$$\n$$(0.20120)^2 \\approx 0.040481$$\n$${}^2 A_{45} - (A_{45})^2 = 0.06850 - 0.040481 = 0.028019$$\n$$\\text{Var}(Z) = 10^{10} \\times 0.028019 = 280,190,000\\text{ BDT}^2$$"
+        },
+        {
+          "stepName": "Variance and standard deviation of loss-at-issue ${}_0 L$",
+          "explanation": "The loss multiplier is:\n$$1 + \\frac{P_{45}}{d} = 1 + \\frac{0.011994}{0.047619} = 1 + 0.251874 = 1.251874$$\n$$\\left( 1 + \\frac{P_{45}}{d} \\right)^2 = (1.251874)^2 \\approx 1.567189$$\nThe variance of ${}_0 L$ is:\n$$\\text{Var}({}_0 L) = \\left( 1 + \\frac{P_{45}}{d} \\right)^2 \\text{Var}(Z) = 1.567189 \\times 280,190,000 \\approx 439,110,686\\text{ BDT}^2$$\nThe standard deviation is:\n$$\\sigma({}_0 L) = \\sqrt{439,110,686} \\approx 20,955\\text{ BDT}$$"
+        },
+        {
+          "stepName": "Realized loss ${}_0 L$ across different death years",
+          "explanation": "Formula for realized loss given death in year $K + 1$:\n$${}_0 L = 100,000 v^{K+1} - P \\ddot{a}_{\\overline{K+1}|}$$\n1. **Death in Year 1 ($K = 0$)**:\n   $v^1 = (1.05)^{-1} \\approx 0.952381$. Only $1$ premium is paid ($P = 1,199.40\\text{ BDT}$).\n   $${}_0 L = 100,000(0.952381) - 1,199.40 = 95,238.10 - 1,199.40 = +94,038.70\\text{ BDT}$$\n   The insurer suffers a catastrophic loss of **$+94,039\\text{ BDT}$** on this single policy!\n\n2. **Death in Year 5 ($K = 4$)**:\n   $v^5 = (1.05)^{-5} \\approx 0.783526$.\n   $$\\ddot{a}_{\\overline{5}|} = \\frac{1 - v^5}{d} = \\frac{1 - 0.783526}{0.047619} \\approx 4.54595$$\n   $${}_0 L = 100,000(0.783526) - 1,199.40(4.54595) = 78,352.60 - 5,452.41 = +72,900.19\\text{ BDT}$$\n   The insurer suffers a loss of **$+72,900\\text{ BDT}$**.\n\n3. **Death in Year 30 ($K = 29$)**:\n   $v^{30} = (1.05)^{-30} \\approx 0.231377$.\n   $$\\ddot{a}_{\\overline{30}|} = \\frac{1 - 0.231377}{0.047619} = \\frac{0.768623}{0.047619} \\approx 16.14048$$\n   $${}_0 L = 100,000(0.231377) - 1,199.40(16.14048) = 23,137.70 - 19,358.90 = +3,778.80\\text{ BDT}$$\n   Even after 30 years, ${}_0 L > 0$ because the net annual premium was calculated for an expected future lifetime of nearly 35 years!"
+        }
+      ]
+    },
+    {
+      "id": "act-stat-6-3",
+      "title": "Gross Premium Pricing with Acquisition and Renewal Expenses",
+      "question": "A commercial life insurer designs a 20-Year Endowment Insurance policy with sum insured $b = 1,000,000\\text{ BDT}$ for a life aged $40$. The policy pays $1,000,000\\text{ BDT}$ upon death within 20 years or upon survival to age 60.\n\nThe actuarial net values at an effective interest rate of $i = 6.00\\%$ ($i = 0.06$) are:\n- $A_{40:\\overline{20}|}^1 = 0.08500$\n- ${}_{20} E_{40} = 0.26500$\n- $\\ddot{a}_{40:\\overline{20}|} = 11.5000$\n\nThe company's cost accounting and underwriting departments establish the following expense structure:\n- Initial sales commission (Year 1): $40\\%$ of first-year gross premium ($c_0 = 0.40$)\n- Renewal sales commission (Years 2–20): $5\\%$ of renewal gross premium ($c_1 = 0.05$)\n- Initial policy setup and medical examination expense: $e_0 = 1,500\\text{ BDT}$ (fixed)\n- Renewal annual administrative fee: $e_1 = 200\\text{ BDT/year}$ (fixed)\n- Claim settlement expense: $e_c = 0.50\\%$ of the face value paid upon death or maturity\n\nPerform the following calculations:\n1. Compute the net level annual premium $P_{40:\\overline{20}|}$ under the Equivalence Principle.\n2. Formulate the gross premium equation of value and solve for the Gross Annual Premium $G$.\n3. Compute the expense loading amount ($G - P$) in BDT and as a percentage of the gross premium.\n4. Calculate the total dollar expenses projected to be consumed by the policy over its full 20-year term if the policyholder survives to maturity.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Net level annual premium $P$",
+          "explanation": "Total net endowment insurance APV:\n$$A_{40:\\overline{20}|} = A_{40:\\overline{20}|}^1 + {}_{20} E_{40} = 0.08500 + 0.26500 = 0.35000$$\nThe net annual premium is:\n$$P = b \\times \\frac{A_{40:\\overline{20}|}}{\\ddot{a}_{40:\\overline{20}|}} = 1,000,000 \\times \\frac{0.35000}{11.5000} \\approx 30,434.78\\text{ BDT/year}$$"
+        },
+        {
+          "stepName": "Gross annual premium $G$",
+          "explanation": "Let $G$ denote the gross annual premium.\n1. **Present Value of Gross Premiums**:\n   $$PV(\\text{Premiums}) = G \\cdot \\ddot{a}_{40:\\overline{20}|} = 11.5000 G$$\n\n2. **Present Value of Benefits plus Claim Expenses**:\n   Total benefit with $0.50\\%$ claim expense $= 1,000,000 \\times 1.005 = 1,005,000\\text{ BDT}$.\n   $$PV(\\text{Benefits}) = 1,005,000 \\times A_{40:\\overline{20}|} = 1,005,000 \\times 0.35000 = 351,750\\text{ BDT}$$\n\n3. **Present Value of Percentage Premium Expenses**:\n   - Year 1: $c_0 G = 0.40 G$\n   - Years 2–20: $c_1 G a_{40:\\overline{19}|} = 0.05 G (\\ddot{a}_{40:\\overline{20}|} - 1) = 0.05 G (11.5000 - 1) = 0.05 G (10.5000) = 0.5250 G$\n   - Total Percentage Expenses $= 0.40 G + 0.5250 G = 0.9250 G$\n\n4. **Present Value of Fixed Policy Expenses**:\n   - Year 1: $e_0 = 1,500\\text{ BDT}$\n   - Years 2–20: $e_1 (\\ddot{a}_{40:\\overline{20}|} - 1) = 200 \\times 10.5000 = 2,100\\text{ BDT}$\n   - Total Fixed Expenses $= 1,500 + 2,100 = 3,600\\text{ BDT}$\n\nEquating total inflows and outflows:\n$$11.5000 G = 351,750 + 0.9250 G + 3,600$$\n$$11.5000 G - 0.9250 G = 351,750 + 3,600$$\n$$10.5750 G = 355,350$$\n$$G = \\frac{355,350}{10.5750} \\approx 33,602.84\\text{ BDT/year}$$\nThe Gross Annual Premium charged to the policyholder is **$33,603\\text{ BDT/year}$**."
+        },
+        {
+          "stepName": "Expense loading analysis",
+          "explanation": "$$\\text{Expense Loading} = G - P = 33,602.84 - 30,434.78 = 3,168.06\\text{ BDT/year}$$\nAs a percentage of gross premium:\n$$\\% \\text{Loading} = \\frac{3,168.06}{33,602.84} \\times 100\\% \\approx 9.43\\%$$\nThe expense loading comprises $9.43\\%$ of each gross premium installment."
+        },
+        {
+          "stepName": "Undiscounted expenses if policy survives to maturity",
+          "explanation": "If the policyholder survives the full 20 years:\n- Agent commissions:\n  - Year 1: $0.40 \\times 33,602.84 = 13,441.14\\text{ BDT}$\n  - Years 2–20 (19 years): $19 \\times (0.05 \\times 33,602.84) = 19 \\times 1,680.14 = 31,922.66\\text{ BDT}$\n  - Total commissions $= 13,441.14 + 31,922.66 = 45,363.80\\text{ BDT}$\n- Fixed administrative fees:\n  - Year 1: $1,500\\text{ BDT}$\n  - Years 2–20: $19 \\times 200 = 3,800\\text{ BDT}$\n  - Total fixed fees $= 1,500 + 3,800 = 5,300\\text{ BDT}$\n- Maturity claim settlement fee:\n  - $0.005 \\times 1,000,000 = 5,000\\text{ BDT}$\n- **Total Lifetime Expenses Paid**:\n  $$\\text{Total Expenses} = 45,363.80 + 5,300.00 + 5,000.00 = 55,663.80\\text{ BDT}$$\nThe insurer expends **$55,664\\text{ BDT}$** over the 20-year policy lifecycle to service the contract."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "act-stat-7-1",
+      "title": "Prospective and Retrospective Reserve Reconciliation",
+      "question": "An extract from an actuarial valuation table compiled at an effective annual interest rate of $i = 5.00\\%$ ($i = 0.05$, $d = 0.05/1.05 \\approx 0.047619$) provides the following commutation values:\n- $D_{30} = 25,000$\n- $D_{40} = 15,000$\n- $D_{50} = 8,800$\n- $M_{30} = 6,250$\n- $M_{40} = 4,200$\n- $M_{50} = 3,300$\n- $N_{30} = 400,000$\n- $N_{40} = 200,000$\n- $N_{50} = 88,000$\n\nA life aged $30$ purchases a 20-Year Endowment Insurance policy with sum insured $b = 100,000\\text{ BDT}$. Net annual premiums $P = 100,000 P_{30:\\overline{20}|}$ are payable at the start of each year for 20 years.\n\nPerform the following calculations:\n1. Compute the net level annual premium $P$.\n2. Compute the benefit reserve at duration $t = 10$ (attained age $40$) using the **Prospective Method** (${}_{10} V$).\n3. Compute the benefit reserve at duration $t = 10$ using the **Retrospective Method** (${}_{10} V^{\\text{retro}}$), demonstrating exact mathematical equality.\n4. Compute the reserve at policy inception (${}_0 V$) and at maturity (${}_{20} V$).",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Net level annual premium $P$",
+          "explanation": "For a 20-year endowment issued at age 30, maturity is at age $30 + 20 = 50$:\n$$P_{30:\\overline{20}|} = \\frac{M_{30} - M_{50} + D_{50}}{N_{30} - N_{50}} = \\frac{6,250 - 3,300 + 8,800}{400,000 - 88,000} = \\frac{2,950 + 8,800}{312,000} = \\frac{11,750}{312,000} \\approx 0.03766026$$\nFor a sum insured of $100,000\\text{ BDT}$:\n$$P = 100,000 \\times 0.03766026 = 3,766.03\\text{ BDT/year}$$"
+        },
+        {
+          "stepName": "Prospective reserve at $t = 10$ (${}_{10} V$)",
+          "explanation": "At $t = 10$, the insured is aged $40$, with $20 - 10 = 10$ years remaining to maturity (age 50):\n1. **APV of Remaining Benefits**:\n   $$A_{40:\\overline{10}|} = \\frac{M_{40} - M_{50} + D_{50}}{D_{40}} = \\frac{4,200 - 3,300 + 8,800}{15,000} = \\frac{900 + 8,800}{15,000} = \\frac{9,700}{15,000} \\approx 0.646667$$\n   For $100,000\\text{ BDT}$ face value:\n   $$\\text{APV}_{\\text{benefits}} = 100,000 \\times 0.646667 = 64,666.67\\text{ BDT}$$\n\n2. **APV of Remaining Net Premiums**:\n   $$\\ddot{a}_{40:\\overline{10}|} = \\frac{N_{40} - N_{50}}{D_{40}} = \\frac{200,000 - 88,000}{15,000} = \\frac{112,000}{15,000} \\approx 7.466667$$\n   $$\\text{APV}_{\\text{premiums}} = P \\cdot \\ddot{a}_{40:\\overline{10}|} = 3,766.03 \\times 7.466667 \\approx 28,119.67\\text{ BDT}$$\n\n3. **Prospective Reserve**:\n   $${}_{10} V = \\text{APV}_{\\text{benefits}} - \\text{APV}_{\\text{premiums}} = 64,666.67 - 28,119.67 = 36,547.00\\text{ BDT}$$"
+        },
+        {
+          "stepName": "Retrospective reserve at $t = 10$ (${}_{10} V^{\\text{retro}}$)",
+          "explanation": "Under the retrospective method:\n$${}_{10} V^{\\text{retro}} = 100,000 \\left[ P_{30:\\overline{20}|} \\frac{N_{30} - N_{40}}{D_{40}} - \\frac{M_{30} - M_{40}}{D_{40}} \\right]$$\nCalculate components:\n- Accumulated past premiums:\n  $$\\frac{N_{30} - N_{40}}{D_{40}} = \\frac{400,000 - 200,000}{15,000} = \\frac{200,000}{15,000} \\approx 13.333333$$\n  $$P \\times 13.333333 = 3,766.03 \\times 13.333333 \\approx 50,213.73\\text{ BDT}$$\n- Accumulated past claims:\n  $$\\frac{M_{30} - M_{40}}{D_{40}} = \\frac{6,250 - 4,200}{15,000} = \\frac{2,050}{15,000} \\approx 0.136667$$\n  $$100,000 \\times 0.136667 = 13,666.67\\text{ BDT}$$\n- Net Retrospective Reserve:\n  $${}_{10} V^{\\text{retro}} = 50,213.73 - 13,666.67 = 36,547.06\\text{ BDT}$$\nWithin $0.06\\text{ BDT}$ rounding tolerance, prospective and retrospective reserves are identical!"
+        },
+        {
+          "stepName": "Boundary reserve values",
+          "explanation": "- At $t = 0$: ${}_0 V = 0\\text{ BDT}$ (by Equivalence Principle).\n- At $t = 20$: ${}_{20} V = 100,000\\text{ BDT}$ (exact maturity endowment obligation)."
+        }
+      ]
+    },
+    {
+      "id": "act-stat-7-2",
+      "title": "Fackler's Recursive Accumulation and Death Strain Accounting",
+      "question": "An insurance company tracks an individual whole life insurance policy with sum insured $b = 200,000\\text{ BDT}$ issued to $(x)$. The net annual premium is $P = 4,200\\text{ BDT}$. The effective interest rate is $i = 6.00\\%$ ($i = 0.06$).\n\nAt policy duration $t = 15$, the terminal reserve is ${}_{15} V = 48,000\\text{ BDT}$.\nThe mortality rate at attained age $x + 15$ is $q_{x+15} = 0.01500$ (survival rate $p_{x+15} = 0.98500$).\n\nPerform the following calculations:\n1. Compute the fund available at the beginning of policy year 16 after collecting premium $P$.\n2. Compute the fund accumulated with interest at the end of policy year 16.\n3. Using Fackler's recursive equation, compute the terminal reserve at the end of year 16 (${}_{16} V$).\n4. Compute the Net Amount at Risk (Death Strain at Risk, $DSAR$) during year 16.\n5. In a cohort of $1,000$ identical policyholders alive at duration 15:\n   - Compute the expected death claim payouts.\n   - If exactly $18$ policyholders die during year 16 (compared to expected deaths of $15$), compute the **Mortality Loss (Strain Loss)** incurred by the company.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Initial fund at beginning of year 16",
+          "explanation": "$$\\text{Fund}_{\\text{start}} = {}_{15} V + P = 48,000 + 4,200 = 52,200\\text{ BDT}$$"
+        },
+        {
+          "stepName": "Accumulated fund at end of year 16",
+          "explanation": "$$\\text{Fund}_{\\text{end}} = 52,200 \\times (1 + i) = 52,200 \\times 1.06 = 55,332\\text{ BDT}$$"
+        },
+        {
+          "stepName": "Fackler's recursive reserve ${}_{16} V$",
+          "explanation": "Fackler's equation states:\n$$({}_{15} V + P)(1 + i) = q_{x+15} \\cdot b + p_{x+15} \\cdot {}_{16} V$$\nSubstitute known values:\n$$55,332 = (0.01500 \\times 200,000) + 0.98500 \\cdot {}_{16} V$$\n$$55,332 = 3,000 + 0.98500 \\cdot {}_{16} V$$\n$$0.98500 \\cdot {}_{16} V = 55,332 - 3,000 = 52,332$$\n$${}_{16} V = \\frac{52,332}{0.98500} \\approx 53,128.93\\text{ BDT}$$\nThe reserve at the end of year 16 is **$53,129\\text{ BDT}$**."
+        },
+        {
+          "stepName": "Net Amount at Risk ($DSAR$)",
+          "explanation": "$$DSAR_{16} = b - {}_{16} V = 200,000 - 53,128.93 = 146,871.07\\text{ BDT}$$\nThe insurer’s net exposure upon death is approximately $146,871\\text{ BDT}$, not the full $200,000\\text{ BDT}$."
+        },
+        {
+          "stepName": "Cohort mortality strain accounting",
+          "explanation": "For $1,000$ policyholders alive at duration 15:\n- Expected deaths: $\\mathbb{E}[\\text{Deaths}] = 1,000 \\times q_{x+15} = 1,000 \\times 0.01500 = 15\\text{ deaths}$.\n- Expected claim disbursements: $15 \\times 200,000 = 3,000,000\\text{ BDT}$.\n- Expected death strain:\n  $$\\text{Expected Strain} = 15 \\times DSAR_{16} = 15 \\times 146,871.07 = 2,203,066.05\\text{ BDT}$$\n- Actual deaths: $18\\text{ deaths}$ ($3$ excess deaths).\n- Actual death strain:\n  $$\\text{Actual Strain} = 18 \\times DSAR_{16} = 18 \\times 146,871.07 = 2,643,679.26\\text{ BDT}$$\n- **Mortality Loss (Strain Loss)**:\n  $$\\text{Mortality Loss} = \\text{Actual Strain} - \\text{Expected Strain} = (18 - 15) \\times DSAR_{16} = 3 \\times 146,871.07 = 440,613.21\\text{ BDT}$$\nThe insurer suffers an underwriting mortality loss of **$440,613\\text{ BDT}$** due to the 3 excess deaths."
+        }
+      ]
+    },
+    {
+      "id": "act-stat-7-3",
+      "title": "Thiele's Differential Equation and Numerical Reserve Trajectory",
+      "question": "A continuous whole life insurance policy pays a death benefit of $b = 100,000\\text{ BDT}$ at the moment of death of a life aged $x = 50$. Continuous net level premiums are collected at rate $\\bar{P} = 1,800\\text{ BDT/year}$. \n\nThe financial force of interest is constant at $\\delta = 0.0400$.\nThe force of mortality follows Gompertz's law:\n$$\\mu_{50+t} = 0.0008 \\times (1.08)^{50+t}$$\n\nPerform the following calculations:\n1. Write down the explicit form of Thiele’s Differential Equation for the reserve trajectory ${}_t \\bar{V}$.\n2. At duration $t = 10$ (attained age 60), the accumulated reserve is ${}_{10} \\bar{V} = 18,500\\text{ BDT}$. Compute the exact value of $\\mu_{60}$ and the net amount at risk ($b - {}_{10} \\bar{V}$).\n3. Compute the instantaneous derivative $\\frac{d}{dt} {}_t \\bar{V}$ at $t = 10$.\n4. Using Euler’s forward numerical integration method with step size $\\Delta t = 0.5\\text{ years}$, approximate the reserve at duration $t = 10.5$ (${}_{10.5} \\bar{V}$).",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Formulate Thiele's Differential Equation",
+          "explanation": "Thiele's ODE states:\n$$\\frac{d}{dt} {}_t \\bar{V} = \\delta \\cdot {}_t \\bar{V} + \\bar{P} - \\mu_{50+t} (b - {}_t \\bar{V})$$\nSubstitute $b = 100,000$, $\\bar{P} = 1,800$, $\\delta = 0.04$:\n$$\\frac{d}{dt} {}_t \\bar{V} = 0.04 \\cdot {}_t \\bar{V} + 1,800 - \\mu_{50+t} (100,000 - {}_t \\bar{V})$$"
+        },
+        {
+          "stepName": "Evaluate parameters at duration $t = 10$ (Age 60)",
+          "explanation": "At $t = 10$, attained age is $50 + 10 = 60$:\n$$\\mu_{60} = 0.0008 \\times (1.08)^{60}$$\nCalculate $(1.08)^{60}$:\n$$(1.08)^{60} = \\exp(60 \\times \\ln 1.08) = \\exp(60 \\times 0.076961) = \\exp(4.61766) \\approx 101.257$$\n$$\\mu_{60} = 0.0008 \\times 101.257 \\approx 0.081006$$\nThe hazard rate at age 60 is $8.1006\\%$ per year.\n\nThe Net Amount at Risk at $t = 10$ is:\n$$b - {}_{10} \\bar{V} = 100,000 - 18,500 = 81,500\\text{ BDT}$$"
+        },
+        {
+          "stepName": "Compute instantaneous derivative at $t = 10$",
+          "explanation": "Substitute values into Thiele's equation:\n1. Interest earned on reserve:\n   $$\\delta \\cdot {}_{10} \\bar{V} = 0.04 \\times 18,500 = +740.00\\text{ BDT/year}$$\n2. Premium inflow:\n   $$\\bar{P} = +1,800.00\\text{ BDT/year}$$\n3. Expected claim outflow on net risk:\n   $$\\mu_{60} (b - {}_{10} \\bar{V}) = 0.081006 \\times 81,500 \\approx 6,601.99\\text{ BDT/year}$$\n\nSumming terms:\n$$\\frac{d}{dt} {}_{10} \\bar{V} = 740.00 + 1,800.00 - 6,601.99 = 2,540.00 - 6,601.99 = -4,061.99\\text{ BDT/year}$$\n\n**Critical Finding**:\nThe derivative is **negative** ($\\frac{d}{dt} {}_t \\bar{V} < 0$)!\nAt age 60, mortality costs ($6,602\\text{ BDT/year}$) have overtaken combined premium inflow and interest earnings ($2,540\\text{ BDT/year}$). The policy reserve has passed its peak and is now actively unwinding to fund escalating claims, exactly as actuarial theory dictates!"
+        },
+        {
+          "stepName": "Euler numerical integration for ${}_{10.5} \\bar{V}$",
+          "explanation": "Using Euler's step formula with $\\Delta t = 0.5\\text{ years}$:\n$${}_{10.5} \\bar{V} \\approx {}_{10} \\bar{V} + \\Delta t \\left( \\frac{d}{dt} {}_{10} \\bar{V} \\right)$$\n$${}_{10.5} \\bar{V} \\approx 18,500 + 0.5 \\times (-4,061.99) = 18,500 - 2,031.00 = 16,469.00\\text{ BDT}$$\nThe estimated reserve at duration $10.5$ is **$16,469\\text{ BDT}$**."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "act-stat-8-1",
+      "title": "Multiple Decrement Table Construction and Net Probability Conversion",
+      "question": "A defined-benefit corporate pension fund tracks active white-collar employees aged $x = 60$. During the year of age from 60 to 61, employees face three competing decrements:\n- Decrement 1: Normal and Early Retirement ($j = 1$)\n- Decrement 2: Total Permanent Disability ($j = 2$)\n- Decrement 3: Death in Active Service ($j = 3$)\n\nA multiple decrement study across an initial active cohort of $\\ell_{60}^{(\\tau)} = 10,000$ employees observes the following decrement counts during the year:\n- Retirements: $d_{60}^{(1)} = 1,200$\n- Disabilities: $d_{60}^{(2)} = 300$\n- Deaths: $d_{60}^{(3)} = 100$\n\nTotal decrements: $d_{60}^{(\\tau)} = 1,200 + 300 + 100 = 1,600$.\n\nPerform the following calculations:\n1. Compute the crude annual decrement rates $q_{60}^{(1)}, q_{60}^{(2)}, q_{60}^{(3)}$, and the overall survival rate $p_{60}^{(\\tau)}$.\n2. Under the **Constant Force of Decrement (CFD)** assumption, compute the net decrement probabilities $q_{60}^{\\prime (1)}, q_{60}^{\\prime (2)},$ and $q_{60}^{\\prime (3)}$ in the associated single decrement tables.\n3. Under the **Uniform Distribution of Decrements (UDD)** assumption in the multiple decrement table, compute the net decrement probabilities and compare with the CFD results.\n4. If a corporate policy change raises the mandatory retirement age to 65 (completely eliminating retirement at age 60, so $q_{60}^{\\prime (1)} = 0$), compute the revised number of deaths expected to occur among the 10,000 employees.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Compute crude rates and total survival",
+          "explanation": "$$\\ell_{60}^{(\\tau)} = 10,000$$\n$$d_{60}^{(\\tau)} = 1,600 \\implies q_{60}^{(\\tau)} = \\frac{1,600}{10,000} = 0.16000$$\n$$p_{60}^{(\\tau)} = 1 - 0.16000 = 0.84000$$\n\nCrude rates:\n- Retirement: $q_{60}^{(1)} = 1,200 / 10,000 = 0.12000$\n- Disability: $q_{60}^{(2)} = 300 / 10,000 = 0.03000$\n- Death: $q_{60}^{(3)} = 100 / 10,000 = 0.01000$\nCheck: $0.12000 + 0.03000 + 0.01000 = 0.16000$."
+        },
+        {
+          "stepName": "Net rates under Constant Force of Decrement (CFD)",
+          "explanation": "Formula: $p_{60}^{\\prime (j)} = [p_{60}^{(\\tau)}]^{q_{60}^{(j)} / q_{60}^{(\\tau)}} = [0.84000]^{q_{60}^{(j)} / 0.16000}$:\n1. **Net Retirement Rate ($q_{60}^{\\prime (1)}$)**:\n   $$\\text{Power} = \\frac{0.12000}{0.16000} = 0.750$$\n   $$p_{60}^{\\prime (1)} = (0.84000)^{0.750} = \\exp(0.750 \\times \\ln 0.84000) = \\exp(0.750 \\times (-0.174353)) = \\exp(-0.130765) \\approx 0.877421$$\n   $$q_{60}^{\\prime (1)} = 1 - 0.877421 = 0.12258 = 12.26\\%$$\n\n2. **Net Disability Rate ($q_{60}^{\\prime (2)}$)**:\n   $$\\text{Power} = \\frac{0.03000}{0.16000} = 0.1875$$\n   $$p_{60}^{\\prime (2)} = (0.84000)^{0.1875} = \\exp(0.1875 \\times (-0.174353)) = \\exp(-0.032691) \\approx 0.967838$$\n   $$q_{60}^{\\prime (2)} = 1 - 0.967838 = 0.03216 = 3.22\\%$$\n\n3. **Net Death Rate ($q_{60}^{\\prime (3)}$)**:\n   $$\\text{Power} = \\frac{0.01000}{0.16000} = 0.0625$$\n   $$p_{60}^{\\prime (3)} = (0.84000)^{0.0625} = \\exp(0.0625 \\times (-0.174353)) = \\exp(-0.010897) \\approx 0.989162$$\n   $$q_{60}^{\\prime (3)} = 1 - 0.989162 = 0.01084 = 1.084\\%$$\n\nNotice that for every cause, the net rate exceeds the crude rate ($q^{\\prime (j)} > q^{(j)}$)! For deaths, the net rate is $1.084\\%$ versus crude $1.000\\%$."
+        },
+        {
+          "stepName": "Net rates under UDD in Multiple Decrement Table",
+          "explanation": "Under UDD for three decrements:\n$$q_{60}^{\\prime (j)} = \\frac{q_{60}^{(j)}}{1 - \\frac{1}{2} \\sum_{k \\ne j} q_{60}^{(k)} + \\frac{1}{3} \\prod_{k \\ne j} q_{60}^{(k)}}$$\nFor death ($j = 3$):\n$$\\sum_{k \\ne 3} q_{60}^{(k)} = q_{60}^{(1)} + q_{60}^{(2)} = 0.12000 + 0.03000 = 0.15000$$\n$$1 - \\frac{1}{2}(0.15000) = 1 - 0.07500 = 0.92500$$\n$$q_{60}^{\\prime (3)} \\approx \\frac{0.01000}{0.92500} \\approx 0.01081 = 1.081\\%$$\nBoth CFD ($1.084\\%$) and UDD ($1.081\\%$) agree closely."
+        },
+        {
+          "stepName": "Revised death counts if retirement is eliminated",
+          "explanation": "If retirement is eliminated ($q^{\\prime (1)} = 0$), only disability and death operate.\nUnder the CFD independence model:\n$$p_{60}^{(\\tau) \\text{ new}} = p_{60}^{\\prime (2)} \\times p_{60}^{\\prime (3)} = 0.967838 \\times 0.989162 \\approx 0.957348$$\n$$q_{60}^{(\\tau) \\text{ new}} = 1 - 0.957348 = 0.042652$$\n\nThe revised total forces of decrement are:\n$$\\mu_2 = -\\ln p_{60}^{\\prime (2)} = 0.032691, \\qquad \\mu_3 = -\\ln p_{60}^{\\prime (3)} = 0.010897$$\n$$\\mu_{\\text{new}} = 0.032691 + 0.010897 = 0.043588$$\nThe revised crude death rate is:\n$$q_{60}^{(3) \\text{ new}} = \\frac{\\mu_3}{\\mu_{\\text{new}}} q_{60}^{(\\tau) \\text{ new}} = \\frac{0.010897}{0.043588} \\times 0.042652 = 0.25000 \\times 0.042652 \\approx 0.010663$$\n\nExpected deaths among $10,000$ employees:\n$$\\text{Expected Deaths} = 10,000 \\times 0.010663 \\approx 106.6 \\approx 107\\text{ deaths}$$\nEliminating early retirement increases active workforce deaths from $100$ to **$107$** because the 1,200 employees who previously retired now remain on the payroll and exposed to workplace mortality!"
+        }
+      ]
+    },
+    {
+      "id": "act-stat-8-2",
+      "title": "Joint Life and Last Survivor Annuity Pricing",
+      "question": "An actuarial consulting firm prices retirement options for a married couple consisting of a husband aged $x = 65$ and a wife aged $y = 62$. \n\nThe single-life and joint-life annuity-due values compiled at an effective annual interest rate of $i = 5.00\\%$ ($i = 0.05$) are:\n- $\\ddot{a}_{65} = 11.2000$\n- $\\ddot{a}_{62} = 12.5000$\n- $\\ddot{a}_{65:62} = 9.8000$ (Joint Life Annuity, paying while both are alive)\n\nThe couple has accumulated a retirement fund of $1,500,000\\text{ BDT}$.\n\nPerform the following calculations:\n1. Compute the Actuarial Present Value of the Last Survivor Annuity-Due ($\\ddot{a}_{\\overline{65:62}}$).\n2. Compute the annual pension $P_1$ payable under an ordinary Joint Life Annuity (payments cease upon the first death).\n3. Compute the annual pension $P_2$ payable under a $100\\%$ Joint-and-Survivor Annuity (payments continue unchanged until the second death).\n4. Compute the annual pension $P_3$ payable under a **Two-Thirds ($66.7\\%$) Joint-and-Survivor Annuity**, which pays $P_3$ while both are alive, and reduces to $\\frac{2}{3} P_3$ to the surviving spouse upon the first death.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Compute Last Survivor Annuity $\\ddot{a}_{\\overline{65:62}}$",
+          "explanation": "Using the multi-life addition theorem:\n$$\\ddot{a}_{\\overline{xy}} = \\ddot{a}_x + \\ddot{a}_y - \\ddot{a}_{xy}$$\nSubstitute the given values:\n$$\\ddot{a}_{\\overline{65:62}} = 11.2000 + 12.5000 - 9.8000 = 23.7000 - 9.8000 = 13.9000$$"
+        },
+        {
+          "stepName": "Option 1 - Ordinary Joint Life Annuity",
+          "explanation": "Payments occur only while both spouses are alive. The equation of value is:\n$$P_1 \\cdot \\ddot{a}_{65:62} = 1,500,000\\text{ BDT}$$\n$$P_1 = \\frac{1,500,000}{9.8000} \\approx 153,061.22\\text{ BDT/year}$$\nThe couple receives **$153,061\\text{ BDT/year}$**, but payments terminate completely the instant either spouse dies."
+        },
+        {
+          "stepName": "Option 2 - 100% Joint-and-Survivor Annuity",
+          "explanation": "Payments continue at $100\\%$ until the second death:\n$$P_2 \\cdot \\ddot{a}_{\\overline{65:62}} = 1,500,000\\text{ BDT}$$\n$$P_2 = \\frac{1,500,000}{13.9000} \\approx 107,913.67\\text{ BDT/year}$$\nThe couple receives **$107,914\\text{ BDT/year}$** ($29.5\\%$ lower than Option 1), but with complete lifelong security for the surviving spouse."
+        },
+        {
+          "stepName": "Option 3 - Two-Thirds (66.7%) Joint-and-Survivor Annuity",
+          "explanation": "The payment structure is:\n- While both are alive: Pays $P_3$.\n- If husband dies first: Wife receives $\\frac{2}{3} P_3$.\n- If wife dies first: Husband receives $\\frac{2}{3} P_3$.\n\nWe express this cash flow structure using joint and single annuities:\n$$\\text{APV} = \\frac{2}{3} P_3 \\ddot{a}_x + \\frac{2}{3} P_3 \\ddot{a}_y - \\frac{1}{3} P_3 \\ddot{a}_{xy}$$\nAlternatively:\n$$\\text{APV} = \\frac{2}{3} P_3 \\ddot{a}_{\\overline{xy}} + \\frac{1}{3} P_3 \\ddot{a}_{xy}$$\nCheck consistency:\n$$\\frac{2}{3}(\\ddot{a}_x + \\ddot{a}_y - \\ddot{a}_{xy}) + \\frac{1}{3} \\ddot{a}_{xy} = \\frac{2}{3}\\ddot{a}_x + \\frac{2}{3}\\ddot{a}_y - \\frac{1}{3}\\ddot{a}_{xy}$$\nBoth formulations are algebraically identical!\n\nEvaluate the unit multiplier:\n$$\\text{Multiplier} = \\frac{2}{3}(13.9000) + \\frac{1}{3}(9.8000) = \\frac{27.8000 + 9.8000}{3} = \\frac{37.6000}{3} \\approx 12.533333$$\n\nNow solve for $P_3$:\n$$P_3 \\times 12.533333 = 1,500,000\\text{ BDT}$$\n$$P_3 = \\frac{1,500,000}{12.533333} \\approx 119,680.85\\text{ BDT/year}$$\n\n**Payout Summary for Option 3**:\n- While both spouses are alive: **$119,681\\text{ BDT/year}$** ($9,973\\text{ BDT/month}$).\n- Upon first death, surviving spouse receives $\\frac{2}{3} \\times 119,681 = \\mathbf{79,787\\text{ BDT/year}}$ ($6,649\\text{ BDT/month}$) for life.\nThis represents the most popular pension option among retirees, balancing adequate dual income with surviving spouse protection."
+        }
+      ]
+    },
+    {
+      "id": "act-stat-8-3",
+      "title": "The Leslie Matrix Population Projection and Eigenvalue Growth",
+      "question": "A mathematical demographer models an animal wildlife population (or human female population) partitioned into $k = 3$ distinct age classes of equal width:\n- Class 1: Juveniles (Age $0-1$)\n- Class 2: Sub-Adults (Age $1-2$)\n- Class 3: Mature Adults (Age $2-3$)\n\nThe demographic vital rates parameterized in the Leslie Matrix $\\mathbf{L}$ are:\n- Age-specific reproduction coefficients: $F_1 = 0.0, \\; F_2 = 1.6, \\; F_3 = 1.2$\n- Survival probabilities: $P_1 = 0.50$ (survival from Class 1 to 2), $P_2 = 0.25$ (survival from Class 2 to 3)\n\nThe Leslie matrix is:\n$$\\mathbf{L} = \\begin{pmatrix} 0.0 & 1.6 & 1.2 \\\\ 0.50 & 0.0 & 0.0 \\\\ 0.0 & 0.25 & 0.0 \\end{pmatrix}$$\n\nThe initial population census vector at year $t = 0$ is $\\mathbf{n}_0 = (100, \\; 40, \\; 20)^T$.\n\nPerform the following calculations:\n1. Compute the population vectors at year $t = 1$ ($\\mathbf{n}_1$) and year $t = 2$ ($\\mathbf{n}_2$).\n2. Formulate the characteristic polynomial $\\det(\\mathbf{L} - \\lambda \\mathbf{I}) = 0$.\n3. Compute the dominant eigenvalue $\\lambda_1$.\n4. Determine the intrinsic rate of natural increase $r$.\n5. Determine the stable age distribution eigenvector $\\mathbf{v}_1$.\n6. Calculate the Net Reproduction Rate ($R_0$) from the matrix parameters.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Project population vectors $\\mathbf{n}_1$ and $\\mathbf{n}_2$",
+          "explanation": "1. **At year $t = 1$**:\n   $$\\mathbf{n}_1 = \\mathbf{L} \\cdot \\mathbf{n}_0 = \\begin{pmatrix} 0.0 & 1.6 & 1.2 \\\\ 0.50 & 0.0 & 0.0 \\\\ 0.0 & 0.25 & 0.0 \\end{pmatrix} \\begin{pmatrix} 100 \\\\ 40 \\\\ 20 \\end{pmatrix}$$\n   - $n_{1, 1} = (0.0 \\times 100) + (1.6 \\times 40) + (1.2 \\times 20) = 0 + 64 + 24 = 88$\n   - $n_{2, 1} = 0.50 \\times 100 = 50$\n   - $n_{3, 1} = 0.25 \\times 40 = 10$\n   $$\\mathbf{n}_1 = \\begin{pmatrix} 88 \\\\ 50 \\\\ 10 \\end{pmatrix}, \\qquad \\text{Total Population } N_1 = 88 + 50 + 10 = 148$$\n   Initial total population was $N_0 = 100 + 40 + 20 = 160$. Total population temporarily dipped to $148$ due to age structure imbalances.\n\n2. **At year $t = 2$**:\n   $$\\mathbf{n}_2 = \\mathbf{L} \\cdot \\mathbf{n}_1 = \\begin{pmatrix} 0.0 & 1.6 & 1.2 \\\\ 0.50 & 0.0 & 0.0 \\\\ 0.0 & 0.25 & 0.0 \\end{pmatrix} \\begin{pmatrix} 88 \\\\ 50 \\\\ 10 \\end{pmatrix}$$\n   - $n_{1, 2} = (1.6 \\times 50) + (1.2 \\times 10) = 80 + 12 = 92$\n   - $n_{2, 2} = 0.50 \\times 88 = 44$\n   - $n_{3, 2} = 0.25 \\times 50 = 12.5 \\approx 13$\n   $$\\mathbf{n}_2 = \\begin{pmatrix} 92 \\\\ 44 \\\\ 12.5 \\end{pmatrix}, \\qquad \\text{Total Population } N_2 \\approx 148.5$$"
+        },
+        {
+          "stepName": "Characteristic polynomial of $\\mathbf{L}$",
+          "explanation": "$$\\det(\\mathbf{L} - \\lambda \\mathbf{I}) = \\det \\begin{pmatrix} -\\lambda & 1.6 & 1.2 \\\\ 0.50 & -\\lambda & 0 \\\\ 0 & 0.25 & -\\lambda \\end{pmatrix} = 0$$\nExpanding along the first row:\n$$\\det = -\\lambda \\begin{vmatrix} -\\lambda & 0 \\\\ 0.25 & -\\lambda \\end{vmatrix} - 1.6 \\begin{vmatrix} 0.50 & 0 \\\\ 0 & -\\lambda \\end{vmatrix} + 1.2 \\begin{vmatrix} 0.50 & -\\lambda \\\\ 0 & 0.25 \\end{vmatrix}$$\n$$= -\\lambda(\\lambda^2) - 1.6(-0.50 \\lambda) + 1.2(0.50 \\times 0.25)$$\n$$= -\\lambda^3 + 0.80 \\lambda + 0.15 = 0$$\nMultiplying by $-1$:\n\n$$\\lambda^3 - 0.80 \\lambda - 0.15 = 0$$"
+        },
+        {
+          "stepName": "Solve for the dominant eigenvalue $\\lambda_1$",
+          "explanation": "Let $f(\\lambda) = \\lambda^3 - 0.80 \\lambda - 0.15$:\n- At $\\lambda = 1.0$: $f(1.0) = 1.0 - 0.80 - 0.15 = +0.05 > 0$.\n- At $\\lambda = 0.9$: $f(0.9) = (0.9)^3 - 0.80(0.9) - 0.15 = 0.729 - 0.720 - 0.15 = -0.141 < 0$.\nBy the intermediate value theorem, a root lies between $0.9$ and $1.0$.\n\nApplying Newton-Raphson iteration starting at $\\lambda_0 = 1.0$:\n$$f'( \\lambda ) = 3 \\lambda^2 - 0.80$$\n- $f(1.0) = 0.05$\n- $f'(1.0) = 3(1.0) - 0.80 = 2.20$\n$$\\lambda_1 = 1.0 - \\frac{0.05}{2.20} = 1.0 - 0.022727 \\approx 0.97727$$\n\nSecond iteration:\n- $f(0.97727) = (0.97727)^3 - 0.80(0.97727) - 0.15 = 0.93335 - 0.78182 - 0.15 = +0.00153$\n- $f'(0.97727) = 3(0.97727)^2 - 0.80 = 3(0.95506) - 0.80 = 2.86518 - 0.80 = 2.06518$\n$$\\lambda_1 = 0.97727 - \\frac{0.00153}{2.06518} \\approx 0.97727 - 0.00074 = 0.97653$$\n$$\\lambda_1 \\approx 0.9765$$\nThe dominant eigenvalue is **$\\lambda_1 \\approx 0.9765$**."
+        },
+        {
+          "stepName": "Compute intrinsic rate of natural increase $r$",
+          "explanation": "Since $\\lambda_1 = e^r$ (with time step $h = 1\\text{ year}$):\n$$r = \\ln(\\lambda_1) = \\ln(0.9765) \\approx -0.0238 \\implies -2.38\\%\\text{ per year}$$\nBecause $\\lambda_1 < 1.0$ ($r < 0$), the population will contract asymptotically by $2.38\\%$ per year."
+        },
+        {
+          "stepName": "Determine the stable age distribution eigenvector $\\mathbf{v}_1$",
+          "explanation": "The eigenvector satisfies $\\mathbf{L} \\mathbf{v}_1 = \\lambda_1 \\mathbf{v}_1$:\n$$\\begin{pmatrix} 0.0 & 1.6 & 1.2 \\\\ 0.50 & 0.0 & 0.0 \\\\ 0.0 & 0.25 & 0.0 \\end{pmatrix} \\begin{pmatrix} v_1 \\\\ v_2 \\\\ v_3 \\end{pmatrix} = 0.9765 \\begin{pmatrix} v_1 \\\\ v_2 \\\\ v_3 \\end{pmatrix}$$\nFrom row 2:\n$$0.50 v_1 = 0.9765 v_2 \\implies v_2 = \\frac{0.50}{0.9765} v_1 \\approx 0.51203 v_1$$\nFrom row 3:\n$$0.25 v_2 = 0.9765 v_3 \\implies v_3 = \\frac{0.25}{0.9765} v_2 = \\frac{0.25 \\times 0.51203}{0.9765} v_1 = \\frac{0.12801}{0.9765} v_1 \\approx 0.13109 v_1$$\n\nSetting $v_1 = 1.0$:\n$$\\mathbf{v}_1 = \\begin{pmatrix} 1.00000 \\\\ 0.51203 \\\\ 0.13109 \\end{pmatrix}$$\nSum of elements $= 1.00000 + 0.51203 + 0.13109 = 1.64312$.\nNormalizing to percentages:\n- Class 1 (Juveniles): $\\frac{1.00000}{1.64312} \\times 100\\% = 60.86\\%$\n- Class 2 (Sub-Adults): $\\frac{0.51203}{1.64312} \\times 100\\% = 31.16\\%$\n- Class 3 (Mature Adults): $\\frac{0.13109}{1.64312} \\times 100\\% = 7.98\\%$\n\nThe asymptotic stable age distribution is **$60.86\\%$ Juveniles, $31.16\\%$ Sub-Adults, and $7.98\\%$ Adults**."
+        },
+        {
+          "stepName": "Compute the Net Reproduction Rate ($R_0$)",
+          "explanation": "The Net Reproduction Rate is the expected lifetime female offspring produced per newborn:\n$$R_0 = F_1 + P_1 F_2 + P_1 P_2 F_3 = 0.0 + (0.50 \\times 1.6) + (0.50 \\times 0.25 \\times 1.2)$$\n$$R_0 = 0 + 0.80 + 0.15 = 0.9500$$\nBecause $R_0 = 0.9500 < 1.0$, a female newborn replaces only $0.95$ female offspring over her lifecycle, mathematically proving that the population is below replacement level and will decline."
+        }
+      ]
+    }
+  ]
+]

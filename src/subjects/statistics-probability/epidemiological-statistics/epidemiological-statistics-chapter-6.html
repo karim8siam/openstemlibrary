@@ -1,0 +1,830 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Screening, Diagnostic Testing &amp; Receiver Operating Characteristic (ROC) Analysis | Epidemiological Statistics | OpenSTEM Library</title>
+  <meta name="description" content="Principles of secondary prevention and Wilson-Jungner screening criteria; screening vs diagnostic testing; Fundamental 2x2 diagnostic performance metrics: sensitivity, specificity, false positive rate, false negative rate; Predictive values: Positive Predictive Value (PPV) and Negative Predictive Value (NPV), and their dependence on disease prevalence; Bayesian formulation of clinical diagnosis: prior odds, Positive Likelihood Ratio (LR+), Negative Likelihood Ratio (LR-), and posterior odds; Receiver Operating Characteristic (ROC) curves: continuous diagnostic biomarkers, cutoff variation, and parametric vs non-parametric estimation; Area Under the Curve (AUC / c-statistic): probabilistic interpretation as Wilcoxon-Mann-Whitney statistic, Youden's J statistic, and cutoff optimization.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/epidemiological-statistics-chapter-6">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/epidemiological-statistics-chapter-6">
+  <meta property="og:title" content="Epidemiological Statistics: Disease Frequency, Causal Inference, Bias, Confounding &amp; Outbreak Modeling | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering measures of disease frequency (incidence, prevalence), measures of association (risk ratio, odds ratio, rate ratio), confounding and effect modification, Mantel-Haenszel methods, study designs (cohort, case-control, cross-sectional), selection and information bias, causal inference and DAGs, diagnostic testing and ROC curves, and mathematical infectious disease modeling (SIR models, R_0, herd immunity) with 24 solved questions and 4 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Epidemiological Statistics: Disease Frequency, Causal Inference, Bias, Confounding &amp; Outbreak Modeling | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering measures of disease frequency (incidence, prevalence), measures of association (risk ratio, odds ratio, rate ratio), confounding and effect modification, Mantel-Haenszel methods, study designs (cohort, case-control, cross-sectional), selection and information bias, causal inference and DAGs, diagnostic testing and ROC curves, and mathematical infectious disease modeling (SIR models, R_0, herd immunity) with 24 solved questions and 4 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="epidemiological-statistics.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Epidemiological Statistics: Screening, Diagnostic Testing & Receiver Operating Characteristic (ROC) Analysis","description":"Comprehensive university textbook covering measures of disease frequency (incidence, prevalence), measures of association (risk ratio, odds ratio, rate ratio), confounding and effect modification, Mantel-Haenszel methods, study designs (cohort, case-control, cross-sectional), selection and information bias, causal inference and DAGs, diagnostic testing and ROC curves, and mathematical infectious disease modeling (SIR models, R_0, herd immunity) with 24 solved questions and 4 interactive simulations.","url":"https://openstemlibrary.com/epidemiological-statistics-chapter-6","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Epidemiology","Epidemiological statistics","Measures of disease frequency","Risk ratio and odds ratio","Confounding and effect modification","Mantel-Haenszel estimation","Study designs and case-control studies","Causal inference and directed acyclic graphs","Diagnostic testing and ROC curves","Mathematical epidemic modeling and SIR dynamics"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Epidemiological Statistics","item":"https://openstemlibrary.com/epidemiological-statistics"}]}</script></head>
+<body data-book-path="epidemiological-statistics.html" data-chapter-index="5" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Epidemiological Statistics</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search incidence, prevalence, odds ratio, risk ratio, confounding, Mantel-Haenszel, DAGs, selection bias, ROC curve, SIR model…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="epidemiological-statistics" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Foundations of Epidemiology, Surveillance &amp; Measures of Disease Frequency</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="epidemiological-statistics-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Measures of Association &amp; Public Health Impact: Risk Ratios, Odds Ratios &amp; Attributable Fractions</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="epidemiological-statistics-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Observational &amp; Experimental Study Designs: Cohort, Case-Control, Cross-Sectional &amp; Clinical Trials</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="epidemiological-statistics-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Methodological Validity: Confounding, Selection Bias, Information Bias &amp; Effect Modification</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="epidemiological-statistics-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Multivariable Regression in Epidemiology: Logistic, Conditional Logistic, Log-Binomial &amp; Poisson Models</span></a></li><li class="unit-nav-item active" data-unit-index="5"><a href="epidemiological-statistics-chapter-6" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Screening, Diagnostic Testing &amp; Receiver Operating Characteristic (ROC) Analysis</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="epidemiological-statistics-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Infectious Disease Epidemiology: Transmission Dynamics, Compartmental Models &amp; Outbreak Investigation</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="epidemiological-statistics-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Survival Analysis in Epidemiology &amp; Causal Inference Frameworks</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Epidemiological statistics major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 6 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Screening, Diagnostic Testing &amp; Receiver Operating Characteristic (ROC) Analysis</h1>
+            <p class="unit-desc-lead" id="unit-desc">Principles of secondary prevention and Wilson-Jungner screening criteria; screening vs diagnostic testing; Fundamental 2x2 diagnostic performance metrics: sensitivity, specificity, false positive rate, false negative rate; Predictive values: Positive Predictive Value (PPV) and Negative Predictive Value (NPV), and their dependence on disease prevalence; Bayesian formulation of clinical diagnosis: prior odds, Positive Likelihood Ratio (LR+), Negative Likelihood Ratio (LR-), and posterior odds; Receiver Operating Characteristic (ROC) curves: continuous diagnostic biomarkers, cutoff variation, and parametric vs non-parametric estimation; Area Under the Curve (AUC / c-statistic): probabilistic interpretation as Wilcoxon-Mann-Whitney statistic, Youden's J statistic, and cutoff optimization.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-304 (Epidemiological Statistics). Eight units and exactly three solved questions per unit. Interactive simulations illustrate epidemiological measures, confounding stratification, diagnostic ROC curves, and SIR transmission dynamics. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-6-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.1</span>
+            <span>Principles of Secondary Prevention, Natural History &amp; The Wilson-Jungner Criteria</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Screening is defined as the presumptive identification of unrecognized disease or defect by the application of tests, examinations, or other procedures that can be applied rapidly to asymptomatic target populations. Screening sorts out apparently well persons who probably have a disease from those who probably do not.</p>
+
+<h4>Natural History of Disease and the Critical Window</h4>
+
+<p>The biological trajectory of disease unfolds across distinct phases:</p>
+
+<h4>1. Stage of Susceptibility: Biological exposure has occurred, but pathologic alterations have not yet initiated.</h4>
+
+<h4>2. Pre-symptomatic (Subclinical) Phase: Pathologic changes have initiated, but the disease remains entirely asymptomatic. Within this phase lies the Detectably Pre-clinical Phase (DPCP): the window of time beginning when the disease first becomes detectable by an objective screening biomarker ($t_d$) and ending when clinical symptoms naturally emerge ($t_s$).</h4>
+
+<h4>3. Clinical Phase: Symptoms manifest, prompting clinical diagnosis and therapy.</h4>
+
+<p>For a screening program to be medically effective, there must exist a <strong>critical point</strong> located within the DPCP: an inflection point before which therapeutic intervention confers substantially greater survival or functional recovery than treatment delayed until clinical symptom onset. If the critical point occurs before the screening test can detect the lesion (e.g., highly aggressive pancreatic adenocarcinoma), or if therapy is equally effective whenever applied, screening confers zero mortality benefit.</p>
+
+<h4>The Wilson-Jungner Screening Criteria</h4>
+
+<p>In 1968, James Maxwell Glover Wilson and Gunnar Jungner established the foundational ten principles of screening for the World Health Organization:</p>
+
+<ol>
+
+  <li>The condition sought should be an important health problem for the individual and community.</li>
+
+  <li>There should be an accepted treatment for patients with recognized disease.</li>
+
+  <li>Facilities for diagnosis and treatment should be available.</li>
+
+  <li>There should be a recognizable latent or early symptomatic stage.</li>
+
+  <li>There should be a suitable test or examination.</li>
+
+  <li>The test should be acceptable to the general population.</li>
+
+  <li>The natural history of the condition, including development from latent to declared disease, should be adequately understood.</li>
+
+  <li>There should be an agreed policy on whom to treat as patients.</li>
+
+  <li>The cost of case-finding (including diagnosis and subsequent treatment) should be economically balanced in relation to possible total expenditure on medical care.</li>
+
+  <li>Case-finding should be a continuous process and not a "once and for all" project.</li>
+
+</ol>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.2</span>
+            <span>The Fundamental Diagnostic Matrix: Sensitivity, Specificity, and Error Rates</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          To evaluate the intrinsic diagnostic accuracy of a binary screening test, test results are cross-tabulated against an independent **Gold Standard** (the definitive diagnostic criterion, such as tissue biopsy, surgical histopathology, or necropsy):
+
+<div class="table-wrapper"><table class="data-table">
+<thead>
+<tr><th>Screening Test Result</th><th>True Disease Present ($D^+$)</th><th>True Disease Absent ($D^-$)</th><th>Total Tested</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Test Positive ($T^+$)</strong></td><td>$TP$ (True Positive)</td><td>$FP$ (False Positive)</td><td>$n_{\text{test}+} = TP + FP$</td></tr>
+<tr><td><strong>Test Negative ($T^-$)</strong></td><td>$FN$ (False Negative)</td><td>$TN$ (True Negative)</td><td>$n_{\text{test}-} = FN + TN$</td></tr>
+<tr><td><strong>Total Reference</strong></td><td>$N_D = TP + FN$</td><td>$N_H = FP + TN$</td><td>$N = TP + FP + FN + TN$</td></tr>
+</tbody>
+</table></div>
+
+### Sensitivity (True Positive Rate)
+**Sensitivity** ($Se$), or the **True Positive Rate** ($TPR$), is the conditional probability that a truly diseased individual tests positive:
+
+$$Se = P(T^+ \mid D^+) = \frac{TP}{TP + FN} = \frac{TP}{N_D}$$
+
+A test with $Se = 0.95$ correctly detects $95\%$ of diseased individuals, while missing $5\%$ ($FN = 5\%$). The complementary probability is the **False Negative Rate** ($FNR = 1 - Se$). High-sensitivity tests are prized for "ruling out" disease (the clinical mnemonic **SnNOut**: High **S**e**n**sitivity, **N**egative test rules **Out** disease).
+
+### Specificity (True Negative Rate)
+**Specificity** ($Sp$), or the **True Negative Rate** ($TNR$), is the conditional probability that a truly healthy individual tests negative:
+
+$$Sp = P(T^- \mid D^-) = \frac{TN}{FP + TN} = \frac{TN}{N_H}$$
+
+A test with $Sp = 0.98$ correctly clears $98\%$ of healthy individuals, while incorrectly flagging $2\%$ as false alarms. The complementary probability is the **False Positive Rate** ($FPR = 1 - Sp$). High-specificity tests are prized for "ruling in" disease (the clinical mnemonic **SpPIn**: High **Sp**ecificity, **P**ositive test rules **In** disease).
+
+Crucially, **sensitivity and specificity are intrinsic properties of the diagnostic test technology**: within a defined patient population, they remain mathematically constant regardless of how common or rare the disease is in the community.
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-epi-roc-diagnostic"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.3</span>
+            <span>Positive and Negative Predictive Values: The Mathematical Dominance of Prevalence</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>While clinicians evaluate test technology using sensitivity and specificity, the patient who receives a positive test result asks a fundamentally different question: <em>"Given that my test is positive, what is the actual probability that I truly have the disease?"</em></p>
+
+<p>This clinical question is answered by the <strong>predictive values</strong>.</p>
+
+<h4>Positive Predictive Value (PPV)</h4>
+
+<p>The <strong>Positive Predictive Value</strong> ($PPV$), or post-test probability of disease following a positive result, is the conditional probability that an individual who tests positive is truly diseased:</p>
+
+<div class="math-display">$$PPV = P(D^+ \mid T^+) = \frac{TP}{TP + FP}$$</div>
+
+<p>Applying <strong>Bayes' Theorem</strong> decomposes the $PPV$ into the test's operating characteristics and the pre-test disease <strong>prevalence</strong> ($\pi = P(D^+)$):</p>
+
+<div class="math-display">$$PPV = \frac{P(T^+ \mid D^+) P(D^+)}{P(T^+ \mid D^+) P(D^+) + P(T^+ \mid D^-) P(D^-)} = \frac{Se \cdot \pi}{Se \cdot \pi + (1 - Sp) \cdot (1 - \pi)}$$</div>
+
+<h4>Negative Predictive Value (NPV)</h4>
+
+<p>The <strong>Negative Predictive Value</strong> ($NPV$), or post-test probability of health following a negative result, is the conditional probability that an individual who tests negative is truly free of disease:</p>
+
+<div class="math-display">$$NPV = P(D^- \mid T^-) = \frac{TN}{FN + TN} = \frac{Sp \cdot (1 - \pi)}{(1 - Se) \cdot \pi + Sp \cdot (1 - \pi)}$$</div>
+
+<h4>The Paradox of Rare Disease Screening</h4>
+
+<p>Notice the critical algebraic feature of Bayes' formula: <strong>Predictive values are profoundly dependent upon disease prevalence ($\pi$)</strong>. Even for a test with extraordinary analytical accuracy (e.g., $Se = 99\%$ and $Sp = 99\%$), if the disease is rare in the general screening population ($\pi = 1 / 1,000 = 0.001$), the positive predictive value collapses:</p>
+
+<div class="math-display">$$PPV = \frac{(0.99)(0.001)}{(0.99)(0.001) + (1 - 0.99)(1 - 0.001)} = \frac{0.00099}{0.00099 + (0.01)(0.999)} = \frac{0.00099}{0.00099 + 0.00999} = \frac{0.00099}{0.01098} \approx 0.0902 \quad (9.02\%)$$</div>
+
+<p>Out of every 100 positive test results, <strong>more than 90 are false positives!</strong> This mathematical reality explains why universal population screening for low-prevalence cancers or rare conditions is counter-productive: the massive flood of false-positive results causes severe patient trauma and overwhelms diagnostic healthcare resources with unnecessary invasive biopsies.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.4</span>
+            <span>Likelihood Ratios, Diagnostic Odds Ratios &amp; The Bayesian Fagan Nomogram</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>To overcome the prevalence-dependence of predictive values while maintaining clinically actionable intuition, modern evidence-based medicine utilizes <strong>Likelihood Ratios</strong> ($LR$).</p>
+
+<h4>Positive Likelihood Ratio (LR+)</h4>
+
+<p>The <strong>Positive Likelihood Ratio</strong> is the ratio of the probability of a positive test in a diseased person to the probability of a positive test in a non-diseased person:</p>
+
+<div class="math-display">$$LR^+ = \frac{P(T^+ \mid D^+)}{P(T^+ \mid D^-)} = \frac{Se}{1 - Sp} = \frac{\text{True Positive Rate}}{\text{False Positive Rate}}$$</div>
+
+<ul>
+
+  <li>$LR^+ = 1.0$: Diagnostic test provides zero information; post-test probability equals pre-test probability.</li>
+
+  <li>$LR^+ &gt; 10.0$: Strong diagnostic evidence; highly effective at ruling in disease.</li>
+
+  <li>$LR^+ \in (5, 10)$: Moderate diagnostic evidence.</li>
+
+</ul>
+
+<h4>Negative Likelihood Ratio (LR-)</h4>
+
+<p>The <strong>Negative Likelihood Ratio</strong> is the ratio of the probability of a negative test in a diseased person to the probability of a negative test in a non-diseased person:</p>
+
+<div class="math-display">$$LR^- = \frac{P(T^- \mid D^+)}{P(T^- \mid D^-)} = \frac{1 - Se}{Sp} = \frac{\text{False Negative Rate}}{\text{True Negative Rate}}$$</div>
+
+<ul>
+
+  <li>$LR^- &lt; 0.1$: Strong diagnostic evidence; highly effective at ruling out disease.</li>
+
+  <li>$LR^- \in (0.1, 0.2)$: Moderate diagnostic evidence.</li>
+
+</ul>
+
+<h4>The Odds Form of Bayes' Theorem and the Fagan Nomogram</h4>
+
+<p>Recall that odds is defined as $\text{Odds} = p / (1 - p)$. The <strong>Pre-test Odds</strong> of disease is:</p>
+
+<div class="math-display">$$\text{Pre-test Odds} = \frac{\pi}{1 - \pi}$$</div>
+
+<p>By Bayes' theorem, multiplying the pre-test odds by the likelihood ratio directly yields the <strong>Post-test Odds</strong>:</p>
+
+<div class="math-display">$$\text{Post-test Odds}(D^+ \mid T^+) = \text{Pre-test Odds} \times LR^+$$</div>
+
+<div class="math-display">$$\text{Post-test Odds}(D^+ \mid T^-) = \text{Pre-test Odds} \times LR^-$$</div>
+
+<p>Once the post-test odds are obtained, the post-test probability ($PPV$ or $1 - NPV$) is recovered via:</p>
+
+<div class="math-display">$$\text{Post-test Probability} = \frac{\text{Post-test Odds}}{1 + \text{Post-test Odds}}$$</div>
+
+<p>In clinical practice, this Bayesian updating is executed instantly using the <strong>Fagan Nomogram</strong>: a graphical three-axis alignment chart linking pre-test probability on the left, likelihood ratio in the center, and post-test probability on the right with a straight line.</p>
+
+<h4>Diagnostic Odds Ratio (DOR)</h4>
+
+<p>The overall diagnostic performance of a test is summarized by the <strong>Diagnostic Odds Ratio</strong> ($DOR$):</p>
+
+<div class="math-display">$$DOR = \frac{LR^+}{LR^-} = \frac{Se / (1 - Sp)}{(1 - Se) / Sp} = \frac{Se \cdot Sp}{(1 - Se)(1 - Sp)} = \frac{TP \cdot TN}{FP \cdot FN}$$</div>
+
+<p>A diagnostic test with $DOR = 1.0$ has zero discriminatory capacity; values exceeding $100$ indicate excellent diagnostic separation.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.5</span>
+            <span>Continuous Biomarkers and Receiver Operating Characteristic (ROC) Analysis</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          Many modern diagnostic tests do not generate binary positive/negative outcomes; instead, they output continuous quantitative biomarkers (e.g., serum Prostate-Specific Antigen in $\text{ng/mL}$, fasting blood glucose in $\text{mg/dL}$, or coronary artery calcium scores). To classify an individual as "diseased," the clinician must designate a **decision cutoff threshold** $c$.
+
+Let $X$ denote the continuous test score. By convention, higher biomarker values indicate greater likelihood of disease:
+$$\text{Classify } T^+ \text{ if } X \ge c, \qquad \text{Classify } T^- \text{ if } X &lt; c$$
+
+Let $f_D(x)$ and $f_H(x)$ denote the probability density functions of the biomarker in the diseased and healthy populations, respectively. For any designated cutoff $c$:
+
+$$Se(c) = P(X \ge c \mid D^+) = \int_c^\infty f_D(x) \, dx$$
+
+$$Sp(c) = P(X &lt; c \mid D^-) = \int_{-\infty}^c f_H(x) \, dx \implies FPR(c) = 1 - Sp(c) = \int_c^\infty f_H(x) \, dx$$
+
+As the cutoff $c$ shifts:
+- If $c \to -\infty$: Every patient is classified positive $\implies Se \to 1.0$, but $Sp \to 0.0$ ($FPR \to 1.0$).
+- If $c \to +\infty$: Every patient is classified negative $\implies Se \to 0.0$, but $Sp \to 1.0$ ($FPR \to 0.0$).
+
+### Construction of the ROC Curve
+Originated in electrical radar signal detection during World War II, the **Receiver Operating Characteristic (ROC) Curve** is a graphical plot of the **True Positive Rate** ($Se(c)$) on the vertical $y$-axis versus the **False Positive Rate** ($1 - Sp(c)$) on the horizontal $x$-axis, traced continuously as the decision cutoff $c$ varies from $+\infty$ to $-\infty$.
+
+<div class="table-wrapper"><table class="data-table">
+<thead>
+<tr><th>ROC Graphic Feature</th><th>Mathematical Meaning</th><th>Epidemiological Interpretation</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Point $(0, 0)$</strong></td><td>$c = +\infty$: Classify all as negative.</td><td>Zero false alarms, but misses every true case ($Se = 0, Sp = 1$).</td></tr>
+<tr><td><strong>Point $(1, 1)$</strong></td><td>$c = -\infty$: Classify all as positive.</td><td>Catches every case, but falsely flags every healthy person ($Se = 1, Sp = 0$).</td></tr>
+<tr><td><strong>Point $(0, 1)$</strong></td><td>Ideal diagnostic perfection.</td><td>$100\%$ Sensitivity and $100\%$ Specificity (zero error).</td></tr>
+<tr><td><strong>45-Degree Diagonal Line</strong></td><td>$Se(c) = FPR(c)$ for all $c$.</td><td>The test performs no better than random guessing (flipping an unweighted coin).</td></tr>
+</tbody>
+</table></div>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-epi-roc-diagnostic"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.6</span>
+            <span>Area Under the Curve (AUC), Youden's J, and Screening Evaluation Biases</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>The Area Under the Curve (AUC / c-statistic)</h4>
+
+<p>The global discriminatory accuracy of a continuous diagnostic test is quantified by the <strong>Area Under the ROC Curve</strong> ($AUC$), also known as the <strong>concordance index</strong> ($c$-statistic):</p>
+
+<div class="math-display">$$AUC = \int_0^1 Se(FPR) \, d(FPR) = \int_{-\infty}^\infty Se(c) \left| \frac{d(1 - Sp(c))}{dc} \right| dc$$</div>
+
+<p>The $AUC$ spans the interval $[0.5, 1.0]$:</p>
+
+<ul>
+
+  <li>$AUC = 0.50$: Pure chance; zero diagnostic discrimination.</li>
+
+  <li>$AUC \in [0.70, 0.80)$: Acceptable discrimination.</li>
+
+  <li>$AUC \in [0.80, 0.90)$: Excellent discrimination.</li>
+
+  <li>$AUC \ge 0.90$: Outstanding diagnostic accuracy ($AUC = 1.0$ is perfect separation).</li>
+
+</ul>
+
+<h4>Probabilistic Equivalence to the Wilcoxon-Mann-Whitney Statistic</h4>
+
+<p>A celebrated mathematical theorem established by David Green and John Swets (1966) and popularized by James Hanley and Barbara McNeil (1982) proves that the <strong>AUC is mathematically identical to the Wilcoxon-Mann-Whitney U-statistic probability</strong>:</p>
+
+<div class="math-display">$$AUC = P(X_D &gt; X_H)$$</div>
+
+<p>where $X_D$ is the biomarker score of a randomly chosen diseased individual and $X_H$ is the biomarker score of a randomly chosen healthy individual. Thus, an $AUC$ of $0.85$ means that if one diseased patient and one healthy patient are selected at random, there is an $85\%$ probability that the diseased patient will exhibit a higher biomarker concentration than the healthy patient!</p>
+
+<p>For empirical sample data with $n_D$ cases and $n_H$ controls, the non-parametric trapezoidal $AUC$ is:</p>
+
+<div class="math-display">$$\widehat{AUC} = \frac{1}{n_D n_H} \sum_{i=1}^{n_D} \sum_{j=1}^{n_H} I(X_{Di} &gt; X_{Hj}) + 0.5 \cdot I(X_{Di} = X_{Hj})$$</div>
+
+<h4>Cutpoint Optimization: Youden's J Statistic</h4>
+
+<p>To choose the single "optimal" clinical cutoff threshold $c^*$ that maximizes diagnostic efficacy, William J. Youden (1950) introduced <strong>Youden’s Index</strong> ($J$):</p>
+
+<div class="math-display">$$J(c) = Se(c) + Sp(c) - 1 = Se(c) - FPR(c)$$</div>
+
+<p>Geometrically, $J(c)$ represents the vertical distance between the ROC curve and the 45-degree chance diagonal at cutoff $c$. The optimal cutoff $c^*$ is the point that maximizes $J(c)$:</p>
+
+<div class="math-display">$$c^* = \arg\max_c [Se(c) + Sp(c) - 1]$$</div>
+
+<h4>Methodological Biases in Screening Program Evaluation</h4>
+
+<p>Evaluating whether a screening program successfully reduces population mortality requires randomized clinical trials with mortality endpoints, because observational comparisons of screened vs unscreened patients are distorted by three insidious survival biases:</p>
+
+<h4>1. Lead-Time Bias:</h4>
+
+<p><strong>Lead time</strong> is the duration by which screening advances the date of diagnosis compared to standard clinical symptom presentation. Even if screening and early therapy have zero biological effect on the ultimate date of death, screened patients will survive longer <em>from the date of diagnosis</em> purely because their diagnosis was established earlier in time! Comparing 5-year survival rates between screened and unscreened cases creates an illusion of therapeutic benefit caused entirely by clock-resetting.</p>
+
+<h4>2. Length-Biased Sampling (Prognostic Selection):</h4>
+
+<p>Screening tests administered at periodic intervals preferentially detect slow-growing, indolent, biologically indolent tumors that spend years in the Detectably Pre-clinical Phase. Highly aggressive, fast-growing malignancies pass rapidly through the DPCP between screening rounds and emerge as symptomatic "interval cancers." Consequently, screened cases have inherently superior biological prognoses, creating false impressions of screening efficacy.</p>
+
+<h4>3. Overdiagnosis Bias:</h4>
+
+<p><strong>Overdiagnosis</strong> is the detection of subclinical pseudodisease: microscopic, histologically abnormal lesions that would never have progressed to cause clinical symptoms, impairment, or death during the patient’s natural lifetime (e.g., indolent thyroid papillary microcarcinomas, low-grade prostate cancer, ductal carcinoma in situ). Overdiagnosed patients undergo toxic surgeries and chemotherapy with zero possibility of clinical benefit, while artificially inflating survival statistics.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-epi-roc-diagnostic"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-7">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.7</span>
+            <span>Clinical Utility and Decision Curve Analysis (DCA)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>While Sensitivity, Specificity, and the Area Under the ROC Curve evaluate statistical discrimination, they do not tell a clinician whether using a diagnostic biomarker will actually improve clinical patient outcomes. An expensive or invasive biomarker with an $AUC = 0.82$ might confer zero clinical utility if its false-positive referrals lead to severe biopsy complications.</p>
+
+<p>To quantify clinical utility across varying patient preferences, Andrew Vickers and Elena Elkin (2006) introduced <strong>Decision Curve Analysis (DCA)</strong> based on the concept of <strong>Net Benefit</strong> ($NB$):</p>
+
+<div class="math-display">$$NB(p_t) = \frac{TP}{N} - \frac{FP}{N} \left( \frac{p_t}{1 - p_t} \right) = \text{True Positive Fraction} - \text{False Positive Fraction} \times \text{Odds}(p_t)$$</div>
+
+<p>where $p_t \in (0, 1)$ is the <strong>decision threshold probability</strong> at which a patient or clinician is indifferent between initiating treatment and withholding treatment.</p>
+
+<ul>
+
+  <li>The weighting factor $p_t / (1 - p_t)$ explicitly penalizes false-positive decisions relative to true-positive benefits according to the clinical cost-benefit ratio.</li>
+
+  <li>In a Decision Curve plot, the Net Benefit of the diagnostic strategy is plotted against $p_t$ and compared against two default clinical reference policies: "Treat All Patients" and "Treat No Patients".</li>
+
+  <li>A diagnostic biomarker has clinical utility over the threshold range where its Net Benefit curve lies strictly above both default strategies. Decision Curve Analysis provides the quantitative bridge linking epidemiologic diagnostic accuracy with clinical decision-making.</li>
+
+</ul>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Epidemiological Statistics Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 6.1: Bayesian Clinical Diagnosis: Sensitivity, Specificity, Predictive Values, and Fagan Nomogram</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A specialized clinical serology laboratory evaluates a fourth-generation Chemiluminescent Immunoassay (CLIA) for detecting Hepatitis C Virus (HCV) antibodies. Validation against viral RNA PCR gold standard in an analytical laboratory study demonstrates:</p>
+
+<ul>
+
+  <li>Sensitivity: $Se = 0.980$ ($98.0\%$).</li>
+
+  <li>Specificity: $Sp = 0.995$ ($99.5\%$).</li>
+
+</ul>
+
+<p>The immunoassay is deployed in two vastly different clinical settings:</p>
+
+<ul>
+
+  <li><strong>Setting A (High-Risk Needle-Exchange Addiction Clinic)</strong>: HCV infection prevalence is $\pi_A = 0.200$ ($20.0\%$).</li>
+
+  <li><strong>Setting B (Low-Risk General Asymptomatic Blood Donor Screening)</strong>: HCV infection prevalence is $\pi_B = 0.001$ ($0.1\%$, 1 per 1,000 donors).</li>
+
+</ul>
+
+<ol>
+
+  <li>For both Setting A and Setting B, calculate the Positive Predictive Value ($PPV$) and the Negative Predictive Value ($NPV$).</li>
+
+  <li>Compute the Positive Likelihood Ratio ($LR^+$) and Negative Likelihood Ratio ($LR^-$).</li>
+
+  <li>Using the odds formulation of Bayes' theorem, demonstrate how the pre-test odds in Setting B are updated by $LR^+$ to yield the post-test odds, and show that this matches the $PPV$ computed via Bayes' theorem. What are the clinical and ethical implications for blood donor notification?</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-epi-stat-6-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-epi-stat-6-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Calculate PPV and NPV for Setting A and Setting B</div>
+              
+              <div class="step-explanation"><h4>1. Setting A (High-Risk Clinic, $\pi_A = 0.20$):</h4>
+
+<p>Apply Bayes' Theorem:</p>
+
+<div class="math-display">$$PPV_A = \frac{Se \cdot \pi_A}{Se \cdot \pi_A + (1 - Sp)(1 - \pi_A)} = \frac{(0.980)(0.200)}{(0.980)(0.200) + (1 - 0.995)(1 - 0.200)}$$</div>
+
+<div class="math-display">$$= \frac{0.1960}{0.1960 + (0.005)(0.800)} = \frac{0.1960}{0.1960 + 0.0040} = \frac{0.1960}{0.2000} = 0.9800 \quad (98.00\%)$$</div>
+
+<div class="math-display">$$NPV_A = \frac{Sp \cdot (1 - \pi_A)}{(1 - Se)\pi_A + Sp(1 - \pi_A)} = \frac{(0.995)(0.800)}{(1 - 0.980)(0.200) + (0.995)(0.800)}$$</div>
+
+<div class="math-display">$$= \frac{0.7960}{(0.020)(0.200) + 0.7960} = \frac{0.7960}{0.0040 + 0.7960} = \frac{0.7960}{0.8000} = 0.9950 \quad (99.50\%)$$</div>
+
+<p>In Setting A, a positive test is overwhelmingly accurate ($PPV = 98.0\%$).</p>
+
+<h4>2. Setting B (Low-Risk Blood Donors, $\pi_B = 0.001$):</h4>
+
+<div class="math-display">$$PPV_B = \frac{Se \cdot \pi_B}{Se \cdot \pi_B + (1 - Sp)(1 - \pi_B)} = \frac{(0.980)(0.001)}{(0.980)(0.001) + (0.005)(0.999)}$$</div>
+
+<div class="math-display">$$= \frac{0.000980}{0.000980 + 0.004995} = \frac{0.000980}{0.005975} \approx 0.1640 \quad (16.40\%)$$</div>
+
+<div class="math-display">$$NPV_B = \frac{(0.995)(0.999)}{(0.020)(0.001) + (0.995)(0.999)} = \frac{0.994005}{0.000020 + 0.994005} = \frac{0.994005}{0.994025} \approx 0.99998 \quad (99.998\%)$$</div>
+
+<p>In Setting B, despite a test specificity of $99.5\%$, <strong>only $16.4\%$ of screen-positive blood donors actually have Hepatitis C!</strong> Fully $83.6\%$ of all positive test results are false positives.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Calculate Likelihood Ratios</div>
+              
+              <div class="step-explanation"><div class="math-display">$$LR^+ = \frac{Se}{1 - Sp} = \frac{0.980}{1 - 0.995} = \frac{0.980}{0.005} = 196.0$$</div>
+
+<div class="math-display">$$LR^- = \frac{1 - Se}{Sp} = \frac{1 - 0.980}{0.995} = \frac{0.020}{0.995} \approx 0.0201$$</div>
+
+<p>The test has a massive $LR^+ = 196.0$ (ruling in disease strongly) and a very small $LR^- \approx 0.020$ (ruling out disease strongly).</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Bayesian odds formulation and ethical implications</div>
+              
+              <div class="step-explanation"><p>In Setting B ($\pi_B = 0.001$):</p>
+
+<div class="math-display">$$\text{Pre-test Odds} = \frac{\pi_B}{1 - \pi_B} = \frac{0.001}{0.999} \approx 0.0010010$$</div>
+
+<p>Multiplying by $LR^+ = 196.0$:</p>
+
+<div class="math-display">$$\text{Post-test Odds} = \text{Pre-test Odds} \times LR^+ = 0.0010010 \times 196.0 \approx 0.196196$$</div>
+
+<p>Converting back to probability:</p>
+
+<div class="math-display">$$\text{Post-test Probability} = \frac{\text{Post-test Odds}}{1 + \text{Post-test Odds}} = \frac{0.196196}{1 + 0.196196} = \frac{0.196196}{1.196196} \approx 0.1640 \quad (16.40\%)$$</div>
+
+<p>This matches the Bayesian $PPV_B$ precisely.</p>
+
+<p><strong>Clinical and Ethical Implications</strong>: In blood banking, blood units testing positive are discarded to guarantee transfusion safety. However, notifying donors that they are "HCV positive" based on a single screening immunoassay is ethically reckless: more than 5 out of 6 positive donors are completely healthy. Standard blood bank protocols mandate that screen-positive samples undergo <strong>confirmatory secondary testing</strong> (such as nucleic acid RT-PCR) before communicating a diagnosis to the donor.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 6.2: Empirical ROC Construction, Trapezoidal AUC Integration, and Youden’s J Cutpoint Optimization</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An oncology research laboratory investigates a novel serum microRNA biomarker ($\text{miR-21}$, expressed in relative quantification units) for distinguishing patients with early-stage ovarian carcinoma from benign pelvic masses. The biomarker concentrations measured in $n_D = 6$ confirmed ovarian cancer patients and $n_H = 6$ healthy/benign control patients are:</p>
+
+<ul>
+
+  <li><strong>Cancer Patients ($X_D$)</strong>: $2.8, \, 3.4, \, 4.2, \, 5.1, \, 6.0, \, 7.5$</li>
+
+  <li><strong>Control Patients ($X_H$)</strong>: $1.2, \, 1.8, \, 2.2, \, 3.0, \, 3.8, \, 4.8$</li>
+
+</ul>
+
+<ol>
+
+  <li>For candidate diagnostic cutoff thresholds $c \in \{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 8.0\}$, determine the Sensitivity ($Se$), Specificity ($Sp$), and False Positive Rate ($FPR = 1 - Sp$). Tabulate the coordinates of the empirical ROC curve.</li>
+
+  <li>Calculate the non-parametric Area Under the Curve ($\widehat{AUC}$) using both trapezoidal integration and the Mann-Whitney $U$-statistic formulation.</li>
+
+  <li>Compute Youden’s Index $J(c) = Se(c) + Sp(c) - 1$ across all candidate cutoffs, determine the optimal decision threshold $c^*$, and report the diagnostic sensitivity and specificity achieved at that optimal cutoff.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-epi-stat-6-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-epi-stat-6-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Tabulate empirical ROC coordinates across cutoffs</div>
+              
+              <div class="step-explanation">A patient tests positive if $X \ge c$.
+- Cancer group ($n_D = 6$): $\{2.8, 3.4, 4.2, 5.1, 6.0, 7.5\}$
+- Control group ($n_H = 6$): $\{1.2, 1.8, 2.2, 3.0, 3.8, 4.8\}$
+
+Let us evaluate $TP(c)$ (cancer $\ge c$) and $FP(c)$ (control $\ge c$):
+- **$c = 1.0$**: All 6 cancers $\ge 1.0 \implies Se = 6/6 = 1.000$. All 6 controls $\ge 1.0 \implies FP = 6 \implies FPR = 6/6 = 1.000, Sp = 0.000$. Point: $(1.0, 1.0)$.
+- **$c = 2.0$**: Cancers $\ge 2.0$: all 6 $\implies Se = 6/6 = 1.000$. Controls $\ge 2.0$: $\{2.2, 3.0, 3.8, 4.8\}$ (4 controls) $\implies FPR = 4/6 \approx 0.667, Sp = 2/6 \approx 0.333$. Point: $(0.667, 1.000)$.
+- **$c = 3.0$**: Cancers $\ge 3.0$: $\{3.4, 4.2, 5.1, 6.0, 7.5\}$ (5 cancers) $\implies Se = 5/6 \approx 0.833$. Controls $\ge 3.0$: $\{3.0, 3.8, 4.8\}$ (3 controls) $\implies FPR = 3/6 = 0.500, Sp = 0.500$. Point: $(0.500, 0.833)$.
+- **$c = 4.0$**: Cancers $\ge 4.0$: $\{4.2, 5.1, 6.0, 7.5\}$ (4 cancers) $\implies Se = 4/6 \approx 0.667$. Controls $\ge 4.0$: $\{4.8\}$ (1 control) $\implies FPR = 1/6 \approx 0.167, Sp = 5/6 \approx 0.833$. Point: $(0.167, 0.667)$.
+- **$c = 5.0$**: Cancers $\ge 5.0$: $\{5.1, 6.0, 7.5\}$ (3 cancers) $\implies Se = 3/6 = 0.500$. Controls $\ge 5.0$: 0 controls $\implies FPR = 0/6 = 0.000, Sp = 1.000$. Point: $(0.000, 0.500)$.
+- **$c = 6.0$**: Cancers $\ge 6.0$: $\{6.0, 7.5\}$ (2 cancers) $\implies Se = 2/6 \approx 0.333$. Controls $\ge 6.0$: 0 controls $\implies FPR = 0.000, Sp = 1.000$. Point: $(0.000, 0.333)$.
+- **$c = 8.0$**: Cancers $\ge 8.0$: 0 cancers $\implies Se = 0.000$. Controls $\ge 8.0$: 0 $\implies FPR = 0.000, Sp = 1.000$. Point: $(0.0, 0.0)$.
+
+<div class="table-wrapper"><table class="data-table">
+<thead>
+<tr><th>Cutoff $c$</th><th>Sensitivity $Se(c)$</th><th>Specificity $Sp(c)$</th><th>False Positive Rate $FPR(c)$</th><th>ROC Coordinate $(x, y)$</th><th>Youden's Index $J(c)$</th></tr>
+</thead>
+<tbody>
+<tr><td>$\infty$ ($8.0$)</td><td>$0.000$</td><td>$1.000$</td><td>$0.000$</td><td>$(0.000, 0.000)$</td><td>$0.000$</td></tr>
+<tr><td>$5.0$</td><td>$0.500$</td><td>$1.000$</td><td>$0.000$</td><td>$(0.000, 0.500)$</td><td>$+0.500$</td></tr>
+<tr><td>$4.0$</td><td>$0.667$</td><td>$0.833$</td><td>$0.167$</td><td>$(0.167, 0.667)$</td><td>$+0.500$</td></tr>
+<tr><td>$3.0$</td><td>$0.833$</td><td>$0.500$</td><td>$0.500$</td><td>$(0.500, 0.833)$</td><td>$+0.333$</td></tr>
+<tr><td>$2.0$</td><td>$1.000$</td><td>$0.333$</td><td>$0.667$</td><td>$(0.667, 1.000)$</td><td>$+0.333$</td></tr>
+<tr><td>$-\infty$ ($1.0$)</td><td>$1.000$</td><td>$0.000$</td><td>$1.000$</td><td>$(1.000, 1.000)$</td><td>$0.000$</td></tr>
+</tbody>
+</table></div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Area Under the Curve via Mann-Whitney U-statistic and trapezoids</div>
+              
+              <div class="step-explanation"><h4>1. Mann-Whitney U-Statistic Method:</h4>
+
+<p>We compare each of the 6 cancer values against all 6 control values ($6 \times 6 = 36$ pairwise comparisons). We count how many times $X_{Di} &gt; X_{Hj}$:</p>
+
+<ul>
+
+  <li>$X_{D1} = 2.8 &gt; \{1.2, 1.8, 2.2\}$ (3 controls) $\implies 3$</li>
+
+  <li>$X_{D2} = 3.4 &gt; \{1.2, 1.8, 2.2, 3.0\}$ (4 controls) $\implies 4$</li>
+
+  <li>$X_{D3} = 4.2 &gt; \{1.2, 1.8, 2.2, 3.0, 3.8\}$ (5 controls) $\implies 5$</li>
+
+  <li>$X_{D4} = 5.1 &gt; \{1.2, 1.8, 2.2, 3.0, 3.8, 4.8\}$ (all 6 controls) $\implies 6$</li>
+
+  <li>$X_{D5} = 6.0 &gt; \text{all 6 controls} \implies 6$</li>
+
+  <li>$X_{D6} = 7.5 &gt; \text{all 6 controls} \implies 6$</li>
+
+</ul>
+
+<p>Total pairwise wins $U_D = 3 + 4 + 5 + 6 + 6 + 6 = 30$.</p>
+
+<div class="math-display">$$\widehat{AUC} = \frac{U_D}{n_D \times n_H} = \frac{30}{6 \times 6} = \frac{30}{36} \approx 0.8333 \quad (83.33\%)$$</div>
+
+<h4>2. Trapezoidal Rule Integration:</h4>
+
+<p>Integrating under the empirical ROC step segments from $(0, 0)$ to $(1, 1)$:</p>
+
+<ul>
+
+  <li>Segment from $x = 0$ to $x = 1/6$: width $= 1/6$, average height $= (0.500 + 0.667)/2 = 0.5833 \implies \text{Area} = (1/6)(0.5833) = 0.0972$.</li>
+
+  <li>Segment from $x = 1/6$ to $x = 3/6$: width $= 2/6$, average height $= (0.667 + 0.833)/2 = 0.7500 \implies \text{Area} = (2/6)(0.750) = 0.2500$.</li>
+
+  <li>Segment from $x = 3/6$ to $x = 4/6$: width $= 1/6$, average height $= (0.833 + 1.000)/2 = 0.9167 \implies \text{Area} = (1/6)(0.9167) = 0.1528$.</li>
+
+  <li>Segment from $x = 4/6$ to $x = 1$: width $= 2/6$, height $= 1.000 \implies \text{Area} = (2/6)(1.000) = 0.3333$.</li>
+
+</ul>
+
+<p>Sum of areas $= 0.0972 + 0.2500 + 0.1528 + 0.3333 = 0.8333$. Both methods identically confirm $\widehat{AUC} = 0.833$ (excellent diagnostic discrimination).</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Youden's Index optimization</div>
+              
+              <div class="step-explanation"><p>From our table of $J(c) = Se(c) + Sp(c) - 1$:</p>
+
+<ul>
+
+  <li>Cutoff $c = 5.0$: $J = 0.500 + 1.000 - 1 = +0.500$. (Provides $100\%$ Specificity, $50\%$ Sensitivity).</li>
+
+  <li>Cutoff $c = 4.0$: $J = 0.667 + 0.833 - 1 = +0.500$. (Provides $83.3\%$ Specificity, $66.7\%$ Sensitivity).</li>
+
+</ul>
+
+<p><strong>Clinical Decision Rationale</strong>: In ovarian cancer screening, where false-positive surgery carries high morbidity, the investigator selects <strong>$c^* = 4.0\text{ units}$</strong> (or $c^* = 5.0$ if zero false alarms are demanded). At $c^* = 4.0$, the test achieves $Se = 66.7\%$ and $Sp = 83.3\%$ with maximum Youden Index $J = 0.50$.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 6.3: Diagnostic Screening in Populations: Lead-Time Bias, Length Bias, and Overdiagnosis</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A health authority in Scandinavia evaluates a mobile mammography breast cancer screening trial conducted between 2010 and 2025. Two non-randomized cohorts of women aged 50–69 are compared:</p>
+
+<ul>
+
+  <li><strong>Screened Cohort ($n_{\text{scr}} = 10,000$)</strong>: Screened biennially. Exactly $300$ invasive breast cancers are diagnosed. Among these 300 women, 240 survive at least 5 years from their date of diagnosis ($5\text{-year survival} = 80.0\%$). Over the 15-year trial, 60 breast cancer deaths occur in the screened cohort ($15\text{-year mortality} = 6.0 \text{ per 1,000 women}$).</li>
+
+  <li><strong>Unscreened Control Cohort ($n_{\text{unscr}} = 10,000$)</strong>: Routine symptomatic care. Exactly $200$ invasive breast cancers are diagnosed upon clinical symptom presentation. Among these 200 women, 100 survive at least 5 years from diagnosis ($5\text{-year survival} = 50.0\%$). Over the 15-year trial, 60 breast cancer deaths occur in the unscreened cohort ($15\text{-year mortality} = 6.0 \text{ per 1,000 women}$).</li>
+
+  <li>Extensive natural history modeling indicates that screening advances the diagnosis date by an average <strong>lead time of $\bar{L} = 3.0\text{ years}$</strong>.</li>
+
+</ul>
+
+<ol>
+
+  <li>Analyze the apparent 5-year survival statistics: compute the survival improvement ($80\%$ vs $50\%$). Explain why comparing 5-year survival from diagnosis creates a deceptive illusion of screening efficacy, and prove why <strong>disease-specific population mortality</strong> is the only valid primary endpoint.</li>
+
+  <li>Demonstrate how <strong>lead-time bias</strong> mathematically inflates 5-year survival without delaying death. If an unscreened patient is diagnosed symptomatically at age 55 and dies at age 59 (survival $= 4\text{ years}$, 5-year survivor $=$ No), show what happens if screening detects her cancer at age 52 with the exact same death age of 59.</li>
+
+  <li>Calculate the excess cancer detection count in the screened arm ($300$ vs $200$). Formally define <strong>overdiagnosis</strong>, estimate the overdiagnosis fraction, and describe the clinical and societal harms of overdiagnosing pseudodisease.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-epi-stat-6-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-epi-stat-6-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Deceptive 5-year survival vs population mortality</div>
+              
+              <div class="step-explanation"><h4>1. Apparent 5-Year Survival Comparison:</h4>
+
+<div class="math-display">$$\text{Survival}_{\text{screened}} = \frac{240}{300} = 0.800 \quad (80.0\%)$$</div>
+
+<div class="math-display">$$\text{Survival}_{\text{unscreened}} = \frac{100}{200} = 0.500 \quad (50.0\%)$$</div>
+
+<p>A naive observer would celebrate an apparent $30.0\%$ absolute increase in 5-year survival ($RRR = 60\%$).</p>
+
+<h4>2. True Population Disease-Specific Mortality:</h4>
+
+<div class="math-display">$$\text{Mortality Rate}_{\text{screened}} = \frac{60}{10,000} = 0.0060 = 6.0 \text{ per 1,000 women}$$</div>
+
+<div class="math-display">$$\text{Mortality Rate}_{\text{unscreened}} = \frac{60}{10,000} = 0.0060 = 6.0 \text{ per 1,000 women}$$</div>
+
+<div class="math-display">$$\text{Mortality Rate Ratio} = \frac{6.0}{6.0} = 1.000$$</div>
+
+<p><strong>Methodological Conclusion</strong>: The screening program had <strong>zero effect on saving human lives</strong>: exactly 60 women died of breast cancer in both arms! The apparent leap in 5-year survival from $50\%$ to $80\%$ was entirely a mathematical artifact of <strong>lead-time bias</strong>, <strong>length bias</strong>, and <strong>overdiagnosis</strong>. Survival calculated from the date of diagnosis is completely invalid because screening artificially changes the starting point of the survival clock. Only <strong>cause-specific population mortality</strong> (deaths divided by total randomized population) has a fixed, uncompromised denominator and serves as the gold standard endpoint.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Mathematical mechanics of lead-time bias</div>
+              
+              <div class="step-explanation"><p>Consider a patient whose tumor has a predetermined biological trajectory:</p>
+
+<ul>
+
+  <li>Biological inception: Age 45.</li>
+
+  <li>Symptomatic presentation: Age 55.</li>
+
+  <li>Biological death: Age 59.</li>
+
+</ul>
+
+<h4>1. Under Symptomatic Care (Unscreened):</h4>
+
+<ul>
+
+  <li>Diagnosed at Age 55.</li>
+
+  <li>Dies at Age 59.</li>
+
+  <li>Observed Survival: $59 - 55 = 4\text{ years}$.</li>
+
+  <li>5-Year Survival Status: <strong>Fails</strong> ($4 &lt; 5\text{ years}$).</li>
+
+</ul>
+
+<h4>2. Under Screening (with Lead Time $\bar{L} = 3\text{ years}$):</h4>
+
+<ul>
+
+  <li>Diagnosed by mammography at Age 52 ($55 - 3 = 52$).</li>
+
+  <li>Dies at the exact same Age 59 (treatment had zero biological efficacy).</li>
+
+  <li>Observed Survival: $59 - 52 = 7\text{ years}$.</li>
+
+  <li>5-Year Survival Status: <strong>Succeeds</strong> ($7 \ge 5\text{ years}$)!</li>
+
+</ul>
+
+<p>Screening did not prolong this woman's life by even one single day. She lived for exactly 59 years. The only consequence of screening was that she lived with the anxiety, fear, and surgical side effects of knowing she had cancer for 7 years instead of 4 years. Yet in the hospital's statistical ledger, she was miraculously converted from a "5-year failure" into a "5-year survival triumph."</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Overdiagnosis evaluation and clinical harms</div>
+              
+              <div class="step-explanation"><p>In this cohort:</p>
+
+<ul>
+
+  <li>Diagnosed in screened arm: $300$ cancers.</li>
+
+  <li>Diagnosed in unscreened arm: $200$ cancers.</li>
+
+  <li>Excess cancers diagnosed: $300 - 200 = 100$ excess cases.</li>
+
+</ul>
+
+<p><strong>Formal Definition of Overdiagnosis</strong>: Overdiagnosis is the detection through screening of indolent, non-progressive, or extremely slow-growing cancers that would never have produced clinical symptoms or threatened the patient's life before she died of unrelated natural causes (e.g., cardiovascular disease or old age).</p>
+
+<p><strong>Estimated Overdiagnosis Fraction</strong>: Relative to all screen-detected cancers:</p>
+
+<div class="math-display">$$\text{Overdiagnosis Fraction} = \frac{\text{Excess Screen-Detected Cancers}}{\text{Total Screened Cancers}} = \frac{100}{300} = 0.3333 \quad (33.33\%)$$</div>
+
+<p>One out of every three breast cancers detected in the screening program represents an overdiagnosed pseudodisease!</p>
+
+<p><strong>Harms of Overdiagnosis</strong>: Because pathologists cannot reliably distinguish between lethal and indolent micro-cancers under a microscope, all 100 overdiagnosed women underwent unnecessary partial or total mastectomies, radiation therapy, and systemic endocrine chemotherapy. They suffered physical scarring, chronic lymphedema, sexual dysfunction, and intense psychological trauma—all to treat a disease that was never going to harm them. Balancing true mortality reduction against the grave harms of overdiagnosis is the central ethical dilemma of population cancer screening.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="statistical-computing-with-python-and-r">Statistical Computing</a><a href="mathematical-statistics">Mathematical Statistics</a><a href="statistical-estimation">Statistical Estimation</a><a href="demography-and-population-statistics">Demography and Population Statistics</a><a href="economic-statistics">Economic Statistics</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Course Stat H-304 Epidemiological Statistics)</a></li><li><a href="https://openstemlibrary.com/references/rothman-greenland-modern-epidemiology" target="_blank" rel="noopener noreferrer">Rothman, K.J., Greenland, S., &amp; Lash, T.L. (2008). Modern Epidemiology (3rd ed.): Foundational treatise on measures of disease frequency, causal DAGs, confounding, effect modification, and study designs</a></li><li><a href="https://openstemlibrary.com/references/jewell-statistics-for-epidemiology" target="_blank" rel="noopener noreferrer">Jewell, N.P. (2003). Statistics for Epidemiology: Rigorous mathematical formulation of risk ratios, odds ratios, Mantel-Haenszel methods, and binary regression models</a></li><li><a href="https://openstemlibrary.com/references/breslow-day-cancer-research" target="_blank" rel="noopener noreferrer">Breslow, N.E., &amp; Day, N.E. (1980/1987). Statistical Methods in Cancer Research (Vols. 1 &amp; 2): Definitive reference for case-control design, matching, conditional logistic regression, and cohort survival methods</a></li><li><a href="https://openstemlibrary.com/references/anderson-may-infectious-diseases" target="_blank" rel="noopener noreferrer">Anderson, R.M., &amp; May, R.M. (1991). Infectious Diseases of Humans: Dynamics and Control: Classic text for mathematical modeling of epidemics, R_0 derivations, herd immunity, and transmission dynamics</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="epidemiological-statistics-chapter-5">← Previous chapter</a><a href="epidemiological-statistics">Book contents</a><a href="epidemiological-statistics-chapter-7">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="epidemiological-statistics-sims.js?v=1"></script>
+  <script src="epidemiological-statistics-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

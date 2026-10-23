@@ -1401,6 +1401,63 @@ window.LIBRARY_CATALOG = {
             "Qualitative Predictors, Interaction Effects, Structural Breaks, Polynomial Splines & Model Selection",
             "Nonlinear Regression, Robust Regression & Generalized Linear Models (Logistic & Poisson)"
           ]
+        },
+        {
+          "id": "epidemiological-statistics",
+          "title": "Epidemiological Statistics",
+          "subtitle": "Disease Frequency, Causal Inference, Bias, Confounding & Outbreak Modeling",
+          "status": "AVAILABLE",
+          "url": "epidemiological-statistics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering measures of disease frequency (incidence, prevalence), measures of association (risk ratio, odds ratio, rate ratio), confounding and effect modification, Mantel-Haenszel methods, study designs (cohort, case-control, cross-sectional), selection and information bias, causal inference and DAGs, diagnostic testing and ROC curves, and mathematical infectious disease modeling (SIR models, R_0, herd immunity) with 24 solved questions and 4 interactive simulations.",
+          "topics": [
+            "Foundations of Epidemiology, Surveillance & Measures of Disease Frequency",
+            "Measures of Association & Public Health Impact: Risk Ratios, Odds Ratios & Attributable Fractions",
+            "Observational & Experimental Study Designs: Cohort, Case-Control, Cross-Sectional & Clinical Trials",
+            "Methodological Validity: Confounding, Selection Bias, Information Bias & Effect Modification",
+            "Multivariable Regression in Epidemiology: Logistic, Conditional Logistic, Log-Binomial & Poisson Models",
+            "Screening, Diagnostic Testing & Receiver Operating Characteristic (ROC) Analysis",
+            "Infectious Disease Epidemiology: Transmission Dynamics, Compartmental Models & Outbreak Investigation",
+            "Survival Analysis in Epidemiology & Causal Inference Frameworks"
+          ]
+        },
+        {
+          "id": "industrial-and-official-statistics",
+          "title": "Industrial and Official Statistics",
+          "subtitle": "Statistical Process Control, Process Capability, CUSUM/EWMA, Acceptance Sampling & National Statistical Systems",
+          "status": "AVAILABLE",
+          "url": "industrial-and-official-statistics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering statistical process control (Shewhart X-bar, R, S, p, np, c, u charts), process capability analysis (Cp, Cpk, Cpm), advanced monitoring (CUSUM, EWMA), acceptance sampling plans (single, double, sequential, OC curves, AOQL, AQL), official statistical systems, national statistical architecture, census operations, administrative data registers, and statistical disclosure control with 24 solved questions and 4 interactive simulations.",
+          "topics": [
+            "Foundations of Statistical Quality Control & Shewhart Control Charts for Variables",
+            "Process Capability Analysis, Tolerance Synthesis & Measurement Systems Evaluation",
+            "Control Charts for Attributes: Proportion, Nonconforming Units & Defect Count Models",
+            "Advanced Statistical Process Monitoring: CUSUM, EWMA & Multivariate SPC",
+            "Acceptance Sampling Quality Assurance: Attributes & Variables Inspection Systems",
+            "System Reliability Engineering, Failure Rate Physics & Accelerated Life Testing",
+            "National Statistical Systems, SNA Framework & Macroeconomic Output Measurement",
+            "Social, Labor, Poverty & Sustainable Development Statistics in Official Governance"
+          ]
+        },
+        {
+          "id": "actuarial-statistics-and-mathematical-demography",
+          "title": "Actuarial Statistics and Mathematical Demography",
+          "subtitle": "Financial Mathematics, Life Contingencies, Survival Models, Benefit Reserves & Mathematical Demography",
+          "status": "AVAILABLE",
+          "url": "actuarial-statistics-and-mathematical-demography.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering interest theory, discount factors, annuities-certain, loan amortization schedules, survival models and life tables, Gompertz-Makeham parametric laws, multi-state models and Kolmogorov equations, mathematical demography (Lotka renewal, Leslie matrix, fertility and migration), life insurance benefit valuation, life annuities and equivalence principle, prospective policy benefit reserves (Thiele's equation, Hattendorff's theorem), and collective risk models with 24 solved questions and 4 interactive simulations.",
+          "topics": [
+            "Theory of Interest, Discount Rates & Financial Mathematics",
+            "Annuities Certain, Varying Cash Flows & Loan Amortization Mechanics",
+            "Survival Models, Life Tables & Parametric Mortality Laws",
+            "Life Insurance Contracts & Actuarial Present Value Valuations",
+            "Life Annuities: Continuous, Discrete, Varying & Guaranteed Contracts",
+            "Benefit Premiums, the Equivalence Principle & Loss-at-Issue Variance",
+            "Benefit Reserves, Thiele's Differential Equation & Expense Loadings",
+            "Mathematical Demography, Multiple Decrement Models & Population Dynamics"
+          ]
         }
       ]
     }
