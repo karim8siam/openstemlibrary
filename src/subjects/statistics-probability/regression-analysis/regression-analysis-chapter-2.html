@@ -1,0 +1,794 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Multiple Linear Regression in Matrix Form: Orthogonal Projections, Hat Matrix &amp; Partial Correlations | Regression Analysis | OpenSTEM Library</title>
+  <meta name="description" content="Matrix formulation of the general linear model Y = X beta + epsilon, rank conditions, and normal equations (X^T X) beta_hat = X^T Y; Geometric interpretation of OLS: column space Col(X), orthogonal projection matrix (Hat matrix) H = X(X^T X)^(-1)X^T, and idempotency of H and I - H; Expectation vector E[beta_hat] = beta, variance-covariance matrix Var(beta_hat) = sigma^2 (X^T X)^(-1), and Matrix Gauss-Markov Theorem (Loewner positive semi-definite ordering); Quadratic forms of normal random vectors, Cochran's Theorem, independence of beta_hat and SSE, and unbiasedness of s^2 = Y^T(I - H)Y / (n - p); Frisch-Waugh-Lovell (FWL) Theorem, partial regression coefficients, sequential (Type I) vs partial (Type III) sums of squares, partial R^2, and adjusted R_a^2.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/regression-analysis-chapter-2">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/regression-analysis-chapter-2">
+  <meta property="og:title" content="Regression Analysis: OLS, Matrix Linear Models, Gauss-Markov, Diagnostics, GLS, Ridge/LASSO &amp; Generalized Linear Models | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering simple and multiple linear regression in matrix form, orthogonal projections and the Hat matrix, the Gauss-Markov theorem, Cochran theorem, Frisch-Waugh-Lovell partial regression, general linear hypothesis F-tests, joint confidence ellipsoids and simultaneous prediction bands, studentized deletion residuals, leverage, Cook distance, DFFITS and DFBETAS diagnostics, heteroscedasticity, Weighted and Generalized Least Squares (WLS/GLS), Huber-White sandwich standard errors, Durbin-Watson and Cochrane-Orcutt AR(1) autocorrelation, multicollinearity, Variance Inflation Factors (VIF), Hoerl-Kennard Ridge regression, Tibshirani LASSO, indicator variables, ANCOVA, Chow structural break tests, polynomial splines, Box-Cox transformations, AIC/BIC/Cp model selection, nonlinear Gauss-Newton regression, Huber M-estimation, and logistic/Poisson Generalized Linear Models with 24 solved questions and 4 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Regression Analysis: OLS, Matrix Linear Models, Gauss-Markov, Diagnostics, GLS, Ridge/LASSO &amp; Generalized Linear Models | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering simple and multiple linear regression in matrix form, orthogonal projections and the Hat matrix, the Gauss-Markov theorem, Cochran theorem, Frisch-Waugh-Lovell partial regression, general linear hypothesis F-tests, joint confidence ellipsoids and simultaneous prediction bands, studentized deletion residuals, leverage, Cook distance, DFFITS and DFBETAS diagnostics, heteroscedasticity, Weighted and Generalized Least Squares (WLS/GLS), Huber-White sandwich standard errors, Durbin-Watson and Cochrane-Orcutt AR(1) autocorrelation, multicollinearity, Variance Inflation Factors (VIF), Hoerl-Kennard Ridge regression, Tibshirani LASSO, indicator variables, ANCOVA, Chow structural break tests, polynomial splines, Box-Cox transformations, AIC/BIC/Cp model selection, nonlinear Gauss-Newton regression, Huber M-estimation, and logistic/Poisson Generalized Linear Models with 24 solved questions and 4 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="regression-analysis.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Regression Analysis: Multiple Linear Regression in Matrix Form: Orthogonal Projections, Hat Matrix & Partial Correlations","description":"Comprehensive university textbook covering simple and multiple linear regression in matrix form, orthogonal projections and the Hat matrix, the Gauss-Markov theorem, Cochran theorem, Frisch-Waugh-Lovell partial regression, general linear hypothesis F-tests, joint confidence ellipsoids and simultaneous prediction bands, studentized deletion residuals, leverage, Cook distance, DFFITS and DFBETAS diagnostics, heteroscedasticity, Weighted and Generalized Least Squares (WLS/GLS), Huber-White sandwich standard errors, Durbin-Watson and Cochrane-Orcutt AR(1) autocorrelation, multicollinearity, Variance Inflation Factors (VIF), Hoerl-Kennard Ridge regression, Tibshirani LASSO, indicator variables, ANCOVA, Chow structural break tests, polynomial splines, Box-Cox transformations, AIC/BIC/Cp model selection, nonlinear Gauss-Newton regression, Huber M-estimation, and logistic/Poisson Generalized Linear Models with 24 solved questions and 4 interactive simulations.","url":"https://openstemlibrary.com/regression-analysis-chapter-2","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Regression analysis and ordinary least squares","Matrix linear models and orthogonal projections","Gauss-Markov theorem and general linear F-tests","Regression diagnostics: leverage, studentized residuals, Cook distance","Heteroscedasticity, weighted least squares, and autocorrelation","Multicollinearity, VIF, Ridge regression, and LASSO regularization","Dummy variables, ANCOVA, structural breaks, and model selection","Nonlinear regression, robust M-estimation, and Generalized Linear Models"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Regression Analysis","item":"https://openstemlibrary.com/regression-analysis"}]}</script></head>
+<body data-book-path="regression-analysis.html" data-chapter-index="1" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Regression Analysis</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search OLS, Gauss-Markov, hat matrix, Frisch-Waugh-Lovell, general linear F-test, Cook distance, DFFITS, heteroscedasticity, Durbin-Watson, VIF, Ridge, LASSO, logistic GLM…" class="search-input" aria-label="Search textbook topics">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="regression-analysis" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Simple Linear Regression: OLS Estimation, Gauss-Markov Theorem, Normal Equations &amp; ANOVA Decomposition</span></a></li><li class="unit-nav-item active" data-unit-index="1"><a href="regression-analysis-chapter-2" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Multiple Linear Regression in Matrix Form: Orthogonal Projections, Hat Matrix &amp; Partial Correlations</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="regression-analysis-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Exact &amp; Asymptotic Inference in Linear Models: General Linear Hypotheses, Confidence Ellipsoids &amp; Simultaneous Intervals</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="regression-analysis-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Regression Diagnostics, Leverage &amp; Influence Analysis: Studentized Residuals, Cook's Distance &amp; DFFITS</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="regression-analysis-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Violations of Classical Assumptions: Heteroscedasticity, Weighted Least Squares, GLS &amp; Autocorrelation</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="regression-analysis-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Multicollinearity, Variance Inflation, Regularized Shrinkage (Ridge &amp; LASSO) &amp; Dimension Reduction</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="regression-analysis-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Qualitative Predictors, Interaction Effects, Structural Breaks, Polynomial Splines &amp; Model Selection</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="regression-analysis-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Nonlinear Regression, Robust Regression &amp; Generalized Linear Models (Logistic &amp; Poisson)</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Regression modeling major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font" aria-pressed="false">Calm Paper</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 2 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Multiple Linear Regression in Matrix Form: Orthogonal Projections, Hat Matrix &amp; Partial Correlations</h1>
+            <p class="unit-desc-lead" id="unit-desc">Matrix formulation of the general linear model Y = X beta + epsilon, rank conditions, and normal equations (X^T X) beta_hat = X^T Y; Geometric interpretation of OLS: column space Col(X), orthogonal projection matrix (Hat matrix) H = X(X^T X)^(-1)X^T, and idempotency of H and I - H; Expectation vector E[beta_hat] = beta, variance-covariance matrix Var(beta_hat) = sigma^2 (X^T X)^(-1), and Matrix Gauss-Markov Theorem (Loewner positive semi-definite ordering); Quadratic forms of normal random vectors, Cochran's Theorem, independence of beta_hat and SSE, and unbiasedness of s^2 = Y^T(I - H)Y / (n - p); Frisch-Waugh-Lovell (FWL) Theorem, partial regression coefficients, sequential (Type I) vs partial (Type III) sums of squares, partial R^2, and adjusted R_a^2.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-303 (Regression Analysis) and Stat H-312 (Regression Lab). Eight units and exactly three solved questions per unit. Interactive simulations illustrate OLS confidence and prediction bands, high-leverage outlier influence and Cook’s distance, multicollinearity VIF and Ridge regression trace paths, and binary logistic GLM response curves. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-2-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.1</span>
+            <span>Matrix Formulation of the General Linear Model, Rank Conditions, and Normal Equations</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In observational econometrics, agronomy, clinical biostatistics, and industrial experimentation, a response variable $Y$ is almost always governed by several simultaneous explanatory variables $X_1, X_2, \dots, X_k$. Omitting relevant covariates that are correlated with the included predictors induces omitted-variable bias, whereas incorporating them explicitly allows the analyst to isolate the partial effect of each regressor while holding all other covariates constant. Suppose we observe $n$ experimental units, where unit $i$ yields a continuous response $Y_i$ along with $k$ predictor measurements $(x_{i1}, x_{i2}, \dots, x_{ik})$. The <strong>Multiple Linear Regression Model</strong> with an intercept $\beta_0$ and $k$ slope parameters $(\beta_1, \dots, \beta_k)$ is written for each unit $i = 1, 2, \dots, n$ as:</p>
+
+<div class="math-display">$$Y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_k x_{ik} + \varepsilon_i$$</div>
+
+<p>Setting $p = k + 1$ to denote the total number of regression parameters (including the intercept $\beta_0$, which is associated with a constant dummy predictor $x_{i0} \equiv 1$), we assemble all $n$ equations compactly into a single matrix equation:</p>
+
+<div class="math-display">$$\mathbf{Y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}$$</div>
+
+<p>where the constituent vectors and matrices have dimensions:</p>
+
+<div class="math-display">$$\mathbf{Y} = \begin{pmatrix} Y_1 \\ Y_2 \\ \vdots \\ Y_n \end{pmatrix} \in \mathbb{R}^{n \times 1}, \quad \mathbf{X} = \begin{pmatrix} 1 &amp; x_{11} &amp; x_{12} &amp; \dots &amp; x_{1k} \\ 1 &amp; x_{21} &amp; x_{22} &amp; \dots &amp; x_{2k} \\ \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ 1 &amp; x_{n1} &amp; x_{n2} &amp; \dots &amp; x_{nk} \end{pmatrix} \in \mathbb{R}^{n \times p}, \quad \boldsymbol{\beta} = \begin{pmatrix} \beta_0 \\ \beta_1 \\ \vdots \\ \beta_k \end{pmatrix} \in \mathbb{R}^{p \times 1}, \quad \boldsymbol{\varepsilon} = \begin{pmatrix} \varepsilon_1 \\ \varepsilon_2 \\ \vdots \\ \varepsilon_n \end{pmatrix} \in \mathbb{R}^{n \times 1}$$</div>
+
+<p>Here, $\mathbf{Y}$ is the $n \times 1$ observable response vector, $\mathbf{X} = [\mathbf{1}_n, \mathbf{x}_{(1)}, \dots, \mathbf{x}_{(k)}]$ is the $n \times p$ <strong>model (or design) matrix</strong> whose rows are $\mathbf{x}_i^T = (1, x_{i1}, \dots, x_{ik})$, $\boldsymbol{\beta}$ is the $p \times 1$ vector of unknown population regression parameters, and $\boldsymbol{\varepsilon}$ is the $n \times 1$ unobservable random disturbance vector.</p>
+
+<p>The classical matrix Gauss–Markov assumptions state that:</p>
+
+<h4>1. Expectation Specification: $\mathbb{E}[\boldsymbol{\varepsilon} \mid \mathbf{X}] = \mathbf{0}_n$, which implies $\mathbb{E}[\mathbf{Y} \mid \mathbf{X}] = \mathbf{X}\boldsymbol{\beta}$.</h4>
+
+<h4>2. Spherical Error Covariance: $\text{Cov}(\boldsymbol{\varepsilon} \mid \mathbf{X}) = \mathbb{E}[\boldsymbol{\varepsilon}\boldsymbol{\varepsilon}^T \mid \mathbf{X}] = \sigma^2 \mathbf{I}_n$, where $\mathbf{I}_n$ is the $n \times n$ identity matrix and $\sigma^2 &gt; 0$ is the common error variance. Consequently, $\text{Cov}(\mathbf{Y} \mid \mathbf{X}) = \sigma^2 \mathbf{I}_n$.</h4>
+
+<h4>3. Full Column Rank Condition: The design matrix $\mathbf{X}$ has full column rank:</h4>
+
+<div class="math-display">$$\text{rank}(\mathbf{X}) = p = k + 1 \le n$$</div>
+
+<p>The full column rank condition $\text{rank}(\mathbf{X}) = p$ has a clear algebraic and empirical meaning: the $p$ column vectors of $\mathbf{X}$ are linearly independent in $\mathbb{R}^n$, meaning no predictor column can be written as an exact linear combination of the remaining columns (no exact multicollinearity), and the sample size $n$ is at least as large as the number of parameters $p$. Under $\text{rank}(\mathbf{X}) = p$, the $p \times p$ symmetric <strong>Gram (cross-product) matrix</strong> $\mathbf{X}^T\mathbf{X}$ is strictly positive definite, because for any non-zero vector $\mathbf{v} \in \mathbb{R}^p \setminus \{\mathbf{0}\}$, we have $\mathbf{X}\mathbf{v} \neq \mathbf{0}$ and therefore:</p>
+
+<div class="math-display">$$\mathbf{v}^T (\mathbf{X}^T \mathbf{X}) \mathbf{v} = (\mathbf{X}\mathbf{v})^T (\mathbf{X}\mathbf{v}) = \|\mathbf{X}\mathbf{v}\|_2^2 &gt; 0$$</div>
+
+<p>Since every positive definite matrix is nonsingular, the inverse matrix $(\mathbf{X}^T\mathbf{X})^{-1}$ exists uniquely and is itself symmetric and positive definite.</p>
+
+<p>To derive the Ordinary Least Squares estimator $\hat{\boldsymbol{\beta}}$, we minimize the sum of squared residuals $Q(\mathbf{b})$ over all candidate parameter vectors $\mathbf{b} \in \mathbb{R}^p$:</p>
+
+<div class="math-display">$$Q(\mathbf{b}) = \|\mathbf{Y} - \mathbf{X}\mathbf{b}\|_2^2 = (\mathbf{Y} - \mathbf{X}\mathbf{b})^T (\mathbf{Y} - \mathbf{X}\mathbf{b}) = \mathbf{Y}^T\mathbf{Y} - 2 \mathbf{b}^T \mathbf{X}^T \mathbf{Y} + \mathbf{b}^T \mathbf{X}^T \mathbf{X} \mathbf{b}$$</div>
+
+<p>where we used the scalar transpose identity $\mathbf{Y}^T \mathbf{X} \mathbf{b} = (\mathbf{Y}^T \mathbf{X} \mathbf{b})^T = \mathbf{b}^T \mathbf{X}^T \mathbf{Y}$. Using standard rules of vector calculus ($\nabla_{\mathbf{b}}(\mathbf{b}^T \mathbf{a}) = \mathbf{a}$ and $\nabla_{\mathbf{b}}(\mathbf{b}^T \mathbf{A} \mathbf{b}) = 2 \mathbf{A}\mathbf{b}$ for symmetric $\mathbf{A}$), we differentiate $Q(\mathbf{b})$ with respect to $\mathbf{b}$ and set the gradient vector equal to $\mathbf{0}_p$:</p>
+
+<div class="math-display">$$\nabla_{\mathbf{b}} Q(\mathbf{b}) = -2 \mathbf{X}^T \mathbf{Y} + 2 \mathbf{X}^T \mathbf{X} \mathbf{b} = \mathbf{0}_p$$</div>
+
+<p>Replacing $\mathbf{b}$ by $\hat{\boldsymbol{\beta}}$ yields the <strong>Matrix Normal Equations</strong>:</p>
+
+<div class="math-display">$$(\mathbf{X}^T \mathbf{X}) \hat{\boldsymbol{\beta}} = \mathbf{X}^T \mathbf{Y}$$</div>
+
+<p>Premultiplying both sides by $(\mathbf{X}^T\mathbf{X})^{-1}$ produces the unique closed-form <strong>Ordinary Least Squares Estimator</strong>:</p>
+
+<div class="math-display">$$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y}$$</div>
+
+<p>Furthermore, the Hessian matrix of second derivatives is $\nabla_{\mathbf{b}}^2 Q(\mathbf{b}) = 2 \mathbf{X}^T\mathbf{X}$, which is strictly positive definite, confirming that $\hat{\boldsymbol{\beta}}$ is the unique global minimizer of $Q(\mathbf{b})$. Alternatively, without using calculus, one can complete the square algebraically for any $\mathbf{b} \in \mathbb{R}^p$:</p>
+
+<div class="math-display">$$\|\mathbf{Y} - \mathbf{X}\mathbf{b}\|_2^2 = \|(\mathbf{Y} - \mathbf{X}\hat{\boldsymbol{\beta}}) + \mathbf{X}(\hat{\boldsymbol{\beta}} - \mathbf{b})\|_2^2 = \|\mathbf{Y} - \mathbf{X}\hat{\boldsymbol{\beta}}\|_2^2 + (\hat{\boldsymbol{\beta}} - \mathbf{b})^T (\mathbf{X}^T\mathbf{X}) (\hat{\boldsymbol{\beta}} - \mathbf{b})$$</div>
+
+<p>because the cross-term $2(\hat{\boldsymbol{\beta}} - \mathbf{b})^T \mathbf{X}^T (\mathbf{Y} - \mathbf{X}\hat{\boldsymbol{\beta}}) = 2(\hat{\boldsymbol{\beta}} - \mathbf{b})^T (\mathbf{X}^T\mathbf{Y} - \mathbf{X}^T\mathbf{X}\hat{\boldsymbol{\beta}}) = 0$ vanishes by the normal equations. Since $\mathbf{X}^T\mathbf{X}$ is positive definite, the second term is strictly positive whenever $\mathbf{b} \neq \hat{\boldsymbol{\beta}}$ and equals zero uniquely at $\mathbf{b} = \hat{\boldsymbol{\beta}}$.</p>
+
+<h4>Numerical Linear Algebra of Normal Equations: Cholesky vs QR Factorization</h4>
+
+<p>Although the closed-form matrix expression writes the Ordinary Least Squares estimator in terms of the explicit inverse of the cross-product Gram matrix, computational statisticians never invert the Gram matrix directly in finite-precision floating-point arithmetic. Forming the cross-product matrix squares the spectral condition number of the design matrix, which doubles the loss of significant digits when predictors are moderately correlated. Instead, statistical computing environments such as R and Python's SciPy library solve the least-squares problem either by computing the Cholesky factorization of the positive-definite Gram matrix or, far more stably, by applying an orthogonal-triangular QR factorization directly to the design matrix itself. Expressing the design matrix as the product of an column-orthonormal matrix and an upper-triangular matrix reduces the normal equations to an upper-triangular linear system that can be solved rapidly and accurately by back-substitution without ever forming the cross-product matrix.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.2</span>
+            <span>Geometric Interpretation of OLS: Column Space, Orthogonal Projection, and the Hat Matrix</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          While matrix calculus provides a rapid derivation of $\hat{\boldsymbol{\beta}}$, the deepest insights into multiple linear regression emerge from its **Euclidean geometry in $\mathbb{R}^n$**. Rather than viewing the data as $n$ points scattered in a $(k+1)$-dimensional variable space, the geometric perspective views the response vector $\mathbf{Y} \in \mathbb{R}^n$ and the $p$ columns of the design matrix $\mathbf{X} = [\mathbf{x}_{(0)}, \mathbf{x}_{(1)}, \dots, \mathbf{x}_{(k)}]$ as vectors residing in the $n$-dimensional observation space $\mathbb{R}^n$.
+
+As the parameter vector $\mathbf{b} \in \mathbb{R}^p$ varies over all possible values, the candidate mean vector $\boldsymbol{\mu}(\mathbf{b}) = \mathbf{X}\mathbf{b} = \sum_{j=0}^k b_j \mathbf{x}_{(j)}$ sweeps out a $p$-dimensional linear subspace of $\mathbb{R}^n$ known as the **column space** (or estimation space) of $\mathbf{X}$:
+
+$$\mathcal{C}(\mathbf{X}) = \text{Col}(\mathbf{X}) = \left\{ \mathbf{X}\mathbf{b} : \mathbf{b} \in \mathbb{R}^p \right\} \subset \mathbb{R}^n$$
+
+Because of random disturbances $\boldsymbol{\varepsilon}$, the observed response vector $\mathbf{Y}$ almost never lies inside the $p$-dimensional subspace $\mathcal{C}(\mathbf{X})$. The Ordinary Least Squares optimization problem—minimizing $\|\mathbf{Y} - \mathbf{X}\mathbf{b}\|_2^2$—asks for the vector $\hat{\mathbf{Y}} = \mathbf{X}\hat{\boldsymbol{\beta}} \in \mathcal{C}(\mathbf{X})$ whose Euclidean distance to $\mathbf{Y}$ is minimal. By the classical **Orthogonal Projection Theorem** of Hilbert spaces, the unique point $\hat{\mathbf{Y}} \in \mathcal{C}(\mathbf{X})$ closest to $\mathbf{Y}$ is the orthogonal projection of $\mathbf{Y}$ onto $\mathcal{C}(\mathbf{X})$, characterized by the condition that the residual vector $\mathbf{e} = \mathbf{Y} - \hat{\mathbf{Y}}$ must be orthogonal to every vector in $\mathcal{C}(\mathbf{X})$ (and hence orthogonal to every column of $\mathbf{X}$):
+
+$$\mathbf{X}^T \mathbf{e} = \mathbf{0}_p \iff \mathbf{X}^T (\mathbf{Y} - \mathbf{X}\hat{\boldsymbol{\beta}}) = \mathbf{0}_p \iff (\mathbf{X}^T\mathbf{X})\hat{\boldsymbol{\beta}} = \mathbf{X}^T\mathbf{Y}$$
+
+Thus, the normal equations are simply the algebraic statement that the residual vector $\mathbf{e}$ lies in the $(n - p)$-dimensional **orthogonal complement** (or left null space) $\mathcal{C}(\mathbf{X})^\perp = \mathcal{N}(\mathbf{X}^T)$!
+
+Substituting $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$ into the fitted response vector $\hat{\mathbf{Y}} = \mathbf{X}\hat{\boldsymbol{\beta}}$ yields:
+
+$$\hat{\mathbf{Y}} = \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y} = \mathbf{H} \mathbf{Y}$$
+
+where the $n \times n$ matrix $\mathbf{H}$ is defined as the **Hat Matrix** (so named by John Tukey because it maps $\mathbf{Y}$ into "$\mathbf{Y}$-hat"):
+
+$$\mathbf{H} = \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \in \mathbb{R}^{n \times n}$$
+
+Correspondingly, the OLS residual vector $\mathbf{e} = \mathbf{Y} - \hat{\mathbf{Y}}$ is obtained via the **residual-maker (annihilator) matrix** $\mathbf{M} = \mathbf{I}_n - \mathbf{H}$:
+
+$$\mathbf{e} = \mathbf{Y} - \mathbf{H}\mathbf{Y} = (\mathbf{I}_n - \mathbf{H})\mathbf{Y} = \mathbf{M}\mathbf{Y}$$
+
+The matrices $\mathbf{H}$ and $\mathbf{M} = \mathbf{I}_n - \mathbf{H}$ are the orthogonal projection operators onto $\mathcal{C}(\mathbf{X})$ and $\mathcal{C}(\mathbf{X})^\perp$, respectively, and satisfy six fundamental algebraic properties:
+
+<div class="table-wrapper"><table class="data-table">
+<thead>
+<tr><th>Property</th><th>Projection Matrix $\mathbf{H} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$</th><th>Residual Matrix $\mathbf{M} = \mathbf{I}_n - \mathbf{H}$</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>1. Symmetry</strong></td><td>$\mathbf{H}^T = \mathbf{H}$</td><td>$\mathbf{M}^T = \mathbf{M}$</td></tr>
+<tr><td><strong>2. Idempotency</strong></td><td>$\mathbf{H}^2 = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}(\mathbf{X}^T\mathbf{X})(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T = \mathbf{H}$</td><td>$\mathbf{M}^2 = (\mathbf{I}_n - \mathbf{H})^2 = \mathbf{I}_n - 2\mathbf{H} + \mathbf{H}^2 = \mathbf{M}$</td></tr>
+<tr><td><strong>3. Action on $\mathbf{X}$</strong></td><td>$\mathbf{H}\mathbf{X} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}(\mathbf{X}^T\mathbf{X}) = \mathbf{X}$ (leaves $\mathcal{C}(\mathbf{X})$ invariant)</td><td>$\mathbf{M}\mathbf{X} = (\mathbf{I}_n - \mathbf{H})\mathbf{X} = \mathbf{X} - \mathbf{X} = \mathbf{0}_{n \times p}$ (annihilates $\mathbf{X}$)</td></tr>
+<tr><td><strong>4. Mutual Orthogonality</strong></td><td>$\mathbf{H}\mathbf{M} = \mathbf{H}(\mathbf{I}_n - \mathbf{H}) = \mathbf{H} - \mathbf{H}^2 = \mathbf{0}_{n \times n}$</td><td>$\mathbf{M}\mathbf{H} = \mathbf{0}_{n \times n}$ and $\hat{\mathbf{Y}}^T \mathbf{e} = \mathbf{Y}^T \mathbf{H}\mathbf{M} \mathbf{Y} = 0$</td></tr>
+<tr><td><strong>5. Trace and Rank</strong></td><td>$\text{tr}(\mathbf{H}) = \text{tr}(\mathbf{X}^T\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}) = \text{tr}(\mathbf{I}_p) = p = \text{rank}(\mathbf{H})$</td><td>$\text{tr}(\mathbf{M}) = n - \text{tr}(\mathbf{H}) = n - p = \text{rank}(\mathbf{M})$</td></tr>
+<tr><td><strong>6. Eigenvalues</strong></td><td>$p$ eigenvalues equal to $1$, and $n - p$ eigenvalues equal to $0$</td><td>$n - p$ eigenvalues equal to $1$, and $p$ eigenvalues equal to $0$</td></tr>
+</tbody>
+</table></div>
+
+Furthermore, because $\mathbf{M}\mathbf{X} = \mathbf{0}_{n \times p}$, substituting $\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$ into $\mathbf{e} = \mathbf{M}\mathbf{Y}$ proves that the observable residual vector is an exact linear transformation of the unobservable error vector $\boldsymbol{\varepsilon}$ alone, completely free of $\boldsymbol{\beta}$:
+
+$$\mathbf{e} = \mathbf{M}(\mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}) = \mathbf{M}\mathbf{X}\boldsymbol{\beta} + \mathbf{M}\boldsymbol{\varepsilon} = \mathbf{M}\boldsymbol{\varepsilon} = (\mathbf{I}_n - \mathbf{H})\boldsymbol{\varepsilon}$$
+
+Consequently, $\mathbb{E}[\mathbf{e}] = \mathbf{0}_n$ and $\text{Cov}(\mathbf{e}) = \mathbf{M} \text{Cov}(\boldsymbol{\varepsilon}) \mathbf{M}^T = \sigma^2 \mathbf{M} \mathbf{I}_n \mathbf{M} = \sigma^2 \mathbf{M} = \sigma^2 (\mathbf{I}_n - \mathbf{H})$. Notably, even though the true errors $\varepsilon_i$ are homoscedastic and uncorrelated ($\text{Cov}(\boldsymbol{\varepsilon}) = \sigma^2 \mathbf{I}_n$), the OLS residuals $e_i$ are **heteroscedastic and correlated**, with variance $\text{Var}(e_i) = \sigma^2(1 - h_{ii})$ and covariance $\text{Cov}(e_i, e_j) = -\sigma^2 h_{ij}$.
+
+### Invariance of the Orthogonal Projection Operator Under Nonsingular Reparameterizations
+A profound geometric property of the Hat matrix and the residual-maker matrix is their complete invariance under any nonsingular linear reparameterization of the design matrix. Suppose an analyst rescales predictors from metric to imperial units, centers covariates around their sample means, or replaces raw variables by orthogonal linear combinations, which corresponds algebraically to post-multiplying the design matrix by an invertible square transformation matrix. While the individual parameter estimates and their covariance matrix change according to the transformation, the column space spanned by the transformed design matrix remains identical to the original column space. Consequently, the orthogonal projection matrix onto that subspace—the Hat matrix—as well as the fitted value vector, the residual vector, the leverages, and the residual sum of squares remain strictly unchanged. This geometric invariance proves that linear rescaling of predictors never alters the predictive fit or the degrees of freedom of a multiple linear regression model.
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.3</span>
+            <span>Expectation, Variance-Covariance Matrix, and the Matrix Gauss-Markov Theorem</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Using the matrix representation $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$, we now establish the exact finite-sample expectation vector, variance-covariance matrix, and Gauss–Markov optimality of $\hat{\boldsymbol{\beta}}$ in the general multiple regression model. Substituting $\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$ into $\hat{\boldsymbol{\beta}}$ gives the fundamental decomposition:</p>
+
+<div class="math-display">$$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T (\mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}) = (\mathbf{X}^T\mathbf{X})^{-1}(\mathbf{X}^T\mathbf{X})\boldsymbol{\beta} + (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\boldsymbol{\varepsilon} = \boldsymbol{\beta} + (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\boldsymbol{\varepsilon}$$</div>
+
+<p>Taking expectations conditionally on $\mathbf{X}$ under $\mathbb{E}[\boldsymbol{\varepsilon}] = \mathbf{0}_n$ establishes exact <strong>unbiasedness</strong>:</p>
+
+<div class="math-display">$$\mathbb{E}[\hat{\boldsymbol{\beta}}] = \boldsymbol{\beta} + (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T \mathbb{E}[\boldsymbol{\varepsilon}] = \boldsymbol{\beta}$$</div>
+
+<p>Next, let $\mathbf{A} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T \in \mathbb{R}^{p \times n}$ so that $\hat{\boldsymbol{\beta}} - \boldsymbol{\beta} = \mathbf{A}\boldsymbol{\varepsilon}$. Under the spherical error covariance assumption $\text{Cov}(\boldsymbol{\varepsilon}) = \mathbb{E}[\boldsymbol{\varepsilon}\boldsymbol{\varepsilon}^T] = \sigma^2 \mathbf{I}_n$, the $p \times p$ <strong>variance-covariance matrix</strong> of $\hat{\boldsymbol{\beta}}$ is:</p>
+
+<div class="math-display">$$\text{Cov}(\hat{\boldsymbol{\beta}}) = \mathbb{E}\left[ (\hat{\boldsymbol{\beta}} - \boldsymbol{\beta})(\hat{\boldsymbol{\beta}} - \boldsymbol{\beta})^T \right] = \mathbf{A} \text{Cov}(\boldsymbol{\varepsilon}) \mathbf{A}^T = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T (\sigma^2 \mathbf{I}_n) \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1} = \sigma^2 (\mathbf{X}^T\mathbf{X})^{-1}$$</div>
+
+<p>The $j$-th diagonal element of $\sigma^2(\mathbf{X}^T\mathbf{X})^{-1}$ is the sampling variance $\text{Var}(\hat{\beta}_j) = \sigma^2 [(\mathbf{X}^T\mathbf{X})^{-1}]_{jj}$, and the $(j, m)$-th off-diagonal element is the covariance $\text{Cov}(\hat{\beta}_j, \hat{\beta}_m) = \sigma^2 [(\mathbf{X}^T\mathbf{X})^{-1}]_{jm}$.</p>
+
+<p>To compare two $p \times p$ covariance matrices in multiple dimensions, mathematical statistics employs the <strong>Loewner Partial Ordering</strong> of symmetric matrices: for two $p \times p$ symmetric matrices $\mathbf{V}_1$ and $\mathbf{V}_2$, we write $\mathbf{V}_1 \succeq \mathbf{V}_2$ if and only if the difference matrix $\boldsymbol{\Delta} = \mathbf{V}_1 - \mathbf{V}_2$ is <strong>positive semi-definite (PSD)</strong>, meaning $\mathbf{c}^T (\mathbf{V}_1 - \mathbf{V}_2) \mathbf{c} \ge 0$ for all vectors $\mathbf{c} \in \mathbb{R}^p$.</p>
+
+<h5>Theorem 2.1 (The Matrix Gauss–Markov Theorem)</h5>
+
+<p>Under the linear model $\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$ with $\mathbb{E}[\boldsymbol{\varepsilon}] = \mathbf{0}_n$, $\text{Cov}(\boldsymbol{\varepsilon}) = \sigma^2 \mathbf{I}_n$, and $\text{rank}(\mathbf{X}) = p$, let $\tilde{\boldsymbol{\beta}} = \mathbf{C}\mathbf{Y}$ be any competing linear unbiased estimator of $\boldsymbol{\beta}$, where $\mathbf{C} \in \mathbb{R}^{p \times n}$ is a deterministic matrix. Then the covariance matrix of $\tilde{\boldsymbol{\beta}}$ exceeds the covariance matrix of the OLS estimator $\hat{\boldsymbol{\beta}}$ by a positive semi-definite matrix:</p>
+
+<div class="math-display">$$\text{Cov}(\tilde{\boldsymbol{\beta}}) - \text{Cov}(\hat{\boldsymbol{\beta}}) \succeq \mathbf{0}_{p \times p}$$</div>
+
+<p>Equivalently, for every vector $\mathbf{c} \in \mathbb{R}^p$, the scalar linear combination $\mathbf{c}^T \hat{\boldsymbol{\beta}}$ is the unique Best Linear Unbiased Estimator (BLUE) of $\mathbf{c}^T \boldsymbol{\beta}$:</p>
+
+<div class="math-display">$$\text{Var}(\mathbf{c}^T \tilde{\boldsymbol{\beta}}) \ge \text{Var}(\mathbf{c}^T \hat{\boldsymbol{\beta}}) = \sigma^2 \mathbf{c}^T (\mathbf{X}^T\mathbf{X})^{-1} \mathbf{c}$$</div>
+
+<p>with equality for all $\mathbf{c} \in \mathbb{R}^p$ if and only if $\mathbf{C} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$, i.e., $\tilde{\boldsymbol{\beta}} = \hat{\boldsymbol{\beta}}$.</p>
+
+<h5>Complete Matrix Proof:</h5>
+
+<p>Let $\tilde{\boldsymbol{\beta}} = \mathbf{C}\mathbf{Y}$. For $\tilde{\boldsymbol{\beta}}$ to be unbiased for $\boldsymbol{\beta}$ across all $\boldsymbol{\beta} \in \mathbb{R}^p$, we require:</p>
+
+<div class="math-display">$$\mathbb{E}[\tilde{\boldsymbol{\beta}}] = \mathbf{C}\mathbb{E}[\mathbf{Y}] = \mathbf{C}\mathbf{X}\boldsymbol{\beta} = \boldsymbol{\beta} \quad \forall \boldsymbol{\beta} \in \mathbb{R}^p \iff \mathbf{C}\mathbf{X} = \mathbf{I}_p$$</div>
+
+<p>Define the discrepancy matrix $\mathbf{D} = \mathbf{C} - (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T \in \mathbb{R}^{p \times n}$, so that $\mathbf{C} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T + \mathbf{D}$. Multiplying $\mathbf{D}$ on the right by $\mathbf{X}$ and applying the unbiasedness condition $\mathbf{C}\mathbf{X} = \mathbf{I}_p$ reveals the matrix orthogonality relation:</p>
+
+<div class="math-display">$$\mathbf{D}\mathbf{X} = \mathbf{C}\mathbf{X} - (\mathbf{X}^T\mathbf{X})^{-1}(\mathbf{X}^T\mathbf{X}) = \mathbf{I}_p - \mathbf{I}_p = \mathbf{0}_{p \times p}$$</div>
+
+<p>Now compute the covariance matrix of $\tilde{\boldsymbol{\beta}} = \mathbf{C}\mathbf{Y}$:</p>
+
+<div class="math-display">$$\text{Cov}(\tilde{\boldsymbol{\beta}}) = \sigma^2 \mathbf{C}\mathbf{C}^T = \sigma^2 \left[ (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T + \mathbf{D} \right] \left[ \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1} + \mathbf{D}^T \right]$$</div>
+
+<p>Expanding the four matrix products and observing that the two cross-terms $(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{D}^T = (\mathbf{D}\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1})^T = \mathbf{0}_{p \times p}$ and $\mathbf{D}\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1} = \mathbf{0}_{p \times p}$ vanish identically because $\mathbf{D}\mathbf{X} = \mathbf{0}_{p \times p}$, we obtain:</p>
+
+<div class="math-display">$$\text{Cov}(\tilde{\boldsymbol{\beta}}) = \sigma^2 (\mathbf{X}^T\mathbf{X})^{-1} + \sigma^2 \mathbf{D}\mathbf{D}^T = \text{Cov}(\hat{\boldsymbol{\beta}}) + \sigma^2 \mathbf{D}\mathbf{D}^T$$</div>
+
+<p>For any arbitrary vector $\mathbf{c} \in \mathbb{R}^p$, the variance of $\mathbf{c}^T \tilde{\boldsymbol{\beta}}$ is:</p>
+
+<div class="math-display">$$\text{Var}(\mathbf{c}^T \tilde{\boldsymbol{\beta}}) = \mathbf{c}^T \text{Cov}(\tilde{\boldsymbol{\beta}}) \mathbf{c} = \mathbf{c}^T \text{Cov}(\hat{\boldsymbol{\beta}}) \mathbf{c} + \sigma^2 \mathbf{c}^T \mathbf{D}\mathbf{D}^T \mathbf{c} = \text{Var}(\mathbf{c}^T \hat{\boldsymbol{\beta}}) + \sigma^2 \|\mathbf{D}^T \mathbf{c}\|_2^2 \ge \text{Var}(\mathbf{c}^T \hat{\boldsymbol{\beta}})$$</div>
+
+<p>Because $\|\mathbf{D}^T\mathbf{c}\|_2^2 \ge 0$, the matrix $\sigma^2 \mathbf{D}\mathbf{D}^T$ is positive semi-definite, and vanishes for all $\mathbf{c}$ if and only if $\mathbf{D} = \mathbf{0}_{p \times n}$. Consequently, $\hat{\boldsymbol{\beta}}$ simultaneously minimizes the individual variance $\text{Var}(\hat{\beta}_j)$ of every coordinate, the trace $\text{tr}(\text{Cov}(\tilde{\boldsymbol{\beta}}))$, and the generalized variance $\det(\text{Cov}(\tilde{\boldsymbol{\beta}}))$.</p>
+
+<h4>Geometric and Decision-Theoretic Meaning of the Loewner Positive Semi-Definite Ordering</h4>
+
+<p>The Matrix Gauss–Markov Theorem elevates optimality from a scalar variance inequality to a matrix ordering in the space of symmetric positive semi-definite matrices. Because the difference between the covariance matrix of any competing linear unbiased estimator and the covariance matrix of the Ordinary Least Squares estimator is positive semi-definite, three powerful consequences follow simultaneously. First, every diagonal element of the difference matrix is non-negative, which guarantees that each individual partial regression coefficient is estimated with minimum variance. Second, for any linear combination of the parameters—such as a predicted mean response at an arbitrary covariate vector or a contrast between two treatment slopes—the plug-in least-squares estimator achieves the smallest possible sampling variance. Third, under multivariate normal disturbances, the concentration ellipsoid of the Ordinary Least Squares estimator is strictly contained inside the concentration ellipsoid of any other linear unbiased estimator for every probability level.</p>
+
+<p>Moreover, the positive semi-definite matrix ordering established by the Matrix Gauss–Markov Theorem directly implies that the generalized variance (the determinant of the variance-covariance matrix) and the total variance (the trace of the variance-covariance matrix) are simultaneously minimized by the Ordinary Least Squares estimator across the entire class of linear unbiased estimators. Consequently, whether an investigator evaluates estimation precision via D-optimality (minimizing the determinant of the covariance matrix) or A-optimality (minimizing the trace of the covariance matrix), no linear unbiased competitor can outperform Ordinary Least Squares when the disturbances are homoscedastic and mutually uncorrelated.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.4</span>
+            <span>Quadratic Forms of Normal Vectors, Cochran's Theorem, and Distribution of SSE</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>To derive the exact expectation and sampling distribution of the Residual Sum of Squares $\text{SSE} = \mathbf{e}^T\mathbf{e}$ in multiple linear regression, we express sums of squares as <strong>quadratic forms</strong> $\mathbf{Y}^T \mathbf{A} \mathbf{Y}$ where $\mathbf{A} \in \mathbb{R}^{n \times n}$ is a symmetric matrix.</p>
+
+<p>First, let us establish the distribution-free <strong>Trace Formula for the Expectation of a Quadratic Form</strong>: if $\mathbf{Y}$ is any random vector with mean $\mathbb{E}[\mathbf{Y}] = \boldsymbol{\mu}$ and covariance matrix $\text{Cov}(\mathbf{Y}) = \boldsymbol{\Sigma}$, and $\mathbf{A}$ is any symmetric $n \times n$ matrix, then because $\mathbf{Y}^T \mathbf{A} \mathbf{Y}$ is a $1 \times 1$ scalar equal to its own trace and the trace operator is cyclic ($\text{tr}(\mathbf{U}\mathbf{V}) = \text{tr}(\mathbf{V}\mathbf{U})$):</p>
+
+<div class="math-display">$$\mathbb{E}[\mathbf{Y}^T \mathbf{A} \mathbf{Y}] = \mathbb{E}[\text{tr}(\mathbf{Y}^T \mathbf{A} \mathbf{Y})] = \text{tr}\left( \mathbf{A} \mathbb{E}[\mathbf{Y}\mathbf{Y}^T] \right) = \text{tr}\left( \mathbf{A} (\boldsymbol{\Sigma} + \boldsymbol{\mu}\boldsymbol{\mu}^T) \right) = \text{tr}(\mathbf{A}\boldsymbol{\Sigma}) + \boldsymbol{\mu}^T \mathbf{A} \boldsymbol{\mu}$$</div>
+
+<p>Let us apply this powerful identity directly to the Residual Sum of Squares $\text{SSE} = \mathbf{e}^T\mathbf{e}$. Since $\mathbf{e} = (\mathbf{I}_n - \mathbf{H})\mathbf{Y} = \mathbf{M}\mathbf{Y}$ and $\mathbf{M}$ is symmetric and idempotent ($\mathbf{M}^T\mathbf{M} = \mathbf{M}^2 = \mathbf{M}$):</p>
+
+<div class="math-display">$$\text{SSE} = \mathbf{e}^T \mathbf{e} = \mathbf{Y}^T (\mathbf{I}_n - \mathbf{H})^T (\mathbf{I}_n - \mathbf{H}) \mathbf{Y} = \mathbf{Y}^T (\mathbf{I}_n - \mathbf{H}) \mathbf{Y} = \boldsymbol{\varepsilon}^T (\mathbf{I}_n - \mathbf{H}) \boldsymbol{\varepsilon}$$</div>
+
+<p>where the last equality holds because $(\mathbf{I}_n - \mathbf{H})\mathbf{X} = \mathbf{0}_{n \times p}$. Applying the trace formula to $\text{SSE} = \boldsymbol{\varepsilon}^T (\mathbf{I}_n - \mathbf{H}) \boldsymbol{\varepsilon}$ with $\mathbb{E}[\boldsymbol{\varepsilon}] = \mathbf{0}_n$ and $\boldsymbol{\Sigma} = \sigma^2 \mathbf{I}_n$:</p>
+
+<div class="math-display">$$\mathbb{E}[\text{SSE}] = \text{tr}\left( (\mathbf{I}_n - \mathbf{H}) \sigma^2 \mathbf{I}_n \right) + \mathbf{0}_n^T (\mathbf{I}_n - \mathbf{H}) \mathbf{0}_n = \sigma^2 \text{tr}(\mathbf{I}_n - \mathbf{H}) = \sigma^2 \left[ \text{tr}(\mathbf{I}_n) - \text{tr}(\mathbf{H}) \right]$$</div>
+
+<p>Using the cyclic trace property on $\mathbf{H} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$, we have:</p>
+
+<div class="math-display">$$\text{tr}(\mathbf{H}) = \text{tr}\left(\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\right) = \text{tr}\left((\mathbf{X}^T\mathbf{X})^{-1}(\mathbf{X}^T\mathbf{X})\right) = \text{tr}(\mathbf{I}_p) = p$$</div>
+
+<p>Therefore, $\mathbb{E}[\text{SSE}] = (n - p)\sigma^2$, which proves that dividing $\text{SSE}$ by $n - p = n - k - 1$ degrees of freedom yields an <strong>unbiased estimator of $\sigma^2$</strong>:</p>
+
+<div class="math-display">$$s^2 = \text{MSE} = \frac{\text{SSE}}{n - p} = \frac{\mathbf{Y}^T(\mathbf{I}_n - \mathbf{H})\mathbf{Y}}{n - p} = \frac{\mathbf{Y}^T\mathbf{Y} - \hat{\boldsymbol{\beta}}^T \mathbf{X}^T \mathbf{Y}}{n - p}, \qquad \mathbb{E}[s^2] = \sigma^2$$</div>
+
+<p>Now suppose we invoke the normality assumption $\boldsymbol{\varepsilon} \sim \mathcal{N}_n(\mathbf{0}_n, \sigma^2 \mathbf{I}_n)$, so $\mathbf{Y} \sim \mathcal{N}_n(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)$. Three foundational distribution theorems for normal vectors and symmetric idempotent matrices govern exact inference:</p>
+
+<h4>1. Idempotent Quadratic Form Chi-Square Theorem: Because $\mathbf{M} = \mathbf{I}_n - \mathbf{H}$ is symmetric and idempotent of rank $n - p$, its spectral decomposition is $\mathbf{M} = \mathbf{Q} \boldsymbol{\Lambda} \mathbf{Q}^T$, where $\mathbf{Q} \in \mathbb{R}^{n \times n}$ is orthogonal ($\mathbf{Q}^T\mathbf{Q} = \mathbf{I}_n$) and $\boldsymbol{\Lambda} = \text{diag}(1, \dots, 1, 0, \dots, 0)$ has $n - p$ ones and $p$ zeros on the diagonal. Define the rotated standard normal vector $\mathbf{Z} = \frac{1}{\sigma} \mathbf{Q}^T \boldsymbol{\varepsilon} \sim \mathcal{N}_n(\mathbf{0}_n, \mathbf{I}_n)$. Then:</h4>
+
+<div class="math-display">$$\frac{\text{SSE}}{\sigma^2} = \frac{\boldsymbol{\varepsilon}^T \mathbf{M} \boldsymbol{\varepsilon}}{\sigma^2} = \left(\frac{1}{\sigma} \mathbf{Q}^T \boldsymbol{\varepsilon}\right)^T \boldsymbol{\Lambda} \left(\frac{1}{\sigma} \mathbf{Q}^T \boldsymbol{\varepsilon}\right) = \mathbf{Z}^T \boldsymbol{\Lambda} \mathbf{Z} = \sum_{i=1}^{n-p} Z_i^2 \sim \chi_{n-p}^2$$</div>
+
+<p>Consequently, $\text{Var}(s^2) = \frac{\sigma^4}{(n-p)^2} \text{Var}(\chi_{n-p}^2) = \frac{2\sigma^4}{n - p}$.</p>
+
+<h4>2. Statistical Independence of $\hat{\boldsymbol{\beta}}$ and $\text{SSE}$ (Craig–Sakamoto Lemma): Both $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$ and the residual vector $\mathbf{e} = (\mathbf{I}_n - \mathbf{H})\mathbf{Y}$ are linear transformations of the multivariate normal vector $\mathbf{Y}$. Their $p \times n$ cross-covariance matrix is:</h4>
+
+<div class="math-display">$$\text{Cov}(\hat{\boldsymbol{\beta}}, \mathbf{e}) = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T (\sigma^2 \mathbf{I}_n) (\mathbf{I}_n - \mathbf{H}) = \sigma^2 (\mathbf{X}^T\mathbf{X})^{-1} \left[ \mathbf{X}^T - \mathbf{X}^T \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T \right] = \mathbf{0}_{p \times n}$$</div>
+
+<p>Because jointly normal vectors with zero cross-covariance are statistically independent, $\hat{\boldsymbol{\beta}}$ is completely independent of $\mathbf{e}$, and hence independent of $s^2 = \mathbf{e}^T\mathbf{e} / (n - p)$!</p>
+
+<h4>3. Cochran's Theorem on Partitioning Quadratic Forms: Let $\mathbf{I}_n - \frac{1}{n}\mathbf{J}_n$ be the centering matrix (where $\mathbf{J}_n = \mathbf{1}_n \mathbf{1}_n^T$ is the $n \times n$ matrix of ones). Then the ANOVA identity $\text{SST} = \text{SSR} + \text{SSE}$ corresponds to the algebraic matrix decomposition:</h4>
+
+<div class="math-display">$$\underbrace{\left(\mathbf{I}_n - \frac{1}{n}\mathbf{J}_n\right)}_{\text{rank } n - 1} = \underbrace{\left(\mathbf{H} - \frac{1}{n}\mathbf{J}_n\right)}_{\text{rank } p - 1 = k} + \underbrace{(\mathbf{I}_n - \mathbf{H})}_{\text{rank } n - p}$$</div>
+
+<p>Because each of the three matrices on the right is symmetric and idempotent, their product $\left(\mathbf{H} - \frac{1}{n}\mathbf{J}_n\right)(\mathbf{I}_n - \mathbf{H}) = \mathbf{0}_{n \times n}$ vanishes, and their ranks sum to $(p - 1) + (n - p) = n - 1$, <strong>Cochran's Theorem</strong> guarantees that $\text{SSR} = \mathbf{Y}^T(\mathbf{H} - \frac{1}{n}\mathbf{J}_n)\mathbf{Y}$ and $\text{SSE} = \mathbf{Y}^T(\mathbf{I}_n - \mathbf{H})\mathbf{Y}$ are statistically independent, and under the global null hypothesis $H_0: \beta_1 = \dots = \beta_k = 0$, $\text{SSR}/\sigma^2 \sim \chi_k^2$.</p>
+
+<h4>Role of Cochran's Theorem in Partitioning Degrees of Freedom Across Subspaces</h4>
+
+<p>Cochran's Theorem serves as the rigorous mathematical bridge between linear algebra and chi-square distribution theory in linear models. Whenever the identity matrix (or a symmetric idempotent projection matrix) is decomposed into a sum of symmetric matrices whose ranks add up to the rank of the sum, those constituent matrices are automatically idempotent and pairwise mutually orthogonal. In the context of multiple linear regression, the total corrected sum of squares projects the response vector onto the $(n-1)$-dimensional subspace orthogonal to the constant vector of ones. This subspace splits orthogonally into the $k$-dimensional regression subspace spanned by the centered predictors and the $(n-p)$-dimensional residual subspace orthogonal to all columns of the design matrix. Because the corresponding projection matrices multiply to the zero matrix, the regression sum of squares and the residual sum of squares are statistically independent quadratic forms under Gaussian errors, justifying the exact central $F$-distribution of the analysis-of-variance test statistic.</p>
+
+<p>Furthermore, the trace identity for the expectation of a quadratic form demonstrates that the unbiasedness of the residual mean square does not depend on the normality assumption. Even when the disturbances follow a skewed or heavy-tailed distribution, so long as they have zero conditional mean and spherical covariance matrix, the expected value of the residual sum of squares equals the trace of the residual-maker matrix multiplied by the error variance, which is strictly $(n-p)\sigma^2$. Gaussianity is invoked only when we move from first-moment unbiasedness to the exact chi-square distribution and exact statistical independence between the least-squares coefficient vector and the residual sum of squares.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.5</span>
+            <span>The Frisch-Waugh-Lovell (FWL) Theorem and Partial Regression Coefficients</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>What is the exact algebraic meaning of a single partial regression coefficient $\hat{\beta}_j$ inside a multiple linear regression model when the predictors are mutually correlated? The definitive answer is provided by the <strong>Frisch–Waugh–Lovell (FWL) Theorem</strong> (originally established by Ragnar Frisch and Frederick Waugh in 1933 for time-series detrending and generalized by Michael Lovell in 1963 to arbitrary partitioned regressions).</p>
+
+<p>Partition the $n \times p$ full-rank design matrix $\mathbf{X}$ and the $p \times 1$ parameter vector $\boldsymbol{\beta}$ into two blocks of columns, $\mathbf{X} = [\mathbf{X}_1, \mathbf{X}_2]$ and $\boldsymbol{\beta} = (\boldsymbol{\beta}_1^T, \boldsymbol{\beta}_2^T)^T$, where $\mathbf{X}_1 \in \mathbb{R}^{n \times p_1}$ represents $p_1$ baseline covariates (such as an intercept and control variables) and $\mathbf{X}_2 \in \mathbb{R}^{n \times p_2}$ represents $p_2$ predictors of primary interest ($p_1 + p_2 = p$). The partitioned linear model and its partitioned OLS normal equations $(\mathbf{X}^T\mathbf{X})\hat{\boldsymbol{\beta}} = \mathbf{X}^T\mathbf{Y}$ are:</p>
+
+<div class="math-display">$$\mathbf{Y} = \mathbf{X}_1 \boldsymbol{\beta}_1 + \mathbf{X}_2 \boldsymbol{\beta}_2 + \boldsymbol{\varepsilon}, \qquad \begin{pmatrix} \mathbf{X}_1^T \mathbf{X}_1 &amp; \mathbf{X}_1^T \mathbf{X}_2 \[4pt] \mathbf{X}_2^T \mathbf{X}_1 &amp; \mathbf{X}_2^T \mathbf{X}_2 \end{pmatrix} \begin{pmatrix} \hat{\boldsymbol{\beta}}_1 \[4pt] \hat{\boldsymbol{\beta}}_2 \end{pmatrix} = \begin{pmatrix} \mathbf{X}_1^T \mathbf{Y} \[4pt] \mathbf{X}_2^T \mathbf{Y} \end{pmatrix}$$</div>
+
+<p>Let $\mathbf{H}_1 = \mathbf{X}_1(\mathbf{X}_1^T\mathbf{X}_1)^{-1}\mathbf{X}_1^T$ denote the orthogonal projection matrix onto $\mathcal{C}(\mathbf{X}_1)$, and let $\mathbf{M}_1 = \mathbf{I}_n - \mathbf{H}_1$ denote the residual-maker matrix that sweeps out (partials out) the linear influence of $\mathbf{X}_1$.</p>
+
+<h5>Theorem 2.2 (The Frisch–Waugh–Lovell Theorem)</h5>
+
+<p>In the partitioned OLS regression $\mathbf{Y} = \mathbf{X}_1 \hat{\boldsymbol{\beta}}_1 + \mathbf{X}_2 \hat{\boldsymbol{\beta}}_2 + \mathbf{e}$:</p>
+
+<ol>
+
+  <li>The subvector estimator $\hat{\boldsymbol{\beta}}_2$ obtained from the full multiple regression is <strong>algebraically identical</strong> to the estimator obtained by first regressing both $\mathbf{Y}$ and $\mathbf{X}_2$ on $\mathbf{X}_1$, extracting their residualized counterparts $\tilde{\mathbf{Y}} = \mathbf{M}_1 \mathbf{Y}$ and $\tilde{\mathbf{X}}_2 = \mathbf{M}_1 \mathbf{X}_2$, and then regressing $\tilde{\mathbf{Y}}$ on $\tilde{\mathbf{X}}_2$:</li>
+
+</ol>
+
+<div class="math-display">$$\hat{\boldsymbol{\beta}}_2 = \left( \mathbf{X}_2^T \mathbf{M}_1 \mathbf{X}_2 \right)^{-1} \mathbf{X}_2^T \mathbf{M}_1 \mathbf{Y} = \left( \tilde{\mathbf{X}}_2^T \tilde{\mathbf{X}}_2 \right)^{-1} \tilde{\mathbf{X}}_2^T \tilde{\mathbf{Y}}$$</div>
+
+<ol>
+
+  <li>Furthermore, the residual vector $\tilde{\mathbf{e}}$ from the residualized regression of $\tilde{\mathbf{Y}}$ on $\tilde{\mathbf{X}}_2$ is <strong>identically equal</strong> to the residual vector $\mathbf{e} = (\mathbf{I}_n - \mathbf{H})\mathbf{Y}$ of the full multiple regression:</li>
+
+</ol>
+
+<div class="math-display">$$\tilde{\mathbf{e}} = \tilde{\mathbf{Y}} - \tilde{\mathbf{X}}_2 \hat{\boldsymbol{\beta}}_2 = \mathbf{Y} - \mathbf{X}_1 \hat{\boldsymbol{\beta}}_1 - \mathbf{X}_2 \hat{\boldsymbol{\beta}}_2 = \mathbf{e}$$</div>
+
+<h5>Proof via Block Gaussian Elimination:</h5>
+
+<p>From the first block of normal equations, $\mathbf{X}_1^T \mathbf{X}_1 \hat{\boldsymbol{\beta}}_1 + \mathbf{X}_1^T \mathbf{X}_2 \hat{\boldsymbol{\beta}}_2 = \mathbf{X}_1^T \mathbf{Y}$. Premultiplying by $(\mathbf{X}_1^T\mathbf{X}_1)^{-1}$ expresses $\hat{\boldsymbol{\beta}}_1$ in terms of $\hat{\boldsymbol{\beta}}_2$:</p>
+
+<div class="math-display">$$\hat{\boldsymbol{\beta}}_1 = (\mathbf{X}_1^T \mathbf{X}_1)^{-1} \mathbf{X}_1^T (\mathbf{Y} - \mathbf{X}_2 \hat{\boldsymbol{\beta}}_2)$$</div>
+
+<p>Substituting this expression for $\hat{\boldsymbol{\beta}}_1$ into the second block of normal equations $\mathbf{X}_2^T \mathbf{X}_1 \hat{\boldsymbol{\beta}}_1 + \mathbf{X}_2^T \mathbf{X}_2 \hat{\boldsymbol{\beta}}_2 = \mathbf{X}_2^T \mathbf{Y}$ yields:</p>
+
+<div class="math-display">$$\mathbf{X}_2^T \mathbf{X}_1 (\mathbf{X}_1^T \mathbf{X}_1)^{-1} \mathbf{X}_1^T (\mathbf{Y} - \mathbf{X}_2 \hat{\boldsymbol{\beta}}_2) + \mathbf{X}_2^T \mathbf{X}_2 \hat{\boldsymbol{\beta}}_2 = \mathbf{X}_2^T \mathbf{Y}$$</div>
+
+<p>Recognizing $\mathbf{H}_1 = \mathbf{X}_1(\mathbf{X}_1^T\mathbf{X}_1)^{-1}\mathbf{X}_1^T$ and collecting terms in $\hat{\boldsymbol{\beta}}_2$:</p>
+
+<div class="math-display">$$\mathbf{X}_2^T (\mathbf{I}_n - \mathbf{H}_1) \mathbf{X}_2 \hat{\boldsymbol{\beta}}_2 = \mathbf{X}_2^T (\mathbf{I}_n - \mathbf{H}_1) \mathbf{Y} \iff (\mathbf{X}_2^T \mathbf{M}_1 \mathbf{X}_2) \hat{\boldsymbol{\beta}}_2 = \mathbf{X}_2^T \mathbf{M}_1 \mathbf{Y}$$</div>
+
+<p>Because $\mathbf{M}_1$ is symmetric and idempotent ($\mathbf{M}_1 = \mathbf{M}_1^T \mathbf{M}_1$), we have $\mathbf{X}_2^T \mathbf{M}_1 \mathbf{X}_2 = (\mathbf{M}_1\mathbf{X}_2)^T(\mathbf{M}_1\mathbf{X}_2) = \tilde{\mathbf{X}}_2^T \tilde{\mathbf{X}}_2$ and $\mathbf{X}_2^T \mathbf{M}_1 \mathbf{Y} = \tilde{\mathbf{X}}_2^T \tilde{\mathbf{Y}}$. Moreover, substituting $\hat{\boldsymbol{\beta}}_1$ into the full residual vector $\mathbf{e} = \mathbf{Y} - \mathbf{X}_1\hat{\boldsymbol{\beta}}_1 - \mathbf{X}_2\hat{\boldsymbol{\beta}}_2$ gives:</p>
+
+<div class="math-display">$$\mathbf{e} = (\mathbf{Y} - \mathbf{X}_2\hat{\boldsymbol{\beta}}_2) - \mathbf{X}_1(\mathbf{X}_1^T\mathbf{X}_1)^{-1}\mathbf{X}_1^T (\mathbf{Y} - \mathbf{X}_2\hat{\boldsymbol{\beta}}_2) = (\mathbf{I}_n - \mathbf{H}_1)(\mathbf{Y} - \mathbf{X}_2\hat{\boldsymbol{\beta}}_2) = \mathbf{M}_1\mathbf{Y} - \mathbf{M}_1\mathbf{X}_2\hat{\boldsymbol{\beta}}_2 = \tilde{\mathbf{Y}} - \tilde{\mathbf{X}}_2\hat{\boldsymbol{\beta}}_2 = \tilde{\mathbf{e}}$$</div>
+
+<h4>Three Immediate Corollaries of the FWL Theorem:</h4>
+
+<h4>1. Centering the Design Matrix: Take $\mathbf{X}_1 = \mathbf{1}_n$ (the intercept column). Then $\mathbf{M}_1 = \mathbf{I}_n - \frac{1}{n}\mathbf{1}_n\mathbf{1}_n^T$ centers every variable by subtracting its sample mean! Thus, the $k \times 1$ slope vector $\hat{\boldsymbol{\beta}}_{\text{slopes}}$ is given by $\hat{\boldsymbol{\beta}}_{\text{slopes}} = (\mathbf{X}_c^T \mathbf{X}_c)^{-1} \mathbf{X}_c^T \mathbf{y}_c$, where $\mathbf{X}_c$ is the $n \times k$ mean-centered predictor matrix.</h4>
+
+<h4>2. Interpretation of Individual Partial Slopes $\hat{\beta}_j$: Taking $\mathbf{X}_2 = \mathbf{x}_{(j)}$ (a single predictor column) and $\mathbf{X}_1 = \mathbf{X}_{(-j)}$ (all other $p - 1$ columns), the scalar slope $\hat{\beta}_j$ is simply the bivariate OLS slope of $\mathbf{Y}$ (or $\tilde{\mathbf{Y}}_{(-j)}$) on the residual vector $\mathbf{e}_{j \mid (-j)} = \mathbf{M}_{(-j)} \mathbf{x}_{(j)}$:</h4>
+
+<div class="math-display">$$\hat{\beta}_j = \frac{\mathbf{e}_{j \mid (-j)}^T \mathbf{Y}}{\mathbf{e}_{j \mid (-j)}^T \mathbf{e}_{j \mid (-j)}} = \frac{\sum_{i=1}^n e_{i, j \mid (-j)} \, e_{i, Y \mid (-j)}}{\sum_{i=1}^n e_{i, j \mid (-j)}^2}, \qquad \text{Var}(\hat{\beta}_j) = \frac{\sigma^2}{\|\mathbf{e}_{j \mid (-j)}\|_2^2}$$</div>
+
+<p>That is, $\hat{\beta}_j$ measures the linear effect of the <strong>unique variation in $X_j$ that is orthogonal to all other predictors</strong>!</p>
+
+<h4>3. Orthogonal Predictors: If $\mathbf{X}_1^T \mathbf{X}_2 = \mathbf{0}_{p_1 \times p_2}$ (so the two predictor blocks are mutually orthogonal, as in balanced factorial designs), then $\mathbf{M}_1 \mathbf{X}_2 = \mathbf{X}_2$, and $\hat{\boldsymbol{\beta}}_2 = (\mathbf{X}_2^T\mathbf{X}_2)^{-1}\mathbf{X}_2^T\mathbf{Y}$ is completely unaffected by whether $\mathbf{X}_1$ is included or omitted.</h4>
+
+<h4>Methodological Significance of the Frisch-Waugh-Lovell Theorem in Econometrics and Data Science</h4>
+
+<p>The Frisch–Waugh–Lovell Theorem is one of the most celebrated results in statistical methodology because it demystifies what "controlling for" or "holding constant" a set of covariates actually accomplishes algebraically. When an econometrician includes seasonal indicator variables or a linear time trend alongside economic regressors in a single multiple regression, the Frisch–Waugh–Lovell Theorem guarantees that the estimated slopes on the economic regressors are identical to those obtained by first deseasonalizing and detrending both the response series and each regressor series via Ordinary Least Squares and then regressing the detrended response on the detrended predictors. Similarly, in high-dimensional fixed-effects panel data regressions containing thousands of individual or firm-level dummy variables, inverting the full Gram matrix directly would be computationally prohibitive; applying the Frisch–Waugh–Lovell annihilator matrix sweeps out the group means in linear time ("within-group demeaning"), allowing exact estimation of the structural slope parameters.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.6</span>
+            <span>Sequential (Type I) vs Partial (Type III) Sums of Squares, Partial Correlations, and Adjusted R-Squared</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In simple linear regression, there is only one explanatory variable, so the Regression Sum of Squares $\text{SSR}$ unambiguously belongs to $X_1$. In multiple linear regression with correlated predictors ($X_1, \dots, X_k$), the total explained sum of squares $\text{SSR}(X_1, \dots, X_k) = \hat{\boldsymbol{\beta}}^T \mathbf{X}^T \mathbf{Y} - n\bar{Y}^2$ <strong>cannot</strong> be decomposed into unique, order-independent additive components for each individual variable unless the predictors are mutually orthogonal. Instead, statistical theory defines <strong>Extra Sums of Squares</strong> that measure the marginal reduction in $\text{SSE}$ (or equivalent increase in $\text{SSR}$) when a subset of predictors is added to an existing baseline model:</p>
+
+<div class="math-display">$$\text{SSR}(X_2 \mid X_1) = \text{SSE}(X_1) - \text{SSE}(X_1, X_2) = \text{SSR}(X_1, X_2) - \text{SSR}(X_1)$$</div>
+
+<p>By the Frisch–Waugh–Lovell Theorem and the orthogonal decomposition of projections $\mathcal{C}(\mathbf{X}_1, \mathbf{X}_2) = \mathcal{C}(\mathbf{X}_1) \oplus \mathcal{C}(\mathbf{M}_1 \mathbf{X}_2)$, the projection matrix of the full model decomposes additively as $\mathbf{H} = \mathbf{H}_1 + \mathbf{P}_{\tilde{\mathbf{X}}_2}$, where $\mathbf{P}_{\tilde{\mathbf{X}}_2} = \mathbf{M}_1\mathbf{X}_2(\mathbf{X}_2^T\mathbf{M}_1\mathbf{X}_2)^{-1}\mathbf{X}_2^T\mathbf{M}_1$, and the extra sum of squares is the quadratic form:</p>
+
+<div class="math-display">$$\text{SSR}(X_2 \mid X_1) = \mathbf{Y}^T (\mathbf{H} - \mathbf{H}_1) \mathbf{Y} = \hat{\boldsymbol{\beta}}_2^T (\mathbf{X}_2^T \mathbf{M}_1 \mathbf{X}_2) \hat{\boldsymbol{\beta}}_2$$</div>
+
+<p>This distinction generates two primary sum-of-squares conventions reported in statistical software (such as R's `anova()` vs `car::Anova()` and SAS):</p>
+
+<h4>1. Sequential (Type I) Sums of Squares: Predictors are entered in a specified sequential order $X_1, X_2, \dots, X_k$. The sequential sums of squares partition the total model $\text{SSR}$ additively:</h4>
+
+<div class="math-display">$$\text{SSR}(X_1, X_2, X_3) = \text{SSR}(X_1) + \text{SSR}(X_2 \mid X_1) + \text{SSR}(X_3 \mid X_1, X_2)$$</div>
+
+<p>Type I sums of squares always add up to $\text{SSR}(X_1, \dots, X_k)$, but their values depend critically on the order in which the variables are listed!</p>
+
+<h4>2. Partial / Marginal (Type III) Sums of Squares: For each variable $X_j$, the Type III sum of squares $\text{SSR}(X_j \mid X_1, \dots, X_{j-1}, X_{j+1}, \dots, X_k)$ measures the marginal reduction in $\text{SSE}$ when $X_j$ is entered last into the model containing all other $k - 1$ predictors. Type III sums of squares are invariant to variable ordering and correspond directly to the individual partial $t$-tests ($F_j = \text{SSR}(X_j \mid \mathbf{X}_{(-j)}) / s^2 = t_j^2$), but they do not sum to $\text{SSR}(X_1, \dots, X_k)$ when predictors are correlated.</h4>
+
+<h4>Coefficient of Partial Determination and Adjusted $R_a^2$</h4>
+
+<p>The <strong>Coefficient of Partial Determination</strong> $R_{Y j \cdot (-j)}^2$ measures the proportional reduction in the unexplained sum of squares $\text{SSE}(\mathbf{X}_{(-j)})$ achieved by adding predictor $X_j$ to a model that already contains all other covariates $\mathbf{X}_{(-j)}$:</p>
+
+<div class="math-display">$$R_{Y j \cdot (-j)}^2 = \frac{\text{SSE}(\mathbf{X}_{(-j)}) - \text{SSE}(\mathbf{X})}{\text{SSE}(\mathbf{X}_{(-j)})} = \frac{\text{SSR}(X_j \mid \mathbf{X}_{(-j)})}{\text{SSE}(\mathbf{X}_{(-j)})} = \frac{t_j^2}{t_j^2 + (n - p)}$$</div>
+
+<p>Taking the signed square root (matching the sign of $\hat{\beta}_j$) gives the <strong>partial correlation coefficient</strong> $r_{Y j \cdot (-j)}$, which is identically the simple correlation between the FWL residuals $\mathbf{e}_{Y \mid (-j)}$ and $\mathbf{e}_{j \mid (-j)}$.</p>
+
+<p>Finally, in multiple regression, the ordinary Coefficient of Multiple Determination $R^2 = 1 - \text{SSE}/\text{SST}$ is a <strong>monotonically non-decreasing function</strong> of the number of predictors $k$: adding any arbitrary noise variable $X_{k+1}$ cannot increase the minimized residual sum of squares $\text{SSE}$, so $R^2$ never decreases even when useless predictors are added. To penalize superfluous parameters, Henri Theil introduced the <strong>Adjusted Coefficient of Determination</strong>, $R_a^2$ (or $\bar{R}^2$), which replaces $\text{SSE}$ and $\text{SST}$ by their unbiased variance estimators $\text{MSE} = \text{SSE}/(n - p)$ and $\text{MST} = \text{SST}/(n - 1)$:</p>
+
+<div class="math-display">$$R_a^2 = 1 - \frac{\text{SSE} / (n - p)}{\text{SST} / (n - 1)} = 1 - \frac{s^2}{s_Y^2} = 1 - \left(\frac{n - 1}{n - p}\right)(1 - R^2)$$</div>
+
+<p>Algebraically, adding a single new predictor $X_j$ increases $R_a^2$ if and only if its partial $F$-statistic exceeds $1$ ($F_j = t_j^2 &gt; 1$, or $|t_j| &gt; 1$), because only when $F_j &gt; 1$ does the reduction in $\text{SSE}$ more than compensate for the loss of one error degree of freedom.</p>
+
+<h4>Reconciling Sequential (Type I) and Marginal (Type III) Sums of Squares in Applied Modeling</h4>
+
+<p>Understanding why Sequential (Type I) and Partial (Type III) sums of squares differ when predictors are correlated prevents serious misinterpretations in applied data analysis. When two explanatory variables share substantial overlapping variation, the variable entered first in a Sequential (Type I) decomposition is credited with the entire shared variation in addition to its own unique variation, whereas the variable entered second is credited only with its incremental contribution beyond the first variable. Consequently, Type I tests are ideal when variables possess a natural hierarchical or causal ordering—such as polynomial powers where the linear term must precede the quadratic term, or nuisance baseline covariates that must be adjusted for prior to testing experimental treatments. Conversely, Type III partial sums of squares treat all predictors symmetrically by evaluating each variable as if it were entered last, making Type III tests the standard choice for assessing whether any single predictor can be dropped from a non-hierarchical multiple regression model.</p>
+
+<p>In addition, comparing the unadjusted coefficient of multiple determination against Theil's adjusted coefficient of determination provides an essential diagnostic against overparameterization in small samples. When the number of columns in the design matrix approaches the sample size, the $p$-dimensional column space of the predictors spans nearly the entire $n$-dimensional observation space, forcing the unadjusted coefficient of determination toward unity even if every predictor is pure random noise independent of the response. Because the adjusted coefficient of determination divides both the residual sum of squares and the total sum of squares by their respective degrees of freedom, it penalizes the loss of residual degrees of freedom and can even become negative when a set of explanatory variables explains less variation than expected by chance alone.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Regression Analysis Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.1: Matrix Multiple Regression: Computing (X^T X)^(-1), OLS Estimators, Hat Matrix Leverages, and ANOVA</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Consider a multiple linear regression model $Y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \varepsilon_i$ fitted to $n = 5$ experimental observations, where the predictors $x_{i1}$ and $x_{i2}$ have been centered around zero to simplify computation:</p>
+
+<div class="math-display">$$\mathbf{X} = \begin{pmatrix} 1 &amp; -2 &amp; 1 \\ 1 &amp; -1 &amp; -1 \\ 1 &amp; 0 &amp; 0 \\ 1 &amp; 1 &amp; -1 \\ 1 &amp; 2 &amp; 1 \end{pmatrix}, \qquad \mathbf{Y} = \begin{pmatrix} 5 \\ 4 \\ 7 \\ 8 \\ 11 \end{pmatrix}$$</div>
+
+<ol>
+
+  <li>Compute the $3 \times 3$ Gram matrix $\mathbf{X}^T\mathbf{X}$, the cross-product vector $\mathbf{X}^T\mathbf{Y}$, the inverse matrix $(\mathbf{X}^T\mathbf{X})^{-1}$, and the Ordinary Least Squares parameter vector $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$. Explain why $\mathbf{X}^T\mathbf{X}$ is diagonal in this design.</li>
+
+  <li>Compute the fitted vector $\hat{\mathbf{Y}} = \mathbf{X}\hat{\boldsymbol{\beta}}$, the residual vector $\mathbf{e} = \mathbf{Y} - \hat{\mathbf{Y}}$, and the diagonal elements (leverages) $h_{11}, h_{22}, h_{33}, h_{44}, h_{55}$ of the Hat matrix $\mathbf{H} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$. Verify explicitly that $\sum_{i=1}^5 h_{ii} = p = 3$ and $\mathbf{X}^T\mathbf{e} = \mathbf{0}_3$.</li>
+
+  <li>Calculate $\text{SST}$, $\text{SSR}$, $\text{SSE}$, the unbiased error variance estimate $s^2 = \text{MSE}$, the variance-covariance matrix $\widehat{\text{Cov}}(\hat{\boldsymbol{\beta}}) = s^2(\mathbf{X}^T\mathbf{X})^{-1}$, $R^2$, and the adjusted coefficient of determination $R_a^2$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-reg-stat-2-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-reg-stat-2-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Compute X^T X, X^T Y, (X^T X)^(-1), and the OLS estimator beta_hat</div>
+              
+              <div class="step-explanation"><p>We first evaluate the $3 \times 3$ Gram matrix $\mathbf{X}^T\mathbf{X}$ by computing the inner products of the three columns of $\mathbf{X}$:</p>
+
+<ul>
+
+  <li>$\sum_{i=1}^5 1^2 = 5$, $\sum_{i=1}^5 x_{i1} = -2 - 1 + 0 + 1 + 2 = 0$, $\sum_{i=1}^5 x_{i2} = 1 - 1 + 0 - 1 + 1 = 0$.</li>
+
+  <li>$\sum_{i=1}^5 x_{i1}^2 = 4 + 1 + 0 + 1 + 4 = 10$, $\sum_{i=1}^5 x_{i2}^2 = 1 + 1 + 0 + 1 + 1 = 4$.</li>
+
+  <li>$\sum_{i=1}^5 x_{i1} x_{i2} = (-2)(1) + (-1)(-1) + (0)(0) + (1)(-1) + (2)(1) = -2 + 1 + 0 - 1 + 2 = 0$.</li>
+
+</ul>
+
+<p>Because all three columns of $\mathbf{X}$ are mutually orthogonal ($\mathbf{1}^T \mathbf{x}_{(1)} = \mathbf{1}^T \mathbf{x}_{(2)} = \mathbf{x}_{(1)}^T \mathbf{x}_{(2)} = 0$), the Gram matrix $\mathbf{X}^T\mathbf{X}$ and its inverse $(\mathbf{X}^T\mathbf{X})^{-1}$ are strictly diagonal:</p>
+
+<div class="math-display">$$\mathbf{X}^T \mathbf{X} = \begin{pmatrix} 5 &amp; 0 &amp; 0 \\ 0 &amp; 10 &amp; 0 \\ 0 &amp; 0 &amp; 4 \end{pmatrix}, \qquad (\mathbf{X}^T \mathbf{X})^{-1} = \begin{pmatrix} 1/5 &amp; 0 &amp; 0 \\ 0 &amp; 1/10 &amp; 0 \\ 0 &amp; 0 &amp; 1/4 \end{pmatrix} = \begin{pmatrix} 0.20 &amp; 0 &amp; 0 \\ 0 &amp; 0.10 &amp; 0 \\ 0 &amp; 0 &amp; 0.25 \end{pmatrix}$$</div>
+
+<p>Next, we compute the $3 \times 1$ cross-product vector $\mathbf{X}^T \mathbf{Y}$:</p>
+
+<ul>
+
+  <li>$\sum_{i=1}^5 Y_i = 5 + 4 + 7 + 8 + 11 = 35$</li>
+
+  <li>$\sum_{i=1}^5 x_{i1} Y_i = (-2)(5) + (-1)(4) + (0)(7) + (1)(8) + (2)(11) = -10 - 4 + 0 + 8 + 22 = 16$</li>
+
+  <li>$\sum_{i=1}^5 x_{i2} Y_i = (1)(5) + (-1)(4) + (0)(7) + (-1)(8) + (1)(11) = 5 - 4 + 0 - 8 + 11 = 4$</li>
+
+</ul>
+
+<div class="math-display">$$\mathbf{X}^T \mathbf{Y} = \begin{pmatrix} 35 \\ 16 \\ 4 \end{pmatrix} \implies \hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y} = \begin{pmatrix} 0.20 &amp; 0 &amp; 0 \\ 0 &amp; 0.10 &amp; 0 \\ 0 &amp; 0 &amp; 0.25 \end{pmatrix} \begin{pmatrix} 35 \\ 16 \\ 4 \end{pmatrix} = \begin{pmatrix} 7.0 \\ 1.6 \\ 1.0 \end{pmatrix}$$</div>
+
+<p>Thus, the fitted multiple regression model is $\hat{Y} = 7.0 + 1.6 x_1 + 1.0 x_2$.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute fitted values, residuals, and Hat matrix leverages h_ii</div>
+              
+              <div class="step-explanation"><p>Evaluating $\hat{\mathbf{Y}} = \mathbf{X}\hat{\boldsymbol{\beta}}$ and $\mathbf{e} = \mathbf{Y} - \hat{\mathbf{Y}}$ for each of the $5$ observations:</p>
+
+<ul>
+
+  <li>$i = 1$: $\hat{y}_1 = 7.0 + 1.6(-2) + 1.0(1) = 4.8 \implies e_1 = 5.0 - 4.8 = +0.2$</li>
+
+  <li>$i = 2$: $\hat{y}_2 = 7.0 + 1.6(-1) + 1.0(-1) = 4.4 \implies e_2 = 4.0 - 4.4 = -0.4$</li>
+
+  <li>$i = 3$: $\hat{y}_3 = 7.0 + 1.6(0) + 1.0(0) = 7.0 \implies e_3 = 7.0 - 7.0 = 0.0$</li>
+
+  <li>$i = 4$: $\hat{y}_4 = 7.0 + 1.6(1) + 1.0(-1) = 7.6 \implies e_4 = 8.0 - 7.6 = +0.4$</li>
+
+  <li>$i = 5$: $\hat{y}_5 = 7.0 + 1.6(2) + 1.0(1) = 11.2 \implies e_5 = 11.0 - 11.2 = -0.2$</li>
+
+</ul>
+
+<p>Checking orthogonality $\mathbf{X}^T\mathbf{e}$:</p>
+
+<ul>
+
+  <li>$\sum e_i = 0.2 - 0.4 + 0.0 + 0.4 - 0.2 = 0$</li>
+
+  <li>$\sum x_{i1} e_i = (-2)(0.2) + (-1)(-0.4) + 0 + (1)(0.4) + (2)(-0.2) = -0.4 + 0.4 + 0.4 - 0.4 = 0$</li>
+
+  <li>$\sum x_{i2} e_i = (1)(0.2) + (-1)(-0.4) + 0 + (-1)(0.4) + (1)(-0.2) = 0.2 + 0.4 - 0.4 - 0.2 = 0$</li>
+
+</ul>
+
+<p>Because $(\mathbf{X}^T\mathbf{X})^{-1} = \text{diag}(0.20, 0.10, 0.25)$, the $i$-th diagonal leverage of $\mathbf{H}$ is $h_{ii} = \mathbf{x}_i^T (\mathbf{X}^T\mathbf{X})^{-1} \mathbf{x}_i = 0.20 + 0.10 x_{i1}^2 + 0.25 x_{i2}^2$:</p>
+
+<ul>
+
+  <li>$h_{11} = h_{55} = 0.20 + 0.10(4) + 0.25(1) = 0.20 + 0.40 + 0.25 = 0.85$</li>
+
+  <li>$h_{22} = h_{44} = 0.20 + 0.10(1) + 0.25(1) = 0.20 + 0.10 + 0.25 = 0.55$</li>
+
+  <li>$h_{33} = 0.20 + 0.10(0) + 0.25(0) = 0.20$</li>
+
+</ul>
+
+<p>Summing the leverages gives $\text{tr}(\mathbf{H}) = \sum_{i=1}^5 h_{ii} = 0.85 + 0.55 + 0.20 + 0.55 + 0.85 = 3.00 = p$, confirming $\text{tr}(\mathbf{H}) = p$.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Evaluate sums of squares, s^2, covariance matrix, R^2, and Adjusted R_a^2</div>
+              
+              <div class="step-explanation"><p>With $\bar{Y} = 35/5 = 7.0$, we compute the Total, Error, and Regression Sums of Squares:</p>
+
+<div class="math-display">$$\text{SST} = \sum_{i=1}^5 (Y_i - \bar{Y})^2 = (5-7)^2 + (4-7)^2 + (7-7)^2 + (8-7)^2 + (11-7)^2 = 4 + 9 + 0 + 1 + 16 = 30.00$$</div>
+
+<div class="math-display">$$\text{SSE} = \mathbf{e}^T \mathbf{e} = (0.2)^2 + (-0.4)^2 + (0.0)^2 + (0.4)^2 + (-0.2)^2 = 0.04 + 0.16 + 0 + 0.16 + 0.04 = 0.40$$</div>
+
+<div class="math-display">$$\text{SSR} = \hat{\boldsymbol{\beta}}^T \mathbf{X}^T \mathbf{Y} - n\bar{Y}^2 = \left[(7.0)(35) + (1.6)(16) + (1.0)(4)\right] - 5(49) = (245 + 25.6 + 4.0) - 245 = 29.60$$</div>
+
+<p>Notice that $\text{SSR} + \text{SSE} = 29.60 + 0.40 = 30.00 = \text{SST}$. Furthermore, because $\mathbf{x}_{(1)}$ and $\mathbf{x}_{(2)}$ are orthogonal, $\text{SSR}$ partitions cleanly into $\text{SSR}(X_1) = 1.6(16) = 25.60$ and $\text{SSR}(X_2) = 1.0(4) = 4.00$. With $n - p = 5 - 3 = 2$ error degrees of freedom:</p>
+
+<div class="math-display">$$s^2 = \text{MSE} = \frac{\text{SSE}}{n - p} = \frac{0.40}{2} = 0.20$$</div>
+
+<p>The estimated variance-covariance matrix of $\hat{\boldsymbol{\beta}}$ is:</p>
+
+<div class="math-display">$$\widehat{\text{Cov}}(\hat{\boldsymbol{\beta}}) = s^2 (\mathbf{X}^T \mathbf{X})^{-1} = 0.20 \begin{pmatrix} 0.20 &amp; 0 &amp; 0 \\ 0 &amp; 0.10 &amp; 0 \\ 0 &amp; 0 &amp; 0.25 \end{pmatrix} = \begin{pmatrix} 0.04 &amp; 0 &amp; 0 \\ 0 &amp; 0.02 &amp; 0 \\ 0 &amp; 0 &amp; 0.05 \end{pmatrix}$$</div>
+
+<p>Finally, the Coefficient of Multiple Determination $R^2$ and Adjusted $R_a^2$ are:</p>
+
+<div class="math-display">$$R^2 = \frac{\text{SSR}}{\text{SST}} = \frac{29.60}{30.00} = 0.9867 \quad (98.67\%), \qquad R_a^2 = 1 - \frac{\text{SSE}/(n-p)}{\text{SST}/(n-1)} = 1 - \frac{0.40 / 2}{30.00 / 4} = 1 - \frac{0.20}{7.50} = 0.9733 \quad (97.33\%)$$</div></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.2: Omitted-Variable Bias vs Irrelevant-Variable Inclusion: Exact Bias and Variance Comparison via Partitioned Matrices</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Suppose a researcher considers two candidate nested regression models involving partitioned full-rank design matrices $\mathbf{X}_1 \in \mathbb{R}^{n \times p_1}$ and $\mathbf{X}_2 \in \mathbb{R}^{n \times p_2}$:</p>
+
+<ul>
+
+  <li><strong>Model A (Full Model)</strong>: $\mathbf{Y} = \mathbf{X}_1 \boldsymbol{\beta}_1 + \mathbf{X}_2 \boldsymbol{\beta}_2 + \boldsymbol{\varepsilon}$ with OLS estimator $\hat{\boldsymbol{\beta}}_1$.</li>
+
+  <li><strong>Model B (Restricted / Short Model)</strong>: $\mathbf{Y} = \mathbf{X}_1 \boldsymbol{\beta}_1 + \mathbf{u}$ (omitting $\mathbf{X}_2$) with OLS estimator $\tilde{\boldsymbol{\beta}}_1 = (\mathbf{X}_1^T \mathbf{X}_1)^{-1} \mathbf{X}_1^T \mathbf{Y}$.</li>
+
+</ul>
+
+<p>Assume throughout that $\mathbb{E}[\boldsymbol{\varepsilon}] = \mathbf{0}_n$ and $\text{Cov}(\boldsymbol{\varepsilon}) = \sigma^2 \mathbf{I}_n$.</p>
+
+<h4>1. Case 1 (Underspecification / Omitted-Variable Bias): Suppose Model A is the true data-generating process ($\boldsymbol{\beta}_2 \neq \mathbf{0}$), but the analyst fits the short Model B. Derive the exact expectation $\mathbb{E}[\tilde{\boldsymbol{\beta}}_1]$, the omitted-variable bias vector $\text{Bias}(\tilde{\boldsymbol{\beta}}_1)$, and the condition under which $\tilde{\boldsymbol{\beta}}_1$ remains unbiased despite omitting $\mathbf{X}_2$.</h4>
+
+<h4>2. Case 2 (Overspecification / Irrelevant Regressors): Conversely, suppose Model B is the true data-generating process ($\boldsymbol{\beta}_2 = \mathbf{0}$), but the analyst fits the larger Model A. Prove that $\hat{\boldsymbol{\beta}}_1$ and $s_A^2 = \text{SSE}_A / (n - p_1 - p_2)$ remain strictly unbiased, and use the Frisch–Waugh–Lovell covariance representation to prove that $\text{Cov}(\hat{\boldsymbol{\beta}}_1) - \text{Cov}(\tilde{\boldsymbol{\beta}}_1) \succeq \mathbf{0}$ is positive semi-definite.</h4>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-reg-stat-2-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-reg-stat-2-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Derive the omitted-variable bias formula when true beta_2 != 0</div>
+              
+              <div class="step-explanation"><p>When the true data-generating process is Model A ($\mathbf{Y} = \mathbf{X}_1 \boldsymbol{\beta}_1 + \mathbf{X}_2 \boldsymbol{\beta}_2 + \boldsymbol{\varepsilon}$), substituting $\mathbf{Y}$ into the short-model estimator $\tilde{\boldsymbol{\beta}}_1 = (\mathbf{X}_1^T \mathbf{X}_1)^{-1} \mathbf{X}_1^T \mathbf{Y}$ yields:</p>
+
+<div class="math-display">$$\tilde{\boldsymbol{\beta}}_1 = (\mathbf{X}_1^T \mathbf{X}_1)^{-1} \mathbf{X}_1^T (\mathbf{X}_1 \boldsymbol{\beta}_1 + \mathbf{X}_2 \boldsymbol{\beta}_2 + \boldsymbol{\varepsilon}) = \boldsymbol{\beta}_1 + (\mathbf{X}_1^T \mathbf{X}_1)^{-1} \mathbf{X}_1^T \mathbf{X}_2 \boldsymbol{\beta}_2 + (\mathbf{X}_1^T \mathbf{X}_1)^{-1} \mathbf{X}_1^T \boldsymbol{\varepsilon}$$</div>
+
+<p>Define the $p_1 \times p_2$ <strong>auxiliary regression matrix</strong> $\mathbf{A}_{12} = (\mathbf{X}_1^T \mathbf{X}_1)^{-1} \mathbf{X}_1^T \mathbf{X}_2$, whose columns are the OLS coefficient vectors from regressing each omitted variable in $\mathbf{X}_2$ on the included variables $\mathbf{X}_1$. Taking expectations under $\mathbb{E}[\boldsymbol{\varepsilon}] = \mathbf{0}_n$ gives the famous <strong>Omitted-Variable Bias (OVB) Formula</strong>:</p>
+
+<div class="math-display">$$\mathbb{E}[\tilde{\boldsymbol{\beta}}_1] = \boldsymbol{\beta}_1 + \mathbf{A}_{12} \boldsymbol{\beta}_2 \implies \text{Bias}(\tilde{\boldsymbol{\beta}}_1) = (\mathbf{X}_1^T \mathbf{X}_1)^{-1} \mathbf{X}_1^T \mathbf{X}_2 \boldsymbol{\beta}_2$$</div>
+
+<p>Thus, omitting $\mathbf{X}_2$ biases $\tilde{\boldsymbol{\beta}}_1$ unless <strong>either</strong> (a) the omitted variables have zero true effect ($\boldsymbol{\beta}_2 = \mathbf{0}$), <strong>or</strong> (b) the omitted variables are strictly orthogonal to the included variables ($\mathbf{X}_1^T \mathbf{X}_2 = \mathbf{0}_{p_1 \times p_2}$). Moreover, when $\boldsymbol{\beta}_2 \neq \mathbf{0}$, the short-model error variance estimator $s_B^2 = \mathbf{Y}^T \mathbf{M}_1 \mathbf{Y} / (n - p_1)$ is positively biased:</p>
+
+<div class="math-display">$$\mathbb{E}[s_B^2] = \sigma^2 + \frac{\boldsymbol{\beta}_2^T \mathbf{X}_2^T \mathbf{M}_1 \mathbf{X}_2 \boldsymbol{\beta}_2}{n - p_1} &gt; \sigma^2$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Prove unbiasedness of estimators under overspecification (including irrelevant X_2)</div>
+              
+              <div class="step-explanation"><p>Conversely, suppose the true process is Model B ($\boldsymbol{\beta}_2 = \mathbf{0}$), so $\mathbf{Y} = \mathbf{X}_1 \boldsymbol{\beta}_1 + \boldsymbol{\varepsilon} = \mathbf{X}_1 \boldsymbol{\beta}_1 + \mathbf{X}_2 \mathbf{0} + \boldsymbol{\varepsilon}$. Because the true vector is simply a special case of Model A with $\boldsymbol{\beta} = (\boldsymbol{\beta}_1^T, \mathbf{0}^T)^T$, our general unbiasedness theorems for Model A apply directly:</p>
+
+<div class="math-display">$$\mathbb{E}\begin{pmatrix} \hat{\boldsymbol{\beta}}_1 \\ \hat{\boldsymbol{\beta}}_2 \end{pmatrix} = \begin{pmatrix} \boldsymbol{\beta}_1 \\ \mathbf{0} \end{pmatrix}, \qquad \mathbb{E}[s_A^2] = \mathbb{E}\left[ \frac{\mathbf{Y}^T (\mathbf{I}_n - \mathbf{H}) \mathbf{Y}}{n - p_1 - p_2} \right] = \sigma^2$$</div>
+
+<p>Therefore, including irrelevant predictors $\mathbf{X}_2$ does <strong>not</strong> introduce any bias into either the regression coefficients $\hat{\boldsymbol{\beta}}_1$ or the error variance estimator $s_A^2$.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Prove variance inflation Cov(beta_1_hat) &gt;= Cov(beta_1_tilde) via FWL</div>
+              
+              <div class="step-explanation"><p>From the proof of the Frisch–Waugh–Lovell Theorem in Section 2.5, the full-model subvector $\hat{\boldsymbol{\beta}}_1$ is linked to the short-model estimator $\tilde{\boldsymbol{\beta}}_1 = (\mathbf{X}_1^T \mathbf{X}_1)^{-1} \mathbf{X}_1^T \mathbf{Y}$ and the residualized estimator $\hat{\boldsymbol{\beta}}_2 = (\mathbf{X}_2^T \mathbf{M}_1 \mathbf{X}_2)^{-1} \mathbf{X}_2^T \mathbf{M}_1 \mathbf{Y}$ by:</p>
+
+<div class="math-display">$$\hat{\boldsymbol{\beta}}_1 = (\mathbf{X}_1^T \mathbf{X}_1)^{-1} \mathbf{X}_1^T (\mathbf{Y} - \mathbf{X}_2 \hat{\boldsymbol{\beta}}_2) = \tilde{\boldsymbol{\beta}}_1 - \mathbf{A}_{12} \hat{\boldsymbol{\beta}}_2$$</div>
+
+<p>Rearranging this identity gives $\tilde{\boldsymbol{\beta}}_1 = \hat{\boldsymbol{\beta}}_1 + \mathbf{A}_{12} \hat{\boldsymbol{\beta}}_2$. Now compute the cross-covariance between the short-model estimator $\tilde{\boldsymbol{\beta}}_1$ and the FWL estimator $\hat{\boldsymbol{\beta}}_2$:</p>
+
+<div class="math-display">$$\text{Cov}(\tilde{\boldsymbol{\beta}}_1, \hat{\boldsymbol{\beta}}_2) = \sigma^2 (\mathbf{X}_1^T \mathbf{X}_1)^{-1} \mathbf{X}_1^T \mathbf{M}_1 \mathbf{X}_2 (\mathbf{X}_2^T \mathbf{M}_1 \mathbf{X}_2)^{-1} = \mathbf{0}_{p_1 \times p_2}$$</div>
+
+<p>because $\mathbf{X}_1^T \mathbf{M}_1 = (\mathbf{M}_1 \mathbf{X}_1)^T = \mathbf{0}_{p_1 \times n}$! Since $\tilde{\boldsymbol{\beta}}_1$ and $\hat{\boldsymbol{\beta}}_2$ are uncorrelated, the covariance of $\hat{\boldsymbol{\beta}}_1 = \tilde{\boldsymbol{\beta}}_1 - \mathbf{A}_{12} \hat{\boldsymbol{\beta}}_2$ requires careful evaluation, or even more simply, since $\tilde{\boldsymbol{\beta}}_1 = (\mathbf{X}_1^T\mathbf{X}_1)^{-1}\mathbf{X}_1^T\mathbf{Y}$ is the BLUE of $\boldsymbol{\beta}_1$ under Model B, or by partitioned matrix inversion of $(\mathbf{X}^T\mathbf{X})^{-1}$:</p>
+
+<div class="math-display">$$\text{Cov}(\hat{\boldsymbol{\beta}}_1) = \sigma^2 (\mathbf{X}_1^T \mathbf{X}_1)^{-1} + \sigma^2 \mathbf{A}_{12} (\mathbf{X}_2^T \mathbf{M}_1 \mathbf{X}_2)^{-1} \mathbf{A}_{12}^T = \text{Cov}(\tilde{\boldsymbol{\beta}}_1) + \mathbf{A}_{12} \text{Cov}(\hat{\boldsymbol{\beta}}_2) \mathbf{A}_{12}^T$$</div>
+
+<p>Because $\mathbf{A}_{12} \text{Cov}(\hat{\boldsymbol{\beta}}_2) \mathbf{A}_{12}^T$ is symmetric and positive semi-definite, we have $\text{Cov}(\hat{\boldsymbol{\beta}}_1) - \text{Cov}(\tilde{\boldsymbol{\beta}}_1) \succeq \mathbf{0}_{p_1 \times p_1}$, with equality if and only if $\mathbf{A}_{12} = \mathbf{0}$ ($\mathbf{X}_1^T \mathbf{X}_2 = \mathbf{0}$). Thus, including irrelevant variables correlated with $\mathbf{X}_1$ inflates the sampling variance of $\hat{\boldsymbol{\beta}}_1$ and reduces error degrees of freedom by $p_2$.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.3: Explicit Proof of the Frisch-Waugh-Lovell Theorem for Standardized Two-Predictor Regression &amp; Partial Correlation</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Consider a multiple linear regression model with two predictors $X_1$ and $X_2$ in correlation (standardized) form, where $\mathbf{y}^*, \mathbf{x}_1^*, \mathbf{x}_2^* \in \mathbb{R}^n$ have zero sample mean and unit sum of squares ($\|\mathbf{y}^*\|_2^2 = \|\mathbf{x}_1^*\|_2^2 = \|\mathbf{x}_2^*\|_2^2 = 1$). Let the sample Pearson correlations be $r_{12} = (\mathbf{x}_1^*)^T \mathbf{x}_2^*$, $r_{y1} = (\mathbf{x}_1^*)^T \mathbf{y}^*$, and $r_{y2} = (\mathbf{x}_2^*)^T \mathbf{y}^*$, with $|r_{12}| &lt; 1$.</p>
+
+<ol>
+
+  <li>Set up the $2 \times 2$ correlation-form normal equations $\mathbf{R}_{XX} \hat{\boldsymbol{\beta}}^* = \mathbf{r}_{Xy}$, invert $\mathbf{R}_{XX}$, and derive the explicit algebraic formulas for the standardized partial regression coefficients $\hat{\beta}_1^*$ and $\hat{\beta}_2^*$ in terms of $r_{y1}, r_{y2},$ and $r_{12}$.</li>
+
+  <li>Verify the Frisch–Waugh–Lovell Theorem explicitly by computing the residual vector $\mathbf{e}_{1 \mid 2} = \mathbf{x}_1^* - r_{12} \mathbf{x}_2^*$ from regressing $\mathbf{x}_1^*$ on $\mathbf{x}_2^*$ and showing that $(\mathbf{e}_{1 \mid 2}^T \mathbf{y}^*) / (\mathbf{e}_{1 \mid 2}^T \mathbf{e}_{1 \mid 2})$ reproduces $\hat{\beta}_1^*$ identically.</li>
+
+  <li>Derive the formula for the Coefficient of Multiple Determination $R^2$ in terms of $r_{y1}, r_{y2}, r_{12}$, verify that $R^2 = r_{y1}^2 + (1 - r_{y1}^2) r_{y2 \cdot 1}^2$, and evaluate $\hat{\beta}_1^*, \hat{\beta}_2^*, R^2$, and $r_{y2 \cdot 1}^2$ when $r_{y1} = 0.70$, $r_{y2} = 0.60$, and $r_{12} = 0.50$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-reg-stat-2-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-reg-stat-2-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Solve the 2x2 standardized normal equations for beta_1* and beta_2*</div>
+              
+              <div class="step-explanation"><p>Let $\mathbf{X}^* = [\mathbf{x}_1^*, \mathbf{x}_2^*] \in \mathbb{R}^{n \times 2}$. Because the standardized vectors have unit sum of squares, the $2 \times 2$ Gram matrix $(\mathbf{X}^*)^T \mathbf{X}^*$ is the predictor correlation matrix $\mathbf{R}_{XX}$, and $(\mathbf{X}^*)^T \mathbf{y}^*$ is the vector of predictor-response correlations $\mathbf{r}_{Xy}$:</p>
+
+<div class="math-display">$$\mathbf{R}_{XX} \hat{\boldsymbol{\beta}}^* = \mathbf{r}_{Xy} \iff \begin{pmatrix} 1 &amp; r_{12} \\ r_{12} &amp; 1 \end{pmatrix} \begin{pmatrix} \hat{\beta}_1^* \\ \hat{\beta}_2^* \end{pmatrix} = \begin{pmatrix} r_{y1} \\ r_{y2} \end{pmatrix}$$</div>
+
+<p>Since $\det(\mathbf{R}_{XX}) = 1 - r_{12}^2 &gt; 0$, inverting the $2 \times 2$ matrix gives:</p>
+
+<div class="math-display">$$\begin{pmatrix} \hat{\beta}_1^* \\ \hat{\beta}_2^* \end{pmatrix} = \frac{1}{1 - r_{12}^2} \begin{pmatrix} 1 &amp; -r_{12} \\ -r_{12} &amp; 1 \end{pmatrix} \begin{pmatrix} r_{y1} \\ r_{y2} \end{pmatrix} \implies \hat{\beta}_1^* = \frac{r_{y1} - r_{12} r_{y2}}{1 - r_{12}^2}, \qquad \hat{\beta}_2^* = \frac{r_{y2} - r_{12} r_{y1}}{1 - r_{12}^2}$$</div>
+
+<p>Note that the unstandardized slopes are recovered via $\hat{\beta}_j = \hat{\beta}_j^* (s_Y / s_{X_j})$ for $j = 1, 2$.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Verify the Frisch-Waugh-Lovell identity via residualization</div>
+              
+              <div class="step-explanation"><p>Regressing $\mathbf{x}_1^*$ on $\mathbf{x}_2^*$ yields slope $((\mathbf{x}_2^*)^T \mathbf{x}_1^*) / ((\mathbf{x}_2^*)^T \mathbf{x}_2^*) = r_{12} / 1 = r_{12}$, so the FWL residual vector of $\mathbf{x}_1^*$ purged of $\mathbf{x}_2^*$ is:</p>
+
+<div class="math-display">$$\mathbf{e}_{1 \mid 2} = \mathbf{x}_1^* - r_{12} \mathbf{x}_2^*$$</div>
+
+<p>We compute the squared Euclidean norm (denominator) and inner product with $\mathbf{y}^*$ (numerator):</p>
+
+<div class="math-display">$$\mathbf{e}_{1 \mid 2}^T \mathbf{e}_{1 \mid 2} = (\mathbf{x}_1^* - r_{12} \mathbf{x}_2^*)^T (\mathbf{x}_1^* - r_{12} \mathbf{x}_2^*) = 1 - 2 r_{12}^2 + r_{12}^2(1) = 1 - r_{12}^2$$</div>
+
+<div class="math-display">$$\mathbf{e}_{1 \mid 2}^T \mathbf{y}^* = (\mathbf{x}_1^* - r_{12} \mathbf{x}_2^*)^T \mathbf{y}^* = (\mathbf{x}_1^*)^T \mathbf{y}^* - r_{12} (\mathbf{x}_2^*)^T \mathbf{y}^* = r_{y1} - r_{12} r_{y2}$$</div>
+
+<p>Dividing the numerator by the denominator gives:</p>
+
+<div class="math-display">$$\frac{\mathbf{e}_{1 \mid 2}^T \mathbf{y}^*}{\mathbf{e}_{1 \mid 2}^T \mathbf{e}_{1 \mid 2}} = \frac{r_{y1} - r_{12} r_{y2}}{1 - r_{12}^2} = \hat{\beta}_1^*$$</div>
+
+<p>confirming the Frisch–Waugh–Lovell Theorem explicitly.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Derive R^2, partial determination r_{y2.1}^2, and evaluate numerically</div>
+              
+              <div class="step-explanation"><p>Since $\|\mathbf{y}^*\|_2^2 = 1$, the Coefficient of Multiple Determination $R^2$ equals the regression sum of squares $(\hat{\boldsymbol{\beta}}^*)^T \mathbf{r}_{Xy}$:</p>
+
+<div class="math-display">$$R^2 = \hat{\beta}_1^* r_{y1} + \hat{\beta}_2^* r_{y2} = \frac{r_{y1}^2 + r_{y2}^2 - 2 r_{12} r_{y1} r_{y2}}{1 - r_{12}^2}$$</div>
+
+<p>Adding and subtracting $r_{y1}^2 (1 - r_{12}^2)$ in the numerator allows us to rewrite $R^2$ sequentially:</p>
+
+<div class="math-display">$$R^2 = r_{y1}^2 + \frac{(r_{y2} - r_{12} r_{y1})^2}{1 - r_{12}^2} = r_{y1}^2 + (1 - r_{y1}^2) \underbrace{\frac{(r_{y2} - r_{12} r_{y1})^2}{(1 - r_{y1}^2)(1 - r_{12}^2)}}_{r_{y2 \cdot 1}^2}$$</div>
+
+<p>Given $r_{y1} = 0.70$, $r_{y2} = 0.60$, and $r_{12} = 0.50$, we have $1 - r_{12}^2 = 1 - 0.25 = 0.75$:</p>
+
+<ul>
+
+  <li>$\hat{\beta}_1^* = \frac{0.70 - (0.50)(0.60)}{0.75} = \frac{0.40}{0.75} = \frac{8}{15} \approx 0.5333$</li>
+
+  <li>$\hat{\beta}_2^* = \frac{0.60 - (0.50)(0.70)}{0.75} = \frac{0.25}{0.75} = \frac{1}{3} \approx 0.3333$</li>
+
+  <li>$R^2 = (0.53333)(0.70) + (0.33333)(0.60) = 0.37333 + 0.20000 = 0.5733 \quad (57.33\%)$</li>
+
+  <li>$r_{y2 \cdot 1}^2 = \frac{R^2 - r_{y1}^2}{1 - r_{y1}^2} = \frac{0.57333 - 0.49000}{1 - 0.49000} = \frac{0.08333}{0.51000} \approx 0.1634 \quad (16.34\%)$</li>
+
+</ul>
+
+<p>Thus, after $X_1$ explains $49.00\%$ of the total variation in $Y$, adding $X_2$ explains $16.34\%$ of the remaining $51.00\%$ unexplained variation, raising the overall $R^2$ to $57.33\%$.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="statistical-computing-with-python-and-r">Statistical Computing</a><a href="mathematical-statistics">Mathematical Statistics</a><a href="statistical-estimation">Statistical Estimation</a><a href="demography-and-population-statistics">Demography and Population Statistics</a><a href="economic-statistics">Economic Statistics</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Courses Stat H-303 Regression Analysis &amp; Stat H-312 Lab)</a></li><li><cite class="reader-reference-citation">Montgomery, D.C., Peck, E.A., &amp; Vining, G.G. (2021). Introduction to Linear Regression Analysis (6th ed.): Comprehensive reference for OLS estimation, matrix regression, diagnostics, multicollinearity, and generalized linear models</cite></li><li><cite class="reader-reference-citation">Seber, G.A.F., &amp; Lee, A.J. (2003). Linear Regression Analysis (2nd ed.): Rigorous mathematical treatment of orthogonal projections, Gauss-Markov theorem, quadratic forms, and linear hypothesis testing</cite></li><li><cite class="reader-reference-citation">Kutner, M.H., Nachtsheim, C.J., Neter, J., &amp; Li, W. (2005). Applied Linear Statistical Models (5th ed.): Standard methodological text for ANOVA decompositions, simultaneous inference, WLS, autocorrelation, and polynomial/spline models</cite></li><li><cite class="reader-reference-citation">Belsley, D.A., Kuh, E., &amp; Welsch, R.E. (1980). Regression Diagnostics: Identifying Influential Data and Sources of Collinearity: Foundational work on leverage, studentized residuals, DFFITS, DFBETAS, Cook's distance, and condition indices</cite></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="regression-analysis">← Previous chapter</a><a href="regression-analysis">Book contents</a><a href="regression-analysis-chapter-3">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="regression-analysis-sims.js?v=1"></script>
+  <script src="regression-analysis-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

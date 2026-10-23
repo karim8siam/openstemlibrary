@@ -1344,6 +1344,63 @@ window.LIBRARY_CATALOG = {
             "Input-Output Analysis & Social Accounting Systems",
             "Statistical Demand, Supply & Econometric Elasticity Analysis"
           ]
+        },
+        {
+          "id": "operations-research-for-statistics",
+          "title": "Operations Research for Statistics",
+          "subtitle": "Linear Programming, Simplex, Duality, Transportation, Networks, Integer & Dynamic Programming, Game Theory & Queueing",
+          "status": "AVAILABLE",
+          "url": "operations-research-for-statistics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering linear programming formulations, convex polyhedral geometry, the Simplex algorithm, Big-M and Two-Phase artificial variable methods, primal-dual theory, complementary slackness, sensitivity analysis, Hitchcock-Koopmans transportation and Hungarian assignment models, shortest path, minimum spanning trees, maximal flow, CPM/PERT project scheduling, integer programming, Gomory cutting planes, Bellman dynamic programming, two-person zero-sum game theory, Markovian M/M/1 and M/M/c queueing systems, and deterministic/stochastic inventory models (EOQ, Newsvendor) with 24 solved questions and 4 interactive simulations.",
+          "topics": [
+            "Foundations of Operations Research, Linear Programming Formulations & Convex Polyhedral Geometry",
+            "The Simplex Algorithm, Artificial Variable Architectures & Degeneracy Resolution",
+            "Duality Theory, Complementary Slackness & Post-Optimality Sensitivity Analysis",
+            "Transportation, Transshipment & Assignment Optimization Models",
+            "Network Optimization: Shortest Path, Minimum Spanning Trees, Max-Flow Min-Cut & CPM/PERT",
+            "Integer Programming, Branch-and-Bound, Cutting Planes & Dynamic Programming",
+            "Game Theory, Saddle Points, Mixed Strategies & Minimax Linear Programming Equivalence",
+            "Stochastic Operations Research: Markovian Queueing Systems & Probabilistic Inventory Models"
+          ]
+        },
+        {
+          "id": "hypothesis-testing-and-nonparametric-methods",
+          "title": "Hypothesis Testing and Nonparametric Methods",
+          "subtitle": "Neyman-Pearson Lemma, MLR & UMP/UMPU Tests, Likelihood Ratio, Sequential SPRT, Goodness-of-Fit & Rank Nonparametrics",
+          "status": "AVAILABLE",
+          "url": "hypothesis-testing-and-nonparametric-methods.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering the Neyman-Pearson hypothesis testing framework, randomized tests, size and power functions, the Neyman-Pearson Fundamental Lemma, Monotone Likelihood Ratio (MLR) families and Karlin-Rubin UMP tests, Uniformly Most Powerful Unbiased (UMPU) and invariant tests, Generalized Likelihood Ratio Tests (GLRT), Wilks theorem and the Wald-Score-LR asymptotic trinity, Wald Sequential Probability Ratio Test (SPRT) with OC and ASN functions, Pearson chi-square and Kolmogorov-Smirnov goodness-of-fit tests, sign, Wilcoxon signed-rank, Mann-Whitney U, Ansari-Bradley, Kruskal-Wallis, Friedman, Spearman/Kendall rank correlation, and Fisher-Pitman permutation tests with 24 solved questions and 4 interactive simulations.",
+          "topics": [
+            "Architecture of Statistical Hypothesis Testing: Neyman-Pearson Paradigm, Power Functions & P-Values",
+            "Most Powerful Tests, the Neyman-Pearson Fundamental Lemma & Monotone Likelihood Ratio Families",
+            "Uniformly Most Powerful Unbiased (UMPU) Tests, Similar Regions & Invariance Principles",
+            "Generalized Likelihood Ratio Tests (GLRT), Wilks' Theorem & the Asymptotic Trinity",
+            "Sequential Hypothesis Testing: Wald's SPRT, Stopping Boundaries, OC & ASN Functions",
+            "Goodness-of-Fit & Empirical Distribution Tests: Chi-Square, Kolmogorov-Smirnov & Lilliefors",
+            "Nonparametric One-Sample & Two-Sample Rank Tests: Sign, Wilcoxon, Mann-Whitney & Scale Tests",
+            "Multi-Sample Nonparametrics, Rank Correlation & Resampling: Kruskal-Wallis, Friedman, Kendall & Permutation"
+          ]
+        },
+        {
+          "id": "regression-analysis",
+          "title": "Regression Analysis",
+          "subtitle": "Simple & Multiple OLS, Hat Matrix Projections, Linear Hypotheses, Influence Diagnostics, WLS/GLS, Ridge/LASSO & GLMs",
+          "status": "AVAILABLE",
+          "url": "regression-analysis.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering simple and multiple linear regression in matrix form, orthogonal projections and the Hat matrix, the Gauss-Markov theorem, Cochran theorem, Frisch-Waugh-Lovell partial regression, general linear hypothesis F-tests, joint confidence ellipsoids and simultaneous prediction bands, studentized deletion residuals, leverage, Cook distance, DFFITS and DFBETAS diagnostics, heteroscedasticity, Weighted and Generalized Least Squares (WLS/GLS), Huber-White sandwich standard errors, Durbin-Watson and Cochrane-Orcutt AR(1) autocorrelation, multicollinearity, Variance Inflation Factors (VIF), Hoerl-Kennard Ridge regression, Tibshirani LASSO, indicator variables, ANCOVA, Chow structural break tests, polynomial splines, Box-Cox transformations, AIC/BIC/Cp model selection, nonlinear Gauss-Newton regression, Huber M-estimation, and logistic/Poisson Generalized Linear Models with 24 solved questions and 4 interactive simulations.",
+          "topics": [
+            "Simple Linear Regression: OLS Estimation, Gauss-Markov Theorem, Normal Equations & ANOVA Decomposition",
+            "Multiple Linear Regression in Matrix Form: Orthogonal Projections, Hat Matrix & Partial Correlations",
+            "Exact & Asymptotic Inference in Linear Models: General Linear Hypotheses, Confidence Ellipsoids & Simultaneous Intervals",
+            "Regression Diagnostics, Leverage & Influence Analysis: Studentized Residuals, Cook's Distance & DFFITS",
+            "Violations of Classical Assumptions: Heteroscedasticity, Weighted Least Squares, GLS & Autocorrelation",
+            "Multicollinearity, Variance Inflation, Regularized Shrinkage (Ridge & LASSO) & Dimension Reduction",
+            "Qualitative Predictors, Interaction Effects, Structural Breaks, Polynomial Splines & Model Selection",
+            "Nonlinear Regression, Robust Regression & Generalized Linear Models (Logistic & Poisson)"
+          ]
         }
       ]
     }

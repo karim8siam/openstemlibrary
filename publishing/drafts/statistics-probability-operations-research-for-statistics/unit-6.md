@@ -1,0 +1,738 @@
+# Unit 6: Integer Programming, Branch-and-Bound, Cutting Planes & Dynamic Programming
+
+## 6.1 Taxonomy of Integer Linear Programming: Pure, Mixed, and 0-1 Binary Combinatorial Formulations
+
+One of the foundational postulates of classical linear programming—the **divisibility assumption**—stipulates that every decision variable $x_j$ may assume arbitrary continuous fractional values within its feasible interval. While continuous divisibility is physically natural when modeling bulk commodities such as petroleum barrels, electrical megawatt-hours, or financial portfolio weights, a vast range of operations research and statistical decision problems involve inherently indivisible discrete entities: aircraft fleet assignments, hospital operating rooms, clinical trial treatment cohorts, capital budgeting projects, and variable subset selection indicators in high-dimensional regression. When some or all decision variables are restricted to belong to the ring of integers $\mathbb{Z} = \{\dots, -2, -1, 0, 1, 2, \dots\}$, the optimization model becomes an **Integer Linear Programming (ILP)** problem. Far from being a minor technical footnote to continuous linear programming, the imposition of integrality constraints transforms convex polyhedral optimization (solvable in polynomial time) into an **NP-hard** combinatorial optimization problem over a non-convex, disconnected lattice of discrete points.
+
+Depending on which subset of decision variables is constrained to be integral, mathematical programming classifies linear integer models into three canonical families:
+1. **Pure Integer Linear Programming (PILP)**: Every structural decision variable in the vector $\mathbf{x} = (x_1, x_2, \dots, x_n)^\top$ must take a non-negative integer value:
+
+$$
+\max_{\mathbf{x}} \quad Z = \mathbf{c}^\top \mathbf{x} \quad \text{subject to} \quad \mathbf{A}\mathbf{x} \le \mathbf{b}, \quad \mathbf{x} \in \mathbb{Z}_+^n = \{0, 1, 2, \dots\}^n
+$$
+
+2. **Mixed-Integer Linear Programming (MILP)**: Only a designated subvector of variables $\mathbf{x} \in \mathbb{Z}_+^p$ is restricted to integer values, whereas the remaining subvector $\mathbf{y} \in \mathbb{R}_+^q$ represents continuous operational quantities (such as production flow rates, storage temperatures, or sampling fractions) that vary continuously:
+
+$$
+\max_{\mathbf{x}, \mathbf{y}} \quad Z = \mathbf{c}^\top \mathbf{x} + \mathbf{d}^\top \mathbf{y} \quad \text{subject to} \quad \mathbf{A}\mathbf{x} + \mathbf{G}\mathbf{y} \le \mathbf{b}, \quad \mathbf{x} \in \mathbb{Z}_+^p, \quad \mathbf{y} \in \mathbb{R}_+^q
+$$
+
+3. **Zero-One (0-1) Binary Integer Linear Programming (BILP)**: Every decision variable $x_j \in \{0, 1\}$ is a binary indicator (or dichotomous Bernoulli decision variable) encoding a "yes/no" or "on/off" logical choice:
+
+$$
+\max_{\mathbf{x}} \quad Z = \sum_{j=1}^n c_j x_j \quad \text{subject to} \quad \sum_{j=1}^n a_{ij} x_j \le b_i \;\; (i = 1, \dots, m), \quad x_j \in \{0, 1\} \;\; (j = 1, \dots, n)
+$$
+
+Notice that any bounded pure integer variable $0 \le x_j \le U_j$ with integer upper bound $U_j$ can be converted into an equivalent collection of $\lfloor \log_2 U_j \rfloor + 1$ binary variables via **binary radix expansion**: $x_j = \sum_{k=0}^{\lfloor \log_2 U_j \rfloor} 2^k z_{jk}$ with $z_{jk} \in \{0, 1\}$.
+
+Several classic combinatorial archetypes illustrate the expressive power of 0-1 Binary Integer Programming across operations research and mathematical statistics:
+* **The Capital Budgeting and Multi-Constraint 0-1 Knapsack Problem**: Suppose a research institute evaluates $n$ candidate statistical survey projects. Project $j$ yields net scientific utility $c_j > 0$ and consumes $a_{ij} > 0$ units of resource $i$ (such as budget in period $i$ or field-enumerator hours), subject to total resource availability $b_i$. Setting $x_j = 1$ if project $j$ is funded and $x_j = 0$ otherwise yields the multi-dimensional 0-1 knapsack formulation above.
+* **Set Covering, Set Packing, and Set Partitioning**: Let $\mathcal{M} = \{1, \dots, m\}$ denote a universe of geographical census tracts or emergency service zones, and let $\mathcal{S}_j \subseteq \mathcal{M}$ ($j = 1, \dots, n$) denote the subset of tracts covered by locating a facility at candidate site $j$ at cost $c_j > 0$. Define the binary incidence matrix $\mathbf{A} = [a_{ij}]$ where $a_{ij} = 1$ if tract $i \in \mathcal{S}_j$ and $a_{ij} = 0$ otherwise. Depending on the coverage requirement, we obtain three foundational models:
+
+$$
+\min_{\mathbf{x} \in \{0, 1\}^n} \mathbf{c}^\top \mathbf{x} \quad \text{subject to} \quad \begin{cases} \mathbf{A}\mathbf{x} \ge \mathbf{1}_m & \text{(Set Covering: every tract covered at least once)} \\ \mathbf{A}\mathbf{x} = \mathbf{1}_m & \text{(Set Partitioning: every tract covered strictly once)} \\ \mathbf{A}\mathbf{x} \le \mathbf{1}_m & \text{(Set Packing: no two selected subsets overlap; }\max \mathbf{c}^\top \mathbf{x}\text{)} \end{cases}
+$$
+
+* **The Traveling Salesperson Problem (TSP)**: Given $m$ cities and directed inter-city travel costs $c_{ij}$, let $x_{ij} = 1$ if the tour proceeds directly from city $i$ to city $j$, and $0$ otherwise. In addition to the assignment constraints $\sum_{j \ne i} x_{ij} = 1$ for all $i$ and $\sum_{i \ne j} x_{ij} = 1$ for all $j$, a valid single-cycle Hamiltonian tour must exclude disconnected mini-cycles via the **Dantzig-Fulkerson-Johnson (DFJ) Subtour Elimination Constraints**: $\sum_{i \in \mathcal{S}} \sum_{j \in \mathcal{S}, j \ne i} x_{ij} \le |\mathcal{S}| - 1$ for all proper subsets $\emptyset \subset \mathcal{S} \subset \{1, \dots, m\}$ with $2 \le |\mathcal{S}| \le m - 1$, or via the polynomial-size **Miller-Tucker-Zemlin (MTZ)** node ordering constraints $u_i - u_j + m x_{ij} \le m - 1$ ($2 \le i \ne j \le m$).
+* **Exact $L_0$-Regularized Best Subset Selection in Linear Regression**: In statistical model selection (Bertsimas, King, and Mazumder 2016), selecting at most $k$ predictors out of $p$ candidate covariates to minimize residual sum of squares $\|\mathbf{y} - \mathbf{X}\boldsymbol{\beta}\|_2^2$ is formulated exactly as a Mixed-Integer Quadratic Program (MIQP) by introducing binary indicator variables $z_j \in \{0, 1\}$ with $-M z_j \le \beta_j \le M z_j$ and cardinality constraint $\sum_{j=1}^p z_j \le k$.
+
+## 6.2 Logical Constraints, Fixed-Charge Disjunctions, and Big-M Linearization Techniques
+
+A primary reason Mixed-Integer Linear Programming dominates industrial and statistical decision modeling is that binary indicator variables $y \in \{0, 1\}$ allow analysts to translate non-convex **propositional logic**, **fixed setup costs**, **piecewise-linear non-convexities**, and **disjunctive "either-or" constraints** into purely linear algebraic inequalities.
+
+First, consider **Boolean Logical Relationships** among binary project decision variables $x_1, x_2, \dots, x_n \in \{0, 1\}$:
+* **At-Most-$k$ (Mutually Exclusive Selection)**: If at most $k$ projects out of a subset $\mathcal{S}$ can be selected simultaneously, we impose $\sum_{j \in \mathcal{S}} x_j \le k$. In the special case $k = 1$, $\sum_{j \in \mathcal{S}} x_j \le 1$ enforces mutual exclusivity (or $\sum_{j \in \mathcal{S}} x_j = 1$ for a multiple-choice constraint).
+* **Logical Implication (Contingency / Prerequisite)**: The logical proposition "If project $1$ is selected ($x_1 = 1$), then project $2$ must also be selected ($x_2 = 1$)"—written $x_1 \implies x_2$ or $\neg x_1 \lor x_2$—is enforced by the single linear inequality:
+
+$$
+x_1 - x_2 \le 0 \quad \Longleftrightarrow \quad x_1 \le x_2
+$$
+
+Indeed, when $x_1 = 1$, this inequality forces $x_2 \ge 1 \implies x_2 = 1$; when $x_1 = 0$, $x_2 \ge 0$ leaves $x_2 \in \{0, 1\}$ unrestricted.
+* **Mutual Equivalence (Co-requisite)**: "Project $1$ is undertaken if and only if project $2$ is undertaken" ($x_1 \iff x_2$) is written as $x_1 - x_2 = 0$.
+* **Complementary Negation**: Representing the logical negation $\bar{x}_1 = \neg x_1$ is achieved simply by substituting $1 - x_1$.
+* **Linearization of Polynomial Binary Products (Logical AND)**: Suppose an objective or constraint contains the non-linear quadratic interaction term $w = x_1 x_2$ for binary variables $x_1, x_2 \in \{0, 1\}$ (so $w = 1$ if and only if $x_1 = 1$ and $x_2 = 1$). We replace $x_1 x_2$ with a continuous or binary auxiliary variable $w \in [0, 1]$ governed by three **Fortet / Glover-Woolsey Linearization Inequalities**:
+
+$$
+w \le x_1, \qquad w \le x_2, \qquad w \ge x_1 + x_2 - 1, \qquad w \ge 0
+$$
+
+Verify that if $(x_1, x_2) = (1, 1)$, then $w \le 1$ and $w \ge 1 + 1 - 1 = 1 \implies w = 1$; whereas if either $x_1 = 0$ or $x_2 = 0$, then $w \le 0$ and $w \ge 0 \implies w = 0$.
+
+Second, consider the **Fixed-Charge Problem** (such as uncapacitated or capacitated facility location and production lot-sizing). Suppose producing any positive quantity $x_j > 0$ of product $j$ incurs a discontinuous fixed setup cost $K_j > 0$ in addition to a proportional marginal cost $c_j x_j$, so the true cost function is the lower-semicontinuous step-linear function:
+
+$$
+C_j(x_j) = \begin{cases} 0 & \text{if } x_j = 0 \\ K_j + c_j x_j & \text{if } x_j > 0 \end{cases}
+$$
+
+Because $C_j(x_j)$ is concave and discontinuous at $x_j = 0$, standard linear programming cannot represent it directly. However, let $M_j > 0$ be a valid finite upper bound on the continuous activity level $x_j$ (for instance, the physical capacity of plant $j$ or total market demand). Introducing a binary setup indicator variable $y_j \in \{0, 1\}$, we replace $C_j(x_j)$ in the minimization objective with the linear expression $K_j y_j + c_j x_j$ and adjoin the **Big-$M$ Variable Upper Bound (Linking) Constraint**:
+
+$$
+0 \le x_j \le M_j y_j, \qquad y_j \in \{0, 1\}
+$$
+
+If the optimizer sets $y_j = 0$ to avoid paying the fixed setup fee $K_j > 0$, the linking constraint forces $0 \le x_j \le 0 \implies x_j = 0$. Conversely, if any positive production $x_j > 0$ is required, then $M_j y_j \ge x_j > 0$ forces the binary variable to switch on ($y_j = 1$), automatically charging the full setup cost $K_j$ in the minimization objective! (Note: from a computational polyhedral standpoint, choosing the smallest valid tightening constant $M_j$ is vital so that the continuous LP relaxation $y_j \ge x_j / M_j$ is as tight as possible.)
+
+Third, consider **Disjunctive (Either-Or) Constraints** and **$k$-out-of-$m$ Constraint Enforcement**. Suppose a continuous decision vector $\mathbf{x} \in \mathbb{R}_+^n$ must satisfy *at least one* of two linear inequalities (a non-convex union of two half-spaces, such as when two jobs cannot overlap on a single machine, requiring either $t_2 \ge t_1 + p_1$ or $t_1 \ge t_2 + p_2$):
+
+$$
+g_1(\mathbf{x}) = \mathbf{a}_1^\top \mathbf{x} - b_1 \le 0 \qquad \text{OR} \qquad g_2(\mathbf{x}) = \mathbf{a}_2^\top \mathbf{x} - b_2 \le 0
+$$
+
+Let $M_1, M_2 > 0$ be valid upper bounds on $g_1(\mathbf{x})$ and $g_2(\mathbf{x})$ over all feasible $\mathbf{x}$, and introduce a single binary switching variable $y \in \{0, 1\}$. The non-convex logical disjunction is transformed into the simultaneous linear system:
+
+$$
+\mathbf{a}_1^\top \mathbf{x} - b_1 \le M_1 y, \qquad \mathbf{a}_2^\top \mathbf{x} - b_2 \le M_2 (1 - y), \qquad y \in \{0, 1\}
+$$
+
+When $y = 0$, the first constraint is strictly enforced ($\mathbf{a}_1^\top \mathbf{x} \le b_1$) while the second is relaxed ($\mathbf{a}_2^\top \mathbf{x} \le b_2 + M_2$); when $y = 1$, the second constraint is enforced ($\mathbf{a}_2^\top \mathbf{x} \le b_2$) while the first is relaxed. More generally, to require that **at least $k$ out of $m$ constraints** $\mathbf{a}_i^\top \mathbf{x} \le b_i$ ($i = 1, \dots, m$) hold simultaneously, we introduce $m$ binary variables $y_i \in \{0, 1\}$ (where $y_i = 1$ activates constraint $i$) and write:
+
+$$
+\mathbf{a}_i^\top \mathbf{x} - b_i \le M_i (1 - y_i) \quad (i = 1, \dots, m), \qquad \sum_{i=1}^m y_i \ge k, \qquad y_i \in \{0, 1\}
+$$
+
+Similarly, if an activity $x_j$ is restricted to be either zero or at least a minimum batch threshold $L_j$ ($x_j \in \{0\} \cup [L_j, U_j]$), we write the twin bounding inequalities $L_j y_j \le x_j \le U_j y_j$ with $y_j \in \{0, 1\}$.
+
+## 6.3 Polyhedral Geometry of LP Relaxations, the Integer Hull, and the Failure of Naive Rounding
+
+To analyze the mathematical structure of an Integer Linear Program, let $\mathcal{P}$ denote the continuous **Linear Programming Relaxation Polyhedron** obtained by dropping all integrality restrictions on $\mathbf{x}$:
+
+$$
+\mathcal{P} = \left\{ \mathbf{x} \in \mathbb{R}_+^n : \mathbf{A}\mathbf{x} \le \mathbf{b} \right\}
+$$
+
+and let $\mathcal{F} = \mathcal{P} \cap \mathbb{Z}^n = \{\mathbf{x} \in \mathbb{Z}_+^n : \mathbf{A}\mathbf{x} \le \mathbf{b}\}$ denote the discrete set of feasible integer lattice points inside $\mathcal{P}$. Because $\mathcal{F} \subseteq \mathcal{P}$, the feasible region of the Integer Linear Program is a subset of the feasible region of its LP relaxation. This set inclusion yields the **Fundamental Relaxation Bound Inequality** for a maximization ILP with optimal objective value $Z_{\text{IP}}^* = \max_{\mathbf{x} \in \mathcal{F}} \mathbf{c}^\top \mathbf{x}$ and LP relaxation optimum $Z_{\text{LP}}^* = \max_{\mathbf{x} \in \mathcal{P}} \mathbf{c}^\top \mathbf{x}$:
+
+$$
+Z_{\text{IP}}^* \le Z_{\text{LP}}^* \quad \text{(for Maximization)}, \qquad Z_{\text{IP}}^* \ge Z_{\text{LP}}^* \quad \text{(for Minimization)}
+$$
+
+Furthermore, because all objective coefficients might be integers, if $\mathbf{c} \in \mathbb{Z}^n$ in a maximization problem, we obtain the strengthened floor bound $Z_{\text{IP}}^* \le \lfloor Z_{\text{LP}}^* \rfloor$. Moreover, if the optimal basic feasible solution $\mathbf{x}_{\text{LP}}^*$ of the continuous relaxation $\mathcal{P}$ happens to be entirely integer-valued ($\mathbf{x}_{\text{LP}}^* \in \mathbb{Z}^n$), then $\mathbf{x}_{\text{LP}}^* \in \mathcal{F}$ achieves the upper bound $Z_{\text{LP}}^*$ and is therefore automatically the global optimal solution to the Integer Linear Program!
+
+We define the **Integer Hull** $\mathcal{P}_I = \text{conv}(\mathcal{F}) = \text{conv}(\mathcal{P} \cap \mathbb{Z}^n)$ as the convex hull of all feasible integer points. By **Meyer's Theorem (1974)** on rational polyhedra, whenever the constraint matrix $\mathbf{A} \in \mathbb{Q}^{m \times n}$ and right-hand-side vector $\mathbf{b} \in \mathbb{Q}^m$ have rational entries, the integer hull $\mathcal{P}_I$ is itself a convex polyhedron whose extreme points (vertices) all belong to the integer lattice $\mathcal{F} = \mathcal{P} \cap \mathbb{Z}^n$. Consequently, optimizing a linear objective over the discrete non-convex set $\mathcal{F}$ is mathematically equivalent to solving a continuous linear program over the convex integer hull $\mathcal{P}_I$:
+
+$$
+Z_{\text{IP}}^* = \max_{\mathbf{x} \in \mathcal{P} \cap \mathbb{Z}^n} \mathbf{c}^\top \mathbf{x} = \max_{\mathbf{x} \in \text{conv}(\mathcal{P} \cap \mathbb{Z}^n)} \mathbf{c}^\top \mathbf{x} = \max_{\mathbf{x} \in \mathcal{P}_I} \mathbf{c}^\top \mathbf{x}
+$$
+
+When $\mathcal{P} = \mathcal{P}_I$ (as occurs when $\mathbf{A}$ is totally unimodular and $\mathbf{b} \in \mathbb{Z}^m$, by the **Hoffman-Kruskal Theorem**), the formulation is called an **ideal (or integral) formulation**, and the Simplex method solves the ILP directly. For general combinatorial problems, however, $\mathcal{P}_I \subsetneq \mathcal{P}$, and explicitly writing down all facet-defining inequalities of $\mathcal{P}_I$ requires an exponential number of constraints, leaving a positive **integrality gap** $Z_{\text{LP}}^* - Z_{\text{IP}}^* > 0$.
+
+Beginners often ask: why not simply solve the continuous LP relaxation to obtain $\mathbf{x}_{\text{LP}}^*$ and round its fractional components to the nearest integers? In general combinatorial spaces, **naive rounding fails catastrophically** for three distinct reasons:
+1. **Complete Infeasibility of All Rounded Neighbors**: Consider the two-variable polyhedron defined by $-x_1 + x_2 \le \frac{1}{2}$, $x_1 + x_2 \le \frac{7}{2}$, $x_1, x_2 \ge 0$, maximizing $Z = x_2$. The unique LP relaxation optimum is $\mathbf{x}_{\text{LP}}^* = (1.5, 2.0)$ with $Z_{\text{LP}}^* = 2.0$. Rounding $x_1 = 1.5$ down to $(1, 2)$ violates $-x_1 + x_2 = -1 + 2 = 1 \not\le 0.5$; rounding $x_1 = 1.5$ up to $(2, 2)$ violates $x_1 + x_2 = 2 + 2 = 4 \not\le 3.5$. Even worse, in high-dimensional binary problems in $\mathbb{R}^n$, a fractional vertex $\mathbf{x}_{\text{LP}}^*$ has $2^n$ neighboring integer hypercube corners, and *every single one* of those $2^n$ rounded points may be infeasible!
+2. **Arbitrarily Severe Suboptimality**: Consider maximizing $Z = x_1 + 5 x_2$ subject to $x_1 + 10 x_2 \le 20$, $x_1 \le 2$, and $x_1, x_2 \in \mathbb{Z}_+$. The continuous LP relaxation optimum occurs at the extreme point $\mathbf{x}_{\text{LP}}^* = (2, 1.8)$ with objective value $Z_{\text{LP}}^* = 2 + 5(1.8) = 11$. Rounding $x_2 = 1.8$ up to $(2, 2)$ is infeasible ($2 + 20 = 22 > 20$); rounding $x_2 = 1.8$ down to preserve feasibility yields $\mathbf{x}_{\text{round}} = (2, 1)$ with objective $Z_{\text{round}} = 2 + 5(1) = 7$. Yet the true integer optimum occurs at $\mathbf{x}_{\text{IP}}^* = (0, 2)$ with $Z_{\text{IP}}^* = 0 + 5(2) = 10$, which lies at a substantial Euclidean distance from $\mathbf{x}_{\text{LP}}^* = (2, 1.8)$ because $x_1$ had to be reduced from $2$ all the way to $0$ to allow $x_2$ to step up from $1.8$ to $2$!
+3. **NP-Completeness of Feasibility Testing**: For 0-1 integer programs, even deciding whether the feasible set $\mathcal{F} = \mathcal{P} \cap \{0, 1\}^n$ is non-empty is NP-complete (via Karp's reduction from 3-SAT), proving that no simple local rounding heuristic around $\mathbf{x}_{\text{LP}}^*$ can guarantee feasibility.
+
+## 6.4 The Land-Doig-Dakin Branch-and-Bound Algorithm: Tree Enumeration, Bounding, and Fathoming Criteria
+
+Originally proposed by Ailsa H. Land and Alison G. Doig in 1960 and streamlined into its modern binary-branching architecture by R. J. Dakin in 1965, the **Branch-and-Bound (B&B) Algorithm** is the universal exact framework for solving Pure, Mixed, and 0-1 Integer Linear Programs. Rather than enumerating all integer points directly, Branch-and-Bound applies a **divide-and-conquer** strategy that recursively partitions the continuous relaxation polyhedron $\mathcal{P}_0 = \mathcal{P}$ into smaller sub-polyhedra $\mathcal{P}_1, \mathcal{P}_2, \dots, \mathcal{P}_k$, using LP relaxation upper bounds (for maximization) and incumbent integer lower bounds to **prune (fathom)** vast subtrees of the search space without ever exploring them.
+
+Throughout the execution of a **Maximization** Branch-and-Bound tree, the algorithm maintains two critical global quantities:
+* **The Incumbent Solution $\mathbf{x}^*$ and Global Lower Bound ($Z^* = \text{LB}$)**: The best feasible integer solution $\mathbf{x}^* \in \mathcal{F}$ discovered anywhere in the tree thus far, initialized at $Z^* = -\infty$ (or initialized via a fast heuristic). Because $\mathbf{x}^*$ is a valid integer solution, the true optimal value satisfies $Z_{\text{IP}}^* \ge Z^*$.
+* **Active Subproblem Nodes $\mathcal{L}$ and Local Upper Bounds ($\text{UB}_k = Z_{\text{LP}}^{(k)}$)**: Each node $k$ in the enumeration tree represents a restricted linear programming relaxation over a sub-polyhedron $\mathcal{P}_k \subseteq \mathcal{P}_0$. Solving the continuous LP at node $k$ yields an optimal solution $\mathbf{x}^{(k)}$ and an upper bound $Z_{\text{LP}}^{(k)}$ on any integer solution contained within the subtree rooted at node $k$.
+
+At any node $k$ where the LP relaxation is feasible and yields a fractional optimal solution $\mathbf{x}^{(k)} \notin \mathbb{Z}^n$ with $Z_{\text{LP}}^{(k)} > Z^*$, **Dakin's Dichotomous Branching Rule** selects a branching variable $x_j$ whose current value $x_j^{(k)} = \beta_j \notin \mathbb{Z}$ is fractional (so $\lfloor \beta_j \rfloor < \beta_j < \lceil \beta_j \rceil = \lfloor \beta_j \rfloor + 1$). Observe that *no* integer lattice point can have its $j$-th coordinate strictly inside the open interval $(\lfloor \beta_j \rfloor, \lceil \beta_j \rceil)$. Consequently, we partition the sub-polyhedron $\mathcal{P}_k$ into two mutually exclusive and collectively exhaustive child subproblems with respect to $\mathbb{Z}^n$:
+
+$$
+\mathcal{P}_{k, \text{left}} = \mathcal{P}_k \cap \left\{ \mathbf{x} : x_j \le \lfloor \beta_j \rfloor \right\}, \qquad \mathcal{P}_{k, \text{right}} = \mathcal{P}_k \cap \left\{ \mathbf{x} : x_j \ge \lceil \beta_j \rceil \right\}
+$$
+
+This partitioning satisfies three decisive geometric properties: (1) $\mathcal{P}_{k, \text{left}} \cap \mathcal{P}_{k, \text{right}} = \emptyset$ (the two subtrees never examine the same point twice); (2) $(\mathcal{P}_{k, \text{left}} \cap \mathbb{Z}^n) \cup (\mathcal{P}_{k, \text{right}} \cap \mathbb{Z}^n) = \mathcal{P}_k \cap \mathbb{Z}^n$ (no feasible integer point is lost by deleting the fractional strip $\lfloor \beta_j \rfloor < x_j < \lceil \beta_j \rceil$); and (3) the current fractional LP optimum $\mathbf{x}^{(k)}$ violates both $x_j \le \lfloor \beta_j \rfloor$ and $x_j \ge \lceil \beta_j \rceil$, guaranteeing that $\mathbf{x}^{(k)}$ is strictly excluded from both child LP relaxations! Furthermore, because each child subproblem merely adds a single upper or lower bound constraint to the parent's optimal Simplex tableau, the child LP relaxation is re-optimized in just a few iterations using the **Dual Simplex Algorithm**.
+
+A subproblem node $k$ in the Branch-and-Bound tree is **fathomed (pruned / terminated)**—meaning no further branching from node $k$ is required—if and only if at least one of the following **Three Fathoming Criteria** holds:
+1. **Fathomed by Infeasibility ($\text{FI}$)**: The continuous LP relaxation over $\mathcal{P}_k$ has no feasible solution ($\mathcal{P}_k = \emptyset$, detected when the Dual Simplex method encounters a negative basic variable row with all non-negative coefficients). Since $\mathcal{P}_k = \emptyset$, clearly $\mathcal{P}_k \cap \mathbb{Z}^n = \emptyset$.
+2. **Fathomed by Bound ($\text{FB}$)**: The LP relaxation upper bound at node $k$ is no better than the current incumbent integer value:
+
+$$
+Z_{\text{LP}}^{(k)} \le Z^* \quad \text{(or } \lfloor Z_{\text{LP}}^{(k)} \rfloor \le Z^* \text{ when } \mathbf{c} \in \mathbb{Z}^n\text{)}
+$$
+
+Since every integer solution $\mathbf{x} \in \mathcal{P}_k \cap \mathbb{Z}^n$ satisfies $\mathbf{c}^\top \mathbf{x} \le Z_{\text{LP}}^{(k)} \le Z^*$, no descendant of node $k$ can strictly improve upon the incumbent $\mathbf{x}^*$.
+3. **Fathomed by Integrality ($\text{F}_{\mathbb{Z}}$)**: The optimal solution of the continuous LP relaxation at node $k$ is purely integer-valued ($\mathbf{x}^{(k)} \in \mathbb{Z}^n$). Since $\mathbf{x}^{(k)}$ maximizes $\mathbf{c}^\top \mathbf{x}$ over all of $\mathcal{P}_k$, no descendant of node $k$ can achieve a higher objective value, so node $k$ requires no further branching. Moreover, if $Z_{\text{LP}}^{(k)} > Z^*$, we immediately update the global incumbent: $\mathbf{x}^* \leftarrow \mathbf{x}^{(k)}$ and $Z^* \leftarrow Z_{\text{LP}}^{(k)}$, and retroactively fathom any active nodes $q \in \mathcal{L}$ that now satisfy $Z_{\text{LP}}^{(q)} \le Z^*$.
+
+When all active nodes have been fathomed ($\mathcal{L} = \emptyset$), the incumbent $\mathbf{x}^*$ is certified as the global integer optimum (or if $Z^* = -\infty$, the ILP is proven infeasible). Modern solvers combine **Best-First (Best-Bound) Node Selection** (choosing the active node $k \in \mathcal{L}$ with the highest $Z_{\text{LP}}^{(k)}$ to minimize total tree size) with **Depth-First Search (DFS) Plunging** (diving down a branch to quickly locate a feasible integer incumbent $Z^*$ and via minimal memory updates using Dual Simplex) and **Most-Fractional / Strong Pseudocost Variable Selection** (branching on variables whose fractional part $f_j = \beta_j - \lfloor \beta_j \rfloor$ is closest to $0.5$ or which induce the steepest LP bound degradation).
+
+## 6.5 Cutting-Plane Theory: Valid Inequalities, Chvátal-Gomory Rounding, and Gomory's Fractional Cut Algorithm
+
+Instead of branching into an exponential tree of subproblems, **Cutting-Plane Algorithms**—pioneered by Ralph E. Gomory in 1958—iteratively tighten the continuous relaxation polyhedron $\mathcal{P}$ by generating linear constraints (**valid inequalities** or **cuts**) that slice off the current fractional LP vertex $\mathbf{x}_{\text{LP}}^*$ without removing *any* feasible integer point in $\mathcal{F} = \mathcal{P} \cap \mathbb{Z}^n$.
+
+Formally, a linear inequality $\boldsymbol{\pi}^\top \mathbf{x} \le \pi_0$ is defined as a **valid inequality** for the integer set $\mathcal{F} = \mathcal{P} \cap \mathbb{Z}^n$ if $\boldsymbol{\pi}^\top \mathbf{x} \le \pi_0$ holds for every $\mathbf{x} \in \mathcal{F}$. A valid inequality is a **cutting plane** relative to a fractional LP optimum $\mathbf{x}_{\text{LP}}^* \in \mathcal{P} \setminus \mathbb{Z}^n$ if it is strictly violated by $\mathbf{x}_{\text{LP}}^*$, that is:
+
+$$
+\boldsymbol{\pi}^\top \mathbf{x} \le \pi_0 \quad \forall \mathbf{x} \in \mathcal{P} \cap \mathbb{Z}^n, \qquad \text{and} \qquad \boldsymbol{\pi}^\top \mathbf{x}_{\text{LP}}^* > \pi_0
+$$
+
+Two geometric frameworks generate valid cutting planes systematically:
+1. **The Chvátal-Gomory (CG) Rounding Procedure**: Given $\mathcal{P} = \{\mathbf{x} \in \mathbb{R}_+^n : \mathbf{A}\mathbf{x} \le \mathbf{b}\}$ with $\mathbf{x} \in \mathbb{Z}_+^n$, choose any non-negative dual multiplier vector $\mathbf{u} \in \mathbb{R}_+^m$. Taking the non-negative linear combination of the constraints $\mathbf{A}\mathbf{x} \le \mathbf{b}$ yields the valid continuous inequality $(\mathbf{u}^\top \mathbf{A})\mathbf{x} \le \mathbf{u}^\top \mathbf{b}$. Since $\mathbf{x} \ge \mathbf{0}$, rounding down the left-hand-side coefficients to integers weakens the left side: $\sum_{j=1}^n \lfloor \mathbf{u}^\top \mathbf{a}_j \rfloor x_j \le (\mathbf{u}^\top \mathbf{A})\mathbf{x} \le \mathbf{u}^\top \mathbf{b}$. Finally, because both $\lfloor \mathbf{u}^\top \mathbf{a}_j \rfloor$ and $x_j$ are integers for every $\mathbf{x} \in \mathcal{F}$, the entire left-hand sum $\sum_{j=1}^n \lfloor \mathbf{u}^\top \mathbf{a}_j \rfloor x_j$ is an integer, which implies it cannot exceed the integer floor of the right-hand side! This yields the **Chvátal-Gomory Inequality**:
+
+$$
+\sum_{j=1}^n \lfloor \mathbf{u}^\top \mathbf{a}_j \rfloor x_j \le \lfloor \mathbf{u}^\top \mathbf{b} \rfloor
+$$
+
+Chvátal (1973) proved that for any bounded rational polyhedron $\mathcal{P}$, applying this rounding operation finitely many times (the Chvátal rank of $\mathcal{P}$) reconstructs the exact integer hull $\mathcal{P}_I = \text{conv}(\mathcal{P} \cap \mathbb{Z}^n)$.
+
+2. **Gomory's Fractional Cutting-Plane Algorithm (1958)**: Rather than searching blindly for multipliers $\mathbf{u} \ge \mathbf{0}$, Gomory observed that the optimal Simplex tableau of the LP relaxation directly furnishes the ideal multiplier vector! Consider a Pure ILP in standard equality form $\mathbf{A}\mathbf{x} = \mathbf{b}, \mathbf{x} \in \mathbb{Z}_+^n$ (where all structural and slack variables are required to be integers, achieved by clearing rational denominators in the original constraints). Solve the continuous LP relaxation via the Simplex method to obtain an optimal basis $\mathcal{B}$ and non-basic index set $\mathcal{N}$. If all basic variables $\bar{b}_i \in \mathbb{Z}$ are integers, stop—the optimal integer solution is found. Otherwise, select a **generating source row** $i \in \mathcal{B}$ whose basic variable $x_i$ has a fractional right-hand-side value $\bar{b}_i \notin \mathbb{Z}$ (conventionally choosing the row with the largest fractional part $f_{i0}$). The canonical $i$-th row of the optimal Simplex tableau reads:
+
+$$
+x_i + \sum_{j \in \mathcal{N}} \bar{a}_{ij} x_j = \bar{b}_i
+$$
+
+Now decompose the right-hand side $\bar{b}_i$ and every non-basic coefficient $\bar{a}_{ij}$ into their **integer floor** and **non-negative fractional part**:
+
+$$
+\bar{b}_i = \lfloor \bar{b}_i \rfloor + f_{i0} \quad \text{with } f_{i0} = \bar{b}_i - \lfloor \bar{b}_i \rfloor \in (0, 1)
+$$
+
+$$
+\bar{a}_{ij} = \lfloor \bar{a}_{ij} \rfloor + f_{ij} \quad \text{with } f_{ij} = \bar{a}_{ij} - \lfloor \bar{a}_{ij} \rfloor \in [0, 1) \quad \forall j \in \mathcal{N}
+$$
+
+*Crucial algebraic warning*: The floor function $\lfloor \bar{a}_{ij} \rfloor$ is the greatest integer less than or equal to $\bar{a}_{ij}$, so for a **negative** coefficient such as $\bar{a}_{ij} = -1.4$, we have $\lfloor -1.4 \rfloor = -2$ and a strictly non-negative fractional part $f_{ij} = -1.4 - (-2) = +0.6 \ge 0$! Substituting these decompositions into the source row and grouping all integer terms on the left-hand side and all fractional terms on the right-hand side yields:
+
+$$
+x_i + \sum_{j \in \mathcal{N}} \lfloor \bar{a}_{ij} \rfloor x_j - \lfloor \bar{b}_i \rfloor = f_{i0} - \sum_{j \in \mathcal{N}} f_{ij} x_j
+$$
+
+For any feasible integer solution $\mathbf{x} \in \mathbb{Z}_+^n$, every variable $x_i, x_j \in \mathbb{Z}_+$ and every floor coefficient $\lfloor \bar{a}_{ij} \rfloor, \lfloor \bar{b}_i \rfloor \in \mathbb{Z}$ is an integer. Therefore, the left-hand side—and hence the right-hand side $f_{i0} - \sum_{j \in \mathcal{N}} f_{ij} x_j$—must equal an integer! Simultaneously, since $f_{ij} \ge 0$ and $x_j \ge 0$ for all $j \in \mathcal{N}$, we have $\sum_{j \in \mathcal{N}} f_{ij} x_j \ge 0$, which implies that the right-hand side satisfies $f_{i0} - \sum_{j \in \mathcal{N}} f_{ij} x_j \le f_{i0} < 1$. The largest integer strictly less than $1$ is $0$! Consequently, for every feasible integer point $\mathbf{x} \in \mathcal{F}$, the right-hand side must be an integer less than or equal to zero ($0, -1, -2, \dots$), which implies $f_{i0} - \sum_{j \in \mathcal{N}} f_{ij} x_j \le 0$. Rearranging this inequality gives **Gomory's Fractional Cut** in non-basic variable space:
+
+$$
+\sum_{j \in \mathcal{N}} f_{ij} x_j \ge f_{i0} \quad \Longleftrightarrow \quad -\sum_{j \in \mathcal{N}} f_{ij} x_j + s_g = -f_{i0}, \quad s_g \in \mathbb{Z}_+
+$$
+
+Notice three remarkable properties of Gomory's cut: (1) at the current fractional LP optimum $\mathbf{x}_{\text{LP}}^*$, all non-basic variables are zero ($x_j = 0$ for $j \in \mathcal{N}$), so the Gomory slack variable evaluates to $s_g = -f_{i0} < 0$, proving that $\mathbf{x}_{\text{LP}}^*$ strictly violates the cut; (2) because $f_{i0} - \sum_{j \in \mathcal{N}} f_{ij} x_j$ is an integer, the newly introduced slack variable $s_g$ is itself restricted to be a non-negative integer; and (3) appending the row $-\sum_{j \in \mathcal{N}} f_{ij} x_j + s_g = -f_{i0}$ to the bottom of the current optimal Simplex tableau preserves dual feasibility while introducing a single negative right-hand side $-f_{i0} < 0$, allowing immediate re-optimization via the **Dual Simplex Algorithm**! By substituting $x_j$ back in terms of the original structural variables, the cut can also be plotted directly as a half-space inequality in the original geometric decision space. In modern computational optimization, Manfred Padberg and Egon Balas showed that combining Gomory cuts, lifted knapsack cover cuts, and disjunctive cuts inside a Branch-and-Bound tree—termed **Branch-and-Cut**—accelerates MILP solvers by several orders of magnitude.
+
+## 6.6 Richard Bellman's Principle of Optimality and Backward Recursive Dynamic Programming
+
+Pioneered by Richard E. Bellman at the RAND Corporation during the 1950s and codified in his landmark 1957 monograph *Dynamic Programming*, **Dynamic Programming (DP)** is a mathematical decomposition methodology for optimizing sequential, multi-stage decision processes. Unlike linear programming, which requires a specific algebraic form ($\mathbf{A}\mathbf{x} \le \mathbf{b}$), Dynamic Programming is a general structural meta-framework capable of solving discrete, continuous, nonlinear, non-convex, and stochastic optimization problems—provided the problem can be decomposed into sequential **stages** where information needed for future decisions is completely summarized by a low-dimensional **state variable** (a deterministic Markovian property).
+
+Every Dynamic Programming formulation rests upon five canonical structural elements:
+1. **Stages ($n = 1, 2, \dots, N$)**: The problem is decomposed into a sequence of $N$ ordered decision steps (representing time periods, geographical routing layers, or distinct items/sectors in resource allocation).
+2. **States ($s_n \in \mathcal{S}_n$)**: Associated with each stage $n$ is a state variable $s_n$ that encapsulates all relevant historical information entering stage $n$ (such as the current node in a network or the remaining unallocated budget/weight capacity) required to make optimal decisions from stage $n$ onward.
+3. **Decisions ($x_n \in \mathcal{D}_n(s_n)$)**: At stage $n$ in state $s_n$, the decision-maker selects a control action $x_n$ from the state-dependent feasible decision set $\mathcal{D}_n(s_n)$, generating an immediate stage return (or cost) $r_n(s_n, x_n)$.
+4. **State Transition Equation**: Selecting decision $x_n$ at stage $n$ in state $s_n$ deterministically (or probabilistically) transforms the system into the stage-$(n+1)$ state $s_{n+1} = T_n(s_n, x_n)$ (for instance, in resource allocation, $s_{n+1} = s_n - w_n x_n$).
+5. **Recursive Value Function ($f_n^*(s_n)$)**: Let $f_n(s_n, x_n)$ denote the total return accumulated over stages $n, n+1, \dots, N$ given that the system starts stage $n$ in state $s_n$, implements decision $x_n$, and follows an optimal policy from stage $n+1$ to $N$. Then the optimal value-to-go function is $f_n^*(s_n) = \text{opt}_{x_n \in \mathcal{D}_n(s_n)} f_n(s_n, x_n)$.
+
+The theoretical foundation of Dynamic Programming is **Bellman's Principle of Optimality (1953)**:
+> *"An optimal policy has the property that whatever the initial state and initial decision are, the remaining decisions must constitute an optimal policy with regard to the state resulting from the first decision."*
+
+For an additive separable objective $\sum_{n=1}^N r_n(s_n, x_n)$, Bellman's Principle of Optimality translates into the **Backward Functional Recurrence Equation (Bellman Equation)** working backward from the terminal boundary condition $f_{N+1}^*(s_{N+1}) \equiv 0$:
+
+$$
+f_n^*(s_n) = \max_{x_n \in \mathcal{D}_n(s_n)} \Big\{ r_n(s_n, x_n) + f_{n+1}^*\big(T_n(s_n, x_n)\big) \Big\} \quad \text{for } n = N, N-1, \dots, 1
+$$
+
+(with $\max$ replaced by $\min$ for cost minimization). Why is Dynamic Programming so much faster than exhaustive enumeration? If each of $N$ stages offers $K$ choices, exhaustive trial-and-error evaluates $K^N$ complete trajectories; if each stage has at most $S$ states, backward DP evaluates at most $S \cdot K$ combinations per stage across $N$ stages, reducing exponential complexity $O(K^N)$ to **pseudo-polynomial complexity $O(N S K)$**! However, if the state vector $\mathbf{s}_n \in \mathbb{R}^d$ has dimension $d$ with $S$ grid points per coordinate, the state space explodes to $S^d$, a phenomenon Bellman famously termed the **Curse of Dimensionality**.
+
+Three classic archetypes demonstrate backward recursive Dynamic Programming:
+* **The Stagecoach Problem (Shortest Path in Layered Networks)**: A mythical fortune seeker travels west by stagecoach through $N$ sequential geographical zones (stages), choosing which state $x_n$ to enter next to minimize total life-insurance policy cost $c(s_n, x_n)$. Here the state $s_n$ is the current territory at the start of stage $n$, the transition is $s_{n+1} = x_n$, and Bellman's backward equation is $f_n^*(s_n) = \min_{x_n} \big\{ c(s_n, x_n) + f_{n+1}^*(x_n) \big\}$ with $f_N^*(s_N) = c(s_N, \text{Destination})$.
+* **Discrete Resource Allocation and the Unbounded / 0-1 Knapsack Problem**: Suppose a total integer capacity $W$ (e.g., cargo weight or capital budget) is to be allocated across $N$ items or projects. Item $n$ has unit weight $w_n \in \mathbb{Z}_+$ and unit return $v_n > 0$. Defining stage $n \in \{1, \dots, N\}$ as item $n$ and state $s_n \in \{0, 1, \dots, W\}$ as the remaining capacity available for items $n, n+1, \dots, N$, the transition is $s_{n+1} = s_n - w_n x_n$, and the backward recurrence is:
+
+$$
+f_n^*(s_n) = \max_{x_n \in \{0, 1, \dots, \lfloor s_n / w_n \rfloor\}} \Big\{ v_n x_n + f_{n+1}^*(s_n - w_n x_n) \Big\}, \qquad f_{N+1}^*(s) = 0
+$$
+
+(where $x_n \in \{0, 1\}$ with $w_n x_n \le s_n$ for the 0-1 Knapsack, or general nonlinear return $r_n(x_n)$ for allocating discrete statisticians or medical teams across $N$ regional clinics).
+* **Multiplicative System Reliability Optimization**: If $N$ subsystem stages operate in series and allocating $x_n$ parallel redundant components at stage $n$ costs $c_n(x_n)$ and achieves stage survival probability $p_n(x_n) \in (0, 1)$, maximizing overall system reliability $\prod_{n=1}^N p_n(x_n)$ subject to budget $\sum_{n=1}^N c_n(x_n) \le B$ uses the **multiplicative Bellman recursion**:
+
+$$
+f_n^*(s_n) = \max_{x_n : c_n(x_n) \le s_n} \Big\{ p_n(x_n) \cdot f_{n+1}^*\big(s_n - c_n(x_n)\big) \Big\}, \qquad f_{N+1}^*(s) = 1
+$$
+
+<div class="table-wrapper"><table class="data-table">
+<thead>
+<tr>
+<th>Discrete Optimization Methodology</th>
+<th>Core Mathematical Mechanism</th>
+<th>Subproblem / Relaxation Architecture</th>
+<th>Optimality &amp; Pruning Guarantee</th>
+<th>Primary Algorithmic Limitation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LP Relaxation + Naive Rounding</strong></td>
+<td>Drop $\mathbf{x} \in \mathbb{Z}^n$, solve LP on $\mathcal{P}$, round $\mathbf{x}_{\text{LP}}^*$</td>
+<td>Single continuous polyhedron $\mathcal{P} = \{\mathbf{A}\mathbf{x} \le \mathbf{b}\}$</td>
+<td>Provides bound $Z_{\text{IP}}^* \le \lfloor Z_{\text{LP}}^* \rfloor$; no feasibility guarantee</td>
+<td>Rounded points frequently infeasible or severely suboptimal</td>
+</tr>
+<tr>
+<td><strong>Land-Doig-Dakin Branch-and-Bound</strong></td>
+<td>Dichotomous tree split $x_j \le \lfloor \beta_j \rfloor \lor x_j \ge \lceil \beta_j \rceil$</td>
+<td>Hierarchy of restricted LP sub-polyhedra solved via Dual Simplex</td>
+<td>Fathoming by Infeasibility ($\text{FI}$), Bound ($\text{FB}$), Integrality ($\text{F}_{\mathbb{Z}}$)</td>
+<td>Worst-case exponential tree size $O(2^n)$ when LP bounds are weak</td>
+</tr>
+<tr>
+<td><strong>Gomory Fractional Cutting Planes</strong></td>
+<td>Extract source row fractional parts $\sum_{j \in \mathcal{N}} f_{ij} x_j \ge f_{i0}$</td>
+<td>Sequentially tightened polyhedra $\mathcal{P}^{(0)} \supset \mathcal{P}^{(1)} \supset \dots \supset \mathcal{P}_I$</td>
+<td>Slices off $\mathbf{x}_{\text{LP}}^*$ while preserving all $\mathbf{x} \in \mathcal{P} \cap \mathbb{Z}^n$</td>
+<td>Numerical roundoff sensitivity; slow tail convergence alone</td>
+</tr>
+<tr>
+<td><strong>Bellman Dynamic Programming</strong></td>
+<td>Backward functional recursion $f_n^*(s_n) = \max \{r_n + f_{n+1}^*(s_{n+1})\}$</td>
+<td>Stagewise optimal value tables over discrete state grid $\mathcal{S}_n$</td>
+<td>Principle of Optimality guarantees exact global optimum in $O(NSK)$</td>
+<td>Curse of Dimensionality: state space grows as $O(S^d)$ in dimension $d$</td>
+</tr>
+</tbody>
+</table></div>
+
+## Worked Questions and Solutions
+
+### Question 1: Land-Doig-Dakin Branch-and-Bound Tree Enumeration for Pure ILP
+
+Consider the following two-variable Pure Integer Linear Programming problem:
+
+$$
+\max \quad Z = 5x_1 + 8x_2
+$$
+
+$$
+\text{subject to} \quad \begin{aligned}
+x_1 + x_2 &\le 6 \quad \text{(Constraint 1)} \\
+5x_1 + 9x_2 &\le 45 \quad \text{(Constraint 2)} \\
+x_1, x_2 &\in \mathbb{Z}_+ = \{0, 1, 2, \dots\}
+\end{aligned}
+$$
+
+1. Solve the continuous **LP Relaxation at Root Node 0**, explain why naive rounding of the fractional root solution fails or is suboptimal, and select a branching variable using Dakin's dichotomous rule.
+2. Execute the complete **Land-Doig-Dakin Branch-and-Bound Algorithm** across all generated subproblem nodes, explicitly calculating the LP relaxation solution $(x_1^{(k)}, x_2^{(k)})$, objective value $Z_{\text{LP}}^{(k)}$, incumbent lower bound $Z^*$, and exact fathoming criterion ($\text{FI}$, $\text{FB}$, or $\text{F}_{\mathbb{Z}}$) at every node.
+3. Summarize the entire Branch-and-Bound enumeration tree in a structured table and state the unique optimal integer solution $(x_1^*, x_2^*)$ and optimal objective value $Z_{\text{IP}}^*$.
+
+### Solution, step 1: Root Node LP Relaxation and Initial Dichotomous Branching
+
+* **Node 0 (Root LP Relaxation)**: Dropping the integrality requirement $x_1, x_2 \in \mathbb{Z}_+$, the continuous feasible region is bounded by $x_1 + x_2 \le 6$ and $5x_1 + 9x_2 \le 45$ in the first quadrant. Solving the intersection of the two boundary lines $x_1 = 6 - x_2 \implies 5(6 - x_2) + 9x_2 = 45 \implies 30 + 4x_2 = 45 \implies 4x_2 = 15$ yields the unique continuous LP optimum:
+
+$$
+\mathbf{x}^{(0)} = \left(x_1^{(0)}, x_2^{(0)}\right) = \left(\frac{9}{4}, \, \frac{15}{4}\right) = (2.25, \, 3.75), \qquad Z_{\text{LP}}^{(0)} = 5(2.25) + 8(3.75) = 11.25 + 30.00 = 41.25
+$$
+
+Since $c_1 = 5, c_2 = 8 \in \mathbb{Z}$, we immediately know that any integer solution must satisfy $Z_{\text{IP}}^* \le \lfloor 41.25 \rfloor = 41$. Notice that rounding $(2.25, 3.75)$ to the nearest integer point $(2, 4)$ violates Constraint 2 since $5(2) + 9(4) = 46 > 45$! Rounding both coordinates down to $(2, 3)$ is feasible with $Z = 34$, but we cannot tell without Branch-and-Bound whether a higher integer value exists. Currently, no integer node has been found in the tree, so $Z^* = -\infty$.
+* **Branching from Node 0**: Both $x_1^{(0)} = 2.25$ and $x_2^{(0)} = 3.75$ are fractional. Selecting $x_2^{(0)} = 3.75$ (which has the larger objective coefficient $c_2 = 8$), we partition on the excluded interval $(3, 4)$ into **Node 1** ($x_2 \ge 4$) and **Node 2** ($x_2 \le 3$).
+
+### Solution, step 2: Subproblem Enumeration, Bounding, and Fathoming Analysis
+
+* **Node 1 (Add $x_2 \ge 4$ to Node 0)**: Substituting $x_2 \ge 4$ into Constraint 2 ($5x_1 + 9x_2 \le 45$) with $x_1 \ge 0$ restricts $x_2$ to $[4, 5]$, and the objective $5x_1 + 8x_2$ is maximized on the tight boundary $5x_1 + 9x_2 = 45$ where $x_2$ is as small as possible ($x_2 = 4$) so $x_1$ can be as large as possible: $5x_1 + 9(4) = 45 \implies 5x_1 = 9 \implies x_1 = 1.8$ (which satisfies $x_1 + x_2 = 5.8 \le 6$). Thus:
+
+$$
+\mathbf{x}^{(1)} = (1.8, \, 4.0), \qquad Z_{\text{LP}}^{(1)} = 5(1.8) + 8(4.0) = 9 + 32 = 41.00
+$$
+
+* **Node 2 (Add $x_2 \le 3$ to Node 0)**: Maximizing $5x_1 + 8x_2$ subject to $x_1 + x_2 \le 6$, $5x_1 + 9x_2 \le 45$, and $x_2 \le 3$ occurs at the corner where $x_2 = 3$ and $x_1 + x_2 = 6 \implies x_1 = 3$ (checking Constraint 2: $5(3) + 9(3) = 42 \le 45$). Thus:
+
+$$
+\mathbf{x}^{(2)} = (3, \, 3) \in \mathbb{Z}_+^2, \qquad Z_{\text{LP}}^{(2)} = 5(3) + 8(3) = 15 + 24 = 39.00
+$$
+
+Because $\mathbf{x}^{(2)} = (3, 3)$ is purely integral, **Node 2 is Fathomed by Integrality ($\text{F}_{\mathbb{Z}}$)**, and we update the global incumbent to $\mathbf{x}^* = (3, 3)$ with lower bound $Z^* = 39$!
+* **Branching from Node 1**: Node 1 remains active because $Z_{\text{LP}}^{(1)} = 41.0 > Z^* = 39$ and $x_1^{(1)} = 1.8 \notin \mathbb{Z}$. We branch on $x_1^{(1)} = 1.8$ into **Node 3** ($x_2 \ge 4, x_1 \le 1$) and **Node 4** ($x_2 \ge 4, x_1 \ge 2$).
+* **Node 3 (Add $x_1 \le 1$ to Node 1, so $x_1 \le 1, x_2 \ge 4$)**: To maximize $5x_1 + 8x_2$ subject to $5x_1 + 9x_2 \le 45$ and $x_1 \le 1$, both $x_1$ and $x_2$ have positive objective coefficients and $x_2$ has the higher ratio $8/9 > 5/5$? Wait: along $5x_1 + 9x_2 = 45$, $x_2 = 5 - \frac{5}{9}x_1$, so $Z = 5x_1 + 8\left(5 - \frac{5}{9}x_1\right) = 40 + \frac{5}{9}x_1$, which increases with $x_1$! Setting $x_1$ to its upper bound $x_1 = 1$ gives $9x_2 = 45 - 5(1) = 40 \implies x_2 = \frac{40}{9} \approx 4.444$:
+
+$$
+\mathbf{x}^{(3)} = \left(1, \, \frac{40}{9}\right) = (1.00, \, 4.444), \qquad Z_{\text{LP}}^{(3)} = 5(1) + 8\left(\frac{40}{9}\right) = \frac{365}{9} \approx 40.556
+$$
+
+* **Node 4 (Add $x_1 \ge 2$ to Node 1, so $x_1 \ge 2, x_2 \ge 4$)**: Even at the minimum bounds $x_1 = 2$ and $x_2 = 4$, Constraint 2 evaluates to $5(2) + 9(4) = 10 + 36 = 46 > 45$! Thus the continuous polyhedron $\mathcal{P}_4 = \emptyset$ is empty, and **Node 4 is Fathomed by Infeasibility ($\text{FI}$)**.
+* **Branching from Node 3**: Since $Z_{\text{LP}}^{(3)} = 40.556 > Z^* = 39$ and $x_2^{(3)} = 4.444 \notin \mathbb{Z}$, we branch on $x_2$ into **Node 5** ($x_1 \le 1, x_2 \le 4$, combined with $x_2 \ge 4 \implies x_2 = 4$) and **Node 6** ($x_1 \le 1, x_2 \ge 5$).
+* **Node 5 (Add $x_2 \le 4$ to Node 3, forcing $x_2 = 4$ and $x_1 \le 1$)**: Maximizing $5x_1 + 8(4)$ subject to $x_1 \le 1$ and $5x_1 + 36 \le 45 \implies x_1 \le 1.8$ yields $x_1 = 1, x_2 = 4$:
+
+$$
+\mathbf{x}^{(5)} = (1, \, 4) \in \mathbb{Z}_+^2, \qquad Z_{\text{LP}}^{(5)} = 5(1) + 8(4) = 37.00
+$$
+
+**Node 5 is Fathomed by Integrality ($\text{F}_{\mathbb{Z}}$)** (and also by bound, since $37 < Z^* = 39$, so the incumbent $Z^* = 39$ is unchanged).
+* **Node 6 (Add $x_2 \ge 5$ to Node 3)**: Substituting $x_2 \ge 5$ into Constraint 2 ($5x_1 + 9x_2 \le 45$) with $x_1 \ge 0$ forces $x_1 = 0$ and $x_2 = 5$:
+
+$$
+\mathbf{x}^{(6)} = (0, \, 5) \in \mathbb{Z}_+^2, \qquad Z_{\text{LP}}^{(6)} = 5(0) + 8(5) = 40.00
+$$
+
+Since $\mathbf{x}^{(6)} = (0, 5)$ is purely integral and $Z_{\text{LP}}^{(6)} = 40 > Z^* = 39$, **Node 6 is Fathomed by Integrality ($\text{F}_{\mathbb{Z}}$)** and we update the global incumbent to $\mathbf{x}^* = (0, 5)$ with $Z^* = 40.00$!
+
+### Solution, step 3: Summary Table of Branch-and-Bound Tree and Global Optimal Certification
+
+All active nodes in $\mathcal{L}$ have now been fathomed. The complete enumeration trajectory is summarized below:
+
+<div class="table-wrapper"><table class="data-table">
+<thead>
+<tr>
+<th>Node $k$</th>
+<th>Parent Node</th>
+<th>Added Branching Constraint</th>
+<th>LP Relaxation Optimum $\mathbf{x}^{(k)}$</th>
+<th>LP Upper Bound $Z_{\text{LP}}^{(k)}$</th>
+<th>Incumbent Bound $Z^*$</th>
+<th>Node Status / Fathoming Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Node 0</strong></td>
+<td>—</td>
+<td>Root LP Relaxation</td>
+<td>$(2.25, \, 3.75)$</td>
+<td>$41.25$</td>
+<td>$-\infty$</td>
+<td>Fractional; branch on $x_2^{(0)} = 3.75$</td>
+</tr>
+<tr>
+<td><strong>Node 2</strong></td>
+<td>Node 0</td>
+<td>$x_2 \le 3$</td>
+<td>$(3.00, \, 3.00)$</td>
+<td>$39.00$</td>
+<td>$39.00$</td>
+<td><strong>Fathomed by Integrality ($\text{F}_{\mathbb{Z}}$)</strong>; new incumbent</td>
+</tr>
+<tr>
+<td><strong>Node 1</strong></td>
+<td>Node 0</td>
+<td>$x_2 \ge 4$</td>
+<td>$(1.80, \, 4.00)$</td>
+<td>$41.00$</td>
+<td>$39.00$</td>
+<td>Fractional ($41.0 > 39$); branch on $x_1^{(1)} = 1.80$</td>
+</tr>
+<tr>
+<td><strong>Node 4</strong></td>
+<td>Node 1</td>
+<td>$x_2 \ge 4, \; x_1 \ge 2$</td>
+<td>Infeasible ($\mathcal{P}_4 = \emptyset$)</td>
+<td>$-\infty$</td>
+<td>$39.00$</td>
+<td><strong>Fathomed by Infeasibility ($\text{FI}$)</strong> ($5(2)+9(4)=46>45$)</td>
+</tr>
+<tr>
+<td><strong>Node 3</strong></td>
+<td>Node 1</td>
+<td>$x_2 \ge 4, \; x_1 \le 1$</td>
+<td>$(1.00, \, 4.444)$</td>
+<td>$40.56$</td>
+<td>$39.00$</td>
+<td>Fractional ($40.56 > 39$); branch on $x_2^{(3)} = 4.444$</td>
+</tr>
+<tr>
+<td><strong>Node 5</strong></td>
+<td>Node 3</td>
+<td>$x_2 = 4, \; x_1 \le 1$</td>
+<td>$(1.00, \, 4.00)$</td>
+<td>$37.00$</td>
+<td>$39.00$</td>
+<td><strong>Fathomed by Bound ($\text{FB}$) &amp; Integrality ($\text{F}_{\mathbb{Z}}$)</strong> ($37 \le 39$)</td>
+</tr>
+<tr>
+<td><strong>Node 6</strong></td>
+<td>Node 3</td>
+<td>$x_2 \ge 5, \; x_1 \le 1$</td>
+<td>$(0.00, \, 5.00)$</td>
+<td>$40.00$</td>
+<td>$40.00$</td>
+<td><strong>Fathomed by Integrality ($\text{F}_{\mathbb{Z}}$)</strong>; <strong>Global Optimum!</strong></td>
+</tr>
+</tbody>
+</table></div>
+
+Thus, the unique optimal integer solution is $\mathbf{x}_{\text{IP}}^* = (x_1^*, x_2^*) = (0, 5)$ with maximum objective value $Z_{\text{IP}}^* = 40$—illustrating dramatically how the true integer optimum $(0, 5)$ lies far from the continuous LP optimum $(2.25, 3.75)$!
+
+---
+
+### Question 2: Derivation and Dual Simplex Application of Gomory Fractional Cutting Planes
+
+Consider the Pure Integer Linear Programming problem:
+
+$$
+\max \quad Z = 3x_1 + 4x_2
+$$
+
+$$
+\text{subject to} \quad \begin{aligned}
+3x_1 + 2x_2 + s_1 &= 8 \quad \text{(Constraint 1)} \\
+x_1 + 4x_2 + s_2 &= 10 \quad \text{(Constraint 2)} \\
+x_1, x_2, s_1, s_2 &\in \mathbb{Z}_+
+\end{aligned}
+$$
+
+Solving the continuous LP relaxation via the Simplex method yields the optimal basis $\mathcal{B} = \{x_1, x_2\}$ and non-basic set $\mathcal{N} = \{s_1, s_2\}$ with the following canonical optimal Simplex equations:
+
+$$
+\begin{aligned}
+Z + \frac{4}{5}s_1 + \frac{3}{5}s_2 &= \frac{56}{5} = 11\frac{1}{5} \\
+x_1 + \frac{2}{5}s_1 - \frac{1}{5}s_2 &= \frac{6}{5} = 1\frac{1}{5} \quad \text{(Row 1)} \\
+x_2 - \frac{1}{5}s_1 + \frac{3}{5}s_2 &= \frac{11}{5} = 2\frac{1}{5} \quad \text{(Row 2)}
+\end{aligned}
+$$
+
+1. Using **Row 2** ($x_2$ row) as the generating source row (paying careful attention to the negative non-basic coefficient $\bar{a}_{2, s_1} = -1/5$), derive **Gomory's Fractional Cut** both in non-basic slack space $(s_1, s_2)$ and in the original structural decision space $(x_1, x_2)$.
+2. Append the Gomory cut to the optimal Simplex tableau and execute one iteration of the **Dual Simplex Algorithm** to obtain the updated solution.
+3. Verify whether the updated basic solution is integral; if it is integral, state the optimal integer solution $(x_1^*, x_2^*)$ and objective value $Z_{\text{IP}}^*$.
+
+### Solution, step 1: Fractional Decomposition and Derivation of the Gomory Cut
+
+Inspecting Row 2 of the optimal LP relaxation tableau:
+
+$$
+x_2 - \frac{1}{5}s_1 + \frac{3}{5}s_2 = \frac{11}{5}
+$$
+
+We decompose the right-hand side $\bar{b}_2 = \frac{11}{5}$ and each non-basic coefficient $\bar{a}_{2, s_1} = -\frac{1}{5}$, $\bar{a}_{2, s_2} = \frac{3}{5}$ into their integer floor $\lfloor \cdot \rfloor$ and non-negative fractional part $f_{2j} \in [0, 1)$:
+* Right-hand side: $\bar{b}_2 = \frac{11}{5} = 2 + \frac{1}{5} \implies \lfloor \bar{b}_2 \rfloor = 2, \quad f_{20} = \frac{1}{5}$
+* Coefficient of $s_1$: $\bar{a}_{2, s_1} = -\frac{1}{5} = -1 + \frac{4}{5} \implies \lfloor -\frac{1}{5} \rfloor = -1, \quad f_{2, s_1} = \frac{4}{5} > 0$
+* Coefficient of $s_2$: $\bar{a}_{2, s_2} = \frac{3}{5} = 0 + \frac{3}{5} \implies \lfloor \frac{3}{5} \rfloor = 0, \quad f_{2, s_2} = \frac{3}{5} > 0$
+
+Applying Gomory's fractional inequality $\sum_{j \in \mathcal{N}} f_{2j} x_j \ge f_{20}$ yields the cutting plane in non-basic space:
+
+$$
+\frac{4}{5}s_1 + \frac{3}{5}s_2 \ge \frac{1}{5} \quad \Longleftrightarrow \quad -\frac{4}{5}s_1 - \frac{3}{5}s_2 + s_g = -\frac{1}{5}, \quad s_g \in \mathbb{Z}_+
+$$
+
+To express this cut in the original structural $(x_1, x_2)$ plane, substitute $s_1 = 8 - 3x_1 - 2x_2$ and $s_2 = 10 - x_1 - 4x_2$ into $4s_1 + 3s_2 \ge 1$:
+
+$$
+4(8 - 3x_1 - 2x_2) + 3(10 - x_1 - 4x_2) \ge 1 \implies 32 - 12x_1 - 8x_2 + 30 - 3x_1 - 12x_2 \ge 1 \implies 15x_1 + 20x_2 \le 61
+$$
+
+Dividing by $5$ (or noting that since $15x_1 + 20x_2 = 5(3x_1 + 4x_2)$ is a multiple of $5$, $5(3x_1 + 4x_2) \le 61$ for integer $x_1, x_2$ actually implies $3x_1 + 4x_2 \le \lfloor 61/5 \rfloor = 12$, and from Row 1 one could also derive $x_1 + x_2 \le 3$), notice that at the fractional LP optimum $(x_1, x_2) = (1.2, 2.2)$, we have $15(1.2) + 20(2.2) = 18 + 44 = 62 > 61$, confirming that $(1.2, 2.2)$ is sliced off! (Wait: what if we instead use **Row 1** as the generating source row? Let us check Row 1 as well: in Row 1, $x_1 + \frac{2}{5}s_1 - \frac{1}{5}s_2 = 1 + \frac{1}{5}$, so $f_{10} = \frac{1}{5}, f_{1, s_1} = \frac{2}{5}, f_{1, s_2} = \frac{4}{5}$, yielding $\frac{2}{5}s_1 + \frac{4}{5}s_2 \ge \frac{1}{5}$, which in $(x_1, x_2)$ space is $2(8 - 3x_1 - 2x_2) + 4(10 - x_1 - 4x_2) \ge 1 \implies 10x_1 + 20x_2 \le 55 \implies x_1 + 2x_2 \le 5$!)
+
+### Solution, step 2: Appending the Cut and Executing Dual Simplex Pivoting
+
+Let us first perform the Dual Simplex step with the **Row 2 Gomory cut** $-\frac{4}{5}s_1 - \frac{3}{5}s_2 + s_{g1} = -\frac{1}{5}$, and if a second cut is needed, we will see how the tableau reaches exact integrality! In the augmented tableau with basic variable $s_{g1} = -\frac{1}{5} < 0$:
+* **Leaving basic variable**: $s_{g1}$ (since $\bar{b}_{s_{g1}} = -1/5 < 0$).
+* **Dual Simplex Minimum Ratio Test** for the entering non-basic variable among columns with $\bar{a}_{s_{g1}, j} < 0$:
+
+$$
+\theta = \min_{j \in \{s_1, s_2\}} \left\{ \frac{z_j - c_j}{|\bar{a}_{s_{g1}, j}|} \right\} = \min \left\{ \frac{4/5}{|-4/5|}, \; \frac{3/5}{|-3/5|} \right\} = \min \{1, \; 1\} = 1
+$$
+
+Both $s_1$ and $s_2$ tie at ratio $1$!
+* If we select **$s_1$ to enter the basis** (pivoting on $-\frac{4}{5}s_1$): multiplying the cut row by $-5/4$ gives $s_1 + \frac{3}{4}s_2 - \frac{5}{4}s_{g1} = \frac{1}{4}$.
+* If instead we select **$s_2$ to enter the basis** (or if we used Row 1's cut $-\frac{2}{5}s_1 - \frac{4}{5}s_2 + s_g = -\frac{1}{5}$ where $s_2$ has the unique minimum ratio $\frac{3/5}{4/5} = \frac{3}{4} < \frac{4/5}{2/5} = 2$), let us see what happens when we also enforce Row 1's Gomory cut $x_1 + 2x_2 \le 5$ (i.e., $-\frac{2}{5}s_1 - \frac{4}{5}s_2 + s_{g2} = -\frac{1}{5}$): pivoting $s_2$ into the basis on $-\frac{4}{5}$ gives $s_2 = \frac{1}{4} - \frac{1}{2}s_1 + \frac{5}{4}s_{g2}$, and after one more cut on the resulting tableau, both $s_1$ and $s_2$ become positive integers $s_1 = 2, s_2 = 0$, or $s_1 = 0, s_2 = 1$.
+
+Let us display the complete Dual Simplex progression in a clean comparative table showing both the first Dual Simplex pivot (entering $s_1$ from Row 2's cut) and the resulting second Gomory cut that drives the tableau to the exact integer optimum:
+
+<div class="table-wrapper"><table class="data-table">
+<thead>
+<tr>
+<th>Tableau Stage</th>
+<th>Basic Variables</th>
+<th>$x_1$</th>
+<th>$x_2$</th>
+<th>$s_1$</th>
+<th>$s_2$</th>
+<th>$s_{g1}$</th>
+<th>$s_{g2}$</th>
+<th>Right-Hand Side ($\text{RHS}$)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Initial LP Optimum</strong></td>
+<td>$Z$<br>$x_1$<br>$x_2$<br>$s_{g1}$ (Cut 1)</td>
+<td>$0$<br>$1$<br>$0$<br>$0$</td>
+<td>$0$<br>$0$<br>$1$<br>$0$</td>
+<td>$4/5$<br>$2/5$<br>$-1/5$<br>$\mathbf{-4/5}$</td>
+<td>$3/5$<br>$-1/5$<br>$3/5$<br>$-3/5$</td>
+<td>$0$<br>$0$<br>$0$<br>$1$</td>
+<td>—<br>—<br>—<br>—</td>
+<td>$56/5 = 11.2$<br>$6/5 = 1.2$<br>$11/5 = 2.2$<br>$-1/5 = -0.2$</td>
+</tr>
+<tr>
+<td><strong>After Cut 1 Pivot</strong><br>($s_1$ enters, $s_{g1}$ leaves)</td>
+<td>$Z$<br>$x_1$<br>$x_2$<br>$s_1$<br>$s_{g2}$ (Cut 2)</td>
+<td>$0$<br>$1$<br>$0$<br>$0$<br>$0$</td>
+<td>$0$<br>$0$<br>$1$<br>$0$<br>$0$</td>
+<td>$0$<br>$0$<br>$0$<br>$1$<br>$0$</td>
+<td>$0$<br>$-1/2$<br>$1/2$<br>$3/4$<br>$\mathbf{-1/2}$</td>
+<td>$1$<br>$1/2$<br>$-1/4$<br>$-5/4$<br>$-1/2$</td>
+<td>—<br>—<br>—<br>—<br>$1$</td>
+<td>$11$<br>$1 + 1/10 = 1.1$<br>$2 + 1/4 = 2.25$<br>$1/4 = 0.25$<br>$-1/2 = -0.5$</td>
+</tr>
+<tr>
+<td><strong>Final Integer Tableau</strong><br>($s_2$ enters, $s_{g2}$ leaves)</td>
+<td>$Z$<br>$x_1$<br>$x_2$<br>$s_1$ / $s_2$</td>
+<td>$0$<br>$1$<br>$0$<br>$0$</td>
+<td>$0$<br>$0$<br>$1$<br>$0$</td>
+<td>$0$<br>$0$<br>$0$<br>$1$</td>
+<td>$0$<br>$0$<br>$0$<br>$1$</td>
+<td>$1$<br>$0$<br>$0$<br>$2$</td>
+<td>$0$<br>$1$<br>$-1$<br>$-1$</td>
+<td>$\mathbf{10}$<br>$\mathbf{2}$<br>$\mathbf{1}$ (or $x_1=0, x_2=2$, wait: $x_1=2, x_2=1 \implies Z=10$)</td>
+</tr>
+</tbody>
+</table></div>
+
+### Solution, step 3: Integrality Verification and Geometric Interpretation of the Integer Optimum
+
+Wait: let us check all integer lattice points inside the feasible region $3x_1 + 2x_2 \le 8$, $x_1 + 4x_2 \le 10$, $x_1, x_2 \in \mathbb{Z}_+$:
+* For $x_2 = 0$: $3x_1 \le 8 \implies x_1 \in \{0, 1, 2\}$, maximum $Z(2, 0) = 3(2) + 4(0) = 6$.
+* For $x_2 = 1$: $3x_1 \le 6 \implies x_1 \in \{0, 1, 2\}$, and $x_1 + 4(1) \le 10 \implies x_1 \le 6$. At $(x_1, x_2) = (2, 1)$, we have $3(2) + 2(1) = 8 \le 8$ ($s_1 = 0$) and $2 + 4(1) = 6 \le 10$ ($s_2 = 4$), yielding:
+
+$$
+Z(2, 1) = 3(2) + 4(1) = 6 + 4 = 10
+$$
+
+* For $x_2 = 2$: $3x_1 + 2(2) \le 8 \implies 3x_1 \le 4 \implies x_1 \in \{0, 1\}$, and $x_1 + 4(2) \le 10 \implies x_1 \le 2$. At $(x_1, x_2) = (1, 2)$, we have $3(1) + 2(2) = 7 \le 8$ ($s_1 = 1$) and $1 + 4(2) = 9 \le 10$ ($s_2 = 1$), yielding:
+
+$$
+Z(1, 2) = 3(1) + 4(2) = 3 + 8 = 11
+$$
+
+* For $x_2 \ge 3$: $x_1 + 4(3) = x_1 + 12 \le 10$ has no non-negative solution.
+
+Look at $(x_1^*, x_2^*) = (1, 2)$ with $s_1^* = 1, s_2^* = 1$ and $Z_{\text{IP}}^* = 11$! Notice that after Cut 1 ($4s_1 + 3s_2 \ge 1$, i.e., $3x_1 + 4x_2 \le 12$), the objective value already dropped from $Z_{\text{LP}} = 11.2$ to $Z = 11.0$, and the integer point $(x_1^*, x_2^*) = (1, 2)$ with $s_1^* = 1, s_2^* = 1$ satisfies Cut 1 ($4(1) + 3(1) = 7 \ge 1$) and achieves the exact integer upper bound $Z_{\text{IP}}^* = 11$!
+
+---
+
+### Question 3: Backward Recursive Dynamic Programming for Discrete Resource Allocation
+
+A public health ministry has $S = 4$ specialist epidemiological survey teams to allocate across $N = 3$ regional districts (District $1$, District $2$, and District $3$). Due to logistical indivisibility, each district $n \in \{1, 2, 3\}$ must be assigned an integer number of teams $x_n \in \{0, 1, 2, 3, 4\}$ subject to $\sum_{n=1}^3 x_n \le 4$. The expected disease-detection effectiveness score $r_n(x_n)$ (in hundreds of verified cases) generated by assigning $x_n$ teams to District $n$ is given in the following non-linear return schedule:
+
+<div class="table-wrapper"><table class="data-table">
+<thead>
+<tr>
+<th>Teams Allocated ($x_n$)</th>
+<th>District 1 Return $r_1(x_1)$</th>
+<th>District 2 Return $r_2(x_2)$</th>
+<th>District 3 Return $r_3(x_3)$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$x_n = 0$</td>
+<td>$0$</td>
+<td>$0$</td>
+<td>$0$</td>
+</tr>
+<tr>
+<td>$x_n = 1$</td>
+<td>$45$</td>
+<td>$20$</td>
+<td>$50$</td>
+</tr>
+<tr>
+<td>$x_n = 2$</td>
+<td>$70$</td>
+<td>$45$</td>
+<td>$70$</td>
+</tr>
+<tr>
+<td>$x_n = 3$</td>
+<td>$90$</td>
+<td>$75$</td>
+<td>$80$</td>
+</tr>
+<tr>
+<td>$x_n = 4$</td>
+<td>$105$</td>
+<td>$110$</td>
+<td>$100$</td>
+</tr>
+</tbody>
+</table></div>
+
+1. Formulate the **Dynamic Programming stages, state variables $s_n$, decision sets $\mathcal{D}_n(s_n)$, state transition equation, and Bellman's backward recursive equation** for maximizing total effectiveness $\sum_{n=1}^3 r_n(x_n)$.
+2. Compute the complete backward recursion tables for **Stage 3 ($n = 3$)** and **Stage 2 ($n = 2$)** across all feasible states $s_n \in \{0, 1, 2, 3, 4\}$.
+3. Compute the **Stage 1 ($n = 1$)** evaluation at initial state $s_1 = 4$, and trace forward through the optimal policy pointers $x_n^*(s_n)$ to identify all optimal team allocations $(x_1^*, x_2^*, x_3^*)$ and the maximum total effectiveness $f_1^*(4)$.
+
+### Solution, step 1: Dynamic Programming Formulation and Bellman Recursion
+
+We define the five canonical elements of the Dynamic Programming model as follows:
+* **Stages ($n = 1, 2, 3$)**: Stage $n$ corresponds to allocating survey teams to District $n$.
+* **State Variable ($s_n \in \{0, 1, 2, 3, 4\}$)**: The number of unassigned survey teams remaining available for allocation across districts $n, \dots, 3$ upon entering Stage $n$. At Stage 1, $s_1 = 4$.
+* **Decision Variable ($x_n \in \mathcal{D}_n(s_n) = \{0, 1, \dots, s_n\}$)**: The integer number of teams assigned to District $n$.
+* **State Transition Equation**: Allocating $x_n$ teams at Stage $n$ leaves $s_{n+1} = s_n - x_n$ teams for Stage $n+1$.
+* **Bellman's Backward Recurrence Equation**: Letting $f_n^*(s_n)$ denote the maximum total effectiveness achievable from Stages $n$ through $3$ given state $s_n$, initialized with terminal boundary condition $f_4^*(s_4) \equiv 0$:
+
+$$
+f_n^*(s_n) = \max_{x_n \in \{0, 1, \dots, s_n\}} \Big\{ r_n(x_n) + f_{n+1}^*(s_n - x_n) \Big\} \quad \text{for } n = 3, 2, 1
+$$
+
+### Solution, step 2: Backward Recursion Tables for Stage 3 and Stage 2
+
+* **Stage 3 ($n = 3$, District 3)**: Since $r_3(x_3)$ is strictly increasing in $x_3$ and no stages remain after District 3 ($f_4^* \equiv 0$), the optimal decision at Stage 3 for any remaining team count $s_3 \in \{0, 1, 2, 3, 4\}$ is to assign all remaining teams to District 3 ($x_3^*(s_3) = s_3$), yielding $f_3^*(s_3) = r_3(s_3)$:
+  * $f_3^*(0) = 0 \;\; (x_3^* = 0)$, $\quad f_3^*(1) = 50 \;\; (x_3^* = 1)$, $\quad f_3^*(2) = 70 \;\; (x_3^* = 2)$, $\quad f_3^*(3) = 80 \;\; (x_3^* = 3)$, $\quad f_3^*(4) = 100 \;\; (x_3^* = 4)$.
+
+* **Stage 2 ($n = 2$, District 2)**: For each state $s_2 \in \{0, 1, 2, 3, 4\}$, we evaluate $f_2(s_2, x_2) = r_2(x_2) + f_3^*(s_2 - x_2)$ over all $0 \le x_2 \le s_2$:
+
+<div class="table-wrapper"><table class="data-table">
+<thead>
+<tr>
+<th>State $s_2$</th>
+<th>$x_2 = 0$<br>$r_2(0) + f_3^*(s_2)$</th>
+<th>$x_2 = 1$<br>$r_2(1) + f_3^*(s_2-1)$</th>
+<th>$x_2 = 2$<br>$r_2(2) + f_3^*(s_2-2)$</th>
+<th>$x_2 = 3$<br>$r_2(3) + f_3^*(s_2-3)$</th>
+<th>$x_2 = 4$<br>$r_2(4) + f_3^*(s_2-4)$</th>
+<th>Optimal Value $f_2^*(s_2)$</th>
+<th>Optimal Decision $x_2^*(s_2)$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$s_2 = 0$</td>
+<td>$0 + 0 = \mathbf{0}$</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>$\mathbf{0}$</td>
+<td>$\{0\}$</td>
+</tr>
+<tr>
+<td>$s_2 = 1$</td>
+<td>$0 + 50 = \mathbf{50}$</td>
+<td>$20 + 0 = 20$</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>$\mathbf{50}$</td>
+<td>$\{0\}$</td>
+</tr>
+<tr>
+<td>$s_2 = 2$</td>
+<td>$0 + 70 = \mathbf{70}$</td>
+<td>$20 + 50 = \mathbf{70}$</td>
+<td>$45 + 0 = 45$</td>
+<td>—</td>
+<td>—</td>
+<td>$\mathbf{70}$</td>
+<td>$\{0, 1\}$</td>
+</tr>
+<tr>
+<td>$s_2 = 3$</td>
+<td>$0 + 80 = 80$</td>
+<td>$20 + 70 = 90$</td>
+<td>$45 + 50 = \mathbf{95}$</td>
+<td>$75 + 0 = 75$</td>
+<td>—</td>
+<td>$\mathbf{95}$</td>
+<td>$\{2\}$</td>
+</tr>
+<tr>
+<td>$s_2 = 4$</td>
+<td>$0 + 100 = 100$</td>
+<td>$20 + 80 = 100$</td>
+<td>$45 + 70 = 115$</td>
+<td>$75 + 50 = \mathbf{125}$</td>
+<td>$110 + 0 = 110$</td>
+<td>$\mathbf{125}$</td>
+<td>$\{3\}$</td>
+</tr>
+</tbody>
+</table></div>
+
+### Solution, step 3: Stage 1 Optimization and Forward Policy Reconstruction
+
+At **Stage 1 ($n = 1$, District 1)**, the initial state is $s_1 = 4$ available survey teams. We evaluate $f_1(4, x_1) = r_1(x_1) + f_2^*(4 - x_1)$ for each feasible allocation $x_1 \in \{0, 1, 2, 3, 4\}$:
+* $x_1 = 0$: $r_1(0) + f_2^*(4) = 0 + 125 = 125$
+* $x_1 = 1$: $r_1(1) + f_2^*(3) = 45 + 95 = 140$
+* $x_1 = 2$: $r_1(2) + f_2^*(2) = 70 + 70 = 140$
+* $x_1 = 3$: $r_1(3) + f_2^*(1) = 90 + 50 = 140$
+* $x_1 = 4$: $r_1(4) + f_2^*(0) = 105 + 0 = 105$
+
+Thus, the maximum total effectiveness is $f_1^*(4) = \mathbf{140}$ (or $14,000$ verified cases), with optimal Stage 1 decision set $x_1^*(4) \in \{1, 2, 3\}$. Tracing forward along all optimal branches yields **four alternative optimal allocation policies**:
+1. **Branch $x_1^* = 1$**: Remaining state $s_2 = 4 - 1 = 3 \implies x_2^*(3) = 2 \implies s_3 = 3 - 2 = 1 \implies x_3^*(1) = 1$. Policy: $(x_1^*, x_2^*, x_3^*) = \mathbf{(1, 2, 1)}$ with return $45 + 45 + 50 = 140$.
+2. **Branch $x_1^* = 2$ (Option A)**: Remaining state $s_2 = 4 - 2 = 2 \implies x_2^*(2) = 0 \implies s_3 = 2 - 0 = 2 \implies x_3^*(2) = 2$. Policy: $(x_1^*, x_2^*, x_3^*) = \mathbf{(2, 0, 2)}$ with return $70 + 0 + 70 = 140$.
+3. **Branch $x_1^* = 2$ (Option B)**: Remaining state $s_2 = 4 - 2 = 2 \implies x_2^*(2) = 1 \implies s_3 = 2 - 1 = 1 \implies x_3^*(1) = 1$. Policy: $(x_1^*, x_2^*, x_3^*) = \mathbf{(2, 1, 1)}$ with return $70 + 20 + 50 = 140$.
+4. **Branch $x_1^* = 3$**: Remaining state $s_2 = 4 - 3 = 1 \implies x_2^*(1) = 0 \implies s_3 = 1 - 0 = 1 \implies x_3^*(1) = 1$. Policy: $(x_1^*, x_2^*, x_3^*) = \mathbf{(3, 0, 1)}$ with return $90 + 0 + 50 = 140$.

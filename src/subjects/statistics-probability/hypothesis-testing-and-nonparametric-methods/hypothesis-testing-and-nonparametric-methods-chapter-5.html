@@ -1,0 +1,828 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Sequential Hypothesis Testing: Wald's SPRT, Stopping Boundaries, OC &amp; ASN Functions | Hypothesis Testing and Nonparametric Methods | OpenSTEM Library</title>
+  <meta name="description" content="Sequential sampling versus fixed-sample Neyman-Pearson designs and Abraham Wald's Sequential Probability Ratio Test (SPRT); Fundamental stopping inequalities and Wald's boundary approximations A approx (1 - beta)/alpha and B approx beta/(1 - alpha); Proof of finite termination with probability one (P(N < infinity) = 1) via Stein's Lemma; Wald's Fundamental Identity E[exp(t Z_N) (M(t))^(-N)] = 1 and Operating Characteristic (OC) curve L(theta) derivation; Average Sample Number (ASN) E_theta[N] for Bernoulli, Poisson, Normal, and Exponential sequential tests.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/hypothesis-testing-and-nonparametric-methods-chapter-5">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/hypothesis-testing-and-nonparametric-methods-chapter-5">
+  <meta property="og:title" content="Hypothesis Testing and Nonparametric Methods: Neyman-Pearson Lemma, UMP/UMPU Tests, GLRT, SPRT &amp; Rank Statistics | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering the Neyman-Pearson hypothesis testing framework, randomized tests, size and power functions, the Neyman-Pearson Fundamental Lemma, Monotone Likelihood Ratio (MLR) families and Karlin-Rubin UMP tests, Uniformly Most Powerful Unbiased (UMPU) and invariant tests, Generalized Likelihood Ratio Tests (GLRT), Wilks theorem and the Wald-Score-LR asymptotic trinity, Wald Sequential Probability Ratio Test (SPRT) with OC and ASN functions, Pearson chi-square and Kolmogorov-Smirnov goodness-of-fit tests, sign, Wilcoxon signed-rank, Mann-Whitney U, Ansari-Bradley, Kruskal-Wallis, Friedman, Spearman/Kendall rank correlation, and Fisher-Pitman permutation tests with 24 solved questions and 4 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Hypothesis Testing and Nonparametric Methods: Neyman-Pearson Lemma, UMP/UMPU Tests, GLRT, SPRT &amp; Rank Statistics | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering the Neyman-Pearson hypothesis testing framework, randomized tests, size and power functions, the Neyman-Pearson Fundamental Lemma, Monotone Likelihood Ratio (MLR) families and Karlin-Rubin UMP tests, Uniformly Most Powerful Unbiased (UMPU) and invariant tests, Generalized Likelihood Ratio Tests (GLRT), Wilks theorem and the Wald-Score-LR asymptotic trinity, Wald Sequential Probability Ratio Test (SPRT) with OC and ASN functions, Pearson chi-square and Kolmogorov-Smirnov goodness-of-fit tests, sign, Wilcoxon signed-rank, Mann-Whitney U, Ansari-Bradley, Kruskal-Wallis, Friedman, Spearman/Kendall rank correlation, and Fisher-Pitman permutation tests with 24 solved questions and 4 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="hypothesis-testing-and-nonparametric-methods.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Hypothesis Testing and Nonparametric Methods: Sequential Hypothesis Testing: Wald's SPRT, Stopping Boundaries, OC & ASN Functions","description":"Comprehensive university textbook covering the Neyman-Pearson hypothesis testing framework, randomized tests, size and power functions, the Neyman-Pearson Fundamental Lemma, Monotone Likelihood Ratio (MLR) families and Karlin-Rubin UMP tests, Uniformly Most Powerful Unbiased (UMPU) and invariant tests, Generalized Likelihood Ratio Tests (GLRT), Wilks theorem and the Wald-Score-LR asymptotic trinity, Wald Sequential Probability Ratio Test (SPRT) with OC and ASN functions, Pearson chi-square and Kolmogorov-Smirnov goodness-of-fit tests, sign, Wilcoxon signed-rank, Mann-Whitney U, Ansari-Bradley, Kruskal-Wallis, Friedman, Spearman/Kendall rank correlation, and Fisher-Pitman permutation tests with 24 solved questions and 4 interactive simulations.","url":"https://openstemlibrary.com/hypothesis-testing-and-nonparametric-methods-chapter-5","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Statistical hypothesis testing","Neyman-Pearson Fundamental Lemma","Monotone likelihood ratio and UMP tests","Uniformly most powerful unbiased (UMPU) tests","Generalized likelihood ratio tests and Wilks theorem","Sequential Probability Ratio Test (SPRT)","Kolmogorov-Smirnov and goodness-of-fit testing","Nonparametric rank tests: Wilcoxon, Mann-Whitney, Kruskal-Wallis, Friedman"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Hypothesis Testing and Nonparametric Methods","item":"https://openstemlibrary.com/hypothesis-testing-and-nonparametric-methods"}]}</script></head>
+<body data-book-path="hypothesis-testing-and-nonparametric-methods.html" data-chapter-index="4" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Hypothesis Testing and Nonparametric Methods</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search Neyman-Pearson lemma, monotone likelihood ratio, Karlin-Rubin, UMPU, Wilks theorem, Wald SPRT, Kolmogorov-Smirnov, Wilcoxon, Mann-Whitney, Kruskal-Wallis…" class="search-input" aria-label="Search textbook topics">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="hypothesis-testing-and-nonparametric-methods" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Architecture of Statistical Hypothesis Testing: Neyman-Pearson Paradigm, Power Functions &amp; P-Values</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="hypothesis-testing-and-nonparametric-methods-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Most Powerful Tests, the Neyman-Pearson Fundamental Lemma &amp; Monotone Likelihood Ratio Families</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="hypothesis-testing-and-nonparametric-methods-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Uniformly Most Powerful Unbiased (UMPU) Tests, Similar Regions &amp; Invariance Principles</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="hypothesis-testing-and-nonparametric-methods-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Generalized Likelihood Ratio Tests (GLRT), Wilks' Theorem &amp; the Asymptotic Trinity</span></a></li><li class="unit-nav-item active" data-unit-index="4"><a href="hypothesis-testing-and-nonparametric-methods-chapter-5" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Sequential Hypothesis Testing: Wald's SPRT, Stopping Boundaries, OC &amp; ASN Functions</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="hypothesis-testing-and-nonparametric-methods-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Goodness-of-Fit &amp; Empirical Distribution Tests: Chi-Square, Kolmogorov-Smirnov &amp; Lilliefors</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="hypothesis-testing-and-nonparametric-methods-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Nonparametric One-Sample &amp; Two-Sample Rank Tests: Sign, Wilcoxon, Mann-Whitney &amp; Scale Tests</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="hypothesis-testing-and-nonparametric-methods-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Multi-Sample Nonparametrics, Rank Correlation &amp; Resampling: Kruskal-Wallis, Friedman, Kendall &amp; Permutation</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Statistical inference major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font" aria-pressed="false">Calm Paper</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 5 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Sequential Hypothesis Testing: Wald's SPRT, Stopping Boundaries, OC &amp; ASN Functions</h1>
+            <p class="unit-desc-lead" id="unit-desc">Sequential sampling versus fixed-sample Neyman-Pearson designs and Abraham Wald's Sequential Probability Ratio Test (SPRT); Fundamental stopping inequalities and Wald's boundary approximations A approx (1 - beta)/alpha and B approx beta/(1 - alpha); Proof of finite termination with probability one (P(N &lt; infinity) = 1) via Stein's Lemma; Wald's Fundamental Identity E[exp(t Z_N) (M(t))^(-N)] = 1 and Operating Characteristic (OC) curve L(theta) derivation; Average Sample Number (ASN) E_theta[N] for Bernoulli, Poisson, Normal, and Exponential sequential tests.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-301 (Hypothesis Testing and Nonparametric Methods). Eight units and exactly three solved questions per unit. Interactive simulations illustrate Neyman-Pearson UMP power curves, Wald Sequential Probability Ratio Test (SPRT) stopping boundaries and ASN functions, Kolmogorov-Smirnov empirical distribution supremum distances, and Wilcoxon rank-sum Pitman asymptotic relative efficiency. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-5-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.1</span>
+            <span>Sequential Sampling Paradigms and Wald's Sequential Probability Ratio Test (SPRT)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          To formalize sequential hypothesis testing within measure-theoretic probability, let $X_1, X_2, \dots$ be an infinite sequence of independent and identically distributed (i.i.d.) random variables defined on a probability space $(\Omega, \mathcal{F}, \mathbb{P}_\theta)$, where each $X_i$ possesses probability density function (or probability mass function in the discrete case) $f(x; \theta)$ with respect to a $\sigma$-finite dominating measure $\mu$. Let $\{\mathcal{F}_m\}_{m \ge 1}$ denote the natural filtration generated by the observation sequence, where $\mathcal{F}_m = \sigma(X_1, X_2, \dots, X_m)$ represents the cumulative information available up to and including stage $m$, with $\mathcal{F}_0 = \{\emptyset, \Omega\}$ representing the trivial initial $\sigma$-algebra prior to sampling.
+
+A sequential test is formally defined as an ordered pair $(N, \delta_N)$ consisting of two distinct mathematical components:
+1. **A Stopping Rule (Stopping Time) $N$**: A random variable $N : \Omega \to \{0, 1, 2, \dots\} \cup \{\infty\}$ is a valid stopping time with respect to the filtration $\{\mathcal{F}_m\}$ if, for every non-negative integer $m \ge 0$, the event $\{N = m\}$ belongs to $\mathcal{F}_m$. Equivalently, the indicator variable $\mathbb{I}(N \le m)$ is a measurable function of $(X_1, \dots, X_m)$ alone. This measurability condition guarantees that the decision to terminate sampling at step $m$ depends strictly on the historical data observed up to step $m$ and involves no clairvoyant foresight of future unrealized observations $X_{m+1}, X_{m+2}, \dots$.
+2. **A Terminal Decision Rule $\delta_N$**: A sequence of measurable decision functions $\{\delta_m(X_1, \dots, X_m)\}_{m \ge 1}$, where each $\delta_m : \mathbb{R}^m \to \{0, 1\}$ maps the observed $m$-dimensional sample path into a binary decision upon termination ($0$ denoting acceptance of $H_0$, and $1$ denoting rejection of $H_0$ in favor of $H_1$).
+
+Consider testing a simple null hypothesis $H_0 : \theta = \theta_0$ against a simple alternative hypothesis $H_1 : \theta = \theta_1$, where $\theta_0 \ne \theta_1$. Denote the null density by $f_0(x) = f(x; \theta_0)$ and the alternative density by $f_1(x) = f(x; \theta_1)$. At any fixed stage $m$, the Neyman-Pearson Fundamental Lemma dictates that the most powerful test is governed by the cumulative likelihood ratio:
+
+$$\Lambda_m(X_1, \dots, X_m) = \frac{L_m(\theta_1)}{L_m(\theta_0)} = \prod_{i=1}^m \frac{f_1(X_i)}{f_0(X_i)}$$
+
+By taking the natural logarithm of $\Lambda_m$, the multiplicative likelihood ratio transforms into an additive random walk. Specifically, if we define the single-observation log-likelihood ratio increment (or weight of evidence) as:
+
+$$Z_i = \ln \left[ \frac{f_1(X_i)}{f_0(X_i)} \right], \quad i = 1, 2, \dots$$
+
+then the cumulative log-likelihood ratio at stage $m$ is simply the partial sum of i.i.d. random variables:
+
+$$S_m = \ln \Lambda_m = \sum_{i=1}^m Z_i = S_{m-1} + Z_i, \quad \text{with } S_0 = 0$$
+
+Abraham Wald's **Sequential Probability Ratio Test (SPRT)** with stopping boundaries $(B, A)$, where $0 &lt; B &lt; 1 &lt; A &lt; \infty$, operates as follows. At each sampling stage $m = 1, 2, \dots$, we compute $\Lambda_m$ (or equivalently $S_m = \ln \Lambda_m$ against the logarithmic thresholds $b = \ln B &lt; 0 &lt; a = \ln A$) and execute one of three rules:
+- **Accept $H_0$**: If $\Lambda_m \le B$ (equivalently, $S_m \le b = \ln B$), terminate the sampling process immediately at step $N = m$ and decide in favor of $H_0$ ($\delta_N = 0$).
+- **Reject $H_0$ (Accept $H_1$)**: If $\Lambda_m \ge A$ (equivalently, $S_m \ge a = \ln A$), terminate the sampling process immediately at step $N = m$ and decide in favor of $H_1$ ($\delta_N = 1$).
+- **Continue Sampling**: If $B &lt; \Lambda_m &lt; A$ (equivalently, $b &lt; S_m &lt; a$), neither hypothesis has accumulated sufficient evidentiary weight; draw observation $X_{m+1}$ and advance to stage $m+1$.
+
+Mathematically, the stopping time $N$ of Wald's SPRT is the first exit time of the discrete-time random walk $\{S_m\}_{m \ge 1}$ from the open continuation interval $(b, a)$:
+
+$$N = \inf \left\{ m \ge 1 : \Lambda_m \notin (B, A) \right\} = \inf \left\{ m \ge 1 : S_m \le b \text{ or } S_m \ge a \right\}$$
+
+This formulation reveals a deep structural bridge between statistical inference and stochastic processes: executing an SPRT is isomorphic to solving the classic **Gambler's Ruin** or two-barrier first-passage problem for a one-dimensional random walk with drift $\mu_Z(\theta) = \mathbb{E}_\theta[Z_i]$. Under the null hypothesis $H_0$, by Jensen's inequality applied to the strictly concave logarithm function (assuming $\mathbb{P}_{\theta_0}(f_1(X) \ne f_0(X)) &gt; 0$), the expected increment is strictly negative:
+
+$$\mathbb{E}_{\theta_0}[Z_i] = \mathbb{E}_{\theta_0}\left[\ln \frac{f_1(X_i)}{f_0(X_i)}\right] &lt; \ln \mathbb{E}_{\theta_0}\left[\frac{f_1(X_i)}{f_0(X_i)}\right] = \ln \int f_1(x) \, d\mu(x) = \ln(1) = 0$$
+
+Notice that $\mathbb{E}_{\theta_0}[Z_i] = -D_{\text{KL}}(f_0 \parallel f_1) &lt; 0$, where $D_{\text{KL}}(f_0 \parallel f_1)$ is the Kullback-Leibler divergence of $f_1$ from $f_0$. Conversely, under $H_1$, $\mathbb{E}_{\theta_1}[Z_i] = +D_{\text{KL}}(f_1 \parallel f_0) &gt; 0$. Thus, when $H_0$ is true, the random walk $S_m$ exhibits negative drift downward toward the lower absorption barrier $b = \ln B$; when $H_1$ is true, $S_m$ exhibits positive drift upward toward the upper absorption barrier $a = \ln A$.
+
+<div class="table-wrapper"><table class="data-table">
+<thead>
+<tr><th>Structural Feature</th><th>Fixed-Sample Neyman-Pearson Test</th><th>Wald's Sequential Probability Ratio Test (SPRT)</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Sample Size $N$</strong></td><td>Deterministic constant $n$ fixed before experiment</td><td>Random stopping time $N = \inf\{m \ge 1 : S_m \notin (b, a)\}$</td></tr>
+<tr><td><strong>Primary Design Specification</strong></td><td>Fix Type I error $\alpha$ and sample size $n$; minimize $\beta$</td><td>Fix both Type I error $\alpha$ and Type II error $\beta$; minimize $\mathbb{E}[N]$</td></tr>
+<tr><td><strong>Decision Space at Stage $m &lt; n$</strong></td><td>No terminal decisions permitted until $m = n$</td><td>Tripartite partition: Accept $H_0$, Reject $H_0$, or Continue</td></tr>
+<tr><td><strong>Expected Sample Size Savings</strong></td><td>Baseline reference ($100\%$ of fixed $n$)</td><td>Typically $45\%$ to $60\%$ fewer observations under $H_0$ and $H_1$</td></tr>
+</tbody>
+</table></div>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-ht-sprt-wald-boundary"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.2</span>
+            <span>Fundamental Stopping Inequalities and Wald's Boundary Approximations</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In practical statistical design, an investigator specifies the desired Type I error probability $\alpha = \mathbb{P}_{\theta_0}(\text{Reject } H_0)$ and Type II error probability $\beta = \mathbb{P}_{\theta_1}(\text{Accept } H_0)$ in advance, and seeks the exact numerical values of the stopping thresholds $A$ and $B$ that achieve $(\alpha, \beta)$. Unlike fixed-sample tests where exact quantile inversion of a single distribution suffices, exact determination of $A$ and $B$ in a discrete-time random walk requires tracking the distribution of the excess over the boundary at termination. Nevertheless, Abraham Wald discovered a pair of universal, distribution-free inequalities linking $(A, B)$ and $(\alpha, \beta)$ that hold across all probability distributions without any parametric assumptions.</p>
+
+<p>Let $\mathcal{R}_m \subset \mathbb{R}^m$ denote the subset of sample paths $(x_1, \dots, x_m)$ for which the SPRT terminates at stage $N = m$ with rejection of $H_0$ ($\Lambda_m \ge A$), and let $\mathcal{A}_m \subset \mathbb{R}^m$ denote the subset of sample paths for which the SPRT terminates at stage $N = m$ with acceptance of $H_0$ ($\Lambda_m \le B$). Because the stopping events at distinct stages $m = 1, 2, \dots$ are mutually exclusive (a path can stop for the first time at most once), the overall probability of rejecting $H_0$ when $\theta = \theta_1$ is the countable sum of disjoint stage-wise rejection probabilities. Assuming the test terminates with probability one ($\mathbb{P}_\theta(N &lt; \infty) = 1$, which we prove rigorously in Section 5.3), the probability of rejecting $H_0$ under $H_1$ is $1 - \beta$, while the probability of rejecting $H_0$ under $H_0$ is $\alpha$.</p>
+
+<h4>Theorem 5.1 (Wald's Fundamental Stopping Boundary Inequalities)</h4>
+
+<p>For any Sequential Probability Ratio Test with stopping boundaries $(B, A)$ that terminates with probability one under both $H_0$ and $H_1$, the true Type I error probability $\alpha$ and Type II error probability $\beta$ satisfy the exact inequalities:</p>
+
+<div class="math-display">$$A \le \frac{1 - \beta}{\alpha} \quad \text{and} \quad B \ge \frac{\beta}{1 - \alpha}$$</div>
+
+<p>Equivalently, solving for the error rates in terms of the boundaries yields:</p>
+
+<div class="math-display">$$\alpha \le \frac{1 - \beta}{A} &lt; \frac{1}{A} \quad \text{and} \quad \beta \le (1 - \alpha) B &lt; B$$</div>
+
+<p>Furthermore, the sum of the realized error probabilities if one sets the boundaries to the nominal Wald values $A_W = (1 - \beta_0)/\alpha_0$ and $B_W = \beta_0/(1 - \alpha_0)$ satisfies $\alpha + \beta \le \alpha_0 + \beta_0$.</p>
+
+<h5>Proof:</h5>
+
+<p>Consider the event of rejecting $H_0$, which is the disjoint union $\bigcup_{m=1}^\infty \mathcal{R}_m$. On every sample path $(x_1, \dots, x_m) \in \mathcal{R}_m$, the stopping rule requires that the likelihood ratio at termination satisfies $\Lambda_m(x_1, \dots, x_m) \ge A$, which is equivalent to the pointwise density inequality:</p>
+
+<div class="math-display">$$\prod_{i=1}^m f_1(x_i) \ge A \prod_{i=1}^m f_0(x_i) \quad \text{for all } (x_1, \dots, x_m) \in \mathcal{R}_m$$</div>
+
+<p>Integrating (or summing) both sides of this inequality over the rejection region $\mathcal{R}_m$ with respect to the product measure $d\mu^m$ and summing over all stages $m = 1, 2, \dots, \infty$, we obtain:</p>
+
+<div class="math-display">$$1 - \beta = \mathbb{P}_{\theta_1}(\text{Reject } H_0) = \sum_{m=1}^\infty \int_{\mathcal{R}_m} \left( \prod_{i=1}^m f_1(x_i) \right) d\mu^m \ge \sum_{m=1}^\infty \int_{\mathcal{R}_m} A \left( \prod_{i=1}^m f_0(x_i) \right) d\mu^m = A \sum_{m=1}^\infty \mathbb{P}_{\theta_0}(\mathcal{R}_m) = A \alpha$$</div>
+
+<p>Dividing both sides of $1 - \beta \ge A \alpha$ by $\alpha &gt; 0$ immediately yields the upper bound $A \le \frac{1 - \beta}{\alpha}$.</p>
+
+<p>By completely symmetric reasoning, consider the event of accepting $H_0$, which is the disjoint union $\bigcup_{m=1}^\infty \mathcal{A}_m$. On every sample path $(x_1, \dots, x_m) \in \mathcal{A}_m$, termination at the lower boundary requires $\Lambda_m(x_1, \dots, x_m) \le B$, or equivalently:</p>
+
+<div class="math-display">$$\prod_{i=1}^m f_1(x_i) \le B \prod_{i=1}^m f_0(x_i) \quad \text{for all } (x_1, \dots, x_m) \in \mathcal{A}_m$$</div>
+
+<p>Integrating over $\mathcal{A}_m$ and summing from $m = 1$ to $\infty$ yields:</p>
+
+<div class="math-display">$$\beta = \mathbb{P}_{\theta_1}(\text{Accept } H_0) = \sum_{m=1}^\infty \int_{\mathcal{A}_m} \left( \prod_{i=1}^m f_1(x_i) \right) d\mu^m \le B \sum_{m=1}^\infty \int_{\mathcal{A}_m} \left( \prod_{i=1}^m f_0(x_i) \right) d\mu^m = B \mathbb{P}_{\theta_0}(\text{Accept } H_0) = B(1 - \alpha)$$</div>
+
+<p>Dividing by $1 - \alpha &gt; 0$ establishes $B \ge \frac{\beta}{1 - \alpha}$.</p>
+
+<p>Now suppose an investigator specifies target nominal error rates $(\alpha_0, \beta_0)$ and sets the boundaries using <strong>Wald's Boundary Approximations</strong>:</p>
+
+<div class="math-display">$$A \approx A_W = \frac{1 - \beta_0}{\alpha_0}, \qquad B \approx B_W = \frac{\beta_0}{1 - \alpha_0}$$</div>
+
+<p>Let $\alpha_{\text{true}}$ and $\beta_{\text{true}}$ denote the actual Type I and Type II error probabilities induced by these boundaries $(B_W, A_W)$. Applying the two inequalities proven above to $(\alpha_{\text{true}}, \beta_{\text{true}})$ gives:</p>
+
+<div class="math-display">$$\frac{\alpha_{\text{true}}}{1 - \beta_{\text{true}}} \le \frac{1}{A_W} = \frac{\alpha_0}{1 - \beta_0} \implies \alpha_{\text{true}}(1 - \beta_0) \le \alpha_0(1 - \beta_{\text{true}})$$</div>
+
+<div class="math-display">$$\frac{\beta_{\text{true}}}{1 - \alpha_{\text{true}}} \le B_W = \frac{\beta_0}{1 - \alpha_0} \implies \beta_{\text{true}}(1 - \alpha_0) \le \beta_0(1 - \alpha_{\text{true}})$$</div>
+
+<p>Adding these two cross-multiplied inequalities together yields:</p>
+
+<div class="math-display">$$\alpha_{\text{true}} - \alpha_{\text{true}}\beta_0 + \beta_{\text{true}} - \beta_{\text{true}}\alpha_0 \le \alpha_0 - \alpha_0\beta_{\text{true}} + \beta_0 - \beta_0\alpha_{\text{true}}$$</div>
+
+<p>Canceling the identical cross-product terms $-\alpha_{\text{true}}\beta_0 - \beta_{\text{true}}\alpha_0$ from both sides produces the celebrated conservation bound:</p>
+
+<div class="math-display">$$\alpha_{\text{true}} + \beta_{\text{true}} \le \alpha_0 + \beta_0$$</div>
+
+<p>This proves that at least one of the true error probabilities $\alpha_{\text{true}}$ or $\beta_{\text{true}}$ must be less than or equal to its nominal target, and neither error rate can exceed its target by more than a negligible fraction $\alpha_0 \beta_0$: specifically, $\alpha_{\text{true}} \le \frac{\alpha_0}{1 - \beta_0} \approx \alpha_0(1 + \beta_0)$ and $\beta_{\text{true}} \le \frac{\beta_0}{1 - \alpha_0} \approx \beta_0(1 + \alpha_0)$. For instance, if $\alpha_0 = 0.05$ and $\beta_0 = 0.05$, then $\alpha_{\text{true}} \le 0.05/0.95 = 0.0526$.</p>
+
+<p>Why are Wald's inequalities strict inequalities in discrete time rather than exact equalities? Because the random walk $S_m$ evolves in discrete steps $Z_m$, termination at stage $N$ almost always involves <strong>overshooting the boundary</strong> (the excess over the boundary): at the moment of rejection, $S_N$ does not hit $a = \ln A$ exactly on the nose, but rather jumps from $S_{N-1} &lt; a$ to $S_N = a + R_+ &gt; a$, where $R_+ = S_N - a &gt; 0$ is the overshoot. In the continuous-time limit where individual increments $Z_i$ have infinitesimal variance (as when $\theta_1$ is close to $\theta_0$, leading to Brownian motion sample paths with continuous trajectories), the overshoot $R_+$ vanishes identically, and Wald's approximations $A = (1-\beta)/\alpha$ and $B = \beta/(1-\alpha)$ become exact equalities. Due to this slight overshoot in discrete time, using $(B_W, A_W)$ actually produces a slightly <strong>conservative</strong> test whose true error probabilities $\alpha_{\text{true}}$ and $\beta_{\text{true}}$ are typically smaller than $\alpha_0$ and $\beta_0$, at the slight expense of increasing the expected sample size by one or two observations.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.3</span>
+            <span>Proof of Finite Termination with Probability One via Stein's Lemma</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A foundational prerequisite for any sequential procedure is that it must eventually terminate: if there were a positive probability $\mathbb{P}_\theta(N = \infty) &gt; 0$ that the random walk $S_m$ wandered forever inside the open strip $(b, a)$ without ever crossing either threshold, the experiment could continue indefinitely. Charles Stein (1946) proved a remarkably strong theorem showing not only that $\mathbb{P}_\theta(N &lt; \infty) = 1$ for every distribution where $Z_i$ is not identically zero, but also that the stopping time $N$ possesses an <strong>exponentially decaying tail</strong>, guaranteeing that all moments $\mathbb{E}_\theta[N^k]$ ($k = 1, 2, \dots$) and the moment generating function of $N$ around zero are strictly finite.</p>
+
+<h4>Theorem 5.2 (Stein's Lemma on Exponential Tail Decay and Almost-Sure Termination of the SPRT)</h4>
+
+<p>Let $Z_1, Z_2, \dots$ be i.i.d. random variables under probability measure $\mathbb{P}_\theta$ such that $\mathbb{P}_\theta(Z_1 = 0) &lt; 1$. Let $N = \inf\{m \ge 1 : S_m \notin (b, a)\}$ be the stopping time of an SPRT with finite logarithmic boundaries $-\infty &lt; b &lt; 0 &lt; a &lt; \infty$. Then:</p>
+
+<ol>
+
+  <li>There exist constants $C &gt; 0$ and $\rho \in (0, 1)$ such that for all integers $n \ge 1$:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbb{P}_\theta(N &gt; n) \le C \rho^n$$</div>
+
+<ol>
+
+  <li>Consequently, the SPRT terminates in a finite number of steps with probability one:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbb{P}_\theta(N &lt; \infty) = 1$$</div>
+
+<ol>
+
+  <li>All positive integer moments of the stopping time are finite: $\mathbb{E}_\theta[N^k] &lt; \infty$ for all $k \ge 1$, and there exists $t_0 &gt; 0$ such that the moment generating function $\mathbb{E}_\theta[e^{tN}] &lt; \infty$ for all $t &lt; t_0$.</li>
+
+</ol>
+
+<h5>Proof:</h5>
+
+<p>Let $L = a - b &gt; 0$ denote the total width of the open continuation interval $(b, a)$. Because $\mathbb{P}_\theta(Z_1 = 0) &lt; 1$, the distribution of $Z_1$ is non-degenerate at zero; hence either $\mathbb{P}_\theta(Z_1 &gt; 0) &gt; 0$ or $\mathbb{P}_\theta(Z_1 &lt; 0) &gt; 0$ (or both). Without loss of generality, suppose $\mathbb{P}_\theta(Z_1 &gt; 0) &gt; 0$. Then there exists a small positive threshold $\delta &gt; 0$ and a strictly positive probability $\epsilon &gt; 0$ such that:</p>
+
+<div class="math-display">$$\mathbb{P}_\theta(Z_1 \ge \delta) = \epsilon &gt; 0$$</div>
+
+<p>Choose a fixed positive integer $r$ sufficiently large so that $r \delta &gt; L = a - b$; specifically, let $r = \lfloor (a - b)/\delta \rfloor + 1$. Consider a block of $r$ consecutive increments $Z_{j+1}, Z_{j+2}, \dots, Z_{j+r}$ starting after any arbitrary stage $j \ge 0$. If each of these $r$ independent increments satisfies $Z_{j+i} \ge \delta$ for $i = 1, \dots, r$, then their block sum satisfies:</p>
+
+<div class="math-display">$$\sum_{i=1}^r Z_{j+i} \ge r \delta &gt; a - b = L$$</div>
+
+<p>Because $Z_{j+1}, \dots, Z_{j+r}$ are independent and identically distributed, the probability of this block event is strictly positive:</p>
+
+<div class="math-display">$$p_{\text{block}} = \mathbb{P}_\theta\left( \sum_{i=1}^r Z_{j+i} &gt; a - b \right) \ge \mathbb{P}_\theta\left( \bigcap_{i=1}^r \{Z_{j+i} \ge \delta\} \right) = \prod_{i=1}^r \mathbb{P}_\theta(Z_{j+i} \ge \delta) = \epsilon^r &gt; 0$$</div>
+
+<p>Now observe that if the random walk is inside the continuation strip $(b, a)$ at stage $j$ (so $b &lt; S_j &lt; a$), and the subsequent $r$-step block sum exceeds $a - b$, then at stage $j + r$ the cumulative sum must satisfy:</p>
+
+<div class="math-display">$$S_{j+r} = S_j + \sum_{i=1}^r Z_{j+i} &gt; b + (a - b) = a$$</div>
+
+<p>Therefore, it is <strong>mathematically impossible</strong> for both $S_j \in (b, a)$ and $S_{j+r} \in (b, a)$ to occur simultaneously when $\sum_{i=1}^r Z_{j+i} &gt; a - b$! Contrapositively, for the process to remain inside the continuation strip throughout the entire block from $j+1$ to $j+r$, the block sum cannot exceed $a - b$:</p>
+
+<div class="math-display">$$\mathbb{P}_\theta(N &gt; j + r \mid N &gt; j) \le \mathbb{P}_\theta\left( \sum_{i=1}^r Z_{j+i} \le a - b \right) = 1 - p_{\text{block}} \le 1 - \epsilon^r &lt; 1$$</div>
+
+<p>Now consider any arbitrary sample size $n \ge 1$, and divide the first $n$ observations into $k = \lfloor n / r \rfloor$ disjoint, independent blocks of length $r$ each. For the stopping time $N$ to exceed $n$, the random walk $S_m$ must remain strictly inside $(b, a)$ at the end of every single block $m = r, 2r, \dots, kr$. By the independence of disjoint blocks of i.i.d. increments:</p>
+
+<div class="math-display">$$\mathbb{P}_\theta(N &gt; n) \le \mathbb{P}_\theta(N &gt; kr) \le \prod_{m=1}^k \mathbb{P}_\theta\left( \sum_{i=1}^r Z_{(m-1)r + i} \le a - b \right) \le (1 - \epsilon^r)^k$$</div>
+
+<p>Since $k = \lfloor n / r \rfloor &gt; \frac{n}{r} - 1$, we can write $(1 - \epsilon^r)^k \le (1 - \epsilon^r)^{-1} \left[ (1 - \epsilon^r)^{1/r} \right]^n$. Defining the constants $C = (1 - \epsilon^r)^{-1} &gt; 0$ and $\rho = (1 - \epsilon^r)^{1/r} \in (0, 1)$, we obtain the geometric tail bound:</p>
+
+<div class="math-display">$$\mathbb{P}_\theta(N &gt; n) \le C \rho^n \quad \text{for all } n \ge 1$$</div>
+
+<p>Taking the limit as $n \to \infty$, since $0 &lt; \rho &lt; 1$:</p>
+
+<div class="math-display">$$\mathbb{P}_\theta(N = \infty) = \lim_{n \to \infty} \mathbb{P}_\theta(N &gt; n) \le \lim_{n \to \infty} C \rho^n = 0 \implies \mathbb{P}_\theta(N &lt; \infty) = 1$$</div>
+
+<p>Finally, for any $t &gt; 0$ such that $e^t \rho &lt; 1$ (i.e., $t &lt; t_0 = -\ln \rho &gt; 0$), the moment generating function of $N$ is bounded by a convergent geometric series:</p>
+
+<div class="math-display">$$\mathbb{E}_\theta[e^{tN}] = \sum_{n=1}^\infty e^{tn} \mathbb{P}_\theta(N = n) \le \sum_{n=1}^\infty e^{tn} \mathbb{P}_\theta(N &gt; n - 1) \le \frac{C}{\rho} \sum_{n=1}^\infty (e^t \rho)^n &lt; \infty$$</div>
+
+<p>Since the moment generating function $\mathbb{E}_\theta[e^{tN}]$ is finite in a neighborhood of $t = 0$, all moments $\mathbb{E}_\theta[N^k]$ are finite. This completes the proof of Stein's Lemma.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.4</span>
+            <span>Wald's Fundamental Identity and the Operating Characteristic (OC) Curve</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>To evaluate the performance of a sequential test across the entire parameter space $\Theta$—not merely at the two design points $\theta_0$ and $\theta_1$—we require the <strong>Operating Characteristic (OC) function</strong>, denoted $L(\theta)$, which gives the probability of accepting the null hypothesis $H_0$ as a function of the true parameter $\theta$:</p>
+
+<div class="math-display">$$L(\theta) = \mathbb{P}_\theta(\text{SPRT accepts } H_0) = \mathbb{P}_\theta(S_N \le b)$$</div>
+
+<p>Note that the power function of the sequential test is simply the complement of the OC function: $\text{Power}(\theta) = 1 - L(\theta) = \mathbb{P}_\theta(S_N \ge a)$. To compute $L(\theta)$ analytically, Abraham Wald proved one of the most powerful martingale identities in stochastic processes: <strong>Wald's Fundamental Identity</strong> in sequential analysis.</p>
+
+<p>Let $M_\theta(t) = \mathbb{E}_\theta[e^{t Z_1}]$ denote the moment generating function (MGF) of a single log-likelihood ratio increment $Z_1 = \ln[f_1(X_1)/f_0(X_1)]$ when the true parameter is $\theta$. Define the discrete-time stochastic process $\{W_m(t)\}_{m \ge 0}$ by:</p>
+
+<div class="math-display">$$W_m(t) = \exp(t S_m) \left[ M_\theta(t) \right]^{-m}, \quad \text{with } W_0(t) = 1$$</div>
+
+<p>Observe that $\{W_m(t)\}_{m \ge 0}$ is a positive <strong>martingale</strong> with respect to the filtration $\{\mathcal{F}_m\}$, because for every $m \ge 0$:</p>
+
+<div class="math-display">$$\mathbb{E}_\theta[W_{m+1}(t) \mid \mathcal{F}_m] = \mathbb{E}_\theta\left[ W_m(t) e^{t Z_{m+1}} [M_\theta(t)]^{-1} \;\middle|\; \mathcal{F}_m \right] = W_m(t) [M_\theta(t)]^{-1} \mathbb{E}_\theta[e^{t Z_{m+1}}] = W_m(t)$$</div>
+
+<p>By Doob's Optional Stopping Theorem ( combined with Stein's exponential tail bound on $N$ and the uniform boundedness of $S_{m \wedge N}$ inside $(b, a)$ prior to stopping), the expected value of the martingale at the stopping time $N$ equals its initial value $W_0(t) = 1$.</p>
+
+<h4>Theorem 5.3 (Wald's Fundamental Identity of Sequential Analysis)</h4>
+
+<p>Let $Z_1, Z_2, \dots$ be i.i.d. increments with moment generating function $M_\theta(t) = \mathbb{E}_\theta[e^{t Z_1}]$ finite in an open interval containing $t$, and let $N$ be the stopping time of an SPRT with finite boundaries $(b, a)$. Then for all $t$ in the domain of $M_\theta(t)$ such that $|M_\theta(t)| \ge 1$ (or within a neighborhood of the roots of $M_\theta(t) = 1$):</p>
+
+<div class="math-display">$$\mathbb{E}_\theta \left[ \exp(t S_N) \left( M_\theta(t) \right)^{-N} \right] = 1$$</div>
+
+<p>How does Wald's Fundamental Identity unlock the Operating Characteristic function $L(\theta)$? Suppose that for a given parameter value $\theta$ (with $\mathbb{E}_\theta[Z_1] \ne 0$), we can find a <strong>non-zero real root</strong> $t = h(\theta) \ne 0$ of the characteristic equation:</p>
+
+<div class="math-display">$$M_\theta(h(\theta)) = \mathbb{E}_\theta \left[ e^{h(\theta) Z_1} \right] = \mathbb{E}_\theta \left[ \left( \frac{f_1(X_1)}{f_0(X_1)} \right)^{h(\theta)} \right] = 1$$</div>
+
+<p>Because $M_\theta(t)$ is strictly convex ($M_\theta''(t) = \mathbb{E}_\theta[Z_1^2 e^{t Z_1}] &gt; 0$), satisfies $M_\theta(0) = 1$, and has derivative $M_\theta'(0) = \mathbb{E}_\theta[Z_1] \ne 0$ at the origin, convexity guarantees that there exists at most one non-zero real root $h(\theta) \ne 0$ such that $M_\theta(h(\theta)) = 1$ (specifically, if $\mathbb{E}_\theta[Z_1] &lt; 0$, then $h(\theta) &gt; 0$; if $\mathbb{E}_\theta[Z_1] &gt; 0$, then $h(\theta) &lt; 0$). Notice that at the two design parameters $\theta_0$ and $\theta_1$, we can verify the root $h(\theta)$ by direct inspection:</p>
+
+<ul>
+
+  <li>When $\theta = \theta_0$: $\mathbb{E}_{\theta_0}\left[\left(\frac{f_1(X)}{f_0(X)}\right)^1\right] = \int \frac{f_1(x)}{f_0(x)} f_0(x) \, d\mu(x) = \int f_1(x) \, d\mu(x) = 1$, so <strong>$h(\theta_0) = +1$</strong>.</li>
+
+  <li>When $\theta = \theta_1$: $\mathbb{E}_{\theta_1}\left[\left(\frac{f_1(X)}{f_0(X)}\right)^{-1}\right] = \int \frac{f_0(x)}{f_1(x)} f_1(x) \, d\mu(x) = \int f_0(x) \, d\mu(x) = 1$, so <strong>$h(\theta_1) = -1$</strong>.</li>
+
+</ul>
+
+<p>Now substitute $t = h(\theta) \ne 0$ into Wald's Fundamental Identity. Since $M_\theta(h(\theta)) = 1$, the random factor $[M_\theta(h(\theta))]^{-N} = 1^{-N} = 1$ drops out completely, leaving the remarkably clean identity:</p>
+
+<div class="math-display">$$\mathbb{E}_\theta \left[ \exp\left( h(\theta) S_N \right) \right] = 1 \quad \Longleftrightarrow \quad \mathbb{E}_\theta \left[ \left( \Lambda_N \right)^{h(\theta)} \right] = 1$$</div>
+
+<p>Splitting this expectation across the two mutually exclusive terminal events—acceptance of $H_0$ ($S_N \le b$, which occurs with probability $L(\theta)$) and rejection of $H_0$ ($S_N \ge a$, which occurs with probability $1 - L(\theta)$)—and neglecting the boundary overshoot (so that $S_N \approx b = \ln B$ upon acceptance and $S_N \approx a = \ln A$ upon rejection), we obtain:</p>
+
+<div class="math-display">$$L(\theta) B^{h(\theta)} + \left[ 1 - L(\theta) \right] A^{h(\theta)} \approx 1$$</div>
+
+<p>Solving this linear equation for $L(\theta)$ gives <strong>Wald's Operating Characteristic (OC) Formula</strong>:</p>
+
+<div class="math-display">$$L(\theta) \approx \frac{A^{h(\theta)} - 1}{A^{h(\theta)} - B^{h(\theta)}} = \frac{e^{a h(\theta)} - 1}{e^{a h(\theta)} - e^{b h(\theta)}}, \quad \text{for } h(\theta) \ne 0$$</div>
+
+<p>What happens at the singular intermediate parameter value $\theta = \theta^*$ where the drift is zero ($\mathbb{E}_{\theta^*}[Z_1] = 0$, which corresponds to the confluent root $h(\theta^*) = 0$)? Applying L'Hôpital's rule to the OC formula as $h \to 0$:</p>
+
+<div class="math-display">$$L(\theta^*) = \lim_{h \to 0} \frac{A^h - 1}{A^h - B^h} = \lim_{h \to 0} \frac{A^h \ln A}{A^h \ln A - B^h \ln B} = \frac{\ln A}{\ln A - \ln B} = \frac{a}{a - b} = \frac{a}{a + |b|}$$</div>
+
+<p>This provides a complete parametric representation of the OC curve $(\theta(h), L(h))$ across the entire real line!</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.5</span>
+            <span>Average Sample Number (ASN) Function and Parametric Derivations</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          In sequential analysis, the sample size $N$ is a random variable whose expectation $\mathbb{E}_\theta[N]$ is called the **Average Sample Number (ASN) function**. Just as the OC curve characterizes the statistical accuracy of the SPRT across $\theta$, the ASN curve $\mathbb{E}_\theta[N]$ characterizes its sampling efficiency (expected cost or duration) as a function of the true parameter $\theta$. To derive a closed-form expression for $\mathbb{E}_\theta[N]$, we differentiate Wald's Fundamental Identity with respect to $t$ at $t = 0$ (or equivalently apply Wald's First Equation for stopped random walks).
+
+### Theorem 5.4 (Wald's Equation and the ASN Function)
+Let $Z_1, Z_2, \dots$ be i.i.d. random variables with finite mean $\mathbb{E}_\theta[Z_1]$ and finite variance $\text{Var}_\theta(Z_1)$, and let $N$ be a stopping time with $\mathbb{E}_\theta[N] &lt; \infty$. Then:
+1. **Wald's First Equation (Non-zero Drift, $\mathbb{E}_\theta[Z_1] \ne 0$)**:
+   $$\mathbb{E}_\theta[S_N] = \mathbb{E}_\theta[N] \cdot \mathbb{E}_\theta[Z_1] \quad \implies \quad \mathbb{E}_\theta[N] = \frac{\mathbb{E}_\theta[S_N]}{\mathbb{E}_\theta[Z_1]}$$
+2. **Wald's Second Equation (Zero Drift, $\mathbb{E}_{\theta^*}[Z_1] = 0$)**:
+   $$\mathbb{E}_{\theta^*}\left[ S_N^2 \right] = \mathbb{E}_{\theta^*}[N] \cdot \mathbb{E}_{\theta^*}\left[ Z_1^2 \right] \quad \implies \quad \mathbb{E}_{\theta^*}[N] = \frac{\mathbb{E}_{\theta^*}[S_N^2]}{\mathbb{E}_{\theta^*}[Z_1^2]}$$
+
+#### Proof via Differentiation of Wald's Fundamental Identity:
+Differentiating $\mathbb{E}_\theta\left[ e^{t S_N} (M_\theta(t))^{-N} \right] = 1$ with respect to $t$ under the expectation sign (justified by Stein's exponential tail bound) gives:
+
+$$\mathbb{E}_\theta \left[ S_N e^{t S_N} (M_\theta(t))^{-N} - N e^{t S_N} (M_\theta(t))^{-N-1} M_\theta'(t) \right] = 0$$
+
+Evaluating at $t = 0$, where $M_\theta(0) = 1$ and $M_\theta'(0) = \mathbb{E}_\theta[Z_1]$, immediately yields $\mathbb{E}_\theta[S_N - N \mathbb{E}_\theta[Z_1]] = 0$, proving Wald's First Equation $\mathbb{E}_\theta[S_N] = \mathbb{E}_\theta[N]\mathbb{E}_\theta[Z_1]$. If $\mathbb{E}_{\theta^*}[Z_1] = 0$, differentiating a second time at $t = 0$ where $M_{\theta^*}'(0) = 0$ and $M_{\theta^*}''(0) = \mathbb{E}_{\theta^*}[Z_1^2]$ yields $\mathbb{E}_{\theta^*}[S_N^2 - N \mathbb{E}_{\theta^*}[Z_1^2]] = 0$, establishing Wald's Second Equation.
+
+Under Wald's small-overshoot approximation, the terminal log-likelihood ratio $S_N$ is approximated as a binary random variable taking value $b = \ln B$ with probability $L(\theta)$ and value $a = \ln A$ with probability $1 - L(\theta)$. Thus:
+
+$$\mathbb{E}_\theta[S_N] \approx L(\theta) \ln B + \left[ 1 - L(\theta) \right] \ln A = L(\theta) b + \left[ 1 - L(\theta) \right] a$$
+
+Substituting this into Wald's First and Second Equations yields the universal **ASN Formula**:
+
+$$\mathbb{E}_\theta[N] \approx \begin{cases} \dfrac{L(\theta) \ln B + [1 - L(\theta)] \ln A}{\mathbb{E}_\theta[Z_1]} &amp; \text{if } \mathbb{E}_\theta[Z_1] \ne 0 \\[12pt] \dfrac{-\ln A \ln B}{\mathbb{E}_{\theta^*}[Z_1^2]} = \dfrac{|b| a}{\text{Var}_{\theta^*}(Z_1)} &amp; \text{if } \mathbb{E}_{\theta^*}[Z_1] = 0 \end{cases}$$
+
+In particular, at the null hypothesis $\theta = \theta_0$ where $L(\theta_0) = 1 - \alpha$, and at the alternative hypothesis $\theta = \theta_1$ where $L(\theta_1) = \beta$:
+
+$$\mathbb{E}_{\theta_0}[N] \approx \frac{(1 - \alpha) \ln B + \alpha \ln A}{\mathbb{E}_{\theta_0}[Z_1]}, \qquad \mathbb{E}_{\theta_1}[N] \approx \frac{\beta \ln B + (1 - \beta) \ln A}{\mathbb{E}_{\theta_1}[Z_1]}$$
+
+Notice the geometric shape of the ASN curve $\mathbb{E}_\theta[N]$ as a function of $\theta$: it is low at $\theta_0$ and $\theta_1$ (and approaches $1$ as $\theta \to \pm \infty$ where drift is huge), but achieves its **maximum peak** near the zero-drift indifference point $\theta = \theta^*$ where $\mathbb{E}_{\theta^*}[Z_1] = 0$. At $\theta^*$, the random walk has no drift and leaves $(b, a)$ purely by diffusive fluctuations, scaling proportionally to $|b|a / \sigma_Z^2$.
+
+Let us now catalog the exact log-likelihood increment $Z_i$, non-zero root condition $h(\theta)$, and sequential decision boundaries for the four canonical parametric families:
+
+1. **Normal Mean with Known Variance**: $X_i \stackrel{\text{i.i.d.}}{\sim} \mathcal{N}(\theta, \sigma^2)$ for testing $H_0 : \theta = \theta_0$ vs. $H_1 : \theta = \theta_1$ ($\theta_1 &gt; \theta_0$).
+   - Log-likelihood increment: $Z_i = \frac{\theta_1 - \theta_0}{\sigma^2} X_i - \frac{\theta_1^2 - \theta_0^2}{2\sigma^2} = \frac{\theta_1 - \theta_0}{\sigma^2} \left( X_i - \frac{\theta_0 + \theta_1}{2} \right)$.
+   - Drift and variance: $\mathbb{E}_\theta[Z_i] = \frac{\theta_1 - \theta_0}{\sigma^2} \left( \theta - \frac{\theta_0 + \theta_1}{2} \right)$, $\text{Var}_\theta(Z_i) = \frac{(\theta_1 - \theta_0)^2}{\sigma^2}$. Zero-drift midpoint: $\theta^* = \frac{\theta_0 + \theta_1}{2}$.
+   - Explicit root $h(\theta)$: Since $Z_i \sim \mathcal{N}(\mu_Z, \sigma_Z^2)$, its MGF is $\exp(t \mu_Z + \frac{1}{2} t^2 \sigma_Z^2) = 1$, which gives the exact closed-form root $h(\theta) = -\frac{2\mu_Z}{\sigma_Z^2} = \frac{\theta_0 + \theta_1 - 2\theta}{\theta_1 - \theta_0}$.
+
+2. **Bernoulli Proportion (Binomial Sequential Sampling)**: $X_i \stackrel{\text{i.i.d.}}{\sim} \text{Bernoulli}(p)$ for testing $H_0 : p = p_0$ vs. $H_1 : p = p_1$ ($0 &lt; p_0 &lt; p_1 &lt; 1$).
+   - Log-likelihood increment: $Z_i = X_i \ln\left(\frac{p_1(1 - p_0)}{p_0(1 - p_1)}\right) + \ln\left(\frac{1 - p_1}{1 - p_0}\right)$.
+   - Expected increment: $\mathbb{E}_p[Z_i] = p \ln\left(\frac{p_1}{p_0}\right) + (1 - p) \ln\left(\frac{1 - p_1}{1 - p_0}\right)$.
+   - Characteristic root equation: $M_p(h) = p \left(\frac{p_1}{p_0}\right)^h + (1 - p) \left(\frac{1 - p_1}{1 - p_0}\right)^h = 1$, which yields the explicit parametric expression for $p$ as a function of $h$:
+     $$p(h) = \frac{1 - \left(\frac{1 - p_1}{1 - p_0}\right)^h}{\left(\frac{p_1}{p_0}\right)^h - \left(\frac{1 - p_1}{1 - p_0}\right)^h}$$
+
+3. **Poisson Rate**: $X_i \stackrel{\text{i.i.d.}}{\sim} \text{Poisson}(\lambda)$ for testing $H_0 : \lambda = \lambda_0$ vs. $H_1 : \lambda = \lambda_1$ ($\lambda_1 &gt; \lambda_0$).
+   - Log-likelihood increment: $Z_i = X_i \ln\left(\frac{\lambda_1}{\lambda_0}\right) - (\lambda_1 - \lambda_0)$.
+   - Expected increment: $\mathbb{E}_\lambda[Z_i] = \lambda \ln\left(\frac{\lambda_1}{\lambda_0}\right) - (\lambda_1 - \lambda_0)$, with zero-drift point $\lambda^* = \frac{\lambda_1 - \lambda_0}{\ln(\lambda_1 / \lambda_0)}$.
+   - Parametric root relation: $\lambda(h) = \frac{h(\lambda_1 - \lambda_0)}{(\lambda_1 / \lambda_0)^h - 1}$.
+
+4. **Exponential Scale/Rate**: $X_i \stackrel{\text{i.i.d.}}{\sim} \text{Exponential}(\theta)$ with density $f(x; \theta) = \theta e^{-\theta x}$ ($x &gt; 0$) for testing $H_0 : \theta = \theta_0$ vs. $H_1 : \theta = \theta_1$ ($\theta_1 &gt; \theta_0$).
+   - Log-likelihood increment: $Z_i = \ln\left(\frac{\theta_1}{\theta_0}\right) - (\theta_1 - \theta_0) X_i$.
+   - Expected increment: $\mathbb{E}_\theta[Z_i] = \ln\left(\frac{\theta_1}{\theta_0}\right) - \frac{\theta_1 - \theta_0}{\theta}$.
+
+<div class="table-wrapper"><table class="data-table">
+<thead>
+<tr><th>Parametric Family</th><th>Single Increment $Z_i = \ln[f_1(X_i)/f_0(X_i)]$</th><th>Continue Sampling Inequality for $\sum_{i=1}^m X_i$</th><th>Indifference Parameter $\theta^*$ ($\mathbb{E}_{\theta^*}[Z_i] = 0$)</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Normal $\mathcal{N}(\theta, \sigma^2)$</strong></td><td>$\frac{\theta_1 - \theta_0}{\sigma^2} X_i - \frac{\theta_1^2 - \theta_0^2}{2\sigma^2}$</td><td>$\frac{\sigma^2 b}{\theta_1 - \theta_0} + m\frac{\theta_0 + \theta_1}{2} &lt; \sum X_i &lt; \frac{\sigma^2 a}{\theta_1 - \theta_0} + m\frac{\theta_0 + \theta_1}{2}$</td><td>$\theta^* = \frac{\theta_0 + \theta_1}{2}$</td></tr>
+<tr><td><strong>Bernoulli $(p)$</strong></td><td>$X_i \ln\frac{p_1 q_0}{p_0 q_1} + \ln\frac{q_1}{q_0}$</td><td>$\frac{b - m \ln(q_1/q_0)}{\ln(p_1 q_0 / p_0 q_1)} &lt; \sum X_i &lt; \frac{a - m \ln(q_1/q_0)}{\ln(p_1 q_0 / p_0 q_1)}$</td><td>$p^* = \frac{\ln(q_0 / q_1)}{\ln(p_1 q_0 / p_0 q_1)}$</td></tr>
+<tr><td><strong>Poisson $(\lambda)$</strong></td><td>$X_i \ln\frac{\lambda_1}{\lambda_0} - (\lambda_1 - \lambda_0)$</td><td>$\frac{b + m(\lambda_1 - \lambda_0)}{\ln(\lambda_1 / \lambda_0)} &lt; \sum X_i &lt; \frac{a + m(\lambda_1 - \lambda_0)}{\ln(\lambda_1 / \lambda_0)}$</td><td>$\lambda^* = \frac{\lambda_1 - \lambda_0}{\ln(\lambda_1 / \lambda_0)}$</td></tr>
+<tr><td><strong>Exponential $(\theta)$</strong></td><td>$\ln\frac{\theta_1}{\theta_0} - (\theta_1 - \theta_0) X_i$</td><td>$\frac{m \ln(\theta_1/\theta_0) - a}{\theta_1 - \theta_0} &lt; \sum X_i &lt; \frac{m \ln(\theta_1/\theta_0) - b}{\theta_1 - \theta_0}$</td><td>$\theta^* = \frac{\theta_1 - \theta_0}{\ln(\theta_1 / \theta_0)}$</td></tr>
+</tbody>
+</table></div>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.6</span>
+            <span>The Wald-Wolfowitz Optimality Theorem and Truncated Sequential Designs</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Why did Abraham Wald select constant horizontal boundaries $(b, a)$ for the cumulative log-likelihood ratio $S_m$ rather than curved or time-varying boundaries $(b_m, a_m)$? In 1948, Abraham Wald and Jacob Wolfowitz proved one of the deepest theorems in mathematical statistics: among <strong>all</strong> sequential and fixed-sample tests whose error probabilities do not exceed those of the SPRT, the SPRT simultaneously minimizes the expected sample size under <strong>both</strong> $H_0$ and $H_1$!</p>
+
+<h4>Theorem 5.5 (Wald-Wolfowitz Optimality Theorem for the SPRT)</h4>
+
+<p>Let $\mathcal{T}^*$ be a Sequential Probability Ratio Test with stopping time $N^*$ and terminal decision $\delta^*$ having error probabilities $\alpha(\mathcal{T}^*) = \alpha$ and $\beta(\mathcal{T}^*) = \beta$. Let $\mathcal{T} = (N, \delta)$ be any other sequential or fixed-sample test such that:</p>
+
+<div class="math-display">$$\alpha(\mathcal{T}) \le \alpha \quad \text{and} \quad \beta(\mathcal{T}) \le \beta$$</div>
+
+<p>Then the expected sample size of $\mathcal{T}^*$ is simultaneous smaller than or equal to that of $\mathcal{T}$ under both hypotheses:</p>
+
+<div class="math-display">$$\mathbb{E}_{\theta_0}[N^*] \le \mathbb{E}_{\theta_0}[N] \quad \text{and} \quad \mathbb{E}_{\theta_1}[N^*] \le \mathbb{E}_{\theta_1}[N]$$</div>
+
+<h5>Sketch of Proof via Bayesian Sequential Decision Theory and Kullback-Leibler Divergence:</h5>
+
+<p>Consider a Bayesian sequential decision problem where $\theta \in \{\theta_0, \theta_1\}$ is assigned prior probability $\pi = \mathbb{P}(\theta = \theta_1) \in (0, 1)$, let $c &gt; 0$ be the cost per observation, and let $w_0, w_1 &gt; 0$ be the terminal losses for Type I and Type II errors. The total Bayes risk of any test $\mathcal{T} = (N, \delta)$ is:</p>
+
+<div class="math-display">$$R(\pi, \mathcal{T}) = (1 - \pi)\left( w_0 \alpha(\mathcal{T}) + c \mathbb{E}_{\theta_0}[N] \right) + \pi\left( w_1 \beta(\mathcal{T}) + c \mathbb{E}_{\theta_1}[N] \right)$$</div>
+
+<p>By backward induction and Bellman's optimality equation for Markov decision processes, since the posterior probability $\pi_m = \mathbb{P}(\theta = \theta_1 \mid X_1, \dots, X_m)$ is a monotone function of the likelihood ratio $\Lambda_m$ via Bayes' rule:</p>
+
+<div class="math-display">$$\frac{\pi_m}{1 - \pi_m} = \frac{\pi}{1 - \pi} \Lambda_m$$</div>
+
+<p>and the future observation dynamics are time-homogeneous, the optimal Bayes continuation region in terms of $\pi_m$ is a time-invariant open interval $(\pi_L, \pi_U)$, which transforms via Bayes' rule into a time-invariant interval $B &lt; \Lambda_m &lt; A$, i.e., an SPRT! By varying the prior $\pi$ and loss weights $(w_0, w_1)$ to match the given boundaries $(B, A)$, if any competing test $\mathcal{T}$ had $\alpha(\mathcal{T}) \le \alpha(\mathcal{T}^*)$, $\beta(\mathcal{T}) \le \beta(\mathcal{T}^*)$, and strictly smaller $\mathbb{E}_{\theta_0}[N] &lt; \mathbb{E}_{\theta_0}[N^*]$ (or $\mathbb{E}_{\theta_1}[N] &lt; \mathbb{E}_{\theta_1}[N^*]$), it would achieve a strictly smaller Bayes risk than the Bayes-optimal SPRT $\mathcal{T}^*$, which is a contradiction.</p>
+
+<p>We can also derive a universal <strong>Information-Theoretic Lower Bound</strong> on $\mathbb{E}_{\theta_0}[N]$ and $\mathbb{E}_{\theta_1}[N]$ directly from Wald's Equation and the data-processing inequality for Kullback-Leibler divergence. Note that $\mathbb{E}_{\theta_0}[Z_1] = -D_{\text{KL}}(f_0 \parallel f_1)$. Applying Jensen's inequality conditionally on the terminal decision $\delta_N \in \{0, 1\}$ to $\mathbb{E}_{\theta_0}[S_N] = \mathbb{E}_{\theta_0}[\ln \Lambda_N]$ yields:</p>
+
+<div class="math-display">$$-\mathbb{E}_{\theta_0}[S_N] = \mathbb{E}_{\theta_0}[N] D_{\text{KL}}(f_0 \parallel f_1) \ge (1 - \alpha) \ln\left(\frac{1 - \alpha}{\beta}\right) + \alpha \ln\left(\frac{\alpha}{1 - \beta}\right) = \text{kl}(1 - \alpha \parallel \beta)$$</div>
+
+<p>Thus, for <strong>any</strong> test $\mathcal{T} = (N, \delta)$ with error probabilities $(\alpha, \beta)$:</p>
+
+<div class="math-display">$$\mathbb{E}_{\theta_0}[N] \ge \frac{(1 - \alpha) \ln\left(\frac{1 - \alpha}{\beta}\right) + \alpha \ln\left(\frac{\alpha}{1 - \beta}\right)}{D_{\text{KL}}(f_0 \parallel f_1)}, \qquad \mathbb{E}_{\theta_1}[N] \ge \frac{(1 - \beta) \ln\left(\frac{1 - \beta}{\alpha}\right) + \beta \ln\left(\frac{\beta}{1 - \alpha}\right)}{D_{\text{KL}}(f_1 \parallel f_0)}$$</div>
+
+<p>Comparing the numerator of this universal lower bound with Wald's ASN formula at $\theta_0$ and $\theta_1$ using $\ln A \approx \ln\left(\frac{1-\beta}{\alpha}\right)$ and $\ln B \approx \ln\left(\frac{\beta}{1-\alpha}\right)$, we see that <strong>Wald's SPRT attains the exact information-theoretic lower bound</strong> up to the negligible boundary overshoot!</p>
+
+<p>In clinical trials and industrial applications, one practical concern with the open-ended SPRT is that if the true parameter happens to lie near the indifference point $\theta^*$, the sample size $N$, though finite with probability one, has a positively skewed distribution and may occasionally exceed the fixed-sample size $n_{\text{fixed}}$. Furthermore, budgeting and hospital logistics require a hard upper bound $N_{\max}$ on the number of patients enrolled. This motivates <strong>Truncated Sequential Designs</strong> and <strong>Group Sequential Designs</strong>:</p>
+
+<ul>
+
+  <li><strong>Wald's Truncated SPRT</strong>: If the SPRT has not terminated by a pre-specified maximum stage $N_{\max}$, sampling is forcibly stopped at $N_{\max}$, and $H_0$ is accepted if $S_{N_{\max}} \le 0$ and rejected if $S_{N_{\max}} &gt; 0$.</li>
+
+  <li><strong>Group Sequential Clinical Trials (Pocock, O'Brien-Fleming, and Lan-DeMets $\alpha$-Spending Boundaries)</strong>: Rather than monitoring after every single patient, data are analyzed at $K$ interim looks (e.g., $K = 4$ or $5$ stages of $m$ patients each). Pocock (1977) proposed constant standardized $Z$-thresholds across all looks, whereas O'Brien and Fleming (1979) proposed conservative early thresholds $c_k = c_{\text{OBF}} \sqrt{K/k}$ that make early stopping very stringent unless the treatment effect is dramatic, while preserving a final critical value $c_K$ nearly identical to the fixed-sample test.</li>
+
+</ul>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Hypothesis Testing &amp; Nonparametric Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 5.1: Sequential Probability Ratio Test for a Normal Mean—Boundaries, OC Curve, ASN, and Efficiency Gains</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A semiconductor wafer fabrication plant monitors the oxide layer thickness $X$ (in nanometers) of silicon wafers, where $X_i \stackrel{\text{i.i.d.}}{\sim} \mathcal{N}(\theta, \sigma^2)$ with known process standard deviation $\sigma = 2.0\text{ nm}$. A quality control engineer designs a Wald Sequential Probability Ratio Test (SPRT) to test the simple null hypothesis $H_0 : \theta = 10.0\text{ nm}$ against the simple alternative hypothesis $H_1 : \theta = 11.0\text{ nm}$, with nominal Type I error probability $\alpha = 0.01$ and Type II error probability $\beta = 0.05$.</p>
+
+<ol>
+
+  <li>Calculate Wald's stopping boundaries $A$ and $B$, and derive the explicit stage-$m$ continuation inequalities in terms of the cumulative sample sum $\sum_{i=1}^m X_i$.</li>
+
+  <li>Derive the exact formula for the non-zero root $h(\theta)$ of $\mathbb{E}_\theta[e^{h Z_1}] = 1$, and evaluate the Operating Characteristic $L(\theta)$ and Average Sample Number $\mathbb{E}_\theta[N]$ at the four parameter values $\theta \in \{10.0, 11.0, 10.5, 10.25\}$.</li>
+
+  <li>Compute the required sample size $n_{\text{fixed}}$ of the Most Powerful fixed-sample Neyman-Pearson test achieving the exact same $(\alpha = 0.01, \beta = 0.05)$, and determine the percentage sample size reduction achieved by the SPRT under $H_0$, $H_1$, and at the worst-case indifference midpoint $\theta^* = 10.5$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-ht-stat-5-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-ht-stat-5-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Calculation of Wald's boundaries and linear stopping lines for $\sum_{i=1}^m X_i$</div>
+              
+              <div class="step-explanation"><p>Given nominal error probabilities $\alpha = 0.01$ and $\beta = 0.05$, Wald's boundary approximations are:</p>
+
+<div class="math-display">$$A = \frac{1 - \beta}{\alpha} = \frac{1 - 0.05}{0.01} = \frac{0.95}{0.01} = 95.0, \qquad B = \frac{\beta}{1 - \alpha} = \frac{0.05}{1 - 0.01} = \frac{0.05}{0.99} \approx 0.050505$$</div>
+
+<p>Taking natural logarithms gives the logarithmic thresholds $a = \ln A$ and $b = \ln B$:</p>
+
+<div class="math-display">$$a = \ln(95.0) \approx 4.553877, \qquad b = \ln\left(\frac{5}{99}\right) \approx -2.985682$$</div>
+
+<p>For $X_i \sim \mathcal{N}(\theta, \sigma^2)$ with $\theta_0 = 10.0$, $\theta_1 = 11.0$, and $\sigma^2 = 4.0$, the single-observation log-likelihood ratio increment $Z_i$ is:</p>
+
+<div class="math-display">$$Z_i = \ln\left[ \frac{\frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{(X_i - \theta_1)^2}{2\sigma^2}\right)}{\frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{(X_i - \theta_0)^2}{2\sigma^2}\right)} \right] = \frac{\theta_1 - \theta_0}{\sigma^2} X_i - \frac{\theta_1^2 - \theta_0^2}{2\sigma^2} = \frac{11 - 10}{4} X_i - \frac{121 - 100}{8} = 0.25 X_i - 2.625$$</div>
+
+<p>Notice that $0.25 X_i - 2.625 = 0.25(X_i - 10.5)$. Summing over the first $m$ observations gives the cumulative log-likelihood ratio:</p>
+
+<div class="math-display">$$S_m = \sum_{i=1}^m Z_i = 0.25 \sum_{i=1}^m X_i - 2.625 m$$</div>
+
+<p>The SPRT continuation condition $b &lt; S_m &lt; a$ is therefore $-2.985682 &lt; 0.25 \sum_{i=1}^m X_i - 2.625 m &lt; 4.553877$. Multiplying through by $4$ and adding $10.5 m$ yields the explicit linear stopping boundaries for the cumulative sum $\sum_{i=1}^m X_i$:</p>
+
+<div class="math-display">$$-11.9427 + 10.5 m &lt; \sum_{i=1}^m X_i &lt; 18.2155 + 10.5 m$$</div>
+
+<p>At stage $m$, we accept $H_0$ if $\sum_{i=1}^m X_i \le 10.5 m - 11.9427$, reject $H_0$ if $\sum_{i=1}^m X_i \ge 10.5 m + 18.2155$, and continue sampling otherwise. Notice that both boundary lines have identical slope $\frac{\theta_0 + \theta_1}{2} = 10.5\text{ nm}$ and parallel vertical intercepts $-11.9427$ and $+18.2155$.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Derivation of $h(\theta)$, Operating Characteristic $L(\theta)$, and ASN $\mathbb{E}_\theta[N]$</div>
+              
+              <div class="step-explanation"><p>When the true parameter is $\theta$, $X_i \sim \mathcal{N}(\theta, 4)$, so $Z_i = 0.25(X_i - 10.5)$ is normally distributed with mean and variance:</p>
+
+<div class="math-display">$$\mu_Z(\theta) = \mathbb{E}_\theta[Z_1] = 0.25(\theta - 10.5), \qquad \sigma_Z^2 = \text{Var}_\theta(Z_1) = (0.25)^2 (4.0) = 0.25$$</div>
+
+<p>The moment generating function of $Z_1 \sim \mathcal{N}(\mu_Z(\theta), \sigma_Z^2)$ is $M_\theta(h) = \exp\left( h \mu_Z(\theta) + \frac{1}{2} h^2 \sigma_Z^2 \right)$. Setting $M_\theta(h) = 1$ for $h \ne 0$ requires the exponent to vanish:</p>
+
+<div class="math-display">$$h \mu_Z(\theta) + \frac{1}{2} h^2 \sigma_Z^2 = 0 \implies h(\theta) = -\frac{2 \mu_Z(\theta)}{\sigma_Z^2} = -\frac{2(0.25)(\theta - 10.5)}{0.25} = 21 - 2\theta$$</div>
+
+<p>Let us now evaluate $L(\theta)$ and $\mathbb{E}_\theta[N]$ across the four specified values of $\theta$:</p>
+
+<ul>
+
+  <li><strong>Case 1 ($\theta = \theta_0 = 10.0$)</strong>: Here $h(10.0) = 21 - 20 = +1$, $L(10.0) = 1 - \alpha = 0.99$, and $\mathbb{E}_{10.0}[Z_1] = 0.25(10.0 - 10.5) = -0.125$. By Wald's ASN formula:</li>
+
+</ul>
+
+<div class="math-display">$$\mathbb{E}_{10.0}[N] \approx \frac{0.99(-2.985682) + 0.01(4.553877)}{-0.125} = \frac{-2.955825 + 0.045539}{-0.125} = \frac{-2.910286}{-0.125} \approx 23.28\text{ wafers}$$</div>
+
+<ul>
+
+  <li><strong>Case 2 ($\theta = \theta_1 = 11.0$)</strong>: Here $h(11.0) = 21 - 22 = -1$, $L(11.0) = \beta = 0.05$, and $\mathbb{E}_{11.0}[Z_1] = 0.25(11.0 - 10.5) = +0.125$. By Wald's ASN formula:</li>
+
+</ul>
+
+<div class="math-display">$$\mathbb{E}_{11.0}[N] \approx \frac{0.05(-2.985682) + 0.95(4.553877)}{0.125} = \frac{-0.149284 + 4.326183}{0.125} = \frac{4.176899}{0.125} \approx 33.42\text{ wafers}$$</div>
+
+<ul>
+
+  <li><strong>Case 3 (Indifference midpoint $\theta^* = 10.5$)</strong>: Here $h(10.5) = 0$ and $\mathbb{E}_{10.5}[Z_1] = 0$, with $\mathbb{E}_{10.5}[Z_1^2] = \sigma_Z^2 = 0.25$. Applying the L'Hôpital zero-drift formulas:</li>
+
+</ul>
+
+<div class="math-display">$$L(10.5) \approx \frac{a}{a - b} = \frac{4.553877}{4.553877 - (-2.985682)} = \frac{4.553877}{7.539559} \approx 0.6040$$</div>
+
+<div class="math-display">$$\mathbb{E}_{10.5}[N] \approx \frac{-a b}{\mathbb{E}_{10.5}[Z_1^2]} = \frac{-(4.553877)(-2.985682)}{0.25} = \frac{13.59643}{0.25} \approx 54.39\text{ wafers}$$</div>
+
+<ul>
+
+  <li><strong>Case 4 (Intermediate point $\theta = 10.25$)</strong>: Here $h(10.25) = 21 - 20.5 = +0.5$, and $\mathbb{E}_{10.25}[Z_1] = 0.25(10.25 - 10.5) = -0.0625$. Computing the OC value:</li>
+
+</ul>
+
+<div class="math-display">$$L(10.25) \approx \frac{95^{0.5} - 1}{95^{0.5} - (5/99)^{0.5}} = \frac{9.746794 - 1}{9.746794 - 0.224733} = \frac{8.746794}{9.522061} \approx 0.9186$$</div>
+
+<p>Substituting $L(10.25) = 0.9186$ into the ASN equation:</p>
+
+<div class="math-display">$$\mathbb{E}_{10.25}[N] \approx \frac{0.9186(-2.985682) + 0.0814(4.553877)}{-0.0625} = \frac{-2.742648 + 0.370686}{-0.0625} = \frac{-2.371962}{-0.0625} \approx 37.95\text{ wafers}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Comparison with fixed-sample Neyman-Pearson sample size $n_{\text{fixed}}$</div>
+              
+              <div class="step-explanation"><p>For a fixed-sample Neyman-Pearson test of $H_0 : \theta = 10.0$ against $H_1 : \theta = 11.0$ with $\sigma = 2.0$, $\alpha = 0.01$ ($z_{0.01} = 2.32635$), and $\beta = 0.05$ ($z_{0.05} = 1.64485$), the required fixed sample size is:</p>
+
+<div class="math-display">$$n_{\text{fixed}} = \frac{\sigma^2 (z_\alpha + z_\beta)^2}{(\theta_1 - \theta_0)^2} = \frac{4.0 (2.32635 + 1.64485)^2}{(11.0 - 10.0)^2} = 4.0 (3.97120)^2 = 4.0 \times 15.7704 \approx 63.08 \implies n_{\text{fixed}} = 64\text{ wafers}$$</div>
+
+<p>Comparing the expected sample sizes of the SPRT against $n_{\text{fixed}} = 63.08$:</p>
+
+<ul>
+
+  <li>Under $H_0$ ($\theta = 10.0$): $\mathbb{E}_{10.0}[N] = 23.28$ vs. $63.08$, yielding a <strong>$63.1\%$ reduction</strong> in average sample size!</li>
+
+  <li>Under $H_1$ ($\theta = 11.0$): $\mathbb{E}_{11.0}[N] = 33.42$ vs. $63.08$, yielding a <strong>$47.0\%$ reduction</strong> in average sample size!</li>
+
+  <li>Even at the absolute worst-case zero-drift midpoint $\theta^* = 10.5$, $\mathbb{E}_{10.5}[N] = 54.39 &lt; 63.08$, which is still <strong>$13.8\%$ smaller</strong> than the fixed-sample test!</li>
+
+</ul>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 5.2: Binomial SPRT for Acceptance Sampling of Lot Defect Proportions</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An aerospace defense contractor inspects incoming lots of titanium fasteners for microscopic fatigue cracks. Each inspected fastener is classified as defective ($X_i = 1$, with probability $p$) or non-defective ($X_i = 0$, with probability $q = 1 - p$). A lot is considered acceptable (Producer's Quality Level) if $H_0 : p = p_0 = 0.02$ and unacceptable (Consumer's Rejectable Quality Level) if $H_1 : p = p_1 = 0.10$. The sequential inspection plan is designed with Producer's Risk $\alpha = 0.05$ and Consumer's Risk $\beta = 0.10$.</p>
+
+<ol>
+
+  <li>Derive the stage-$m$ acceptance number $c_{\text{acc}}(m)$ and rejection number $c_{\text{rej}}(m)$ for the cumulative number of defectives $D_m = \sum_{i=1}^m X_i$, and determine the minimum possible number of fasteners required to accept a defect-free lot or reject a purely defective lot.</li>
+
+  <li>Find the exact indifference defect rate $p^*$ where the log-likelihood drift vanishes ($\mathbb{E}_{p^*}[Z_1] = 0$), and calculate the Operating Characteristic $L(p^*)$ and Average Sample Number $\mathbb{E}_{p^*}[N]$ at $p^*$.</li>
+
+  <li>Calculate the ASN $\mathbb{E}_p[N]$ when the lot is perfectly defect-free ($p = 0$), at the acceptable quality level ($p = 0.02$), and at the rejectable quality level ($p = 0.10$).</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-ht-stat-5-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-ht-stat-5-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Acceptance and rejection boundary lines and minimum termination stages</div>
+              
+              <div class="step-explanation"><p>With $\alpha = 0.05$ and $\beta = 0.10$, Wald's boundaries and their natural logarithms are:</p>
+
+<div class="math-display">$$A = \frac{1 - 0.10}{0.05} = 18.0 \implies a = \ln(18.0) \approx 2.890372, \qquad B = \frac{0.10}{1 - 0.05} = \frac{2}{19} \implies b = \ln\left(\frac{2}{19}\right) \approx -2.251292$$</div>
+
+<p>For $X_i \sim \text{Bernoulli}(p)$ with $p_0 = 0.02$ ($q_0 = 0.98$) and $p_1 = 0.10$ ($q_1 = 0.90$), the single-step log-likelihood increment is:</p>
+
+<div class="math-display">$$Z_i = X_i \ln\left(\frac{p_1 q_0}{p_0 q_1}\right) + \ln\left(\frac{q_1}{q_0}\right) = X_i \ln\left(\frac{0.10 \times 0.98}{0.02 \times 0.90}\right) + \ln\left(\frac{0.90}{0.98}\right) = X_i \ln\left(\frac{49}{9}\right) - \ln\left(\frac{49}{45}\right)$$</div>
+
+<p>Evaluating the logarithms numerically gives $\ln(49/9) \approx 1.694596$ and $\ln(49/45) \approx 0.085158$, so:</p>
+
+<div class="math-display">$$Z_i = 1.694596 X_i - 0.085158 \implies S_m = 1.694596 D_m - 0.085158 m$$</div>
+
+<p>where $D_m = \sum_{i=1}^m X_i$ is the cumulative count of defective fasteners in the first $m$ inspections. Dividing $b &lt; S_m &lt; a$ by $1.694596$ gives the linear continuation region $c_{\text{acc}}(m) &lt; D_m &lt; c_{\text{rej}}(m)$:</p>
+
+<div class="math-display">$$c_{\text{acc}}(m) = \frac{-2.251292 + 0.085158 m}{1.694596} = -1.3285 + 0.05025 m, \qquad c_{\text{rej}}(m) = \frac{2.890372 + 0.085158 m}{1.694596} = 1.7056 + 0.05025 m$$</div>
+
+<ul>
+
+  <li><strong>Minimum sample size to accept $H_0$</strong> (when zero defectives are found, $D_m = 0$): Setting $c_{\text{acc}}(m) \ge 0$ requires $-1.3285 + 0.05025 m \ge 0 \implies m \ge 26.44$, so at least <strong>$m = 27$ consecutive non-defective fasteners</strong> must be inspected before a lot can be accepted!</li>
+
+  <li><strong>Minimum sample size to reject $H_0$</strong> (when every inspected fastener is defective, $D_m = m$): Setting $m \ge c_{\text{rej}}(m) = 1.7056 + 0.05025 m \implies 0.94975 m \ge 1.7056 \implies m \ge 1.796$, so if the <strong>first $m = 2$ fasteners are both defective</strong> ($D_2 = 2 &gt; 1.806$), the lot is rejected immediately at stage $2$!</li>
+
+</ul></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Indifference defect proportion $p^*$, $L(p^*)$, and $\mathbb{E}_{p^*}[N]$</div>
+              
+              <div class="step-explanation"><p>The expected increment under true defect rate $p$ is $\mathbb{E}_p[Z_1] = 1.694596 p - 0.085158$. Setting $\mathbb{E}_{p^*}[Z_1] = 0$ yields the indifference proportion $p^*$ (which equals the common slope of the boundary lines!):</p>
+
+<div class="math-display">$$p^* = \frac{\ln(q_0 / q_1)}{\ln(p_1 q_0 / p_0 q_1)} = \frac{0.085158}{1.694596} \approx 0.050253 \quad (5.03\%\text{ defective})$$</div>
+
+<p>At $p = p^* = 0.050253$, since $\mathbb{E}_{p^*}[Z_1] = 0$, the second moment $\mathbb{E}_{p^*}[Z_1^2]$ equals the variance of $Z_1 = 1.694596 X_1 - 0.085158$:</p>
+
+<div class="math-display">$$\mathbb{E}_{p^*}[Z_1^2] = \text{Var}_{p^*}(Z_1) = (1.694596)^2 p^*(1 - p^*) = 2.871655 \times 0.050253 \times 0.949747 \approx 0.137056$$</div>
+
+<p>Therefore, the Operating Characteristic and Average Sample Number at $p^* = 0.050253$ are:</p>
+
+<div class="math-display">$$L(p^*) \approx \frac{a}{a - b} = \frac{2.890372}{2.890372 + 2.251292} = \frac{2.890372}{5.141664} \approx 0.5621$$</div>
+
+<div class="math-display">$$\mathbb{E}_{p^*}[N] \approx \frac{-a b}{\mathbb{E}_{p^*}[Z_1^2]} = \frac{(2.890372)(2.251292)}{0.137056} = \frac{6.50707}{0.137056} \approx 47.48\text{ fasteners}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Evaluation of ASN at $p = 0$, $p = p_0 = 0.02$, and $p = p_1 = 0.10$</div>
+              
+              <div class="step-explanation"><ul>
+
+  <li><strong>When $p = 0$ (perfectly defect-free lot)</strong>: Every $X_i = 0$ deterministically, so $L(0) = 1$ and $\mathbb{E}_0[Z_1] = -0.085158$. By Wald's approximation $\mathbb{E}_0[N] \approx \frac{b}{-0.085158} = \frac{-2.251292}{-0.085158} = 26.44$ (exact integer termination occurs at $N = \lceil 26.44 \rceil = 27$ fasteners).</li>
+
+  <li><strong>When $p = p_0 = 0.02$</strong>: Here $L(0.02) = 1 - \alpha = 0.95$ and $\mathbb{E}_{0.02}[Z_1] = 1.694596(0.02) - 0.085158 = -0.051266$:</li>
+
+</ul>
+
+<div class="math-display">$$\mathbb{E}_{0.02}[N] \approx \frac{0.95(-2.251292) + 0.05(2.890372)}{-0.051266} = \frac{-2.138727 + 0.144519}{-0.051266} = \frac{-1.994208}{-0.051266} \approx 38.90\text{ fasteners}$$</div>
+
+<ul>
+
+  <li><strong>When $p = p_1 = 0.10$</strong>: Here $L(0.10) = \beta = 0.10$ and $\mathbb{E}_{0.10}[Z_1] = 1.694596(0.10) - 0.085158 = +0.084302$:</li>
+
+</ul>
+
+<div class="math-display">$$\mathbb{E}_{0.10}[N] \approx \frac{0.10(-2.251292) + 0.90(2.890372)}{0.084302} = \frac{-0.225129 + 2.601335}{0.084302} = \frac{2.376206}{0.084302} \approx 28.19\text{ fasteners}$$</div>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 5.3: Exact Overshoot Analysis and Wald's Fundamental Identity for a Two-Point Discrete Increment Walk</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Suppose that under a sequential test of $H_0$ vs. $H_1$, the single-observation log-likelihood ratio increment $Z_i = \ln[f_1(X_i)/f_0(X_i)]$ takes only values on the integer lattice $\{-1, +1\}$ (scaled in units of $c &gt; 0$), or more generally let $Y_i = Z_i / c \in \{-1, +1\}$ with $\mathbb{P}_\theta(Y_i = +1) = p$ and $\mathbb{P}_\theta(Y_i = -1) = q = 1 - p$ ($p \ne 1/2$). Suppose the logarithmic stopping boundaries are exact integer multiples of the step size $c$: $b = -M c$ and $a = +K c$ for positive integers $M, K \ge 1$.</p>
+
+<ol>
+
+  <li>Show that on this discrete lattice, the boundary overshoot at termination is identically zero ($S_N = b$ or $S_N = a$ exactly), and use Wald's Fundamental Identity $\mathbb{E}_\theta[e^{h S_N}] = 1$ to derive the <strong>exact</strong> Operating Characteristic $L(p)$ without any approximation.</li>
+
+  <li>Assuming $Z_i = \pm c$ is a true log-likelihood ratio increment under $H_0$ ($p = p_0$) and $H_1$ ($p = p_1$), prove that $p_1 = 1 - p_0 = q_0$ and $c = \ln(p_1 / p_0)$, and verify that Wald's boundary formulas $A = (1 - \beta)/\alpha$ and $B = \beta/(1 - \alpha)$ hold with <strong>exact equality</strong>.</li>
+
+  <li>Derive the exact closed-form expression for the Average Sample Number $\mathbb{E}_p[N]$ for both $p \ne 1/2$ and the symmetric fair-coin case $p = 1/2$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-ht-stat-5-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-ht-stat-5-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Zero overshoot and exact Operating Characteristic from Wald's Identity</div>
+              
+              <div class="step-explanation"><p>Let $U_m = S_m / c = \sum_{i=1}^m Y_i$ denote the integer-valued simple random walk starting at $U_0 = 0$ with absorption barriers at $-M$ and $+K$. Because each step $Y_i \in \{-1, +1\}$ changes $U_m$ by exactly $\pm 1$, the walk cannot jump over the integer boundaries $-M$ or $+K$ without landing directly on them! Hence at the stopping time $N$, the overshoot is identically zero:</p>
+
+<div class="math-display">$$U_N = -M \quad (\text{so } S_N = -Mc = b) \quad \text{with probability } L(p), \qquad U_N = +K \quad (\text{so } S_N = +Kc = a) \quad \text{with probability } 1 - L(p)$$</div>
+
+<p>Let us find the non-zero root $h \ne 0$ of the moment generating function $M_p(h) = \mathbb{E}_p[e^{h c Y_1}] = p e^{hc} + q e^{-hc} = 1$. Setting $u = e^{hc}$, the equation $p u + q u^{-1} = 1$ becomes the quadratic $p u^2 - u + q = (u - 1)(p u - q) = 0$. Since $h \ne 0 \implies u \ne 1$, the unique non-trivial root is:</p>
+
+<div class="math-display">$$u = e^{hc} = \frac{q}{p} = \frac{1 - p}{p}$$</div>
+
+<p>Substituting $e^{h S_N} = \left(e^{hc}\right)^{U_N} = \left(\frac{q}{p}\right)^{U_N}$ into Wald's Fundamental Identity $\mathbb{E}_p\left[e^{h S_N}\right] = 1$, and noting that $U_N$ equals $-M$ or $+K$ with zero overshoot, gives the <strong>exact</strong> equation:</p>
+
+<div class="math-display">$$L(p) \left(\frac{q}{p}\right)^{-M} + \left[1 - L(p)\right] \left(\frac{q}{p}\right)^{K} = 1 \implies L(p) = \frac{\left(\frac{q}{p}\right)^K - 1}{\left(\frac{q}{p}\right)^K - \left(\frac{q}{p}\right)^{-M}} \quad (p \ne 1/2)$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Exact verification of Wald's boundary equations $A = (1-\beta)/\alpha$ and $B = \beta/(1-\alpha)$</div>
+              
+              <div class="step-explanation"><p>For $Z_i = \ln[f_1(X_i)/f_0(X_i)]$ to take only the two values $+c$ (when $Y_i = +1$) and $-c$ (when $Y_i = -1$), the likelihood ratios on the two outcomes must satisfy:</p>
+
+<div class="math-display">$$\frac{p_1}{p_0} = e^{+c} \quad \text{and} \quad \frac{q_1}{q_0} = \frac{1 - p_1}{1 - p_0} = e^{-c}$$</div>
+
+<p>Solving $p_1 = p_0 e^c$ and $1 - p_1 = (1 - p_0) e^{-c}$ yields $p_0 e^c + (1 - p_0) e^{-c} = 1 \implies e^c = \frac{1 - p_0}{p_0} = \frac{q_0}{p_0}$. Therefore, $p_1 = p_0 \left(\frac{q_0}{p_0}\right) = q_0 = 1 - p_0$, and $q_1 = 1 - p_1 = p_0$, with $c = \ln(q_0 / p_0) = \ln(p_1 / p_0) &gt; 0$ (for $p_1 &gt; 1/2 &gt; p_0$). Furthermore, the original likelihood boundaries are $A = e^a = e^{Kc} = (q_0/p_0)^K$ and $B = e^b = e^{-Mc} = (q_0/p_0)^{-M}$.</p>
+
+<ul>
+
+  <li>Under $H_0$ ($p = p_0$): $\frac{q_0}{p_0} = e^c$, so our exact OC formula gives $1 - \alpha = L(p_0) = \frac{e^{Kc} - 1}{e^{Kc} - e^{-Mc}} = \frac{A - 1}{A - B}$, and $\alpha = 1 - L(p_0) = \frac{1 - B}{A - B}$.</li>
+
+  <li>Under $H_1$ ($p = p_1 = q_0$): $\frac{q_1}{p_1} = \frac{p_0}{q_0} = e^{-c}$, so $\beta = L(p_1) = \frac{e^{-Kc} - 1}{e^{-Kc} - e^{Mc}} = \frac{A^{-1} - 1}{A^{-1} - B^{-1}} = \frac{B(1 - A)}{B - A} = \frac{B(A - 1)}{A - B}$, and $1 - \beta = \frac{A(1 - B)}{A - B}$.</li>
+
+</ul>
+
+<p>Dividing $1 - \beta$ by $\alpha$ and $\beta$ by $1 - \alpha$ immediately confirms <strong>exact equality</strong>:</p>
+
+<div class="math-display">$$\frac{1 - \beta}{\alpha} = \frac{\frac{A(1 - B)}{A - B}}{\frac{1 - B}{A - B}} = A, \qquad \frac{\beta}{1 - \alpha} = \frac{\frac{B(A - 1)}{A - B}}{\frac{A - 1}{A - B}} = B$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Exact closed-form Average Sample Number $\mathbb{E}_p[N]$</div>
+              
+              <div class="step-explanation"><p>For $p \ne 1/2$, the single-step drift of $U_m = S_m / c$ is $\mathbb{E}_p[Y_1] = p - q = 2p - 1 \ne 0$, and the exact terminal expectation is $\mathbb{E}_p[U_N] = -M L(p) + K[1 - L(p)]$. By Wald's First Equation:</p>
+
+<div class="math-display">$$\mathbb{E}_p[N] = \frac{\mathbb{E}_p[U_N]}{\mathbb{E}_p[Y_1]} = \frac{K[1 - L(p)] - M L(p)}{2p - 1} = \frac{K - (K + M) \frac{(q/p)^K - 1}{(q/p)^K - (q/p)^{-M}}}{2p - 1} \quad (p \ne 1/2)$$</div>
+
+<p>For the symmetric zero-drift case $p = q = 1/2$, $\mathbb{E}_{1/2}[Y_1] = 0$, $\mathbb{E}_{1/2}[Y_1^2] = 1$, and $L(1/2) = \frac{K}{K + M}$. By Wald's Second Equation $\mathbb{E}_{1/2}[N] = \frac{\mathbb{E}_{1/2}[U_N^2]}{\mathbb{E}_{1/2}[Y_1^2]}$, since $U_N^2$ equals $M^2$ with probability $\frac{K}{K+M}$ and $K^2$ with probability $\frac{M}{K+M}$:</p>
+
+<div class="math-display">$$\mathbb{E}_{1/2}[N] = M^2 \left(\frac{K}{K + M}\right) + K^2 \left(\frac{M}{K + M}\right) = \frac{MK(M + K)}{K + M} = M K$$</div>
+
+<p>This reproduces the exact classic Gambler's Ruin expected duration $MK$ with zero approximation error!</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="statistical-computing-with-python-and-r">Statistical Computing</a><a href="mathematical-statistics">Mathematical Statistics</a><a href="statistical-estimation">Statistical Estimation</a><a href="demography-and-population-statistics">Demography and Population Statistics</a><a href="economic-statistics">Economic Statistics</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Course Stat H-301 Hypothesis Testing and Nonparametric Methods)</a></li><li><cite class="reader-reference-citation">Lehmann, E.L., &amp; Romano, J.P. (2005). Testing Statistical Hypotheses (3rd ed.): Definitive mathematical treatise on the Neyman-Pearson lemma, MLR families, UMP and UMPU tests, and invariance</cite></li><li><cite class="reader-reference-citation">Casella, G., &amp; Berger, R.L. (2002). Statistical Inference (2nd ed.): Core theoretical reference for likelihood ratio tests, Wilks' theorem, power functions, and confidence set duality</cite></li><li><cite class="reader-reference-citation">Wald, A. (1947). Sequential Analysis: Foundational mathematical formulation of the Sequential Probability Ratio Test (SPRT), OC curves, and ASN functions</cite></li><li><cite class="reader-reference-citation">Gibbons, J.D., &amp; Chakraborti, S. (2020). Nonparametric Statistical Inference (6th ed.): Comprehensive reference for empirical distribution tests, Wilcoxon, Mann-Whitney, Kruskal-Wallis, Friedman, and rank correlation</cite></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="hypothesis-testing-and-nonparametric-methods-chapter-4">← Previous chapter</a><a href="hypothesis-testing-and-nonparametric-methods">Book contents</a><a href="hypothesis-testing-and-nonparametric-methods-chapter-6">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="hypothesis-testing-and-nonparametric-methods-sims.js?v=1"></script>
+  <script src="hypothesis-testing-and-nonparametric-methods-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

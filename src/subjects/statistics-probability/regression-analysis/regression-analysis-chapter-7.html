@@ -1,0 +1,753 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Qualitative Predictors, Interaction Effects, Structural Breaks, Polynomial Splines &amp; Model Selection | Regression Analysis | OpenSTEM Library</title>
+  <meta name="description" content="Dummy (indicator) variables for categorical factors, reference cell vs effects coding, and avoidance of the Dummy Variable Trap; Interaction terms between continuous and categorical predictors, Analysis of Covariance (ANCOVA), and Chow Test for structural stability across regimes; Polynomial regression, ill-conditioning of Vandermonde power bases, Forsythe orthogonal polynomials, piecewise linear segmented regression, and cubic B-splines; Variance-stabilizing and linearizing transformations: Box-Cox power family y^(lambda) and profile log-likelihood estimation of lambda; Variable selection and information criteria: Adjusted R^2, Mallows' C_p, PRESS statistic, Akaike Information Criterion (AIC), Bayesian Information Criterion (BIC), and stepwise/all-subsets algorithms.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/regression-analysis-chapter-7">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/regression-analysis-chapter-7">
+  <meta property="og:title" content="Regression Analysis: OLS, Matrix Linear Models, Gauss-Markov, Diagnostics, GLS, Ridge/LASSO &amp; Generalized Linear Models | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering simple and multiple linear regression in matrix form, orthogonal projections and the Hat matrix, the Gauss-Markov theorem, Cochran theorem, Frisch-Waugh-Lovell partial regression, general linear hypothesis F-tests, joint confidence ellipsoids and simultaneous prediction bands, studentized deletion residuals, leverage, Cook distance, DFFITS and DFBETAS diagnostics, heteroscedasticity, Weighted and Generalized Least Squares (WLS/GLS), Huber-White sandwich standard errors, Durbin-Watson and Cochrane-Orcutt AR(1) autocorrelation, multicollinearity, Variance Inflation Factors (VIF), Hoerl-Kennard Ridge regression, Tibshirani LASSO, indicator variables, ANCOVA, Chow structural break tests, polynomial splines, Box-Cox transformations, AIC/BIC/Cp model selection, nonlinear Gauss-Newton regression, Huber M-estimation, and logistic/Poisson Generalized Linear Models with 24 solved questions and 4 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Regression Analysis: OLS, Matrix Linear Models, Gauss-Markov, Diagnostics, GLS, Ridge/LASSO &amp; Generalized Linear Models | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering simple and multiple linear regression in matrix form, orthogonal projections and the Hat matrix, the Gauss-Markov theorem, Cochran theorem, Frisch-Waugh-Lovell partial regression, general linear hypothesis F-tests, joint confidence ellipsoids and simultaneous prediction bands, studentized deletion residuals, leverage, Cook distance, DFFITS and DFBETAS diagnostics, heteroscedasticity, Weighted and Generalized Least Squares (WLS/GLS), Huber-White sandwich standard errors, Durbin-Watson and Cochrane-Orcutt AR(1) autocorrelation, multicollinearity, Variance Inflation Factors (VIF), Hoerl-Kennard Ridge regression, Tibshirani LASSO, indicator variables, ANCOVA, Chow structural break tests, polynomial splines, Box-Cox transformations, AIC/BIC/Cp model selection, nonlinear Gauss-Newton regression, Huber M-estimation, and logistic/Poisson Generalized Linear Models with 24 solved questions and 4 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="regression-analysis.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Regression Analysis: Qualitative Predictors, Interaction Effects, Structural Breaks, Polynomial Splines & Model Selection","description":"Comprehensive university textbook covering simple and multiple linear regression in matrix form, orthogonal projections and the Hat matrix, the Gauss-Markov theorem, Cochran theorem, Frisch-Waugh-Lovell partial regression, general linear hypothesis F-tests, joint confidence ellipsoids and simultaneous prediction bands, studentized deletion residuals, leverage, Cook distance, DFFITS and DFBETAS diagnostics, heteroscedasticity, Weighted and Generalized Least Squares (WLS/GLS), Huber-White sandwich standard errors, Durbin-Watson and Cochrane-Orcutt AR(1) autocorrelation, multicollinearity, Variance Inflation Factors (VIF), Hoerl-Kennard Ridge regression, Tibshirani LASSO, indicator variables, ANCOVA, Chow structural break tests, polynomial splines, Box-Cox transformations, AIC/BIC/Cp model selection, nonlinear Gauss-Newton regression, Huber M-estimation, and logistic/Poisson Generalized Linear Models with 24 solved questions and 4 interactive simulations.","url":"https://openstemlibrary.com/regression-analysis-chapter-7","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Regression analysis and ordinary least squares","Matrix linear models and orthogonal projections","Gauss-Markov theorem and general linear F-tests","Regression diagnostics: leverage, studentized residuals, Cook distance","Heteroscedasticity, weighted least squares, and autocorrelation","Multicollinearity, VIF, Ridge regression, and LASSO regularization","Dummy variables, ANCOVA, structural breaks, and model selection","Nonlinear regression, robust M-estimation, and Generalized Linear Models"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Regression Analysis","item":"https://openstemlibrary.com/regression-analysis"}]}</script></head>
+<body data-book-path="regression-analysis.html" data-chapter-index="6" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Regression Analysis</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search OLS, Gauss-Markov, hat matrix, Frisch-Waugh-Lovell, general linear F-test, Cook distance, DFFITS, heteroscedasticity, Durbin-Watson, VIF, Ridge, LASSO, logistic GLM…" class="search-input" aria-label="Search textbook topics">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="regression-analysis" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Simple Linear Regression: OLS Estimation, Gauss-Markov Theorem, Normal Equations &amp; ANOVA Decomposition</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="regression-analysis-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Multiple Linear Regression in Matrix Form: Orthogonal Projections, Hat Matrix &amp; Partial Correlations</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="regression-analysis-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Exact &amp; Asymptotic Inference in Linear Models: General Linear Hypotheses, Confidence Ellipsoids &amp; Simultaneous Intervals</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="regression-analysis-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Regression Diagnostics, Leverage &amp; Influence Analysis: Studentized Residuals, Cook's Distance &amp; DFFITS</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="regression-analysis-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Violations of Classical Assumptions: Heteroscedasticity, Weighted Least Squares, GLS &amp; Autocorrelation</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="regression-analysis-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Multicollinearity, Variance Inflation, Regularized Shrinkage (Ridge &amp; LASSO) &amp; Dimension Reduction</span></a></li><li class="unit-nav-item active" data-unit-index="6"><a href="regression-analysis-chapter-7" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Qualitative Predictors, Interaction Effects, Structural Breaks, Polynomial Splines &amp; Model Selection</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="regression-analysis-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Nonlinear Regression, Robust Regression &amp; Generalized Linear Models (Logistic &amp; Poisson)</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Regression modeling major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font" aria-pressed="false">Calm Paper</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 7 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Qualitative Predictors, Interaction Effects, Structural Breaks, Polynomial Splines &amp; Model Selection</h1>
+            <p class="unit-desc-lead" id="unit-desc">Dummy (indicator) variables for categorical factors, reference cell vs effects coding, and avoidance of the Dummy Variable Trap; Interaction terms between continuous and categorical predictors, Analysis of Covariance (ANCOVA), and Chow Test for structural stability across regimes; Polynomial regression, ill-conditioning of Vandermonde power bases, Forsythe orthogonal polynomials, piecewise linear segmented regression, and cubic B-splines; Variance-stabilizing and linearizing transformations: Box-Cox power family y^(lambda) and profile log-likelihood estimation of lambda; Variable selection and information criteria: Adjusted R^2, Mallows' C_p, PRESS statistic, Akaike Information Criterion (AIC), Bayesian Information Criterion (BIC), and stepwise/all-subsets algorithms.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-303 (Regression Analysis) and Stat H-312 (Regression Lab). Eight units and exactly three solved questions per unit. Interactive simulations illustrate OLS confidence and prediction bands, high-leverage outlier influence and Cook’s distance, multicollinearity VIF and Ridge regression trace paths, and binary logistic GLM response curves. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-7-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.1</span>
+            <span>Qualitative Predictors, Dummy Variable Encodings, Reference Cell vs Effects Coding, and the Dummy Variable Trap</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          In classical regression modeling, the columns of the design matrix $\mathbf{X} \in \mathbb{R}^{n \times p}$ must be numerical vectors, yet many important explanatory factors in economics, biostatistics, sociology, and quality engineering are **qualitative (categorical or nominal) variables** possessing $G \ge 2$ discrete, unordered categories or levels $\{C_1, C_2, \dots, C_G\}$. Assigning arbitrary consecutive integers $1, 2, \dots, G$ to a nominal variable inside a single regression column would impose a false metric assumption that the difference between category $1$ and category $2$ is identical in magnitude and direction to the difference between category $2$ and category $3$.
+
+To incorporate a $G$-level qualitative factor into a linear regression model without imposing any artificial ordering or metric spacing among the categories, we construct **indicator (dummy) variables**. For a qualitative factor with $G$ mutually exclusive and exhaustive levels, we introduce $G - 1$ binary indicator variables $D_1, D_2, \dots, D_{G-1}$ alongside the model intercept $\beta_0$. Under the standard **Reference Cell (or Corner-Point) Coding** convention, one category—say $C_G$ (or $C_1$)—is designated as the **baseline reference group** and assigned zeros across all $G - 1$ indicators, while each remaining category $C_g$ ($g = 1, \dots, G - 1$) activates its corresponding indicator:
+
+$$D_{ig} = \begin{cases} 1, &amp; \text{if observation } i \text{ belongs to category } C_g \\ 0, &amp; \text{otherwise} \end{cases} \qquad (g = 1, 2, \dots, G - 1)$$
+
+When these $G - 1$ dummy variables are included alongside a continuous covariate $X_i$ in an additive multiple regression model:
+
+$$Y_i = \beta_0 + \beta_1 x_i + \gamma_1 D_{i1} + \gamma_2 D_{i2} + \dots + \gamma_{G-1} D_{i, G-1} + \varepsilon_i$$
+
+evaluating the conditional expectation function $\mathbb{E}[Y_i \mid x_i, \text{Group}]$ for each category reveals the exact structural interpretation of every parameter:
+- **Reference Category $C_G$ ($D_{i1} = \dots = D_{i, G-1} = 0$)**: $\mathbb{E}[Y_i \mid x_i, C_G] = \beta_0 + \beta_1 x_i$. Thus, $\beta_0$ is the baseline intercept for the reference category $C_G$.
+- **Category $C_g$ ($D_{ig} = 1$, all other $D_{im} = 0$)**: $\mathbb{E}[Y_i \mid x_i, C_g] = (\beta_0 + \gamma_g) + \beta_1 x_i$. Thus, $\gamma_g = \mathbb{E}[Y \mid x, C_g] - \mathbb{E}[Y \mid x, C_G]$ measures the **vertical parallel shift (differential intercept)** between category $C_g$ and the reference category $C_G$ holding the continuous predictor $x$ constant! Moreover, the contrast between any two non-reference categories $C_g$ and $C_m$ is simply $\gamma_g - \gamma_m$, with standard error $s\sqrt{c_{gg} + c_{mm} - 2c_{gm}}$.
+
+### The Dummy Variable Trap (Exact Linear Collinearity)
+Why must a model with an intercept $\beta_0$ include **at most $G - 1$** dummy variables for a $G$-level factor rather than all $G$ indicators $D_1, \dots, D_G$? Because the $G$ categories are mutually exclusive and exhaustive, every observation $i = 1, \dots, n$ belongs to exactly one category, which forces the pointwise algebraic identity:
+
+$$\sum_{g=1}^G D_{ig} = D_{i1} + D_{i2} + \dots + D_{iG} = 1 = x_{i0} \quad \forall i = 1, 2, \dots, n$$
+
+In vector notation, the sum of all $G$ indicator columns equals the intercept column of ones: $\sum_{g=1}^G \mathbf{d}_{(g)} = \mathbf{1}_n$. If an analyst includes both the intercept column $\mathbf{1}_n$ and all $G$ dummy columns in $\mathbf{X}$, the columns of $\mathbf{X}$ are linearly dependent ($\text{rank}(\mathbf{X}) = G &lt; G + 1$), the Gram matrix $\mathbf{X}^T\mathbf{X}$ is strictly singular ($\det(\mathbf{X}^T\mathbf{X}) = 0$), and unique Ordinary Least Squares estimation collapses! This exact collinearity pathology is universally known in econometrics as the **Dummy Variable Trap**.
+
+There are three mathematically equivalent ways to avoid the Dummy Variable Trap:
+1. **Reference Cell Coding ($1$ Intercept $+$ $G - 1$ Dummies)**: Retain $\beta_0$ and omit one reference dummy $D_G$ (equivalent to imposing the corner-point constraint $\gamma_G = 0$).
+2. **Cell-Means Coding (No Intercept $+$ All $G$ Dummies)**: Omit the intercept $\beta_0$ and include all $G$ indicator columns $D_1, \dots, D_G$:
+   $$Y_i = \mu_1 D_{i1} + \mu_2 D_{i2} + \dots + \mu_G D_{iG} + \beta_1 x_i + \varepsilon_i$$
+   Because the $G$ dummy columns are mutually orthogonal ($\mathbf{d}_{(g)}^T \mathbf{d}_{(m)} = 0$ for $g \neq m$ and $\mathbf{d}_{(g)}^T \mathbf{d}_{(g)} = n_g$), this parameterization is full rank and estimates each group's intercept $\mu_g = \beta_0 + \gamma_g$ directly.
+3. **Effects (Sum-to-Zero / Deviation) Coding**: Retain the grand intercept $\mu_0$ and define $G - 1$ contrast variables $E_{ig} \in \{-1, 0, +1\}$ corresponding to the ANOVA zero-sum restriction $\sum_{g=1}^G \alpha_g = 0$ (so $\alpha_G = -\sum_{g=1}^{G-1} \alpha_g$):
+   $$E_{ig} = D_{ig} - D_{iG} = \begin{cases} +1, &amp; \text{if observation } i \in C_g \\ -1, &amp; \text{if observation } i \in C_G \\ 0, &amp; \text{otherwise} \end{cases} \qquad (g = 1, \dots, G - 1)$$
+   Under effects coding, the intercept $\mu_0 = \frac{1}{G}\sum_{g=1}^G \mu_g$ represents the unweighted grand mean across all $G$ categories, and each coefficient $\alpha_g = \mu_g - \mu_0$ measures the deviation of category $C_g$ from the unweighted grand mean rather than from a single reference cell.
+
+<div class="table-wrapper"><table class="data-table">
+<thead>
+<tr><th>Coding Scheme</th><th>Design Columns Included</th><th>Intercept Meaning</th><th>Slope Coefficient $\gamma_g$ Meaning</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Reference Cell Coding</strong></td><td>$\mathbf{1}_n$ and $D_1, \dots, D_{G-1}$ ($D_G$ omitted)</td><td>$\beta_0 = \mu_G$ (mean of baseline reference group $C_G$ at $x=0$)</td><td>$\gamma_g = \mu_g - \mu_G$ (contrast of group $g$ against baseline $G$)</td></tr>
+<tr><td><strong>Cell-Means Coding</strong></td><td>$D_1, D_2, \dots, D_G$ (no $\mathbf{1}_n$ column)</td><td>None (replaced by $G$ group intercepts $\mu_1, \dots, \mu_G$)</td><td>$\mu_g$ (direct group-specific intercept for category $C_g$ at $x=0$)</td></tr>
+<tr><td><strong>Effects (Sum-to-Zero) Coding</strong></td><td>$\mathbf{1}_n$ and $E_g = D_g - D_G$ ($g=1,\dots,G-1$)</td><td>$\mu_0 = \frac{1}{G}\sum_{g=1}^G \mu_g$ (unweighted grand mean across groups)</td><td>$\alpha_g = \mu_g - \mu_0$ (deviation of group $g$ from grand mean; $\alpha_G = -\sum_{g=1}^{G-1} \alpha_g$)</td></tr>
+</tbody>
+</table></div>
+
+Crucially, because all three coding schemes span the exact same $G$-dimensional column space $\mathcal{C}(\mathbf{d}_{(1)}, \dots, \mathbf{d}_{(G)})$, the projection matrix $\mathbf{H}$, the fitted values $\hat{\mathbf{Y}}$, the residuals $\mathbf{e}$, and the $\text{SSE}$ are strictly identical across all three parameterizations!
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.2</span>
+            <span>Interaction Effects, Analysis of Covariance (ANCOVA), and the Chow Test for Structural Stability</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>The additive dummy-variable model of Section 7.1 assumes that the marginal effect $\beta_1 = \frac{\partial \mathbb{E}[Y \mid x, D]}{\partial x}$ of the continuous predictor $X$ is identical across all $G$ qualitative groups, producing $G$ <strong>parallel regression lines</strong> that differ only in their vertical intercepts. In statistical biometry and experimental design, this parallel-lines specification is the classical <strong>Analysis of Covariance (ANCOVA)</strong> model: by adjusting for a continuous baseline concomitant variable $X$ (such as pre-treatment blood pressure or initial plot fertility) that is unaffected by the treatment, ANCOVA removes within-group error variance, reduces $\text{MSE}$, and adjusts treatment group comparisons $\hat{\gamma}_g = (\bar{Y}_{g\cdot} - \bar{Y}_{G\cdot}) - \hat{\beta}_1 (\bar{x}_{g\cdot} - \bar{x}_{G\cdot})$ for baseline covariate imbalances.</p>
+
+<p>However, in many scientific settings, the slope with respect to $X$ varies across qualitative categories—an effect known as a <strong>qualitative-by-quantitative interaction</strong> (or <strong>moderation / non-parallelism</strong>). Geometrically, an interaction means that the partial derivative of $\mathbb{E}[Y \mid X_1, X_2]$ with respect to one predictor depends on the level of another predictor. Forming the cross-product interaction terms $(D_{ig} x_i)$ for $g = 1, \dots, G - 1$ yields the <strong>Unrestricted Separate-Regressions (Interaction) Model</strong>:</p>
+
+<div class="math-display">$$Y_i = \beta_0 + \beta_1 x_i + \sum_{g=1}^{G-1} \gamma_g D_{ig} + \sum_{g=1}^{G-1} \delta_g (D_{ig} x_i) + \varepsilon_i$$</div>
+
+<p>Evaluating the conditional expectation function within each category reveals how both the intercept and the slope shift across regimes:</p>
+
+<ul>
+
+  <li><strong>Reference Group $C_G$</strong>: $\mathbb{E}[Y_i \mid x_i, C_G] = \beta_0 + \beta_1 x_i$ (intercept $\beta_0$, slope $\beta_1$).</li>
+
+  <li><strong>Group $C_g$ ($g = 1, \dots, G - 1$)</strong>: $\mathbb{E}[Y_i \mid x_i, C_g] = (\beta_0 + \gamma_g) + (\beta_1 + \delta_g) x_i$ (intercept $\beta_0 + \gamma_g$, slope $\beta_1 + \delta_g$).</li>
+
+</ul>
+
+<p>Here, $\gamma_g$ is the <strong>differential intercept</strong> and $\delta_g$ is the <strong>differential slope</strong> of group $g$ relative to the reference group $G$. This nested hierarchy enables three distinct General Linear Hypothesis $F$-tests:</p>
+
+<h4>1. Test for Homogeneity of Slopes (Parallelism / No Interaction): $H_0: \delta_1 = \delta_2 = \dots = \delta_{G-1} = 0$ ($q = G - 1$ degrees of freedom), comparing the Full interaction model against the Reduced parallel-lines ANCOVA model.</h4>
+
+<h4>2. Test for Equal Group Intercepts Given Parallelism (ANCOVA Treatment Effect): Assuming parallelism holds, $H_0: \gamma_1 = \dots = \gamma_{G-1} = 0$ ($q = G - 1$ degrees of freedom).</h4>
+
+<h4>3. Test for Complete Coincidence of All $G$ Regression Lines: $H_0: \gamma_1 = \dots = \gamma_{G-1} = \delta_1 = \dots = \delta_{G-1} = 0$ ($q = 2(G - 1)$ degrees of freedom), testing whether a single pooled regression line $Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i$ holds across all $G$ groups.</h4>
+
+<h4>The Chow Test for Structural Stability Across Regimes ($p$ Parameters)</h4>
+
+<p>In macroeconomics, finance, and policy evaluation, an investigator often divides a sample of size $n = n_1 + n_2$ into two regimes—such as pre-policy vs. post-policy periods ($t = 1, \dots, n_1$ and $t = n_1 + 1, \dots, n$), or urban vs. rural households—and wishes to test whether the entire $p \times 1$ regression parameter vector remains structurally stable across the two regimes:</p>
+
+<div class="math-display">$$\begin{aligned} \text{Regime 1 } (n_1 \text{ obs}): \quad \mathbf{Y}_1 &amp;= \mathbf{X}_1 \boldsymbol{\beta}_{(1)} + \boldsymbol{\varepsilon}_1 \\ \text{Regime 2 } (n_2 \text{ obs}): \quad \mathbf{Y}_2 &amp;= \mathbf{X}_2 \boldsymbol{\beta}_{(2)} + \boldsymbol{\varepsilon}_2 \end{aligned} \qquad H_0: \boldsymbol{\beta}_{(1)} = \boldsymbol{\beta}_{(2)} = \boldsymbol{\beta} \quad (\text{Structural Stability})$$</div>
+
+<p>Assuming homoscedastic, independent normal disturbances $\varepsilon_i \overset{\text{iid}}{\sim} \mathcal{N}(0, \sigma^2)$ across both regimes with $n_1 &gt; p$ and $n_2 &gt; p$, <strong>Gregory Chow (1960)</strong> showed that testing $H_0: \boldsymbol{\beta}_{(1)} = \boldsymbol{\beta}_{(2)}$ is a General Linear $F$-test with $q = p$ restrictions:</p>
+
+<ul>
+
+  <li><strong>Reduced (Pooled) Model</strong>: Fit a single regression to all $n = n_1 + n_2$ observations pooled together to obtain the pooled residual sum of squares $\text{SSE}_R = \text{SSE}_{\text{pooled}}$ with $\text{df}_R = n_1 + n_2 - p$ degrees of freedom.</li>
+
+  <li><strong>Full (Unrestricted Separate Regimes) Model</strong>: Fit the regression separately to Regime 1 (yielding $\text{SSE}_1$ with $n_1 - p$ df) and separately to Regime 2 (yielding $\text{SSE}_2$ with $n_2 - p$ df). Because the two regimes have zero overlapping parameters in the unrestricted block-diagonal model $\begin{pmatrix} \mathbf{Y}_1 \\ \mathbf{Y}_2 \end{pmatrix} = \begin{pmatrix} \mathbf{X}_1 &amp; \mathbf{0} \\ \mathbf{0} &amp; \mathbf{X}_2 \end{pmatrix} \begin{pmatrix} \boldsymbol{\beta}_{(1)} \\ \boldsymbol{\beta}_{(2)} \end{pmatrix} + \boldsymbol{\varepsilon}$, the unrestricted Full-model residual sum of squares is simply the sum $\text{SSE}_F = \text{SSE}_1 + \text{SSE}_2$ with $\text{df}_F = (n_1 - p) + (n_2 - p) = n - 2p$ degrees of freedom!</li>
+
+</ul>
+
+<p>Notice that this block-diagonal model is <strong>algebraically identical</strong> to defining a regime dummy $D_i \in \{0, 1\}$ and interacting $D_i$ with the intercept and all $k = p - 1$ predictors in a single pooled equation! Therefore, the exact <strong>Chow Structural Break $F$-Statistic</strong> is:</p>
+
+<div class="math-display">$$F_{\text{Chow}} = \frac{\left[ \text{SSE}_{\text{pooled}} - (\text{SSE}_1 + \text{SSE}_2) \right] / p}{(\text{SSE}_1 + \text{SSE}_2) / (n_1 + n_2 - 2p)} \sim F_{p, \, n_1 + n_2 - 2p} \quad \text{under } H_0$$</div>
+
+<p><em>(Note: If the second regime has fewer observations than parameters, $n_2 \le p$, $\text{SSE}_2$ cannot be estimated separately; in that case, Chow's <strong>Predictive Stability Test</strong> compares $\text{SSE}_{\text{pooled}} - \text{SSE}_1$ against $\text{SSE}_1 / (n_1 - p)$ using an $F_{n_2, \, n_1 - p}$ distribution).</em></p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.3</span>
+            <span>Polynomial Regression, Vandermonde Ill-Conditioning, and Forsythe Orthogonal Polynomials</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When theoretical considerations or residual plots indicate that the conditional expectation function $\mu(x) = \mathbb{E}[Y \mid X = x]$ is a smooth curve rather than a straight line, the classical Weierstrass Approximation Theorem motivates approximating $\mu(x)$ on a bounded interval by a <strong>$d$-th degree Polynomial Regression Model</strong>:</p>
+
+<div class="math-display">$$Y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \dots + \beta_d x_i^d + \varepsilon_i, \quad i = 1, 2, \dots, n$$</div>
+
+<p>Even though $\mu(x)$ is a nonlinear curve in $x$, the polynomial regression model is <strong>strictly linear in the unknown parameter vector</strong> $\boldsymbol{\beta} = (\beta_0, \beta_1, \dots, \beta_d)^T \in \mathbb{R}^{d+1}$! Defining the $n \times (d + 1)$ <strong>Vandermonde Design Matrix</strong> $\mathbf{X}$ with entries $X_{ij} = x_i^j$ ($j = 0, 1, \dots, d$) casts polynomial regression directly into the standard multiple linear regression apparatus $\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$.</p>
+
+<h4>Two Critical Statistical and Numerical Principles in Polynomial Regression</h4>
+
+<h4>1. The Hierarchy (Marginalitya) Principle: Because transforming the origin of $x$ via $x^* = x - c$ expands $(x^* + c)^2 = (x^*)^2 + 2c x^* + c^2$, a quadratic polynomial without a linear term ($\beta_1 = 0$) in one coordinate system acquires a non-zero linear term in every shifted coordinate system! To ensure that the fitted curve is invariant to linear shifts of scale and origin, polynomial models must respect the hierarchical inclusion principle: whenever a higher-order power $x^d$ is retained in the model, all lower-order powers $1, x, x^2, \dots, x^{d-1}$ should be retained even if one of their individual $t$-statistics is small, and model degree $d$ should be selected via sequential (Type I) sums of squares $\text{SSR}(x^d \mid x, \dots, x^{d-1})$.</h4>
+
+<h4>2. Severe Multicollinearity and Ill-Conditioning of the Raw Vandermonde Basis: When $x_i &gt; 0$ (for instance, years $x_i \in [2000, 2025]$ or temperatures $x_i \in [300, 400]$), the raw power columns $x_i, x_i^2, x_i^3$ are almost perfectly linearly correlated ($r(x, x^2) &gt; 0.99$)! Even on $[0, 1]$, the continuous limit of $\frac{1}{n}\mathbf{X}^T\mathbf{X}$ as $n \to \infty$ is the notorious Hilbert matrix $H_{jk} = \int_0^1 x^{j+k} dx = \frac{1}{j + k + 1}$, whose condition number grows exponentially ($\kappa(\mathbf{H}_5) \approx 4.8 \times 10^5$), causing severe variance inflation and catastrophic numerical instability for $d \ge 4$.</h4>
+
+<h4>Centering and Forsythe–Gram–Schmidt Orthogonal Polynomials</h4>
+
+<p>A simple first remedy is <strong>mean-centering</strong> the predictor via $\tilde{x}_i = x_i - \bar{x}$ (or scaling to $[-1, 1]$) before raising to powers: $Y_i = \alpha_0 + \alpha_1 \tilde{x}_i + \alpha_2 \tilde{x}_i^2 + \dots + \alpha_d \tilde{x}_i^d + \varepsilon_i$. For any symmetric design around $\bar{x}$, odd and even powers of $\tilde{x}_i$ are strictly orthogonal ($\sum \tilde{x}_i^{2m-1} \tilde{x}_i^{2r} = 0$), immediately eliminating the correlation between $\tilde{x}_i$ and $\tilde{x}_i^2$!</p>
+
+<p>To achieve <strong>complete mutual orthogonality</strong> across <em>all</em> degrees $j = 0, 1, \dots, d$ for any arbitrary spacing of sample points $x_1, \dots, x_n$, we replace the raw monomials $\{1, x, x^2, \dots, x^d\}$ by <strong>Discrete Orthogonal Polynomials</strong> $\{P_0(x), P_1(x), \dots, P_d(x)\}$, where $P_j(x)$ is a monic polynomial of exact degree $j$ satisfying the sample orthogonality condition:</p>
+
+<div class="math-display">$$\sum_{i=1}^n P_j(x_i) P_m(x_i) = 0 \quad \forall j \neq m$$</div>
+
+<p>Using <strong>Forsythe's (1957) Three-Term Recurrence Relation</strong> (discrete Gram–Schmidt orthogonalization), the orthogonal polynomials are generated recursively without ever forming ill-conditioned moments:</p>
+
+<ul>
+
+  <li><strong>Degree $0$</strong>: $P_0(x_i) = 1$ for all $i = 1, \dots, n$.</li>
+
+  <li><strong>Degree $1$</strong>: $P_1(x_i) = x_i - \bar{x}$ (since $\sum P_0(x_i) P_1(x_i) = \sum (x_i - \bar{x}) = 0$).</li>
+
+  <li><strong>Degree $j \ge 2$</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$P_j(x_i) = (x_i - a_j) P_{j-1}(x_i) - b_j P_{j-2}(x_i)$$</div>
+
+<p>where the recurrence constants $a_j$ and $b_j$ are chosen so that $\sum_{i=1}^n P_j(x_i) P_{j-1}(x_i) = 0$ and $\sum_{i=1}^n P_j(x_i) P_{j-2}(x_i) = 0$ (and by induction $\sum P_j(x_i) P_m(x_i) = 0$ for all $m &lt; j$):</p>
+
+<div class="math-display">$$a_j = \frac{\sum_{i=1}^n x_i \left[P_{j-1}(x_i)\right]^2}{\sum_{i=1}^n \left[P_{j-1}(x_i)\right]^2}, \qquad b_j = \frac{\sum_{i=1}^n x_i P_{j-1}(x_i) P_{j-2}(x_i)}{\sum_{i=1}^n \left[P_{j-2}(x_i)\right]^2} = \frac{\sum_{i=1}^n \left[P_{j-1}(x_i)\right]^2}{\sum_{i=1}^n \left[P_{j-2}(x_i)\right]^2}$$</div>
+
+<p>In the orthogonal polynomial regression model $Y_i = \gamma_0 P_0(x_i) + \gamma_1 P_1(x_i) + \dots + \gamma_d P_d(x_i) + \varepsilon_i$, the Gram matrix $\mathbf{P}^T\mathbf{P} = \text{diag}(\sum P_0^2, \sum P_1^2, \dots, \sum P_d^2)$ is <strong>strictly diagonal</strong>! Consequently:</p>
+
+<div class="math-display">$$\hat{\gamma}_j = \frac{\sum_{i=1}^n P_j(x_i) Y_i}{\sum_{i=1}^n \left[P_j(x_i)\right]^2}, \qquad \text{Var}(\hat{\gamma}_j) = \frac{\sigma^2}{\sum_{i=1}^n \left[P_j(x_i)\right]^2}, \qquad \text{SSR}(P_j) = \hat{\gamma}_j^2 \sum_{i=1}^n \left[P_j(x_i)\right]^2$$</div>
+
+<p>Because the columns are mutually orthogonal, adding a higher-degree polynomial $P_{d+1}(x)$ <strong>never alters the previously computed estimates</strong> $\hat{\gamma}_0, \hat{\gamma}_1, \dots, \hat{\gamma}_d$ or their sums of squares $\text{SSR}(P_j)$!</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.4</span>
+            <span>Piecewise Linear Segmented Regression, Truncated Power Bases, and Cubic Regression Splines</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>High-degree global polynomials ($d \ge 4$) suffer from a well-known analytical pathology known as <strong>Runge's Phenomenon</strong>: because a single global polynomial is infinitely rigid (analytic everywhere), a local perturbation or outlier near one end of the predictor domain induces wild, non-local oscillations across the entire interval, and polynomial tails diverge rapidly to $\pm\infty$ at the boundaries. When the underlying physical or biological mechanism changes slope smoothly or abruptly at interior threshold values, <strong>piecewise polynomials and regression splines</strong> provide flexible, locally adaptable curves within the exact linear regression framework.</p>
+
+<h4>1. Piecewise Linear (Broken-Stick / Segmented) Regression at a Known Knot $\xi$</h4>
+
+<p>Suppose the linear slope of $Y$ on $x$ changes at a known threshold (<strong>knot</strong> or <strong>join point</strong>) $x = \xi$ (for example, material yield above a critical stress $\xi$, or electricity demand above a comfort temperature $\xi = 22^\circ\text{C}$). If we fitted two completely separate regressions on $x \le \xi$ and $x &gt; \xi$ using a step dummy $D_i = \mathbb{I}(x_i &gt; \xi)$, the fitted function would suffer an unphysical vertical jump discontinuity at $x = \xi$ unless constrained. To guarantee <strong>exact $C^0$ continuity</strong> at the knot $x = \xi$ while allowing the slope to change from $\beta_1$ (for $x &lt; \xi$) to $\beta_1 + \beta_2$ (for $x &gt; \xi$), we define the <strong>hinge function</strong> (or degree-$1$ truncated power basis function, identical to the ReLU activation function in modern deep learning):</p>
+
+<div class="math-display">$$(x - \xi)_+ = \max(0, x - \xi) = \begin{cases} 0, &amp; \text{if } x \le \xi \\ x - \xi, &amp; \text{if } x &gt; \xi \end{cases}$$</div>
+
+<p>The <strong>Continuous Piecewise Linear Regression Model</strong> is then a standard two-predictor linear regression:</p>
+
+<div class="math-display">$$Y_i = \beta_0 + \beta_1 x_i + \beta_2 (x_i - \xi)_+ + \varepsilon_i$$</div>
+
+<p>Let us verify continuity and slope interpretation on both sides of the knot $\xi$:</p>
+
+<ul>
+
+  <li><strong>Left Regime ($x \le \xi$)</strong>: $(x - \xi)_+ = 0 \implies \mathbb{E}[Y \mid x] = \beta_0 + \beta_1 x$ (slope is $\beta_1$). Approaching the knot from the left gives $\lim_{x \to \xi^-} \mathbb{E}[Y \mid x] = \beta_0 + \beta_1 \xi$.</li>
+
+  <li><strong>Right Regime ($x &gt; \xi$)</strong>: $(x - \xi)_+ = x - \xi \implies \mathbb{E}[Y \mid x] = (\beta_0 - \beta_2 \xi) + (\beta_1 + \beta_2) x$ (slope is $\beta_1 + \beta_2$). Approaching the knot from the right gives $\lim_{x \to \xi^+} \mathbb{E}[Y \mid x] = \beta_0 + \beta_1 \xi + \beta_2(\xi - \xi) = \beta_0 + \beta_1 \xi$.</li>
+
+</ul>
+
+<p>Both limits match at $x = \xi$, and testing $H_0: \beta_2 = 0$ via an ordinary $t$-test directly tests whether the slope changes at $\xi$!</p>
+
+<h4>2. Cubic Regression Splines and the Truncated Power Basis ($C^2$ Smoothness)</h4>
+
+<p>In general, a <strong>degree-$d$ regression spline</strong> with $K$ interior knots $\xi_1 &lt; \xi_2 &lt; \dots &lt; \xi_K$ is a piecewise degree-$d$ polynomial on each subinterval $[\xi_k, \xi_{k+1}]$ that is constrained to be continuous together with its first $d - 1$ derivatives ($C^{d-1}$ smooth) at every knot $\xi_k$. The most widely used choice is the <strong>Cubic Regression Spline ($d = 3$)</strong>, which is continuous in value ($f(\xi_k^-) = f(\xi_k^+)$), first derivative/slope ($f'(\xi_k^-) = f'(\xi_k^+)$), and second derivative/curvature ($f''(\xi_k^-) = f''(\xi_k^+)$) at every knot, making the joins imperceptible to the human eye.</p>
+
+<p>How many free linear parameters does a cubic spline with $K$ knots possess? In the <strong>Truncated Power Basis</strong>, we start with the global cubic polynomial $1, x, x^2, x^3$ ($4$ parameters) and add one cubic truncated power function $(x - \xi_k)_+{}^3 = [\max(0, x - \xi_k)]^3$ at each knot $k = 1, \dots, K$:</p>
+
+<div class="math-display">$$Y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \beta_3 x_i^3 + \sum_{k=1}^K \theta_k (x_i - \xi_k)_+{}^3 + \varepsilon_i$$</div>
+
+<p>Why does adding $(x - \xi_k)_+{}^3$ automatically preserve continuity of $f, f',$ and $f''$ while allowing the third derivative $f'''$ to jump by $6\theta_k$ at $x = \xi_k$? Because the function $h_k(x) = (x - \xi_k)_+{}^3$ has $h_k(\xi_k) = 0$, first derivative $h_k'(x) = 3(x - \xi_k)_+{}^2 \implies h_k'(\xi_k) = 0$, and second derivative $h_k''(x) = 6(x - \xi_k)_+ \implies h_k''(\xi_k) = 0$, while $h_k'''(x) = 6 \mathbb{I}(x &gt; \xi_k)$ jumps by $6$! Thus, a cubic spline with $K$ interior knots is a linear regression model with exact dimension:</p>
+
+<div class="math-display">$$p = (d + 1) + K = 4 + K \quad \text{degrees of freedom}$$</div>
+
+<p>In computational practice (Course Stat H-312), the truncated power basis columns $(x - \xi_k)_+{}^3$ become collinear for large $x$, so software replaces them with <strong>Curry–Schoenberg B-Splines (Basis Splines)</strong>—an algebraically equivalent basis spanning the exact same $(K + 4)$-dimensional spline subspace, where each B-spline basis function $B_m(x)$ is non-zero only on a compact local support of at most $d + 2 = 5$ adjacent knots, yielding a well-conditioned banded Gram matrix! Furthermore, <strong>Natural Cubic Splines</strong> impose the boundary constraint that the curve is linear ($f''(x) = f'''(x) = 0$) beyond the boundary knots $\xi_1$ and $\xi_K$, saving $4$ degrees of freedom (reducing dimension from $K + 4$ to $K$) and eliminating erratic boundary tail variance.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.5</span>
+            <span>Variance-Stabilizing Transformations and the Box-Cox Power Transformation Family</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When diagnostic residual plots reveal that the response variable $Y &gt; 0$ violates both linearity and homoscedasticity/normality simultaneously—such as positive skewness coupled with an outward megaphone fan where $\text{Var}(Y_i)$ increases with the conditional mean $\mu_i = \mathbb{E}[Y_i \mid \mathbf{x}_i]$—transforming the response variable $Y \mapsto g(Y)$ often rectifies non-normality, heteroscedasticity, and nonlinearity in a single stroke.</p>
+
+<h4>1. First-Order Delta-Method Derivation of Variance-Stabilizing Transformations</h4>
+
+<p>Suppose $\mathbb{E}[Y_i] = \mu_i$ and the error standard deviation is a known function of the mean: $\text{Var}(Y_i) = \sigma^2 [h(\mu_i)]^2$. By a first-order Taylor expansion of a smooth transformation $g(Y_i)$ around $\mu_i$, $g(Y_i) \approx g(\mu_i) + g'(\mu_i)(Y_i - \mu_i)$, so the approximate variance of the transformed response is:</p>
+
+<div class="math-display">$$\text{Var}(g(Y_i)) \approx \left[ g'(\mu_i) \right]^2 \text{Var}(Y_i) = \sigma^2 \left[ g'(\mu_i) \, h(\mu_i) \right]^2$$</div>
+
+<p>To make $\text{Var}(g(Y_i))$ approximately <strong>constant</strong> (independent of $\mu_i$), we choose $g(\mu)$ so that $g'(\mu) h(\mu) = 1$, i.e., $g(\mu) = \int \frac{d\mu}{h(\mu)}$:</p>
+
+<ul>
+
+  <li><strong>Poisson-Like Count Variance ($\text{Var}(Y_i) \propto \mu_i \implies h(\mu) = \mu^{1/2}$)</strong>: $g(\mu) = \int \mu^{-1/2} d\mu = 2\sqrt{\mu} \implies$ <strong>Square-Root Transformation</strong> $Y^* = \sqrt{Y}$.</li>
+
+  <li><strong>Constant Coefficient of Variation / Multiplicative Error ($\text{Var}(Y_i) \propto \mu_i^2 \implies h(\mu) = \mu$)</strong>: $g(\mu) = \int \mu^{-1} d\mu = \ln(\mu) \implies$ <strong>Logarithmic Transformation</strong> $Y^* = \ln(Y)$.</li>
+
+  <li><strong>Quadratic Variance ($\text{Var}(Y_i) \propto \mu_i^4 \implies h(\mu) = \mu^2$)</strong>: $g(\mu) = \int \mu^{-2} d\mu = -\mu^{-1} \implies$ <strong>Reciprocal Transformation</strong> $Y^* = 1/Y$.</li>
+
+</ul>
+
+<h4>2. The Box–Cox Parametric Power Transformation Family (1964)</h4>
+
+<p>Rather than guessing a power transformation by trial and error, George Box and Sir David Cox (1964) embedded all power and logarithmic transformations of a strictly positive response $Y_i &gt; 0$ into a single continuous parametric family indexed by $\lambda \in \mathbb{R}$:</p>
+
+<div class="math-display">$$y_i^{(\lambda)} = \begin{cases} \dfrac{y_i^\lambda - 1}{\lambda}, &amp; \text{if } \lambda \neq 0 \[10pt] \ln(y_i), &amp; \text{if } \lambda = 0 \end{cases}$$</div>
+
+<p>Notice why subtracting $1$ and dividing by $\lambda$ is essential: by L'Hôpital's rule, $\lim_{\lambda \to 0} \frac{y^\lambda - 1}{\lambda} = \lim_{\lambda \to 0} \frac{y^\lambda \ln(y)}{1} = \ln(y)$, making $y^{(\lambda)}$ a <strong>continuous function of $\lambda$ at $\lambda = 0$</strong>! Special cases include $\lambda = 1$ (linear $y - 1$), $\lambda = 0.5$ (square root $2(\sqrt{y} - 1)$), $\lambda = 0$ (natural log $\ln y$), $\lambda = -0.5$ (inverse square root), and $\lambda = -1$ (reciprocal $1 - y^{-1}$).</p>
+
+<p>How is the optimal transformation parameter $\hat{\lambda}$ estimated by Maximum Likelihood? Box and Cox postulate that for the true parameter $\lambda$, the transformed vector $\mathbf{y}^{(\lambda)}$ satisfies the classical normal linear model $\mathbf{y}^{(\lambda)} \sim \mathcal{N}_n(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)$. However, we cannot simply pick $\lambda$ to minimize $\text{SSE}(\lambda) = \|(\mathbf{I}_n - \mathbf{H})\mathbf{y}^{(\lambda)}\|_2^2$, because changing $\lambda$ changes the scale of $y_i^{(\lambda)}$ (for instance, shrinking $\lambda$ can change $\text{SSE}(\lambda)$ purely by compressing the numerical units of $y^{(\lambda)}$)! Instead, we must write the exact joint density of the <strong>original untranformed data</strong> $(Y_1, \dots, Y_n)$ by multiplying the normal density of $\mathbf{y}^{(\lambda)}$ by the <strong>Jacobian determinant</strong> of the transformation $y_i \mapsto y_i^{(\lambda)}$:</p>
+
+<div class="math-display">$$J(\lambda; \mathbf{y}) = \prod_{i=1}^n \left| \frac{d y_i^{(\lambda)}}{d y_i} \right| = \prod_{i=1}^n y_i^{\lambda - 1} \implies \ln J(\lambda; \mathbf{y}) = (\lambda - 1) \sum_{i=1}^n \ln(y_i)$$</div>
+
+<p>Profiling out $\hat{\boldsymbol{\beta}}(\lambda) = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T \mathbf{y}^{(\lambda)}$ and $\hat{\sigma}_{\text{MLE}}^2(\lambda) = \frac{1}{n}\text{SSE}(\lambda)$ yields the <strong>Box–Cox Profile Log-Likelihood</strong>:</p>
+
+<div class="math-display">$$\ell_p(\lambda) = -\frac{n}{2} \ln\left( \frac{\text{SSE}(\lambda)}{n} \right) + (\lambda - 1) \sum_{i=1}^n \ln(y_i) + \text{const}$$</div>
+
+<p>Even more conveniently, let $\dot{y} = \left(\prod_{i=1}^n y_i\right)^{1/n} = \exp\left(\frac{1}{n}\sum_{i=1}^n \ln y_i\right)$ denote the <strong>geometric mean</strong> of the original responses, and define the <strong>Jacobian-normalized Box–Cox response</strong> $z_i^{(\lambda)}$:</p>
+
+<div class="math-display">$$z_i^{(\lambda)} = \frac{y_i^{(\lambda)}}{\dot{y}^{\lambda - 1}} = \begin{cases} \dfrac{y_i^\lambda - 1}{\lambda \, \dot{y}^{\lambda - 1}}, &amp; \lambda \neq 0 \[10pt] \dot{y} \ln(y_i), &amp; \lambda = 0 \end{cases}$$</div>
+
+<p>Because the Jacobian of $y_i \mapsto z_i^{(\lambda)}$ is identically $1$ ($\prod_{i=1}^n (y_i / \dot{y})^{\lambda - 1} = 1$), maximizing $\ell_p(\lambda)$ is <strong>algebraically equivalent to minimizing the Residual Sum of Squares $\text{SSE}_z(\lambda)$ of the normalized response $z_i^{(\lambda)}$</strong>:</p>
+
+<div class="math-display">$$\ell_p(\lambda) = -\frac{n}{2} \ln\left( \frac{\text{SSE}_z(\lambda)}{n} \right) + \text{const}$$</div>
+
+<p>An approximate $100(1 - \alpha)\%$ likelihood-ratio confidence interval for $\lambda$ consists of all values of $\lambda$ satisfying $2[\ell_p(\hat{\lambda}) - \ell_p(\lambda)] \le \chi_{\alpha, 1}^2$ (i.e., $\ell_p(\lambda) \ge \ell_p(\hat{\lambda}) - \frac{1}{2}\chi_{\alpha, 1}^2 = \ell_p(\hat{\lambda}) - 1.921$ for $95\%$ confidence), from which the analyst selects a nearby interpretable value such as $\lambda \in \{-1, -0.5, 0, 0.5, 1\}$.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.6</span>
+            <span>Variable Selection and Model Comparison Criteria: Mallows' C_p, AIC, BIC, PRESS &amp; Stepwise Algorithms</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          Suppose an analyst has collected a pool of $K$ candidate explanatory variables ($P = K + 1$ total parameters including the intercept), giving rise to $2^K$ possible subset regression models. Why not simply include all $K$ predictors in a single "kitchen-sink" model? As proved in Problem 2.2, while omitting relevant variables ($\beta_j \neq 0$) induces omitted-variable bias, including extraneous or redundant variables ($\beta_j = 0$) inflates the sampling variances $\text{Var}(\hat{\beta}_m)$ of the remaining coefficients, inflates the out-of-sample prediction variance $\text{Var}(\hat{Y}_0) = \sigma^2 \mathbf{x}_0^T(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{x}_0$, and wastes error degrees of freedom.
+
+To balance goodness of fit (low $\text{SSE}_p$) against model parsimony (small parameter count $p = k + 1 \le P$) across candidate subset models of dimension $p$, statistical theory employs five primary **Model Selection Criteria**:
+
+### 1. Adjusted Coefficient of Determination ($R_{a,p}^2$) and Minimum $\text{MSE}_p$
+As established in Section 2.6, maximizing $R_{a,p}^2 = 1 - \frac{\text{SSE}_p / (n - p)}{\text{SST} / (n - 1)}$ is strictly equivalent to **minimizing the residual mean square $\text{MSE}_p = \frac{\text{SSE}_p}{n - p}$**.
+
+### 2. Colin Mallows' $C_p$ Criterion (1973)
+Mallows designed $C_p$ to estimate the standardized **Total Scaled Mean Squared Prediction Error** $\Gamma_p$ of a $p$-parameter subset model across all $n$ sample design points:
+
+$$\Gamma_p = \frac{1}{\sigma^2} \sum_{i=1}^n \mathbb{E}\left[ (\hat{Y}_{i(p)} - \mu_i)^2 \right] = \frac{1}{\sigma^2} \left( \sum_{i=1}^n \text{Var}(\hat{Y}_{i(p)}) + \sum_{i=1}^n \left[\text{Bias}(\hat{Y}_{i(p)})\right]^2 \right)$$
+
+Because $\sum_{i=1}^n \text{Var}(\hat{Y}_{i(p)}) = \sigma^2 \text{tr}(\mathbf{H}_p) = p \sigma^2$, and $\mathbb{E}[\text{SSE}_p] = (n - p)\sigma^2 + \sum_{i=1}^n [\text{Bias}(\hat{Y}_{i(p)})]^2$, solving for the squared bias sum $\sum [\text{Bias}(\hat{Y}_{i(p)})]^2 = \mathbb{E}[\text{SSE}_p] - (n - p)\sigma^2$ and substituting into $\Gamma_p$ yields:
+
+$$\Gamma_p = p + \frac{\mathbb{E}[\text{SSE}_p] - (n - p)\sigma^2}{\sigma^2} = \frac{\mathbb{E}[\text{SSE}_p]}{\sigma^2} - (n - 2p)$$
+
+Replacing $\mathbb{E}[\text{SSE}_p]$ by the observed subset $\text{SSE}_p$ and replacing the unknown true variance $\sigma^2$ by the unbiased variance estimator $\hat{\sigma}_{\text{full}}^2 = \text{MSE}_P = \frac{\text{SSE}_P}{n - P}$ from the **full $P$-parameter model** defines **Mallows' $C_p$ Statistic**:
+
+$$C_p = \frac{\text{SSE}_p}{\text{MSE}_P} - (n - 2p) = p + (P - p) \left( F_{P - p} - 1 \right)$$
+
+where $F_{P-p} = \frac{(\text{SSE}_p - \text{SSE}_P)/(P - p)}{\text{MSE}_P}$ is the partial $F$-statistic for testing whether the $P - p$ omitted variables have zero coefficients! Consequently:
+- If the $p$-parameter subset model has **zero specification bias** ($\mathbb{E}[\text{SSE}_p] = (n - p)\sigma^2$), then $\mathbb{E}[C_p] \approx p$.
+- For the full model ($p = P$), $C_P = P$ identically by algebra.
+- Good subset models exhibit **both small $p$ and $C_p \le p$** (sitting near or below the $45^\circ$ reference line $C_p = p$).
+
+### 3. Akaike Information Criterion ($\text{AIC}$), Hurvich–Tsai $\text{AIC}_c$, and Schwarz Bayesian Information Criterion ($\text{BIC}$)
+Information criteria penalize twice the negative maximized log-likelihood $-2 \ell(\hat{\boldsymbol{\beta}}_p, \hat{\sigma}_{p,\text{MLE}}^2) = n \ln(\text{SSE}_p / n) + n(1 + \ln 2\pi)$ by a complexity penalty proportional to $p$. Dropping additive constants that depend only on $n$, for a linear regression model of dimension $p$:
+
+$$\text{AIC}(p) = n \ln\left(\frac{\text{SSE}_p}{n}\right) + 2p, \qquad \text{AIC}_c(p) = \text{AIC}(p) + \frac{2(p+1)(p+2)}{n - p - 2}, \qquad \text{BIC}(p) = n \ln\left(\frac{\text{SSE}_p}{n}\right) + p \ln(n)$$
+
+<div class="table-wrapper"><table class="data-table">
+<thead>
+<tr><th>Criterion</th><th>Mathematical Formula (Minimize, except $R_{a,p}^2$)</th><th>Penalty per Parameter</th><th>Asymptotic Optimality Property</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Adjusted $R_{a,p}^2$</strong></td><td>$1 - \dfrac{\text{SSE}_p / (n - p)}{\text{SST} / (n - 1)}$</td><td>Favorable if partial $F &gt; 1$</td><td>Too permissive for model selection (retains noise variables with $\mathbb{P}(F_{1,\nu} &gt; 1) \approx 0.32$).</td></tr>
+<tr><td><strong>Mallows' $C_p$</strong></td><td>$\dfrac{\text{SSE}_p}{\text{MSE}_P} - (n - 2p)$</td><td>$2$ units per parameter ($F &gt; 2$)</td><td>Asymptotically equivalent to $\text{AIC}$; minimax optimal for out-of-sample prediction error.</td></tr>
+<tr><td><strong>Akaike ($\text{AIC}$)</strong></td><td>$n \ln(\text{SSE}_p / n) + 2p$</td><td>$2$ per parameter ($F \gtrsim 2$)</td><td>Minimizes Kullback–Leibler divergence; <strong>asymptotically efficient</strong> for prediction, but not selection-consistent.</td></tr>
+<tr><td><strong>Schwarz ($\text{BIC}$)</strong></td><td>$n \ln(\text{SSE}_p / n) + p \ln(n)$</td><td>$\ln(n)$ per parameter ($&gt; 2$ for $n \ge 8$)</td><td><strong>Selection-consistent</strong>: selects the true finite sparse model with probability $\to 1$ as $n \to \infty$.</td></tr>
+<tr><td><strong>Allen's $\text{PRESS}_p$</strong></td><td>$\sum_{i=1}^n \left(\dfrac{e_{i(p)}}{1 - h_{ii(p)}}\right)^2$</td><td>Via leverage $1/(1 - h_{ii})^2$</td><td>Exact leave-one-out cross-validation error without requiring $\text{MSE}_P$.</td></tr>
+</tbody>
+</table></div>
+
+When $K$ is too large for exhaustive **All-Possible-Regressions** ($2^K$ subsets, accelerated via the Furnival–Wilson leaps-and-bounds branch-and-bound algorithm), greedy heuristic searches—**Forward Selection**, **Backward Elimination**, and **Stepwise Regression** (which alternates forward additions with backward partial-$F$ deletions to remove variables rendered redundant by newly entered collinear predictors)—are employed, though analysts must remember that post-selection $p$-values from stepwise searches suffer from severe selection bias (Freedman's paradox) and should be validated on held-out test data or replaced by LASSO regularization.
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Regression Analysis Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.1: Chow Structural Break F-Test &amp; Dummy-Interaction Equivalence Across Two Economic Regimes</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An energy economist investigates whether the relationship between residential natural gas consumption $Y$ and two predictors—heating degree days $X_1$ and real household income $X_2$ ($p = 3$ parameters: $\beta_0, \beta_1, \beta_2$)—experienced a structural break following an energy-efficiency building code reform. The total sample of $n = 46$ observations is partitioned into Regime 1 (Pre-Reform, $n_1 = 22$) and Regime 2 (Post-Reform, $n_2 = 24$). Fitting the model $Y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \varepsilon_i$ yields:</p>
+
+<ul>
+
+  <li><strong>Regime 1 Separate Fit ($n_1 = 22$)</strong>: $\hat{\boldsymbol{\beta}}_{(1)} = (12.0, \; 0.85, \; 0.40)^T$, $\text{SSE}_1 = 54.0$</li>
+
+  <li><strong>Regime 2 Separate Fit ($n_2 = 24$)</strong>: $\hat{\boldsymbol{\beta}}_{(2)} = (8.5, \; 0.55, \; 0.35)^T$, $\text{SSE}_2 = 66.0$</li>
+
+  <li><strong>Pooled Fit Across All $n = 46$ Observations</strong>: $\text{SSE}_{\text{pooled}} = 165.0$</li>
+
+  <li><strong>Parallel-Slopes (ANCOVA) Fit ($Y_i = \beta_0 + \gamma D_i + \beta_1 x_{i1} + \beta_2 x_{i2} + \varepsilon_i$)</strong>: $\text{SSE}_{\text{ANCOVA}} = 148.0$</li>
+
+</ul>
+
+<ol>
+
+  <li>Write down the single pooled dummy-interaction regression equation using $D_i = \mathbb{I}(i \in \text{Regime 2})$ whose OLS estimates reproduce $\hat{\boldsymbol{\beta}}_{(1)}$ and $\hat{\boldsymbol{\beta}}_{(2)}$ identically, and determine the exact numerical values of all $6$ coefficients in that interaction equation.</li>
+
+  <li>Conduct the <strong>Chow Structural Break $F$-Test</strong> of $H_0: \boldsymbol{\beta}_{(1)} = \boldsymbol{\beta}_{(2)}$ at $\alpha = 0.05$ ($F_{0.05, 3, 40} = 2.839$).</li>
+
+  <li>Using the extra sum-of-squares principle, test specifically whether the <strong>slopes</strong> $(\beta_1, \beta_2)$ changed between the two regimes ($H_0: \delta_1 = \delta_2 = 0$, given $F_{0.05, 2, 40} = 3.232$).</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-reg-stat-7-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-reg-stat-7-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Formulate the pooled dummy-interaction model and determine its 6 coefficients</div>
+              
+              <div class="step-explanation"><p>Define the post-reform binary indicator $D_i = 1$ if observation $i$ belongs to Regime 2 and $D_i = 0$ if observation $i$ belongs to Regime 1. The full unrestricted dummy-interaction model is:</p>
+
+<div class="math-display">$$Y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \gamma_0 D_i + \delta_1 (D_i x_{i1}) + \delta_2 (D_i x_{i2}) + \varepsilon_i$$</div>
+
+<p>When $D_i = 0$ (Regime 1), $\mathbb{E}[Y_i \mid \mathbf{x}_i, D_i = 0] = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2}$, so $(\hat{\beta}_0, \hat{\beta}_1, \hat{\beta}_2) = \hat{\boldsymbol{\beta}}_{(1)}^T = (12.0, \; 0.85, \; 0.40)$. When $D_i = 1$ (Regime 2), $\mathbb{E}[Y_i \mid \mathbf{x}_i, D_i = 1] = (\beta_0 + \gamma_0) + (\beta_1 + \delta_1) x_{i1} + (\beta_2 + \delta_2) x_{i2}$, so the differential coefficients are $\hat{\boldsymbol{\delta}} = \hat{\boldsymbol{\beta}}_{(2)} - \hat{\boldsymbol{\beta}}_{(1)}$:</p>
+
+<ul>
+
+  <li>$\hat{\gamma}_0 = \hat{\beta}_{0(2)} - \hat{\beta}_{0(1)} = 8.5 - 12.0 = -3.50$</li>
+
+  <li>$\hat{\delta}_1 = \hat{\beta}_{1(2)} - \hat{\beta}_{1(1)} = 0.55 - 0.85 = -0.30$</li>
+
+  <li>$\hat{\delta}_2 = \hat{\beta}_{2(2)} - \hat{\beta}_{2(1)} = 0.35 - 0.40 = -0.05$</li>
+
+</ul>
+
+<p>And the Residual Sum of Squares of this $6$-parameter interaction model is $\text{SSE}_F = \text{SSE}_1 + \text{SSE}_2 = 54.0 + 66.0 = 120.0$ with $\text{df}_F = (22 - 3) + (24 - 3) = 19 + 21 = 40$ degrees of freedom.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Execute the Chow Structural Break F-test for H_0: beta_(1) = beta_(2)</div>
+              
+              <div class="step-explanation"><p>Under the null hypothesis of complete structural stability $H_0: \gamma_0 = \delta_1 = \delta_2 = 0$ ($q = p = 3$ restrictions), the Reduced model is the pooled regression with $\text{SSE}_{\text{pooled}} = 165.0$ and $\text{df}_R = 46 - 3 = 43$. Applying the Chow $F$-formula:</p>
+
+<div class="math-display">$$F_{\text{Chow}} = \frac{\left[ \text{SSE}_{\text{pooled}} - (\text{SSE}_1 + \text{SSE}_2) \right] / p}{(\text{SSE}_1 + \text{SSE}_2) / (n_1 + n_2 - 2p)} = \frac{(165.0 - 120.0) / 3}{120.0 / 40} = \frac{45.0 / 3}{3.00} = \frac{15.0}{3.00} = 5.00$$</div>
+
+<p>Since $F_{\text{Chow}} = 5.00 &gt; F_{0.05, 3, 40} = 2.839$, we <strong>reject $H_0$</strong> at the $5\%$ significance level and conclude that a statistically significant structural break occurred following the building code reform.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Test homogeneity of slopes H_0: delta_1 = delta_2 = 0 against the ANCOVA model</div>
+              
+              <div class="step-explanation"><p>To determine whether the structural break was merely a parallel downward shift in the intercept ($\gamma_0 \neq 0$ with $\delta_1 = \delta_2 = 0$) or also altered the marginal slopes $(\delta_1, \delta_2)$, we compare the Full $6$-parameter interaction model ($\text{SSE}_F = 120.0$, $\text{df}_F = 40$) against the $4$-parameter parallel-slopes ANCOVA model ($\text{SSE}_{\text{ANCOVA}} = 148.0$, $\text{df}_{\text{ANCOVA}} = 46 - 4 = 42$), which imposes $q = 2$ restrictions ($H_0: \delta_1 = \delta_2 = 0$):</p>
+
+<div class="math-display">$$F_{\text{slopes}} = \frac{(\text{SSE}_{\text{ANCOVA}} - \text{SSE}_F) / 2}{\text{SSE}_F / 40} = \frac{(148.0 - 120.0) / 2}{3.00} = \frac{28.0 / 2}{3.00} = \frac{14.0}{3.00} \approx 4.667$$</div>
+
+<p>Since $F_{\text{slopes}} = 4.667 &gt; F_{0.05, 2, 40} = 3.232$, we reject the parallel-slopes hypothesis: the building code reform significantly reduced the marginal sensitivity of gas consumption to heating degree days ($\hat{\delta}_1 = -0.30$).</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.2: Orthogonal Polynomial Regression vs Raw Vandermonde Basis &amp; Continuous Piecewise Linear Spline</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An agronomist measures grain yield $Y_i$ (in tons/ha) across $n = 5$ equally spaced nitrogen fertilizer levels $x_i \in \{1, 2, 3, 4, 5\}$:</p>
+
+<div class="math-display">$$\begin{array}{c|ccccc} x_i &amp; 1 &amp; 2 &amp; 3 &amp; 4 &amp; 5 \\ \hline Y_i &amp; 4.0 &amp; 7.0 &amp; 9.0 &amp; 10.0 &amp; 10.0 \end{array}$$</div>
+
+<ol>
+
+  <li>Construct the first three <strong>Forsythe Orthogonal Polynomials</strong> $P_0(x_i), P_1(x_i), P_2(x_i)$ evaluated at $x_i \in \{1, 2, 3, 4, 5\}$, and verify explicitly that $\sum_{i=1}^5 P_j(x_i) P_m(x_i) = 0$ for all $j \neq m$.</li>
+
+  <li>Estimate the orthogonal quadratic regression $Y_i = \gamma_0 P_0(x_i) + \gamma_1 P_1(x_i) + \gamma_2 P_2(x_i) + \varepsilon_i$, compute $\text{SSR}(P_1)$, $\text{SSR}(P_2)$, and $\text{SSE}$, and convert the fitted orthogonal polynomial into the raw power form $\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 x + \hat{\beta}_2 x^2$. Why did adding the quadratic term $P_2(x)$ leave $\hat{\gamma}_0$ and $\hat{\gamma}_1$ completely unchanged?</li>
+
+  <li>Now fit a <strong>continuous piecewise linear spline</strong> with a single knot at $\xi = 3$: $Y_i = \alpha_0 + \alpha_1 x_i + \alpha_2 (x_i - 3)_+ + \varepsilon_i$, and compare its $\text{SSE}$ against the quadratic polynomial.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-reg-stat-7-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-reg-stat-7-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Construct the orthogonal polynomial basis vectors P_0, P_1, P_2 on x = {1, 2, 3, 4, 5}</div>
+              
+              <div class="step-explanation"><p>With $n = 5$ symmetric, equally spaced points $x_i \in \{1, 2, 3, 4, 5\}$, the sample mean is $\bar{x} = 3.0$:</p>
+
+<ul>
+
+  <li><strong>Degree $0$</strong>: $P_0(x_i) = 1 \implies \mathbf{p}_0 = (1, \; 1, \; 1, \; 1, \; 1)^T$, with $\sum_{i=1}^5 P_0(x_i)^2 = 5$.</li>
+
+  <li><strong>Degree $1$</strong>: $P_1(x_i) = x_i - \bar{x} = x_i - 3 \implies \mathbf{p}_1 = (-2, \; -1, \; 0, \; 1, \; 2)^T$, with $\sum_{i=1}^5 P_1(x_i)^2 = 4 + 1 + 0 + 1 + 4 = 10$.</li>
+
+  <li><strong>Degree $2$</strong>: By Forsythe's recurrence $P_2(x_i) = (x_i - a_2) P_1(x_i) - b_2 P_0(x_i)$, symmetry gives $a_2 = \bar{x} = 3.0$ (since $\sum (x_i - 3)^3 = 0$) and $b_2 = \frac{\sum P_1(x_i)^2}{\sum P_0(x_i)^2} = \frac{10}{5} = 2.0$. Thus:</li>
+
+</ul>
+
+<div class="math-display">$$P_2(x_i) = (x_i - 3)^2 - 2 \implies \mathbf{p}_2 = (2, \; -1, \; -2, \; -1, \; 2)^T$$</div>
+
+<p>Checking orthogonality and squared norm of $\mathbf{p}_2$:</p>
+
+<ul>
+
+  <li>$\sum_{i=1}^5 P_0(x_i) P_2(x_i) = 2 - 1 - 2 - 1 + 2 = 0$</li>
+
+  <li>$\sum_{i=1}^5 P_1(x_i) P_2(x_i) = (-2)(2) + (-1)(-1) + (0)(-2) + (1)(-1) + (2)(2) = -4 + 1 + 0 - 1 + 4 = 0$</li>
+
+  <li>$\sum_{i=1}^5 P_2(x_i)^2 = 4 + 1 + 4 + 1 + 4 = 14$</li>
+
+</ul></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Estimate orthogonal quadratic parameters gamma_j, SSR components, and convert to raw powers</div>
+              
+              <div class="step-explanation"><p>Given $\mathbf{Y} = (4, 7, 9, 10, 10)^T$, because the Gram matrix is strictly diagonal $\mathbf{P}^T\mathbf{P} = \text{diag}(5, 10, 14)$, each coefficient $\hat{\gamma}_j = (\mathbf{p}_j^T \mathbf{Y}) / (\mathbf{p}_j^T \mathbf{p}_j)$ is computed independently:</p>
+
+<h4>1. Constant ($\hat{\gamma}_0$): $\mathbf{p}_0^T \mathbf{Y} = 4 + 7 + 9 + 10 + 10 = 40 \implies \hat{\gamma}_0 = \frac{40}{5} = 8.00$.</h4>
+
+<h4>2. Linear ($\hat{\gamma}_1$): $\mathbf{p}_1^T \mathbf{Y} = (-2)(4) + (-1)(7) + 0(9) + 1(10) + 2(10) = -8 - 7 + 0 + 10 + 20 = 15 \implies \hat{\gamma}_1 = \frac{15}{10} = 1.50$, and $\text{SSR}(P_1) = \hat{\gamma}_1^2 (10) = 2.25(10) = 22.50$.</h4>
+
+<h4>3. Quadratic ($\hat{\gamma}_2$): $\mathbf{p}_2^T \mathbf{Y} = (2)(4) + (-1)(7) + (-2)(9) + (-1)(10) + (2)(10) = 8 - 7 - 18 - 10 + 20 = -7 \implies \hat{\gamma}_2 = \frac{-7}{14} = -0.50$, and $\text{SSR}(P_2) = \hat{\gamma}_2^2 (14) = 0.25(14) = 3.50$.</h4>
+
+<p>Since $\text{SST} = \sum (Y_i - 8.0)^2 = 16 + 1 + 1 + 4 + 4 = 26.00$, we see that $\text{SSR}(P_1) + \text{SSR}(P_2) = 22.50 + 3.50 = 26.00 = \text{SST}$, so $\text{SSE}_{\text{quad}} = 0.00$ ($R^2 = 100\%$)! Expanding $\hat{Y} = 8.0 + 1.5(x - 3) - 0.5[(x - 3)^2 - 2]$ into raw powers of $x$ gives:</p>
+
+<div class="math-display">$$\hat{Y} = 8.0 + 1.5 x - 4.5 - 0.5(x^2 - 6x + 7) = 0.0 + 4.5 x - 0.5 x^2$$</div>
+
+<p>Notice that in the raw power basis, the linear coefficient changed from $1.50$ (in simple regression) to $\hat{\beta}_1 = 4.50$ when $x^2$ was added because $x$ and $x^2$ are highly collinear ($r = 0.975$), whereas in the orthogonal basis $\hat{\gamma}_1 = 1.50$ remained completely invariant!</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Fit the continuous piecewise linear spline at knot xi = 3</div>
+              
+              <div class="step-explanation"><p>For the piecewise linear spline $Y_i = \alpha_0 + \alpha_1 x_i + \alpha_2 (x_i - 3)_+ + \varepsilon_i$, the hinge basis vector is $\mathbf{h} = ((1-3)_+, (2-3)_+, (3-3)_+, (4-3)_+, (5-3)_+)^T = (0, 0, 0, 1, 2)^T$. Using $\mathbf{X}_s = [\mathbf{1}, \mathbf{x}, \mathbf{h}]$:</p>
+
+<div class="math-display">$$\mathbf{X}_s^T \mathbf{X}_s = \begin{pmatrix} 5 &amp; 15 &amp; 3 \\ 15 &amp; 55 &amp; 14 \\ 3 &amp; 14 &amp; 5 \end{pmatrix}, \qquad \mathbf{X}_s^T \mathbf{Y} = \begin{pmatrix} 40 \\ 135 \\ 30 \end{pmatrix}$$</div>
+
+<p>Solving $(\mathbf{X}_s^T \mathbf{X}_s) \hat{\boldsymbol{\alpha}} = \mathbf{X}_s^T \mathbf{Y}$ gives:</p>
+
+<div class="math-display">$$\hat{\alpha}_0 = 1.70, \qquad \hat{\alpha}_1 = 2.50, \qquad \hat{\alpha}_2 = -2.00 \implies \hat{Y}_s(x) = 1.70 + 2.50 x - 2.00(x - 3)_+$$</div>
+
+<p>Below $x = 3$, the fitted slope is $+2.50$ tons/ha per unit of nitrogen; above $x = 3$, the slope drops by $-2.00$ to $2.50 - 2.00 = +0.50$ tons/ha. Evaluating $\hat{\mathbf{Y}}_s = (4.2, \; 6.7, \; 9.2, \; 9.7, \; 10.2)^T$ gives residuals $\mathbf{e}_s = (-0.2, \; +0.3, \; -0.2, \; +0.3, \; -0.2)^T$ and $\text{SSE}_s = 0.04 + 0.09 + 0.04 + 0.09 + 0.04 = 0.30$ ($R^2 = 25.70 / 26.00 = 98.85\%$).</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.3: Model Selection Audit: Evaluating Mallows' C_p, AIC, BIC, Adjusted R^2, and Box-Cox Likelihood Ratio Test</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A biostatistician models patient recovery time $Y$ across $n = 40$ clinical subjects using a pool of $K = 4$ candidate predictors ($X_1, X_2, X_3, X_4$, so $P = K + 1 = 5$ parameters in the full model). The Total Sum of Squares is $\text{SST} = 500.0$. Five candidate nested/best-subset models yield the following Residual Sums of Squares $\text{SSE}_p$:</p>
+
+<ul>
+
+  <li><strong>Model M1 ($p = 2$: $\beta_0, X_1$)</strong>: $\text{SSE}_2 = 160.0$</li>
+
+  <li><strong>Model M2 ($p = 3$: $\beta_0, X_1, X_2$)</strong>: $\text{SSE}_3 = 90.0$</li>
+
+  <li><strong>Model M3 ($p = 3$: $\beta_0, X_1, X_3$)</strong>: $\text{SSE}_3^* = 135.0$</li>
+
+  <li><strong>Model M4 ($p = 4$: $\beta_0, X_1, X_2, X_3$)</strong>: $\text{SSE}_4 = 86.5$</li>
+
+  <li><strong>Model M5 ($p = 5$: Full Model $\beta_0, X_1, X_2, X_3, X_4$)</strong>: $\text{SSE}_5 = 84.0$</li>
+
+</ul>
+
+<ol>
+
+  <li>Compute the full-model error variance estimate $\text{MSE}_P = \text{MSE}_5$, and for each of the five candidate models evaluate: (a) $\text{MSE}_p$, (b) Adjusted $R_{a,p}^2$, (c) <strong>Mallows' $C_p$</strong>, (d) <strong>$\text{AIC}(p)$</strong>, and (e) <strong>$\text{BIC}(p)$</strong>.</li>
+
+  <li>Which subset model is selected by each criterion, and why do $\text{AIC}$, $\text{BIC}$, and $C_p$ all prefer Model M2 ($X_1, X_2$) over Model M4 ($X_1, X_2, X_3$) even though Adjusted $R_{a,p}^2$ is slightly higher for Model M4?</li>
+
+  <li>Suppose a Box–Cox transformation profile log-likelihood analysis on Model M2 yields $\ell_p(\hat{\lambda} = 0.05) = -42.10$, $\ell_p(\lambda = 0) = -42.35$, and $\ell_p(\lambda = 1) = -51.80$. Test $H_0: \lambda = 1$ (no transformation) and $H_0: \lambda = 0$ (log transformation) at $\alpha = 0.05$ ($\chi_{0.05, 1}^2 = 3.841$).</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-reg-stat-7-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-reg-stat-7-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Compute MSE_p, Adjusted R_a^2, Mallows' C_p, AIC, and BIC across all five models</div>
+              
+              <div class="step-explanation"><p>For the full model M5 ($n = 40, P = 5$), the error degrees of freedom are $n - P = 35$, and the unbiased full-model error variance estimate is:</p>
+
+<div class="math-display">$$\text{MSE}_P = \text{MSE}_5 = \frac{\text{SSE}_5}{40 - 5} = \frac{84.0}{35} = 2.40$$</div>
+
+<p>Note also that $\text{MST} = \frac{\text{SST}}{n - 1} = \frac{500.0}{39} \approx 12.8205$, and $\ln(n) = \ln(40) \approx 3.6889$. Using $C_p = \frac{\text{SSE}_p}{2.40} - (40 - 2p)$, $\text{AIC}(p) = 40 \ln(\text{SSE}_p / 40) + 2p$, and $\text{BIC}(p) = 40 \ln(\text{SSE}_p / 40) + 3.6889 p$:</p>
+
+<h4>1. Model M1 ($p = 2, \; \text{SSE}_2 = 160.0, \; \text{df} = 38$):</h4>
+
+<ul>
+
+  <li>$\text{MSE}_2 = \frac{160.0}{38} = 4.2105 \implies R_{a,2}^2 = 1 - \frac{4.2105}{12.8205} = 0.6716$</li>
+
+  <li>$C_2 = \frac{160.0}{2.40} - (40 - 4) = 66.67 - 36.00 = 30.67 \gg 2$ (severe omitted-variable bias!)</li>
+
+  <li>$\text{AIC}(2) = 40 \ln(4.000) + 4 = 55.452 + 4.000 = 59.452$, $\quad \text{BIC}(2) = 55.452 + 7.378 = 62.830$</li>
+
+</ul>
+
+<h4>2. Model M2 ($p = 3$: $X_1, X_2$, $\text{SSE}_3 = 90.0, \; \text{df} = 37$):</h4>
+
+<ul>
+
+  <li>$\text{MSE}_3 = \frac{90.0}{37} = 2.4324 \implies R_{a,3}^2 = 1 - \frac{2.4324}{12.8205} = 0.8103$</li>
+
+  <li>$C_3 = \frac{90.0}{2.40} - (40 - 6) = 37.50 - 34.00 = \mathbf{3.50} \approx p = 3$</li>
+
+  <li>$\text{AIC}(3) = 40 \ln(2.250) + 6 = 32.437 + 6.000 = \mathbf{38.437}$, $\quad \text{BIC}(3) = 32.437 + 11.067 = \mathbf{43.504}$</li>
+
+</ul>
+
+<h4>3. Model M3 ($p = 3$: $X_1, X_3$, $\text{SSE}_3^* = 135.0, \; \text{df} = 37$):</h4>
+
+<ul>
+
+  <li>$\text{MSE}_3^* = \frac{135.0}{37} = 3.6486 \implies R_{a,3}^{*2} = 0.7154$</li>
+
+  <li>$C_3^* = \frac{135.0}{2.40} - 34 = 56.25 - 34.00 = 22.25 \gg 3$</li>
+
+  <li>$\text{AIC}(3^*) = 40 \ln(3.375) + 6 = 48.656 + 6 = 54.656$, $\quad \text{BIC}(3^*) = 48.656 + 11.067 = 59.723$</li>
+
+</ul>
+
+<h4>4. Model M4 ($p = 4$: $X_1, X_2, X_3$, $\text{SSE}_4 = 86.5, \; \text{df} = 36$):</h4>
+
+<ul>
+
+  <li>$\text{MSE}_4 = \frac{86.5}{36} = \mathbf{2.4028} \implies R_{a,4}^2 = 1 - \frac{2.4028}{12.8205} = \mathbf{0.8126}$</li>
+
+  <li>$C_4 = \frac{86.5}{2.40} - (40 - 8) = 36.04 - 32.00 = 4.04$</li>
+
+  <li>$\text{AIC}(4) = 40 \ln(2.1625) + 8 = 30.851 + 8.000 = 38.851$, $\quad \text{BIC}(4) = 30.851 + 14.756 = 45.607$</li>
+
+</ul>
+
+<h4>5. Model M5 ($p = 5$: Full Model, $\text{SSE}_5 = 84.0, \; \text{df} = 35$):</h4>
+
+<ul>
+
+  <li>$\text{MSE}_5 = \frac{84.0}{35} = \mathbf{2.4000} \implies R_{a,5}^2 = 1 - \frac{2.4000}{12.8205} = \mathbf{0.8128}$</li>
+
+  <li>$C_5 = \frac{84.0}{2.40} - (40 - 10) = 35.00 - 30.00 = 5.00 = P$</li>
+
+  <li>$\text{AIC}(5) = 40 \ln(2.100) + 10 = 29.677 + 10.000 = 39.677$, $\quad \text{BIC}(5) = 29.677 + 18.444 = 48.121$</li>
+
+</ul></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compare the selected models and explain the F &gt; 1 vs F &gt; 2 threshold</div>
+              
+              <div class="step-explanation"><p><strong>Mallows' $C_p$</strong> ($C_3 = 3.50$, lowest $C_p$ and $C_3 \approx 3$), <strong>$\text{AIC}$</strong> ($\text{AIC}(3) = 38.437$), and <strong>$\text{BIC}$</strong> ($\text{BIC}(3) = 43.504$) all unanimously select the parsimonious two-predictor <strong>Model M2 ($X_1, X_2$)</strong>! Why did $R_{a,p}^2$ (and $\text{MSE}_p$) slightly favor M4 and M5? Because the partial $F$-statistic for adding $X_3$ to M2 is $F(X_3 \mid X_1, X_2) = \frac{90.0 - 86.5}{2.4028} = 1.457$, and adding $X_4$ to M4 gives $F(X_4 \mid X_1, X_2, X_3) = \frac{86.5 - 84.0}{2.400} = 1.042$. Since both partial $F$-statistics slightly exceed $1.0$, $\text{MSE}_p$ decreases slightly and $R_{a,p}^2$ ticks up from $0.8103 \to 0.8126 \to 0.8128$, even though neither $X_3$ nor $X_4$ is anywhere near statistically significant ($p &gt; 0.23$). Because $C_p$ and $\text{AIC}$ require $F \gtrsim 2.0$ (and $\text{BIC}$ requires $F \gtrsim \ln(40) = 3.69$) to justify an extra parameter, they rightly screen out the noise predictors $X_3$ and $X_4$.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Evaluate the Box-Cox profile log-likelihood ratio tests for lambda = 1 and lambda = 0</div>
+              
+              <div class="step-explanation"><p>Using the asymptotic Likelihood Ratio statistic $LR(\lambda_0) = 2\left[\ell_p(\hat{\lambda}) - \ell_p(\lambda_0)\right] \sim \chi_1^2$ under $H_0: \lambda = \lambda_0$:</p>
+
+<h4>1. Testing $H_0: \lambda = 1$ (No Transformation):</h4>
+
+<div class="math-display">$$LR(1) = 2 \left[ -42.10 - (-51.80) \right] = 2(9.70) = 19.40 &gt; \chi_{0.05, 1}^2 = 3.841$$</div>
+
+<p>We strongly <strong>reject $\lambda = 1$</strong>: the untransformed scale exhibits statistically significant skewness/heteroscedasticity.</p>
+
+<h4>2. Testing $H_0: \lambda = 0$ (Natural Logarithm Transformation $Y^* = \ln Y$):</h4>
+
+<div class="math-display">$$LR(0) = 2 \left[ -42.10 - (-42.35) \right] = 2(0.25) = 0.50 &lt; \chi_{0.05, 1}^2 = 3.841$$</div>
+
+<p>Because $\lambda = 0$ lies well inside the $95\%$ Box–Cox confidence interval ($\ell_p(0) = -42.35 \ge -42.10 - 1.921 = -44.021$), the analyst should adopt the clean, scientifically interpretable <strong>log transformation $\ln(Y)$</strong> ($\lambda = 0$) rather than the awkward fractional power $\hat{\lambda} = 0.05$.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="statistical-computing-with-python-and-r">Statistical Computing</a><a href="mathematical-statistics">Mathematical Statistics</a><a href="statistical-estimation">Statistical Estimation</a><a href="demography-and-population-statistics">Demography and Population Statistics</a><a href="economic-statistics">Economic Statistics</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Courses Stat H-303 Regression Analysis &amp; Stat H-312 Lab)</a></li><li><cite class="reader-reference-citation">Montgomery, D.C., Peck, E.A., &amp; Vining, G.G. (2021). Introduction to Linear Regression Analysis (6th ed.): Comprehensive reference for OLS estimation, matrix regression, diagnostics, multicollinearity, and generalized linear models</cite></li><li><cite class="reader-reference-citation">Seber, G.A.F., &amp; Lee, A.J. (2003). Linear Regression Analysis (2nd ed.): Rigorous mathematical treatment of orthogonal projections, Gauss-Markov theorem, quadratic forms, and linear hypothesis testing</cite></li><li><cite class="reader-reference-citation">Kutner, M.H., Nachtsheim, C.J., Neter, J., &amp; Li, W. (2005). Applied Linear Statistical Models (5th ed.): Standard methodological text for ANOVA decompositions, simultaneous inference, WLS, autocorrelation, and polynomial/spline models</cite></li><li><cite class="reader-reference-citation">Belsley, D.A., Kuh, E., &amp; Welsch, R.E. (1980). Regression Diagnostics: Identifying Influential Data and Sources of Collinearity: Foundational work on leverage, studentized residuals, DFFITS, DFBETAS, Cook's distance, and condition indices</cite></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="regression-analysis-chapter-6">← Previous chapter</a><a href="regression-analysis">Book contents</a><a href="regression-analysis-chapter-8">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="regression-analysis-sims.js?v=1"></script>
+  <script src="regression-analysis-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

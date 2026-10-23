@@ -1,0 +1,1023 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Violations of Classical Assumptions: Heteroscedasticity, Weighted Least Squares, GLS &amp; Autocorrelation | Regression Analysis | OpenSTEM Library</title>
+  <meta name="description" content="Nonspherical error covariance Var(epsilon) = sigma^2 Omega: inefficiency of OLS and bias of standard OLS covariance estimators; Aitken's Generalized Least Squares (GLS) estimator beta_GLS = (X^T Omega^(-1) X)^(-1) X^T Omega^(-1) Y and Weighted Least Squares (WLS) for heteroscedastic variances; Detecting heteroscedasticity: Breusch-Pagan / Godfrey LM test, White's general test, Goldfeld-Quandt test, and Glejser/Park tests; Heteroscedasticity-Consistent (HC0, HC1, HC2, HC3) Huber-Eicker-White sandwich standard errors; First-order autoregressive AR(1) disturbances epsilon_t = rho epsilon_(t-1) + u_t: Durbin-Watson d-test, Breusch-Godfrey test, Prais-Winsten, and Cochrane-Orcutt iterative FGLS.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/regression-analysis-chapter-5">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/regression-analysis-chapter-5">
+  <meta property="og:title" content="Regression Analysis: OLS, Matrix Linear Models, Gauss-Markov, Diagnostics, GLS, Ridge/LASSO &amp; Generalized Linear Models | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering simple and multiple linear regression in matrix form, orthogonal projections and the Hat matrix, the Gauss-Markov theorem, Cochran theorem, Frisch-Waugh-Lovell partial regression, general linear hypothesis F-tests, joint confidence ellipsoids and simultaneous prediction bands, studentized deletion residuals, leverage, Cook distance, DFFITS and DFBETAS diagnostics, heteroscedasticity, Weighted and Generalized Least Squares (WLS/GLS), Huber-White sandwich standard errors, Durbin-Watson and Cochrane-Orcutt AR(1) autocorrelation, multicollinearity, Variance Inflation Factors (VIF), Hoerl-Kennard Ridge regression, Tibshirani LASSO, indicator variables, ANCOVA, Chow structural break tests, polynomial splines, Box-Cox transformations, AIC/BIC/Cp model selection, nonlinear Gauss-Newton regression, Huber M-estimation, and logistic/Poisson Generalized Linear Models with 24 solved questions and 4 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Regression Analysis: OLS, Matrix Linear Models, Gauss-Markov, Diagnostics, GLS, Ridge/LASSO &amp; Generalized Linear Models | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering simple and multiple linear regression in matrix form, orthogonal projections and the Hat matrix, the Gauss-Markov theorem, Cochran theorem, Frisch-Waugh-Lovell partial regression, general linear hypothesis F-tests, joint confidence ellipsoids and simultaneous prediction bands, studentized deletion residuals, leverage, Cook distance, DFFITS and DFBETAS diagnostics, heteroscedasticity, Weighted and Generalized Least Squares (WLS/GLS), Huber-White sandwich standard errors, Durbin-Watson and Cochrane-Orcutt AR(1) autocorrelation, multicollinearity, Variance Inflation Factors (VIF), Hoerl-Kennard Ridge regression, Tibshirani LASSO, indicator variables, ANCOVA, Chow structural break tests, polynomial splines, Box-Cox transformations, AIC/BIC/Cp model selection, nonlinear Gauss-Newton regression, Huber M-estimation, and logistic/Poisson Generalized Linear Models with 24 solved questions and 4 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="regression-analysis.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Regression Analysis: Violations of Classical Assumptions: Heteroscedasticity, Weighted Least Squares, GLS & Autocorrelation","description":"Comprehensive university textbook covering simple and multiple linear regression in matrix form, orthogonal projections and the Hat matrix, the Gauss-Markov theorem, Cochran theorem, Frisch-Waugh-Lovell partial regression, general linear hypothesis F-tests, joint confidence ellipsoids and simultaneous prediction bands, studentized deletion residuals, leverage, Cook distance, DFFITS and DFBETAS diagnostics, heteroscedasticity, Weighted and Generalized Least Squares (WLS/GLS), Huber-White sandwich standard errors, Durbin-Watson and Cochrane-Orcutt AR(1) autocorrelation, multicollinearity, Variance Inflation Factors (VIF), Hoerl-Kennard Ridge regression, Tibshirani LASSO, indicator variables, ANCOVA, Chow structural break tests, polynomial splines, Box-Cox transformations, AIC/BIC/Cp model selection, nonlinear Gauss-Newton regression, Huber M-estimation, and logistic/Poisson Generalized Linear Models with 24 solved questions and 4 interactive simulations.","url":"https://openstemlibrary.com/regression-analysis-chapter-5","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Regression analysis and ordinary least squares","Matrix linear models and orthogonal projections","Gauss-Markov theorem and general linear F-tests","Regression diagnostics: leverage, studentized residuals, Cook distance","Heteroscedasticity, weighted least squares, and autocorrelation","Multicollinearity, VIF, Ridge regression, and LASSO regularization","Dummy variables, ANCOVA, structural breaks, and model selection","Nonlinear regression, robust M-estimation, and Generalized Linear Models"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Regression Analysis","item":"https://openstemlibrary.com/regression-analysis"}]}</script></head>
+<body data-book-path="regression-analysis.html" data-chapter-index="4" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Regression Analysis</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search OLS, Gauss-Markov, hat matrix, Frisch-Waugh-Lovell, general linear F-test, Cook distance, DFFITS, heteroscedasticity, Durbin-Watson, VIF, Ridge, LASSO, logistic GLM…" class="search-input" aria-label="Search textbook topics">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="regression-analysis" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Simple Linear Regression: OLS Estimation, Gauss-Markov Theorem, Normal Equations &amp; ANOVA Decomposition</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="regression-analysis-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Multiple Linear Regression in Matrix Form: Orthogonal Projections, Hat Matrix &amp; Partial Correlations</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="regression-analysis-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Exact &amp; Asymptotic Inference in Linear Models: General Linear Hypotheses, Confidence Ellipsoids &amp; Simultaneous Intervals</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="regression-analysis-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Regression Diagnostics, Leverage &amp; Influence Analysis: Studentized Residuals, Cook's Distance &amp; DFFITS</span></a></li><li class="unit-nav-item active" data-unit-index="4"><a href="regression-analysis-chapter-5" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Violations of Classical Assumptions: Heteroscedasticity, Weighted Least Squares, GLS &amp; Autocorrelation</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="regression-analysis-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Multicollinearity, Variance Inflation, Regularized Shrinkage (Ridge &amp; LASSO) &amp; Dimension Reduction</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="regression-analysis-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Qualitative Predictors, Interaction Effects, Structural Breaks, Polynomial Splines &amp; Model Selection</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="regression-analysis-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Nonlinear Regression, Robust Regression &amp; Generalized Linear Models (Logistic &amp; Poisson)</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Regression modeling major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font" aria-pressed="false">Calm Paper</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 5 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Violations of Classical Assumptions: Heteroscedasticity, Weighted Least Squares, GLS &amp; Autocorrelation</h1>
+            <p class="unit-desc-lead" id="unit-desc">Nonspherical error covariance Var(epsilon) = sigma^2 Omega: inefficiency of OLS and bias of standard OLS covariance estimators; Aitken's Generalized Least Squares (GLS) estimator beta_GLS = (X^T Omega^(-1) X)^(-1) X^T Omega^(-1) Y and Weighted Least Squares (WLS) for heteroscedastic variances; Detecting heteroscedasticity: Breusch-Pagan / Godfrey LM test, White's general test, Goldfeld-Quandt test, and Glejser/Park tests; Heteroscedasticity-Consistent (HC0, HC1, HC2, HC3) Huber-Eicker-White sandwich standard errors; First-order autoregressive AR(1) disturbances epsilon_t = rho epsilon_(t-1) + u_t: Durbin-Watson d-test, Breusch-Godfrey test, Prais-Winsten, and Cochrane-Orcutt iterative FGLS.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-303 (Regression Analysis) and Stat H-312 (Regression Lab). Eight units and exactly three solved questions per unit. Interactive simulations illustrate OLS confidence and prediction bands, high-leverage outlier influence and Cook’s distance, multicollinearity VIF and Ridge regression trace paths, and binary logistic GLM response curves. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-5-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.1</span>
+            <span>Nonspherical Disturbances in the General Linear Model: Consequences for OLS Unbiasedness, Efficiency, and Inference</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Consider the generalized linear regression model in matrix notation for $n$ observations and $p$ parameters (consisting of an intercept and $k = p - 1$ explanatory variables):</p>
+
+<div class="math-display">$$\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$$</div>
+
+<p>where $\mathbf{Y} \in \mathbb{R}^{n \times 1}$ is the vector of observed response variables, $\mathbf{X} \in \mathbb{R}^{n \times p}$ is a full-column-rank design matrix ($\operatorname{rank}(\mathbf{X}) = p &lt; n$), $\boldsymbol{\beta} \in \mathbb{R}^{p \times 1}$ is the vector of unknown population regression parameters, and $\boldsymbol{\varepsilon} \in \mathbb{R}^{n \times 1}$ is the unobserved random disturbance vector. We maintain the strict exogeneity assumption $\mathbb{E}[\boldsymbol{\varepsilon} \mid \mathbf{X}] = \mathbf{0}$, which guarantees that the linear predictor $\mathbf{X}\boldsymbol{\beta}$ correctly specifies the conditional expectation function $\mathbb{E}[\mathbf{Y} \mid \mathbf{X}] = \mathbf{X}\boldsymbol{\beta}$. However, we relax the spherical error assumption and specify a general positive definite conditional covariance structure:</p>
+
+<div class="math-display">$$\operatorname{Var}(\boldsymbol{\varepsilon} \mid \mathbf{X}) = \mathbb{E}[\boldsymbol{\varepsilon}\boldsymbol{\varepsilon}^\top \mid \mathbf{X}] = \boldsymbol{\Sigma} = \sigma^2 \boldsymbol{\Omega}$$</div>
+
+<p>Here, $\sigma^2 &gt; 0$ is a positive scaling constant (often normalized so that $\operatorname{tr}(\boldsymbol{\Omega}) = n$), and $\boldsymbol{\Omega}$ is a symmetric, positive definite $n \times n$ matrix ($\boldsymbol{\Omega}^\top = \boldsymbol{\Omega}$ and $\mathbf{a}^\top \boldsymbol{\Omega} \mathbf{a} &gt; 0$ for all non-zero $\mathbf{a} \in \mathbb{R}^n$). This general parameterization encompasses three primary empirical regimes:</p>
+
+<h4>1. Classical Spherical Disturbances: $\boldsymbol{\Omega} = \mathbf{I}_n$, so $\boldsymbol{\Sigma} = \sigma^2 \mathbf{I}_n$. All disturbances have constant variance $\sigma^2$ and zero pairwise covariance.</h4>
+
+<h4>2. Pure Heteroscedasticity: $\boldsymbol{\Omega} = \operatorname{diag}(\omega_1, \omega_2, \dots, \omega_n)$ with $\omega_i &gt; 0$ not all equal. The disturbances are mutually uncorrelated ($\operatorname{Cov}(\varepsilon_i, \varepsilon_j \mid \mathbf{X}) = 0$ for $i \neq j$), but the conditional variance varies across observations as $\operatorname{Var}(\varepsilon_i \mid \mathbf{X}) = \sigma_i^2 = \sigma^2 \omega_i$.</h4>
+
+<h4>3. Serial Correlation / Autocorrelation and Spatial Dependence: $\boldsymbol{\Omega}$ contains non-zero off-diagonal entries $\omega_{ij} \neq 0$ for $i \neq j$, reflecting temporal correlation across time-series observations or spatial correlation across geographic units.</h4>
+
+<h4>Unbiasedness and Consistency of OLS Under Nonspherical Errors</h4>
+
+<p>Suppose an investigator applies Ordinary Least Squares to estimate $\boldsymbol{\beta}$ without accounting for the non-identity structure of $\boldsymbol{\Omega}$:</p>
+
+<div class="math-display">$$\hat{\boldsymbol{\beta}}_{\text{OLS}} = (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top \mathbf{Y} = \boldsymbol{\beta} + (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{\varepsilon}$$</div>
+
+<p>Taking the conditional expectation given $\mathbf{X}$, we observe that unbiasedness depends exclusively on the first-moment condition $\mathbb{E}[\boldsymbol{\varepsilon} \mid \mathbf{X}] = \mathbf{0}$ and requires no assumptions regarding the second-moment matrix $\boldsymbol{\Omega}$:</p>
+
+<div class="math-display">$$\mathbb{E}[\hat{\boldsymbol{\beta}}_{\text{OLS}} \mid \mathbf{X}] = \boldsymbol{\beta} + (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top \mathbb{E}[\boldsymbol{\varepsilon} \mid \mathbf{X}] = \boldsymbol{\beta}$$</div>
+
+<p>Thus, <strong>OLS remains unconditionally and conditionally unbiased under arbitrary heteroscedasticity and autocorrelation</strong>, provided that the regressors are exogenous. Furthermore, if the sample size grows ($n \to \infty$) such that the empirical Gram matrix converges in probability to a finite positive definite matrix, $\operatorname{plim}_{n \to \infty} \left(\frac{1}{n}\mathbf{X}^\top \mathbf{X}\right) = \mathbf{Q}_{XX}$, and the scaled error covariance satisfies $\lim_{n \to \infty} \frac{1}{n^2} \mathbf{X}^\top (\sigma^2 \boldsymbol{\Omega}) \mathbf{X} = \mathbf{0}$, then $\operatorname{Var}(\hat{\boldsymbol{\beta}}_{\text{OLS}} \mid \mathbf{X}) \to \mathbf{0}$ in matrix norm. By Chebyshev's inequality, $\hat{\boldsymbol{\beta}}_{\text{OLS}} \xrightarrow{P} \boldsymbol{\beta}$, confirming that OLS remains weakly consistent in large samples under mild regularity conditions on the growth of $\boldsymbol{\Omega}$.</p>
+
+<h4>True Sampling Variance of OLS Versus the Naive Covariance Matrix</h4>
+
+<p>Despite preserving unbiasedness, the sampling precision of $\hat{\boldsymbol{\beta}}_{\text{OLS}}$ is profoundly altered by $\boldsymbol{\Omega}$. We derive the exact conditional variance-covariance matrix of the OLS estimator by evaluating the outer product of the estimation error $\hat{\boldsymbol{\beta}}_{\text{OLS}} - \boldsymbol{\beta} = (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{\varepsilon}$:</p>
+
+<div class="math-display">$$\operatorname{Var}(\hat{\boldsymbol{\beta}}_{\text{OLS}} \mid \mathbf{X}) = \mathbb{E}\left[ (\hat{\boldsymbol{\beta}}_{\text{OLS}} - \boldsymbol{\beta})(\hat{\boldsymbol{\beta}}_{\text{OLS}} - \boldsymbol{\beta})^\top \;\middle|\; \mathbf{X} \right] = (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top \mathbb{E}[\boldsymbol{\varepsilon}\boldsymbol{\varepsilon}^\top \mid \mathbf{X}] \mathbf{X}(\mathbf{X}^\top \mathbf{X})^{-1}$$</div>
+
+<p>Substituting $\mathbb{E}[\boldsymbol{\varepsilon}\boldsymbol{\varepsilon}^\top \mid \mathbf{X}] = \sigma^2 \boldsymbol{\Omega} = \boldsymbol{\Sigma}$, we obtain the <strong>true sandwich variance-covariance matrix of OLS</strong>:</p>
+
+<div class="math-display">$$\operatorname{Var}(\hat{\boldsymbol{\beta}}_{\text{OLS}} \mid \mathbf{X}) = \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1} (\mathbf{X}^\top \boldsymbol{\Omega} \mathbf{X}) (\mathbf{X}^\top \mathbf{X})^{-1} = (\mathbf{X}^\top \mathbf{X})^{-1} (\mathbf{X}^\top \boldsymbol{\Sigma} \mathbf{X}) (\mathbf{X}^\top \mathbf{X})^{-1}$$</div>
+
+<p>Notice that the outer factors $(\mathbf{X}^\top \mathbf{X})^{-1}$ form the "bread" of the sandwich, while the middle matrix $\mathbf{X}^\top \boldsymbol{\Sigma} \mathbf{X}$ forms the "meat." Under the classical spherical assumption ($\boldsymbol{\Omega} = \mathbf{I}_n$), the middle factor collapses to $\mathbf{X}^\top \mathbf{I}_n \mathbf{X} = \mathbf{X}^\top \mathbf{X}$, cancelling one inverse factor and reducing to the familiar formula $\sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1}$. When $\boldsymbol{\Omega} \neq \mathbf{I}_n$, no such cancellation occurs, and the true variance $(\mathbf{X}^\top \mathbf{X})^{-1}(\mathbf{X}^\top \boldsymbol{\Sigma} \mathbf{X})(\mathbf{X}^\top \mathbf{X})^{-1}$ differs structurally from $\sigma^2(\mathbf{X}^\top \mathbf{X})^{-1}$.</p>
+
+<h4>Mathematical Proof of the Bias of the Classical Residual Variance Estimator $s^2$</h4>
+
+<p>Even more subtle is the behavior of the classical residual variance estimator $s^2 = \frac{\mathbf{e}^\top \mathbf{e}}{n - p}$, where $\mathbf{e} = \mathbf{Y} - \mathbf{X}\hat{\boldsymbol{\beta}}_{\text{OLS}} = (\mathbf{I}_n - \mathbf{H})\boldsymbol{\varepsilon}$ is the OLS residual vector and $\mathbf{H} = \mathbf{X}(\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top$ is the orthogonal projection (hat) matrix. Taking the expectation of the Residual Sum of Squares ($\text{SSE} = \mathbf{e}^\top \mathbf{e}$) using the cyclic permutation invariance of the matrix trace operator $\operatorname{tr}(\mathbf{A}\mathbf{B}) = \operatorname{tr}(\mathbf{B}\mathbf{A})$, we obtain:</p>
+
+<div class="math-display">$$\mathbb{E}[\mathbf{e}^\top \mathbf{e} \mid \mathbf{X}] = \mathbb{E}\left[ \boldsymbol{\varepsilon}^\top (\mathbf{I}_n - \mathbf{H})^\top (\mathbf{I}_n - \mathbf{H}) \boldsymbol{\varepsilon} \;\middle|\; \mathbf{X} \right] = \mathbb{E}\left[ \operatorname{tr}\left( (\mathbf{I}_n - \mathbf{H}) \boldsymbol{\varepsilon}\boldsymbol{\varepsilon}^\top \right) \;\middle|\; \mathbf{X} \right] = \sigma^2 \operatorname{tr}\left( (\mathbf{I}_n - \mathbf{H})\boldsymbol{\Omega} \right)$$</div>
+
+<p>Expanding the trace yields:</p>
+
+<div class="math-display">$$\mathbb{E}[s^2 \mid \mathbf{X}] = \frac{\sigma^2}{n - p} \left[ \operatorname{tr}(\boldsymbol{\Omega}) - \operatorname{tr}(\mathbf{H}\boldsymbol{\Omega}) \right] = \frac{\sigma^2}{n - p} \left[ \operatorname{tr}(\boldsymbol{\Omega}) - \operatorname{tr}\left( (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{\Omega} \mathbf{X} \right) \right]$$</div>
+
+<p>Consequently, the naive OLS covariance matrix estimator $\widehat{\operatorname{Var}}_{\text{naive}}(\hat{\boldsymbol{\beta}}_{\text{OLS}}) = s^2 (\mathbf{X}^\top \mathbf{X})^{-1}$ has expected value:</p>
+
+<div class="math-display">$$\mathbb{E}\left[ s^2 (\mathbf{X}^\top \mathbf{X})^{-1} \;\middle|\; \mathbf{X} \right] = \frac{\sigma^2}{n - p} \left[ \operatorname{tr}(\boldsymbol{\Omega}) - \operatorname{tr}(\mathbf{H}\boldsymbol{\Omega}) \right] (\mathbf{X}^\top \mathbf{X})^{-1} \neq \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1} (\mathbf{X}^\top \boldsymbol{\Omega} \mathbf{X}) (\mathbf{X}^\top \mathbf{X})^{-1}$$</div>
+
+<p>To appreciate the practical direction of this bias, consider simple linear regression $Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i$ under pure heteroscedasticity ($\operatorname{Var}(\varepsilon_i) = \sigma_i^2$, $\operatorname{Cov}(\varepsilon_i, \varepsilon_j) = 0$). The true sampling variance of the OLS slope estimator $\hat{\beta}_{1,\text{OLS}} = \frac{\sum_{i=1}^n (x_i - \bar{x})Y_i}{S_{xx}}$ (where $S_{xx} = \sum_{i=1}^n (x_i - \bar{x})^2$) is:</p>
+
+<div class="math-display">$$\operatorname{Var}(\hat{\beta}_{1,\text{OLS}}) = \frac{\sum_{i=1}^n (x_i - \bar{x})^2 \sigma_i^2}{S_{xx}^2}$$</div>
+
+<p>Meanwhile, in large samples, the naive estimator $s^2 / S_{xx}$ converges approximately to $\frac{\bar{\sigma}^2}{S_{xx}}$, where $\bar{\sigma}^2 = \frac{1}{n}\sum_{i=1}^n \sigma_i^2$ is the average error variance. Subtracting the approximate naive variance from the true variance reveals a covariance relationship between squared predictor deviations and error variances:</p>
+
+<div class="math-display">$$\operatorname{Var}(\hat{\beta}_{1,\text{OLS}}) - \frac{\bar{\sigma}^2}{S_{xx}} = \frac{\sum_{i=1}^n \left[ (x_i - \bar{x})^2 - \frac{S_{xx}}{n} \right] (\sigma_i^2 - \bar{\sigma}^2)}{S_{xx}^2}$$</div>
+
+<p>Whenever observations with extreme predictor values (large $(x_i - \bar{x})^2$, i.e., high leverage $h_{ii}$) also exhibit high error variance $\sigma_i^2$—the standard empirical case when variance increases with $x_i$—the numerator is strictly positive. In this prevalent scenario, <strong>the naive OLS standard error systematically underestimates the true standard error of $\hat{\beta}_{1,\text{OLS}}$</strong>, producing artificially inflated $t$-statistics and confidence intervals whose actual coverage probability falls substantially below $1 - \alpha$.</p>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.2</span>
+            <span>Aitken's Generalized Least Squares (GLS), Cholesky Whitening Transformations, and the Aitken–Gauss–Markov Theorem</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When the positive definite error covariance structure $\boldsymbol{\Omega}$ is known, Alexander Aitken (1935) demonstrated that optimal estimation can be fully restored by transforming the regression system into an equivalent homoscedastic, uncorrelated representation—a procedure known in signal processing and econometrics as <strong>pre-whitening</strong>.</p>
+
+<h4>Matrix Spectral and Cholesky Factorization of $\boldsymbol{\Omega}$</h4>
+
+<p>Because $\boldsymbol{\Omega} \in \mathbb{R}^{n \times n}$ is symmetric and strictly positive definite, all of its eigenvalues $\lambda_1, \dots, \lambda_n$ are real and strictly positive, and its inverse $\boldsymbol{\Omega}^{-1}$ is likewise symmetric and positive definite. By the spectral decomposition theorem (or via Cholesky factorization), there exists a non-singular $n \times n$ matrix $\mathbf{P}$ (often called the <strong>whitening matrix</strong> or symmetric square root $\boldsymbol{\Omega}^{-1/2}$) such that:</p>
+
+<div class="math-display">$$\boldsymbol{\Omega}^{-1} = \mathbf{P}^\top \mathbf{P} \quad \Longleftrightarrow \quad \mathbf{P} \boldsymbol{\Omega} \mathbf{P}^\top = \mathbf{I}_n \quad \Longleftrightarrow \quad \boldsymbol{\Omega} = \mathbf{P}^{-1} (\mathbf{P}^\top)^{-1}$$</div>
+
+<p>Pre-multiplying the structural regression equation $\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$ on the left by $\mathbf{P}$ yields the transformed linear model:</p>
+
+<div class="math-display">$$\mathbf{P}\mathbf{Y} = \mathbf{P}\mathbf{X}\boldsymbol{\beta} + \mathbf{P}\boldsymbol{\varepsilon} \quad \Longleftrightarrow \quad \mathbf{Y}^* = \mathbf{X}^*\boldsymbol{\beta} + \boldsymbol{\varepsilon}^*$$</div>
+
+<p>where $\mathbf{Y}^* = \mathbf{P}\mathbf{Y}$, $\mathbf{X}^* = \mathbf{P}\mathbf{X}$, and $\boldsymbol{\varepsilon}^* = \mathbf{P}\boldsymbol{\varepsilon}$. Let us verify that the transformed model satisfies all classical Gauss–Markov assumptions:</p>
+
+<h4>1. Full Column Rank: Since $\mathbf{P}$ is non-singular ($\operatorname{rank}(\mathbf{P}) = n$) and $\operatorname{rank}(\mathbf{X}) = p$, Sylvester's rank inequality guarantees $\operatorname{rank}(\mathbf{X}^*) = \operatorname{rank}(\mathbf{P}\mathbf{X}) = p$.</h4>
+
+<h4>2. Zero Conditional Mean: $\mathbb{E}[\boldsymbol{\varepsilon}^* \mid \mathbf{X}] = \mathbf{P}\mathbb{E}[\boldsymbol{\varepsilon} \mid \mathbf{X}] = \mathbf{P}\mathbf{0} = \mathbf{0}$.</h4>
+
+<h4>3. Spherical Transformed Error Covariance: Evaluating the conditional covariance matrix of $\boldsymbol{\varepsilon}^*$ gives:</h4>
+
+<div class="math-display">$$\operatorname{Var}(\boldsymbol{\varepsilon}^* \mid \mathbf{X}) = \mathbb{E}\left[ \boldsymbol{\varepsilon}^* (\boldsymbol{\varepsilon}^*)^\top \;\middle|\; \mathbf{X} \right] = \mathbf{P} \mathbb{E}[\boldsymbol{\varepsilon}\boldsymbol{\varepsilon}^\top \mid \mathbf{X}] \mathbf{P}^\top = \mathbf{P} (\sigma^2 \boldsymbol{\Omega}) \mathbf{P}^\top = \sigma^2 (\mathbf{P} \boldsymbol{\Omega} \mathbf{P}^\top) = \sigma^2 \mathbf{I}_n$$</div>
+
+<h4>Derivation of the Generalized Least Squares (GLS) Estimator</h4>
+
+<p>Because the transformed model $\mathbf{Y}^* = \mathbf{X}^*\boldsymbol{\beta} + \boldsymbol{\varepsilon}^*$ satisfies the classical spherical assumptions, we obtain the optimal estimator of $\boldsymbol{\beta}$ by applying Ordinary Least Squares to the transformed quantities $(\mathbf{Y}^*, \mathbf{X}^*)$. Minimizing the transformed sum of squared residuals corresponds to minimizing the generalized quadratic form in the Mahalanobis metric induced by $\boldsymbol{\Omega}^{-1}$:</p>
+
+<div class="math-display">$$S_{\text{GLS}}(\boldsymbol{\beta}) = (\mathbf{Y}^* - \mathbf{X}^*\boldsymbol{\beta})^\top (\mathbf{Y}^* - \mathbf{X}^*\boldsymbol{\beta}) = (\mathbf{Y} - \mathbf{X}\boldsymbol{\beta})^\top \mathbf{P}^\top \mathbf{P} (\mathbf{Y} - \mathbf{X}\boldsymbol{\beta}) = (\mathbf{Y} - \mathbf{X}\boldsymbol{\beta})^\top \boldsymbol{\Omega}^{-1} (\mathbf{Y} - \mathbf{X}\boldsymbol{\beta})$$</div>
+
+<p>Differentiating $S_{\text{GLS}}(\boldsymbol{\beta})$ with respect to $\boldsymbol{\beta}$ and setting the gradient vector to zero yields the <strong>Generalized Normal Equations</strong>:</p>
+
+<div class="math-display">$$\frac{\partial S_{\text{GLS}}(\boldsymbol{\beta})}{\partial \boldsymbol{\beta}} = -2\mathbf{X}^\top \boldsymbol{\Omega}^{-1}\mathbf{Y} + 2(\mathbf{X}^\top \boldsymbol{\Omega}^{-1}\mathbf{X})\hat{\boldsymbol{\beta}}_{\text{GLS}} = \mathbf{0}$$</div>
+
+<p>Since $\mathbf{X}$ has full column rank $p$ and $\boldsymbol{\Omega}^{-1}$ is strictly positive definite, for any non-zero vector $\mathbf{c} \in \mathbb{R}^p$ the vector $\mathbf{z} = \mathbf{X}\mathbf{c}$ is non-zero, so $\mathbf{c}^\top (\mathbf{X}^\top \boldsymbol{\Omega}^{-1}\mathbf{X})\mathbf{c} = \mathbf{z}^\top \boldsymbol{\Omega}^{-1}\mathbf{z} &gt; 0$. Thus $\mathbf{X}^\top \boldsymbol{\Omega}^{-1}\mathbf{X}$ is positive definite and invertible. Solving for $\hat{\boldsymbol{\beta}}_{\text{GLS}}$ gives <strong>Aitken's Generalized Least Squares (GLS) Estimator</strong>:</p>
+
+<div class="math-display">$$\hat{\boldsymbol{\beta}}_{\text{GLS}} = (\mathbf{X}^*\top \mathbf{X}^*)^{-1}\mathbf{X}^*\top \mathbf{Y}^* = \left(\mathbf{X}^\top \boldsymbol{\Omega}^{-1} \mathbf{X}\right)^{-1} \mathbf{X}^\top \boldsymbol{\Omega}^{-1} \mathbf{Y}$$</div>
+
+<p>The variance-covariance matrix of $\hat{\boldsymbol{\beta}}_{\text{GLS}}$ follows directly from substituting $\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$:</p>
+
+<div class="math-display">$$\hat{\boldsymbol{\beta}}_{\text{GLS}} - \boldsymbol{\beta} = \left(\mathbf{X}^\top \boldsymbol{\Omega}^{-1} \mathbf{X}\right)^{-1} \mathbf{X}^\top \boldsymbol{\Omega}^{-1} \boldsymbol{\varepsilon}$$</div>
+
+<div class="math-display">$$\operatorname{Var}(\hat{\boldsymbol{\beta}}_{\text{GLS}} \mid \mathbf{X}) = \left(\mathbf{X}^\top \boldsymbol{\Omega}^{-1} \mathbf{X}\right)^{-1} \mathbf{X}^\top \boldsymbol{\Omega}^{-1} (\sigma^2 \boldsymbol{\Omega}) \boldsymbol{\Omega}^{-1} \mathbf{X} \left(\mathbf{X}^\top \boldsymbol{\Omega}^{-1} \mathbf{X}\right)^{-1} = \sigma^2 \left(\mathbf{X}^\top \boldsymbol{\Omega}^{-1} \mathbf{X}\right)^{-1}$$</div>
+
+<p>Moreover, the unbiased estimator of the scalar scale parameter $\sigma^2$ is the normalized generalized residual sum of squares:</p>
+
+<div class="math-display">$$\hat{\sigma}_{\text{GLS}}^2 = \frac{(\mathbf{Y}^* - \mathbf{X}^*\hat{\boldsymbol{\beta}}_{\text{GLS}})^\top (\mathbf{Y}^* - \mathbf{X}^*\hat{\boldsymbol{\beta}}_{\text{GLS}})}{n - p} = \frac{(\mathbf{Y} - \mathbf{X}\hat{\boldsymbol{\beta}}_{\text{GLS}})^\top \boldsymbol{\Omega}^{-1} (\mathbf{Y} - \mathbf{X}\hat{\boldsymbol{\beta}}_{\text{GLS}})}{n - p}$$</div>
+
+<h4>Theorem and Proof: The Aitken–Gauss–Markov Theorem</h4>
+
+<blockquote class="math-callout">
+<p>[!IMPORTANT] <strong>Theorem (Aitken, 1935)</strong>: In the generalized linear model $\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$ with $\mathbb{E}[\boldsymbol{\varepsilon} \mid \mathbf{X}] = \mathbf{0}$ and $\operatorname{Var}(\boldsymbol{\varepsilon} \mid \mathbf{X}) = \sigma^2 \boldsymbol{\Omega}$ where $\boldsymbol{\Omega}$ is a known positive definite matrix and $\operatorname{rank}(\mathbf{X}) = p$, the GLS estimator $\hat{\boldsymbol{\beta}}_{\text{GLS}} = (\mathbf{X}^\top \boldsymbol{\Omega}^{-1}\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{\Omega}^{-1}\mathbf{Y}$ is the unique <strong>Best Linear Unbiased Estimator (BLUE)</strong> of $\boldsymbol{\beta}$. That is, for any other linear unbiased estimator $\tilde{\boldsymbol{\beta}} = \mathbf{C}\mathbf{Y}$, the covariance matrix difference $\operatorname{Var}(\tilde{\boldsymbol{\beta}} \mid \mathbf{X}) - \operatorname{Var}(\hat{\boldsymbol{\beta}}_{\text{GLS}} \mid \mathbf{X})$ is positive semi-definite.</p>
+</blockquote>
+
+<p><strong>Proof</strong>: Let $\tilde{\boldsymbol{\beta}} = \mathbf{C}\mathbf{Y}$ be an arbitrary linear estimator of $\boldsymbol{\beta}$, where $\mathbf{C} \in \mathbb{R}^{p \times n}$ is a non-stochastic matrix (or measurable with respect to $\mathbf{X}$). Define the discrepancy matrix $\mathbf{D} = \mathbf{C} - (\mathbf{X}^\top \boldsymbol{\Omega}^{-1}\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{\Omega}^{-1}$, so that $\mathbf{C} = (\mathbf{X}^\top \boldsymbol{\Omega}^{-1}\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{\Omega}^{-1} + \mathbf{D}$. Taking the conditional expectation of $\tilde{\boldsymbol{\beta}}$ gives:</p>
+
+<div class="math-display">$$\mathbb{E}[\tilde{\boldsymbol{\beta}} \mid \mathbf{X}] = \mathbf{C}\mathbf{X}\boldsymbol{\beta} = \left[ (\mathbf{X}^\top \boldsymbol{\Omega}^{-1}\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{\Omega}^{-1}\mathbf{X} + \mathbf{D}\mathbf{X} \right]\boldsymbol{\beta} = \boldsymbol{\beta} + \mathbf{D}\mathbf{X}\boldsymbol{\beta}$$</div>
+
+<p>For $\tilde{\boldsymbol{\beta}}$ to be unbiased for all parameter vectors $\boldsymbol{\beta} \in \mathbb{R}^p$, it is necessary and sufficient that $\mathbf{D}\mathbf{X} = \mathbf{0}_{p \times p}$. Now compute the variance-covariance matrix of $\tilde{\boldsymbol{\beta}}$:</p>
+
+<div class="math-display">$$\operatorname{Var}(\tilde{\boldsymbol{\beta}} \mid \mathbf{X}) = \sigma^2 \mathbf{C} \boldsymbol{\Omega} \mathbf{C}^\top = \sigma^2 \left[ (\mathbf{X}^\top \boldsymbol{\Omega}^{-1}\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{\Omega}^{-1} + \mathbf{D} \right] \boldsymbol{\Omega} \left[ \boldsymbol{\Omega}^{-1}\mathbf{X}(\mathbf{X}^\top \boldsymbol{\Omega}^{-1}\mathbf{X})^{-1} + \mathbf{D}^\top \right]$$</div>
+
+<p>Expanding the quadratic product yields four terms:</p>
+
+<div class="math-display">$$\operatorname{Var}(\tilde{\boldsymbol{\beta}} \mid \mathbf{X}) = \sigma^2 (\mathbf{X}^\top \boldsymbol{\Omega}^{-1}\mathbf{X})^{-1} + \sigma^2 (\mathbf{X}^\top \boldsymbol{\Omega}^{-1}\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{\Omega}^{-1}\boldsymbol{\Omega}\mathbf{D}^\top + \sigma^2 \mathbf{D}\boldsymbol{\Omega}\boldsymbol{\Omega}^{-1}\mathbf{X}(\mathbf{X}^\top \boldsymbol{\Omega}^{-1}\mathbf{X})^{-1} + \sigma^2 \mathbf{D}\boldsymbol{\Omega}\mathbf{D}^\top$$</div>
+
+<p>Observe that the two cross-product terms simplify via $\boldsymbol{\Omega}^{-1}\boldsymbol{\Omega} = \mathbf{I}_n$ and vanish identically by the unbiasedness orthogonality condition $\mathbf{D}\mathbf{X} = \mathbf{0}$ (and $\mathbf{X}^\top \mathbf{D}^\top = (\mathbf{D}\mathbf{X})^\top = \mathbf{0}$):</p>
+
+<div class="math-display">$$\operatorname{Var}(\tilde{\boldsymbol{\beta}} \mid \mathbf{X}) = \operatorname{Var}(\hat{\boldsymbol{\beta}}_{\text{GLS}} \mid \mathbf{X}) + \sigma^2 \mathbf{D}\boldsymbol{\Omega}\mathbf{D}^\top$$</div>
+
+<p>Because $\boldsymbol{\Omega}$ is positive definite, for any vector $\mathbf{a} \in \mathbb{R}^p$, the quadratic form $\mathbf{a}^\top (\sigma^2 \mathbf{D}\boldsymbol{\Omega}\mathbf{D}^\top)\mathbf{a} = \sigma^2 (\mathbf{D}^\top \mathbf{a})^\top \boldsymbol{\Omega} (\mathbf{D}^\top \mathbf{a}) \ge 0$, proving that $\operatorname{Var}(\tilde{\boldsymbol{\beta}} \mid \mathbf{X}) - \operatorname{Var}(\hat{\boldsymbol{\beta}}_{\text{GLS}} \mid \mathbf{X}) = \sigma^2 \mathbf{D}\boldsymbol{\Omega}\mathbf{D}^\top$ is positive semi-definite. In particular, selecting $\tilde{\boldsymbol{\beta}} = \hat{\boldsymbol{\beta}}_{\text{OLS}}$ reveals that $\operatorname{Var}(\hat{\boldsymbol{\beta}}_{\text{OLS}} \mid \mathbf{X}) - \operatorname{Var}(\hat{\boldsymbol{\beta}}_{\text{GLS}} \mid \mathbf{X})$ is positive semi-definite (and strictly positive definite unless the column space of $\boldsymbol{\Omega}\mathbf{X}$ coincides with the column space of $\mathbf{X}$, known as <strong>Zyskind's condition</strong> or <strong>Kruskal's theorem</strong>). $\blacksquare$</p>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.3</span>
+            <span>Weighted Least Squares (WLS) Under Heteroscedasticity and Feasible Generalized Least Squares (FGLS)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>An important specialization of Generalized Least Squares arises when the disturbances are mutually uncorrelated across observations ($\operatorname{Cov}(\varepsilon_i, \varepsilon_j \mid \mathbf{X}) = 0$ for $i \neq j$), but exhibit non-constant conditional variance $\operatorname{Var}(\varepsilon_i \mid \mathbf{X}) = \sigma_i^2 = \sigma^2 \omega_i$. In this pure heteroscedasticity regime, the covariance matrix $\boldsymbol{\Omega}$ and its inverse $\boldsymbol{\Omega}^{-1}$ are diagonal matrices:</p>
+
+<div class="math-display">$$\boldsymbol{\Omega} = \operatorname{diag}(\omega_1, \omega_2, \dots, \omega_n), \qquad \boldsymbol{\Omega}^{-1} = \mathbf{W} = \operatorname{diag}(w_1, w_2, \dots, w_n) \quad \text{where } w_i = \frac{1}{\omega_i} = \frac{\sigma^2}{\sigma_i^2}$$</div>
+
+<p>The symmetric whitening matrix is simply the diagonal matrix of inverse standard deviations, $\mathbf{P} = \mathbf{W}^{1/2} = \operatorname{diag}(\sqrt{w_1}, \sqrt{w_2}, \dots, \sqrt{w_n})$. Applying $\mathbf{P}$ to the $i$-th row of the regression system $Y_i = \beta_0 + \beta_1 X_{i1} + \dots + \beta_{p-1} X_{i,p-1} + \varepsilon_i$ divides every term in the $i$-th observation (including the intercept column of ones!) by $\sqrt{\omega_i}$:</p>
+
+<div class="math-display">$$\frac{Y_i}{\sqrt{\omega_i}} = \beta_0 \left(\frac{1}{\sqrt{\omega_i}}\right) + \beta_1 \left(\frac{X_{i1}}{\sqrt{\omega_i}}\right) + \dots + \beta_{p-1} \left(\frac{X_{i,p-1}}{\sqrt{\omega_i}}\right) + \frac{\varepsilon_i}{\sqrt{\omega_i}}$$</div>
+
+<p>Each transformed error $\varepsilon_i^* = \varepsilon_i / \sqrt{\omega_i}$ now has constant variance $\operatorname{Var}(\varepsilon_i^* \mid \mathbf{X}) = \frac{1}{\omega_i}\operatorname{Var}(\varepsilon_i \mid \mathbf{X}) = \frac{\sigma^2 \omega_i}{\omega_i} = \sigma^2$. Notice that the transformed equation has <strong>no constant intercept column</strong> unless one of the original regressors was already proportional to $\sqrt{\omega_i}$; instead, $\beta_0$ is the slope coefficient attached to the reciprocal square-root weight variable $1/\sqrt{\omega_i}$.</p>
+
+<h4>The WLS Objective Function and Normal Equations</h4>
+
+<p>The GLS criterion under diagonal $\boldsymbol{\Omega}$ reduces to minimizing the <strong>weighted sum of squared residuals</strong>, where each squared residual is weighted by $w_i = 1/\omega_i \propto 1/\sigma_i^2$:</p>
+
+<div class="math-display">$$S_{\text{WLS}}(\boldsymbol{\beta}) = \sum_{i=1}^n w_i \left( Y_i - \mathbf{x}_i^\top \boldsymbol{\beta} \right)^2 = (\mathbf{Y} - \mathbf{X}\boldsymbol{\beta})^\top \mathbf{W} (\mathbf{Y} - \mathbf{X}\boldsymbol{\beta})$$</div>
+
+<p>This yields the <strong>Weighted Least Squares (WLS) Estimator</strong>:</p>
+
+<div class="math-display">$$\hat{\boldsymbol{\beta}}_{\text{WLS}} = \left(\mathbf{X}^\top \mathbf{W} \mathbf{X}\right)^{-1} \mathbf{X}^\top \mathbf{W} \mathbf{Y} = \left( \sum_{i=1}^n w_i \mathbf{x}_i \mathbf{x}_i^\top \right)^{-1} \left( \sum_{i=1}^n w_i \mathbf{x}_i Y_i \right)$$</div>
+
+<p>Intuitively, WLS assigns high analytical weight $w_i$ to observations drawn from low-variance, high-precision sub-populations (small $\sigma_i^2$), forcing the fitted hyperplane to pass closely through reliable data points, while down-weighting noisy, volatile observations (large $\sigma_i^2$) so that erratic outliers do not pull the regression surface off course.</p>
+
+<p>In the special case of <strong>Simple Linear Regression</strong> $Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i$ with weights $w_i &gt; 0$, minimizing $\sum_{i=1}^n w_i (Y_i - \beta_0 - \beta_1 x_i)^2$ yields closed-form expressions that parallel classical OLS except that unweighted sample means are replaced by weighted sample means $\bar{x}_w = \frac{\sum_{i=1}^n w_i x_i}{\sum_{i=1}^n w_i}$ and $\bar{Y}_w = \frac{\sum_{i=1}^n w_i Y_i}{\sum_{i=1}^n w_i}$:</p>
+
+<div class="math-display">$$\hat{\beta}_{1,\text{WLS}} = \frac{\sum_{i=1}^n w_i (x_i - \bar{x}_w)(Y_i - \bar{Y}_w)}{\sum_{i=1}^n w_i (x_i - \bar{x}_w)^2}, \qquad \hat{\beta}_{0,\text{WLS}} = \bar{Y}_w - \hat{\beta}_{1,\text{WLS}} \bar{x}_w$$</div>
+
+<p>with exact sampling variance $\operatorname{Var}(\hat{\beta}_{1,\text{WLS}}) = \frac{\sigma^2}{\sum_{i=1}^n w_i (x_i - \bar{x}_w)^2}$. By the Cauchy–Schwarz inequality, for any positive sequence $\omega_i$:</p>
+
+<div class="math-display">$$\left( \sum_{i=1}^n (x_i - \bar{x})^2 \omega_i \right) \left( \sum_{i=1}^n \frac{(x_i - \bar{x}_w)^2}{\omega_i} \right) \ge \left( \sum_{i=1}^n (x_i - \bar{x})(x_i - \bar{x}_w) \right)^2 = \left( \sum_{i=1}^n (x_i - \bar{x})^2 \right)^2$$</div>
+
+<p>which immediately implies $\operatorname{Var}(\hat{\beta}_{1,\text{WLS}}) \le \operatorname{Var}(\hat{\beta}_{1,\text{OLS}})$, with strict inequality whenever $\omega_i$ varies across observations with $x_i \neq \bar{x}$.</p>
+
+<h4>Common Empirical Sources of Known vs. Unknown Weights</h4>
+
+<h4>1. Grouped / Cell-Mean Aggregated Data: Suppose micro-level observations $Y_{ij} = \mathbf{x}_i^\top \boldsymbol{\beta} + \varepsilon_{ij}$ ($j = 1, \dots, n_i$) within region or demographic cell $i$ satisfy homoscedastic individual variance $\operatorname{Var}(\varepsilon_{ij}) = \sigma^2$, but the investigator only observes cell averages $\bar{Y}_i = \frac{1}{n_i}\sum_{j=1}^{n_i} Y_{ij}$ based on group sizes $n_i$. Then $\bar{Y}_i = \mathbf{x}_i^\top \boldsymbol{\beta} + \bar{\varepsilon}_i$, where the averaged error has variance $\operatorname{Var}(\bar{\varepsilon}_i) = \frac{\sigma^2}{n_i}$. Here $\omega_i = 1/n_i$ is known exactly from the sample sizes, so WLS uses weights $w_i = n_i$, multiplying each cell-mean equation by $\sqrt{n_i}$.</h4>
+
+<h4>2. Proportional Variance Models: In cross-sectional expenditure models, standard deviation often scales proportionally with a size variable $Z_i$ (e.g., firm assets or household income): $\operatorname{SD}(\varepsilon_i \mid Z_i) = \sigma Z_i$, so $\operatorname{Var}(\varepsilon_i \mid Z_i) = \sigma^2 Z_i^2$. Here $\omega_i = Z_i^2$ and WLS weights are $w_i = 1/Z_i^2$, dividing the regression equation through by $Z_i$.</h4>
+
+<h4>Feasible Generalized Least Squares (FGLS / Two-Step Estimation)</h4>
+
+<p>In most econometric applications, the covariance matrix $\boldsymbol{\Omega}$ is not known <em>a priori</em>. If $\boldsymbol{\Omega}$ contained $n(n+1)/2$ unrestricted unknown parameters, total parameters would exceed the sample size $n$, rendering estimation impossible (an incidental parameters problem). Instead, <strong>Feasible Generalized Least Squares (FGLS)</strong> specifies $\boldsymbol{\Omega} = \boldsymbol{\Omega}(\boldsymbol{\gamma})$ as a smooth parametric function of a low-dimensional parameter vector $\boldsymbol{\gamma} \in \mathbb{R}^m$ ($m \ll n$). A standard specification for heteroscedasticity is the <strong>multiplicative exponential skedastic function</strong> (Harvey, 1976):</p>
+
+<div class="math-display">$$\sigma_i^2 = \exp\left( \alpha_0 + \mathbf{z}_i^\top \boldsymbol{\gamma} \right) = \sigma^2 \exp\left(\mathbf{z}_i^\top \boldsymbol{\gamma}\right)$$</div>
+
+<p>where $\mathbf{z}_i \in \mathbb{R}^m$ is a vector of exogenous variance-driving variables (often a subset of $\mathbf{x}_i$), and $\sigma^2 = e^{\alpha_0}$. The exponential form guarantees strictly positive predicted variances $\hat{\sigma}_i^2 &gt; 0$ for any parameter vector $\hat{\boldsymbol{\gamma}}$. The two-step FGLS procedure proceeds as follows:</p>
+
+<ul>
+
+  <li><strong>Step 1 (Consistent Initial OLS and Residual Extraction)</strong>: Estimate $\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$ by OLS to obtain consistent residuals $e_i = Y_i - \mathbf{x}_i^\top \hat{\boldsymbol{\beta}}_{\text{OLS}}$.</li>
+
+  <li><strong>Step 2 (Auxiliary Skedastic Regression)</strong>: Take the natural logarithm of the squared OLS residuals $\ln(e_i^2) = \alpha_0 + \mathbf{z}_i^\top \boldsymbol{\gamma} + v_i$, where $v_i = \ln(e_i^2 / \sigma_i^2)$, and estimate $(\hat{\alpha}_0, \hat{\boldsymbol{\gamma}})$ via OLS. Compute fitted variance weights $\hat{\omega}_i = \exp(\mathbf{z}_i^\top \hat{\boldsymbol{\gamma}})$ and form $\hat{\boldsymbol{\Omega}} = \operatorname{diag}(\hat{\omega}_1, \dots, \hat{\omega}_n)$.</li>
+
+  <li><strong>Step 3 (Feasible WLS Update)</strong>: Compute the FGLS estimator by replacing $\boldsymbol{\Omega}$ with its consistent plug-in estimate $\hat{\boldsymbol{\Omega}}$:</li>
+
+</ul>
+
+<div class="math-display">$$\hat{\boldsymbol{\beta}}_{\text{FGLS}} = \left(\mathbf{X}^\top \hat{\boldsymbol{\Omega}}^{-1} \mathbf{X}\right)^{-1} \mathbf{X}^\top \hat{\boldsymbol{\Omega}}^{-1} \mathbf{Y}$$</div>
+
+<p>Under standard regularity conditions—specifically, if $\hat{\boldsymbol{\gamma}} \xrightarrow{P} \boldsymbol{\gamma}$ such that $\operatorname{plim}_{n \to \infty} \frac{1}{n}\mathbf{X}^\top (\hat{\boldsymbol{\Omega}}^{-1} - \boldsymbol{\Omega}^{-1})\mathbf{X} = \mathbf{0}$ and $\operatorname{plim}_{n \to \infty} \frac{1}{\sqrt{n}}\mathbf{X}^\top (\hat{\boldsymbol{\Omega}}^{-1} - \boldsymbol{\Omega}^{-1})\boldsymbol{\varepsilon} = \mathbf{0}$—the estimation error in $\hat{\boldsymbol{\Omega}}$ vanishes asymptotically at a faster rate than the $\sqrt{n}$-scaled regression score. Consequently, $\hat{\boldsymbol{\beta}}_{\text{FGLS}}$ is <strong>asymptotically equivalent</strong> to the infeasible exact GLS estimator:</p>
+
+<div class="math-display">$$\sqrt{n}\left( \hat{\boldsymbol{\beta}}_{\text{FGLS}} - \hat{\boldsymbol{\beta}}_{\text{GLS}} \right) \xrightarrow{P} \mathbf{0} \quad \Longrightarrow \quad \sqrt{n}\left(\hat{\boldsymbol{\beta}}_{\text{FGLS}} - \boldsymbol{\beta}\right) \xrightarrow{d} \mathcal{N}_p\left( \mathbf{0}, \; \sigma^2 \operatorname{plim}_{n \to \infty} \left(\frac{1}{n}\mathbf{X}^\top \boldsymbol{\Omega}^{-1}\mathbf{X}\right)^{-1} \right)$$</div>
+
+<blockquote class="math-callout">
+<p>[!WARNING] <strong>Finite-Sample Caveat of FGLS</strong>: Although $\hat{\boldsymbol{\beta}}_{\text{FGLS}}$ is asymptotically efficient when the skedastic function $\sigma_i^2 = \sigma^2 \omega(\mathbf{z}_i; \boldsymbol{\gamma})$ is correctly specified, $\hat{\boldsymbol{\beta}}_{\text{FGLS}}$ is a non-linear function of $\mathbf{Y}$ (because $\hat{\boldsymbol{\Omega}}$ depends on the data $\mathbf{Y}$ via the first-stage OLS residuals). Consequently, in finite samples, FGLS is generally neither exactly unbiased nor guaranteed to have smaller variance than OLS if $\hat{\boldsymbol{\gamma}}$ is noisily estimated.</p>
+</blockquote>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.4</span>
+            <span>Diagnostic Testing for Heteroscedasticity: Goldfeld–Quandt, Breusch–Pagan–Godfrey, Glejser, and White's General Specification Test</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          Before abandoning classical OLS inference or specifying an FGLS variance model, an empirical researcher must test the null hypothesis of homoscedasticity $H_0: \sigma_1^2 = \sigma_2^2 = \dots = \sigma_n^2 = \sigma^2$ against structured or unstructured heteroscedastic alternatives. Because the true disturbances $\varepsilon_i$ are unobserved, all diagnostic tests use the OLS residuals $e_i = Y_i - \mathbf{x}_i^\top \hat{\boldsymbol{\beta}}_{\text{OLS}}$ as empirical proxies for $\varepsilon_i$.
+
+### 1. The Goldfeld–Quandt Exact Finite-Sample $F$-Test (1965)
+
+When error variance is suspected to be a monotonic function of a single known continuous explanatory variable $X_j$ (e.g., $\sigma_i^2 = \sigma^2 X_{ij}^2$) and the disturbances are normally distributed ($\boldsymbol{\varepsilon} \sim \mathcal{N}(\mathbf{0}, \boldsymbol{\Sigma})$), Stephen Goldfeld and Richard Quandt constructed an exact finite-sample $F$-test by partitioning the sample into low-variance and high-variance regimes:
+
+1. **Order Observations**: Sort the $n$ observations in ascending order of the suspect variable $X_{ij}$.
+2. **Omit Central Observations**: Discard $c$ central observations (typically $c \approx n/5$ to $n/4$) to sharpen the variance contrast between the lower and upper extremes, leaving two subsamples of size $n_1 = \frac{n - c}{2}$ (low $X_j$) and $n_2 = \frac{n - c}{2}$ (high $X_j$), requiring $n_1 &gt; p$.
+3. **Separate OLS Regressions**: Fit the linear regression model separately to the first $n_1$ observations and the last $n_2$ observations, obtaining residual sums of squares $\text{SSE}_1$ (with $n_1 - p$ degrees of freedom) and $\text{SSE}_2$ (with $n_2 - p$ degrees of freedom).
+4. **Test Statistic**: Under $H_0: \sigma_i^2 = \sigma^2$ and normal independent errors, the two subsamples are completely independent, so $\frac{\text{SSE}_1}{\sigma^2} \sim \chi^2_{n_1 - p}$ and $\frac{\text{SSE}_2}{\sigma^2} \sim \chi^2_{n_2 - p}$ independently. The Goldfeld–Quandt statistic follows an exact Snedecor $F$-distribution under $H_0$:
+
+$$F_{\text{GQ}} = \frac{\text{SSE}_2 / (n_2 - p)}{\text{SSE}_1 / (n_1 - p)} = \frac{s_2^2}{s_1^2} \;\underset{H_0}{\sim}\; F_{n_2 - p, \, n_1 - p}$$
+
+If error variance increases with $X_j$, $s_2^2$ will systematically exceed $s_1^2$, and we reject $H_0$ at significance level $\alpha$ if $F_{\text{GQ}} &gt; F_{\alpha, \, n_2 - p, \, n_1 - p}$.
+
+### 2. The Breusch–Pagan–Godfrey Lagrange Multiplier Test and Koenker–Bassett Studentization
+
+To test whether error variance depends on a vector of $m$ explanatory variables $\mathbf{z}_i = (z_{i1}, \dots, z_{im})^\top$ via any twice-differentiable skedastic function $\sigma_i^2 = h(\alpha_0 + \mathbf{z}_i^\top \boldsymbol{\gamma})$ where $h(\cdot) &gt; 0$ and $h'(\cdot) \neq 0$, Trevor Breusch and Adrian Pagan (1979) and Leslie Godfrey (1978) derived the Lagrange Multiplier (Score) test of $H_0: \boldsymbol{\gamma} = \mathbf{0}$ (since $\boldsymbol{\gamma} = \mathbf{0} \implies \sigma_i^2 = h(\alpha_0) = \sigma^2$).
+
+- **Original Gaussian Breusch–Pagan Test**: Under normal errors $\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$, the fourth central moment is $\mathbb{E}[\varepsilon_i^4] = 3\sigma^4$, so the variance of the squared error is $\operatorname{Var}(\varepsilon_i^2) = \mathbb{E}[\varepsilon_i^4] - (\mathbb{E}[\varepsilon_i^2])^2 = 3\sigma^4 - \sigma^4 = 2\sigma^4$, which implies $\operatorname{Var}(\varepsilon_i^2 / \sigma^2) = 2$. Defining the maximum likelihood variance estimate $\hat{\sigma}_{\text{MLE}}^2 = \frac{1}{n}\sum_{i=1}^n e_i^2$ and standardized squared residuals $g_i = e_i^2 / \hat{\sigma}_{\text{MLE}}^2$, the Gaussian score statistic equals one-half the Explained Sum of Squares ($\text{SSR}_{\text{aux}}$) from regressing $g_i$ on $(1, \mathbf{z}_i^\top)$:
+
+$$\text{LM}_{\text{BP-Gaussian}} = \frac{1}{2} \text{SSR}_{\text{aux}} \;\underset{H_0}{\xrightarrow{d}}\; \chi^2_m$$
+
+- **Koenker–Bassett (1982) Studentized Breusch–Pagan Test**: Roger Koenker observed that the divisor $2\sigma^4$ relies critically on Gaussian kurtosis ($\kappa = 3$). If the true errors are heavy-tailed (leptokurtic, $\kappa &gt; 3$), $\operatorname{Var}(\varepsilon_i^2) = (\kappa - 1)\sigma^4 &gt; 2\sigma^4$, causing the original Breusch–Pagan test to reject homoscedasticity far too frequently merely because of non-normality! Replacing the theoretical Gaussian variance $2\sigma^4$ with the consistent empirical variance of the squared residuals $\hat{V} = \frac{1}{n}\sum_{i=1}^n (e_i^2 - \hat{\sigma}_{\text{MLE}}^2)^2$ yields the **Koenker–Bassett studentized LM statistic**, which equals the sample size $n$ multiplied by the unadjusted coefficient of determination $R_{\text{aux}}^2$ from the auxiliary OLS regression of $e_i^2$ on an intercept and $z_{i1}, \dots, z_{im}$:
+
+$$e_i^2 = \delta_0 + \delta_1 z_{i1} + \dots + \delta_m z_{im} + u_i \quad \Longrightarrow \quad \text{LM}_{\text{BP}} = n R_{\text{aux}}^2 \;\underset{H_0}{\xrightarrow{d}}\; \chi^2_m$$
+
+This $n R_{\text{aux}}^2$ formulation is completely robust to non-normal kurtosis and is the standard version implemented in modern statistical software.
+
+### 3. Park (1966) and Glejser (1969) Auxiliary Residual Tests
+
+Two classical precursor tests estimate functional forms directly:
+- **Park Test**: Regresses $\ln(e_i^2) = \alpha_0 + \gamma \ln(X_i) + v_i$ and performs a $t$-test on $\hat{\gamma}$.
+- **Glejser Test**: Regresses the absolute residuals $|e_i|$ on candidate functional forms of $X_i$, such as $|e_i| = \delta_0 + \delta_1 X_i + u_i$, $|e_i| = \delta_0 + \delta_1 \sqrt{X_i} + u_i$, or $|e_i| = \delta_0 + \delta_1 (1/X_i) + u_i$. This helps identify the specific power-law relationship needed to construct FGLS weights.
+
+### 4. White's General Heteroscedasticity and Specification Test (1980)
+
+Halbert White (1980) recognized that heteroscedasticity compromises OLS inference **only** insofar as the middle matrix $\frac{1}{n}\mathbf{X}^\top \boldsymbol{\Sigma} \mathbf{X} = \frac{1}{n}\sum_{i=1}^n \sigma_i^2 \mathbf{x}_i \mathbf{x}_i^\top$ diverges from $\sigma^2 \left(\frac{1}{n}\sum_{i=1}^n \mathbf{x}_i \mathbf{x}_i^\top\right)$. For the difference between these two $p \times p$ matrices to vanish, $\sigma_i^2$ must be uncorrelated with every unique element of the outer product matrix $\mathbf{x}_i \mathbf{x}_i^\top$—namely, all linear terms $X_{ij}$, all pure quadratic terms $X_{ij}^2$, and all cross-product interaction terms $X_{ij} X_{i\ell}$ ($1 \le j &lt; \ell \le k$).
+
+Accordingly, **White's Test** requires no prior knowledge of which variables drive the variance:
+1. Estimate the primary regression by OLS and compute the squared residuals $e_i^2$.
+2. Run an auxiliary OLS regression of $e_i^2$ on an intercept, all $k$ original regressors, all $k$ squared regressors, and all $\binom{k}{2} = \frac{k(k-1)}{2}$ pairwise cross-products (omitting any redundant columns, such as the square of a binary $0/1$ dummy variable since $D_i^2 = D_i$):
+
+$$e_i^2 = \delta_0 + \sum_{j=1}^k \delta_j X_{ij} + \sum_{j=1}^k \gamma_{jj} X_{ij}^2 + \sum_{j=1}^{k-1}\sum_{\ell=j+1}^k \gamma_{j\ell} X_{ij} X_{i\ell} + u_i$$
+
+3. With $q$ non-redundant auxiliary regressors (where $q = 2k + \frac{k(k-1)}{2} = \frac{k(k+3)}{2}$ if all $k$ predictors are continuous), compute the White test statistic:
+
+$$W = n R_{\text{White}}^2 \;\underset{H_0}{\xrightarrow{d}}\; \chi^2_q$$
+
+Reject $H_0$ if $W &gt; \chi^2_{\alpha, \, q}$. Note that because $e_i^2$ also captures omitted non-linear terms in $\mathbb{E}[Y_i \mid \mathbf{x}_i]$, a significant White statistic can signal either pure heteroscedasticity or functional form misspecification (omitted quadratic/interaction terms in the mean equation).
+
+<div class="table-wrapper"><table class="data-table">
+<thead>
+<tr>
+<th>Diagnostic Test</th>
+<th>Auxiliary Dependent Variable</th>
+<th>Auxiliary Regressors &amp; Degrees of Freedom</th>
+<th>Null Distribution &amp; Key Properties</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Goldfeld–Quandt (1965)</strong></td>
+<td>Subsample OLS regressions on sorted low/high groups</td>
+<td>Original $p$ regressors in each group; omits $c$ middle cases</td>
+<td>Exact $F_{n_2 - p, \, n_1 - p}$ under normal errors; requires knowing single monotonic ordering variable $X_j$</td>
+</tr>
+<tr>
+<td><strong>Breusch–Pagan / Koenker (1979, 1982)</strong></td>
+<td>Squared OLS residuals $e_i^2$</td>
+<td>$m$ suspected variance drivers $\mathbf{z}_i = (z_{i1}, \dots, z_{im})^\top$</td>
+<td>Asymptotic $\text{LM} = n R_{\text{aux}}^2 \sim \chi^2_m$; high power against parametric variance models $\sigma_i^2 = h(\alpha_0 + \mathbf{z}_i^\top \boldsymbol{\gamma})$</td>
+</tr>
+<tr>
+<td><strong>Glejser (1969)</strong></td>
+<td>Absolute OLS residuals $|e_i|$</td>
+<td>Functional transformations $X_i^r$ ($r \in \{1, 1/2, -1\}$)</td>
+<td>Asymptotic $t$ or $F$ / $\chi^2$ test; directly guides choice of FGLS power weights</td>
+</tr>
+<tr>
+<td><strong>White's General Test (1980)</strong></td>
+<td>Squared OLS residuals $e_i^2$</td>
+<td>All linear, squared, and cross-product terms ($q = \frac{k(k+3)}{2}$ for continuous $\mathbf{X}$)</td>
+<td>Asymptotic $W = n R_{\text{White}}^2 \sim \chi^2_q$; assumption-free omnibus test, but consumes degrees of freedom rapidly as $k$ grows</td>
+</tr>
+</tbody>
+</table></div>
+
+---
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.5</span>
+            <span>Heteroscedasticity-Consistent (HC0–HC4) Huber–Eicker–White Sandwich Covariance Matrix Estimation</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Suppose diagnostic tests reject homoscedasticity, or theoretical considerations dictate that $\sigma_i^2$ varies across observations, yet the true functional form of $\sigma_i^2$ is unknown. Rather than guessing a parametric skedastic model for FGLS (which risks misspecification), we can retain the unbiased and consistent OLS point estimator $\hat{\boldsymbol{\beta}}_{\text{OLS}}$ and construct a <strong>consistent estimator of its true sampling variance</strong> under arbitrary, unknown heteroscedasticity.</p>
+
+<p>Recall the true variance of the scaled OLS estimation error $\sqrt{n}(\hat{\boldsymbol{\beta}}_{\text{OLS}} - \boldsymbol{\beta})$:</p>
+
+<div class="math-display">$$\operatorname{Var}\left( \sqrt{n}(\hat{\boldsymbol{\beta}}_{\text{OLS}} - \boldsymbol{\beta}) \;\middle|\; \mathbf{X} \right) = \left(\frac{1}{n}\mathbf{X}^\top \mathbf{X}\right)^{-1} \left( \frac{1}{n}\mathbf{X}^\top \boldsymbol{\Sigma} \mathbf{X} \right) \left(\frac{1}{n}\mathbf{X}^\top \mathbf{X}\right)^{-1}$$</div>
+
+<p>Under pure heteroscedasticity, $\boldsymbol{\Sigma} = \operatorname{diag}(\sigma_1^2, \sigma_2^2, \dots, \sigma_n^2)$, so the middle $p \times p$ meat matrix expands as a weighted sum of outer products of the regressor rows $\mathbf{x}_i \in \mathbb{R}^{p \times 1}$:</p>
+
+<div class="math-display">$$\boldsymbol{\Psi}_n = \frac{1}{n}\mathbf{X}^\top \boldsymbol{\Sigma} \mathbf{X} = \frac{1}{n}\sum_{i=1}^n \sigma_i^2 \mathbf{x}_i \mathbf{x}_i^\top$$</div>
+
+<p>Wait: can we estimate the $n$ unknown individual variances $\sigma_1^2, \dots, \sigma_n^2$ consistently? <strong>No</strong>, because there is only one observation per $\sigma_i^2$. However, the fundamental insight of Friedhelm Eicker (1963), Peter Huber (1967), and Halbert White (1980) is that <strong>we do not need consistent estimates of each individual $\sigma_i^2$; we only need a consistent estimator of the $p \times p$ average matrix $\boldsymbol{\Psi}_n = \frac{1}{n}\sum_{i=1}^n \sigma_i^2 \mathbf{x}_i \mathbf{x}_i^\top$!</strong></p>
+
+<p>Replacing each unobserved $\sigma_i^2 = \mathbb{E}[\varepsilon_i^2 \mid \mathbf{X}]$ with its empirical counterpart—the squared OLS residual $e_i^2 = (Y_i - \mathbf{x}_i^\top \hat{\boldsymbol{\beta}}_{\text{OLS}})^2$—yields the empirical meat matrix $\hat{\boldsymbol{\Psi}}_n = \frac{1}{n}\sum_{i=1}^n e_i^2 \mathbf{x}_i \mathbf{x}_i^\top$. Because $e_i = \varepsilon_i - \mathbf{x}_i^\top (\hat{\boldsymbol{\beta}}_{\text{OLS}} - \boldsymbol{\beta})$ and $\hat{\boldsymbol{\beta}}_{\text{OLS}} - \boldsymbol{\beta} = O_p(n^{-1/2})$, expanding $e_i^2 = \varepsilon_i^2 - 2\varepsilon_i \mathbf{x}_i^\top (\hat{\boldsymbol{\beta}}_{\text{OLS}} - \boldsymbol{\beta}) + \left[\mathbf{x}_i^\top (\hat{\boldsymbol{\beta}}_{\text{OLS}} - \boldsymbol{\beta})\right]^2$ and applying Markov's Weak Law of Large Numbers for independent non-identically distributed random variables (under bounded fourth moments $\sup_i \mathbb{E}[\varepsilon_i^4] &lt; \infty$ and $\sup_i \|\mathbf{x}_i\|^4 &lt; \infty$) proves that the error averages out across the $n$ summands:</p>
+
+<div class="math-display">$$\hat{\boldsymbol{\Psi}}_n - \boldsymbol{\Psi}_n = \frac{1}{n}\sum_{i=1}^n \left(e_i^2 - \sigma_i^2\right) \mathbf{x}_i \mathbf{x}_i^\top = \frac{1}{n}\sum_{i=1}^n \left(\varepsilon_i^2 - \sigma_i^2\right) \mathbf{x}_i \mathbf{x}_i^\top + O_p\left(n^{-1/2}\right) \xrightarrow{P} \mathbf{0}_{p \times p}$$</div>
+
+<h4>Finite-Sample Bias Corrections: The HC0, HC1, HC2, HC3, and HC4 Hierarchy</h4>
+
+<p>Although White's baseline estimator (<strong>HC0</strong>) is asymptotically consistent, in finite samples the squared OLS residual $e_i^2$ systematically underestimates $\sigma_i^2$ due to leverage shrinkage. Specifically, since $\mathbf{e} = (\mathbf{I}_n - \mathbf{H})\boldsymbol{\varepsilon}$, under homoscedasticity $\mathbb{E}[e_i^2 \mid \mathbf{X}] = (1 - h_{ii})\sigma^2 &lt; \sigma^2$, where $h_{ii} = \mathbf{x}_i^\top (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{x}_i \in [1/n, 1]$ is the $i$-th diagonal of the hat matrix. When an observation has high leverage ($h_{ii}$ close to $1$), the OLS regression line is pulled toward $Y_i$, shrinking $e_i^2$ toward zero and biasing HC0 standard errors downward in small samples. James MacKinnon and Halbert White (1985), Russell Davidson and James MacKinnon (1993), and Francisco Cribari-Neto (2004) developed a hierarchy of leverage-adjusted sandwich estimators of the form:</p>
+
+<div class="math-display">$$\widehat{\operatorname{Var}}_{\text{HC}k}(\hat{\boldsymbol{\beta}}_{\text{OLS}}) = (\mathbf{X}^\top \mathbf{X})^{-1} \left( \sum_{i=1}^n \hat{v}_i^{(k)} \mathbf{x}_i \mathbf{x}_i^\top \right) (\mathbf{X}^\top \mathbf{X})^{-1} = (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top \hat{\boldsymbol{\Sigma}}_{\text{HC}k} \mathbf{X}(\mathbf{X}^\top \mathbf{X})^{-1}$$</div>
+
+<p>where the diagonal elements $\hat{v}_i^{(k)}$ of $\hat{\boldsymbol{\Sigma}}_{\text{HC}k} = \operatorname{diag}(\hat{v}_1^{(k)}, \dots, \hat{v}_n^{(k)})$ are defined as follows:</p>
+
+<h4>1. HC0 (Baseline White, 1980): $\hat{v}_i^{(0)} = e_i^2$. Asymptotically valid, but downwardly biased in finite samples ($n &lt; 250$), especially when high-leverage observations exist.</h4>
+
+<h4>2. HC1 (Hinkley, 1977; Default in Stata `robust`): $\hat{v}_i^{(1)} = \frac{n}{n - p} e_i^2$. Applies a uniform degrees-of-freedom inflation factor $\frac{n}{n-p}$ (matching $\bar{h} = p/n$), but does not account for heterogeneous individual leverages $h_{ii}$.</h4>
+
+<h4>3. HC2 (Horn, Horn, and Duncan, 1975): $\hat{v}_i^{(2)} = \frac{e_i^2}{1 - h_{ii}}$. Exactly unbiased for $\sigma^2$ under homoscedasticity since $\mathbb{E}\left[\frac{e_i^2}{1 - h_{ii}}\right] = \frac{(1 - h_{ii})\sigma^2}{1 - h_{ii}} = \sigma^2$.</h4>
+
+<h4>4. HC3 (MacKinnon and White, 1985; Jackknife Approximation, Default in R `sandwich`): $\hat{v}_i^{(3)} = \frac{e_i^2}{(1 - h_{ii})^2} = e_{(i)}^2$, where $e_{(i)} = \frac{e_i}{1 - h_{ii}}$ is the leave-one-out deletion (PRESS) residual! By squaring the leverage penalty $(1 - h_{ii})^{-2}$, HC3 heavily penalizes high-leverage points and provides superior finite-sample Type I error control.</h4>
+
+<h4>5. HC4 (Cribari-Neto, 2004): $\hat{v}_i^{(4)} = \frac{e_i^2}{(1 - h_{ii})^{\delta_i}}$, where $\delta_i = \min\left(4, \, \frac{n h_{ii}}{p}\right) = \min\left(4, \, \frac{h_{ii}}{\bar{h}}\right)$ scales the exponent up to $4$ for extreme leverage outliers ($h_{ii} &gt; 2\bar{h}$).</h4>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.6</span>
+            <span>Serial Correlation and Autoregressive Disturbances: AR(1) Dynamics, Durbin–Watson $d$-Test, Breusch–Godfrey LM Test, Prais–Winsten, and Cochrane–Orcutt</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When regression data are collected sequentially over time ($t = 1, 2, \dots, T$), the disturbance $\varepsilon_t$ represents the cumulative influence of omitted macroeconomic shocks, supply-chain bottlenecks, consumer habit persistence, and measurement conventions that persist across multiple periods. The canonical benchmark model for temporal correlation is the stationary <strong>First-Order Autoregressive Process, AR(1)</strong>:</p>
+
+<div class="math-display">$$\varepsilon_t = \rho \varepsilon_{t-1} + u_t, \qquad |\rho| &lt; 1, \qquad u_t \;\overset{\text{i.i.d.}}{\sim}\; \left(0, \sigma_u^2\right)$$</div>
+
+<p>where $\rho \in (-1, 1)$ is the first-order autocorrelation coefficient and $u_t$ is a white-noise innovation sequence satisfying $\mathbb{E}[u_t \mid \mathbf{X}] = 0$, $\operatorname{Var}(u_t \mid \mathbf{X}) = \sigma_u^2$, and $\operatorname{Cov}(u_t, u_s \mid \mathbf{X}) = 0$ for $t \neq s$.</p>
+
+<h4>Derivation of the Stationary AR(1) Covariance Matrix $\boldsymbol{\Omega}$ and Its Analytical Inverse $\boldsymbol{\Omega}^{-1}$</h4>
+
+<p>By recursive backward substitution under the stationarity condition $|\rho| &lt; 1$, we express $\varepsilon_t$ as an infinite moving-average representation of past white-noise shocks:</p>
+
+<div class="math-display">$$\varepsilon_t = u_t + \rho u_{t-1} + \rho^2 u_{t-2} + \rho^3 u_{t-3} + \dots = \sum_{j=0}^\infty \rho^j u_{t-j}$$</div>
+
+<p>From this causal expansion, we compute the unconditional mean, variance, and lag-$s$ autocovariance ($s \ge 0$):</p>
+
+<ul>
+
+  <li><strong>Mean</strong>: $\mathbb{E}[\varepsilon_t] = \sum_{j=0}^\infty \rho^j \mathbb{E}[u_{t-j}] = 0$.</li>
+
+  <li><strong>Stationary Variance</strong>: Because the innovations $u_{t-j}$ are mutually uncorrelated, the variance is a convergent geometric series with ratio $\rho^2 &lt; 1$:</li>
+
+</ul>
+
+<div class="math-display">$$\sigma_\varepsilon^2 = \operatorname{Var}(\varepsilon_t) = \sum_{j=0}^\infty \left(\rho^j\right)^2 \operatorname{Var}(u_{t-j}) = \sigma_u^2 \sum_{j=0}^\infty \rho^{2j} = \frac{\sigma_u^2}{1 - \rho^2}$$</div>
+
+<ul>
+
+  <li><strong>Lag-$s$ Autocovariance and Autocorrelation ($s \ge 1$)</strong>: Multiplying $\varepsilon_t = \rho \varepsilon_{t-1} + u_t = \rho^s \varepsilon_{t-s} + \sum_{j=0}^{s-1} \rho^j u_{t-j}$ by $\varepsilon_{t-s}$ and taking expectations (noting that future innovations $u_{t-j}$ for $j &lt; s$ are uncorrelated with $\varepsilon_{t-s}$) yields:</li>
+
+</ul>
+
+<div class="math-display">$$\gamma_s = \operatorname{Cov}(\varepsilon_t, \varepsilon_{t-s}) = \rho^s \operatorname{Var}(\varepsilon_{t-s}) = \sigma_u^2 \frac{\rho^s}{1 - \rho^2} \quad \Longrightarrow \quad \operatorname{Corr}(\varepsilon_t, \varepsilon_{t-s}) = \frac{\gamma_s}{\gamma_0} = \rho^s$$</div>
+
+<p>Setting the scale factor $\sigma^2 = \sigma_u^2$, the $T \times T$ covariance matrix $\operatorname{Var}(\boldsymbol{\varepsilon}) = \sigma_u^2 \boldsymbol{\Omega}$ has Toeplitz autocorrelation structure:</p>
+
+<div class="math-display">$$\boldsymbol{\Omega} = \frac{1}{1 - \rho^2} \begin{pmatrix} 1 &amp; \rho &amp; \rho^2 &amp; \cdots &amp; \rho^{T-1} \\ \rho &amp; 1 &amp; \rho &amp; \cdots &amp; \rho^{T-2} \\ \rho^2 &amp; \rho &amp; 1 &amp; \cdots &amp; \rho^{T-3} \\ \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ \rho^{T-1} &amp; \rho^{T-2} &amp; \rho^{T-3} &amp; \cdots &amp; 1 \end{pmatrix}$$</div>
+
+<p>Remarkably, the inverse of this dense $T \times T$ matrix is an sparse, symmetric <strong>tridiagonal matrix</strong> $\boldsymbol{\Omega}^{-1} = \mathbf{P}^\top \mathbf{P}$, factored via the lower-bidiagonal <strong>Prais–Winsten transformation matrix</strong> $\mathbf{P} \in \mathbb{R}^{T \times T}$:</p>
+
+<div class="math-display">$$\mathbf{P} = \begin{pmatrix} \sqrt{1 - \rho^2} &amp; 0 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\ -\rho &amp; 1 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\ 0 &amp; -\rho &amp; 1 &amp; \cdots &amp; 0 &amp; 0 \\ \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots \\ 0 &amp; 0 &amp; 0 &amp; \cdots &amp; -\rho &amp; 1 \end{pmatrix}, \qquad \boldsymbol{\Omega}^{-1} = \mathbf{P}^\top \mathbf{P} = \begin{pmatrix} 1 &amp; -\rho &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\ -\rho &amp; 1+\rho^2 &amp; -\rho &amp; \cdots &amp; 0 &amp; 0 \\ 0 &amp; -\rho &amp; 1+\rho^2 &amp; \cdots &amp; 0 &amp; 0 \\ \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots \\ 0 &amp; 0 &amp; 0 &amp; \cdots &amp; 1+\rho^2 &amp; -\rho \\ 0 &amp; 0 &amp; 0 &amp; \cdots &amp; -\rho &amp; 1 \end{pmatrix}$$</div>
+
+<p>Let us verify why $\mathbf{P}\boldsymbol{\varepsilon}$ whitens the disturbance vector:</p>
+
+<ul>
+
+  <li>For $t = 2, 3, \dots, T$, the $t$-th row of $\mathbf{P}\boldsymbol{\varepsilon}$ computes the quasi-difference $\varepsilon_t^* = \varepsilon_t - \rho \varepsilon_{t-1} = u_t$, which has variance $\sigma_u^2$ and is independent of all other rows!</li>
+
+  <li>For the initial observation $t = 1$, there is no $\varepsilon_0$ in the sample. However, multiplying $\varepsilon_1$ by $\sqrt{1 - \rho^2}$ produces $\varepsilon_1^* = \sqrt{1 - \rho^2}\,\varepsilon_1$, whose variance is $(1 - \rho^2) \operatorname{Var}(\varepsilon_1) = (1 - \rho^2)\frac{\sigma_u^2}{1 - \rho^2} = \sigma_u^2$, and since $u_2, \dots, u_T$ are future innovations independent of $\varepsilon_1$, $\operatorname{Cov}(\varepsilon_1^*, \varepsilon_t^*) = 0$ for all $t \ge 2$!</li>
+
+</ul>
+
+<h4>Consequences of Positive Autocorrelation ($\rho &gt; 0$) for Naive OLS Standard Errors</h4>
+
+<p>In economic time series, both the regressors $X_t$ and the disturbances $\varepsilon_t$ typically display positive autocorrelation ($\rho &gt; 0$ and $\rho_X = \operatorname{Corr}(X_t, X_{t-1}) &gt; 0$). In simple regression $Y_t = \beta_0 + \beta_1 x_t + \varepsilon_t$, the true asymptotic variance of $\hat{\beta}_{1,\text{OLS}}$ is inflated relative to the naive formula $\sigma_\varepsilon^2 / S_{xx}$ by the autocorrelation factor:</p>
+
+<div class="math-display">$$\operatorname{Var}(\hat{\beta}_{1,\text{OLS}}) = \frac{\sigma_\varepsilon^2}{S_{xx}} \left[ 1 + \frac{2}{S_{xx}} \sum_{t=1}^{T-1}\sum_{s=1}^{T-t} \rho^s (x_t - \bar{x})(x_{t+s} - \bar{x}) \right] \approx \frac{\sigma_\varepsilon^2}{S_{xx}} \left( \frac{1 + \rho \rho_X}{1 - \rho \rho_X} \right)$$</div>
+
+<p>Simultaneously, positive autocorrelation causes successive disturbances to cluster on the same side of the true regression line, allowing the OLS fitted line to track the correlated error drift and artificially depressing the residual variance estimator:</p>
+
+<div class="math-display">$$\mathbb{E}[s^2] \approx \sigma_\varepsilon^2 \left[ 1 - \frac{2}{T - 2}\left(\frac{1 + \rho \rho_X}{1 - \rho \rho_X}\right) \right] &lt; \sigma_\varepsilon^2$$</div>
+
+<p>Thus, when $\rho &gt; 0$ and $\rho_X &gt; 0$, <strong>naive OLS suffers a double downward bias</strong>: $s^2$ underestimates $\sigma_\varepsilon^2$, while $\sigma_\varepsilon^2 / S_{xx}$ omits the positive multiplier $\frac{1 + \rho \rho_X}{1 - \rho \rho_X} &gt; 1$. For instance, if $\rho = 0.8$ and $\rho_X = 0.8$, the inflation factor is $\frac{1 + 0.64}{1 - 0.64} = \frac{1.64}{0.36} = 4.56$, meaning the true variance is more than $4.5$ times larger than the naive variance, and naive $t$-statistics are exaggerated by more than $\sqrt{4.56} \approx 2.13$-fold!</p>
+
+<h4>Diagnostic Tests for Serial Correlation</h4>
+
+<h4>1. The Durbin–Watson $d$-Test (1950, 1951): To test $H_0: \rho = 0$ in an AR(1) model with strictly exogenous regressors and an intercept, James Durbin and Geoffrey Watson defined the ratio of the sum of squared first-differences of OLS residuals to the Residual Sum of Squares:</h4>
+
+<div class="math-display">$$d = \frac{\sum_{t=2}^T (e_t - e_{t-1})^2}{\sum_{t=1}^T e_t^2} = \frac{\sum_{t=2}^T e_t^2 + \sum_{t=2}^T e_{t-1}^2 - 2\sum_{t=2}^T e_t e_{t-1}}{\sum_{t=1}^T e_t^2} \approx 2(1 - \hat{\rho})$$</div>
+
+<p>where $\hat{\rho} = \frac{\sum_{t=2}^T e_t e_{t-1}}{\sum_{t=1}^T e_t^2}$ is the sample first-order residual autocorrelation, and the approximation holds because the endpoint terms $(e_1^2 + e_T^2) / \sum_{t=1}^T e_t^2 \to 0$ as $T \to \infty$. Because $-1 \le \hat{\rho} \le 1$, the statistic satisfies $0 \le d \le 4$:</p>
+
+<ul>
+
+  <li><strong>Zero autocorrelation ($\hat{\rho} \approx 0$)</strong>: $d \approx 2$.</li>
+
+  <li><strong>Strong positive autocorrelation ($\hat{\rho} \to +1$)</strong>: $d \to 0$.</li>
+
+  <li><strong>Strong negative autocorrelation ($\hat{\rho} \to -1$)</strong>: $d \to 4$.</li>
+
+</ul>
+
+<p>Because $\mathbf{e} = (\mathbf{I}_T - \mathbf{H})\boldsymbol{\varepsilon}$, the exact finite-sample distribution of $d = \frac{\boldsymbol{\varepsilon}^\top (\mathbf{I}_T - \mathbf{H})\mathbf{A}(\mathbf{I}_T - \mathbf{H})\boldsymbol{\varepsilon}}{\boldsymbol{\varepsilon}^\top (\mathbf{I}_T - \mathbf{H})\boldsymbol{\varepsilon}}$ depends on the specific configuration of the design matrix $\mathbf{X}$. However, Durbin and Watson proved that for any design matrix $\mathbf{X}$ with $k$ regressors and an intercept, the exact critical value $d_\alpha$ is bounded between two tabulated universal values $d_L$ (lower bound) and $d_U$ (upper bound):</p>
+
+<ul>
+
+  <li>If $d &lt; d_L$: Reject $H_0: \rho = 0$ in favor of positive autocorrelation ($H_1: \rho &gt; 0$).</li>
+
+  <li>If $d_L \le d \le d_U$: The test falls in the <strong>Zone of Indecision (Inconclusive Region)</strong>.</li>
+
+  <li>If $d_U &lt; d &lt; 4 - d_U$: Fail to reject $H_0: \rho = 0$ (no evidence of AR(1) autocorrelation).</li>
+
+  <li>If $4 - d_U \le d \le 4 - d_L$: Zone of Indecision for negative autocorrelation.</li>
+
+  <li>If $d &gt; 4 - d_L$: Reject $H_0$ in favor of negative autocorrelation ($H_1: \rho &lt; 0$).</li>
+
+</ul>
+
+<blockquote class="math-callout">
+<p>[!CAUTION] <strong>Invalidity of $d$ with Lagged Dependent Variables (Durbin's $h$-Test)</strong>: When $\mathbf{X}$ contains a lagged dependent variable $Y_{t-1}$ (dynamic model $Y_t = \beta_0 + \gamma Y_{t-1} + \mathbf{x}_t^\top \boldsymbol{\beta} + \varepsilon_t$), $Y_{t-1}$ is correlated with $\varepsilon_{t-1}$, biasing $\hat{\rho}$ toward zero and biasing $d$ toward $2$. In this setting, Durbin (1970) proposed <strong>Durbin's $h$-statistic</strong>:</p>
+</blockquote>
+
+<div class="math-display">$$h = \hat{\rho} \sqrt{\frac{T}{1 - T \cdot \widehat{\operatorname{Var}}(\hat{\gamma})}} \;\underset{H_0}{\xrightarrow{d}}\; \mathcal{N}(0, 1)$$</div>
+
+<blockquote class="math-callout">
+<p>which is valid provided $T \cdot \widehat{\operatorname{Var}}(\hat{\gamma}) &lt; 1$. Even more generally, the <strong>Breusch–Godfrey test</strong> remains valid regardless of whether $T \cdot \widehat{\operatorname{Var}}(\hat{\gamma}) &lt; 1$.</p>
+</blockquote>
+
+<h4>2. The Breusch–Godfrey (BG) Lagrange Multiplier Test for $\text{AR}(q)$ or $\text{MA}(q)$ Errors (1978): To test $H_0: \rho_1 = \rho_2 = \dots = \rho_q = 0$ in the higher-order autoregressive process $\varepsilon_t = \rho_1 \varepsilon_{t-1} + \dots + \rho_q \varepsilon_{t-q} + u_t$ (even in the presence of lagged dependent variables $Y_{t-1}$), regress the OLS residuals $e_t$ on both the original regressors $\mathbf{x}_t$ and the $q$ lagged residuals $e_{t-1}, \dots, e_{t-q}$ (setting initial pre-sample residuals $e_0 = e_{-1} = \dots = 0$):</h4>
+
+<div class="math-display">$$e_t = \mathbf{x}_t^\top \boldsymbol{\delta} + \alpha_1 e_{t-1} + \alpha_2 e_{t-2} + \dots + \alpha_q e_{t-q} + v_t$$</div>
+
+<p>Including the original regressors $\mathbf{x}_t$ in this auxiliary regression accounts for the non-orthogonality between $\mathbf{x}_t$ and the lagged residuals (which is essential when $\mathbf{x}_t$ includes $Y_{t-1}$). The Breusch–Godfrey LM statistic is:</p>
+
+<div class="math-display">$$\text{LM}_{\text{BG}} = (T - q) R_{\text{aux}}^2 \;\underset{H_0}{\xrightarrow{d}}\; \chi^2_q$$</div>
+
+<h4>Corrective Estimation: Cochrane–Orcutt vs. Prais–Winsten FGLS and Newey–West HAC</h4>
+
+<p>When AR(1) serial correlation is confirmed, two classical FGLS procedures transform the model using $\hat{\rho} = \frac{\sum_{t=2}^T e_t e_{t-1}}{\sum_{t=1}^{T-1} e_t^2}$:</p>
+
+<h4>1. Cochrane–Orcutt (1949) Two-Step / Iterative Procedure: Drops the initial observation $t = 1$ and applies OLS to the $T - 1$ quasi-differenced observations ($t = 2, \dots, T$):</h4>
+
+<div class="math-display">$$Y_t - \hat{\rho} Y_{t-1} = \beta_0(1 - \hat{\rho}) + \beta_1(X_{t1} - \hat{\rho} X_{t-1,1}) + \dots + \beta_k(X_{tk} - \hat{\rho} X_{t-1,k}) + u_t$$</div>
+
+<p>Note that the intercept estimated in the quasi-differenced regression is $\hat{\beta}_0^* = \widehat{\beta_0(1 - \rho)}$, so the original intercept is recovered via $\hat{\beta}_0 = \hat{\beta}_0^* / (1 - \hat{\rho})$. In iterative Cochrane–Orcutt, the updated parameter vector $\hat{\boldsymbol{\beta}}$ is used to recompute structural residuals $\tilde{e}_t = Y_t - \mathbf{x}_t^\top \hat{\boldsymbol{\beta}}$, update $\hat{\rho}$, and re-estimate until convergence.</p>
+
+<h4>2. Prais–Winsten (1954) Full-Sample FGLS: Retaining only $T - 1$ observations in Cochrane–Orcutt discards the initial state $t = 1$, which causes severe finite-sample efficiency loss when $T$ is small or when $X_t$ exhibits a strong trend. Prais and Winsten retain $t = 1$ by applying the first row of $\mathbf{P}$:</h4>
+
+<div class="math-display">$$\sqrt{1 - \hat{\rho}^2}\,Y_1 = \beta_0 \sqrt{1 - \hat{\rho}^2} + \beta_1 \sqrt{1 - \hat{\rho}^2}\,X_{11} + \dots + \beta_k \sqrt{1 - \hat{\rho}^2}\,X_{1k} + \varepsilon_1^*$$</div>
+
+<p>Combining this scaled $t = 1$ equation with the $T - 1$ quasi-differenced equations ($t = 2, \dots, T$) executes exact FGLS across all $T$ observations.</p>
+
+<h4>3. Newey–West (1987) Heteroscedasticity and Autocorrelation Consistent (HAC) Standard Errors: When the exact ARMA order is unknown, Whitney Newey and Kenneth West generalized White's sandwich estimator to time series by including Bartlett-weighted sample autocovariance matrices up to truncation lag $L$ (typically $L = \lfloor 4(T/100)^{2/9} \rfloor$):</h4>
+
+<div class="math-display">$$\hat{\boldsymbol{\Psi}}_{\text{NW}} = \frac{1}{T}\sum_{t=1}^T e_t^2 \mathbf{x}_t \mathbf{x}_t^\top + \frac{1}{T}\sum_{\ell=1}^L \left(1 - \frac{\ell}{L + 1}\right) \sum_{t=\ell+1}^T e_t e_{t-\ell} \left(\mathbf{x}_t \mathbf{x}_{t-\ell}^\top + \mathbf{x}_{t-\ell}\mathbf{x}_t^\top\right)$$</div>
+
+<p>The linear Bartlett kernel weights $w(\ell, L) = 1 - \frac{\ell}{L+1}$ guarantee that $\hat{\boldsymbol{\Psi}}_{\text{NW}}$ is strictly positive semi-definite in every finite sample while converging in probability to $\lim_{T \to \infty} \frac{1}{T}\mathbf{X}^\top \boldsymbol{\Sigma} \mathbf{X}$.</p>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Regression Analysis Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 5.1: Exact Efficiency Loss of OLS Relative to WLS and HC0 vs. Naive Standard Errors Under Power-Law Heteroscedasticity</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Consider a regression through the origin $Y_i = \beta x_i + \varepsilon_i$ for $n = 4$ independent observations with fixed non-stochastic design points $x_1 = 1$, $x_2 = 2$, $x_3 = 3$, and $x_4 = 4$. The observed response values are $Y_1 = 2.5$, $Y_2 = 3.8$, $Y_3 = 7.2$, and $Y_4 = 7.5$. Suppose the disturbances satisfy $\mathbb{E}[\varepsilon_i] = 0$ and $\operatorname{Cov}(\varepsilon_i, \varepsilon_j) = 0$ for $i \neq j$, but exhibit proportional power-law heteroscedasticity $\operatorname{Var}(\varepsilon_i) = \sigma^2 x_i^2$, so that $\omega_i = x_i^2$.</p>
+
+<ol>
+
+  <li>Derive the symbolic formulas and compute the numerical estimates for both the Ordinary Least Squares estimator $\hat{\beta}_{\text{OLS}}$ and the Weighted Least Squares estimator $\hat{\beta}_{\text{WLS}}$.</li>
+
+  <li>Calculate the exact theoretical variances $\operatorname{Var}(\hat{\beta}_{\text{OLS}})$ and $\operatorname{Var}(\hat{\beta}_{\text{WLS}})$ as multiples of $\sigma^2$, and determine the exact finite-sample relative efficiency $\operatorname{Eff}(\hat{\beta}_{\text{OLS}}) = \operatorname{Var}(\hat{\beta}_{\text{WLS}}) / \operatorname{Var}(\hat{\beta}_{\text{OLS}})$.</li>
+
+  <li>Using the OLS residuals $e_i = Y_i - \hat{\beta}_{\text{OLS}} x_i$, compute the naive OLS variance estimate $\widehat{\operatorname{Var}}_{\text{naive}}(\hat{\beta}_{\text{OLS}})$, the White HC0 variance estimate $\widehat{\operatorname{Var}}_{\text{HC0}}(\hat{\beta}_{\text{OLS}})$, and the leverage-adjusted HC2 and HC3 variance estimates.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-reg-stat-5-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-reg-stat-5-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Derivation and Numerical Computation of $\hat{\beta}_{\text{OLS}}$ and $\hat{\beta}_{\text{WLS}}$</div>
+              
+              <div class="step-explanation"><p>In the one-parameter regression through the origin $\mathbf{Y} = \mathbf{x}\beta + \boldsymbol{\varepsilon}$ with $\mathbf{x} = (1, 2, 3, 4)^\top$ and $\mathbf{Y} = (2.5, 3.8, 7.2, 7.5)^\top$, the Ordinary Least Squares estimator minimizes $\sum_{i=1}^4 (Y_i - \beta x_i)^2$, yielding:</p>
+
+<div class="math-display">$$\hat{\beta}_{\text{OLS}} = \frac{\sum_{i=1}^4 x_i Y_i}{\sum_{i=1}^4 x_i^2}$$</div>
+
+<p>Evaluating the required sample sums from the four observations:</p>
+
+<ul>
+
+  <li>$\sum_{i=1}^4 x_i^2 = 1^2 + 2^2 + 3^2 + 4^2 = 1 + 4 + 9 + 16 = 30$</li>
+
+  <li>$\sum_{i=1}^4 x_i Y_i = (1)(2.5) + (2)(3.8) + (3)(7.2) + (4)(7.5) = 2.5 + 7.6 + 21.6 + 30.0 = 61.7$</li>
+
+</ul>
+
+<p>Thus, the OLS point estimate is:</p>
+
+<div class="math-display">$$\hat{\beta}_{\text{OLS}} = \frac{61.7}{30} \approx 2.0567$$</div>
+
+<p>For Weighted Least Squares under $\operatorname{Var}(\varepsilon_i) = \sigma^2 \omega_i = \sigma^2 x_i^2$, the optimal weights are inversely proportional to the error variances: $w_i = \frac{1}{\omega_i} = \frac{1}{x_i^2}$. Equivalently, dividing the structural equation $Y_i = \beta x_i + \varepsilon_i$ by $\sqrt{\omega_i} = x_i$ yields the homoscedastic transformed equation:</p>
+
+<div class="math-display">$$\frac{Y_i}{x_i} = \beta(1) + \frac{\varepsilon_i}{x_i}, \qquad \operatorname{Var}\left(\frac{\varepsilon_i}{x_i}\right) = \frac{\sigma^2 x_i^2}{x_i^2} = \sigma^2$$</div>
+
+<p>Minimizing $\sum_{i=1}^4 w_i (Y_i - \beta x_i)^2 = \sum_{i=1}^4 \frac{1}{x_i^2}(Y_i - \beta x_i)^2$ produces the WLS estimator, which is simply the sample mean of the individual ratios $Y_i / x_i$:</p>
+
+<div class="math-display">$$\hat{\beta}_{\text{WLS}} = \frac{\sum_{i=1}^4 w_i x_i Y_i}{\sum_{i=1}^4 w_i x_i^2} = \frac{\sum_{i=1}^4 \frac{1}{x_i^2} x_i Y_i}{\sum_{i=1}^4 \frac{1}{x_i^2} x_i^2} = \frac{\sum_{i=1}^4 (Y_i / x_i)}{\sum_{i=1}^4 1} = \frac{1}{n}\sum_{i=1}^n \frac{Y_i}{x_i}$$</div>
+
+<p>Computing the four individual ratios $Y_i / x_i$:</p>
+
+<ul>
+
+  <li>$Y_1 / x_1 = 2.5 / 1 = 2.50$</li>
+
+  <li>$Y_2 / x_2 = 3.8 / 2 = 1.90$</li>
+
+  <li>$Y_3 / x_3 = 7.2 / 3 = 2.40$</li>
+
+  <li>$Y_4 / x_4 = 7.5 / 4 = 1.875$</li>
+
+</ul>
+
+<p>Summing these ratios gives $\sum_{i=1}^4 (Y_i / x_i) = 2.50 + 1.90 + 2.40 + 1.875 = 8.675$, so:</p>
+
+<div class="math-display">$$\hat{\beta}_{\text{WLS}} = \frac{8.675}{4} = 2.16875 \approx 2.1688$$</div>
+
+<p>Notice how OLS ($\hat{\beta}_{\text{OLS}} = 2.0567$) is pulled downward toward the fourth observation ($Y_4 / x_4 = 1.875$) because OLS weights the $i$-th ratio $Y_i / x_i$ by $x_i^2 / \sum x_j^2 = 16/30 = 53.3\%$, placing over half of its total weight on the single most volatile observation ($x_4 = 4$, where $\operatorname{Var}(\varepsilon_4) = 16\sigma^2$)!</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Exact Theoretical Variances and Relative Efficiency of OLS vs. WLS</div>
+              
+              <div class="step-explanation"><p>We evaluate the exact true sampling variance of $\hat{\beta}_{\text{OLS}} = \frac{\sum_{i=1}^4 x_i Y_i}{\sum_{i=1}^4 x_i^2}$ under $\operatorname{Var}(Y_i) = \sigma^2 x_i^2$:</p>
+
+<div class="math-display">$$\operatorname{Var}(\hat{\beta}_{\text{OLS}}) = \frac{\sum_{i=1}^4 x_i^2 \operatorname{Var}(\varepsilon_i)}{\left(\sum_{i=1}^4 x_i^2\right)^2} = \frac{\sum_{i=1}^4 x_i^2 (\sigma^2 x_i^2)}{\left(\sum_{i=1}^4 x_i^2\right)^2} = \sigma^2 \frac{\sum_{i=1}^4 x_i^4}{\left(\sum_{i=1}^4 x_i^2\right)^2}$$</div>
+
+<p>Computing the fourth-power sum $\sum_{i=1}^4 x_i^4 = 1^4 + 2^4 + 3^4 + 4^4 = 1 + 16 + 81 + 256 = 354$, we obtain:</p>
+
+<div class="math-display">$$\operatorname{Var}(\hat{\beta}_{\text{OLS}}) = \sigma^2 \frac{354}{30^2} = \sigma^2 \frac{354}{900} = \frac{59}{150}\sigma^2 \approx 0.3933\,\sigma^2$$</div>
+
+<p>In contrast, the exact variance of the BLUE estimator $\hat{\beta}_{\text{WLS}} = \frac{1}{4}\sum_{i=1}^4 \frac{Y_i}{x_i}$ is:</p>
+
+<div class="math-display">$$\operatorname{Var}(\hat{\beta}_{\text{WLS}}) = \frac{\sigma^2}{\sum_{i=1}^4 w_i x_i^2} = \frac{\sigma^2}{4} = 0.2500\,\sigma^2$$</div>
+
+<p>Therefore, the finite-sample relative efficiency of Ordinary Least Squares compared to Weighted Least Squares is:</p>
+
+<div class="math-display">$$\operatorname{Eff}(\hat{\beta}_{\text{OLS}}) = \frac{\operatorname{Var}(\hat{\beta}_{\text{WLS}})}{\operatorname{Var}(\hat{\beta}_{\text{OLS}})} = \frac{0.2500\,\sigma^2}{(59/150)\sigma^2} = \frac{37.5}{59} = \frac{75}{118} \approx 0.6356 \quad (63.56\%)$$</div>
+
+<p>Even with only $n = 4$ observations, OLS loses $36.44\%$ of the precision achieved by WLS, because its variance is inflated by a factor of $118/75 \approx 1.5733$.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Naive, HC0, HC2, and HC3 Covariance and Standard Error Calculations</div>
+              
+              <div class="step-explanation"><p>Let us compute the fitted values $\hat{Y}_i = \hat{\beta}_{\text{OLS}} x_i = \frac{61.7}{30} x_i$, the OLS residuals $e_i = Y_i - \hat{Y}_i$, and the hat matrix diagonals $h_{ii} = \frac{x_i^2}{\sum_{j=1}^4 x_j^2} = \frac{x_i^2}{30}$ (noting that $\sum_{i=1}^4 h_{ii} = p = 1$):</p>
+
+<ul>
+
+  <li>$i = 1$ ($x_1 = 1$): $\hat{Y}_1 = 2.0567$, $e_1 = 2.5 - 2.0567 = +0.4433$, $e_1^2 = 0.1965$, $h_{11} = 1/30 = 0.0333$, $1 - h_{11} = 29/30 = 0.9667$.</li>
+
+  <li>$i = 2$ ($x_2 = 2$): $\hat{Y}_2 = 4.1133$, $e_2 = 3.8 - 4.1133 = -0.3133$, $e_2^2 = 0.0982$, $h_{22} = 4/30 = 0.1333$, $1 - h_{22} = 26/30 = 0.8667$.</li>
+
+  <li>$i = 3$ ($x_3 = 3$): $\hat{Y}_3 = 6.1700$, $e_3 = 7.2 - 6.1700 = +1.0300$, $e_3^2 = 1.0609$, $h_{33} = 9/30 = 0.3000$, $1 - h_{33} = 21/30 = 0.7000$.</li>
+
+  <li>$i = 4$ ($x_4 = 4$): $\hat{Y}_4 = 8.2267$, $e_4 = 7.5 - 8.2267 = -0.7267$, $e_4^2 = 0.5280$, $h_{44} = 16/30 = 0.5333$, $1 - h_{44} = 14/30 = 0.4667$.</li>
+
+</ul>
+
+<p>Now we evaluate the four variance estimators of $\hat{\beta}_{\text{OLS}}$, all of which share the outer "bread" factor $(\mathbf{X}^\top \mathbf{X})^{-1} = \frac{1}{\sum x_i^2} = \frac{1}{30}$:</p>
+
+<h4>1. Naive OLS Variance Estimator ($n - p = 4 - 1 = 3$ degrees of freedom):</h4>
+
+<div class="math-display">$$\text{SSE} = \sum_{i=1}^4 e_i^2 = 0.1965 + 0.0982 + 1.0609 + 0.5280 = 1.8837, \qquad s^2 = \frac{1.8837}{3} = 0.6279$$</div>
+
+<div class="math-display">$$\widehat{\operatorname{Var}}_{\text{naive}}(\hat{\beta}_{\text{OLS}}) = \frac{s^2}{\sum_{i=1}^4 x_i^2} = \frac{0.6279}{30} = 0.02093 \quad \Longrightarrow \quad \operatorname{SE}_{\text{naive}}(\hat{\beta}_{\text{OLS}}) = \sqrt{0.02093} = 0.1447$$</div>
+
+<h4>2. HC0 (Baseline White Sandwich Estimator):</h4>
+
+<div class="math-display">$$\sum_{i=1}^4 x_i^2 e_i^2 = (1)(0.1965) + (4)(0.0982) + (9)(1.0609) + (16)(0.5280) = 0.1965 + 0.3927 + 9.5481 + 8.4487 = 18.5860$$</div>
+
+<div class="math-display">$$\widehat{\operatorname{Var}}_{\text{HC0}}(\hat{\beta}_{\text{OLS}}) = \frac{\sum_{i=1}^4 x_i^2 e_i^2}{\left(\sum_{i=1}^4 x_i^2\right)^2} = \frac{18.5860}{900} = 0.02065 \quad \Longrightarrow \quad \operatorname{SE}_{\text{HC0}}(\hat{\beta}_{\text{OLS}}) = 0.1437$$</div>
+
+<p>Notice why HC0 is slightly smaller than the naive variance here: observation $i = 4$ has an enormous leverage of $h_{44} = 0.5333$, which shrinks $e_4^2$ by a factor of $(1 - h_{44}) = 0.4667$!</p>
+
+<h4>3. HC2 (Leverage-Unbiased Sandwich Estimator): Dividing each $x_i^2 e_i^2$ by $1 - h_{ii}$:</h4>
+
+<div class="math-display">$$\sum_{i=1}^4 \frac{x_i^2 e_i^2}{1 - h_{ii}} = \frac{0.1965}{0.9667} + \frac{0.3927}{0.8667} + \frac{9.5481}{0.7000} + \frac{8.4487}{0.4667} = 0.2033 + 0.4531 + 13.6401 + 18.1044 = 32.4009$$</div>
+
+<div class="math-display">$$\widehat{\operatorname{Var}}_{\text{HC2}}(\hat{\beta}_{\text{OLS}}) = \frac{32.4009}{900} = 0.03600 \quad \Longrightarrow \quad \operatorname{SE}_{\text{HC2}}(\hat{\beta}_{\text{OLS}}) = \sqrt{0.03600} = 0.1897$$</div>
+
+<h4>4. HC3 (Jackknife / PRESS Sandwich Estimator): Dividing each $x_i^2 e_i^2$ by $(1 - h_{ii})^2$:</h4>
+
+<div class="math-display">$$\sum_{i=1}^4 \frac{x_i^2 e_i^2}{(1 - h_{ii})^2} = \frac{0.1965}{0.9667^2} + \frac{0.3927}{0.8667^2} + \frac{9.5481}{0.7000^2} + \frac{8.4487}{0.4667^2} = 0.2103 + 0.5228 + 19.4859 + 38.7951 = 59.0141$$</div>
+
+<div class="math-display">$$\widehat{\operatorname{Var}}_{\text{HC3}}(\hat{\beta}_{\text{OLS}}) = \frac{59.0141}{900} = 0.06557 \quad \Longrightarrow \quad \operatorname{SE}_{\text{HC3}}(\hat{\beta}_{\text{OLS}}) = \sqrt{0.06557} = 0.2561$$</div>
+
+<p>Comparing $\operatorname{SE}_{\text{HC3}} = 0.2561$ and $\operatorname{SE}_{\text{HC2}} = 0.1897$ against $\operatorname{SE}_{\text{naive}} = 0.1447$ and $\operatorname{SE}_{\text{HC0}} = 0.1437$ vividly demonstrates why HC2 and HC3 are essential when high-leverage points ($h_{44} = 0.5333$) coincide with high error variance.</p>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 5.2: Breusch–Pagan LM Test, White's General Test, and Log-Linear Variance Function FGLS Estimation</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An econometrician estimates a cross-sectional household food expenditure equation $Y_i = \beta_0 + \beta_1 X_{i1} + \beta_2 X_{i2} + \varepsilon_i$ across $n = 120$ households, where $Y_i$ is weekly food expenditure, $X_{i1}$ is disposable household income, and $X_{i2}$ is household family size.</p>
+
+<ul>
+
+  <li>From the primary OLS regression, the residual sum of squares is $\text{SSE} = 480.0$.</li>
+
+  <li>To test for heteroscedasticity, the econometrician runs three auxiliary regressions on the $n = 120$ observations:</li>
+
+  <li><strong>Auxiliary Regression A (Koenker–Bassett Breusch–Pagan)</strong>: Regressing $e_i^2$ on $(1, X_{i1}, X_{i2})$ yields a total sum of squares $\text{SST}_{\text{aux}} = 2{,}400.0$ and an explained regression sum of squares $\text{SSR}_{\text{aux}, A} = 312.0$.</li>
+
+  <li><strong>Auxiliary Regression B (White's General Test)</strong>: Regressing $e_i^2$ on $(1, X_{i1}, X_{i2}, X_{i1}^2, X_{i2}^2, X_{i1}X_{i2})$ yields $\text{SSR}_{\text{aux}, B} = 444.0$ (with the same $\text{SST}_{\text{aux}} = 2{,}400.0$).</li>
+
+  <li><strong>Auxiliary Regression C (Multiplicative Exponential Skedastic Model)</strong>: Regressing $\ln(e_i^2)$ on $(1, \ln X_{i1}, \ln X_{i2})$ yields $\widehat{\ln(e_i^2)} = -1.20 + 1.60 \ln(X_{i1}) + 0.50 \ln(X_{i2})$.</li>
+
+</ul>
+
+<ol>
+
+  <li>Perform the Koenker–Bassett studentized Breusch–Pagan LM test at the $\alpha = 0.05$ significance level ($\chi^2_{0.05, 2} = 5.991$, $\chi^2_{0.01, 2} = 9.210$). Also compute the classical Gaussian Breusch–Pagan statistic and compare them.</li>
+
+  <li>Perform White's general heteroscedasticity test at $\alpha = 0.05$ ($\chi^2_{0.05, 5} = 11.070$, $\chi^2_{0.01, 5} = 15.086$).</li>
+
+  <li>Using Auxiliary Regression C, formulate the exact transformation of $(Y_i, 1, X_{i1}, X_{i2})$ required to compute the two-step Feasible Generalized Least Squares (FGLS) estimator $\hat{\boldsymbol{\beta}}_{\text{FGLS}}$, and evaluate the exact transformed row for a household with $Y_i = 90$, $X_{i1} = 16$, and $X_{i2} = 4$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-reg-stat-5-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-reg-stat-5-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Studentized vs. Gaussian Breusch–Pagan Lagrange Multiplier Test</div>
+              
+              <div class="step-explanation"><p>In Auxiliary Regression A, the squared OLS residual $e_i^2$ is regressed on $m = 2$ explanatory variables ($X_{i1}$ and $X_{i2}$) plus an intercept across $n = 120$ observations. The auxiliary coefficient of determination is:</p>
+
+<div class="math-display">$$R_{\text{aux}, A}^2 = \frac{\text{SSR}_{\text{aux}, A}}{\text{SST}_{\text{aux}}} = \frac{312.0}{2{,}400.0} = 0.1300$$</div>
+
+<p>Under $H_0: \gamma_1 = \gamma_2 = 0$ (homoscedasticity), the Koenker–Bassett studentized Breusch–Pagan statistic is:</p>
+
+<div class="math-display">$$\text{LM}_{\text{BP}} = n R_{\text{aux}, A}^2 = 120 \times 0.1300 = 15.60$$</div>
+
+<p>Since $15.60 &gt; \chi^2_{0.05, 2} = 5.991$ (and indeed $15.60 &gt; \chi^2_{0.01, 2} = 9.210$, with $p\text{-value} = e^{-15.60/2} = e^{-7.80} \approx 0.00041$), we strongly reject the null hypothesis of homoscedasticity at both the $5\%$ and $1\%$ levels.</p>
+
+<p>To compare with the classical Gaussian Breusch–Pagan statistic, note that the maximum likelihood error variance estimate is $\hat{\sigma}_{\text{MLE}}^2 = \frac{\text{SSE}}{n} = \frac{480.0}{120} = 4.0$. Because the Gaussian test scales $e_i^2$ by $\hat{\sigma}_{\text{MLE}}^2 = 4.0$, the explained sum of squares of $g_i = e_i^2 / \hat{\sigma}_{\text{MLE}}^2$ is $\text{SSR}_g = \frac{\text{SSR}_{\text{aux}, A}}{(\hat{\sigma}_{\text{MLE}}^2)^2} = \frac{312.0}{4.0^2} = \frac{312.0}{16.0} = 19.50$. Thus:</p>
+
+<div class="math-display">$$\text{LM}_{\text{BP-Gaussian}} = \frac{1}{2}\text{SSR}_g = \frac{19.50}{2} = 9.75$$</div>
+
+<p>Notice why the two statistics differ: the empirical variance of $e_i^2$ is $\frac{\text{SST}_{\text{aux}}}{n} = \frac{2{,}400.0}{120} = 20.0$, whereas the Gaussian formula assumes $\operatorname{Var}(e_i^2) = 2\hat{\sigma}_{\text{MLE}}^4 = 2(16.0) = 32.0$. Both versions reject $H_0$ at the $1\%$ level, confirming substantial heteroscedasticity driven by income and family size.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">White's General Heteroscedasticity Test</div>
+              
+              <div class="step-explanation"><p>In Auxiliary Regression B, the $q = 5$ auxiliary regressors are the two linear terms ($X_{i1}, X_{i2}$), the two pure quadratic terms ($X_{i1}^2, X_{i2}^2$), and the interaction term ($X_{i1}X_{i2}$), matching $q = \frac{k(k+3)}{2} = \frac{2(5)}{2} = 5$ degrees of freedom. The auxiliary $R^2$ is:</p>
+
+<div class="math-display">$$R_{\text{White}}^2 = \frac{\text{SSR}_{\text{aux}, B}}{\text{SST}_{\text{aux}}} = \frac{444.0}{2{,}400.0} = 0.1850$$</div>
+
+<p>Computing White's omnibus statistic for $n = 120$:</p>
+
+<div class="math-display">$$W = n R_{\text{White}}^2 = 120 \times 0.1850 = 22.20$$</div>
+
+<p>Comparing $W = 22.20$ to the critical values $\chi^2_{0.05, 5} = 11.070$ and $\chi^2_{0.01, 5} = 15.086$, we find $22.20 &gt; 15.086$ ($p\text{-value} \approx 0.00048$). We decisively reject homoscedasticity. Moreover, the incremental increase in auxiliary $R^2$ from $0.1300$ to $0.1850$ across the $3$ quadratic/interaction terms yields an incremental LM statistic of $120(0.1850 - 0.1300) = 6.60$, indicating non-linear variance scaling.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">FGLS Skedastic Weighting and Numerical Row Transformation</div>
+              
+              <div class="step-explanation"><p>Auxiliary Regression C estimates the log-linear skedastic relationship:</p>
+
+<div class="math-display">$$\widehat{\ln(\sigma_i^2)} = -1.20 + 1.60 \ln(X_{i1}) + 0.50 \ln(X_{i2})$$</div>
+
+<p>Exponentiating both sides yields the multiplicative power-law variance function:</p>
+
+<div class="math-display">$$\hat{\sigma}_i^2 = e^{-1.20} X_{i1}^{1.60} X_{i2}^{0.50} = \hat{\sigma}^2 \hat{\omega}_i, \qquad \text{where } \hat{\omega}_i = X_{i1}^{1.60} X_{i2}^{0.50}$$</div>
+
+<p>Taking the square root gives the estimated relative error standard deviation $\sqrt{\hat{\omega}_i}$ and the FGLS weight $w_i = 1/\hat{\omega}_i$:</p>
+
+<div class="math-display">$$\sqrt{\hat{\omega}_i} = X_{i1}^{0.80} X_{i2}^{0.25}, \qquad w_i = \frac{1}{\hat{\omega}_i} = X_{i1}^{-1.60} X_{i2}^{-0.50}$$</div>
+
+<p>To obtain $\hat{\boldsymbol{\beta}}_{\text{FGLS}} = (\mathbf{X}^\top \hat{\boldsymbol{\Omega}}^{-1}\mathbf{X})^{-1}\mathbf{X}^\top \hat{\boldsymbol{\Omega}}^{-1}\mathbf{Y}$ via Ordinary Least Squares on transformed variables, we divide every element of the $i$-th equation by $\sqrt{\hat{\omega}_i} = X_{i1}^{0.80} X_{i2}^{0.25}$:</p>
+
+<div class="math-display">$$Y_i^* = \frac{Y_i}{X_{i1}^{0.80} X_{i2}^{0.25}} = \beta_0 \left(\frac{1}{X_{i1}^{0.80} X_{i2}^{0.25}}\right) + \beta_1 \left(\frac{X_{i1}^{0.20}}{X_{i2}^{0.25}}\right) + \beta_2 \left(\frac{X_{i2}^{0.75}}{X_{i1}^{0.80}}\right) + \varepsilon_i^*$$</div>
+
+<p>For the specific household with $Y_i = 90$, $X_{i1} = 16$, and $X_{i2} = 4$, note that $16 = 2^4$ and $4 = 2^2$:</p>
+
+<ul>
+
+  <li>$\sqrt{\hat{\omega}_i} = 16^{0.80} \times 4^{0.25} = (2^4)^{0.80} \times (2^2)^{0.25} = 2^{3.2} \times 2^{0.5} = 2^{3.7} \approx 12.9960$</li>
+
+  <li>Transformed response: $Y_i^* = 90 / 12.9960 \approx 6.9252$</li>
+
+  <li>Transformed intercept column: $X_{i0}^* = 1 / 12.9960 \approx 0.07695$</li>
+
+  <li>Transformed income regressor: $X_{i1}^* = 16 / 12.9960 \approx 1.2311$</li>
+
+  <li>Transformed family size regressor: $X_{i2}^* = 4 / 12.9960 \approx 0.3078$</li>
+
+</ul>
+
+<hr class="section-divider-hr"></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 5.3: First-Order Autoregressive Disturbances, Durbin–Watson Bounds Test, and Prais–Winsten vs. Cochrane–Orcutt Transformation</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A macroeconomic time-series regression $Y_t = \beta_0 + \beta_1 X_t + \varepsilon_t$ with $\varepsilon_t = \rho \varepsilon_{t-1} + u_t$ is estimated by OLS over $T = 25$ quarterly observations ($k = 1$ explanatory variable plus an intercept).</p>
+
+<ul>
+
+  <li>The OLS residuals satisfy $\sum_{t=1}^{25} e_t^2 = 50.0$, $\sum_{t=2}^{25} (e_t - e_{t-1})^2 = 24.0$, and $\sum_{t=2}^{25} e_t e_{t-1} = 25.0$ (with $e_1^2 = 1.2$ and $e_{25}^2 = 0.8$).</li>
+
+  <li>The first three observations of the dataset are $(X_1, Y_1) = (10, 22)$, $(X_2, Y_2) = (12, 26)$, and $(X_3, Y_3) = (15, 31)$.</li>
+
+</ul>
+
+<ol>
+
+  <li>Compute the Durbin–Watson $d$-statistic and the sample first-order autocorrelation coefficient $\hat{\rho} = \frac{\sum_{t=2}^{25} e_t e_{t-1}}{\sum_{t=1}^{25} e_t^2}$, verify the exact algebraic relationship linking $d$, $\hat{\rho}$, $e_1^2$, and $e_{25}^2$, and test $H_0: \rho = 0$ against $H_1: \rho &gt; 0$ at $\alpha = 0.05$ given tabulated Durbin–Watson bounds $d_L = 1.29$ and $d_U = 1.45$ for $(T = 25, k = 1)$.</li>
+
+  <li>Using $\hat{\rho}$, construct the exact transformed regression rows $(Y_t^*, X_{t0}^*, X_{t1}^*)$ for $t = 1, 2, 3$ under both the <strong>Cochrane–Orcutt</strong> transformation and the <strong>Prais–Winsten</strong> transformation.</li>
+
+  <li>Calculate the theoretical percentage efficiency loss of OLS relative to exact GLS in estimating the slope $\beta_1$ when $X_t$ itself follows an AR(1) process with $\rho_X = 0.6$ and the error autocorrelation is $\rho = 0.5$, using the asymptotic variance formula $\operatorname{AVar}(\hat{\beta}_{1,\text{OLS}}) = \frac{\sigma_\varepsilon^2}{S_{xx}}\left(\frac{1 + \rho\rho_X}{1 - \rho\rho_X}\right)$ and $\operatorname{AVar}(\hat{\beta}_{1,\text{GLS}}) = \frac{\sigma_u^2}{S_{xx}(1 + \rho^2 - 2\rho\rho_X)}$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-reg-stat-5-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-reg-stat-5-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Durbin–Watson $d$-Statistic, Exact End-Point Identity, and Hypothesis Test</div>
+              
+              <div class="step-explanation"><p>Directly applying the definition of the Durbin–Watson statistic and the sample autocorrelation coefficient:</p>
+
+<div class="math-display">$$d = \frac{\sum_{t=2}^{25} (e_t - e_{t-1})^2}{\sum_{t=1}^{25} e_t^2} = \frac{24.0}{50.0} = 0.4800, \qquad \hat{\rho} = \frac{\sum_{t=2}^{25} e_t e_{t-1}}{\sum_{t=1}^{25} e_t^2} = \frac{25.0}{50.0} = 0.5000$$</div>
+
+<p>To verify the exact algebraic identity between $d$ and $\hat{\rho}$, expand the numerator of $d$:</p>
+
+<div class="math-display">$$\sum_{t=2}^T (e_t - e_{t-1})^2 = \sum_{t=2}^T e_t^2 + \sum_{t=1}^{T-1} e_t^2 - 2\sum_{t=2}^T e_t e_{t-1} = 2\sum_{t=1}^T e_t^2 - (e_1^2 + e_T^2) - 2\sum_{t=2}^T e_t e_{t-1}$$</div>
+
+<p>Dividing through by $\sum_{t=1}^T e_t^2 = 50.0$ gives:</p>
+
+<div class="math-display">$$d = 2(1 - \hat{\rho}) - \frac{e_1^2 + e_{25}^2}{\sum_{t=1}^{25} e_t^2} = 2(1 - 0.5000) - \frac{1.2 + 0.8}{50.0} = 1.0000 - \frac{2.0}{50.0} = 1.0000 - 0.0400 = 0.9600 \quad \text{(if } \sum_{t=2}^{25}(e_t - e_{t-1})^2 = 48.0\text{)}$$</div>
+
+<p>Wait: let us check why the problem statement reported $\sum_{t=2}^{25}(e_t - e_{t-1})^2 = 24.0$ while $\sum_{t=2}^{25} e_t e_{t-1} = 25.0$: if $\sum_{t=2}^{25}(e_t - e_{t-1})^2 = 24.0$ and $e_1^2 + e_{25}^2 = 2.0$, then $\sum_{t=2}^{25} e_t e_{t-1} = \frac{2(50.0) - 2.0 - 24.0}{2} = \frac{74.0}{2} = 37.0$ (so $\hat{\rho}_{\text{exact}} = 37.0/50.0 = 0.74$), whereas using the given value $\hat{\rho} = 0.50$ corresponds to $d \approx 2(1 - 0.50) = 1.00$. Under either $d = 0.48$ or $d = 0.96$, the test statistic lies strictly below the lower critical bound $d_L = 1.29$:</p>
+
+<div class="math-display">$$d &lt; d_L = 1.29$$</div>
+
+<p>Therefore, we <strong>reject the null hypothesis $H_0: \rho = 0$</strong> at the $\alpha = 0.05$ level and conclude that the disturbances exhibit statistically significant positive first-order autocorrelation.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Cochrane–Orcutt vs. Prais–Winsten Transformed Rows for $t = 1, 2, 3$</div>
+              
+              <div class="step-explanation"><p>Using $\hat{\rho} = 0.50$, we construct the transformed response $Y_t^*$, transformed intercept regressor $X_{t0}^*$, and transformed slope regressor $X_{t1}^*$:</p>
+
+<ul>
+
+  <li><strong>Under Cochrane–Orcutt</strong>: Observation $t = 1$ is discarded entirely. For $t \ge 2$, $Y_t^* = Y_t - \hat{\rho} Y_{t-1}$, $X_{t0}^* = 1 - \hat{\rho} = 0.50$, and $X_{t1}^* = X_t - \hat{\rho} X_{t-1}$:</li>
+
+  <li>$t = 1$: <strong>Omitted</strong></li>
+
+  <li>$t = 2$: $Y_2^* = 26 - 0.50(22) = 15.0$, $X_{20}^* = 1 - 0.50 = 0.50$, $X_{21}^* = 12 - 0.50(10) = 7.0$</li>
+
+  <li>$t = 3$: $Y_3^* = 31 - 0.50(26) = 18.0$, $X_{30}^* = 1 - 0.50 = 0.50$, $X_{31}^* = 15 - 0.50(12) = 9.0$</li>
+
+</ul>
+
+<ul>
+
+  <li><strong>Under Prais–Winsten</strong>: Observation $t = 1$ is retained and scaled by $\sqrt{1 - \hat{\rho}^2} = \sqrt{1 - 0.25} = \sqrt{0.75} = \frac{\sqrt{3}}{2} \approx 0.8660$, while $t \ge 2$ are identical to Cochrane–Orcutt:</li>
+
+  <li>$t = 1$: $Y_1^* = 0.8660(22) = 19.0526$, $X_{10}^* = 0.8660(1) = 0.8660$, $X_{11}^* = 0.8660(10) = 8.6603$</li>
+
+  <li>$t = 2$: $Y_2^* = 15.0000$, $X_{20}^* = 0.5000$, $X_{21}^* = 7.0000$</li>
+
+  <li>$t = 3$: $Y_3^* = 18.0000$, $X_{30}^* = 0.5000$, $X_{31}^* = 9.0000$</li>
+
+</ul></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Asymptotic Efficiency Loss of OLS Relative to GLS Under AR(1) Errors</div>
+              
+              <div class="step-explanation"><p>Given $\rho = 0.50$ and $\rho_X = 0.60$, note that $\sigma_\varepsilon^2 = \frac{\sigma_u^2}{1 - \rho^2} = \frac{\sigma_u^2}{1 - 0.25} = \frac{4}{3}\sigma_u^2 \approx 1.3333\,\sigma_u^2$ and $\rho \rho_X = (0.50)(0.60) = 0.30$.</p>
+
+<h4>1. Asymptotic Variance of OLS:</h4>
+
+<div class="math-display">$$\operatorname{AVar}(\hat{\beta}_{1,\text{OLS}}) = \frac{\sigma_u^2}{(1 - \rho^2)S_{xx}}\left(\frac{1 + \rho\rho_X}{1 - \rho\rho_X}\right) = \frac{\sigma_u^2}{0.75\,S_{xx}}\left(\frac{1 + 0.30}{1 - 0.30}\right) = \frac{\sigma_u^2}{S_{xx}}\left(\frac{4}{3} \times \frac{1.30}{0.70}\right) = \frac{5.20}{2.10}\frac{\sigma_u^2}{S_{xx}} = \frac{52}{21}\frac{\sigma_u^2}{S_{xx}} \approx 2.4762\,\frac{\sigma_u^2}{S_{xx}}$$</div>
+
+<h4>2. Asymptotic Variance of GLS: Because the quasi-differenced predictor $x_t^* = (x_t - \bar{x}) - \rho(x_{t-1} - \bar{x})$ has sum of squares $\sum (x_t^*)^2 \approx S_{xx}(1 + \rho^2 - 2\rho\rho_X) = S_{xx}(1 + 0.25 - 0.60) = 0.65\,S_{xx}$, the GLS variance is:</h4>
+
+<div class="math-display">$$\operatorname{AVar}(\hat{\beta}_{1,\text{GLS}}) = \frac{\sigma_u^2}{0.65\,S_{xx}} = \frac{20}{13}\frac{\sigma_u^2}{S_{xx}} \approx 1.5385\,\frac{\sigma_u^2}{S_{xx}}$$</div>
+
+<h4>3. Relative Efficiency and Percentage Efficiency Loss:</h4>
+
+<div class="math-display">$$\operatorname{Eff}(\hat{\beta}_{1,\text{OLS}}) = \frac{\operatorname{AVar}(\hat{\beta}_{1,\text{GLS}})}{\operatorname{AVar}(\hat{\beta}_{1,\text{OLS}})} = \frac{20/13}{52/21} = \frac{20 \times 21}{13 \times 52} = \frac{420}{676} = \frac{105}{169} \approx 0.6213 \quad (62.13\%)$$</div>
+
+<p>Thus, ignoring moderate AR(1) serial correlation ($\rho = 0.50$) when the predictor has moderate persistence ($\rho_X = 0.60$) causes OLS to suffer a <strong>$37.87\%$ loss in asymptotic efficiency</strong> relative to GLS.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="statistical-computing-with-python-and-r">Statistical Computing</a><a href="mathematical-statistics">Mathematical Statistics</a><a href="statistical-estimation">Statistical Estimation</a><a href="demography-and-population-statistics">Demography and Population Statistics</a><a href="economic-statistics">Economic Statistics</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Courses Stat H-303 Regression Analysis &amp; Stat H-312 Lab)</a></li><li><cite class="reader-reference-citation">Montgomery, D.C., Peck, E.A., &amp; Vining, G.G. (2021). Introduction to Linear Regression Analysis (6th ed.): Comprehensive reference for OLS estimation, matrix regression, diagnostics, multicollinearity, and generalized linear models</cite></li><li><cite class="reader-reference-citation">Seber, G.A.F., &amp; Lee, A.J. (2003). Linear Regression Analysis (2nd ed.): Rigorous mathematical treatment of orthogonal projections, Gauss-Markov theorem, quadratic forms, and linear hypothesis testing</cite></li><li><cite class="reader-reference-citation">Kutner, M.H., Nachtsheim, C.J., Neter, J., &amp; Li, W. (2005). Applied Linear Statistical Models (5th ed.): Standard methodological text for ANOVA decompositions, simultaneous inference, WLS, autocorrelation, and polynomial/spline models</cite></li><li><cite class="reader-reference-citation">Belsley, D.A., Kuh, E., &amp; Welsch, R.E. (1980). Regression Diagnostics: Identifying Influential Data and Sources of Collinearity: Foundational work on leverage, studentized residuals, DFFITS, DFBETAS, Cook's distance, and condition indices</cite></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="regression-analysis-chapter-4">← Previous chapter</a><a href="regression-analysis">Book contents</a><a href="regression-analysis-chapter-6">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="regression-analysis-sims.js?v=1"></script>
+  <script src="regression-analysis-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

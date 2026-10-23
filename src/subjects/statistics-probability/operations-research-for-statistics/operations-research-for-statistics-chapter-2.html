@@ -1,0 +1,809 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>The Simplex Algorithm, Artificial Variable Architectures &amp; Degeneracy Resolution | Operations Research for Statistics | OpenSTEM Library</title>
+  <meta name="description" content="Algebraic architecture of the Simplex Method: basis matrices, reduced cost vectors, and optimality criteria; Minimum ratio test for feasibility preservation, unboundedness detection, and alternative optima; Artificial variable formulations: Charnes' Big-M penalty method and Dantzig's Two-Phase Simplex algorithm; Primal degeneracy, stalling, cycling phenomena, lexicographic perturbation, and Bland's anti-cycling rule; Revised Simplex Method in matrix form and computational complexity (Klee-Minty cube vs interior-point methods).">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/operations-research-for-statistics-chapter-2">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/operations-research-for-statistics-chapter-2">
+  <meta property="og:title" content="Operations Research for Statistics: Linear Programming, Simplex, Duality, Network Flows, Game Theory &amp; Queueing | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering linear programming formulations, convex polyhedral geometry, the Simplex algorithm, Big-M and Two-Phase artificial variable methods, primal-dual theory, complementary slackness, sensitivity analysis, Hitchcock-Koopmans transportation and Hungarian assignment models, shortest path, minimum spanning trees, maximal flow, CPM/PERT project scheduling, integer programming, Gomory cutting planes, Bellman dynamic programming, two-person zero-sum game theory, Markovian M/M/1 and M/M/c queueing systems, and deterministic/stochastic inventory models (EOQ, Newsvendor) with 24 solved questions and 4 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Operations Research for Statistics: Linear Programming, Simplex, Duality, Network Flows, Game Theory &amp; Queueing | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering linear programming formulations, convex polyhedral geometry, the Simplex algorithm, Big-M and Two-Phase artificial variable methods, primal-dual theory, complementary slackness, sensitivity analysis, Hitchcock-Koopmans transportation and Hungarian assignment models, shortest path, minimum spanning trees, maximal flow, CPM/PERT project scheduling, integer programming, Gomory cutting planes, Bellman dynamic programming, two-person zero-sum game theory, Markovian M/M/1 and M/M/c queueing systems, and deterministic/stochastic inventory models (EOQ, Newsvendor) with 24 solved questions and 4 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="operations-research-for-statistics.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Operations Research for Statistics: The Simplex Algorithm, Artificial Variable Architectures & Degeneracy Resolution","description":"Comprehensive university textbook covering linear programming formulations, convex polyhedral geometry, the Simplex algorithm, Big-M and Two-Phase artificial variable methods, primal-dual theory, complementary slackness, sensitivity analysis, Hitchcock-Koopmans transportation and Hungarian assignment models, shortest path, minimum spanning trees, maximal flow, CPM/PERT project scheduling, integer programming, Gomory cutting planes, Bellman dynamic programming, two-person zero-sum game theory, Markovian M/M/1 and M/M/c queueing systems, and deterministic/stochastic inventory models (EOQ, Newsvendor) with 24 solved questions and 4 interactive simulations.","url":"https://openstemlibrary.com/operations-research-for-statistics-chapter-2","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Operations Research","Linear programming and Simplex algorithm","Duality theory and sensitivity analysis","Transportation and assignment optimization","Network flows and PERT/CPM project scheduling","Integer programming and dynamic programming","Two-person zero-sum game theory and minimax theorem","Markovian queueing theory and stochastic inventory control"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Operations Research for Statistics","item":"https://openstemlibrary.com/operations-research-for-statistics"}]}</script></head>
+<body data-book-path="operations-research-for-statistics.html" data-chapter-index="1" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Operations Research for Statistics</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search Simplex method, Big-M, duality, shadow prices, Vogel approximation, Hungarian algorithm, CPM/PERT, branch and bound, minimax game theory, M/M/1 queue, EOQ…" class="search-input" aria-label="Search textbook topics">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="operations-research-for-statistics" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Foundations of Operations Research, Linear Programming Formulations &amp; Convex Polyhedral Geometry</span></a></li><li class="unit-nav-item active" data-unit-index="1"><a href="operations-research-for-statistics-chapter-2" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">The Simplex Algorithm, Artificial Variable Architectures &amp; Degeneracy Resolution</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="operations-research-for-statistics-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Duality Theory, Complementary Slackness &amp; Post-Optimality Sensitivity Analysis</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="operations-research-for-statistics-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Transportation, Transshipment &amp; Assignment Optimization Models</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="operations-research-for-statistics-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Network Optimization: Shortest Path, Minimum Spanning Trees, Max-Flow Min-Cut &amp; CPM/PERT</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="operations-research-for-statistics-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Integer Programming, Branch-and-Bound, Cutting Planes &amp; Dynamic Programming</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="operations-research-for-statistics-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Game Theory, Saddle Points, Mixed Strategies &amp; Minimax Linear Programming Equivalence</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="operations-research-for-statistics-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Stochastic Operations Research: Markovian Queueing Systems &amp; Probabilistic Inventory Models</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Operations research major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font" aria-pressed="false">Calm Paper</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 2 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">The Simplex Algorithm, Artificial Variable Architectures &amp; Degeneracy Resolution</h1>
+            <p class="unit-desc-lead" id="unit-desc">Algebraic architecture of the Simplex Method: basis matrices, reduced cost vectors, and optimality criteria; Minimum ratio test for feasibility preservation, unboundedness detection, and alternative optima; Artificial variable formulations: Charnes' Big-M penalty method and Dantzig's Two-Phase Simplex algorithm; Primal degeneracy, stalling, cycling phenomena, lexicographic perturbation, and Bland's anti-cycling rule; Revised Simplex Method in matrix form and computational complexity (Klee-Minty cube vs interior-point methods).</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-205 (Operations Research). Eight units and exactly three solved questions per unit. Interactive simulations illustrate 2D linear programming polyhedral feasible regions, primal-dual shadow price sensitivity, probabilistic PERT critical path completion, and Markovian M/M/1 queueing with EOQ inventory optimization. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-2-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.1</span>
+            <span>Algebraic Architecture of the Simplex Method: Basis Matrices, Canonical Dictionaries, and Reduced Costs</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Although the Fundamental Theorem of Linear Programming (Theorem 1.3) guarantees that an optimal solution of $\max Z = \mathbf{c}^T\mathbf{x}$ subject to $\mathbf{A}\mathbf{x} = \mathbf{b}, \mathbf{x} \ge \mathbf{0}$ occurs at a Basic Feasible Solution (BFS), brute-force enumeration of all $\binom{n}{m}$ candidate bases is computationally intractable even for moderate dimensions (for instance, $m = 50$ equations in $n = 100$ variables yields $\binom{100}{50} \approx 1.0089 \times 10^{29}$ bases). Invented by George B. Dantzig in 1947, the <strong>Simplex Algorithm</strong> circumvents exhaustive enumeration by moving systematically along edges of the feasible polyhedron $\mathcal{F}$ from one extreme point (BFS) to an <strong>adjacent</strong> extreme point in a direction that monotonically improves (or leaves non-decreasing) the objective function $Z$, terminating in a finite number of steps at a global optimum or a certificate of unboundedness.</p>
+
+<p>Let the standard-form linear program be specified by $\mathbf{A} \in \mathbb{R}^{m \times n}$ with $\text{rank}(\mathbf{A}) = m &lt; n$ and $\mathbf{b} \in \mathbb{R}_+{}^m$. At any iteration of the Simplex Algorithm, we partition the column indices $\{1, 2, \dots, n\}$ into a <strong>basic index set</strong> $B = \{B(1), B(2), \dots, B(m)\}$ of $m$ indices whose columns form an invertible $m \times m$ basis matrix $\mathbf{B} = [\mathbf{a}_{B(1)}, \dots, \mathbf{a}_{B(m)}]$, and a <strong>non-basic index set</strong> $N$ of the remaining $n - m$ indices with matrix $\mathbf{N}$. Partitioning the variable vector $\mathbf{x}$ and cost vector $\mathbf{c}$ conformably into $(\mathbf{x}_B, \mathbf{x}_N)$ and $(\mathbf{c}_B, \mathbf{c}_N)$, the structural equations $\mathbf{A}\mathbf{x} = \mathbf{b}$ and objective $Z = \mathbf{c}^T\mathbf{x}$ take the partitioned form:</p>
+
+<div class="math-display">$$\mathbf{B}\mathbf{x}_B + \mathbf{N}\mathbf{x}_N = \mathbf{b}, \qquad Z = \mathbf{c}_B^T \mathbf{x}_B + \mathbf{c}_N^T \mathbf{x}_N$$</div>
+
+<p>Because $\mathbf{B}$ is nonsingular, we premultiply the constraint system by $\mathbf{B}^{-1}$ to express the basic variables $\mathbf{x}_B$ explicitly as affine functions of the non-basic variables $\mathbf{x}_N$ (often termed Dantzig's <strong>canonical dictionary</strong> representation):</p>
+
+<div class="math-display">$$\mathbf{x}_B = \mathbf{B}^{-1}\mathbf{b} - \mathbf{B}^{-1}\mathbf{N}\mathbf{x}_N = \bar{\mathbf{b}} - \sum_{j \in N} \mathbf{y}_j x_j$$</div>
+
+<p>where $\bar{\mathbf{b}} = \mathbf{B}^{-1}\mathbf{b} \in \mathbb{R}_+{}^m$ is the current basic feasible right-hand-side vector, and $\mathbf{y}_j = \mathbf{B}^{-1}\mathbf{a}_j = (y_{1j}, y_{2j}, \dots, y_{mj})^T \in \mathbb{R}^m$ is the representation (coordinate vector) of column $\mathbf{a}_j$ with respect to the current basis $\mathbf{B}$, since $\mathbf{a}_j = \mathbf{B}\mathbf{y}_j = \sum_{i=1}^m y_{ij} \mathbf{a}_{B(i)}$.</p>
+
+<p>Substituting this representation of $\mathbf{x}_B$ into the objective functional eliminates the basic variables from $Z$:</p>
+
+<div class="math-display">$$Z = \mathbf{c}_B^T \left( \mathbf{B}^{-1}\mathbf{b} - \sum_{j \in N} \mathbf{y}_j x_j \right) + \sum_{j \in N} c_j x_j = \mathbf{c}_B^T \bar{\mathbf{b}} - \sum_{j \in N} \left( \mathbf{c}_B^T \mathbf{B}^{-1}\mathbf{a}_j - c_j \right) x_j$$</div>
+
+<p>For every variable index $j \in \{1, \dots, n\}$, we define the scalar quantity $z_j$ as the <strong>imputed resource value</strong> (the opportunity cost of the resources consumed by one unit of activity $j$ under basis $\mathbf{B}$):</p>
+
+<div class="math-display">$$z_j = \mathbf{c}_B^T \mathbf{y}_j = \mathbf{c}_B^T \mathbf{B}^{-1} \mathbf{a}_j = \sum_{i=1}^m c_{B(i)} y_{ij}$$</div>
+
+<p>This allows us to write the fundamental <strong>Simplex Objective Identity</strong> holding for every feasible vector $\mathbf{x} \in \mathcal{F}$:</p>
+
+<div class="math-display">$$Z(\mathbf{x}) = Z_0 - \sum_{j \in N} (z_j - c_j) x_j = Z_0 + \sum_{j \in N} (c_j - z_j) x_j$$</div>
+
+<p>where $Z_0 = \mathbf{c}_B^T \bar{\mathbf{b}}$ is the objective value at the current BFS $(\mathbf{x}_B = \bar{\mathbf{b}}, \mathbf{x}_N = \mathbf{0})$. Notice that for any basic variable $j = B(i) \in B$, since $\mathbf{y}_{B(i)} = \mathbf{B}^{-1}\mathbf{a}_{B(i)} = \mathbf{e}_i$ (the $i$-th standard unit vector), we always have $z_{B(i)} = \mathbf{c}_B^T \mathbf{e}_i = c_{B(i)}$, so the net evaluation $z_j - c_j = 0$ identically for all basic variables. For non-basic variables $j \in N$, the quantity $\bar{c}_j = c_j - z_j$ is called the <strong>relative profit</strong> (or <strong>reduced cost</strong> in minimization), while $z_j - c_j = -\bar{c}_j$ is the standard <strong>net evaluation row</strong> entry in the classical Simplex tableau.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.2</span>
+            <span>Optimality Criterion, Entering Variable Pricing, and the Minimum Ratio Feasibility Test</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>The Simplex Objective Identity $Z(\mathbf{x}) = Z_0 - \sum_{j \in N} (z_j - c_j) x_j$ immediately yields both the sufficient condition for global optimality and the exact geometric rule for moving to a superior adjacent vertex when the current BFS is suboptimal.</p>
+
+<h4>Theorem 2.1 (Simplex Optimality Criterion):</h4>
+
+<p>In a maximization Linear Programming Problem with current Basic Feasible Solution $\mathbf{x}^{(0)} = (\bar{\mathbf{b}}^T, \mathbf{0}^T)^T$, if the net evaluation row satisfies:</p>
+
+<div class="math-display">$$z_j - c_j \ge 0 \quad (\text{equivalently, reduced profit } \bar{c}_j = c_j - z_j \le 0) \qquad \forall j \in N$$</div>
+
+<p>then $\mathbf{x}^{(0)}$ is a <strong>globally optimal Basic Feasible Solution</strong> over the entire feasible polyhedron $\mathcal{F}$, with maximum objective value $Z^* = Z_0 = \mathbf{c}_B^T \mathbf{B}^{-1}\mathbf{b}$. (For a minimization problem $\min W = \mathbf{c}^T\mathbf{x}$, the optimality condition is reversed: $z_j - c_j \le 0$, or $\bar{c}_j = c_j - z_j \ge 0$, for all $j \in N$.)</p>
+
+<h5>Proof:</h5>
+
+<p>Let $\mathbf{x} \in \mathcal{F}$ be any arbitrary feasible vector in the polyhedron. Because $\mathbf{x} \in \mathcal{F}$, all components of $\mathbf{x}$ satisfy non-negativity, so in particular $x_j \ge 0$ for every non-basic index $j \in N$. Since $z_j - c_j \ge 0$ and $x_j \ge 0$ for all $j \in N$, each product $(z_j - c_j)x_j \ge 0$. Summing over $j \in N$ gives $\sum_{j \in N} (z_j - c_j)x_j \ge 0$, and therefore:</p>
+
+<div class="math-display">$$Z(\mathbf{x}) = Z_0 - \sum_{j \in N} (z_j - c_j) x_j \le Z_0 = Z(\mathbf{x}^{(0)}) \qquad \forall \mathbf{x} \in \mathcal{F}$$</div>
+
+<p>Thus no feasible solution in $\mathcal{F}$ can exceed $Z_0$, proving global optimality of $\mathbf{x}^{(0)}$.</p>
+
+<h4>Entering Variable Selection (Dantzig's Steepest-Edge-Coefficient Rule)</h4>
+
+<p>Suppose the optimality condition fails at the current BFS, so there exists at least one non-basic index $k \in N$ with $z_k - c_k &lt; 0$ (i.e., $c_k - z_k &gt; 0$). Increasing $x_k$ from $0$ to a positive step length $\theta &gt; 0$ while holding all other non-basic variables $x_j = 0$ ($j \in N \setminus \{k\}$) increases the objective function at the positive marginal rate $\frac{\partial Z}{\partial x_k} = c_k - z_k &gt; 0$:</p>
+
+<div class="math-display">$$Z(\theta) = Z_0 - (z_k - c_k)\theta = Z_0 + (c_k - z_k)\theta &gt; Z_0$$</div>
+
+<p>Under <strong>Dantzig's Most Negative $z_j - c_j$ Rule</strong> (largest positive $\bar{c}_j = c_j - z_k$), the entering column index $k \in N$ is chosen to maximize the marginal rate of objective improvement per unit of $x_k$:</p>
+
+<div class="math-display">$$z_k - c_k = \min_{j \in N} \left\{ z_j - c_j : z_j - c_j &lt; 0 \right\}$$</div>
+
+<h4>Leaving Variable Selection: The Minimum Ratio Test</h4>
+
+<p>As the entering variable $x_k$ increases from $0$ to $\theta \ge 0$ (with all other non-basic variables kept at $0$), the $m$ basic variables $\mathbf{x}_B(\theta)$ adjust linearly along the <strong>simplex edge direction</strong> $\mathbf{d}_B = -\mathbf{y}_k = -\mathbf{B}^{-1}\mathbf{a}_k$ to maintain $\mathbf{A}\mathbf{x}(\theta) = \mathbf{b}$:</p>
+
+<div class="math-display">$$x_{B(i)}(\theta) = \bar{b}_i - y_{ik} \theta, \qquad i = 1, 2, \dots, m$$</div>
+
+<p>To preserve primal feasibility ($\mathbf{x}_B(\theta) \ge \mathbf{0}$), every basic component $x_{B(i)}(\theta)$ must remain non-negative:</p>
+
+<ul>
+
+  <li>If $y_{ik} \le 0$, then as $\theta &gt; 0$ increases, $-y_{ik}\theta \ge 0$, so $x_{B(i)}(\theta) = \bar{b}_i - y_{ik}\theta \ge \bar{b}_i \ge 0$ grows or remains constant and <strong>never blocks</strong> the increase of $\theta$.</li>
+
+  <li>If $y_{ik} &gt; 0$, then $x_{B(i)}(\theta) = \bar{b}_i - y_{ik}\theta$ decreases linearly with $\theta$ and hits zero at the critical ratio $\theta_i = \bar{b}_i / y_{ik} \ge 0$.</li>
+
+</ul>
+
+<p>Therefore, the largest permissible step size $\theta^*$ that preserves non-negativity across <strong>all</strong> $m$ basic variables simultaneously is determined by the <strong>Simplex Minimum Ratio Test</strong>:</p>
+
+<div class="math-display">$$\theta^* = \min_{1 \le i \le m} \left\{ \frac{\bar{b}_i}{y_{ik}} : y_{ik} &gt; 0 \right\} = \frac{\bar{b}_r}{y_{rk}} \ge 0$$</div>
+
+<p>The basic variable $x_{B(r)}$ achieving this minimum ratio is driven to zero at $\theta = \theta^*$ and becomes the <strong>leaving variable</strong> (departing the basis), while $x_k = \theta^*$ enters the basis in row $r$. The intersection entry $y_{rk} &gt; 0$ is the <strong>pivot element</strong>. Performing a Gauss–Jordan row operation (dividing pivot row $r$ by $y_{rk}$ and eliminating column $k$ in all other rows $i \ne r$ and the $z_j - c_j$ row) updates the basis to $\mathbf{B}_{\text{new}} = \mathbf{B} + (\mathbf{a}_k - \mathbf{a}_{B(r)})\mathbf{e}_r^T$ and increases the objective to $Z_{\text{new}} = Z_0 + \theta^*(c_k - z_k) \ge Z_0$.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.3</span>
+            <span>Unboundedness Certificates, Extreme Rays, and Alternative Optimal Solutions</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Beyond converging to a unique optimal vertex, the Simplex tableau provides complete algebraic certificates for two important geometric phenomena: <strong>unboundedness</strong> of the objective functional and <strong>alternative (multiple) optimal solutions</strong> along a polyhedral face.</p>
+
+<h4>Algebraic Certificate of Unboundedness</h4>
+
+<p>Suppose at some iteration of the Simplex Algorithm there exists a non-basic entering candidate $x_k$ with $z_k - c_k &lt; 0$ (so increasing $x_k$ strictly increases $Z$), but every entry in its updated tableau column is non-positive:</p>
+
+<div class="math-display">$$\mathbf{y}_k = \mathbf{B}^{-1}\mathbf{a}_k \le \mathbf{0} \quad \left(\text{i.e., } y_{ik} \le 0 \text{ for all } i = 1, 2, \dots, m\right)$$</div>
+
+<p>Then the Minimum Ratio Test set $\{ \bar{b}_i / y_{ik} : y_{ik} &gt; 0 \}$ is empty ($\theta^* = +\infty$)! Let us construct the full $n$-dimensional ray trajectory $\mathbf{x}(\theta) = \mathbf{x}^{(0)} + \theta \mathbf{d}$ for $\theta \ge 0$, where $\mathbf{x}^{(0)}$ is the current BFS and the direction vector $\mathbf{d} \in \mathbb{R}^n$ is defined by:</p>
+
+<div class="math-display">$$d_{B(i)} = -y_{ik} \ge 0 \quad (i = 1, \dots, m), \qquad d_k = 1, \qquad d_j = 0 \quad (j \in N \setminus \{k\})$$</div>
+
+<p>Notice three remarkable properties of this direction vector $\mathbf{d}$:</p>
+
+<h4>1. Non-negativity: Because $y_{ik} \le 0$ for all $i$, every component of $\mathbf{d}$ is non-negative ($\mathbf{d} \ge \mathbf{0}, \mathbf{d} \ne \mathbf{0}$), so $\mathbf{x}(\theta) = \mathbf{x}^{(0)} + \theta\mathbf{d} \ge \mathbf{0}$ for all $\theta \ge 0$.</h4>
+
+<h4>2. Null-space invariance: Multiplying $\mathbf{d}$ by the constraint matrix $\mathbf{A}$ gives:</h4>
+
+<div class="math-display">$$\mathbf{A}\mathbf{d} = \mathbf{B}\mathbf{d}_B + \mathbf{a}_k (1) = \mathbf{B}(-\mathbf{B}^{-1}\mathbf{a}_k) + \mathbf{a}_k = -\mathbf{a}_k + \mathbf{a}_k = \mathbf{0}$$</div>
+
+<p>Therefore, $\mathbf{A}\mathbf{x}(\theta) = \mathbf{A}\mathbf{x}^{(0)} + \theta \mathbf{A}\mathbf{d} = \mathbf{b} + \mathbf{0} = \mathbf{b}$ for all $\theta \ge 0$. Thus $\mathbf{d}$ is an <strong>extreme ray</strong> of the recession cone $\mathcal{R} = \{\mathbf{d} \ge \mathbf{0} : \mathbf{A}\mathbf{d} = \mathbf{0}\}$, and $\mathbf{x}(\theta) \in \mathcal{F}$ is feasible for arbitrarily large $\theta \to +\infty$.</p>
+
+<h4>3. Strict objective growth: Evaluating the objective function along the ray yields:</h4>
+
+<div class="math-display">$$\mathbf{c}^T \mathbf{x}(\theta) = \mathbf{c}^T\mathbf{x}^{(0)} + \theta (\mathbf{c}_B^T \mathbf{d}_B + c_k) = Z_0 + \theta (c_k - \mathbf{c}_B^T\mathbf{y}_k) = Z_0 + \theta (c_k - z_k) \xrightarrow{\theta \to +\infty} +\infty$$</div>
+
+<p>since $c_k - z_k &gt; 0$. Thus $z_k - c_k &lt; 0$ with $\mathbf{y}_k \le \mathbf{0}$ is a necessary and sufficient certificate that the LP is <strong>unbounded above</strong> on $\mathcal{F}$.</p>
+
+<h4>Characterization of Alternative Optimal Solutions</h4>
+
+<p>Now suppose the Simplex Algorithm reaches an optimal tableau where $z_j - c_j \ge 0$ for all $j \in N$, achieving the finite maximum $Z^* = Z_0$. Recall the Simplex Objective Identity:</p>
+
+<div class="math-display">$$Z(\mathbf{x}) = Z^* - \sum_{j \in N} (z_j - c_j) x_j$$</div>
+
+<p>If $z_j - c_j &gt; 0$ for <strong>every</strong> non-basic variable $j \in N$, then any feasible point $\mathbf{x} \in \mathcal{F}$ distinct from the current BFS must have $x_j &gt; 0$ for at least one $j \in N$ (since $\mathbf{B}$ is nonsingular, $\mathbf{x}_N = \mathbf{0}$ uniquely forces $\mathbf{x}_B = \bar{\mathbf{b}}$), which strictly reduces $Z(\mathbf{x}) &lt; Z^*$. Hence, <strong>strict positivity $z_j - c_j &gt; 0$ for all non-basic variables $j \in N$ is a sufficient condition for the current optimal BFS to be the unique global optimal solution</strong>!</p>
+
+<p>Conversely, suppose that in the optimal tableau ($z_j - c_j \ge 0$ for all $j \in N$), there exists at least one <strong>non-basic variable</strong> $x_k$ ($k \in N$) whose net evaluation is zero:</p>
+
+<div class="math-display">$$z_k - c_k = 0 \qquad (k \in N)$$</div>
+
+<p>Increasing $x_k$ from $0$ to $\theta &gt; 0$ changes the objective value by $\Delta Z = -\theta(z_k - c_k) = 0$, leaving $Z(\theta) = Z^*$ completely unchanged!</p>
+
+<ul>
+
+  <li>If at least one entry $y_{ik} &gt; 0$ (and $\bar{b}_i &gt; 0$), performing a standard Simplex pivot to bring $x_k$ into the basis yields a second, distinct <strong>optimal Basic Feasible Solution</strong> $\mathbf{x}^{(2)} \ne \mathbf{x}^{(1)}$ with $Z(\mathbf{x}^{(2)}) = Z^*$. Every convex combination $\mathbf{x}(\lambda) = \lambda \mathbf{x}^{(1)} + (1-\lambda)\mathbf{x}^{(2)}$ for $\lambda \in [0, 1]$ is then an optimal solution.</li>
+
+  <li>If $y_{ik} \le 0$ for all $i = 1, \dots, m$, then the ray $\mathbf{x}(\theta) = \mathbf{x}^{(1)} + \theta\mathbf{d}$ ($\theta \ge 0$) is an <strong>unbounded optimal ray</strong> along which $Z(\mathbf{x}(\theta)) = Z^*$ remains constant out to infinity.</li>
+
+</ul>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.4</span>
+            <span>Artificial Variable Architectures I: Charnes' Big-M Penalty Method</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When a Linear Programming Problem consists exclusively of less-than-or-equal-to ($\le$) constraints with non-negative right-hand sides $b_i \ge 0$, introducing $m$ slack variables $s_1, \dots, s_m \ge 0$ immediately furnishes an $m \times m$ identity submatrix $\mathbf{B} = \mathbf{I}_m$ within $\mathbf{A}$ and an obvious initial Basic Feasible Solution at the origin ($\mathbf{x} = \mathbf{0}, \mathbf{s} = \mathbf{b} \ge \mathbf{0}$). However, whenever the standard-form model contains <strong>greater-than-or-equal-to ($\ge$) constraints</strong> (which become $\sum_{j=1}^n a_{ij}x_j - e_i = b_i$ with coefficient $-1$ on surplus $e_i$) or <strong>strict equality ($=$) constraints</strong> ($\sum_{j=1}^n a_{ij}x_j = b_i$), setting the structural variables $\mathbf{x} = \mathbf{0}$ yields $e_i = -b_i &lt; 0$ (infeasible) or leaves no basic variable at all for the equality row.</p>
+
+<p>To construct a starting $m \times m$ identity basis matrix $\mathbf{I}_m$ without guessing an initial feasible vertex, we augment each constraint $i \in M_2 \cup M_3$ that lacks a positive unit slack column by adding a non-negative <strong>artificial variable</strong> $A_i \ge 0$:</p>
+
+<div class="math-display">$$\sum_{j=1}^n a_{ij} x_j - e_i + A_i = b_i \quad (\text{for } \ge \text{ rows}), \qquad \sum_{j=1}^n a_{ij} x_j + A_i = b_i \quad (\text{for } = \text{ rows})$$</div>
+
+<p>Unlike slack and surplus variables—which have genuine physical interpretations as unused capacity or excess production—artificial variables $A_i$ are purely mathematical scaffolding. A solution of the augmented system is feasible for the original Linear Program <strong>if and only if every artificial variable equals zero ($A_i = 0$ for all $i$)</strong>.</p>
+
+<h4>Charnes' Big-M Method (Method of Penalties)</h4>
+
+<p>Developed by Abraham Charnes (1952), the <strong>Big-M Penalty Method</strong> drives artificial variables out of the basis in a single unified Simplex run by assigning an overwhelmingly large penalty coefficient $M \gg \max_{i,j} \{|c_j|, |a_{ij}|, |b_i|\}$ ($M \to +\infty$) to every artificial variable in the objective function:</p>
+
+<ul>
+
+  <li>For a <strong>Maximization</strong> problem: assign objective coefficient $-M$ to each $A_i$:</li>
+
+</ul>
+
+<div class="math-display">$$\text{Maximize } Z_M = \sum_{j=1}^n c_j x_j - M \sum_{i=1}^p A_i$$</div>
+
+<ul>
+
+  <li>For a <strong>Minimization</strong> problem: assign objective coefficient $+M$ to each $A_i$:</li>
+
+</ul>
+
+<div class="math-display">$$\text{Minimize } W_M = \sum_{j=1}^n c_j x_j + M \sum_{i=1}^p A_i$$</div>
+
+<p>Because $M$ is treated symbolically as an arbitrarily large positive constant, each net evaluation entry $z_j - c_j$ splits into a linear polynomial in $M$:</p>
+
+<div class="math-display">$$z_j - c_j = \alpha_j + \beta_j M$$</div>
+
+<p>During Simplex iterations, whenever two columns are compared or tested for optimality, the coefficient $\beta_j$ of $M$ dominates completely over the finite part $\alpha_j$: $\alpha_j + \beta_j M &lt; 0$ if and only if $\beta_j &lt; 0$, or ($\beta_j = 0$ and $\alpha_j &lt; 0$). Once an artificial variable $A_i$ leaves the basis, it need never be considered for re-entry and its column can be dropped immediately.</p>
+
+<h4>Exhaustive Termination Diagnostics of the Big-M Method</h4>
+
+<p>When the Big-M Simplex tableau satisfies the optimality condition ($z_j - c_j \ge 0$ for all columns in maximization):</p>
+
+<h4>1. Feasible Optimal Solution: If all artificial variables have left the basis (or any artificial variable remaining in the basis has value $A_i^* = 0$ at a degenerate vertex), the resulting structural vector $\mathbf{x}^*$ is the true optimal BFS of the original LP.</h4>
+
+<h4>2. Infeasibility Certificate ($\mathcal{F} = \emptyset$): If the optimality criterion $z_j - c_j \ge 0$ is satisfied for all columns, yet at least one artificial variable remains in the basis at a strictly positive level ($A_i^* &gt; 0$), then the original Linear Programming Problem is infeasible ($\mathcal{F} = \emptyset$); no vector $\mathbf{x} \ge \mathbf{0}$ can ever drive $\sum A_i$ to zero.</h4>
+
+<h4>3. Pseudo-Unboundedness vs True Unboundedness: If an unbounded column ($\mathbf{y}_k \le \mathbf{0}$ with $z_k - c_k &lt; 0$) is encountered while artificial variables are still positive in the basis, the original problem may actually be infeasible rather than unbounded; this numerical and logical drawback motivates Dantzig's Two-Phase Method.</h4>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.5</span>
+            <span>Artificial Variable Architectures II: Dantzig's Two-Phase Simplex Algorithm</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In digital floating-point computation on modern computers, Charnes' Big-M method suffers from a severe numerical stability flaw: choosing $M$ too small fails to expel artificial variables from the basis, whereas choosing $M$ excessively large (e.g., $M = 10^{12}$ when structural coefficients $c_j \sim 10^0$) causes catastrophic <strong>floating-point round-off cancellation</strong> when adding $c_j - M y_{ij}$, swamping the true objective coefficients $c_j$ below machine epsilon ($\epsilon_{\text{mach}} \approx 2.22 \times 10^{-16}$). To eliminate arbitrary penalty constants entirely, George Dantzig, Alex Orden, and Philip Wolfe introduced the <strong>Two-Phase Simplex Method</strong>, which decouples feasibility discovery (Phase I) from objective optimization (Phase II).</p>
+
+<h4>Phase I: Minimizing the Sum of Artificial Variables</h4>
+
+<p>In <strong>Phase I</strong>, we temporarily ignore the original objective function $Z = \mathbf{c}^T\mathbf{x}$ and replace it with an auxiliary Phase I linear program whose sole purpose is to minimize the sum of all $p$ artificial variables (or equivalently, maximize $Z_{\text{I}} = -\sum_{i=1}^p A_i$):</p>
+
+<div class="math-display">$$\text{Maximize } Z_{\text{I}} = -\sum_{i=1}^p A_i \quad \left(\text{equivalently, Minimize } W_{\text{I}} = \sum_{i=1}^p A_i\right)$$</div>
+
+<p>subject to the augmented constraint system $\mathbf{A}\mathbf{x} + \mathbf{E}\mathbf{s} + \mathbf{A}_{\text{art}}\mathbf{A} = \mathbf{b}, \quad \mathbf{x}, \mathbf{s}, \mathbf{A} \ge \mathbf{0}$.</p>
+
+<p>Notice three remarkable mathematical properties of the Phase I linear program:</p>
+
+<h4>1. Guaranteed Initial BFS: Setting $\mathbf{x} = \mathbf{0}$, slack variables $s_i = b_i \ge 0$, surplus variables $e_i = 0$, and artificial variables $A_i = b_i \ge 0$ provides an immediate, exact initial Basic Feasible Solution for Phase I.</h4>
+
+<h4>2. Guaranteed Boundedness: Because every artificial variable satisfies $A_i \ge 0$, their sum is bounded below by zero ($W_{\text{I}} = \sum_{i=1}^p A_i \ge 0$, or $Z_{\text{I}} \le 0$). Therefore, Phase I can never be unbounded; assuming an anti-cycling rule, the Simplex Algorithm applied to Phase I is mathematically guaranteed to terminate at a finite optimal objective value $W_{\text{I}}^* \ge 0$.</h4>
+
+<h4>3. Exact Feasibility Dichotomy:</h4>
+
+<ul>
+
+  <li><strong>Case A ($W_{\text{I}}^* &gt; 0$, i.e., $Z_{\text{I}}^* &lt; 0$)</strong>: If the minimum possible sum of artificial variables is strictly positive, then no vector in the non-negative orthant satisfies $\mathbf{A}\mathbf{x} = \mathbf{b}$ with $\mathbf{A} = \mathbf{0}$. The original Linear Programming Problem is <strong>strictly infeasible</strong> ($\mathcal{F} = \emptyset$), and computation terminates immediately at the end of Phase I.</li>
+
+  <li><strong>Case B ($W_{\text{I}}^* = 0$, i.e., $Z_{\text{I}}^* = 0$)</strong>: Since $A_i \ge 0$ for all $i$ and $\sum_{i=1}^p A_i^* = 0$, every single artificial variable has been driven to zero ($A_1^* = \dots = A_p^* = 0$)! The resulting structural and slack/surplus vector $(\mathbf{x}^*, \mathbf{s}^*)$ is a genuine <strong>Basic Feasible Solution</strong> of the original Linear Program, initiating Phase II.</li>
+
+</ul>
+
+<h4>Transition from Phase I to Phase II and Redundant Equation Detection</h4>
+
+<p>When Phase I terminates with $W_{\text{I}}^* = 0$, two subcases govern the transition to <strong>Phase II</strong>:</p>
+
+<ul>
+
+  <li><strong>Subcase B1 (No artificial variables remain in the basis)</strong>: We delete all artificial columns completely, restore the original objective coefficients $c_j$ into $\mathbf{c}_B$ and $\mathbf{c}_N$, recompute the Phase II net evaluation row $z_j - c_j = \mathbf{c}_B^T \mathbf{y}_j - c_j$ for the current basis, and proceed with standard Simplex iterations to optimize the original objective $Z = \mathbf{c}^T\mathbf{x}$.</li>
+
+  <li><strong>Subcase B2 (One or more artificial variables remain in the basis at degenerate zero level, $A_r^* = 0$)</strong>: Suppose artificial variable $A_r = 0$ is still basic in row $r$ at the end of Phase I.</li>
+
+</ul>
+
+<ol>
+
+  <li>If row $r$ contains at least one non-zero entry $y_{rj} \ne 0$ in a non-artificial structural or slack/surplus column $j$, we perform a <strong>degenerate zero-step pivot</strong> on $y_{rj} \ne 0$ (even if $y_{rj} &lt; 0$, since $\bar{b}_r = 0$, the step size is $\theta^* = 0 / y_{rj} = 0$, preserving feasibility $\bar{\mathbf{b}} \ge \mathbf{0}$) to exchange $A_r$ out of the basis for $x_j$.</li>
+
+  <li>If $y_{rj} = 0$ for <strong>every</strong> non-artificial column $j$, then row $r$ of the current tableau reads $0 x_1 + \dots + 0 x_n + 1 A_r = 0$. This proves algebraically that the $r$-th original constraint is a <strong>linearly dependent redundant equation</strong> ($\text{rank}(\mathbf{A}) &lt; m$), so the entire $r$-th row and $A_r$ column can be deleted from the tableau before beginning Phase II!</li>
+
+</ol>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.6</span>
+            <span>Primal Degeneracy, Cycling Phenomena, Lexicographic Perturbation, and Bland's Anti-Cycling Rule</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In the proof of finite termination of the Simplex Algorithm, a crucial step assumes that every Simplex pivot achieves a strict increase in the objective function ($Z_{\text{new}} = Z_0 + \theta^*(c_k - z_k) &gt; Z_0$). Because there are only finitely many bases $\binom{n}{m}$, if $Z$ strictly increases at every iteration, no basis can ever be visited twice, guaranteeing termination in at most $\binom{n}{m}$ pivots. However, this strict monotonicity relies on $\theta^* = \min_{i: y_{ik}&gt;0} (\bar{b}_i / y_{ik}) &gt; 0$, which holds automatically when the current BFS is <strong>non-degenerate</strong> ($\bar{b}_i &gt; 0$ for all $i=1,\dots,m$).</p>
+
+<h4>Primal Degeneracy, Tie-Induced Degeneracy, and Cycling</h4>
+
+<p>A Basic Feasible Solution is <strong>degenerate</strong> if one or more basic variables equal zero ($\bar{b}_i = 0$ for at least one $i \in \{1, \dots, m\}$). Degeneracy arises in two ways:</p>
+
+<ol>
+
+  <li>In the initial tableau, if a right-hand side $b_i = 0$.</li>
+
+  <li>During any Simplex iteration, if <strong>two or more basic variables tie in the Minimum Ratio Test</strong>:</li>
+
+</ol>
+
+<div class="math-display">$$\theta^* = \frac{\bar{b}_{r_1}}{y_{r_1, k}} = \frac{\bar{b}_{r_2}}{y_{r_2, k}}$$</div>
+
+<p>When $x_{B(r_1)}$ is chosen to leave the basis, the remaining tied basic variable $x_{B(r_2)}$ stays in the basis but its updated right-hand side becomes $\bar{b}_{r_2}^{\text{new}} = \bar{b}_{r_2} - \theta^* y_{r_2, k} = 0$, creating a <strong>degenerate BFS</strong> in the next tableau!</p>
+
+<p>At a degenerate BFS where $\bar{b}_r = 0$ and $y_{rk} &gt; 0$, the Minimum Ratio Test yields step size $\theta^* = 0 / y_{rk} = 0$. Performing the pivot changes the algebraic basis matrix $\mathbf{B}$ to $\mathbf{B}_{\text{new}}$, but the geometric point $\mathbf{x}$ does not move at all ($\Delta \mathbf{x} = \mathbf{0}$) and the objective function stalls ($\Delta Z = \theta^*(c_k - z_k) = 0$). A sequence of consecutive zero-step pivots ($\theta^* = 0$) at the same geometric vertex is called <strong>stalling</strong>. Worse yet, as first demonstrated by E. M. L. Beale (1955) with a 3-constraint, 7-variable counterexample, it is possible for a sequence of degenerate pivots ($\theta^* = 0$) to repeat a closed loop of bases $\mathbf{B}^{(1)} \to \mathbf{B}^{(2)} \to \dots \to \mathbf{B}^{(L)} \to \mathbf{B}^{(1)}$ indefinitely—a phenomenon known as <strong>cycling</strong>—preventing the Simplex Algorithm from ever terminating!</p>
+
+<h4>Resolution 1: Charnes' $\varepsilon$-Perturbation and the Lexicographic Method</h4>
+
+<p>To eliminate degeneracy geometrically, Abraham Charnes (1952) and Dantzig, Orden, and Wolfe (1955) perturbed the right-hand-side vector $\mathbf{b}$ by adding powers of an infinitesimally small positive scalar $0 &lt; \varepsilon \ll 1$ along the columns of the initial basis $\mathbf{B}_0 = \mathbf{I}_m$:</p>
+
+<div class="math-display">$$\mathbf{b}(\varepsilon) = \mathbf{b} + \sum_{k=1}^m \varepsilon^k \mathbf{e}_k = \begin{pmatrix} b_1 + \varepsilon \\ b_2 + \varepsilon^2 \\ \vdots \\ b_m + \varepsilon^m \end{pmatrix}$$</div>
+
+<p>Because $1 \gg \varepsilon \gg \varepsilon^2 \gg \dots \gg \varepsilon^m &gt; 0$ are algebraically independent over the rational numbers, no basic variable can ever equal zero and no two ratios can ever tie! In practice, $\varepsilon$ is never assigned a numerical value; instead, each row $i$ is represented by the $(m+1)$-dimensional <strong>lexicographic vector</strong> $\mathbf{r}_i = (\bar{b}_i, y_{i1}, y_{i2}, \dots, y_{im})$. When comparing candidate leaving rows $i$ with $y_{ik} &gt; 0$, we divide the entire row vector $\mathbf{r}_i$ by $y_{ik}$ and select the unique row $r$ whose scaled vector $\frac{1}{y_{rk}}(\bar{b}_r, y_{r1}, \dots, y_{rm})$ is <strong>lexicographically smallest</strong> (comparing the first component $\bar{b}_i/y_{ik}$, then on a tie comparing $y_{i1}/y_{ik}$, then $y_{i2}/y_{ik}$, and so on). Because the matrix $[\mathbf{y}_1, \dots, \mathbf{y}_m] = \mathbf{B}^{-1}$ has full rank $m$, no two rows can be proportional, so the lexicographic tie-break is always <strong>unique</strong> and strictly increases the objective rows lexicographically, making cycling mathematically impossible!</p>
+
+<h4>Resolution 2: Bland's Smallest-Subscript Anti-Cycling Rule (1977)</h4>
+
+<p>Robert G. Bland (1977) proved a remarkably simple combinatorial anti-cycling theorem that requires zero extra tableau storage:</p>
+
+<h5>Theorem 2.2 (Bland's Anti-Cycling Theorem):</h5>
+
+<p>Order all variables with fixed indices $x_1, x_2, \dots, x_n$. The Simplex Algorithm is guaranteed never to cycle (and therefore terminates in a finite number of pivots on any LP) if both entering and leaving ties are broken by choosing the <strong>smallest subscript</strong>:</p>
+
+<h4>1. Entering Rule: Among all non-basic variables with $z_j - c_j &lt; 0$, choose the entering variable $x_k$ with the smallest index $k$: $k = \min \{ j \in N : z_j - c_j &lt; 0 \}$.</h4>
+
+<h4>2. Leaving Rule: Among all basic variables $x_{B(i)}$ that tie for the minimum ratio $\theta^* = \min_{i: y_{ik}&gt;0} (\bar{b}_i / y_{ik})$, choose the leaving basic variable $x_{B(r)}$ with the smallest variable subscript $B(r)$ (not the smallest row number $i$, but the smallest original variable index $B(r)$!).</h4>
+
+<h4>Steepest-Edge and Devex Pricing Rules against Stalling</h4>
+
+<p>While Bland's rule guarantees finite termination, its strict adherence to index order often selects entering variables with tiny objective improvements, causing long sequences of slow pivots. In modern statistical and commercial optimization solvers, stalling and poor pivot trajectories are mitigated by <strong>Steepest-Edge Pricing</strong> (Goldfarb and Reid, 1977) and Paula Harris's <strong>Devex Pricing</strong> (1973). Rather than maximizing the coordinate derivative $c_j - z_j = \frac{\partial Z}{\partial x_j}$ (which depends on arbitrary column scaling), Steepest-Edge Pricing normalizes the reduced cost by the Euclidean norm of the actual $n$-dimensional edge displacement vector $\boldsymbol{\eta}^{(j)} = (-\mathbf{y}_j^T, \mathbf{e}_j^T)^T$, selecting the non-basic column $k \in N$ that maximizes the true directional derivative in $\mathbb{R}^n$:</p>
+
+<div class="math-display">$$k = \arg\max_{j \in N: c_j - z_j &gt; 0} \frac{c_j - z_j}{\|\boldsymbol{\eta}^{(j)}\|_2} = \arg\max_{j \in N: c_j - z_j &gt; 0} \frac{c_j - z_j}{\sqrt{1 + \sum_{i=1}^m y_{ij}^2}}$$</div>
+
+<p>Because edge norms $\|\boldsymbol{\eta}^{(j)}\|_2^2 = 1 + \|\mathbf{y}_j\|_2^2$ can be updated recursively from iteration to iteration without recomputing all columns $\mathbf{y}_j$, Steepest-Edge Pricing dramatically reduces both degenerate stalling and total iteration counts across large-scale linear programs.</p>
+
+<h4>The Revised Simplex Method in Matrix Form and Computational Complexity</h4>
+
+<p>In large-scale industrial and statistical optimization problems, a standard LP may involve $m = 10,000$ constraints and $n = 500,000$ variables. In the standard tableau Simplex method, every pivot updates all $m \times n$ entries $y_{ij}$ of the non-basic columns $\mathbf{B}^{-1}\mathbf{N}$ at a cost of $\mathcal{O}(mn)$ arithmetic operations per iteration, even though <strong>only a single column $\mathbf{y}_k = \mathbf{B}^{-1}\mathbf{a}_k$</strong> (the entering column) is actually needed to perform the Minimum Ratio Test! Furthermore, real-world constraint matrices $\mathbf{A}$ are typically ultra-sparse (with fewer than $0.1\%$ non-zero entries), whereas standard tableau pivoting rapidly destroys sparsity through dense fill-in.</p>
+
+<h4>Architecture of the Revised Simplex Method</h4>
+
+<p>Developed by Dantzig and William Orchard-Hays (1953), the <strong>Revised Simplex Method</strong> computes and stores only the current basis inverse $\mathbf{B}^{-1} \in \mathbb{R}^{m \times m}$ (or, in modern numerical linear algebra, a sparse $LU$ factorization of $\mathbf{B}$), the basic variable values $\bar{\mathbf{b}} = \mathbf{B}^{-1}\mathbf{b} \in \mathbb{R}^m$, and the <strong>simplex multiplier (dual price) vector</strong> $\mathbf{w}^T \in \mathbb{R}^{1 \times m}$:</p>
+
+<div class="math-display">$$\mathbf{w}^T = \mathbf{c}_B^T \mathbf{B}^{-1} \iff \mathbf{B}^T \mathbf{w} = \mathbf{c}_B$$</div>
+
+<p>Each iteration of the Revised Simplex Method executes four compact matrix-vector steps:</p>
+
+<h4>1. Compute Simplex Multipliers (BTRAN — Backward Transformation): Solve the $m \times m$ transposed system $\mathbf{B}^T \mathbf{w} = \mathbf{c}_B$ for the dual multiplier vector $\mathbf{w} = (\mathbf{B}^{-1})^T \mathbf{c}_B$.</h4>
+
+<h4>2. Price Non-Basic Columns (Entering Selection): For non-basic indices $j \in N$, compute the reduced cost directly from the original sparse column $\mathbf{a}_j$:</h4>
+
+<div class="math-display">$$z_j - c_j = \mathbf{w}^T \mathbf{a}_j - c_j$$</div>
+
+<p>If $z_j - c_j \ge 0$ for all $j \in N$, stop; the current BFS $\mathbf{x}_B = \bar{\mathbf{b}}$ is optimal! Otherwise, select an entering index $k \in N$ with $z_k - c_k &lt; 0$.</p>
+
+<h4>3. FTRAN (Forward Transformation &amp; Minimum Ratio Test): Compute only the entering updated column $\mathbf{y}_k$ by solving $\mathbf{B}\mathbf{y}_k = \mathbf{a}_k$ (i.e., $\mathbf{y}_k = \mathbf{B}^{-1}\mathbf{a}_k$). If $\mathbf{y}_k \le \mathbf{0}$, stop (the LP is unbounded). Otherwise, compute the Minimum Ratio Test $\theta^* = \min_{i: y_{ik}&gt;0} (\bar{b}_i / y_{ik}) = \bar{b}_r / y_{rk}$ to identify the leaving basic variable $x_{B(r)}$ in position $r$.</h4>
+
+<h4>4. Basis Inverse Update via Product Form of the Inverse (Eta Matrix): Replace column $r$ of $\mathbf{B}$ by $\mathbf{a}_k$. Because $\mathbf{B}_{\text{new}}$ differs from $\mathbf{B}$ in only the $r$-th column, $\mathbf{B}_{\text{new}} = \mathbf{B} \mathbf{E}_r^{-1}$, so the new basis inverse is obtained by premultiplying $\mathbf{B}^{-1}$ by an elementary Eta matrix $\mathbf{E}_r \in \mathbb{R}^{m \times m}$ that differs from the identity matrix $\mathbf{I}_m$ solely in column $r$:</h4>
+
+<div class="math-display">$$\mathbf{B}_{\text{new}}^{-1} = \mathbf{E}_r \mathbf{B}^{-1}, \qquad \text{where column } r \text{ of } \mathbf{E}_r \text{ is } \boldsymbol{\eta}_r = \begin{pmatrix} -y_{1k} / y_{rk} \\ \vdots \\ +1 / y_{rk} \\ \vdots \\ -y_{mk} / y_{rk} \end{pmatrix} \begin{matrix} \\ \\ \leftarrow \text{row } r \\ \\ \\ \end{matrix}$$</div>
+
+<p>The compact $(m+1) \times (m+1)$ Revised Simplex array tracks $\begin{pmatrix} 1 &amp; \mathbf{w}^T &amp; Z_0 \\ \mathbf{0} &amp; \mathbf{B}^{-1} &amp; \bar{\mathbf{b}} \end{pmatrix}$ and updates via a single Gauss–Jordan pivot on the appended column $\begin{pmatrix} z_k - c_k \\ \mathbf{y}_k \end{pmatrix}$.</p>
+
+<h4>Computational Complexity: The Klee–Minty Cube vs. Polynomial Interior-Point Algorithms</h4>
+
+<p>In practical applications, the Simplex Method typically terminates in $1.5m$ to $3m$ iterations—linear in the number of constraints! However, in 1972 Victor Klee and George J. Minty settled a major open problem in theoretical computer science by constructing the <strong>Klee–Minty Cube</strong>, a perturbed $n$-dimensional hypercube defined for $0 &lt; \varepsilon &lt; 1/2$ by:</p>
+
+<div class="math-display">$$\text{Maximize } \sum_{j=1}^n 10^{n-j} x_j \quad \text{subject to} \quad 2 \sum_{j=1}^{i-1} 10^{i-j} x_j + x_i \le 100^{i-1} \quad (i = 1, \dots, n), \quad \mathbf{x} \ge \mathbf{0}$$</div>
+
+<p>Klee and Minty proved that on this deformed $n$-cube with $n$ variables and $n$ constraints, the Simplex Algorithm under Dantzig's most-negative reduced-cost rule visits <strong>every single one of the $2^n$ vertices</strong>, requiring $2^n - 1$ pivots! Thus, the <strong>worst-case time complexity of the Simplex Algorithm is exponential, $\mathcal{O}(2^n)$</strong>. Why, then, is Simplex so fast in practice? In 2001, Daniel Spielman and Shang-Hua Teng introduced <strong>Smoothed Analysis</strong>, proving that under tiny Gaussian random perturbations $\tilde{\mathbf{A}} = \mathbf{A} + \mathbf{G}$ of variance $\sigma^2$, the expected number of Simplex pivots is strictly <strong>polynomial in $n, m,$ and $1/\sigma$</strong>, explaining why pathological Klee–Minty geometries vanish under real-world statistical noise. Furthermore, Linear Programming was proven to belong to the complexity class $\mathbf{P}$ (deterministic polynomial time) through Leonid Khachiyan's <strong>Ellipsoid Method</strong> (1979) and Narendra Karmarkar's <strong>Projective Interior-Point Method</strong> (1984), which traverse the interior of the polyhedron $\mathcal{F}$ along a central logarithmic-barrier path $\max \mathbf{c}^T\mathbf{x} + \mu \sum_{j=1}^n \ln(x_j)$ in $\mathcal{O}(n^{3.5} L)$ bit operations.</p>
+
+<h4>Bounded-Variable Simplex Architecture and Sparse Bartels–Golub LU Updates</h4>
+
+<p>In statistical and industrial linear programs—such as stratified survey sample allocation where sample sizes $n_h$ must satisfy $l_h \le n_h \le N_h$, or financial portfolio optimization with asset weight caps $0 \le x_j \le u_j$—almost every decision variable is subject to explicit <strong>box constraints</strong> (lower and upper bounds):</p>
+
+<div class="math-display">$$\text{Maximize } Z = \mathbf{c}^T\mathbf{x} \quad \text{subject to} \quad \mathbf{A}\mathbf{x} = \mathbf{b}, \quad \mathbf{l} \le \mathbf{x} \le \mathbf{u}$$</div>
+
+<p>If one naively treats the $n$ upper-bound inequalities $x_j \le u_j$ as ordinary structural rows by adding $n$ slack variables $x_j + s_j' = u_j$, the constraint matrix dimension explodes from $m \times n$ to $(m+n) \times 2n$, and the basis matrix $\mathbf{B}$ balloons from $m \times m$ to $(m+n) \times (m+n)$. Because $n$ is frequently an order of magnitude larger than $m$, expanding the basis size to $m+n$ would catastrophically degrade computational speed.</p>
+
+<h4>The Bounded-Variable (Upper-Bound) Simplex Method</h4>
+
+<p>Introduced by George Dantzig (1955), the <strong>Bounded-Variable Simplex Algorithm</strong> handles lower and upper bounds $\mathbf{0} \le \mathbf{x} \le \mathbf{u}$ implicitly while keeping the working basis matrix $\mathbf{B}$ at its compact $m \times m$ structural dimension! In this generalized architecture, the $n$ variables are partitioned into three disjoint sets:</p>
+
+<h4>1. $m$ Basic Variables ($\mathbf{x}_B$): Taking continuous values strictly or weakly within their intervals, $0 \le x_{B(i)} \le u_{B(i)}$, determined uniquely by the $m$ equations $\mathbf{B}\mathbf{x}_B = \mathbf{b} - \mathbf{N}_L \mathbf{0} - \mathbf{N}_U \mathbf{u}_U$.</h4>
+
+<h4>2. Non-Basic Variables at Lower Bound ($N_L$): Fixed at $x_j = 0$. A variable $j \in N_L$ can only increase from $0$, so it is eligible to enter the basis when its reduced profit $\bar{c}_j = c_j - z_j &gt; 0$ ($z_j - c_j &lt; 0$).</h4>
+
+<h4>3. Non-Basic Variables at Upper Bound ($N_U$): Fixed at their upper capacity $x_j = u_j$ (or replaced via the complementation substitution $x_j = u_j - \tilde{x}_j$ with $\tilde{x}_j = 0$). A variable $j \in N_U$ can only decrease from $u_j$, so it is eligible to enter the basis when decreasing $x_j$ increases $Z$, which occurs when $\bar{c}_j = c_j - z_j &lt; 0$ ($z_j - c_j &gt; 0$)!</h4>
+
+<p>When an entering variable $x_k \in N_L$ increases from $0$ by step $\theta \ge 0$, the basic variables vary as $x_{B(i)}(\theta) = \bar{b}_i - y_{ik}\theta$. Now, feasibility requires $0 \le x_{B(i)}(\theta) \le u_{B(i)}$ and $0 \le \theta \le u_k$. Thus, the <strong>Generalized Minimum Ratio Test</strong> computes the minimum of three competing blocking thresholds:</p>
+
+<ul>
+
+  <li><strong>Threshold 1 (Basic variable hits lower bound $0$)</strong>: For rows with $y_{ik} &gt; 0$, $\theta_1 = \min_{i: y_{ik}&gt;0} \frac{\bar{b}_i}{y_{ik}}$.</li>
+
+  <li><strong>Threshold 2 (Basic variable hits upper bound $u_{B(i)}$)</strong>: For rows with $y_{ik} &lt; 0$, $x_{B(i)}(\theta) = \bar{b}_i + |y_{ik}|\theta$ increases toward $u_{B(i)}$, yielding $\theta_2 = \min_{i: y_{ik}&lt;0} \frac{u_{B(i)} - \bar{b}_i}{-y_{ik}}$.</li>
+
+  <li><strong>Threshold 3 (Entering variable hits its own upper bound $u_k$)</strong>: $\theta_3 = u_k$.</li>
+
+</ul>
+
+<p>The maximum feasible step is $\theta^* = \min\{\theta_1, \theta_2, \theta_3\}$. Remarkably, if $\theta^* = \theta_3 = u_k$, the entering variable $x_k$ simply flips from $N_L$ ($x_k = 0$) to $N_U$ ($x_k = u_k$) <strong>without any basis matrix pivot at all</strong>, updating $\bar{\mathbf{b}} \leftarrow \bar{\mathbf{b}} - u_k \mathbf{y}_k$ in $\mathcal{O}(m)$ time!</p>
+
+<h4>Bartels–Golub and Forrest–Tomlin Sparse LU Updates</h4>
+
+<p>Finally, in production Revised Simplex implementations (such as CPLEX, Gurobi, and HiGHS), accumulating hundreds of elementary Eta matrices $\mathbf{B}_t^{-1} = \mathbf{E}_t \mathbf{E}_{t-1} \cdots \mathbf{E}_1 \mathbf{B}_0^{-1}$ causes numerical instability when a pivot element $y_{rk}$ is small, and slows down FTRAN/BTRAN solves. Following Richard Bartels and Gene Golub (1969) and John Forrest and John Tomlin (1972), modern solvers maintain a sparse <strong>permuted triangular factorization</strong> $\mathbf{P}\mathbf{B}\mathbf{Q} = \mathbf{L}\mathbf{U}$, where replacing a column of $\mathbf{B}$ produces a <strong> rank-one spike</strong> in $\mathbf{U}$ that is restored to upper-triangular form via sparse row/column permutations and threshold partial pivoting, periodically refactoring $\mathbf{B} = \mathbf{L}\mathbf{U}$ from scratch every $50$ to $100$ iterations to purge accumulated floating-point round-off errors.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Operations Research Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.1: Complete Tabular Simplex Solution of a Three-Variable Resource Allocation Problem</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A statistical computing center allocates processor hours, high-speed memory bandwidth, and storage I/O channels across three classes of analytical workloads: Bayesian MCMC simulation ($x_1$), bootstrap resampling ($x_2$), and high-dimensional penalized regression ($x_3$). The net scientific utility (in $10^3$ credits) and resource constraints are formulated as the Linear Programming Problem:</p>
+
+<div class="math-display">$$\text{Maximize } Z = 3x_1 + 5x_2 + 4x_3$$</div>
+
+<p>subject to:</p>
+
+<div class="math-display">$$\begin{aligned} 2x_1 + 3x_2 &amp;\le 8 \quad (\text{Processor Cluster Capacity}) \\ 2x_2 + 5x_3 &amp;\le 10 \quad (\text{Memory Bandwidth Limit}) \\ 3x_1 + 2x_2 + 4x_3 &amp;\le 15 \quad (\text{Storage I/O Channel Limit}) \\ x_1, x_2, x_3 &amp;\ge 0 \end{aligned}$$</div>
+
+<ol>
+
+  <li>Introduce slack variables $s_1, s_2, s_3 \ge 0$ and construct the initial Simplex tableau at the origin BFS.</li>
+
+  <li>Execute the Simplex Algorithm step-by-step using Dantzig's entering rule and the Minimum Ratio Test, displaying the complete HTML Simplex tableau at each iteration.</li>
+
+  <li>Verify the global optimality of the final tableau and state the optimal workload vector $(x_1^*, x_2^*, x_3^*)$, slack vector $(s_1^*, s_2^*, s_3^*)$, and maximum utility $Z^*$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-or-stat-2-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-or-stat-2-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Initial Simplex Tableau (Iteration 0) and First Pivot Selection</div>
+              
+              <div class="step-explanation">Adding slack variables $s_1, s_2, s_3 \ge 0$ with zero objective coefficients gives the standard system with initial basis $B_0 = \{s_1, s_2, s_3\}$ and $\mathbf{x}_B^{(0)} = (8, 10, 15)^T, Z_0 = 0$:
+
+<div class="table-wrapper"><table class="data-table"><thead><tr><th>Basic Var</th><th>$c_B$</th><th>$x_1$ ($3$)</th><th>$x_2$ ($5$)</th><th>$x_3$ ($4$)</th><th>$s_1$ ($0$)</th><th>$s_2$ ($0$)</th><th>$s_3$ ($0$)</th><th>RHS ($\bar{b}_i$)</th><th>Ratio $\theta_i = \bar{b}_i / y_{i2}$</th></tr></thead><tbody><tr><td>$s_1$</td><td>$0$</td><td>$2$</td><td>$\mathbf{3}^*$</td><td>$0$</td><td>$1$</td><td>$0$</td><td>$0$</td><td>$8$</td><td>$8/3 \approx 2.667$ (Min $\to$ Leave)</td></tr><tr><td>$s_2$</td><td>$0$</td><td>$0$</td><td>$2$</td><td>$5$</td><td>$0$</td><td>$1$</td><td>$0$</td><td>$10$</td><td>$10/2 = 5.000$</td></tr><tr><td>$s_3$</td><td>$0$</td><td>$3$</td><td>$2$</td><td>$4$</td><td>$0$</td><td>$0$</td><td>$1$</td><td>$15$</td><td>$15/2 = 7.500$</td></tr><tr><td>$z_j - c_j$</td><td>—</td><td>$-3$</td><td>$\mathbf{-5}$ (Enter)</td><td>$-4$</td><td>$0$</td><td>$0$</td><td>$0$</td><td>$Z_0 = 0$</td><td>$\theta^* = 8/3$</td></tr></tbody></table></div>
+
+- **Entering Variable**: The most negative $z_j - c_j$ is $z_2 - c_2 = -5 &lt; 0$, so $x_2$ enters the basis.
+- **Leaving Variable**: The Minimum Ratio Test gives $\theta^* = \min \{8/3, 10/2, 15/2\} = 8/3$ in Row 1, so $s_1$ leaves the basis and the pivot element is $y_{12} = 3$.</div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Iterations 1 and 2: Gauss-Jordan Pivoting</div>
+              
+              <div class="step-explanation">**Iteration 1**: Divide Row 1 by $3$, then apply $R_2 \leftarrow R_2 - 2R_1^{\text{new}}$, $R_3 \leftarrow R_3 - 2R_1^{\text{new}}$, and $R_z \leftarrow R_z + 5R_1^{\text{new}}$:
+
+<div class="table-wrapper"><table class="data-table"><thead><tr><th>Basic Var</th><th>$c_B$</th><th>$x_1$ ($3$)</th><th>$x_2$ ($5$)</th><th>$x_3$ ($4$)</th><th>$s_1$ ($0$)</th><th>$s_2$ ($0$)</th><th>$s_3$ ($0$)</th><th>RHS ($\bar{b}_i$)</th><th>Ratio $\theta_i = \bar{b}_i / y_{i3}$</th></tr></thead><tbody><tr><td>$x_2$</td><td>$5$</td><td>$2/3$</td><td>$1$</td><td>$0$</td><td>$1/3$</td><td>$0$</td><td>$0$</td><td>$8/3$</td><td>— ($y_{13} = 0$)</td></tr><tr><td>$s_2$</td><td>$0$</td><td>$-4/3$</td><td>$0$</td><td>$\mathbf{5}^*$</td><td>$-2/3$</td><td>$1$</td><td>$0$</td><td>$14/3$</td><td>$(14/3)/5 = 14/15 \approx 0.933$ (Min $\to$ Leave)</td></tr><tr><td>$s_3$</td><td>$0$</td><td>$5/3$</td><td>$0$</td><td>$4$</td><td>$-2/3$</td><td>$0$</td><td>$1$</td><td>$29/3$</td><td>$(29/3)/4 = 29/12 \approx 2.417$</td></tr><tr><td>$z_j - c_j$</td><td>—</td><td>$1/3$</td><td>$0$</td><td>$\mathbf{-4}$ (Enter)</td><td>$5/3$</td><td>$0$</td><td>$0$</td><td>$Z_1 = 40/3$</td><td>$\theta^* = 14/15$</td></tr></tbody></table></div>
+
+Here $z_3 - c_3 = -4 &lt; 0$, so $x_3$ enters and $s_2$ leaves ($\theta^* = 14/15$, pivot $y_{23} = 5$).
+
+**Iteration 2**: Divide Row 2 by $5$, then apply $R_3 \leftarrow R_3 - 4R_2^{\text{new}}$ and $R_z \leftarrow R_z + 4R_2^{\text{new}}$:
+
+<div class="table-wrapper"><table class="data-table"><thead><tr><th>Basic Var</th><th>$c_B$</th><th>$x_1$ ($3$)</th><th>$x_2$ ($5$)</th><th>$x_3$ ($4$)</th><th>$s_1$ ($0$)</th><th>$s_2$ ($0$)</th><th>$s_3$ ($0$)</th><th>RHS ($\bar{b}_i$)</th><th>Ratio $\theta_i = \bar{b}_i / y_{i1}$</th></tr></thead><tbody><tr><td>$x_2$</td><td>$5$</td><td>$2/3$</td><td>$1$</td><td>$0$</td><td>$1/3$</td><td>$0$</td><td>$0$</td><td>$8/3 = 40/15$</td><td>$(8/3)/(2/3) = 4.000$</td></tr><tr><td>$x_3$</td><td>$4$</td><td>$-4/15$</td><td>$0$</td><td>$1$</td><td>$-2/15$</td><td>$1/5$</td><td>$0$</td><td>$14/15$</td><td>— ($y_{21} = -4/15 &lt; 0$)</td></tr><tr><td>$s_3$</td><td>$0$</td><td>$\mathbf{41/15}^*$</td><td>$0$</td><td>$0$</td><td>$-2/15$</td><td>$-4/5$</td><td>$1$</td><td>$89/15$</td><td>$(89/15)/(41/15) = 89/41 \approx 2.171$ (Min $\to$ Leave)</td></tr><tr><td>$z_j - c_j$</td><td>—</td><td>$\mathbf{-11/15}$ (Enter)</td><td>$0$</td><td>$0$</td><td>$17/15$</td><td>$4/5$</td><td>$0$</td><td>$Z_2 = 256/15$</td><td>$\theta^* = 89/41$</td></tr></tbody></table></div>
+
+Notice that importing $x_3$ reduced $x_2$ when $x_1$ increases, making $z_1 - c_1 = 1/3 + 4(-4/15) = -11/15 &lt; 0$! Thus $x_1$ now enters the basis and $s_3$ leaves in Row 3 with pivot $y_{31} = 41/15$.</div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Iteration 3: Final Optimal Tableau and Solution Verification</div>
+              
+              <div class="step-explanation">Multiply Row 3 by $15/41$ and eliminate column $x_1$ from Rows 1, 2, and $z_j - c_j$:
+
+<div class="table-wrapper"><table class="data-table"><thead><tr><th>Basic Var</th><th>$c_B$</th><th>$x_1$ ($3$)</th><th>$x_2$ ($5$)</th><th>$x_3$ ($4$)</th><th>$s_1$ ($0$)</th><th>$s_2$ ($0$)</th><th>$s_3$ ($0$)</th><th>RHS ($\bar{b}_i$)</th></tr></thead><tbody><tr><td>$x_2$</td><td>$5$</td><td>$0$</td><td>$1$</td><td>$0$</td><td>$15/41$</td><td>$8/41$</td><td>$-10/41$</td><td>$50/41$</td></tr><tr><td>$x_3$</td><td>$4$</td><td>$0$</td><td>$0$</td><td>$1$</td><td>$-6/41$</td><td>$5/41$</td><td>$4/41$</td><td>$62/41$</td></tr><tr><td>$x_1$</td><td>$3$</td><td>$1$</td><td>$0$</td><td>$0$</td><td>$-2/41$</td><td>$-12/41$</td><td>$15/41$</td><td>$89/41$</td></tr><tr><td>$z_j - c_j$</td><td>—</td><td>$0$</td><td>$0$</td><td>$0$</td><td>$45/41$</td><td>$24/41$</td><td>$11/41$</td><td>$Z^* = 765/41$</td></tr></tbody></table></div>
+
+Because all non-basic net evaluations are strictly positive ($z_{s_1}-c_{s_1} = 45/41 &gt; 0$, $z_{s_2}-c_{s_2} = 24/41 &gt; 0$, $z_{s_3}-c_{s_3} = 11/41 &gt; 0$), this tableau is the **unique global optimum**!
+- **Optimal Decision Vector**: $x_1^* = \frac{89}{41} \approx 2.171$, $x_2^* = \frac{50}{41} \approx 1.220$, $x_3^* = \frac{62}{41} \approx 1.512$, with $s_1^* = s_2^* = s_3^* = 0$ (all three resource constraints are actively binding).
+- **Maximum Objective Value**: $Z^* = 3\left(\frac{89}{41}\right) + 5\left(\frac{50}{41}\right) + 4\left(\frac{62}{41}\right) = \frac{267 + 250 + 248}{41} = \frac{765}{41} \approx 18.659$.</div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.2: Dantzig's Two-Phase Simplex Algorithm on a Mixed Equality-Inequality System</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Solve the following Linear Programming Problem using <strong>Dantzig's Two-Phase Simplex Method</strong>:</p>
+
+<div class="math-display">$$\text{Minimize } W = 4x_1 + x_2$$</div>
+
+<p>subject to:</p>
+
+<div class="math-display">$$\begin{aligned} 3x_1 + x_2 &amp;= 3 \\ 4x_1 + 3x_2 &amp;\ge 6 \\ x_1 + 2x_2 &amp;\le 4 \\ x_1, x_2 &amp;\ge 0 \end{aligned}$$</div>
+
+<ol>
+
+  <li>Introduce the required surplus, slack, and artificial variables to construct the Phase I auxiliary problem $\max Z_{\text{I}} = -A_1 - A_2$.</li>
+
+  <li>Execute Phase I to completion and verify whether a feasible solution exists ($Z_{\text{I}}^* = 0$).</li>
+
+  <li>Transition to Phase II, restore the original objective function, and compute the optimal solution $(x_1^*, x_2^*, W^*)$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-or-stat-2-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-or-stat-2-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Formulate the Phase I auxiliary system and initial tableau</div>
+              
+              <div class="step-explanation">Constraint 1 ($=$) requires an artificial variable $A_1 \ge 0$; Constraint 2 ($\ge$) requires a surplus variable $e_2 \ge 0$ and an artificial variable $A_2 \ge 0$; Constraint 3 ($\le$) requires only a slack variable $s_3 \ge 0$:
+
+$$\begin{aligned}
+3x_1 + x_2 + A_1 &amp;= 3 \\
+4x_1 + 3x_2 - e_2 + A_2 &amp;= 6 \\
+x_1 + 2x_2 + s_3 &amp;= 4
+\end{aligned}$$
+
+In Phase I, we maximize $Z_{\text{I}} = -A_1 - A_2$ (so $c_{A_1} = -1, c_{A_2} = -1$, and all other Phase I costs are $0$). With initial basis $B_0 = \{A_1, A_2, s_3\}$, $\mathbf{c}_B = (-1, -1, 0)^T$, so $z_j^{\text{I}} - c_j^{\text{I}} = -(a_{1j} + a_{2j})$:
+
+<div class="table-wrapper"><table class="data-table"><thead><tr><th>Basic Var</th><th>$c_B^{\text{I}}$</th><th>$x_1$ ($0$)</th><th>$x_2$ ($0$)</th><th>$e_2$ ($0$)</th><th>$s_3$ ($0$)</th><th>$A_1$ ($-1$)</th><th>$A_2$ ($-1$)</th><th>RHS ($\bar{b}_i$)</th><th>Ratio</th></tr></thead><tbody><tr><td>$A_1$</td><td>$-1$</td><td>$\mathbf{3}^*$</td><td>$1$</td><td>$0$</td><td>$0$</td><td>$1$</td><td>$0$</td><td>$3$</td><td>$3/3 = 1$ (Leave)</td></tr><tr><td>$A_2$</td><td>$-1$</td><td>$4$</td><td>$3$</td><td>$-1$</td><td>$0$</td><td>$0$</td><td>$1$</td><td>$6$</td><td>$6/4 = 1.5$</td></tr><tr><td>$s_3$</td><td>$0$</td><td>$1$</td><td>$2$</td><td>$0$</td><td>$1$</td><td>$0$</td><td>$0$</td><td>$4$</td><td>$4/1 = 4$</td></tr><tr><td>$z_j^{\text{I}} - c_j^{\text{I}}$</td><td>—</td><td>$\mathbf{-7}$ (Enter)</td><td>$-4$</td><td>$1$</td><td>$0$</td><td>$0$</td><td>$0$</td><td>$Z_{\text{I}} = -9$</td><td>$\theta^* = 1$</td></tr></tbody></table></div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Execute Phase I pivots to drive artificial variables to zero</div>
+              
+              <div class="step-explanation">**Phase I, Iteration 1**: $x_1$ enters and $A_1$ leaves (Row 1 divided by $3$; drop $A_1$ column):
+
+<div class="table-wrapper"><table class="data-table"><thead><tr><th>Basic Var</th><th>$c_B^{\text{I}}$</th><th>$x_1$ ($0$)</th><th>$x_2$ ($0$)</th><th>$e_2$ ($0$)</th><th>$s_3$ ($0$)</th><th>$A_2$ ($-1$)</th><th>RHS ($\bar{b}_i$)</th><th>Ratio</th></tr></thead><tbody><tr><td>$x_1$</td><td>$0$</td><td>$1$</td><td>$1/3$</td><td>$0$</td><td>$0$</td><td>$0$</td><td>$1$</td><td>$1/(1/3) = 3$</td></tr><tr><td>$A_2$</td><td>$-1$</td><td>$0$</td><td>$\mathbf{5/3}^*$</td><td>$-1$</td><td>$0$</td><td>$1$</td><td>$2$</td><td>$2/(5/3) = 6/5 = 1.2$ (Leave)</td></tr><tr><td>$s_3$</td><td>$0$</td><td>$0$</td><td>$5/3$</td><td>$0$</td><td>$1$</td><td>$0$</td><td>$3$</td><td>$3/(5/3) = 9/5 = 1.8$</td></tr><tr><td>$z_j^{\text{I}} - c_j^{\text{I}}$</td><td>—</td><td>$0$</td><td>$\mathbf{-5/3}$ (Enter)</td><td>$1$</td><td>$0$</td><td>$0$</td><td>$Z_{\text{I}} = -2$</td><td>$\theta^* = 6/5$</td></tr></tbody></table></div>
+
+**Phase I, Iteration 2**: $x_2$ enters and $A_2$ leaves (multiply Row 2 by $3/5$ and drop $A_2$ column):
+
+<div class="table-wrapper"><table class="data-table"><thead><tr><th>Basic Var</th><th>$c_B^{\text{I}}$</th><th>$x_1$ ($0$)</th><th>$x_2$ ($0$)</th><th>$e_2$ ($0$)</th><th>$s_3$ ($0$)</th><th>RHS ($\bar{b}_i$)</th></tr></thead><tbody><tr><td>$x_1$</td><td>$0$</td><td>$1$</td><td>$0$</td><td>$1/5$</td><td>$0$</td><td>$3/5$</td></tr><tr><td>$x_2$</td><td>$0$</td><td>$0$</td><td>$1$</td><td>$-3/5$</td><td>$0$</td><td>$6/5$</td></tr><tr><td>$s_3$</td><td>$0$</td><td>$0$</td><td>$0$</td><td>$1$</td><td>$1$</td><td>$1$</td></tr><tr><td>$z_j^{\text{I}} - c_j^{\text{I}}$</td><td>—</td><td>$0$</td><td>$0$</td><td>$0$</td><td>$0$</td><td>$Z_{\text{I}}^* = 0$</td></tr></tbody></table></div>
+
+Phase I terminates with $Z_{\text{I}}^* = 0$ and both artificial variables expelled from the basis! The initial Basic Feasible Solution for Phase II is $x_1 = 3/5, x_2 = 6/5, s_3 = 1, e_2 = 0$.</div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Transition to Phase II and optimize the original objective</div>
+              
+              <div class="step-explanation">In **Phase II**, we minimize $W = 4x_1 + x_2$, or equivalently maximize $Z = -W = -4x_1 - x_2$ with Phase II cost coefficients $c_1 = -4, c_2 = -1, c_{e_2} = 0, c_{s_3} = 0$. Using the final Phase I basis $B = \{x_1, x_2, s_3\}$ with $\mathbf{c}_B = (-4, -1, 0)^T$, we compute $z_j - c_j = \mathbf{c}_B^T \mathbf{y}_j - c_j$:
+- For non-basic $e_2$: $z_{e_2} - c_{e_2} = (-4)(1/5) + (-1)(-3/5) + (0)(1) - 0 = -1/5 &lt; 0$.
+- Current objective: $Z = (-4)(3/5) + (-1)(6/5) = -18/5$ (so $W = 18/5 = 3.6$).
+
+Since $z_{e_2} - c_{e_2} = -1/5 &lt; 0$, $e_2$ enters the basis! Applying the Minimum Ratio Test on the $e_2$ column $\mathbf{y}_{e_2} = (1/5, -3/5, 1)^T$:
+- Row 1 ($x_1$): $(3/5)/(1/5) = 3$
+- Row 2 ($x_2$): $y_{2, e_2} = -3/5 &lt; 0$ (not eligible)
+- Row 3 ($s_3$): $1 / 1 = 1$ (Minimum $\implies s_3$ leaves the basis!)
+
+Pivoting on $y_{3, e_2} = 1$ in Row 3 ($R_1 \leftarrow R_1 - \frac{1}{5}R_3$, $R_2 \leftarrow R_2 + \frac{3}{5}R_3$, $R_z \leftarrow R_z + \frac{1}{5}R_3$) gives the final Phase II tableau:
+
+<div class="table-wrapper"><table class="data-table"><thead><tr><th>Basic Var</th><th>$c_B$</th><th>$x_1$ ($-4$)</th><th>$x_2$ ($-1$)</th><th>$e_2$ ($0$)</th><th>$s_3$ ($0$)</th><th>RHS ($\bar{b}_i$)</th></tr></thead><tbody><tr><td>$x_1$</td><td>$-4$</td><td>$1$</td><td>$0$</td><td>$0$</td><td>$-1/5$</td><td>$2/5$</td></tr><tr><td>$x_2$</td><td>$-1$</td><td>$0$</td><td>$1$</td><td>$0$</td><td>$3/5$</td><td>$9/5$</td></tr><tr><td>$e_2$</td><td>$0$</td><td>$0$</td><td>$0$</td><td>$1$</td><td>$1$</td><td>$1$</td></tr><tr><td>$z_j - c_j$</td><td>—</td><td>$0$</td><td>$0$</td><td>$0$</td><td>$1/5$</td><td>$Z^* = -17/5$</td></tr></tbody></table></div>
+
+Since $z_{s_3} - c_{s_3} = 1/5 &gt; 0$, the Phase II tableau is globally optimal! The optimal solution is $x_1^* = 2/5 = 0.4$, $x_2^* = 9/5 = 1.8$, surplus $e_2^* = 1$, slack $s_3^* = 0$, and minimum cost $W^* = -Z^* = 4(2/5) + 1(9/5) = 17/5 = 3.4$.</div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.3: Revised Simplex Method Execution with Explicit Basis Inverse and Eta Matrix Updates</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Consider the Linear Programming Problem in standard form:</p>
+
+<div class="math-display">$$\text{Maximize } Z = 6x_1 + 5x_2$$</div>
+
+<p>subject to:</p>
+
+<div class="math-display">$$\begin{aligned} x_1 + x_2 + x_3 &amp;= 5 \\ 3x_1 + 2x_2 + x_4 &amp;= 12 \\ x_1, x_2, x_3, x_4 &amp;\ge 0 \end{aligned}$$</div>
+
+<p>where $x_3, x_4$ are slack variables. Solve this problem using the <strong>Revised Simplex Method</strong> in explicit matrix form, showing at each iteration:</p>
+
+<ol>
+
+  <li>The current basis matrix $\mathbf{B}$, its inverse $\mathbf{B}^{-1}$, the basic variable vector $\bar{\mathbf{b}} = \mathbf{B}^{-1}\mathbf{b}$, and the simplex multiplier vector $\mathbf{w}^T = \mathbf{c}_B^T \mathbf{B}^{-1}$.</li>
+
+  <li>The matrix pricing step $z_j - c_j = \mathbf{w}^T\mathbf{a}_j - c_j$ for all non-basic variables and the FTRAN column computation $\mathbf{y}_k = \mathbf{B}^{-1}\mathbf{a}_k$.</li>
+
+  <li>The explicit elementary <strong>Eta matrix</strong> $\mathbf{E}_r$ used to update $\mathbf{B}_{\text{new}}^{-1} = \mathbf{E}_r \mathbf{B}^{-1}$ until optimality is proved.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-or-stat-2-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-or-stat-2-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Iteration 0: Initial Basis Inverse, Pricing, FTRAN, and First Eta Matrix</div>
+              
+              <div class="step-explanation"><p>Here $\mathbf{a}_1 = \begin{pmatrix} 1 \\ 3 \end{pmatrix}, \mathbf{a}_2 = \begin{pmatrix} 1 \\ 2 \end{pmatrix}, \mathbf{a}_3 = \begin{pmatrix} 1 \\ 0 \end{pmatrix}, \mathbf{a}_4 = \begin{pmatrix} 0 \\ 1 \end{pmatrix}, \mathbf{b} = \begin{pmatrix} 5 \\ 12 \end{pmatrix}$, and $\mathbf{c} = (6, 5, 0, 0)^T$.</p>
+
+<ul>
+
+  <li><strong>Initial Basis</strong>: $B_0 = \{x_3, x_4\}$, $\mathbf{B}_0 = \mathbf{I}_2 = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}$, $\mathbf{B}_0^{-1} = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}$, $\bar{\mathbf{b}}_0 = \begin{pmatrix} 5 \\ 12 \end{pmatrix}$, $\mathbf{c}_{B_0} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}$.</li>
+
+  <li><strong>Simplex Multipliers</strong>: $\mathbf{w}_0^T = \mathbf{c}_{B_0}^T \mathbf{B}_0^{-1} = (0, 0)$.</li>
+
+  <li><strong>Pricing Non-Basic Columns</strong> $N_0 = \{x_1, x_2\}$:</li>
+
+</ul>
+
+<div class="math-display">$$z_1 - c_1 = \mathbf{w}_0^T\mathbf{a}_1 - c_1 = 0 - 6 = -6, \qquad z_2 - c_2 = \mathbf{w}_0^T\mathbf{a}_2 - c_2 = 0 - 5 = -5$$</div>
+
+<p>Choose $x_1$ to enter ($z_1 - c_1 = -6 &lt; 0$).</p>
+
+<ul>
+
+  <li><strong>FTRAN &amp; Minimum Ratio Test</strong>: Compute $\mathbf{y}_1 = \mathbf{B}_0^{-1}\mathbf{a}_1 = \begin{pmatrix} 1 \\ 3 \end{pmatrix}$. Ratios: $\min \{ 5/1, 12/3 \} = \min \{5, 4\} = 4$ in Row $r = 2$ ($x_4$ leaves the basis, $y_{21} = 3$).</li>
+
+  <li><strong>Eta Matrix Update</strong>: Column $r=2$ of $\mathbf{E}_2$ is $\boldsymbol{\eta}_2 = \begin{pmatrix} -y_{11}/y_{21} \\ 1/y_{21} \end{pmatrix} = \begin{pmatrix} -1/3 \\ 1/3 \end{pmatrix}$:</li>
+
+</ul>
+
+<div class="math-display">$$\mathbf{E}_2 = \begin{pmatrix} 1 &amp; -1/3 \\ 0 &amp; 1/3 \end{pmatrix} \implies \mathbf{B}_1^{-1} = \mathbf{E}_2 \mathbf{B}_0^{-1} = \begin{pmatrix} 1 &amp; -1/3 \\ 0 &amp; 1/3 \end{pmatrix}, \qquad \bar{\mathbf{b}}_1 = \mathbf{E}_2 \bar{\mathbf{b}}_0 = \begin{pmatrix} 5 - 12/3 \\ 12/3 \end{pmatrix} = \begin{pmatrix} 1 \\ 4 \end{pmatrix}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Iteration 1: Updated Multipliers, Pricing, FTRAN, and Second Eta Matrix</div>
+              
+              <div class="step-explanation"><p>Now $B_1 = \{x_3, x_1\}$ with $\mathbf{c}_{B_1} = (0, 6)^T$ and $N_1 = \{x_2, x_4\}$.</p>
+
+<ul>
+
+  <li><strong>Simplex Multipliers</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$\mathbf{w}_1^T = \mathbf{c}_{B_1}^T \mathbf{B}_1^{-1} = \begin{pmatrix} 0 &amp; 6 \end{pmatrix} \begin{pmatrix} 1 &amp; -1/3 \\ 0 &amp; 1/3 \end{pmatrix} = \begin{pmatrix} 0 &amp; 2 \end{pmatrix}$$</div>
+
+<ul>
+
+  <li><strong>Pricing Non-Basic Columns</strong> $N_1 = \{x_2, x_4\}$:</li>
+
+</ul>
+
+<div class="math-display">$$z_2 - c_2 = \mathbf{w}_1^T\mathbf{a}_2 - c_2 = \begin{pmatrix} 0 &amp; 2 \end{pmatrix} \begin{pmatrix} 1 \\ 2 \end{pmatrix} - 5 = 4 - 5 = -1 &lt; 0$$</div>
+
+<div class="math-display">$$z_4 - c_4 = \mathbf{w}_1^T\mathbf{a}_4 - c_4 = \begin{pmatrix} 0 &amp; 2 \end{pmatrix} \begin{pmatrix} 0 \\ 1 \end{pmatrix} - 0 = 2 &gt; 0$$</div>
+
+<p>Since $z_2 - c_2 = -1 &lt; 0$, $x_2$ enters the basis!</p>
+
+<ul>
+
+  <li><strong>FTRAN &amp; Minimum Ratio Test</strong>: Compute $\mathbf{y}_2 = \mathbf{B}_1^{-1}\mathbf{a}_2$:</li>
+
+</ul>
+
+<div class="math-display">$$\mathbf{y}_2 = \begin{pmatrix} 1 &amp; -1/3 \\ 0 &amp; 1/3 \end{pmatrix} \begin{pmatrix} 1 \\ 2 \end{pmatrix} = \begin{pmatrix} 1/3 \\ 2/3 \end{pmatrix}$$</div>
+
+<p>Ratios against $\bar{\mathbf{b}}_1 = (1, 4)^T$: Row 1 gives $1 / (1/3) = 3$; Row 2 gives $4 / (2/3) = 6$. The minimum is $\theta^* = 3$ in Row $r = 1$ ($x_3$ leaves the basis, pivot $y_{12} = 1/3$).</p>
+
+<ul>
+
+  <li><strong>Eta Matrix Update</strong>: Column $r=1$ of $\mathbf{E}_1$ is $\boldsymbol{\eta}_1 = \begin{pmatrix} 1/y_{12} \\ -y_{22}/y_{12} \end{pmatrix} = \begin{pmatrix} 3 \\ -2 \end{pmatrix}$:</li>
+
+</ul>
+
+<div class="math-display">$$\mathbf{E}_1 = \begin{pmatrix} 3 &amp; 0 \\ -2 &amp; 1 \end{pmatrix} \implies \mathbf{B}_2^{-1} = \mathbf{E}_1 \mathbf{B}_1^{-1} = \begin{pmatrix} 3 &amp; 0 \\ -2 &amp; 1 \end{pmatrix} \begin{pmatrix} 1 &amp; -1/3 \\ 0 &amp; 1/3 \end{pmatrix} = \begin{pmatrix} 3 &amp; -1 \\ -2 &amp; 1 \end{pmatrix}$$</div>
+
+<div class="math-display">$$\bar{\mathbf{b}}_2 = \mathbf{E}_1 \bar{\mathbf{b}}_1 = \begin{pmatrix} 3 &amp; 0 \\ -2 &amp; 1 \end{pmatrix} \begin{pmatrix} 1 \\ 4 \end{pmatrix} = \begin{pmatrix} 3 \\ 2 \end{pmatrix}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Iteration 2: Optimality Verification via Dual Multipliers</div>
+              
+              <div class="step-explanation"><p>Now $B_2 = \{x_2, x_1\}$ with $\mathbf{c}_{B_2} = (5, 6)^T$, $\mathbf{x}_{B_2} = \begin{pmatrix} x_2 \\ x_1 \end{pmatrix} = \begin{pmatrix} 3 \\ 2 \end{pmatrix}$, and $N_2 = \{x_3, x_4\}$.</p>
+
+<ul>
+
+  <li><strong>Simplex Multipliers</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$\mathbf{w}_2^T = \mathbf{c}_{B_2}^T \mathbf{B}_2^{-1} = \begin{pmatrix} 5 &amp; 6 \end{pmatrix} \begin{pmatrix} 3 &amp; -1 \\ -2 &amp; 1 \end{pmatrix} = \begin{pmatrix} 3 &amp; 1 \end{pmatrix}$$</div>
+
+<ul>
+
+  <li><strong>Pricing Non-Basic Columns</strong> $N_2 = \{x_3, x_4\}$:</li>
+
+</ul>
+
+<div class="math-display">$$z_3 - c_3 = \mathbf{w}_2^T\mathbf{a}_3 - c_3 = 3 - 0 = 3 &gt; 0, \qquad z_4 - c_4 = \mathbf{w}_2^T\mathbf{a}_4 - c_4 = 1 - 0 = 1 &gt; 0$$</div>
+
+<p>Because $z_j - c_j \ge 0$ for all $j \in N_2$, the Revised Simplex Method terminates at the unique global optimum: $x_1^* = 2, x_2^* = 3, x_3^* = 0, x_4^* = 0$, with maximum objective value $Z^* = \mathbf{c}_{B_2}^T \bar{\mathbf{b}}_2 = 5(3) + 6(2) = 27$.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="statistical-computing-with-python-and-r">Statistical Computing</a><a href="mathematical-statistics">Mathematical Statistics</a><a href="statistical-estimation">Statistical Estimation</a><a href="demography-and-population-statistics">Demography and Population Statistics</a><a href="economic-statistics">Economic Statistics</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Course Stat H-205 Operations Research)</a></li><li><cite class="reader-reference-citation">Taha, H.A. (2017). Operations Research: An Introduction (10th ed.): Comprehensive reference for Simplex algorithms, duality, transportation, network optimization, and queueing models</cite></li><li><cite class="reader-reference-citation">Hillier, F.S., &amp; Lieberman, G.J. (2021). Introduction to Operations Research (11th ed.): Standard methodological text for linear programming, sensitivity analysis, dynamic programming, game theory, and stochastic inventory</cite></li><li><cite class="reader-reference-citation">Dantzig, G.B. (1963). Linear Programming and Extensions: Foundational mathematical treatise on polyhedral convexity, the Simplex method, and primal-dual linear optimization</cite></li><li><cite class="reader-reference-citation">Bazaraa, M.S., Jarvis, J.J., &amp; Sherali, H.D. (2010). Linear Programming and Network Flows (4th ed.): Rigorous analytical treatment of convex polyhedra, revised simplex, network flow algorithms, and unimodularity</cite></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="operations-research-for-statistics">← Previous chapter</a><a href="operations-research-for-statistics">Book contents</a><a href="operations-research-for-statistics-chapter-3">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="operations-research-for-statistics-sims.js?v=1"></script>
+  <script src="operations-research-for-statistics-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>
