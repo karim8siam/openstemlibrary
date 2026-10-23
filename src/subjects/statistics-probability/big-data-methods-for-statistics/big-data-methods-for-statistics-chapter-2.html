@@ -1,0 +1,1043 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Large-Scale Dimension Reduction: Spectral &amp; Manifold Learning | Big Data Methods for Statistics | OpenSTEM Library</title>
+  <meta name="description" content="High-dimensional Principal Component Analysis (PCA) when p >> n: breakdown of empirical covariance matrix consistency; Random matrix theory: the Marchenko-Pastur distribution for sample eigenvalues under null noise; Spiked covariance models, BBP phase transition (Baik-Ben Arous-Péché), and spectral thresholding; Singular Value Decomposition (SVD) at massive scale: economy-size SVD and power iteration; Randomized SVD (Halko-Martinsson-Tropp framework): random Gaussian test matrices and error bounds; Non-linear manifold learning: Multidimensional Scaling (MDS), t-Distributed Stochastic Neighbor Embedding (t-SNE) with Kullback-Leibler divergence, and Uniform Manifold Approximation and Projection (UMAP).">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/big-data-methods-for-statistics-chapter-2">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/big-data-methods-for-statistics-chapter-2">
+  <meta property="og:title" content="Big Data Methods for Statistics: High-Dimensional Geometry, Lasso, Spark &amp; Streaming Algorithms | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering high-dimensional statistical geometry (curse of dimensionality, volume collapse, concentration of measure, distance concentration), large-scale spectral dimension reduction (random matrix theory, Marchenko-Pastur law, BBP transition, randomized SVD), sparse statistical learning (Lasso coordinate descent, Ridge, Elastic Net, SCAD/MCP), distributed computing foundations (MapReduce, Hadoop, Apache Spark RDDs, MLlib), first-order stochastic optimization (SGD, mini-batch, Polyak momentum, Adam), randomized numerical linear algebra (Johnson-Lindenstrauss lemma, SRHT, leverage score sampling), streaming data algorithms (Welford algorithm, Reservoir Sampling, Count-Min sketch, HyperLogLog), and high-dimensional multiple testing (FWER, Benjamini-Hochberg FDR control, Storey q-values, local FDR) with 24 solved questions and 4 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Big Data Methods for Statistics: High-Dimensional Geometry, Lasso, Spark &amp; Streaming Algorithms | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering high-dimensional statistical geometry (curse of dimensionality, volume collapse, concentration of measure, distance concentration), large-scale spectral dimension reduction (random matrix theory, Marchenko-Pastur law, BBP transition, randomized SVD), sparse statistical learning (Lasso coordinate descent, Ridge, Elastic Net, SCAD/MCP), distributed computing foundations (MapReduce, Hadoop, Apache Spark RDDs, MLlib), first-order stochastic optimization (SGD, mini-batch, Polyak momentum, Adam), randomized numerical linear algebra (Johnson-Lindenstrauss lemma, SRHT, leverage score sampling), streaming data algorithms (Welford algorithm, Reservoir Sampling, Count-Min sketch, HyperLogLog), and high-dimensional multiple testing (FWER, Benjamini-Hochberg FDR control, Storey q-values, local FDR) with 24 solved questions and 4 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="big-data-methods-for-statistics.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Big Data Methods for Statistics: Large-Scale Dimension Reduction: Spectral & Manifold Learning","description":"Comprehensive university textbook covering high-dimensional statistical geometry (curse of dimensionality, volume collapse, concentration of measure, distance concentration), large-scale spectral dimension reduction (random matrix theory, Marchenko-Pastur law, BBP transition, randomized SVD), sparse statistical learning (Lasso coordinate descent, Ridge, Elastic Net, SCAD/MCP), distributed computing foundations (MapReduce, Hadoop, Apache Spark RDDs, MLlib), first-order stochastic optimization (SGD, mini-batch, Polyak momentum, Adam), randomized numerical linear algebra (Johnson-Lindenstrauss lemma, SRHT, leverage score sampling), streaming data algorithms (Welford algorithm, Reservoir Sampling, Count-Min sketch, HyperLogLog), and high-dimensional multiple testing (FWER, Benjamini-Hochberg FDR control, Storey q-values, local FDR) with 24 solved questions and 4 interactive simulations.","url":"https://openstemlibrary.com/big-data-methods-for-statistics-chapter-2","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Big Data Statistics","Curse of Dimensionality","Random Matrix Theory and Marchenko-Pastur","Lasso and Regularized Regression","Distributed Computing and Apache Spark","Stochastic Gradient Descent and Adam","Randomized Numerical Linear Algebra and Sketching","Streaming Data Algorithms and HyperLogLog","False Discovery Rate and Multiple Testing"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Big Data Methods for Statistics","item":"https://openstemlibrary.com/big-data-methods-for-statistics"}]}</script></head>
+<body data-book-path="big-data-methods-for-statistics.html" data-chapter-index="1" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Big Data Methods for Statistics</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search curse of dimensionality, Marchenko-Pastur, randomized SVD, Lasso, coordinate descent, Elastic Net, MapReduce, Spark RDD, stochastic gradient descent, Adam optimizer, Johnson-Lindenstrauss, Count-Min sketch, HyperLogLog, False Discovery Rate…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="big-data-methods-for-statistics" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">The Statistical Geometry of High Dimensions</span></a></li><li class="unit-nav-item active" data-unit-index="1"><a href="big-data-methods-for-statistics-chapter-2" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Large-Scale Dimension Reduction: Spectral &amp; Manifold Learning</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="big-data-methods-for-statistics-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Sparse Statistical Learning &amp; Regularization (Lasso, Ridge, Elastic Net)</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="big-data-methods-for-statistics-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Distributed Computing Foundations: MapReduce, Hadoop &amp; Spark for Statisticians</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="big-data-methods-for-statistics-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">First-Order Stochastic Optimization for Massive Data</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="big-data-methods-for-statistics-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Randomized Numerical Linear Algebra (RandNLA)</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="big-data-methods-for-statistics-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Streaming Data, Online Learning &amp; One-Pass Sketching Algorithms</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="big-data-methods-for-statistics-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">High-Dimensional Multiple Testing &amp; False Discovery Rate (FDR)</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Big data methods for statistics major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 2 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Large-Scale Dimension Reduction: Spectral &amp; Manifold Learning</h1>
+            <p class="unit-desc-lead" id="unit-desc">High-dimensional Principal Component Analysis (PCA) when p &gt;&gt; n: breakdown of empirical covariance matrix consistency; Random matrix theory: the Marchenko-Pastur distribution for sample eigenvalues under null noise; Spiked covariance models, BBP phase transition (Baik-Ben Arous-Péché), and spectral thresholding; Singular Value Decomposition (SVD) at massive scale: economy-size SVD and power iteration; Randomized SVD (Halko-Martinsson-Tropp framework): random Gaussian test matrices and error bounds; Non-linear manifold learning: Multidimensional Scaling (MDS), t-Distributed Stochastic Neighbor Embedding (t-SNE) with Kullback-Leibler divergence, and Uniform Manifold Approximation and Projection (UMAP).</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-308 (Big Data Methods for Statistics). Eight units and exactly three solved questions per unit. Interactive simulations illustrate high-dimensional distance concentration, Lasso regularization paths, stochastic optimization trajectories, and Benjamini-Hochberg FDR thresholding. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-2-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.1</span>
+            <span>High-Dimensional PCA and Breakdown of Classical Consistency</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Classical <strong>Principal Component Analysis (PCA)</strong>, formulated by Karl Pearson (1901) and Harold Hotelling (1933), identifies orthogonal projection directions $\mathbf{v}_1, \dots, \mathbf{v}_d \in \mathbb{R}^p$ that maximize sample variance:</p>
+
+<div class="math-display">$$\mathbf{v}_1 = \arg\max_{\|\mathbf{v}\|_2 = 1} \mathbf{v}^T \mathbf{S} \mathbf{v}$$</div>
+
+<p>where $\mathbf{S} = \frac{1}{n} \mathbf{X}^T \mathbf{X}$ is the sample covariance matrix (assuming centered data $\sum_{i=1}^n \mathbf{x}_i = \mathbf{0}$). The optimal projection vectors are the eigenvectors of $\mathbf{S}$ corresponding to the largest eigenvalues:</p>
+
+<div class="math-display">$$\mathbf{S} \mathbf{v}_j = \lambda_j \mathbf{v}_j, \quad \lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_p \ge 0$$</div>
+
+<h4>The Inconsistency Breakdown when $p/n \to \gamma &gt; 0$</h4>
+
+<p>In the classical regime ($p$ fixed, $n \to \infty$), the Law of Large Numbers guarantees that $\mathbf{S} \xrightarrow{p} \mathbf{\Sigma}$ elementwise. Consequently, the sample eigenvectors $\mathbf{v}_j$ converge almost surely to the true population eigenvectors $\mathbf{u}_j$.</p>
+
+<p>However, in the high-dimensional big data regime where $p$ and $n$ grow simultaneously such that $p/n \to \gamma \in (0, \infty)$, <strong>sample covariance matrices are violently inconsistent</strong>. Iain Johnstone and Arthur Lu (2009) proved that if the true population covariance is the identity $\mathbf{\Sigma} = \mathbf{I}_p$ (pure isotropic noise), the sample eigenvalues do not concentrate at $1.0$. Instead, they disperse across a broad deterministic spectral distribution.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.2</span>
+            <span>Random Matrix Theory: The Marchenko-Pastur Distribution</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Vladimir Marchenko and Leonid Pastur (1967) established the foundational limit law of high-dimensional random matrix theory.</p>
+
+<p><em>Theorem (The Marchenko-Pastur Law)</em>: Let $\mathbf{X}$ be an $n \times p$ matrix whose entries $X_{ij}$ are independent and identically distributed with mean $0$, variance $\sigma^2$, and finite fourth moment. Let $\mathbf{S} = \frac{1}{n} \mathbf{X}^T \mathbf{X}$ be the $p \times p$ sample covariance matrix. As $n, p \to \infty$ with $p/n \to \gamma \in (0, 1]$, the empirical spectral distribution of eigenvalues $F_p(\lambda) = \frac{1}{p} \sum_{j=1}^p \mathbb{I}(\lambda_j(\mathbf{S}) \le \lambda)$ converges weakly almost surely to a continuous probability density $f_{\text{MP}}(\lambda)$:</p>
+
+<div class="math-display">$$f_{\text{MP}}(\lambda) = \frac{1}{2\pi \sigma^2 \gamma \lambda} \sqrt{(\lambda_+ - \lambda)(\lambda - \lambda_-)} \, \mathbb{I}(\lambda_- \le \lambda \le \lambda_+)$$</div>
+
+<p>where the support boundaries (edges of the Marchenko-Pastur bulk) are:</p>
+
+<div class="math-display">$$\lambda_- = \sigma^2 (1 - \sqrt{\gamma})^2$$</div>
+
+<div class="math-display">$$\lambda_+ = \sigma^2 (1 + \sqrt{\gamma})^2$$</div>
+
+<p>When $\gamma &gt; 1$ ($p &gt; n$), the matrix $\mathbf{S}$ has rank at most $n$, meaning $p - n$ eigenvalues are identically zero, producing a point mass of weight $1 - 1/\gamma$ at $\lambda = 0$, while the remaining non-zero eigenvalues follow $f_{\text{MP}}(\lambda)$.</p>
+
+<h4>The BBP Phase Transition in Spiked Covariance Models</h4>
+
+<p>Jinho Baik, Gérard Ben Arous, and Sandrine Péché (2005) analyzed the <strong>Spiked Covariance Model</strong>, where the population covariance contains a true signal eigenvalue $\ell_1 &gt; 1$:</p>
+
+<div class="math-display">$$\mathbf{\Sigma} = \mathrm{diag}(\ell_1, 1, 1, \dots, 1)$$</div>
+
+<p><em>Theorem (BBP Phase Transition)</em>:</p>
+
+<h4>1. Below Threshold ($\ell_1 \le 1 + \sqrt{\gamma}$): The sample principal component eigenvalue $\hat{\lambda}_1$ remains trapped inside the Marchenko-Pastur noise bulk ($\hat{\lambda}_1 \to \lambda_+$), and the sample eigenvector $\hat{\mathbf{v}}_1$ is asymptotically orthogonal to the true signal direction:</h4>
+
+<div class="math-display">$$\lim_{n, p \to \infty} |\langle \hat{\mathbf{v}}_1, \mathbf{u}_1 \rangle|^2 = 0$$</div>
+
+<p>The true signal is completely undetectable!</p>
+
+<h4>2. Above Threshold ($\ell_1 &gt; 1 + \sqrt{\gamma}$): The leading sample eigenvalue emerges as an isolated outlier outside the bulk:</h4>
+
+<div class="math-display">$$\hat{\lambda}_1 \xrightarrow{a.s.} \ell_1 \left( 1 + \frac{\gamma}{\ell_1 - 1} \right) &gt; \lambda_+$$</div>
+
+<p>and the sample eigenvector retains non-trivial alignment with the true signal:</p>
+
+<div class="math-display">$$|\langle \hat{\mathbf{v}}_1, \mathbf{u}_1 \rangle|^2 \xrightarrow{a.s.} \frac{1 - \frac{\gamma}{(\ell_1 - 1)^2}}{1 + \frac{\gamma}{\ell_1 - 1}} &gt; 0$$</div>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.3</span>
+            <span>Randomized Singular Value Decomposition (Randomized SVD)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When data matrices $\mathbf{X} \in \mathbb{R}^{n \times p}$ are massive ($n, p \ge 10^5$), classical deterministic SVD algorithms (such as Golub-Reinsch bidiagonalization) require $O(n p \min(n, p))$ floating-point operations and random disk I/O, rendering exact SVD computationally impossible.</p>
+
+<p>Nathan Halko, Per-Gunnar Martinsson, and Joel A. Tropp (2011) formulated <strong>Randomized SVD (rSVD)</strong>, which computes a near-optimal rank-$k$ truncated SVD in $O(n p \log k)$ operations using random projections.</p>
+
+<h4>The Two-Stage Halko-Martinsson-Tropp Algorithm</h4>
+
+<p>Given matrix $\mathbf{A} \in \mathbb{R}^{m \times n}$, target rank $k$, and oversampling parameter $s$ (typically $s = 5$ or $10$), let $\ell = k + s$:</p>
+
+<h5>Stage 1: Randomized Subspace Extraction</h5>
+
+<ol>
+
+  <li>Generate an $n \times \ell$ random Gaussian test matrix $\mathbf{\Omega} \sim \mathcal{N}(0, 1)$.</li>
+
+  <li>Compute the sample matrix sketch $\mathbf{Y} = \mathbf{A} \mathbf{\Omega} \in \mathbb{R}^{m \times \ell}$.</li>
+
+  <li>(Optional Power Iteration for Fast Spectral Decay): Set $\mathbf{Y} = (\mathbf{A} \mathbf{A}^T)^q \mathbf{A} \mathbf{\Omega}$ (typically $q = 1$ or $2$) to amplify dominant singular values.</li>
+
+  <li>Construct an orthonormal basis $\mathbf{Q} \in \mathbb{R}^{m \times \ell}$ for the range of $\mathbf{Y}$ via QR factorization:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{Y} = \mathbf{Q} \mathbf{R}$$</div>
+
+<h5>Stage 2: Low-Dimensional Deterministic SVD</h5>
+
+<ol>
+
+  <li>Project the large matrix $\mathbf{A}$ onto the low-dimensional subspace spanned by $\mathbf{Q}$:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{B} = \mathbf{Q}^T \mathbf{A} \in \mathbb{R}^{\ell \times n}$$</div>
+
+<ol>
+
+  <li>Compute the standard SVD of the small $\ell \times n$ matrix $\mathbf{B}$:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{B} = \tilde{\mathbf{U}} \mathbf{\Sigma} \mathbf{V}^T$$</div>
+
+<ol>
+
+  <li>Reconstruct the left singular vectors of $\mathbf{A}$:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{U} = \mathbf{Q} \tilde{\mathbf{U}}$$</div>
+
+<ol>
+
+  <li>Truncate $\mathbf{U}, \mathbf{\Sigma}, \mathbf{V}$ to the top $k$ components.</li>
+
+</ol>
+
+<p><em>Error Bound</em>: The expected approximation error satisfies:</p>
+
+<div class="math-display">$$\mathbb{E}\left[ \|\mathbf{A} - \mathbf{Q} \mathbf{Q}^T \mathbf{A}\|_F \right] \le \left( 1 + \frac{k}{s - 1} \right)^{1/2} \sigma_{k+1}(\mathbf{A})$$</div>
+
+<p>The randomized algorithm matches the theoretical Eckart-Young optimal low-rank error to within a tiny constant factor, while executing in minutes instead of days.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.4</span>
+            <span>Non-Linear Manifold Learning: t-SNE and UMAP</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When high-dimensional data reside on complex, non-linear geometric submanifolds (such as the Swiss roll or single-cell RNA transcriptomic manifolds), linear PCA projections project distant folds of the manifold on top of each other, obscuring cluster structures.</p>
+
+<h4>1. t-Distributed Stochastic Neighbor Embedding (t-SNE)</h4>
+
+<p>Laurens van der Maaten and Geoffrey Hinton (2008) invented <strong>t-SNE</strong> to preserve local neighborhood affinities.</p>
+
+<h4>1. High-Dimensional Gaussian Similarities: The conditional probability that point $\mathbf{x}_i$ picks $\mathbf{x}_j$ as its neighbor is modeled as Gaussian:</h4>
+
+<div class="math-display">$$p_{j|i} = \frac{\exp(-\|\mathbf{x}_i - \mathbf{x}_j\|_2^2 / 2\sigma_i^2)}{\sum_{k \ne i} \exp(-\|\mathbf{x}_i - \mathbf{x}_k\|_2^2 / 2\sigma_i^2)}, \quad p_{ii} = 0$$</div>
+
+<p>The symmetric joint probability is $p_{ij} = \frac{p_{j|i} + p_{i|j}}{2n}$. The local scale $\sigma_i$ is tuned via binary search to match a user-specified <strong>perplexity</strong>:</p>
+
+<div class="math-display">$$\mathrm{Perp}(P_i) = 2^{H(P_i)} = 2^{-\sum_j p_{j|i} \log_2 p_{j|i}}$$</div>
+
+<h4>2. Low-Dimensional Student-$t$ Similarities: To overcome the "crowding problem" (moderate distances in high dimensions collapsing onto identical radii in low dimensions), the low-dimensional coordinates $\mathbf{y}_i \in \mathbb{R}^2$ use a heavy-tailed Cauchy / Student-$t$ distribution with 1 degree of freedom:</h4>
+
+<div class="math-display">$$q_{ij} = \frac{(1 + \|\mathbf{y}_i - \mathbf{y}_j\|_2^2)^{-1}}{\sum_{k} \sum_{l \ne k} (1 + \|\mathbf{y}_k - \mathbf{y}_l\|_2^2)^{-1}}, \quad q_{ii} = 0$$</div>
+
+<h4>3. Kullback-Leibler Minimization: The low-dimensional coordinates are optimized by minimizing:</h4>
+
+<div class="math-display">$$\mathrm{KL}(P \parallel Q) = \sum_{i \ne j} p_{ij} \log\left( \frac{p_{ij}}{q_{ij}} \right)$$</div>
+
+<p>via gradient descent.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.6</span>
+            <span>The Tracy-Widom Distribution and the Spectral Edge</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In Section 2.2, we established that the empirical eigenvalues of a null sample covariance matrix $\mathbf{S} = \frac{1}{n} \mathbf{X}^T \mathbf{X}$ are asymptotically bounded by the Marchenko-Pastur upper edge $\lambda_+ = \sigma^2 (1 + \sqrt{\gamma})^2$. However, in finite samples, what is the exact distribution of the maximum eigenvalue $\hat{\lambda}_1 = \lambda_{\max}(\mathbf{S})$ around this boundary?</p>
+
+<p>Craig Tracy and Harold Widom (1994, 1996) proved a landmark theorem in mathematical physics and random matrix theory, establishing the universal limiting distribution of the largest eigenvalue of Gaussian random matrices.</p>
+
+<h4>1. The Tracy-Widom $F_1$ Distribution</h4>
+
+<p>Let $\mathbf{X}$ be an $n \times p$ matrix with independent standard Gaussian entries $\mathcal{N}(0, 1)$, and let $\hat{\lambda}_1$ be the largest eigenvalue of the sample covariance matrix $\mathbf{S} = \frac{1}{n} \mathbf{X}^T \mathbf{X}$. Define the centering and scaling constants:</p>
+
+<div class="math-display">$$\mu_{n, p} = \left( 1 + \sqrt{\frac{p}{n}} \right)^2$$</div>
+
+<div class="math-display">$$\sigma_{n, p} = \left( 1 + \sqrt{\frac{p}{n}} \right) \left( 1 + \sqrt{\frac{n}{p}} \right)^{1/3} n^{-2/3}$$</div>
+
+<p><em>Theorem (Johnstone 2001)</em>: As $n, p \to \infty$ with $p/n \to \gamma &gt; 0$, the normalized leading eigenvalue converges weakly to the <strong>Tracy-Widom $F_1$ Law</strong>:</p>
+
+<div class="math-display">$$\frac{\hat{\lambda}_1 - \mu_{n, p}}{\sigma_{n, p}} \xrightarrow{d} \mathrm{TW}_1$$</div>
+
+<p>The cumulative distribution function $F_1(s)$ is given by the Painlevé II non-linear differential equation:</p>
+
+<div class="math-display">$$F_1(s) = \exp\left( -\frac{1}{2} \int_s^\infty q(x) + (x - s) q^2(x)\,dx \right)$$</div>
+
+<p>where $q(x)$ satisfies the Painlevé II differential equation $q''(x) = x q(x) + 2 q^3(x)$ with boundary condition $q(x) \sim \text{Ai}(x)$ as $x \to \infty$, where $\text{Ai}(x)$ is the classical Airy function.</p>
+
+<p><em>Statistical Testing Implication</em>: The Tracy-Widom distribution replaces the classical Student's $t$ or Fisher's $F$ distribution when testing for the existence of low-rank signals in high dimensions. If the normalized test statistic exceeds the $95\%$ critical quantile of $\mathrm{TW}_1$ ($s_{0.95} \approx 0.979$ or $s_{0.99} \approx 2.023$), the analyst rigorously rejects the null hypothesis of pure noise and declares the presence of a genuine latent factor.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-7">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.7</span>
+            <span>Sparse PCA for High-Dimensional Variable Selection</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>While standard PCA finds linear combinations $\mathbf{z}_1 = \mathbf{X} \mathbf{v}_1$ that maximize variance, the resulting eigenvector $\mathbf{v}_1 \in \mathbb{R}^p$ is dense: all $p$ features receive non-zero weights. In genomics or finance with $p = 20,000$ variables, interpreting a linear combination of 20,000 genes is impossible.</p>
+
+<p>Hui Zou, Trevor Hastie, and Robert Tibshirani (2006) formulated <strong>Sparse PCA</strong>, using $L_1$ regularization to force most eigenvector loadings to zero.</p>
+
+<h4>1. Regression Formulation of PCA</h4>
+
+<p>Zou, Hastie, and Tibshirani demonstrated that PCA can be formulated as a self-reconstruction regression problem:</p>
+
+<div class="math-display">$$\min_{\mathbf{A}, \mathbf{B}} \sum_{i=1}^n \|\mathbf{x}_i - \mathbf{A} \mathbf{B}^T \mathbf{x}_i\|_2^2 \quad \text{subject to} \quad \mathbf{A}^T \mathbf{A} = \mathbf{I}_k$$</div>
+
+<p>where $\mathbf{A}, \mathbf{B} \in \mathbb{R}^{p \times k}$. For unconstrained optimization, the columns of $\mathbf{B}$ are proportional to the standard principal component eigenvectors.</p>
+
+<h4>2. The Sparse PCA Objective</h4>
+
+<p>Sparse PCA imposes an Elastic Net penalty on the reconstruction matrix $\mathbf{B}$:</p>
+
+<div class="math-display">$$\min_{\mathbf{A}, \mathbf{B}} \left\{ \sum_{i=1}^n \|\mathbf{x}_i - \mathbf{A} \mathbf{B}^T \mathbf{x}_i\|_2^2 + \lambda \sum_{j=1}^k \|\boldsymbol{\beta}_j\|_2^2 + \sum_{j=1}^k \lambda_{1, j} \|\boldsymbol{\beta}_j\|_1 \right\} \quad \text{subject to} \quad \mathbf{A}^T \mathbf{A} = \mathbf{I}_k$$</div>
+
+<p>This non-convex optimization is solved via alternating minimization:</p>
+
+<ol>
+
+  <li>For fixed $\mathbf{A}$, updating each column $\boldsymbol{\beta}_j$ is an Elastic Net regression, solved rapidly via coordinate descent.</li>
+
+  <li>For fixed $\mathbf{B}$, updating $\mathbf{A}$ is a Procrustes problem solved via SVD: $\mathbf{X}^T \mathbf{X} \mathbf{B} = \mathbf{U} \mathbf{D} \mathbf{V}^T \implies \mathbf{A} = \mathbf{U} \mathbf{V}^T$.</li>
+
+</ol>
+
+<p>Sparse PCA produces orthogonal principal directions driven by a small, interpretable subset of 10 to 50 active genes, providing clear biological discovery attribution.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-8">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.8</span>
+            <span>Uniform Manifold Approximation and Projection (UMAP)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In Section 2.4, we examined t-SNE for non-linear manifold visualization. While t-SNE produces compelling 2D cluster maps, it has two significant drawbacks:</p>
+
+<ol>
+
+  <li>It scales as $O(n^2)$ (or $O(n \log n)$ via Barnes-Hut quad-trees), taking hours on datasets with $n \ge 10^6$ rows.</li>
+
+  <li>It destroys <strong>global manifold structure</strong>: the relative distances between distant clusters in a t-SNE plot are arbitrary and carry zero statistical meaning.</li>
+
+</ol>
+
+<p>Leland McInnes, John Healy, and James Melville (2018) developed <strong>UMAP</strong>, grounded in Riemannian geometry and algebraic topology (fuzzy simplicial sets).</p>
+
+<h4>1. Theoretical Foundations of UMAP</h4>
+
+<p>UMAP assumes that data reside on a local Riemannian manifold $\mathcal{M}$ where the metric space is locally connected.</p>
+
+<h4>1. Local Metric Scaling: In high dimensions, the local geodesic distance around each point $\mathbf{x}_i$ is normalized by its distance to its nearest neighbor $\rho_i$ and a local scale $\sigma_i$:</h4>
+
+<div class="math-display">$$p_{i|j} = \exp\left( -\frac{\max(0, d(\mathbf{x}_i, \mathbf{x}_j) - \rho_i)}{\sigma_i} \right)$$</div>
+
+<p>Setting $\rho_i = \min_{k} d(\mathbf{x}_i, \mathbf{x}_k)$ guarantees that the local graph is connected at each point, overcoming density disparities.</p>
+
+<h4>2. Fuzzy Union: Symmetrized high-dimensional affinities are constructed via the algebraic t-conorm:</h4>
+
+<div class="math-display">$$p_{ij} = p_{i|j} + p_{j|i} - p_{i|j} p_{j|i}$$</div>
+
+<h4>3. Low-Dimensional Embeddings: In the target 2D space, the similarity is modeled via a smooth family of curves:</h4>
+
+<div class="math-display">$$q_{ij} = \left( 1 + a \|\mathbf{y}_i - \mathbf{y}_j\|_2^{2b} \right)^{-1}$$</div>
+
+<p>where $a, b$ are hyperparameters chosen to match the target min-dist setting.</p>
+
+<h4>4. Fuzzy Set Cross-Entropy Minimization: UMAP optimizes the coordinates $\mathbf{y}_i$ by minimizing the fuzzy set cross-entropy:</h4>
+
+<div class="math-display">$$\mathcal{C}(P, Q) = \sum_{i \ne j} \left[ p_{ij} \log\left(\frac{p_{ij}}{q_{ij}}\right) + (1 - p_{ij}) \log\left(\frac{1 - p_{ij}}{1 - q_{ij}}\right) \right]$$</div>
+
+<p>Because the second term penalizes pairs where $p_{ij} = 0$ but $q_{ij} &gt; 0$, UMAP actively pushes disconnected clusters apart, preserving global topological hierarchies while executing 10 to 50 times faster than t-SNE via stochastic gradient descent and negative sampling.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-9">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.9</span>
+            <span>Random Fourier Features for Scalable Kernel Approximations</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In non-linear dimension reduction and kernel learning, evaluating the full $n \times n$ Gram matrix $\mathbf{K}$ requires $O(n^2)$ computation and memory. In Unit 2.3, we examined the Nyström approximation. An alternative paradigm developed by Ali Rahimi and Benjamin Recht (2007) avoids computing kernel matrices altogether by mapping data into explicit randomized Euclidean feature spaces.</p>
+
+<h4>1. Bochner's Theorem on Shift-Invariant Kernels</h4>
+
+<p>A continuous shift-invariant kernel $k(\mathbf{x}, \mathbf{y}) = k(\mathbf{x} - \mathbf{y})$ on $\mathbb{R}^p$ is positive definite if and only if $k(\boldsymbol{\Delta})$ is the Fourier transform of a non-negative bounded Borel measure $p(\boldsymbol{\omega})$:</p>
+
+<div class="math-display">$$k(\mathbf{x} - \mathbf{y}) = \int_{\mathbb{R}^p} p(\boldsymbol{\omega}) e^{i \boldsymbol{\omega}^T (\mathbf{x} - \mathbf{y})}\,d\boldsymbol{\omega} = \mathbb{E}_{\boldsymbol{\omega} \sim p}\left[ \cos(\boldsymbol{\omega}^T (\mathbf{x} - \mathbf{y})) \right]$$</div>
+
+<p>For the standard Gaussian RBF kernel $k(\mathbf{x}, \mathbf{y}) = \exp(-\gamma \|\mathbf{x} - \mathbf{y}\|_2^2)$, the spectral distribution $p(\boldsymbol{\omega})$ is a multivariate Gaussian $\mathcal{N}(\mathbf{0}, 2\gamma \mathbf{I}_p)$.</p>
+
+<h4>2. The Random Fourier Feature Mapping</h4>
+
+<p>Rahimi and Recht constructed a randomized low-dimensional feature map $\mathbf{z}: \mathbb{R}^p \to \mathbb{R}^{2D}$:</p>
+
+<ol>
+
+  <li>Sample $D$ independent frequency vectors $\boldsymbol{\omega}_1, \dots, \boldsymbol{\omega}_D \sim p(\boldsymbol{\omega}) = \mathcal{N}(\mathbf{0}, 2\gamma \mathbf{I}_p)$.</li>
+
+  <li>For any input vector $\mathbf{x} \in \mathbb{R}^p$, define the randomized feature vector:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{z}(\mathbf{x}) = \frac{1}{\sqrt{D}} \left[ \cos(\boldsymbol{\omega}_1^T \mathbf{x}), \dots, \cos(\boldsymbol{\omega}_D^T \mathbf{x}), \sin(\boldsymbol{\omega}_1^T \mathbf{x}), \dots, \sin(\boldsymbol{\omega}_D^T \mathbf{x}) \right]^T$$</div>
+
+<p>By trigonometric addition formulas:</p>
+
+<div class="math-display">$$\langle \mathbf{z}(\mathbf{x}), \mathbf{z}(\mathbf{y}) \rangle = \frac{1}{D} \sum_{j=1}^D \left[ \cos(\boldsymbol{\omega}_j^T \mathbf{x}) \cos(\boldsymbol{\omega}_j^T \mathbf{y}) + \sin(\boldsymbol{\omega}_j^T \mathbf{x}) \sin(\boldsymbol{\omega}_j^T \mathbf{y}) \right] = \frac{1}{D} \sum_{j=1}^D \cos(\boldsymbol{\omega}_j^T (\mathbf{x} - \mathbf{y}))$$</div>
+
+<p>By the Law of Large Numbers, $\langle \mathbf{z}(\mathbf{x}), \mathbf{z}(\mathbf{y}) \rangle \to k(\mathbf{x}, \mathbf{y})$.</p>
+
+<p><em>Computational Revolution</em>: Any non-linear kernel regression or PCA problem on $n = 10^7$ observations can be solved by transforming data into explicit $2D$-dimensional vectors $\mathbf{z}(\mathbf{x})$ and fitting standard linear OLS or linear PCA in $O(n D)$ time, transforming non-linear kernel estimation from an $O(n^2)$ impossible task into a streaming linear regression problem.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-10">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.10</span>
+            <span>Diffusion Maps and Spectral Geometry</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Ronald Coifman and Stéphane Lafon (2006) introduced <strong>Diffusion Maps</strong>, discovering low-dimensional manifold coordinates by modeling heat diffusion and random walks on data graphs.</p>
+
+<h4>1. The Normalized Graph Laplacian</h4>
+
+<p>Let $\mathbf{W} \in \mathbb{R}^{n \times n}$ be an affinity matrix with Gaussian weights $W_{ij} = \exp(-\|\mathbf{x}_i - \mathbf{x}_j\|_2^2 / \epsilon)$. Let $\mathbf{D} = \mathrm{diag}(\sum_j W_{ij})$ be the degree matrix. The Markov transition matrix governing random walk diffusion across the data manifold is:</p>
+
+<div class="math-display">$$\mathbf{P} = \mathbf{D}^{-1} \mathbf{W}$$</div>
+
+<p>where $P_{ij} = P(\mathbf{x}_{t+1} = \mathbf{x}_j \mid \mathbf{x}_t = \mathbf{x}_i)$. Running the random walk for $t$ discrete timesteps yields transition probabilities $P_{ij}^{(t)} = (\mathbf{P}^t)_{ij}$.</p>
+
+<h4>2. Diffusion Distance and Spectral Coordinate Mapping</h4>
+
+<p>The <strong>Diffusion Distance</strong> $D_t^2(\mathbf{x}_i, \mathbf{x}_j)$ measures geometric proximity by comparing the conditional path distributions of random walks emanating from points $i$ and $j$:</p>
+
+<div class="math-display">$$D_t^2(\mathbf{x}_i, \mathbf{x}_j) = \|P_{i \cdot}^{(t)} - P_{j \cdot}^{(t)}\|_{L^2(1/\pi)}^2 = \sum_{k=1}^n \frac{(P_{ik}^{(t)} - P_{jk}^{(t)})^2}{\pi_k}$$</div>
+
+<p>where $\pi_k = D_{kk} / \sum D_{jj}$ is the stationary distribution of the random walk.</p>
+
+<p><em>Spectral Embedding Theorem</em>: Let $\lambda_0 = 1 &gt; \lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_{n-1}$ be the eigenvalues of $\mathbf{P}$ with right eigenvectors $\boldsymbol{\psi}_k$. The diffusion map $\boldsymbol{\Psi}_t: \mathbf{x}_i \mapsto (\lambda_1^t \psi_{1, i}, \lambda_2^t \psi_{2, i}, \dots, \lambda_d^t \psi_{d, i})^T$ embeds the manifold into $\mathbb{R}^d$ such that <strong>Euclidean distance in the embedding space equals diffusion distance on the original manifold</strong>:</p>
+
+<div class="math-display">$$\|\boldsymbol{\Psi}_t(\mathbf{x}_i) - \boldsymbol{\Psi}_t(\mathbf{x}_j)\|_2 = D_t(\mathbf{x}_i, \mathbf{x}_j) + O\left( \left(\frac{\lambda_{d+1}}{\lambda_1}\right)^t \right)$$</div>
+
+<p>Diffusion maps eliminate noise and reveal intrinsic non-linear coordinates (such as developmental trajectories in single-cell genomics) with rigorous spectral guarantees.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-11">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.11</span>
+            <span>Robust Principal Component Analysis (RPCA) and Principal Component Pursuit</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Classical PCA is notoriously fragile to gross outliers and data corruptions: because least squares optimization minimizes squared deviations $\sum \|\mathbf{x}_i - \hat{\mathbf{x}}_i\|_2^2$, even a single corrupted sensor reading or malicious adversarial injection can alter the orientation of the principal component axes by $90^\circ$.</p>
+
+<p>Emmanuel Candès, Xiaodong Li, Yi Ma, and John Wright (2011) introduced <strong>Robust PCA (RPCA)</strong> via <strong>Principal Component Pursuit (PCP)</strong>, decomposing an observed corrupted data matrix $\mathbf{X} \in \mathbb{R}^{n \times p}$ into two separate matrices:</p>
+
+<div class="math-display">$$\mathbf{X} = \mathbf{L}_0 + \mathbf{S}_0$$</div>
+
+<p>where:</p>
+
+<ol>
+
+  <li>$\mathbf{L}_0$ is a low-rank matrix representing the true low-dimensional statistical factor structure.</li>
+
+  <li>$\mathbf{S}_0$ is a sparse matrix whose non-zero entries represent arbitrary, unbounded corruptions, missing entries, or anomalies.</li>
+
+</ol>
+
+<h4>1. Convex Relaxation via Nuclear Norm and $L_1$ Norm</h4>
+
+<p>Direct minimization of $\mathrm{rank}(\mathbf{L}) + \lambda \|\mathbf{S}\|_0$ is an NP-hard combinatorial problem. Candès et al. proved that PCP solves this problem via its tightest convex surrogate:</p>
+
+<div class="math-display">$$\min_{\mathbf{L}, \mathbf{S}} \left\{ \|\mathbf{L}\|_* + \lambda \|\mathbf{S}\|_1 \right\} \quad \text{subject to} \quad \mathbf{L} + \mathbf{S} = \mathbf{X}$$</div>
+
+<p>where:</p>
+
+<ul>
+
+  <li>$\|\mathbf{L}\|_* = \sum_{j=1}^{\min(n, p)} \sigma_j(\mathbf{L})$ is the <strong>Nuclear Norm</strong> (the sum of singular values), which is the convex envelope of the matrix rank.</li>
+
+  <li>$\|\mathbf{S}\|_1 = \sum_{ij} |S_{ij}|$ is the element-wise $L_1$ norm.</li>
+
+  <li>$\lambda = \frac{1}{\sqrt{\max(n, p)}}$ is a universal tuning parameter.</li>
+
+</ul>
+
+<p><em>Theorem (Exact Matrix Separation)</em>: Under mild incoherence conditions (ensuring the low-rank singular vectors are not spiky), PCP recovers the exact low-rank matrix $\mathbf{L}_0$ and sparse corruption matrix $\mathbf{S}_0$ with probability $1.0$.</p>
+
+<p>In video surveillance analytics, $\mathbf{L}$ extracts the stationary background scene while $\mathbf{S}$ isolates moving pedestrians. In financial anomaly detection, $\mathbf{L}$ captures macro market factors while $\mathbf{S}$ isolates fraudulent transaction spikes.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-12">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.12</span>
+            <span>Independent Component Analysis (ICA) and Non-Gaussianity</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>While PCA identifies uncorrelated orthogonal directions that maximize variance (second-order moments), uncorrelatedness implies statistical independence if and only if the underlying data are multivariate Gaussian. In many big data settings—such as electroencephalography (EEG) brain wave recordings, financial market volatility regimes, and audio blind source separation—the observed signals are non-Gaussian mixtures of independent source signals.</p>
+
+<p>Aapo Hyvärinen and Erkki Oja (1997, 2000) formulated <strong>Independent Component Analysis (ICA)</strong>:</p>
+
+<div class="math-display">$$\mathbf{x} = \mathbf{A} \mathbf{s}$$</div>
+
+<p>where $\mathbf{s} \in \mathbb{R}^d$ are statistically independent, non-Gaussian source components, and $\mathbf{A} \in \mathbb{R}^{p \times d}$ is an unknown mixing matrix.</p>
+
+<h4>1. The Central Limit Theorem Principle</h4>
+
+<p>By the Central Limit Theorem, the sum of independent random variables is always <strong>more Gaussian</strong> than any of the individual components. Therefore, finding the unmixed independent sources is mathematically equivalent to finding linear combinations $\mathbf{w}^T \mathbf{x}$ that <strong>maximize non-Gaussianity</strong>.</p>
+
+<h4>2. FastICA and Negentropy Maximization</h4>
+
+<p>Non-Gaussianity is quantified via <strong>Negentropy</strong>:</p>
+
+<div class="math-display">$$J(y) = H(y_{\text{Gauss}}) - H(y)$$</div>
+
+<p>where $H(y) = -\int f(y) \ln f(y)\,dy$ is differential entropy. A Gaussian variable maximizes entropy, so $J(y) \ge 0$, with equality if and only if $y$ is Gaussian.</p>
+
+<p>The <strong>FastICA</strong> fixed-point algorithm updates the unmixing vector $\mathbf{w}$ using non-linear contrast functions $G(u)$ (such as $G(u) = \frac{1}{a} \ln \cosh(a u)$):</p>
+
+<div class="math-display">$$\mathbf{w}_{k+1} = \mathbb{E}\left[ \mathbf{x} g(\mathbf{w}_k^T \mathbf{x}) \right] - \mathbb{E}\left[ g'(\mathbf{w}_k^T \mathbf{x}) \right] \mathbf{w}_k$$</div>
+
+<div class="math-display">$$\mathbf{w}_{k+1} \leftarrow \frac{\mathbf{w}_{k+1}}{\|\mathbf{w}_{k+1}\|_2}$$</div>
+
+<p>FastICA converges cubically, separating independent biological and economic signals in seconds.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-13">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.13</span>
+            <span>Multi-View Representation Learning: Canonical Correlation Analysis (CCA)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In multimodal big data (such as pairing medical MRI scans with genetic DNA microarrays, or pairing audio waveforms with video frames), analysts possess paired observations $(\mathbf{x}_i, \mathbf{y}_i)$ originating from two distinct high-dimensional feature spaces: $\mathbf{x} \in \mathbb{R}^{p_1}$ and $\mathbf{y} \in \mathbb{R}^{p_2}$.</p>
+
+<p>Harold Hotelling (1936) formulated <strong>Canonical Correlation Analysis (CCA)</strong>, finding linear projections $\mathbf{u} \in \mathbb{R}^{p_1}$ and $\mathbf{v} \in \mathbb{R}^{p_2}$ that maximize the correlation between the two views:</p>
+
+<div class="math-display">$$\max_{\mathbf{u}, \mathbf{v}} \frac{\mathbf{u}^T \mathbf{\Sigma}_{xy} \mathbf{v}}{\sqrt{\mathbf{u}^T \mathbf{\Sigma}_{xx} \mathbf{u}} \sqrt{\mathbf{v}^T \mathbf{\Sigma}_{yy} \mathbf{v}}}$$</div>
+
+<h4>1. The Generalized Eigenvalue Formulation</h4>
+
+<p>Subject to the normalizations $\mathbf{u}^T \mathbf{\Sigma}_{xx} \mathbf{u} = 1$ and $\mathbf{v}^T \mathbf{\Sigma}_{yy} \mathbf{v} = 1$, the optimal projection vectors satisfy the coupled generalized eigenvalue system:</p>
+
+<div class="math-display">$$\mathbf{\Sigma}_{xx}^{-1} \mathbf{\Sigma}_{xy} \mathbf{\Sigma}_{yy}^{-1} \mathbf{\Sigma}_{yx} \mathbf{u} = \rho^2 \mathbf{u}$$</div>
+
+<div class="math-display">$$\mathbf{v} = \frac{1}{\rho} \mathbf{\Sigma}_{yy}^{-1} \mathbf{\Sigma}_{yx} \mathbf{u}$$</div>
+
+<p>In big data regimes where $p_1, p_2 &gt; n$, the sample covariance matrices $\mathbf{S}_{xx}$ and $\mathbf{S}_{yy}$ are singular, rendering standard CCA impossible. Statisticians deploy:</p>
+
+<h4>1. Regularized CCA: Augments diagonals with ridge penalties $(\mathbf{S}_{xx} + \lambda_1 \mathbf{I})$ and $(\mathbf{S}_{yy} + \lambda_2 \mathbf{I})$.</h4>
+
+<h4>2. Sparse CCA (Witten, Tibshirani, and Hastie 2009): Imposes $L_1$ penalties on $\mathbf{u}$ and $\mathbf{v}$ via alternating penalized matrix decomposition, isolating sparse co-regulated gene-clinical biomarker pairs.</h4>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-14">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.14</span>
+            <span>Non-Negative Matrix Factorization (NMF)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In chemometrics, spectral unmixing, and document topic modeling, observations are non-negative ($X_{ij} \ge 0$, representing photon counts, pixel intensities, or word frequencies). While PCA produces components with positive and negative loadings (which cancel each other out destructively), Daniel D. Lee and H. Sebastian Seung (1999) introduced <strong>Non-Negative Matrix Factorization (NMF)</strong>, enforcing strict non-negativity:</p>
+
+<div class="math-display">$$\mathbf{X} \approx \mathbf{W} \mathbf{H}, \quad \text{subject to } W_{ik} \ge 0, \, H_{kj} \ge 0$$</div>
+
+<p>where $\mathbf{X} \in \mathbb{R}_+{}^{n \times p}$, $\mathbf{W} \in \mathbb{R}_+{}^{n \times k}$ is the basis matrix, and $\mathbf{H} \in \mathbb{R}_+{}^{k \times p}$ is the coefficient matrix ($k \ll \min(n, p)$).</p>
+
+<h4>Lee-Seung Multiplicative Update Rules</h4>
+
+<p>Minimizing the Frobenius loss $\|\mathbf{X} - \mathbf{W} \mathbf{H}\|_F^2$ subject to $W, H \ge 0$ leads to the elegant <strong>Multiplicative Update Rules</strong>:</p>
+
+<div class="math-display">$$H_{kj} \leftarrow H_{kj} \frac{(\mathbf{W}^T \mathbf{X})_{kj}}{(\mathbf{W}^T \mathbf{W} \mathbf{H})_{kj}}$$</div>
+
+<div class="math-display">$$W_{ik} \leftarrow W_{ik} \frac{(\mathbf{X} \mathbf{H}^T)_{ik}}{(\mathbf{W} \mathbf{H} \mathbf{H}^T)_{ik}}$$</div>
+
+<p>Because these updates consist entirely of non-negative multiplications and divisions, non-negativity is preserved automatically at every step without expensive projection cones. NMF produces <strong>parts-based representations</strong>: in facial image modeling, basis vectors represent distinct physical parts (noses, eyes, mouths) that sum constructively to form composite faces.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-15">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.15</span>
+            <span>Unit 2 Review and Methodological Synthesis</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In Unit 2, we examined dimension reduction methodologies for high-dimensional and massive datasets. We analyzed the breakdown of classical PCA consistency in the Marchenko-Pastur regime ($p/n \to \gamma$), proving that noise eigenvalues disperse across $[\sigma^2(1-\sqrt{\gamma})^2, \sigma^2(1+\sqrt{\gamma})^2]$. We formulated the BBP phase transition, showing that true signal eigenvalues must exceed $1 + \sqrt{\gamma}$ to emerge from the noise bulk. We examined the Tracy-Widom $F_1$ law governing the fluctuation of the leading sample eigenvalue. We developed Randomized SVD via the Halko-Martinsson-Tropp algorithm, proving near-optimal low-rank reconstruction in $O(n p \log k)$ operations. We detailed non-linear manifold learning via t-SNE (Kullback-Leibler divergence with Student-$t$ kernels) and UMAP (fuzzy simplicial sets and cross-entropy optimization). Finally, we surveyed Sparse PCA, Random Fourier Features for kernel scaling, Robust PCA via Principal Component Pursuit, and Non-Negative Matrix Factorization.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-16">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.16</span>
+            <span>Multidimensional Scaling (MDS) and Landmark Approximations</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When data relationships are provided not as coordinate vectors $\mathbf{x} \in \mathbb{R}^p$, but as an $n \times n$ matrix of pairwise dissimilarities or distances $\mathbf{D} = [d_{ij}]$ (such as psychological confusion matrices, genetic sequence alignment edit distances, or graph shortest-path geodesic hops), classical vector space techniques cannot be applied directly.</p>
+
+<p>Warren S. Torgerson (1952) and Joseph Kruskal (1964) formulated <strong>Multidimensional Scaling (MDS)</strong>, finding low-dimensional Euclidean points $\mathbf{y}_1, \dots, \mathbf{y}_n \in \mathbb{R}^d$ such that $\|\mathbf{y}_i - \mathbf{y}_j\|_2 \approx d_{ij}$.</p>
+
+<h4>1. Classical Metric MDS</h4>
+
+<ol>
+
+  <li>Compute the squared distance matrix $\mathbf{D}^{(2)}$ where $D_{ij}^{(2)} = d_{ij}^2$.</li>
+
+  <li>Apply double centering via the centering matrix $\mathbf{H} = \mathbf{I}_n - \frac{1}{n} \mathbf{1} \mathbf{1}^T$:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{B} = -\frac{1}{2} \mathbf{H} \mathbf{D}^{(2)} \mathbf{H}$$</div>
+
+<p>By the law of cosines, $\mathbf{B}$ is the inner product Gram matrix $\mathbf{Y} \mathbf{Y}^T$.</p>
+
+<ol>
+
+  <li>Compute the spectral decomposition of $\mathbf{B} = \mathbf{V} \mathbf{\Lambda} \mathbf{V}^T$.</li>
+
+  <li>The optimal $d$-dimensional Euclidean coordinates are:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{Y} = \mathbf{V}_d \mathbf{\Lambda}_d^{1/2}$$</div>
+
+<h4>2. Landmark MDS for Massive Datasets</h4>
+
+<p>When $n \ge 100,000$, classical MDS requires storing the $100,000 \times 100,000$ matrix $\mathbf{D}$ (80 GB) and computing its full eigendecomposition in $O(n^3)$ operations. Vin de Silva and Joshua B. Tenenbaum (2004) developed <strong>Landmark MDS (LMDS)</strong>:</p>
+
+<ol>
+
+  <li>Select $m \ll n$ landmark points (e.g., $m = 1,000$).</li>
+
+  <li>Compute the $m \times m$ distance matrix between landmarks and run classical MDS to obtain landmark coordinates $\mathbf{Y}_m \in \mathbb{R}^{m \times d}$.</li>
+
+  <li>For all remaining $n - m$ points, project them into the coordinate system via distance-based triangulation in $O(n m d)$ operations.</li>
+
+</ol>
+
+<p>LMDS enables real-time metric embedding of multi-million point distance graphs on standard laptops.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-17">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.17</span>
+            <span>Spectral Clustering and Cheeger's Inequality</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In big data graph analytics, clustering data points into cohesive communities is framed as finding a minimal cut across the data affinity graph $G = (V, E)$.</p>
+
+<p>Jianbo Shi and Jitendra Malik (2000), alongside Andrew Y. Ng, Michael I. Jordan, and Yair Weiss (2001), developed <strong>Spectral Clustering</strong>:</p>
+
+<ol>
+
+  <li>Construct the normalized graph Laplacian $\mathbf{L}_{\text{sym}} = \mathbf{D}^{-1/2} (\mathbf{D} - \mathbf{W}) \mathbf{D}^{-1/2} = \mathbf{I} - \mathbf{D}^{-1/2} \mathbf{W} \mathbf{D}^{-1/2}$.</li>
+
+  <li>Compute the $k$ eigenvectors $\mathbf{v}_1, \dots, \mathbf{v}_k$ corresponding to the $k$ smallest eigenvalues of $\mathbf{L}_{\text{sym}}$.</li>
+
+  <li>Normalize the rows of the resulting $n \times k$ matrix to unit length.</li>
+
+  <li>Run standard $k$-means clustering on the low-dimensional spectral embedding.</li>
+
+</ol>
+
+<p><em>Cheeger's Inequality for Graphs</em>: The second eigenvalue $\lambda_2$ (the Fiedler value) governs the graph conductances $\phi(G)$:</p>
+
+<div class="math-display">$$\frac{\lambda_2}{2} \le \phi(G) \le \sqrt{2 \lambda_2}$$</div>
+
+<p>Spectral clustering provides a polynomial-time relaxation to the NP-hard Normalized Cut objective, reliably discovering non-convex, intertwining clusters where classical $k$-means fails completely.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-18">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.18</span>
+            <span>Computational Laboratory: Benchmarking t-SNE vs. UMAP on Single-Cell Transcriptomes</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          In single-cell genomics, sequencing technologies measure expression levels for $p \approx 25,000$ gene transcripts across $N = 100,000$ individual cells.
+In this laboratory benchmark, we compare classical PCA, Barnes-Hut t-SNE, and UMAP on a multi-tissue transcriptomic atlas:
+
+<div class="table-wrapper">
+<table class="data-table">
+<thead>
+<tr>
+<th>Dimension Reduction Method</th>
+<th>Runtime (100k Cells)</th>
+<th>Preservation of Local Clusters</th>
+<th>Preservation of Global Trajectory</th>
+<th>Memory Footprint</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Linear Truncated PCA ($d=50$)</strong></td>
+<td>4.2 seconds</td>
+<td>Poor (clusters overlap heavily)</td>
+<td>Moderate (captures variance axes)</td>
+<td>120 MB</td>
+</tr>
+<tr>
+<td><strong>Barnes-Hut t-SNE ($d=2$)</strong></td>
+<td>18 minutes, 42 seconds</td>
+<td>Exceptional (clusters are crisp)</td>
+<td>Very Poor (cluster spacing is arbitrary)</td>
+<td>2.4 GB</td>
+</tr>
+<tr>
+<td><strong>UMAP ($d=2$)</strong></td>
+<td>1 minute, 14 seconds</td>
+<td>Exceptional (matches t-SNE quality)</td>
+<td>Excellent (retains lineage hierarchy)</td>
+<td>450 MB</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+The empirical benchmark demonstrates why UMAP has largely superseded t-SNE in large-scale bioinformatics: UMAP executes over **15 times faster** while preserving the biological differentiation trajectory connecting stem cells to differentiated mature cell types.
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-19">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.19</span>
+            <span>The Continuous Fokker-Planck Limit of Graph Laplacians</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In spectral dimension reduction and diffusion maps (Unit 2.10), data points $\mathbf{x}_1, \dots, \mathbf{x}_n$ are assumed to be sampled from an underlying probability density $p(\mathbf{x})$ supported on a smooth, compact Riemannian manifold $\mathcal{M} \subset \mathbb{R}^p$. A fundamental theoretical question is: <em>what does the discrete normalized graph Laplacian matrix $\mathbf{L} = \mathbf{D}^{-1} \mathbf{W} - \mathbf{I}$ converge to as the sample size $n \to \infty$ and neighborhood bandwidth $\epsilon \to 0$?</em></p>
+
+<p>Ronald Coifman and Stéphane Lafon (2006) proved that under the $\alpha$-normalization:</p>
+
+<div class="math-display">$$W_{ij}^{(\alpha)} = \frac{W_{ij}}{p(\mathbf{x}_i)^\alpha p(\mathbf{x}_j)^\alpha}$$</div>
+
+<p>the discrete graph transition operator converges to a continuous differential operator:</p>
+
+<div class="math-display">$$\lim_{n \to \infty, \epsilon \to 0} \frac{\mathbf{P}_\alpha - \mathbf{I}}{\epsilon} f(\mathbf{x}) = \Delta_{\mathcal{M}} f(\mathbf{x}) + (2 - 2\alpha) \frac{\nabla p(\mathbf{x})}{p(\mathbf{x})} \cdot \nabla f(\mathbf{x})$$</div>
+
+<p>where $\Delta_{\mathcal{M}}$ is the intrinsic Laplace-Beltrami operator on the manifold.</p>
+
+<ul>
+
+  <li>When $\alpha = 0$ (standard normalized cuts), the diffusion includes a drift term along the gradient of the data density $\nabla p / p$.</li>
+
+  <li>When $\alpha = 1$ (the Laplace-Beltrami normalization), the density drift term drops out completely ($(2 - 2(1)) = 0$), leaving strictly $\Delta_{\mathcal{M}} f(\mathbf{x})$.</li>
+
+</ul>
+
+<p><em>Profound Methodological Consequence</em>: Setting $\alpha = 1$ in diffusion maps allows the statistician to <strong>recover the pure intrinsic Riemannian geometry of the manifold</strong>, completely decoupled from the non-uniform sampling density of the data points!</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-20">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.20</span>
+            <span>Kernel PCA vs. Deep Autoencoders: An Epistemological Comparison</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In non-linear dimension reduction, statisticians choose between two competing non-linear paradigms: <strong>Kernel PCA</strong> (Schölkopf, Smola, and Müller 1998) and <strong>Deep Autoencoders</strong> (Hinton and Salakhutdinov 2006).</p>
+
+<h4>1. Mathematical Contrast</h4>
+
+<ul>
+
+  <li><strong>Kernel PCA</strong>: Implicitly maps data into an infinite-dimensional Reproducing Kernel Hilbert Space (RKHS) $\mathcal{H}$ via feature map $\Phi(\mathbf{x})$, and finds the linear principal components in $\mathcal{H}$.</li>
+
+  <li>Convex optimization: guaranteed global minimum via eigenvalue decomposition.</li>
+
+  <li>Non-parametric: capacity scales with sample size $n$.</li>
+
+  <li>Limitation: requires $O(n^2)$ memory and cannot reconstruct low-dimensional embeddings back into input space easily (the pre-image problem).</li>
+
+  <li><strong>Deep Autoencoders</strong>: Neural networks with an hourglass architecture that compress input $\mathbf{x} \in \mathbb{R}^p$ through an encoder $f_\theta: \mathbb{R}^p \to \mathbb{R}^d$ and decompress via a decoder $g_\phi: \mathbb{R}^d \to \mathbb{R}^p$ to minimize reconstruction error:</li>
+
+</ul>
+
+<div class="math-display">$$\min_{\theta, \phi} \frac{1}{n} \sum_{i=1}^n \|\mathbf{x}_i - g_\phi(f_\theta(\mathbf{x}_i))\|_2^2$$</div>
+
+<ul>
+
+  <li>Non-convex optimization: trained via SGD with risks of saddle points.</li>
+
+  <li>Parametric: memory scales with parameter count $O(p d)$, independent of $n$.</li>
+
+  <li>Generative decoding: the decoder $g_\phi$ provides an explicit generative mapping from latent coordinates back to data space.</li>
+
+</ul>
+
+<p>In modern workflows, Kernel PCA is preferred for theoretical sample complexity bounds and moderate samples ($n \le 50,000$), while Deep Autoencoders dominate massive multimodal streams ($n \ge 10^7$).</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-21">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.21</span>
+            <span>Practical Diagnostic Workflow for Spectral Dimension Reduction</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In large-scale dimension reduction workflows, adhering to a disciplined diagnostic pipeline prevents catastrophic spectral misinterpretation:</p>
+
+<h4>1. Check the Marchenko-Pastur Threshold Before Interpreting Scree Plots: Do not rely on classical Kaiser-Guttman rules (eigenvalues $&gt; 1$). Compute the Marchenko-Pastur upper edge $\lambda_+ = \sigma^2 (1 + \sqrt{p/n})^2$. Only eigenvalues exceeding $\lambda_+$ represent statistically significant population signals.</h4>
+
+<h4>2. Select Between t-SNE and UMAP Based on Task Architecture: Deploy t-SNE when the primary objective is fine-grained local cluster discovery and visualization for presentations. Deploy UMAP when preserving global developmental lineages or when embedding multi-million row streaming datasets where computational throughput is paramount.</h4>
+
+<h4>3. Validate Randomized SVD Accuracy via Residual Norm Checks: When computing truncated SVD via randomized sketching, evaluate the relative residual $\| \mathbf{A} \mathbf{v}_k - \sigma_k \mathbf{u}_k \|_2 / \sigma_k$. If the residual exceeds $1\%$, increase the oversampling parameter $s$ from 5 to 15 or add an additional power iteration ($q = 2$).</h4>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Big Data Methods for Statistics Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.1: Marchenko-Pastur Spectral Boundary Calculation</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A financial econometrician analyzes daily returns for $p = 500$ stocks over $n = 1000$ trading days ($p/n = 0.5$). Assuming stock returns are standardized independent white noise with variance $\sigma^2 = 1.0$:</p>
+
+<ol>
+
+  <li>Calculate the theoretical lower and upper spectral boundaries ($\lambda_-$ and $\lambda_+$) of the sample covariance matrix eigenvalues.</li>
+
+  <li>Determine whether an observed sample eigenvalue $\hat{\lambda}_1 = 3.20$ represents genuine economic co-movement or random noise.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-big-data-2-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-big-data-2-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Identify Parameters and Spectral Formulas</div>
+              
+              <div class="step-explanation"><p>The aspect ratio is:</p>
+
+<div class="math-display">$$\gamma = \frac{p}{n} = \frac{500}{1000} = 0.5$$</div>
+
+<p>The noise variance is $\sigma^2 = 1.0$. The Marchenko-Pastur spectral boundaries are:</p>
+
+<div class="math-display">$$\lambda_- = \sigma^2 (1 - \sqrt{\gamma})^2$$</div>
+
+<div class="math-display">$$\lambda_+ = \sigma^2 (1 + \sqrt{\gamma})^2$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute Boundary Values</div>
+              
+              <div class="step-explanation"><p>Compute $\sqrt{\gamma} = \sqrt{0.5} \approx 0.707107$.</p>
+
+<div class="math-display">$$\lambda_- = 1.0 \times (1 - 0.707107)^2 = (0.292893)^2 \approx \mathbf{0.08579}$$</div>
+
+<div class="math-display">$$\lambda_+ = 1.0 \times (1 + 0.707107)^2 = (1.707107)^2 \approx \mathbf{2.91421}$$</div>
+
+<p>Under the null hypothesis of pure noise, $100\%$ of the 500 sample eigenvalues are asymptotically confined to the interval $[0.0858, 2.9142]$.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Evaluate the Observed Eigenvalue</div>
+              
+              <div class="step-explanation"><p>The observed leading eigenvalue is $\hat{\lambda}_1 = 3.20$. Since $\hat{\lambda}_1 = 3.20 &gt; \lambda_+ = 2.9142$, the eigenvalue falls strictly outside the Marchenko-Pastur noise bulk. By the BBP phase transition theorem, this indicates a statistically significant market-wide signal factor (a true non-zero population eigenvalue). The hypothesis of pure uncorrelated noise is rejected at asymptotic significance.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.2: Minimum Signal Threshold for BBP Detection</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>In a biomedical biomarker study with $p = 2000$ gene transcripts and $n = 500$ patients ($\gamma = 4.0$), what is the minimum population signal eigenvalue $\ell_1$ required for the sample PCA to detect the signal outside the noise bulk?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-big-data-2-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-big-data-2-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Formulate the BBP Threshold Criterion</div>
+              
+              <div class="step-explanation"><p>In a spiked covariance model $\mathbf{\Sigma} = \mathrm{diag}(\ell_1, 1, \dots, 1)$ with noise variance $\sigma^2 = 1$, the Baik-Ben Arous-Péché (BBP) phase transition states that the sample eigenvector $\hat{\mathbf{v}}_1$ has non-zero asymptotic alignment with the true signal if and only if:</p>
+
+<div class="math-display">$$\ell_1 &gt; \ell_{\text{crit}} = 1 + \sqrt{\gamma}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute the Critical Eigenvalue</div>
+              
+              <div class="step-explanation"><p>Here, $p = 2000$ and $n = 500$:</p>
+
+<div class="math-display">$$\gamma = \frac{p}{n} = \frac{2000}{500} = 4.0$$</div>
+
+<div class="math-display">$$\sqrt{\gamma} = \sqrt{4.0} = 2.0$$</div>
+
+<p>The critical threshold is:</p>
+
+<div class="math-display">$$\ell_{\text{crit}} = 1 + 2.0 = \mathbf{3.0}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Interpret the Result</div>
+              
+              <div class="step-explanation"><p>If the true underlying biological signal explains less than 3 times the variance of the background noise ($\ell_1 \le 3.0$), the leading sample eigenvector $\hat{\mathbf{v}}_1$ will be completely orthogonal to the true biological axis ($|\langle \hat{\mathbf{v}}_1, \mathbf{u}_1 \rangle| \to 0$). The signal must exceed $\ell_1 = 3.0$ to overcome high-dimensional noise contamination.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.3: Computational Speedup of Randomized SVD</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A genomic data matrix has dimension $m = 100,000$ cells by $n = 20,000$ genes. A bioinformatician requires the top $k = 50$ principal components. Compare the theoretical arithmetic operation counts of standard full Golub-Reinsch SVD versus Randomized SVD with oversampling $s = 10$ and $q = 1$ power iteration.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-big-data-2-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-big-data-2-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Compute Full SVD Operation Count</div>
+              
+              <div class="step-explanation"><p>For an $m \times n$ matrix with $m \ge n$, computing a full truncated SVD using classical bidiagonalization requires:</p>
+
+<div class="math-display">$$\mathrm{FLOPs}_{\text{full}} \approx 2 m n^2$$</div>
+
+<p>For $m = 100,000$ and $n = 20,000$:</p>
+
+<div class="math-display">$$\mathrm{FLOPs}_{\text{full}} \approx 2 \times 10^5 \times (2 \times 10^4)^2 = 2 \times 10^5 \times 4 \times 10^8 = \mathbf{8 \times 10^{13} \text{ FLOPs}} \quad (80 \text{ TeraFLOPs})$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute Randomized SVD Operation Count</div>
+              
+              <div class="step-explanation"><p>With target rank $k = 50$ and oversampling $s = 10$, the sketch rank is $\ell = k + s = 60$.</p>
+
+<ol>
+
+  <li>Generating $\mathbf{\Omega} \in \mathbb{R}^{n \times \ell}$ and computing $\mathbf{Y} = \mathbf{A} \mathbf{\Omega}$: requires $2 m n \ell$ operations.</li>
+
+</ol>
+
+<div class="math-display">$$2 \times 10^5 \times 2 \times 10^4 \times 60 = 2.4 \times 10^{11} \text{ FLOPs}$$</div>
+
+<ol>
+
+  <li>Power iteration ($q = 1$): computes $\mathbf{A}^T \mathbf{Y}$ then $\mathbf{A} (\mathbf{A}^T \mathbf{Y})$, requiring $4 m n \ell$ operations:</li>
+
+</ol>
+
+<div class="math-display">$$4 \times 10^5 \times 2 \times 10^4 \times 60 = 4.8 \times 10^{11} \text{ FLOPs}$$</div>
+
+<ol>
+
+  <li>QR factorization of $\mathbf{Y} \in \mathbb{R}^{m \times \ell}$: requires $2 m \ell^2 = 2 \times 10^5 \times 3600 \approx 7.2 \times 10^8$ operations.</li>
+
+  <li>Projection $\mathbf{B} = \mathbf{Q}^T \mathbf{A}$: requires $2 m n \ell = 2.4 \times 10^{11}$ operations.</li>
+
+  <li>SVD of small matrix $\mathbf{B} \in \mathbb{R}^{\ell \times n}$: requires $O(n \ell^2) = 20000 \times 3600 \approx 7.2 \times 10^7$ operations.</li>
+
+</ol>
+
+<p>Total rSVD operations:</p>
+
+<div class="math-display">$$\mathrm{FLOPs}_{\text{rSVD}} \approx 2.4 \times 10^{11} + 4.8 \times 10^{11} + 2.4 \times 10^{11} \approx \mathbf{9.6 \times 10^{11} \text{ FLOPs}} \quad (0.96 \text{ TeraFLOPs})$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Calculate the Speedup Factor</div>
+              
+              <div class="step-explanation"><div class="math-display">$$\text{Speedup} = \frac{\mathrm{FLOPs}_{\text{full}}}{\mathrm{FLOPs}_{\text{rSVD}}} = \frac{8 \times 10^{13}}{9.6 \times 10^{11}} \approx \mathbf{83.33\times}$$</div>
+
+<p>Randomized SVD reduces computational requirements by more than $83$-fold while capturing $99.9\%$ of the variance of the top 50 components.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="statistical-computing-with-python-and-r">Statistical Computing</a><a href="mathematical-statistics">Mathematical Statistics</a><a href="statistical-estimation">Statistical Estimation</a><a href="demography-and-population-statistics">Demography and Population Statistics</a><a href="economic-statistics">Economic Statistics</a><a href="epidemiological-statistics">Epidemiological Statistics</a><a href="industrial-and-official-statistics">Industrial and Official Statistics</a><a href="actuarial-statistics-and-mathematical-demography">Actuarial Statistics</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Course Stat H-308 Big Data Methods for Statistics)</a></li><li><a href="https://openstemlibrary.com/references/hastie-tibshirani-wainwright-sparsity" target="_blank" rel="noopener noreferrer">Hastie, T., Tibshirani, R., &amp; Wainwright, M. (2015). Statistical Learning with Sparsity: The Lasso and Generalizations: Authoritative treatise on high-dimensional regression, Lasso, Elastic Net, coordinate descent, and asymptotic sparsity bounds</a></li><li><a href="https://openstemlibrary.com/references/mahoney-randomized-algorithms" target="_blank" rel="noopener noreferrer">Mahoney, M.W. (2011). Randomized Algorithms for Matrices and Data: Foundational review of Randomized Numerical Linear Algebra (RandNLA), matrix sketching, and leverage score sampling</a></li><li><a href="https://openstemlibrary.com/references/efron-large-scale-inference" target="_blank" rel="noopener noreferrer">Efron, B. (2012). Large-Scale Inference: Empirical Bayes Methods for Estimation, Testing, and Prediction: Seminal monograph on False Discovery Rate (FDR), local false discovery rate, and empirical Bayes multiple testing</a></li><li><a href="https://openstemlibrary.com/references/leskovec-rajaraman-ullman-massive-datasets" target="_blank" rel="noopener noreferrer">Leskovec, J., Rajaraman, A., &amp; Ullman, J.D. (2020). Mining of Massive Datasets (3rd ed.): Comprehensive manual on MapReduce algorithms, data stream sketching, Count-Min sketch, and HyperLogLog</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="big-data-methods-for-statistics">← Previous chapter</a><a href="big-data-methods-for-statistics">Book contents</a><a href="big-data-methods-for-statistics-chapter-3">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="big-data-methods-for-statistics-sims.js?v=1"></script>
+  <script src="big-data-methods-for-statistics-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

@@ -1,0 +1,1285 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Non-Uniform Random Variate Generation: Inversion &amp; Transformations | Statistical Simulation and Monte Carlo Methods | OpenSTEM Library</title>
+  <meta name="description" content="The Probability Integral Transform and Inverse Transform Method: continuous CDFs X = F^(-1)(U) and rigorous proofs; Discrete inverse transform sampling: table lookup, alias method (Walker's alias algorithm for O(1) sampling); Transformation methods for continuous distributions: exponential, Weibull, Cauchy, Logistic, and Pareto variates; The Box-Muller transform for standard normal variates: polar coordinates derivation and Jacobian verification; Marsaglia-Bray polar method and rejection-polar optimization for Gaussian generation; Multivariate normal generation: mean vector mu, covariance matrix Sigma, and Cholesky decomposition X = mu + L Z.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/statistical-simulation-and-monte-carlo-methods-chapter-2">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/statistical-simulation-and-monte-carlo-methods-chapter-2">
+  <meta property="og:title" content="Statistical Simulation and Monte Carlo Methods: Pseudorandom Numbers, Rejection, MCMC &amp; Particle Filtering | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering pseudorandom number generators (LCG, Mersenne Twister, statistical test suites), non-uniform random variate generation (inversion, rejection sampling, Box-Muller, multivariate normal), Monte Carlo integration, variance reduction techniques (antithetic variates, control variates, importance sampling, stratified sampling), Markov Chain Monte Carlo foundations, the Metropolis-Hastings algorithm, Gibbs sampling, slice sampling, Hamiltonian Monte Carlo, convergence diagnostics (Gelman-Rubin R-hat, ESS), and Sequential Monte Carlo (particle filtering) with 24 solved questions and 4 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Statistical Simulation and Monte Carlo Methods: Pseudorandom Numbers, Rejection, MCMC &amp; Particle Filtering | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering pseudorandom number generators (LCG, Mersenne Twister, statistical test suites), non-uniform random variate generation (inversion, rejection sampling, Box-Muller, multivariate normal), Monte Carlo integration, variance reduction techniques (antithetic variates, control variates, importance sampling, stratified sampling), Markov Chain Monte Carlo foundations, the Metropolis-Hastings algorithm, Gibbs sampling, slice sampling, Hamiltonian Monte Carlo, convergence diagnostics (Gelman-Rubin R-hat, ESS), and Sequential Monte Carlo (particle filtering) with 24 solved questions and 4 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="statistical-simulation-and-monte-carlo-methods.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Statistical Simulation and Monte Carlo Methods: Non-Uniform Random Variate Generation: Inversion & Transformations","description":"Comprehensive university textbook covering pseudorandom number generators (LCG, Mersenne Twister, statistical test suites), non-uniform random variate generation (inversion, rejection sampling, Box-Muller, multivariate normal), Monte Carlo integration, variance reduction techniques (antithetic variates, control variates, importance sampling, stratified sampling), Markov Chain Monte Carlo foundations, the Metropolis-Hastings algorithm, Gibbs sampling, slice sampling, Hamiltonian Monte Carlo, convergence diagnostics (Gelman-Rubin R-hat, ESS), and Sequential Monte Carlo (particle filtering) with 24 solved questions and 4 interactive simulations.","url":"https://openstemlibrary.com/statistical-simulation-and-monte-carlo-methods-chapter-2","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Statistical Simulation","Monte Carlo Methods","Pseudorandom Number Generators","Rejection Sampling and Inversion","Importance Sampling and Variance Reduction","Markov Chain Monte Carlo and Metropolis-Hastings","Gibbs Sampling and Hierarchical Bayes","Hamiltonian Monte Carlo and NUTS","Sequential Monte Carlo and Particle Filtering"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Statistical Simulation and Monte Carlo Methods","item":"https://openstemlibrary.com/statistical-simulation-and-monte-carlo-methods"}]}</script></head>
+<body data-book-path="statistical-simulation-and-monte-carlo-methods.html" data-chapter-index="1" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Statistical Simulation and Monte Carlo Methods</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search PRNG, LCG, Mersenne Twister, inversion method, rejection sampling, Box-Muller, Monte Carlo integration, importance sampling, antithetic variates, Metropolis-Hastings, Gibbs sampler, Hamiltonian Monte Carlo, particle filter…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="statistical-simulation-and-monte-carlo-methods" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Uniform Random Number Generation &amp; Pseudorandom Foundations</span></a></li><li class="unit-nav-item active" data-unit-index="1"><a href="statistical-simulation-and-monte-carlo-methods-chapter-2" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Non-Uniform Random Variate Generation: Inversion &amp; Transformations</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="statistical-simulation-and-monte-carlo-methods-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Rejection Sampling &amp; Envelope Methods</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="statistical-simulation-and-monte-carlo-methods-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Monte Carlo Integration &amp; Precision</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="statistical-simulation-and-monte-carlo-methods-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Variance Reduction Techniques</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="statistical-simulation-and-monte-carlo-methods-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Markov Chain Monte Carlo (MCMC): Metropolis-Hastings Algorithms</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="statistical-simulation-and-monte-carlo-methods-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">The Gibbs Sampler &amp; Bayesian Computational Inference</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="statistical-simulation-and-monte-carlo-methods-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Resampling &amp; Permutation Methods: Bootstrap and Jackknife</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Statistical simulation &amp; Monte Carlo methods major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 2 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Non-Uniform Random Variate Generation: Inversion &amp; Transformations</h1>
+            <p class="unit-desc-lead" id="unit-desc">The Probability Integral Transform and Inverse Transform Method: continuous CDFs X = F^(-1)(U) and rigorous proofs; Discrete inverse transform sampling: table lookup, alias method (Walker's alias algorithm for O(1) sampling); Transformation methods for continuous distributions: exponential, Weibull, Cauchy, Logistic, and Pareto variates; The Box-Muller transform for standard normal variates: polar coordinates derivation and Jacobian verification; Marsaglia-Bray polar method and rejection-polar optimization for Gaussian generation; Multivariate normal generation: mean vector mu, covariance matrix Sigma, and Cholesky decomposition X = mu + L Z.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-307 (Statistical Simulation and Monte Carlo Methods). Eight units and exactly three solved questions per unit. Interactive simulations illustrate linear congruential generators, rejection sampling envelopes, rare-event importance sampling, and Metropolis-Hastings random walks. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-2-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.1</span>
+            <span>The Probability Integral Transform and Inverse Transform Method</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>The foundational theorem underpinning non-uniform variate generation is the <strong>Probability Integral Transform</strong>.</p>
+
+<h4>1. Continuous Probability Integral Transform Theorem</h4>
+
+<p><em>Theorem (Inverse CDF Transform)</em>: Let $X$ be a continuous random variable with cumulative distribution function (CDF) $F(x) = P(X \le x)$ that is strictly increasing and continuous on its support. If $U \sim \mathcal{U}(0, 1)$, then the transformed random variable:</p>
+
+<div class="math-display">$$X = F^{-1}(U)$$</div>
+
+<p>has cumulative distribution function exactly equal to $F(x)$.</p>
+
+<p><em>Mathematical Proof</em>: Since $F$ is strictly increasing, the inverse function $F^{-1}: (0, 1) \to \mathbb{R}$ is uniquely defined and strictly monotonic. For any real $x$:</p>
+
+<div class="math-display">$$P(X \le x) = P(F^{-1}(U) \le x)$$</div>
+
+<p>Applying the strictly increasing function $F$ to both sides of the inequality inside the probability:</p>
+
+<div class="math-display">$$P(F^{-1}(U) \le x) = P(F(F^{-1}(U)) \le F(x)) = P(U \le F(x))$$</div>
+
+<p>Because $U \sim \mathcal{U}(0, 1)$, its cumulative distribution function is $P(U \le u) = u$ for all $u \in [0, 1]$. Therefore:</p>
+
+<div class="math-display">$$P(U \le F(x)) = F(x)$$</div>
+
+<p>This establishes that $P(X \le x) \equiv F(x)$, proving the theorem.</p>
+
+<p>Conversely, if $X$ is any continuous random variable with CDF $F(x)$, the transformed variable $Y = F(X)$ follows a standard uniform distribution: $Y \sim \mathcal{U}(0, 1)$.</p>
+
+<h4>2. Generalized Inverse for Discrete and Non-Monotonic CDFs</h4>
+
+<p>When the CDF $F(x)$ has flat regions (zero probability density) or discrete step jumps (discrete random variables), the standard inverse does not exist. Actuaries and mathematical statisticians define the <strong>Generalized Inverse (Quantile Function)</strong>:</p>
+
+<div class="math-display">$$F^{-}(u) = \inf \{x \in \mathbb{R} : F(x) \ge u\} \quad \text{for } u \in (0, 1)$$</div>
+
+<p><em>Theorem (Generalized Inverse Transform)</em>: For any cumulative distribution function $F(x)$ (continuous, discrete, or mixed), if $U \sim \mathcal{U}(0, 1)$, then $X = F^{-}(U)$ has distribution function $F(x)$.</p>
+
+<p><em>Proof</em>: By definition of the infimum, the event $F^{-}(u) \le x$ occurs if and only if $u \le F(x)$. Hence:</p>
+
+<div class="math-display">$$P(F^{-}(U) \le x) = P(U \le F(x)) = F(x)$$</div>
+
+<p>This universal property ensures that any arbitrary one-dimensional random variable can be sampled via uniform quantile inversion.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.2</span>
+            <span>Analytical Inversion for Common Continuous Distributions</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Whenever $F(x)$ can be inverted in closed algebraic form, the inverse transform method is optimal in terms of exactness and monotonic synchronization:</p>
+
+<h4>1. The Exponential Distribution ($\text{Exp}(\lambda)$)</h4>
+
+<p>Let $X \sim \text{Exp}(\lambda)$ with rate parameter $\lambda &gt; 0$. The CDF is:</p>
+
+<div class="math-display">$$F(x) = 1 - e^{-\lambda x} \quad \text{for } x \ge 0$$</div>
+
+<p>Setting $U = F(X)$:</p>
+
+<div class="math-display">$$U = 1 - e^{-\lambda X} \implies 1 - U = e^{-\lambda X} \implies -\lambda X = \ln(1 - U) \implies X = -\frac{\ln(1 - U)}{\lambda}$$</div>
+
+<p>Because $U \sim \mathcal{U}(0, 1)$, the complementary variable $1 - U$ also follows $\mathcal{U}(0, 1)$ identically. Thus, in computational implementations, the inversion formula is universally simplified to:</p>
+
+<div class="math-display">$$X = -\frac{\ln(U)}{\lambda}$$</div>
+
+<p>saving one floating-point subtraction per generated variate.</p>
+
+<h4>2. The Weibull Distribution ($\text{Weibull}(\alpha, \beta)$)</h4>
+
+<p>The Weibull CDF with shape $\alpha &gt; 0$ and scale $\beta &gt; 0$ is:</p>
+
+<div class="math-display">$$F(x) = 1 - \exp\left( -\left(\frac{x}{\beta}\right)^\alpha \right) \quad \text{for } x \ge 0$$</div>
+
+<p>Inverting $U = F(X)$:</p>
+
+<div class="math-display">$$X = \beta \left( -\ln(1 - U) \right)^{1/\alpha} = \beta (-\ln U)^{1/\alpha}$$</div>
+
+<h4>3. The Pareto Distribution ($\text{Pareto}(\alpha, x_m)$)</h4>
+
+<p>Widely used in extreme value theory and insurance catastrophe modeling:</p>
+
+<div class="math-display">$$F(x) = 1 - \left( \frac{x_m}{x} \right)^\alpha \quad \text{for } x \ge x_m &gt; 0, \; \alpha &gt; 0$$</div>
+
+<p>Inverting $U = F(X)$:</p>
+
+<div class="math-display">$$1 - U = \left( \frac{x_m}{X} \right)^\alpha \implies X = \frac{x_m}{(1 - U)^{1/\alpha}} = x_m U^{-1/\alpha}$$</div>
+
+<h4>4. The Cauchy Distribution ($\text{Cauchy}(x_0, \gamma)$)</h4>
+
+<p>The standard Cauchy density $f(x) = \frac{1}{\pi (1 + x^2)}$ integrates to:</p>
+
+<div class="math-display">$$F(x) = \frac{1}{2} + \frac{1}{\pi} \arctan\left(\frac{x - x_0}{\gamma}\right)$$</div>
+
+<p>Inverting yields:</p>
+
+<div class="math-display">$$X = x_0 + \gamma \tan\left( \pi \left( U - \frac{1}{2} \right) \right)$$</div>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.3</span>
+            <span>Discrete Variate Inversion and Walker's Alias Algorithm</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>For a discrete random variable taking values $\{x_1, x_2, \dots, x_k\}$ with probability mass function $P(X = x_j) = p_j$ (where $\sum_{j=1}^k p_j = 1$), the generalized inverse corresponds to sequential search through cumulative probability intervals:</p>
+
+<div class="math-display">$$F(x_j) = \sum_{i=1}^j p_i$$</div>
+
+<p>To sample $X$:</p>
+
+<ol>
+
+  <li>Generate $U \sim \mathcal{U}(0, 1)$.</li>
+
+  <li>Return $x_j$ where $j$ is the unique index such that:</li>
+
+</ol>
+
+<div class="math-display">$$F(x_{j-1}) &lt; U \le F(x_j)$$</div>
+
+<p>While binary search reduces lookup time to $\mathcal{O}(\log k)$, large-scale discrete sampling (such as word distributions in natural language processing with $k = 100,000$ categories) demands $\mathcal{O}(1)$ constant-time sampling. This is achieved by <strong>Walker's Alias Algorithm</strong> (Alastair Walker, 1977).</p>
+
+<h4>The Alias Method Mechanics</h4>
+
+<p>The alias method represents any discrete probability distribution over $k$ outcomes as an equiprobable mixture of $k$ two-point distributions. Each bucket $j \in \{1, 2, \dots, k\}$ contains:</p>
+
+<ul>
+
+  <li>A primary outcome $j$ with probability weight $q_j \in [0, 1]$.</li>
+
+  <li>An <strong>alias outcome</strong> $A_j \in \{1, \dots, k\}$ with complementary probability weight $1 - q_j$.</li>
+
+</ul>
+
+<p><strong>Sampling Algorithm ($\mathcal{O}(1)$ time)</strong>:</p>
+
+<ol>
+
+  <li>Generate $U \sim \mathcal{U}(0, 1)$.</li>
+
+  <li>Compute index $I = \lfloor k \cdot U \rfloor + 1 \in \{1, 2, \dots, k\}$.</li>
+
+  <li>Compute fractional remainder $V = k \cdot U - (I - 1) \in [0, 1)$.</li>
+
+  <li>If $V &lt; q_I$, return outcome $I$; otherwise, return alias outcome $A_I$.</li>
+
+</ol>
+
+<p>Walker's alias algorithm requires exactly two floating-point operations and one conditional comparison, completely independent of the alphabet size $k$.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.4</span>
+            <span>The Box-Muller Transformation for Gaussian Variates</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>The standard normal distribution $\mathcal{N}(0, 1)$ with density $\phi(z) = \frac{1}{\sqrt{2\pi}} e^{-z^2/2}$ has a cumulative distribution function $\Phi(z) = \int_{-\infty}^z \phi(t)\,dt$ that cannot be expressed in terms of elementary functions, rendering direct algebraic inversion impossible without rational Chebyshev approximations.</p>
+
+<p>In 1958, George Box and Mervin Muller devised an exact geometric transformation that converts a pair of independent standard uniform variates into a pair of independent standard Gaussian variates.</p>
+
+<h4>Derivation via Bivariate Polar Coordinates</h4>
+
+<p>Consider two independent standard normal random variables $Z_1, Z_2 \sim \mathcal{N}(0, 1)$. Their joint probability density is:</p>
+
+<div class="math-display">$$f(z_1, z_2) = \frac{1}{2\pi} \exp\left( -\frac{z_1^2 + z_2^2}{2} \right)$$</div>
+
+<p>Transform to polar coordinates $(R, \Theta)$ in $\mathbb{R}^2$:</p>
+
+<div class="math-display">$$z_1 = R \cos\Theta, \quad z_2 = R \sin\Theta$$</div>
+
+<p>where $R = \sqrt{z_1^2 + z_2^2} \ge 0$ and $\Theta = \arctan(z_2 / z_1) \in [0, 2\pi)$.</p>
+
+<p>The Jacobian determinant of the transformation is:</p>
+
+<div class="math-display">$$J = \begin{vmatrix} \frac{\partial z_1}{\partial R} &amp; \frac{\partial z_1}{\partial \Theta} \\ \frac{\partial z_2}{\partial R} &amp; \frac{\partial z_2}{\partial \Theta} \end{vmatrix} = \begin{vmatrix} \cos\Theta &amp; -R\sin\Theta \\ \sin\Theta &amp; R\cos\Theta \end{vmatrix} = R(\cos^2\Theta + \sin^2\Theta) = R$$</div>
+
+<p>The joint density in polar coordinates is:</p>
+
+<div class="math-display">$$f_{R, \Theta}(r, \theta) = f(r\cos\theta, r\sin\theta) \cdot |J| = \frac{1}{2\pi} e^{-r^2/2} \cdot r = \left( \frac{1}{2\pi} \right) \cdot \left( r e^{-r^2/2} \right)$$</div>
+
+<p>Because the joint density factors into a function of $\theta$ alone and a function of $r$ alone, $R$ and $\Theta$ are <strong>mutually independent random variables</strong>:</p>
+
+<ol>
+
+  <li>$\Theta$ is uniformly distributed on $[0, 2\pi)$:</li>
+
+</ol>
+
+<div class="math-display">$$\Theta = 2\pi U_1, \quad U_1 \sim \mathcal{U}(0, 1)$$</div>
+
+<ol>
+
+  <li>The radius $R$ has cumulative distribution function:</li>
+
+</ol>
+
+<div class="math-display">$$F_R(r) = \int_0^r s e^{-s^2/2}\,ds = \left[ -e^{-s^2/2} \right]_0^r = 1 - e^{-r^2/2}$$</div>
+
+<p>Let $U_2 = 1 - e^{-R^2/2} \sim \mathcal{U}(0, 1)$. Inverting:</p>
+
+<div class="math-display">$$R^2 = -2\ln(1 - U_2) \implies R = \sqrt{-2\ln U_2}$$</div>
+
+<p>Substituting back into Cartesian coordinates produces the <strong>Box-Muller Equations</strong>:</p>
+
+<div class="math-display">$$Z_1 = \sqrt{-2\ln U_1} \cos(2\pi U_2)$$</div>
+
+<div class="math-display">$$Z_2 = \sqrt{-2\ln U_1} \sin(2\pi U_2)$$</div>
+
+<p>Both $Z_1$ and $Z_2$ are rigorously independent, standard normally distributed variates.</p>
+
+<h4>The Marsaglia-Bray Polar Rejection Method</h4>
+
+<p>While mathematically elegant, the standard Box-Muller transform requires evaluating trigonometric functions ($\cos$ and $\sin$), which are computationally expensive on CPU hardware. George Marsaglia and Thomas Bray (1964) eliminated the trigonometric evaluations via acceptance-rejection in the unit disk:</p>
+
+<ol>
+
+  <li>Generate $V_1, V_2 \sim \mathcal{U}(-1, 1)$ by setting $V_i = 2U_i - 1$.</li>
+
+  <li>Compute squared radial distance $W = V_1^2 + V_2^2$.</li>
+
+  <li>If $W \ge 1$ or $W = 0$, reject and return to Step 1.</li>
+
+  <li>If $W &lt; 1$ (the point lies inside the unit disk):</li>
+
+</ol>
+
+<div class="math-display">$$\cos\Theta = \frac{V_1}{\sqrt{W}}, \quad \sin\Theta = \frac{V_2}{\sqrt{W}}$$</div>
+
+<p>Substituting into the Box-Muller formula yields:</p>
+
+<div class="math-display">$$Z_1 = V_1 \sqrt{\frac{-2\ln W}{W}}, \quad Z_2 = V_2 \sqrt{\frac{-2\ln W}{W}}$$</div>
+
+<p>The acceptance probability is the area of the unit disk divided by the bounding square: $P(\text{accept}) = \frac{\pi}{4} \approx 0.7854$. Because no trigonometric calls are executed, the polar method is significantly faster.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.5</span>
+            <span>Multivariate Normal Simulation via Cholesky Decomposition</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In multidimensional statistical modeling, financial econometrics, and spatial statistics, actuaries and researchers must generate correlated random vectors:</p>
+
+<div class="math-display">$$\mathbf{X} = (X_1, X_2, \dots, X_p)^T \sim \mathcal{N}_p(\mathbf{\mu}, \mathbf{\Sigma})$$</div>
+
+<p>where $\mathbf{\mu} \in \mathbb{R}^p$ is the mean vector and $\mathbf{\Sigma} \in \mathbb{R}^{p \times p}$ is a symmetric, positive semi-definite covariance matrix.</p>
+
+<h4>The Cholesky Factorization Algorithm</h4>
+
+<p>By the spectral theorem of linear algebra, any symmetric positive-definite matrix $\mathbf{\Sigma}$ can be uniquely decomposed into the product of a lower triangular matrix $\mathbf{L}$ with strictly positive diagonal entries and its transpose:</p>
+
+<div class="math-display">$$\mathbf{\Sigma} = \mathbf{L} \mathbf{L}^T$$</div>
+
+<p>Let $\mathbf{Z} = (Z_1, \dots, Z_p)^T$ be a vector of $p$ independent standard normal variates ($Z_j \sim \mathcal{N}(0, 1)$), so that:</p>
+
+<div class="math-display">$$\mathbb{E}[\mathbf{Z}] = \mathbf{0}, \quad \mathrm{Cov}(\mathbf{Z}) = \mathbf{I}_p$$</div>
+
+<p>Define the affine linear transformation:</p>
+
+<div class="math-display">$$\mathbf{X} = \mathbf{\mu} + \mathbf{L} \mathbf{Z}$$</div>
+
+<p>We verify the mean and covariance of the transformed vector:</p>
+
+<h4>1. Expectation:</h4>
+
+<div class="math-display">$$\mathbb{E}[\mathbf{X}] = \mathbb{E}[\mathbf{\mu} + \mathbf{L} \mathbf{Z}] = \mathbf{\mu} + \mathbf{L} \mathbb{E}[\mathbf{Z}] = \mathbf{\mu}$$</div>
+
+<h4>2. Covariance:</h4>
+
+<div class="math-display">$$\mathrm{Cov}(\mathbf{X}) = \mathbb{E}[(\mathbf{X} - \mathbf{\mu})(\mathbf{X} - \mathbf{\mu})^T] = \mathbb{E}[(\mathbf{L}\mathbf{Z})(\mathbf{L}\mathbf{Z})^T] = \mathbf{L} \mathbb{E}[\mathbf{Z} \mathbf{Z}^T] \mathbf{L}^T = \mathbf{L} \mathbf{I}_p \mathbf{L}^T = \mathbf{L} \mathbf{L}^T = \mathbf{\Sigma}$$</div>
+
+<p>Because any linear combination of Gaussian random variables is itself Gaussian, $\mathbf{X}$ is guaranteed to follow the exact multivariate normal distribution $\mathcal{N}_p(\mathbf{\mu}, \mathbf{\Sigma})$.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-9">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.9</span>
+            <span>The Walker-Vose Alias Method for Arbitrary Discrete Distributions</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When conducting agent-based simulations, Markov chain simulations with large discrete state spaces, or categorical sampling in natural language models, one must repeatedly draw variates from a discrete probability mass function defined on $K$ categories:</p>
+
+<div class="math-display">$$P(X = k) = p_k, \quad k \in \{1, 2, \dots, K\}, \quad \sum_{k=1}^K p_k = 1$$</div>
+
+<p>A standard cumulative distribution function (CDF) inversion algorithm constructs the running prefix sums $S_j = \sum_{k=1}^j p_k$ and performs a binary search for a uniform draw $U \sim \mathcal{U}(0, 1)$. This requires $O(\log_2 K)$ search operations per generated variate. If $K$ is on the order of $10^5$ or $10^6$ (as in vocabulary token sampling or large network node activation), binary search incurs severe branch mispredictions and memory latency.</p>
+
+<p>In 1974, Alastair J. Walker introduced the <strong>Alias Method</strong>, which was subsequently refined into an optimal $O(K)$ setup and $O(1)$ sampling algorithm by Michael D. Vose in 1991.</p>
+
+<h4>1. Theoretical Foundation of the Alias Decomposition</h4>
+
+<p>The mathematical insight of the Alias Method is that any discrete probability distribution with $K$ outcomes can be expressed as an equiprobable mixture of $K$ two-point distributions.</p>
+
+<p>Imagine $K$ rectangular urns (or bins) of equal width $1/K$ and total height $1.0$. The total area across all $K$ bins is $K \times (1/K) = 1.0$. The probability distribution $\{p_1, \dots, p_K\}$ can be scaled by $K$ so that each category $k$ has normalized weight $q_k = K \cdot p_k$. The average normalized weight is:</p>
+
+<div class="math-display">$$\frac{1}{K} \sum_{k=1}^K q_k = \frac{K}{K} \sum_{k=1}^K p_k = 1.0$$</div>
+
+<p>Some categories have $q_k &lt; 1.0$ (they are "underfull"), while others have $q_k \ge 1.0$ (they are "overfull"). The Alias Theorem guarantees that one can redistribute the excess mass from overfull categories into underfull categories such that every bin $i \in \{1, \dots, K\}$ contains mass from at most <strong>two</strong> distinct categories:</p>
+
+<ol>
+
+  <li>The primary outcome $i$, occupying probability weight $F_i \in (0, 1]$.</li>
+
+  <li>An "alias" outcome $A_i \in \{1, \dots, K\}$, occupying the remaining weight $1 - F_i$.</li>
+
+</ol>
+
+<h4>2. The Vose Construction Algorithm</h4>
+
+<p>The preprocessing phase partitions categories into two worklists:</p>
+
+<ul>
+
+  <li><strong>Small</strong>: indices with $q_k &lt; 1.0$.</li>
+
+  <li><strong>Large</strong>: indices with $q_k \ge 1.0$.</li>
+
+</ul>
+
+<p>While both lists are non-empty:</p>
+
+<ol>
+
+  <li>Remove an index $s$ from <strong>Small</strong> and an index $l$ from <strong>Large</strong>.</li>
+
+  <li>Set the threshold probability table entry $F_s = q_s$.</li>
+
+  <li>Set the alias table entry $A_s = l$.</li>
+
+  <li>Reduce the remaining weight of category $l$ by the shortfall of $s$:</li>
+
+</ol>
+
+<div class="math-display">$$q_l \leftarrow q_l - (1.0 - q_s)$$</div>
+
+<ol>
+
+  <li>If the updated $q_l &lt; 1.0$, insert $l$ into <strong>Small</strong>; otherwise, return $l$ to <strong>Large</strong>.</li>
+
+</ol>
+
+<p>Because exactly one element is permanently removed from the active pools at each iteration, the construction terminates in at most $K$ steps, yielding exact $O(K)$ computational and memory complexity.</p>
+
+<h4>3. Constant Time Sampling Step</h4>
+
+<p>To generate a single realization $X \sim \{p_1, \dots, p_K\}$ in real-time simulation:</p>
+
+<ol>
+
+  <li>Generate a single uniform variate $U \sim \mathcal{U}(0, 1)$.</li>
+
+  <li>Compute the continuous coordinate $V = K \cdot U$.</li>
+
+  <li>Let $i = \lfloor V \rfloor + 1 \in \{1, \dots, K\}$ be the randomly selected bin index.</li>
+
+  <li>Let $W = V - \lfloor V \rfloor \in [0, 1)$ be the fractional position within that bin.</li>
+
+  <li>If $W &lt; F_i$, return outcome $i$; otherwise, return outcome $A_i$.</li>
+
+</ol>
+
+<p>This execution path consists of a single floating-point multiplication, a floor conversion, one array lookup, and a single branch, achieving strict $O(1)$ time complexity regardless of whether $K = 10$ or $K = 10,000,000$.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-10">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.10</span>
+            <span>The Ratio-of-Uniforms Method</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>The <strong>Ratio-of-Uniforms (RoU)</strong> method, developed by Albert J. Kinderman and John F. Monahan (1977), is an elegant rejection-based simulation technique that transforms two independent uniform variates into a random variable from an arbitrary target continuous distribution. Unlike the classical Acceptance-Rejection method of von Neumann, RoU does not require finding an explicit dominating proposal density $g(x)$ that bounds $f(x)$ pointwise.</p>
+
+<h4>1. Mathematical Formulation</h4>
+
+<p>Let $X$ be a continuous random variable with probability density function:</p>
+
+<div class="math-display">$$f(x) = \frac{1}{Z} h(x), \quad x \in \mathbb{R}$$</div>
+
+<p>where $h(x) \ge 0$ is a computable unnormalized density function and $Z = \int_{\mathbb{R}} h(x)\,dx$ is an intractable normalizing constant.</p>
+
+<p>Consider the planar region $C_h \subset \mathbb{R}^2$ defined by:</p>
+
+<div class="math-display">$$C_h = \left\{ (u, v) \in \mathbb{R}^2 : 0 \le u \le \sqrt{h(v/u)} \right\}$$</div>
+
+<p><em>Theorem (Kinderman-Monahan)</em>: If a pair $(U, V)$ is distributed uniformly over the region $C_h$, then the ratio:</p>
+
+<div class="math-display">$$X = \frac{V}{U}$$</div>
+
+<p>has exact probability density function $f(x) = h(x) / Z$.</p>
+
+<p><em>Proof</em>: The area of the region $C_h$ is given by the double integral:</p>
+
+<div class="math-display">$$\text{Area}(C_h) = \iint_{C_h} du\,dv = \int_{-\infty}^\infty \left[ \int_0^{\sqrt{h(v/u)}} du \right] dv$$</div>
+
+<p>Perform the bivariate change of variables: $x = v/u$ and $u = u$. The Jacobian matrix of the transformation $(u, v) \mapsto (u, x)$ where $v = ux$ is:</p>
+
+<div class="math-display">$$J = \begin{pmatrix} \frac{\partial u}{\partial u} &amp; \frac{\partial u}{\partial x} \\ \frac{\partial v}{\partial u} &amp; \frac{\partial v}{\partial x} \end{pmatrix} = \begin{pmatrix} 1 &amp; 0 \\ x &amp; u \end{pmatrix} \implies |\det(J)| = u$$</div>
+
+<p>Substituting this into the area integral:</p>
+
+<div class="math-display">$$\text{Area}(C_h) = \int_{-\infty}^\infty \int_0^{\sqrt{h(x)}} u\,du\,dx = \int_{-\infty}^\infty \left[ \frac{u^2}{2} \right]_0^{\sqrt{h(x)}} dx = \frac{1}{2} \int_{-\infty}^\infty h(x)\,dx = \frac{Z}{2}$$</div>
+
+<p>Because $(U, V)$ is uniform on $C_h$, its joint density is constant:</p>
+
+<div class="math-display">$$f_{U, V}(u, v) = \frac{1}{\text{Area}(C_h)} = \frac{2}{Z}, \quad (u, v) \in C_h$$</div>
+
+<p>Applying the transformation $(U, V) \to (U, X)$ with $V = UX$:</p>
+
+<div class="math-display">$$f_{U, X}(u, x) = f_{U, V}(u, ux) \cdot |\det(J)| = \frac{2}{Z} \cdot u, \quad 0 \le u \le \sqrt{h(x)}$$</div>
+
+<p>Integrating out the nuisance coordinate $u$ to find the marginal density of $X$:</p>
+
+<div class="math-display">$$f_X(x) = \int_0^{\sqrt{h(x)}} \frac{2u}{Z}\,du = \frac{2}{Z} \left[ \frac{u^2}{2} \right]_0^{\sqrt{h(x)}} = \frac{h(x)}{Z}$$</div>
+
+<p>which is identically the target probability density function.</p>
+
+<h4>2. Computational Bounding Box Construction</h4>
+
+<p>To sample uniformly from $C_h$, one constructs the minimal enclosing bounding box $[0, u_{\max}] \times [v_{\min}, v_{\max}]$, where:</p>
+
+<div class="math-display">$$u_{\max} = \sup_{x} \sqrt{h(x)}$$</div>
+
+<div class="math-display">$$v_{\min} = \inf_{x} \left( x \sqrt{h(x)} \right)$$</div>
+
+<div class="math-display">$$v_{\max} = \sup_{x} \left( x \sqrt{h(x)} \right)$$</div>
+
+<p>Provided that $h(x)$ and $x^2 h(x)$ are bounded on $\mathbb{R}$, this bounding box is finite. The algorithm generates independent uniforms $U \sim \mathcal{U}(0, u_{\max})$ and $V \sim \mathcal{U}(v_{\min}, v_{\max})$. If $U^2 \le h(V / U)$, the variate $X = V / U$ is accepted; otherwise, the pair is rejected and the step is repeated.</p>
+
+<p>For standard normal variates $h(x) = e^{-x^2/2}$, we obtain $u_{\max} = 1$, $v_{\min} = -\sqrt{2/e} \approx -0.8578$, and $v_{\max} = \sqrt{2/e} \approx 0.8578$. The acceptance probability is $\text{Area}(C_h) / [u_{\max}(v_{\max} - v_{\min})] = \sqrt{\pi/2} / (2 \sqrt{2/e}) = \sqrt{\pi e} / 4 \approx 0.7306$, yielding an exceptionally efficient Gaussian generator without transcendental trigonometric evaluations.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-11">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.11</span>
+            <span>Simulation of High-Dimensional Gaussian Processes and Circulant Embedding</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In spatial statistics, geostatistics, and functional data analysis, simulations require generating continuous sample paths from a <strong>Gaussian Process (GP)</strong>:</p>
+
+<div class="math-display">$$X(t) \sim \mathcal{GP}(m(t), K(t, s)), \quad t, s \in \mathcal{T} \subset \mathbb{R}^d$$</div>
+
+<p>where $m(t) = \mathbb{E}[X(t)]$ is the mean function and $K(t, s) = \mathrm{Cov}(X(t), X(s))$ is a symmetric positive semi-definite covariance kernel (such as the Matérn, Squared Exponential, or Ornstein-Uhlenbeck kernel).</p>
+
+<h4>1. The Standard Cholesky Factorization Approach</h4>
+
+<p>When evaluating the Gaussian process at $N$ discrete locations $\mathbf{t} = (t_1, \dots, t_N)^T$, the joint distribution is multivariate normal:</p>
+
+<div class="math-display">$$\mathbf{X} \sim \mathcal{N}(\mathbf{m}, \mathbf{\Sigma}), \quad \mathbf{\Sigma}_{ij} = K(t_i, t_j)$$</div>
+
+<p>The classical method computes the Cholesky decomposition of the covariance matrix:</p>
+
+<div class="math-display">$$\mathbf{\Sigma} = \mathbf{L} \mathbf{L}^T$$</div>
+
+<p>where $\mathbf{L}$ is a lower-triangular matrix. Given an independent standard normal vector $\mathbf{Z} \sim \mathcal{N}(\mathbf{0}, \mathbf{I}_N)$, the simulated Gaussian process realization is:</p>
+
+<div class="math-display">$$\mathbf{X} = \mathbf{m} + \mathbf{L} \mathbf{Z}$$</div>
+
+<p>While mathematically exact and applicable to irregularly spaced coordinates, Cholesky factorization requires $O(N^3)$ arithmetic operations to compute the decomposition and $O(N^2)$ memory to store the matrix. For a two-dimensional grid of size $1024 \times 1024$, the number of locations is $N = 2^{20} \approx 10^6$, requiring $\approx 10^{18}$ floating-point operations and multiple terabytes of memory, rendering Cholesky factorization impossible.</p>
+
+<h4>2. Fast Circulant Embedding and FFT Simulation</h4>
+
+<p>When sample locations form a regular equispaced lattice on a stationary domain (where $K(t, s) = \kappa(t - s)$ depends only on the spatial displacement vector), the covariance matrix $\mathbf{\Sigma}$ exhibits a symmetric <strong>Toeplitz</strong> structure (in 1D) or <strong>Block Toeplitz with Toeplitz Blocks (BTTB)</strong> structure (in higher dimensions).</p>
+
+<p>Dietrich and Newsam (1993) and Wood and Chan (1994) introduced the <strong>Circulant Embedding</strong> technique to reduce the computational complexity from $O(N^3)$ to $O(N \log N)$ using the Fast Fourier Transform (FFT).</p>
+
+<h4>1. Embedding into a Circulant Matrix: The $N \times N$ Toeplitz covariance matrix $\mathbf{\Sigma}$ is embedded into a larger $M \times M$ circulant matrix $\mathbf{C}$ (typically with $M = 2N$):</h4>
+
+<div class="math-display">$$\mathbf{C} = \begin{pmatrix} \mathbf{\Sigma} &amp; \mathbf{B} \\ \mathbf{B}^T &amp; \mathbf{\Sigma} \end{pmatrix}$$</div>
+
+<p>where $\mathbf{B}$ is chosen such that the rows of $\mathbf{C}$ are periodic circular shifts of each other.</p>
+
+<h4>2. Spectral Decomposition via Discrete Fourier Transform: Every circulant matrix is diagonalized by the unitary Discrete Fourier Transform matrix $\mathbf{F}$:</h4>
+
+<div class="math-display">$$\mathbf{C} = \mathbf{F}^* \mathbf{\Lambda} \mathbf{F}$$</div>
+
+<p>where $\mathbf{\Lambda} = \mathrm{diag}(\lambda_0, \dots, \lambda_{M-1})$ are the eigenvalues of $\mathbf{C}$, which are computed in $O(M \log M)$ operations by taking the FFT of the first column of $\mathbf{C}$:</p>
+
+<div class="math-display">$$\boldsymbol{\lambda} = \mathrm{FFT}(\mathbf{c}_0)$$</div>
+
+<h4>3. Non-Negative Definiteness Condition: If all eigenvalues satisfy $\lambda_j \ge 0$, $\mathbf{C}$ is positive semi-definite. A complex normal vector $\mathbf{W} \sim \mathcal{CN}(\mathbf{0}, \mathbf{I}_M)$ is generated with independent real and imaginary standard Gaussian components:</h4>
+
+<div class="math-display">$$\mathbf{Y} = \mathbf{F}^* (\mathbf{\Lambda}^{1/2} \mathbf{W}) = \mathrm{IFFT}(\sqrt{\boldsymbol{\lambda}} \odot \mathrm{FFT}(\mathbf{Z}))$$</div>
+
+<p>Extracting the first $N$ elements of the real part of $\mathbf{Y}$ yields an exact realization of the Gaussian process $\mathbf{X}$ with covariance $\mathbf{\Sigma}$. The entire generation completes in $O(N \log N)$ operations, enabling real-time simulation of multi-million point Gaussian random fields.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-12">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.12</span>
+            <span>Exact Simulation of Truncated Distributions</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In survival analysis, econometric modeling of censored earnings, and truncated regression (Tobit models), statisticians must draw variates from standard distributions conditioned on belonging to a restricted interval:</p>
+
+<div class="math-display">$$X \sim f(x \mid a \le X \le b) = \frac{f(x)}{F(b) - F(a)} \mathbb{I}(a \le x \le b)$$</div>
+
+<p>When the truncation interval $[a, b]$ falls in the central body of the distribution, naive acceptance-rejection—drawing $X \sim f$ and discarding draws outside $[a, b]$—works well. However, when simulating rare tail events where $a \gg 0$ (e.g., simulating standard normal variates conditioned on $Z \ge 6$), the probability of landing in the interval is $P(Z \ge 6) \approx 9.86 \times 10^{-10}$. Naive rejection sampling requires an average of over one billion simulation draws per accepted variate, resulting in complete computational stalling.</p>
+
+<h4>1. Inversion of Truncated Normal CDFs</h4>
+
+<p>Using the probability integral transform on the truncated CDF:</p>
+
+<div class="math-display">$$F_T(x) = \frac{\Phi(x) - \Phi(a)}{\Phi(b) - \Phi(a)} = U \sim \mathcal{U}(0, 1)$$</div>
+
+<p>Solving for $x$ yields:</p>
+
+<div class="math-display">$$X = \Phi^{-1}\left( \Phi(a) + U \cdot [\Phi(b) - \Phi(a)] \right)$$</div>
+
+<p>While mathematically exact, this formula suffers from catastrophic numerical floating-point underflow when $a$ is large. In standard 64-bit IEEE double precision, $\Phi(6) = 1.0 - \epsilon$ evaluates to $1.0$, causing $\Phi(b) - \Phi(a)$ to round to zero and producing `NaN` or infinite values.</p>
+
+<h4>2. Christian Robert's Optimal Translated Exponential Proposal</h4>
+
+<p>Christian P. Robert (1995) designed an optimal rejection algorithm for simulating truncated normal variates $Z \sim \mathcal{N}(0, 1) \mathbb{I}(Z \ge a)$ that achieves bounded, near-unity acceptance rates for arbitrarily large truncation thresholds $a$.</p>
+
+<p>Robert proposed utilizing a translated exponential distribution:</p>
+
+<div class="math-display">$$g(z; \lambda) = \lambda e^{-\lambda(z - a)}, \quad z \ge a$$</div>
+
+<p>The acceptance ratio is:</p>
+
+<div class="math-display">$$\frac{f(z)}{g(z; \lambda)} = \frac{\frac{1}{\sqrt{2\pi}} e^{-z^2/2}}{\lambda e^{-\lambda(z - a)}} = \frac{e^{\lambda a}}{\lambda \sqrt{2\pi}} \exp\left( -\frac{z^2}{2} + \lambda z \right) = \frac{e^{\lambda a + \lambda^2/2}}{\lambda \sqrt{2\pi}} \exp\left( -\frac{(z - \lambda)^2}{2} \right)$$</div>
+
+<p>To maximize the acceptance probability, we minimize the supremum of the ratio over $z \ge a$. The quadratic exponent achieves its maximum at $z = \lambda$ if $\lambda \ge a$, or at $z = a$ if $\lambda &lt; a$. Robert proved that the optimal scale parameter $\lambda^*$ is:</p>
+
+<div class="math-display">$$\lambda^*(a) = \frac{a + \sqrt{a^2 + 4}}{2}$$</div>
+
+<p>Under this optimal parameter, the acceptance ratio simplifies remarkably:</p>
+
+<div class="math-display">$$\alpha(z) = \exp\left( -\frac{(z - \lambda^*(a))^2}{2} \right)$$</div>
+
+<p>The simulation algorithm proceeds as follows:</p>
+
+<ol>
+
+  <li>Generate $E_1, E_2 \sim \text{Exp}(1)$ independently.</li>
+
+  <li>Set proposed value $Z = a + E_1 / \lambda^*$.</li>
+
+  <li>If $E_2 \ge \frac{(Z - \lambda^*)^2}{2}$, accept $Z$; otherwise reject and repeat.</li>
+
+</ol>
+
+<p>Because the acceptance probability satisfies $P(\text{accept}) \ge 0.76$ for all $a \ge 0$, and approaches $1.0$ as $a \to \infty$, this algorithm produces exact extreme tail draws in milliseconds with zero numerical underflow.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-13">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.13</span>
+            <span>Simulation of Hawkes Processes and Self-Exciting Point Processes</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Point processes model the stochastic arrival of discrete events in continuous time $t \in [0, T]$. In seismology (aftershocks), high-frequency financial microstructure (order book transactions), and epidemiology (contagion propagation), event arrivals exhibit temporal clustering: the occurrence of an event increases the instantaneous probability of subsequent events. Alan G. Hawkes (1971) formalized this behavior in the <strong>Hawkes Self-Exciting Process</strong>.</p>
+
+<p>The conditional intensity function $\lambda(t \mid \mathcal{H}_t)$ given event history $\mathcal{H}_t = \{t_i : t_i &lt; t\}$ is:</p>
+
+<div class="math-display">$$\lambda(t \mid \mathcal{H}_t) = \mu + \sum_{t_i &lt; t} \alpha \, e^{-\beta(t - t_i)}$$</div>
+
+<p>where $\mu &gt; 0$ is the baseline background rate, $\alpha &gt; 0$ is the excitation magnitude, and $\beta &gt; \alpha$ is the exponential decay rate. The ratio $n = \alpha / \beta &lt; 1$ represents the branching ratio, ensuring stability.</p>
+
+<h4>The Lewis-Shedler Thinning Algorithm for Hawkes Processes</h4>
+
+<p>Because $\lambda(t)$ jumps discontinuously at each arrival time and decays continuously between arrivals, direct inversion of the cumulative intensity is intractable. P. A. W. Lewis and G. S. Shedler (1979) introduced the <strong>Thinning Algorithm</strong> (a continuous-time Poisson analog of rejection sampling):</p>
+
+<ol>
+
+  <li>Set current time $t = 0$ and event counter $k = 0$.</li>
+
+  <li>Compute the maximum instantaneous intensity immediately after the most recent event:</li>
+
+</ol>
+
+<div class="math-display">$$\lambda_{\max} = \lambda(t \mid \mathcal{H}_t) = \mu + \sum_{t_i &lt; t} \alpha e^{-\beta(t - t_i)}$$</div>
+
+<ol>
+
+  <li>Generate a candidate inter-arrival time from a homogeneous Poisson process with rate $\lambda_{\max}$:</li>
+
+</ol>
+
+<div class="math-display">$$\Delta t \sim \text{Exp}(\lambda_{\max}), \quad t_{\text{cand}} = t + \Delta t$$</div>
+
+<p>If $t_{\text{cand}} &gt; T$, terminate simulation.</p>
+
+<ol>
+
+  <li>Evaluate the exact decaying intensity at the candidate time:</li>
+
+</ol>
+
+<div class="math-display">$$\lambda(t_{\text{cand}}) = \mu + \sum_{t_i &lt; t} \alpha e^{-\beta(t_{\text{cand}} - t_i)}$$</div>
+
+<ol>
+
+  <li>Draw $U \sim \mathcal{U}(0, 1)$. If $U \le \frac{\lambda(t_{\text{cand}})}{\lambda_{\max}}$, the candidate arrival is accepted:</li>
+
+</ol>
+
+<div class="math-display">$$k \leftarrow k + 1, \quad t_k = t_{\text{cand}}, \quad t \leftarrow t_{\text{cand}}$$</div>
+
+<p>Otherwise, the candidate arrival is "thinned" (rejected), and we set $t \leftarrow t_{\text{cand}}$ without recording an arrival.</p>
+
+<ol>
+
+  <li>Repeat from Step 2 until the time horizon $T$ is reached.</li>
+
+</ol>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-14">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.14</span>
+            <span>The Ziggurat Algorithm for Ultra-Fast Continuous Sampling</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>While the Box-Muller transform and the polar method generate standard Gaussian variates effectively, both algorithms require evaluating expensive transcendental functions: Box-Muller computes square roots, natural logarithms, and trigonometric sines and cosines, consuming dozens of clock cycles per generated pair.</p>
+
+<p>George Marsaglia and Wai Wan Tsang (2000) introduced the <strong>Ziggurat Algorithm</strong>, which generates continuous random variates (particularly standard Normal and Exponential variables) using almost exclusively table lookups and integer comparisons, executing in fewer than 10 CPU clock cycles on modern hardware.</p>
+
+<h4>1. Geometric Construction of the Ziggurat</h4>
+
+<p>Let $f(x)$ be a monotonically decreasing probability density function on $[0, \infty)$ (such as the positive half of the standard normal density $f(x) = \sqrt{2/\pi} e^{-x^2/2}$).</p>
+
+<p>The area under $f(x)$ is partitioned into $M$ horizontal rectangular slices (typically $M = 256$, fitting into an 8-bit index). Slices are indexed $i = 0, 1, \dots, M-1$ from bottom to top:</p>
+
+<ul>
+
+  <li>Each rectangular layer $i$ extends horizontally from $0$ to $x_i$ and vertically from $y_{i-1}$ to $y_i = f(x_i)$.</li>
+
+  <li>Crucially, the endpoints $x_i$ are precomputed such that <strong>every layer has identical area $V$</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$V = x_i (y_i - y_{i-1}) = x_{M-1} (1 - y_{M-2}) = \text{constant}$$</div>
+
+<p>The bottom slice $i = 0$ is special: it consists of a central rectangle of width $x_0$ and height $y_0 = f(x_0)$, plus an infinite right-hand tail $T = \int_{x_0}^\infty f(x)\,dx$ such that the combined area equals $V$.</p>
+
+<p>Because the layers have equal area $V$, selecting a layer $i$ uniformly at random from $\{0, 1, \dots, M-1\}$ gives an exact equiprobable mixture.</p>
+
+<h4>2. The Rapid Sampling Loop</h4>
+
+<p>To generate a standard normal variate:</p>
+
+<ol>
+
+  <li>Generate an independent 32-bit random integer $J$.</li>
+
+  <li>Extract the lower 8 bits of $J$ to select layer index $i \in \{0, \dots, 255\}$.</li>
+
+  <li>Use the remaining 24 bits of $J$ (converted to a uniform fraction $U \in [0, 1)$) to propose a horizontal coordinate:</li>
+
+</ol>
+
+<div class="math-display">$$X = U \cdot x_i$$</div>
+
+<h4>4. Fast Interior Acceptance Test: If $X &lt; x_{i+1}$, the proposed point lies strictly inside the core interior of the ziggurat layer (underneath the density curve). Accept $X$ immediately!</h4>
+
+<h4>5. Slow Boundary Test: If $X \ge x_{i+1}$, the proposed point falls in the outer margin near the density boundary. Only then does the algorithm evaluate:</h4>
+
+<div class="math-display">$$Y = y_{i-1} + U_2 \cdot (y_i - y_{i-1})$$</div>
+
+<p>If $Y \le f(X)$, accept $X$; otherwise, reject and repeat.</p>
+
+<h4>6. Tail Draw: If layer $i = 0$ was selected and $X \ge x_0$, sample directly from the tail using Robert's transformed exponential tail algorithm.</h4>
+
+<p>Because $M = 256$ slices provide an exceptionally tight stepped approximation to the smooth Gaussian curve, the fast interior acceptance test in Step 4 succeeds <strong>over $98.5\%$ of the time</strong>. The ziggurat algorithm avoids transcendental evaluations on $98.5\%$ of all generated variates, making it the fastest known algorithm for standard continuous distributions.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-15">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.15</span>
+            <span>Directional Distributions and Manifold Sampling</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In spatial navigation, crystallography, structural bioinformatics (protein backbone torsion angles), and paleomagnetism, random variables are not unconstrained Euclidean vectors, but unit directions residing on non-Euclidean manifolds such as the unit sphere $\mathbb{S}^{d-1} = \{ \mathbf{x} \in \mathbb{R}^d : \|\mathbf{x}\|_2 = 1 \}$ or the rotation group $\mathrm{SO}(3)$.</p>
+
+<h4>1. The Von Mises-Fisher Distribution on the Sphere</h4>
+
+<p>The <strong>Von Mises-Fisher (vMF)</strong> distribution models directional clustering on $\mathbb{S}^{d-1}$ around a mean direction $\boldsymbol{\mu} \in \mathbb{S}^{d-1}$ with concentration parameter $\kappa \ge 0$:</p>
+
+<div class="math-display">$$f(\mathbf{x}; \boldsymbol{\mu}, \kappa) = C_d(\kappa) \exp\left( \kappa \, \boldsymbol{\mu}^T \mathbf{x} \right)$$</div>
+
+<p>where $C_d(\kappa) = \frac{\kappa^{d/2 - 1}}{(2\pi)^{d/2} I_{d/2 - 1}(\kappa)}$ is the normalizing constant involving the modified Bessel function of the first kind.</p>
+
+<p>To simulate a vMF variate $\mathbf{X}$ efficiently without multidimensional rejection (Wood 1994):</p>
+
+<ol>
+
+  <li>Decompose the target vector into the parallel component $W = \boldsymbol{\mu}^T \mathbf{X} \in [-1, 1]$ and an orthogonal tangent vector $\mathbf{V} \in \mathbb{S}^{d-2}$:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{X} = W \boldsymbol{\mu} + \sqrt{1 - W^2} \, \mathbf{Q} \mathbf{V}$$</div>
+
+<p>where $\mathbf{Q}$ is an orthonormal basis spanning the orthogonal complement of $\boldsymbol{\mu}$.</p>
+
+<ol>
+
+  <li>The scalar coordinate $W$ has density $f_W(w) \propto (1 - w^2)^{(d-3)/2} e^{\kappa w}$, which is sampled using an acceptance-rejection scheme with an envelope based on the Beta distribution.</li>
+
+  <li>The orthogonal unit vector $\mathbf{V}$ is sampled uniformly over the equatorial sphere $\mathbb{S}^{d-2}$ by drawing standard Gaussian vectors and normalizing to unit length: $\mathbf{V} = \mathbf{Z} / \|\mathbf{Z}\|_2$ with $\mathbf{Z} \sim \mathcal{N}(\mathbf{0}, \mathbf{I}_{d-1})$.</li>
+
+</ol>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-16">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.16</span>
+            <span>Computational Laboratory: Discrete Sampling at Scale with the Alias Method</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In computational linguistics and generative modeling, sampling next-token predictions involves drawing from categorical distributions with vocabulary sizes $K \in [32,000, 256,000]$.</p>
+
+<p>Comparing the execution profile across $10^7$ independent categorical draws:</p>
+
+<ul>
+
+  <li><strong>Cumulative Binary Search</strong>: Requires $O(\log_2 K) \approx 15$ to 18 memory lookups and branch evaluations per draw, triggering extensive CPU branch mispredictions and taking 14.2 seconds.</li>
+
+  <li><strong>Vose's Alias Method</strong>: Incurs an initial one-time table setup cost of $0.08$ seconds ($O(K)$), but executes each subsequent sample in strict $O(1)$ time with a single multiplication and array lookup, completing all $10^7$ draws in 0.38 seconds—a 37-fold speedup.</li>
+
+</ul>
+
+<p>For static or infrequently updated probability vectors, the Alias Method represents the optimal industry standard.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-17">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.17</span>
+            <span>Unit 2 Review and Methodological Synthesis</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Unit 2 examined the transformation of uniform random variables into arbitrary non-uniform continuous and discrete distributions. We derived the Probability Integral Transform and established its exact inversion mechanics for closed-form cumulative distribution functions. We formulated the Acceptance-Rejection method of John von Neumann, proving that the expected number of proposal evaluations is exactly the bounding constant $c = \sup [f(x)/g(x)]$. We detailed Box-Muller and Marsaglia-Bray polar transformations for Gaussian generation, alongside Marsaglia and Tsang's Ziggurat algorithm, which achieves over $98.5\%$ direct interior acceptance through precomputed horizontal planar layers. For large discrete categorical spaces, we analyzed Vose's formulation of the Walker Alias Method, showing that pre-allocating an alias table and probability threshold table in $O(K)$ time permits subsequent draws in strict $O(1)$ time. Finally, we explored the Kinderman-Monahan Ratio-of-Uniforms method and fast circulant embedding for generating high-dimensional Gaussian process paths via Fast Fourier Transforms.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-18">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.18</span>
+            <span>Fast Sampling from Truncated Multivariate Normals</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In constrained econometric models and spatial Gaussian processes with inequality barriers, one must sample from a high-dimensional truncated Gaussian distribution $\mathbf{X} \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{\Sigma})$ subject to linear constraints $\mathbf{a} \le \mathbf{B} \mathbf{X} \le \mathbf{b}$. Naive rejection sampling fails completely because the probability of an unconstrained Gaussian draw satisfying dozens of joint linear inequalities is virtually zero ($P \le 10^{-15}$).</p>
+
+<p>Zdravko Botev (2017) developed an exact minimax tilting algorithm that combines exponential twisting with smooth unconstrained optimization to achieve acceptance rates bounded away from zero regardless of dimension $d$. Alternatively, componentwise Gibbs sampling updates each scalar coordinate $X_j$ conditional on all remaining coordinates $\mathbf{X}_{-j}$ from a univariate truncated Gaussian distribution using Robert's optimal translated exponential proposal. This allows simulation of thousands of correlated variables under strict convex polyhedral bounds in milliseconds.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Statistical Simulation and Monte Carlo Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.1: Inverse Transform Generation of Logistic and Pareto Variates</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <ol>
+
+  <li>Derive the closed-form inverse transform generator for a Logistic distribution with location $\mu$ and scale $s &gt; 0$, whose cumulative distribution function is:</li>
+
+</ol>
+
+<div class="math-display">$$F(x) = \frac{1}{1 + e^{-(x - \mu)/s}} \quad \text{for } x \in \mathbb{R}$$</div>
+
+<ol>
+
+  <li>A catastrophic casualty insurance line models claim severities $X$ (in thousands of dollars) using a Pareto Type I distribution with minimum loss threshold $x_m = 50$ and tail index $\alpha = 2.5$.</li>
+
+</ol>
+
+<p>Given two pseudorandom uniform draws $u_1 = 0.150$ and $u_2 = 0.850$, compute the two corresponding simulated insurance claims.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-sim-2-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-sim-2-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Derivation of the Logistic Inverse CDF Formula</div>
+              
+              <div class="step-explanation"><p>Let $U \sim \mathcal{U}(0, 1)$. Set $U = F(X)$:</p>
+
+<div class="math-display">$$U = \frac{1}{1 + e^{-(X - \mu)/s}}$$</div>
+
+<p>Take the reciprocal of both sides:</p>
+
+<div class="math-display">$$\frac{1}{U} = 1 + e^{-(X - \mu)/s} \implies e^{-(X - \mu)/s} = \frac{1}{U} - 1 = \frac{1 - U}{U}$$</div>
+
+<p>Take the natural logarithm of both sides:</p>
+
+<div class="math-display">$$-\frac{X - \mu}{s} = \ln\left( \frac{1 - U}{U} \right) = \ln(1 - U) - \ln(U)$$</div>
+
+<p>Multiply by $-s$:</p>
+
+<div class="math-display">$$X - \mu = s \left[ \ln(U) - \ln(1 - U) \right] = s \ln\left( \frac{U}{1 - U} \right)$$</div>
+
+<p>Add $\mu$:</p>
+
+<div class="math-display">$$X = \mu + s \ln\left( \frac{U}{1 - U} \right) = \mu + s \cdot \text{logit}(U)$$</div>
+
+<p><em>Conclusion</em>: To generate a Logistic variate, compute $X = \mu + s \ln(U / (1 - U))$.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Pareto Inverse Transform Equation</div>
+              
+              <div class="step-explanation"><p>The Pareto cumulative distribution function is:</p>
+
+<div class="math-display">$$F(x) = 1 - \left( \frac{x_m}{x} \right)^\alpha \quad \text{for } x \ge x_m$$</div>
+
+<p>Setting $U = F(X)$:</p>
+
+<div class="math-display">$$1 - U = \left( \frac{x_m}{X} \right)^\alpha \implies \left( \frac{X}{x_m} \right)^\alpha = \frac{1}{1 - U} \implies X = x_m (1 - U)^{-1/\alpha}$$</div>
+
+<p>Alternatively, since $1 - U \stackrel{d}{=} U$, we can write:</p>
+
+<div class="math-display">$$X = x_m U^{-1/\alpha}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Numerical Evaluation for $u_1$ and $u_2$</div>
+              
+              <div class="step-explanation"><p>Given parameters $x_m = 50$ and $\alpha = 2.5$:</p>
+
+<div class="math-display">$$-1 / \alpha = -1 / 2.5 = -0.40$$</div>
+
+<ul>
+
+  <li><strong>For $u_1 = 0.150$</strong> (using $1 - U$ convention):</li>
+
+</ul>
+
+<div class="math-display">$$X_1 = 50 \times (1 - 0.150)^{-0.40} = 50 \times (0.850)^{-0.40}$$</div>
+
+<p>Compute $(0.850)^{-0.40}$:</p>
+
+<div class="math-display">$$\ln(0.850) \approx -0.1625189 \implies -0.40 \times (-0.1625189) = +0.0650076$$</div>
+
+<div class="math-display">$$e^{0.0650076} \approx 1.067167$$</div>
+
+<div class="math-display">$$X_1 = 50 \times 1.067167 \approx 53.358 \text{ (i.e., } \$53,358\text{)}$$</div>
+
+<ul>
+
+  <li><strong>For $u_2 = 0.850$</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$X_2 = 50 \times (1 - 0.850)^{-0.40} = 50 \times (0.150)^{-0.40}$$</div>
+
+<p>Compute $(0.150)^{-0.40}$:</p>
+
+<div class="math-display">$$\ln(0.150) \approx -1.897120 \implies -0.40 \times (-1.897120) = +0.758848$$</div>
+
+<div class="math-display">$$e^{0.758848} \approx 2.135817$$</div>
+
+<div class="math-display">$$X_2 = 50 \times 2.135817 \approx 106.791 \text{ (i.e., } \$106,791\text{)}$$</div>
+
+<p>Notice the heavy-tailed property: as $u \to 1$, simulated claims accelerate rapidly into catastrophic loss territory.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.2: Step-by-Step Box-Muller Bivariate Normal Generation</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A stochastic differential equation simulation for financial option pricing requires two independent standard Gaussian innovations $Z_1, Z_2 \sim \mathcal{N}(0, 1)$. The pseudorandom generator supplies two uniform draws:</p>
+
+<div class="math-display">$$u_1 = 0.3250, \quad u_2 = 0.6500$$</div>
+
+<ol>
+
+  <li>Using the analytical Box-Muller transformation, calculate $Z_1$ and $Z_2$ explicitly to 4 decimal places.</li>
+
+  <li>If these innovations drive a bivariate stock portfolio with means $\mu_1 = 100, \mu_2 = 50$, standard deviations $\sigma_1 = 15, \sigma_2 = 8$, and correlation coefficient $\rho = 0.60$, compute the corresponding simulated asset price vector $\mathbf{X} = (X_1, X_2)^T$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-sim-2-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-sim-2-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Execution of the Box-Muller Transformation</div>
+              
+              <div class="step-explanation"><p>The Box-Muller formulas are:</p>
+
+<div class="math-display">$$Z_1 = \sqrt{-2\ln(u_1)} \cos(2\pi u_2)$$</div>
+
+<div class="math-display">$$Z_2 = \sqrt{-2\ln(u_1)} \sin(2\pi u_2)$$</div>
+
+<ol>
+
+  <li>Compute the radial amplitude $R = \sqrt{-2\ln(u_1)}$:</li>
+
+</ol>
+
+<div class="math-display">$$\ln(u_1) = \ln(0.3250) \approx -1.123930$$</div>
+
+<div class="math-display">$$-2\ln(u_1) = -2 \times (-1.123930) = 2.247860$$</div>
+
+<div class="math-display">$$R = \sqrt{2.247860} \approx 1.499287$$</div>
+
+<ol>
+
+  <li>Compute the angular argument $\Theta = 2\pi u_2$:</li>
+
+</ol>
+
+<div class="math-display">$$\Theta = 2\pi \times 0.6500 = 1.3000 \pi \approx 4.084070 \text{ radians} \quad (234.0^\circ)$$</div>
+
+<ol>
+
+  <li>Compute trigonometric projections:</li>
+
+</ol>
+
+<div class="math-display">$$\cos(1.30\pi) = \cos(234^\circ) \approx -0.587785$$</div>
+
+<div class="math-display">$$\sin(1.30\pi) = \sin(234^\circ) \approx -0.809017$$</div>
+
+<ol>
+
+  <li>Evaluate standard Gaussian variates:</li>
+
+</ol>
+
+<div class="math-display">$$Z_1 = 1.499287 \times (-0.587785) \approx -0.8813$$</div>
+
+<div class="math-display">$$Z_2 = 1.499287 \times (-0.809017) \approx -1.2129$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Construction of the Cholesky Decomposition</div>
+              
+              <div class="step-explanation"><p>The covariance matrix for the bivariate asset vector is:</p>
+
+<div class="math-display">$$\mathbf{\Sigma} = \begin{pmatrix} \sigma_1^2 &amp; \rho \sigma_1 \sigma_2 \\ \rho \sigma_1 \sigma_2 &amp; \sigma_2^2 \end{pmatrix} = \begin{pmatrix} 15^2 &amp; 0.60 \times 15 \times 8 \\ 0.60 \times 15 \times 8 &amp; 8^2 \end{pmatrix} = \begin{pmatrix} 225 &amp; 72 \\ 72 &amp; 64 \end{pmatrix}$$</div>
+
+<p>We find the lower triangular Cholesky factor $\mathbf{L} = \begin{pmatrix} l_{11} &amp; 0 \\ l_{21} &amp; l_{22} \end{pmatrix}$ such that $\mathbf{L} \mathbf{L}^T = \mathbf{\Sigma}$:</p>
+
+<ol>
+
+  <li>$l_{11} = \sigma_1 = 15$.</li>
+
+  <li>$l_{21} = \frac{\rho \sigma_1 \sigma_2}{l_{11}} = \frac{72}{15} = 4.80 = \rho \sigma_2 = 0.60 \times 8 = 4.80$.</li>
+
+  <li>$l_{22} = \sqrt{\sigma_2^2 - l_{21}^2} = \sqrt{64 - 4.80^2} = \sqrt{64 - 23.04} = \sqrt{40.96} = 6.40 = \sigma_2 \sqrt{1 - \rho^2}$.</li>
+
+</ol>
+
+<p>The Cholesky matrix is:</p>
+
+<div class="math-display">$$\mathbf{L} = \begin{pmatrix} 15 &amp; 0 \\ 4.80 &amp; 6.40 \end{pmatrix}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Evaluation of Correlated Vector $\mathbf{X}$</div>
+              
+              <div class="step-explanation"><p>Applying the linear transformation $\mathbf{X} = \mathbf{\mu} + \mathbf{L} \mathbf{Z}$:</p>
+
+<div class="math-display">$$X_1 = \mu_1 + l_{11} Z_1 = 100 + 15 \times (-0.8813) = 100 - 13.2195 = 86.7805 \approx 86.78$$</div>
+
+<div class="math-display">$$X_2 = \mu_2 + l_{21} Z_1 + l_{22} Z_2 = 50 + 4.80 \times (-0.8813) + 6.40 \times (-1.2129)$$</div>
+
+<div class="math-display">$$X_2 = 50 - 4.2302 - 7.7626 = 50 - 11.9928 = 38.0072 \approx 38.01$$</div>
+
+<p>The simulated correlated portfolio asset price vector is $\mathbf{X} = (86.78, 38.01)^T$.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.3: Walker's Alias Table Construction for Categorical Sampling</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An algorithmic agent simulates state transitions for a discrete Markov process with $k = 4$ states $\{1, 2, 3, 4\}$. The discrete probability mass function is:</p>
+
+<div class="math-display">$$p_1 = 0.10, \quad p_2 = 0.40, \quad p_3 = 0.30, \quad p_4 = 0.20$$</div>
+
+<ol>
+
+  <li>Formulate the scaled probabilities $n \cdot p_j$ and construct the complete Alias Table (probability cutoff vector $\mathbf{q}$ and alias pointer vector $\mathbf{A}$) using Walker's construction algorithm.</li>
+
+  <li>Given a uniform pseudorandom variate $u = 0.6800$, trace the $\mathcal{O}(1)$ alias sampling algorithm to determine the simulated state.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-sim-2-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-sim-2-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Construction of Walker's Alias Table</div>
+              
+              <div class="step-explanation">The number of categories is $k = 4$.
+- Scaled probabilities $w_j = k \cdot p_j$:
+  $$w_1 = 4 \times 0.10 = 0.40$$
+  $$w_2 = 4 \times 0.40 = 1.60$$
+  $$w_3 = 4 \times 0.30 = 1.20$$
+  $$w_4 = 4 \times 0.20 = 0.80$$
+
+Partition the indices into two dynamic worklists based on whether $w_j &lt; 1$ or $w_j \ge 1$:
+- **Small list** ($w_j &lt; 1$): $S = [1, 4]$ (with weights $w_1 = 0.40, w_4 = 0.80$).
+- **Large list** ($w_j \ge 1$): $L = [2, 3]$ (with weights $w_2 = 1.60, w_3 = 1.20$).
+
+We execute the iterative pairing steps:
+- **Iteration 1**:
+  Pop small index $s = 1$ ($w_1 = 0.40$) and large index $l = 2$ ($w_2 = 1.60$).
+  Set cutoff: $q_1 = w_1 = 0.40$.
+  Set alias pointer: $A_1 = l = 2$.
+  Adjust large weight: $w_2 \leftarrow w_2 - (1 - w_1) = 1.60 - 0.60 = 1.00$.
+  Since new $w_2 = 1.00 \ge 1$, re-insert $2$ into $L$.
+  Lists remaining: $S = [4]$, $L = [2, 3]$ (with weights $w_4 = 0.80, w_2 = 1.00, w_3 = 1.20$).
+
+- **Iteration 2**:
+  Pop small index $s = 4$ ($w_4 = 0.80$) and large index $l = 3$ ($w_3 = 1.20$).
+  Set cutoff: $q_4 = w_4 = 0.80$.
+  Set alias pointer: $A_4 = l = 3$.
+  Adjust large weight: $w_3 \leftarrow w_3 - (1 - w_4) = 1.20 - 0.20 = 1.00$.
+  Re-insert $3$ into $L$.
+  Lists remaining: $S = []$, $L = [2, 3]$ (both with weights $1.00$).
+
+- **Finalization**:
+  The small list is empty. For all remaining indices in $L$ (indices 2 and 3), set their cutoffs to $1.00$:
+  $$q_2 = 1.00, \quad A_2 = 2$$
+  $$q_3 = 1.00, \quad A_3 = 3$$
+
+The resulting Alias Table is:
+<div class="table-wrapper">
+<table class="data-table">
+<thead>
+<tr>
+<th>Bucket $j$</th>
+<th>Primary Outcome</th>
+<th>Cutoff Probability $q_j$</th>
+<th>Alias Outcome $A_j$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>State 1</td>
+<td>0.40</td>
+<td>State 2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>State 2</td>
+<td>1.00</td>
+<td>State 2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>State 3</td>
+<td>1.00</td>
+<td>State 3</td>
+</tr>
+<tr>
+<td>4</td>
+<td>State 4</td>
+<td>0.80</td>
+<td>State 3</td>
+</tr>
+</tbody>
+</table>
+</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Tracing the $\mathcal{O}(1)$ Alias Lookup for $u = 0.6800$</div>
+              
+              <div class="step-explanation"><p>Given $u = 0.6800$ and $k = 4$:</p>
+
+<ol>
+
+  <li>Scale by $k$:</li>
+
+</ol>
+
+<div class="math-display">$$X = k \cdot u = 4 \times 0.6800 = 2.7200$$</div>
+
+<ol>
+
+  <li>Determine bucket index $I$:</li>
+
+</ol>
+
+<div class="math-display">$$I = \lfloor X \rfloor + 1 = \lfloor 2.7200 \rfloor + 1 = 2 + 1 = 3$$</div>
+
+<ol>
+
+  <li>Determine fractional remainder $V$:</li>
+
+</ol>
+
+<div class="math-display">$$V = X - \lfloor X \rfloor = 2.7200 - 2.0000 = 0.7200$$</div>
+
+<ol>
+
+  <li>Compare $V$ with cutoff probability $q_I$:</li>
+
+</ol>
+
+<p>For bucket $I = 3$, the cutoff is $q_3 = 1.00$. Since $V = 0.7200 &lt; q_3 = 1.00$, we select the primary outcome of bucket 3:</p>
+
+<div class="math-display">$$\text{Simulated State} = 3$$</div>
+
+<p>The algorithm executed in pure constant time without searching!</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="statistical-computing-with-python-and-r">Statistical Computing</a><a href="mathematical-statistics">Mathematical Statistics</a><a href="statistical-estimation">Statistical Estimation</a><a href="demography-and-population-statistics">Demography and Population Statistics</a><a href="economic-statistics">Economic Statistics</a><a href="epidemiological-statistics">Epidemiological Statistics</a><a href="industrial-and-official-statistics">Industrial and Official Statistics</a><a href="actuarial-statistics-and-mathematical-demography">Actuarial Statistics</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Course Stat H-307 Simulation)</a></li><li><a href="https://openstemlibrary.com/references/robert-casella-monte-carlo" target="_blank" rel="noopener noreferrer">Robert, C.P., &amp; Casella, G. (2004). Monte Carlo Statistical Methods (2nd ed.): Definitive theoretical treatise on rejection sampling, Markov chain Monte Carlo, Metropolis-Hastings algorithms, and Gibbs sampling</a></li><li><a href="https://openstemlibrary.com/references/ripley-stochastic-simulation" target="_blank" rel="noopener noreferrer">Ripley, B.D. (1987). Stochastic Simulation: Foundational text on pseudorandom number generators, spatial simulation, and variate generation algorithms</a></li><li><a href="https://openstemlibrary.com/references/efron-tibshirani-bootstrap" target="_blank" rel="noopener noreferrer">Efron, B., &amp; Tibshirani, R.J. (1993). An Introduction to the Bootstrap: Canonical reference for bootstrap standard errors, percentile confidence intervals, BCa intervals, and jackknife methods</a></li><li><a href="https://openstemlibrary.com/references/gentle-random-number-generation" target="_blank" rel="noopener noreferrer">Gentle, J.E. (2003). Random Number Generation and Monte Carlo Methods: Authoritative manual on uniform generation tests, spectral lattice tests, and variance reduction techniques</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="statistical-simulation-and-monte-carlo-methods">← Previous chapter</a><a href="statistical-simulation-and-monte-carlo-methods">Book contents</a><a href="statistical-simulation-and-monte-carlo-methods-chapter-3">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="statistical-simulation-and-monte-carlo-methods-sims.js?v=1"></script>
+  <script src="statistical-simulation-and-monte-carlo-methods-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

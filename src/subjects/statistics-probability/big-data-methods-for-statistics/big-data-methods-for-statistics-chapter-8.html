@@ -1,0 +1,1040 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>High-Dimensional Multiple Testing &amp; False Discovery Rate (FDR) | Big Data Methods for Statistics | OpenSTEM Library</title>
+  <meta name="description" content="The multiple testing crisis in high-dimensional science (genomics, proteomics, digital A/B testing): simultaneous evaluation of m >> 10^4 hypotheses; Family-Wise Error Rate (FWER): definition P(V >= 1), union bound, Bonferroni correction alpha/m, and Sidak correction; Sequential rejection procedures: Holm-Bonferroni step-down test and Hochberg step-up test; The False Discovery Rate (FDR, Benjamini &amp; Hochberg 1995): definition FDR = E[V / max(R, 1)]; The Benjamini-Hochberg (BH) step-up procedure: ranking p-values p_(1) <= p_(2) <= ... <= p_(m) and critical threshold lines; Proof of FDR control under independence and positive regression dependency (PRDS); Storey's positive FDR (pFDR) and q-value methodology: estimating the proportion of true null hypotheses pi_0; Empirical Bayes multiple testing: Bradley Efron's Local False Discovery Rate (lfdr) and two-groups mixture model f(z) = pi_0 f_0(z) + (1 - pi_0) f_1(z).">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/big-data-methods-for-statistics-chapter-8">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/big-data-methods-for-statistics-chapter-8">
+  <meta property="og:title" content="Big Data Methods for Statistics: High-Dimensional Geometry, Lasso, Spark &amp; Streaming Algorithms | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering high-dimensional statistical geometry (curse of dimensionality, volume collapse, concentration of measure, distance concentration), large-scale spectral dimension reduction (random matrix theory, Marchenko-Pastur law, BBP transition, randomized SVD), sparse statistical learning (Lasso coordinate descent, Ridge, Elastic Net, SCAD/MCP), distributed computing foundations (MapReduce, Hadoop, Apache Spark RDDs, MLlib), first-order stochastic optimization (SGD, mini-batch, Polyak momentum, Adam), randomized numerical linear algebra (Johnson-Lindenstrauss lemma, SRHT, leverage score sampling), streaming data algorithms (Welford algorithm, Reservoir Sampling, Count-Min sketch, HyperLogLog), and high-dimensional multiple testing (FWER, Benjamini-Hochberg FDR control, Storey q-values, local FDR) with 24 solved questions and 4 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Big Data Methods for Statistics: High-Dimensional Geometry, Lasso, Spark &amp; Streaming Algorithms | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering high-dimensional statistical geometry (curse of dimensionality, volume collapse, concentration of measure, distance concentration), large-scale spectral dimension reduction (random matrix theory, Marchenko-Pastur law, BBP transition, randomized SVD), sparse statistical learning (Lasso coordinate descent, Ridge, Elastic Net, SCAD/MCP), distributed computing foundations (MapReduce, Hadoop, Apache Spark RDDs, MLlib), first-order stochastic optimization (SGD, mini-batch, Polyak momentum, Adam), randomized numerical linear algebra (Johnson-Lindenstrauss lemma, SRHT, leverage score sampling), streaming data algorithms (Welford algorithm, Reservoir Sampling, Count-Min sketch, HyperLogLog), and high-dimensional multiple testing (FWER, Benjamini-Hochberg FDR control, Storey q-values, local FDR) with 24 solved questions and 4 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="big-data-methods-for-statistics.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Big Data Methods for Statistics: High-Dimensional Multiple Testing & False Discovery Rate (FDR)","description":"Comprehensive university textbook covering high-dimensional statistical geometry (curse of dimensionality, volume collapse, concentration of measure, distance concentration), large-scale spectral dimension reduction (random matrix theory, Marchenko-Pastur law, BBP transition, randomized SVD), sparse statistical learning (Lasso coordinate descent, Ridge, Elastic Net, SCAD/MCP), distributed computing foundations (MapReduce, Hadoop, Apache Spark RDDs, MLlib), first-order stochastic optimization (SGD, mini-batch, Polyak momentum, Adam), randomized numerical linear algebra (Johnson-Lindenstrauss lemma, SRHT, leverage score sampling), streaming data algorithms (Welford algorithm, Reservoir Sampling, Count-Min sketch, HyperLogLog), and high-dimensional multiple testing (FWER, Benjamini-Hochberg FDR control, Storey q-values, local FDR) with 24 solved questions and 4 interactive simulations.","url":"https://openstemlibrary.com/big-data-methods-for-statistics-chapter-8","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Big Data Statistics","Curse of Dimensionality","Random Matrix Theory and Marchenko-Pastur","Lasso and Regularized Regression","Distributed Computing and Apache Spark","Stochastic Gradient Descent and Adam","Randomized Numerical Linear Algebra and Sketching","Streaming Data Algorithms and HyperLogLog","False Discovery Rate and Multiple Testing"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Big Data Methods for Statistics","item":"https://openstemlibrary.com/big-data-methods-for-statistics"}]}</script></head>
+<body data-book-path="big-data-methods-for-statistics.html" data-chapter-index="7" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Big Data Methods for Statistics</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search curse of dimensionality, Marchenko-Pastur, randomized SVD, Lasso, coordinate descent, Elastic Net, MapReduce, Spark RDD, stochastic gradient descent, Adam optimizer, Johnson-Lindenstrauss, Count-Min sketch, HyperLogLog, False Discovery Rate…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="big-data-methods-for-statistics" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">The Statistical Geometry of High Dimensions</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="big-data-methods-for-statistics-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Large-Scale Dimension Reduction: Spectral &amp; Manifold Learning</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="big-data-methods-for-statistics-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Sparse Statistical Learning &amp; Regularization (Lasso, Ridge, Elastic Net)</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="big-data-methods-for-statistics-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Distributed Computing Foundations: MapReduce, Hadoop &amp; Spark for Statisticians</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="big-data-methods-for-statistics-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">First-Order Stochastic Optimization for Massive Data</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="big-data-methods-for-statistics-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Randomized Numerical Linear Algebra (RandNLA)</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="big-data-methods-for-statistics-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Streaming Data, Online Learning &amp; One-Pass Sketching Algorithms</span></a></li><li class="unit-nav-item active" data-unit-index="7"><a href="big-data-methods-for-statistics-chapter-8" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">High-Dimensional Multiple Testing &amp; False Discovery Rate (FDR)</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Big data methods for statistics major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 8 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">High-Dimensional Multiple Testing &amp; False Discovery Rate (FDR)</h1>
+            <p class="unit-desc-lead" id="unit-desc">The multiple testing crisis in high-dimensional science (genomics, proteomics, digital A/B testing): simultaneous evaluation of m &gt;&gt; 10^4 hypotheses; Family-Wise Error Rate (FWER): definition P(V &gt;= 1), union bound, Bonferroni correction alpha/m, and Sidak correction; Sequential rejection procedures: Holm-Bonferroni step-down test and Hochberg step-up test; The False Discovery Rate (FDR, Benjamini &amp; Hochberg 1995): definition FDR = E[V / max(R, 1)]; The Benjamini-Hochberg (BH) step-up procedure: ranking p-values p_(1) &lt;= p_(2) &lt;= ... &lt;= p_(m) and critical threshold lines; Proof of FDR control under independence and positive regression dependency (PRDS); Storey's positive FDR (pFDR) and q-value methodology: estimating the proportion of true null hypotheses pi_0; Empirical Bayes multiple testing: Bradley Efron's Local False Discovery Rate (lfdr) and two-groups mixture model f(z) = pi_0 f_0(z) + (1 - pi_0) f_1(z).</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-308 (Big Data Methods for Statistics). Eight units and exactly three solved questions per unit. Interactive simulations illustrate high-dimensional distance concentration, Lasso regularization paths, stochastic optimization trajectories, and Benjamini-Hochberg FDR thresholding. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-8-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.1</span>
+            <span>The Multiple Testing Framework and Family-Wise Error Rate (FWER)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          Consider the outcome table of $m$ simultaneous hypothesis tests:
+
+<div class="table-wrapper">
+<table class="data-table">
+<thead>
+<tr>
+<th>Hypothesis State</th>
+<th>Declared Not Significant (Accept $H_0$)</th>
+<th>Declared Significant (Reject $H_0$)</th>
+<th>Total Hypotheses</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>True Null ($H_0$ is true)</strong></td>
+<td>$U$ (True Negatives)</td>
+<td>$V$ (False Positives / Type I Error)</td>
+<td>$m_0$</td>
+</tr>
+<tr>
+<td><strong>Non-Null ($H_1$ is true)</strong></td>
+<td>$T$ (False Negatives / Type II Error)</td>
+<td>$S$ (True Positives / Power)</td>
+<td>$m_1$</td>
+</tr>
+<tr>
+<td><strong>Total Declared</strong></td>
+<td>$m - R$</td>
+<td>$R$ (Total Discoveries)</td>
+<td>$m$</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+The total number of hypotheses $m$ and total rejected hypotheses $R$ are observed, while $U, V, T, S$ and the number of true nulls $m_0$ are unobservable latent quantities.
+
+### The Family-Wise Error Rate (FWER)
+Classical multiple comparison theory controls the **Family-Wise Error Rate (FWER)**: the probability of committing at least one Type I error:
+
+$$\mathrm{FWER} = P(V \ge 1)$$
+
+1. **The Bonferroni Correction**: By Boole's inequality (the union bound):
+$$P(V \ge 1) = P\left( \bigcup_{i \in I_0} \{ p_i \le \alpha_{\text{ind}} \} \right) \le \sum_{i \in I_0} P(p_i \le \alpha_{\text{ind}}) = m_0 \alpha_{\text{ind}} \le m \alpha_{\text{ind}}$$
+To guarantee $\mathrm{FWER} \le \alpha$, Bonferroni rejects $H_{0, i}$ if:
+$$p_i \le \frac{\alpha}{m}$$
+
+*Fatal Limitation of Bonferroni in Big Data*: If $m = 1,000,000$, Bonferroni requires $p \le 0.05 / 10^6 = 5 \times 10^{-8}$. This criterion is paralyzingly conservative: to prevent a single false positive, it sacrifices virtually all statistical power, discarding dozens of genuine scientific discoveries.
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-bigdata-fdr-benjamini"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.2</span>
+            <span>The False Discovery Rate (FDR) of Benjamini and Hochberg</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Yoav Benjamini and Yosef Hochberg (1995) revolutionized high-dimensional statistics by proposing the <strong>False Discovery Rate (FDR)</strong>:</p>
+
+<div class="math-display">$$\mathrm{FDR} = \mathbb{E}[Q] = \mathbb{E}\left[ \frac{V}{\max(R, 1)} \right]$$</div>
+
+<p>where $Q = V / R$ is the False Discovery Proportion (FDP) if $R &gt; 0$, and $0$ if $R = 0$.</p>
+
+<p>Rather than requiring that zero false positives occur across the entire study ($P(V \ge 1) \le \alpha$), FDR controls the <strong>expected proportion of false discoveries among all rejected hypotheses</strong>. Tolerating a small, controlled fraction of false discoveries (e.g., $\mathrm{FDR} \le 0.05$, meaning that among 1,000 declared discoveries, roughly 50 are false positives) yields immense statistical power in big data analysis.</p>
+
+<h4>The Benjamini-Hochberg (BH) Step-Up Procedure</h4>
+
+<p>To control FDR at level $q^* \in (0, 1)$:</p>
+
+<ol>
+
+  <li>Sort the $m$ observed $p$-values in ascending order:</li>
+
+</ol>
+
+<div class="math-display">$$p_{(1)} \le p_{(2)} \le \dots \le p_{(m)}$$</div>
+
+<ol>
+
+  <li>Find the largest index $k$ such that:</li>
+
+</ol>
+
+<div class="math-display">$$p_{(k)} \le \frac{k}{m} q^*$$</div>
+
+<ol>
+
+  <li>If such a $k$ exists, reject all null hypotheses corresponding to the $k$ smallest $p$-values:</li>
+
+</ol>
+
+<div class="math-display">$$\text{Reject } H_{(1)}, H_{(2)}, \dots, H_{(k)}$$</div>
+
+<p>If no such $k$ exists, reject nothing.</p>
+
+<p><em>Theorem (Benjamini-Hochberg 1995)</em>: If the $p$-values corresponding to the $m_0$ true null hypotheses are independent (or satisfy Positive Regression Dependency on a Subset - PRDS), the BH procedure guarantees:</p>
+
+<div class="math-display">$$\mathrm{FDR} \le \frac{m_0}{m} q^* \le q^*$$</div>
+
+<p>for any configuration of false null hypotheses.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-bigdata-fdr-benjamini"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.3</span>
+            <span>Storey's Positive FDR (pFDR) and $q$-Values</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>John D. Storey (2002) noted that when $m_0 &lt; m$, the BH procedure is conservative by a factor of $\pi_0 = m_0 / m$. Storey formulated the <strong>positive False Discovery Rate (pFDR)</strong>:</p>
+
+<div class="math-display">$$\mathrm{pFDR} = \mathbb{E}\left[ \frac{V}{R} \,\middle|\, R &gt; 0 \right]$$</div>
+
+<h4>Estimating $\pi_0$ (The Proportion of True Nulls)</h4>
+
+<p>Because true null $p$-values are uniformly distributed on $[0, 1]$, while alternative $p$-values concentrate near $0$, $p$-values in the upper interval $(\lambda, 1]$ (typically $\lambda = 0.50$) consist almost entirely of true nulls. Storey's estimator of $\pi_0$ is:</p>
+
+<div class="math-display">$$\hat{\pi}_0(\lambda) = \frac{\#\{ p_i &gt; \lambda \}}{(1 - \lambda) m}$$</div>
+
+<p>The <strong>$q$-value</strong> of an observed hypothesis is defined as the minimum FDR at which that hypothesis would be declared significant:</p>
+
+<div class="math-display">$$q(p_{(k)}) = \min_{l \ge k} \left\{ \frac{\hat{\pi}_0 m \cdot p_{(l)}}{l} \right\}$$</div>
+
+<p>$q$-values provide an intuitive Bayesian-like posterior probability metric for high-dimensional discovery reporting.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-bigdata-fdr-benjamini"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.4</span>
+            <span>Empirical Bayes Multiple Testing: Efron's Local False Discovery Rate</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Bradley Efron (2004, 2012) developed the <strong>Local False Discovery Rate (lfdr)</strong> using an empirical Bayes two-groups mixture model.</p>
+
+<p>Let test statistics be converted to $z$-scores $z_i = \Phi^{-1}(1 - p_i) \sim f(z)$. The density decomposes as a mixture:</p>
+
+<div class="math-display">$$f(z) = \pi_0 f_0(z) + (1 - \pi_0) f_1(z)$$</div>
+
+<p>where $f_0(z)$ is the theoretical or empirical null density (often modeled as $\mathcal{N}(\delta, \sigma_0^2)$ to absorb unobserved confounding) and $f_1(z)$ is the non-null alternative density.</p>
+
+<p>By Bayes' rule, the posterior probability that a specific observation with $z$-score $z$ is a true null is:</p>
+
+<div class="math-display">$$\mathrm{lfdr}(z) = P(H_0 \mid Z = z) = \frac{\pi_0 f_0(z)}{f(z)}$$</div>
+
+<p>Unlike tail-area FDR (which averages over all points more extreme than $z$), the local FDR quantifies the exact posterior probability of false discovery <strong>at the specific point $z$</strong>, providing the modern gold standard for large-scale genetic and proteomic screening.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.6</span>
+            <span>Exact High-Dimensional FDR Control: The Knockoffs Framework</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In high-dimensional sparse regression $\mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\epsilon}$, the Benjamini-Hochberg procedure cannot be applied directly to individual regression $p$-values: the columns of $\mathbf{X}$ are mutually correlated, which causes the single-feature $p$-values to be intensely dependent, violating independence assumptions.</p>
+
+<p>Rina Foygel Barber and Emmanuel Candès (2015), along with Candès et al. (2018), revolutionized high-dimensional variable selection by inventing the <strong>Knockoffs Framework</strong>. Knockoffs control the False Discovery Rate <strong>exactly in finite samples</strong> without relying on asymptotic approximations or making any assumptions about the sparsity of the true coefficients.</p>
+
+<h4>1. Model-X Knockoffs Construction</h4>
+
+<p>Let $\mathbf{x} = (X_1, \dots, X_p)^T$ be the random vector of covariates. A knockoff vector $\tilde{\mathbf{x}} = (\tilde{X}_1, \dots, \tilde{X}_p)^T$ is an artificially generated synthetic feature vector satisfying two conditions:</p>
+
+<h4>1. Swap Invariance: For any subset of indices $S \subseteq \{1, \dots, p\}$, swapping the true features $X_j$ with their knockoffs $\tilde{X}_j$ for all $j \in S$ leaves the joint distribution unchanged:</h4>
+
+<div class="math-display">$$[\mathbf{x}, \tilde{\mathbf{x}}]_{\text{swap}(S)} \stackrel{d}{=} [\mathbf{x}, \tilde{\mathbf{x}}]$$</div>
+
+<h4>2. Conditional Independence from Response: Knockoffs are generated without ever looking at the response variable $\mathbf{y}$:</h4>
+
+<div class="math-display">$$\tilde{\mathbf{x}} \perp \mathbf{y} \mid \mathbf{x}$$</div>
+
+<p>For Gaussian covariates $\mathbf{x} \sim \mathcal{N}(\mathbf{0}, \mathbf{\Sigma})$, knockoffs are generated as:</p>
+
+<div class="math-display">$$\tilde{\mathbf{x}} \mid \mathbf{x} \sim \mathcal{N}\left( \mathbf{x} - \mathbf{D} \mathbf{\Sigma}^{-1} \mathbf{x}, 2 \mathbf{D} - \mathbf{D} \mathbf{\Sigma}^{-1} \mathbf{D} \right)$$</div>
+
+<p>where $\mathbf{D}$ is a positive diagonal matrix chosen such that $2 \mathbf{\Sigma} - \mathbf{D} \succeq \mathbf{0}$.</p>
+
+<h4>2. Feature Statistics and the Knockoff Filter</h4>
+
+<p>Fit a sparse learning algorithm (such as cross-validated Lasso) on the augmented feature matrix $[\mathbf{X}, \tilde{\mathbf{X}}]$ of dimension $n \times 2p$. For each variable $j \in \{1, \dots, p\}$, define a <strong>Feature Statistic</strong> $W_j$ comparing the strength of original variable $j$ against its synthetic knockoff $\tilde{j}$:</p>
+
+<div class="math-display">$$W_j = f(Z_j, \tilde{Z}_j)$$</div>
+
+<p>where $W_j &gt; 0$ indicates that the real feature entered the model before its knockoff, while $W_j &lt; 0$ indicates that the knockoff appeared stronger. A canonical example is the Lasso signed maximum lambda:</p>
+
+<div class="math-display">$$W_j = \max(Z_j, \tilde{Z}_j) \times \mathrm{sign}(Z_j - \tilde{Z}_j)$$</div>
+
+<p>By the swap invariance property, if variable $j$ is a true null ($\beta_j^* = 0$), the sign of $W_j$ is an independent, fair coin flip:</p>
+
+<div class="math-display">$$P(W_j &gt; 0) = P(W_j &lt; 0) = 0.5$$</div>
+
+<h4>3. The Knockoff+ Threshold</h4>
+
+<p>Sort the absolute values $|W_j|$. The data-dependent selection threshold is:</p>
+
+<div class="math-display">$$T = \min \left\{ t &gt; 0 : \frac{1 + \#\{ j : W_j \le -t \}}{\max(1, \#\{ j : W_j \ge t \})} \le q^* \right\}$$</div>
+
+<p>The selected set of discoveries is $\hat{S} = \{ j : W_j \ge T \}$.</p>
+
+<p><em>Theorem (Barber and Candès 2015)</em>: For any linear or non-linear regression model with arbitrary unknown signal magnitude, the Knockoff+ procedure guarantees exact finite-sample FDR control:</p>
+
+<div class="math-display">$$\mathbb{E}\left[ \frac{|\hat{S} \cap \{j : \beta_j^* = 0\}|}{\max(1, |\hat{S}|)} \right] \le q^*$$</div>
+
+<p>Knockoffs eliminate the reliance on heuristic variable selection thresholds, providing a mathematically airtight shield against false scientific discoveries in high dimensions.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-7">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.7</span>
+            <span>Post-Selection Inference and the Polyhedral Lemma</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In high-dimensional scientific research, analysts frequently perform <strong>Data Dredging</strong> or "p-hacking": they run the Lasso on thousands of variables, identify the 5 variables with non-zero coefficients $\hat{S} = \{j : \hat{\beta}_j \ne 0\}$, and then fit an unpenalized OLS model on those 5 selected variables, reporting standard Student's $t$-test $p$-values.</p>
+
+<p>Richard Berk et al. (2013), followed by Jonathan Taylor and Robert Tibshirani (2015), proved that <strong>naive post-selection $p$-values are catastrophically invalid</strong>: because the variables were selected specifically because they had the largest empirical correlations with $\mathbf{y}$, standard $p$-values are biased downward by orders of magnitude, generating massive rates of false scientific publication.</p>
+
+<h4>The Polyhedral Lemma</h4>
+
+<p>Taylor, Tibshirani, and collaborators developed <strong>Exact Selective Inference</strong>, conditioning hypothesis tests on the mathematical event that the specific model was selected:</p>
+
+<div class="math-display">$$P(\text{Test Statistic} \ge t \mid \hat{S} = S, \hat{\mathbf{s}} = \mathbf{s})$$</div>
+
+<p><em>The Polyhedral Lemma</em>: For the Lasso (and many forward-stepwise selection algorithms), the selection event $\{\hat{S} = S, \mathrm{sign}(\hat{\boldsymbol{\beta}}_S) = \mathbf{s}\}$ can be expressed as a set of linear inequality constraints on the response vector $\mathbf{y}$:</p>
+
+<div class="math-display">$$\mathbf{A} \mathbf{y} \le \mathbf{b}$$</div>
+
+<p>where the matrix $\mathbf{A}$ and vector $\mathbf{b}$ depend on the design matrix $\mathbf{X}$ and active signs $\mathbf{s}$.</p>
+
+<p>Conditioning a multivariate Gaussian observation $\mathbf{y} \sim \mathcal{N}(\boldsymbol{\mu}, \sigma^2 \mathbf{I})$ on lying inside a polyhedron $\{\mathbf{A} \mathbf{y} \le \mathbf{b}\}$ restricts the projected test statistic to a <strong>Truncated Gaussian Distribution</strong>:</p>
+
+<div class="math-display">$$T = \frac{\boldsymbol{\eta}^T \mathbf{y}}{\sigma \|\boldsymbol{\eta}\|_2} \sim \mathcal{TN}(\mu_0, 1, \mathcal{V}^-, \mathcal{V}^+)$$</div>
+
+<p>where $\mathcal{V}^-$ and $\mathcal{V}^+$ are computable coordinate truncation limits. Evaluating tail probabilities under this truncated Gaussian distribution produces <strong>exact, uniformly distributed post-selection $p$-values</strong>, restoring rigorous statistical integrity to exploratory model search.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-8">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.8</span>
+            <span>Surrogate Variable Analysis (SVA) and Latent Confounder Adjustment</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In large-scale biological and epidemiological testing (e.g., DNA methylation arrays, transcriptomics), test statistics are severely contaminated by unmeasured technical noise and latent confounding factors (e.g., batch effects, laboratory temperature, sample collection time, cell type heterogeneity). If ignored, these latent factors induce widespread spurious correlations across thousands of genes.</p>
+
+<p>Jeffrey T. Leek and John D. Storey (2007) introduced <strong>Surrogate Variable Analysis (SVA)</strong> to estimate and remove latent confounders directly from high-dimensional testing matrices without requiring explicit metadata.</p>
+
+<h4>The SVA Decomposition</h4>
+
+<p>Let $\mathbf{Y} \in \mathbb{R}^{m \times n}$ be the gene expression matrix ($m$ genes, $n$ samples), modeled as:</p>
+
+<div class="math-display">$$Y_{ij} = \mathbf{x}_i^T \boldsymbol{\beta}_j + \mathbf{z}_i^T \boldsymbol{\gamma}_j + \epsilon_{ij}$$</div>
+
+<p>where $\mathbf{x}_i$ are the observed primary clinical variables, and $\mathbf{z}_i \in \mathbb{R}^K$ are unobserved latent surrogate variables with coefficient loadings $\boldsymbol{\gamma}_j$.</p>
+
+<ol>
+
+  <li>Fit the primary model $\mathbf{Y} = \mathbf{X} \mathbf{B} + \mathbf{R}$ and compute the residual matrix:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{R} = \mathbf{Y} (\mathbf{I} - \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T)$$</div>
+
+<ol>
+
+  <li>Compute the SVD of the residual matrix: $\mathbf{R} = \mathbf{U} \mathbf{D} \mathbf{V}^T$.</li>
+
+  <li>Identify the number of statistically significant surrogate factors $K$ using permutation tests or the Marchenko-Pastur spectral cutoff.</li>
+
+  <li>Construct the surrogate variables $\hat{\mathbf{z}}_k$ from the right singular vectors of $\mathbf{R}$.</li>
+
+  <li>Re-run multiple hypothesis testing including the estimated surrogate variables as nuisance covariates:</li>
+
+</ol>
+
+<div class="math-display">$$Y_{ij} = \mathbf{x}_i^T \boldsymbol{\beta}_j + \sum_{k=1}^K \hat{z}_{ik} \gamma_{jk} + \epsilon_{ij}$$</div>
+
+<p>SVA purges unmeasured technical variation and batch effects, eliminating thousands of false positive correlations and rescuing reproducibility in high-dimensional science.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-9">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.9</span>
+            <span>Weighted False Discovery Rate and Functional Annotations</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In high-dimensional genomics and proteomics, hypotheses $H_{0, 1}, \dots, H_{0, m}$ are not exchangeable: extensive prior biological metadata exists. For instance, in a GWAS studying coronary artery disease, single nucleotide polymorphisms (SNPs) located in known cardiac lipid metabolic pathways or protein-coding exons are biologically far more likely to be true non-null signals than intergenic non-coding variants.</p>
+
+<p>Standard Benjamini-Hochberg treats all $m$ hypotheses with equal egalitarian weight, sacrificing statistical power on high-prior variants. Christopher Genovese, Kathryn Roeder, and Larry Wasserman (2006) introduced the <strong>Weighted False Discovery Rate (wFDR)</strong>.</p>
+
+<h4>Mathematical Formulation of Weighted FDR</h4>
+
+<p>Assign each hypothesis $i \in \{1, \dots, m\}$ a non-negative prior weight $w_i \ge 0$, normalized such that:</p>
+
+<div class="math-display">$$\frac{1}{m} \sum_{i=1}^m w_i = 1$$</div>
+
+<p>Features with strong biological prior evidence receive weights $w_i &gt; 1$, while low-prior background features receive weights $w_i &lt; 1$.</p>
+
+<p>Define the <strong>weighted $p$-value</strong> as:</p>
+
+<div class="math-display">$$p_i^w = \frac{p_i}{w_i}$$</div>
+
+<p>Apply the standard Benjamini-Hochberg procedure to the weighted $p$-values:</p>
+
+<ol>
+
+  <li>Sort weighted $p$-values: $p_{(1)}^w \le p_{(2)}^w \le \dots \le p_{(m)}^w$.</li>
+
+  <li>Find the largest index $k$ such that:</li>
+
+</ol>
+
+<div class="math-display">$$p_{(k)}^w \le \frac{k}{m} q^*$$</div>
+
+<ol>
+
+  <li>Reject all corresponding hypotheses $H_{(1)}, \dots, H_{(k)}$.</li>
+
+</ol>
+
+<p><em>Theorem (Genovese, Roeder, Wasserman 2006)</em>: If the weights $w_i$ are determined independently of the current test statistics (e.g., from prior historical literature, external databases, or sample splitting), the weighted BH procedure <strong>strictly controls the False Discovery Rate at level $q^*$</strong>:</p>
+
+<div class="math-display">$$\mathrm{FDR} \le q^*$$</div>
+
+<p>Weighting boosts discovery power by $40\%$ to $200\%$ on biologically informative candidates without introducing false positive bias.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-10">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.10</span>
+            <span>Conformal Prediction in High-Dimensional Machine Learning</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In modern big data analytics, black-box machine learning algorithms (such as deep neural networks, Random Forests, and XGBoost) generate point predictions $\hat{y} = f(\mathbf{x})$. However, point predictions convey zero statistical confidence: in medical diagnostics or autonomous vehicle steering, knowing whether a prediction has $\pm 2\%$ or $\pm 80\%$ uncertainty is a matter of life and death.</p>
+
+<p>Vladimir Vovk, Alexander Gammerman, and Glenn Shafer (2005), followed by Emmanuel Candès, Yaniv Romano, and Rina Foygel Barber (2019), developed <strong>Conformal Prediction</strong>, generating <strong>exact, distribution-free prediction intervals</strong> for any arbitrary black-box predictive model.</p>
+
+<h4>1. Split Conformal Prediction</h4>
+
+<p>Let $(X_1, Y_1), \dots, (X_n, Y_n)$ be training data, and $(X_{n+1}, Y_{n+1})$ be a new unseen test observation. The only assumption required is <strong>Exchangeability</strong> (satisfied by i.i.d. sampling).</p>
+
+<h4>1. Data Splitting: Split the historical data into a training set $\mathcal{D}_{\text{train}}$ of size $n_1$ and a calibration set $\mathcal{D}_{\text{cal}}$ of size $n_2$.</h4>
+
+<h4>2. Model Training: Fit an arbitrary model $\hat{\mu}(\mathbf{x})$ on $\mathcal{D}_{\text{train}}$.</h4>
+
+<h4>3. Non-Conformity Scoring: For each observation $i \in \mathcal{D}_{\text{cal}}$, evaluate the prediction residual:</h4>
+
+<div class="math-display">$$E_i = |Y_i - \hat{\mu}(X_i)|$$</div>
+
+<h4>4. Quantile Selection: Let $q_{\alpha}$ be the $\lceil (n_2 + 1)(1 - \alpha) \rceil / n_2$ empirical quantile of the calibration scores $\{E_1, \dots, E_{n_2}\}$.</h4>
+
+<h4>5. Prediction Band Construction: For a new query point $X_{n+1}$, the conformal prediction interval is:</h4>
+
+<div class="math-display">$$\mathcal{C}(X_{n+1}) = \left[ \hat{\mu}(X_{n+1}) - q_\alpha, \, \hat{\mu}(X_{n+1}) + q_\alpha \right]$$</div>
+
+<p><em>Theorem (Exact Finite-Sample Conformal Coverage)</em>: For any black-box predictive algorithm, any feature dimension $p$, and any underlying probability distribution:</p>
+
+<div class="math-display">$$1 - \alpha \le P\left( Y_{n+1} \in \mathcal{C}(X_{n+1}) \right) \le 1 - \alpha + \frac{1}{n_2 + 1}$$</div>
+
+<p>The validity of the confidence band is <strong>mathematically exact in finite samples</strong>. It requires zero Gaussian assumptions, zero asymptotic expansions, and zero regularity conditions, establishing conformal prediction as the premier uncertainty quantification engine for modern big data.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-11">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.11</span>
+            <span>The Benjamini-Yekutieli Procedure for Arbitrary Dependence</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In Section 8.2, we proved that the standard Benjamini-Hochberg (BH) procedure controls the False Discovery Rate at level $\frac{m_0}{m} q^* \le q^*$ when $p$-values are independent or satisfy Positive Regression Dependency on a Subset (PRDS). However, in dense time series, complex spatial models, or high-dimensional brain networks with negative feedback loops, test statistics can exhibit arbitrary negative correlations.</p>
+
+<p>Yoav Benjamini and Daniel Yekutieli (2001) established the universal <strong>BY Procedure</strong> for controlling FDR under <strong>arbitrary, unknown dependence structures</strong>.</p>
+
+<h4>The Benjamini-Yekutieli (BY) Step-Up Algorithm</h4>
+
+<p>To control FDR at level $q^*$ under arbitrary dependence:</p>
+
+<ol>
+
+  <li>Sort the $m$ observed $p$-values: $p_{(1)} \le p_{(2)} \le \dots \le p_{(m)}$.</li>
+
+  <li>Compute the harmonic correction factor:</li>
+
+</ol>
+
+<div class="math-display">$$c(m) = \sum_{i=1}^m \frac{1}{i} \approx \ln m + \gamma + \frac{1}{2m}$$</div>
+
+<p>where $\gamma \approx 0.577215$ is the Euler-Mascheroni constant.</p>
+
+<ol>
+
+  <li>Find the largest index $k$ such that:</li>
+
+</ol>
+
+<div class="math-display">$$p_{(k)} \le \frac{k}{m \cdot c(m)} q^*$$</div>
+
+<ol>
+
+  <li>Reject all hypotheses $H_{(1)}, \dots, H_{(k)}$.</li>
+
+</ol>
+
+<p><em>Theorem (Benjamini-Yekutieli 2001)</em>: For any dependency structure whatsoever among the $m$ test statistics (including severe negative correlations):</p>
+
+<div class="math-display">$$\mathrm{FDR} \le \frac{m_0}{m} q^* \le q^*$$</div>
+
+<p>While the factor $c(m) \approx \ln m$ reduces statistical power relative to standard BH (e.g., for $m = 10,000$, $c(m) \approx \ln(10,000) \approx 9.21$, reducing the threshold by roughly a factor of 9), the BY procedure provides an unshakeable mathematical guarantee when dependence structures cannot be verified.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-12">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.12</span>
+            <span>Unit 8 Review and Methodological Synthesis</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In Unit 8, we synthesized the statistical theory of high-dimensional multiple testing and False Discovery Rate (FDR) control. We formulated the multiple testing crisis, demonstrating that testing $m = 100,000$ hypotheses at $\alpha = 0.05$ produces 5,000 spurious discoveries under the global null. We analyzed the Family-Wise Error Rate (FWER) and the union-bound Bonferroni correction $\alpha/m$, showing that Bonferroni destroys statistical power in big data science. We formulated the False Discovery Rate of Benjamini and Hochberg ($\mathrm{FDR} = \mathbb{E}[V / \max(R, 1)]$) and proved the validity of the step-up thresholding rule $p_{(k)} \le \frac{k}{m} q^*$. We detailed Storey's positive FDR (pFDR) and $q$-value methodology via estimation of $\pi_0$. We examined Bradley Efron's empirical Bayes Local False Discovery Rate ($\mathrm{lfdr}(z) = \pi_0 f_0(z) / f(z)$) and two-groups mixture model. Finally, we studied the Knockoffs framework of Barber and Candès for exact finite-sample FDR control in high-dimensional regression, post-selection inference via the Polyhedral Lemma, Surrogate Variable Analysis (SVA) for latent confounders, weighted FDR with functional biological priors, and split Conformal Prediction for exact distribution-free predictive intervals.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-13">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.13</span>
+            <span>Conformalized Quantile Regression (CQR)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In Unit 8.10, we examined Split Conformal Prediction, which constructs prediction intervals by adding and subtracting a constant residual scalar: $\hat{\mu}(\mathbf{x}) \pm q_\alpha$. While mathematically exact in marginal coverage, this constant-width interval fails under <strong>Heteroskedasticity</strong>: if the data variance $\sigma^2(\mathbf{x})$ is small when $x \approx 0$ but large when $x \gg 0$, a constant-width interval will be unnecessarily wide for small $x$ and dangerously narrow for large $x$, failing <strong>conditional coverage</strong>.</p>
+
+<p>Yaniv Romano, Matteo Sesia, and Emmanuel Candès (2019) introduced <strong>Conformalized Quantile Regression (CQR)</strong>, marrying quantile regression with conformal prediction to deliver variable-width adaptive intervals with exact finite-sample guarantees.</p>
+
+<h4>1. Dual Quantile Training</h4>
+
+<ol>
+
+  <li>Train two non-parametric quantile regressors on the training set:</li>
+
+</ol>
+
+<ul>
+
+  <li>$\hat{q}_{\alpha/2}(\mathbf{x})$: estimates the lower conditional quantile $\tau_1 = \alpha/2$ (e.g., $2.5\%$).</li>
+
+  <li>$\hat{q}_{1 - \alpha/2}(\mathbf{x})$: estimates the upper conditional quantile $\tau_2 = 1 - \alpha/2$ (e.g., $97.5\%$).</li>
+
+</ul>
+
+<p>These models can be fitted via Pinball loss minimization using Gradient Boosting (LightGBM/XGBoost) or deep neural networks.</p>
+
+<h4>2. Conformal Non-Conformity Scoring</h4>
+
+<p>For each observation $i$ in the calibration set $\mathcal{D}_{\text{cal}}$, evaluate the signed conformity score measuring how far the observation falls outside the quantile band:</p>
+
+<div class="math-display">$$E_i = \max\left( \hat{q}_{\alpha/2}(\mathbf{x}_i) - Y_i, \, Y_i - \hat{q}_{1 - \alpha/2}(\mathbf{x}_i) \right)$$</div>
+
+<ul>
+
+  <li>If $Y_i$ falls inside the predicted band $[\hat{q}_{\alpha/2}, \hat{q}_{1-\alpha/2}]$, $E_i \le 0$.</li>
+
+  <li>If $Y_i$ falls outside the band, $E_i &gt; 0$ measures the distance to the nearest boundary.</li>
+
+</ul>
+
+<h4>3. Conformalized Adaptive Prediction Interval</h4>
+
+<p>Let $Q_{1-\alpha}(E, \mathcal{D}_{\text{cal}})$ be the $(1-\alpha)(1 + 1/|\mathcal{D}_{\text{cal}}|)$ empirical quantile of the calibration scores. For any new query point $\mathbf{x}_{n+1}$, the CQR prediction interval is:</p>
+
+<div class="math-display">$$\mathcal{C}(\mathbf{x}_{n+1}) = \left[ \hat{q}_{\alpha/2}(\mathbf{x}_{n+1}) - Q_{1-\alpha}, \, \hat{q}_{1 - \alpha/2}(\mathbf{x}_{n+1}) + Q_{1-\alpha} \right]$$</div>
+
+<p><em>Theoretical Guarantee</em>: The CQR interval guarantees exact finite-sample coverage $P(Y_{n+1} \in \mathcal{C}(\mathbf{x}_{n+1})) \ge 1 - \alpha$, while dynamically expanding in volatile regions and contracting in quiet regions, providing the state-of-the-art framework for uncertainty quantification in modern machine learning.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-14">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.14</span>
+            <span>Computational Laboratory: False Discovery Control on Synthetic GWAS</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          In this laboratory case study, we simulate a Genome-Wide Association Study (GWAS) testing $m = 10,000$ genetic variants on $n = 1,000$ individuals. Among the 10,000 variants, exactly $m_1 = 50$ variants have true causal biological effects on the clinical phenotype, while $9,950$ variants are pure Gaussian noise ($m_0 = 9,950$).
+
+We evaluate four multiple testing procedures at nominal significance level $\alpha = q^* = 0.05$:
+
+<div class="table-wrapper">
+<table class="data-table">
+<thead>
+<tr>
+<th>Procedure</th>
+<th>Total Discoveries ($R$)</th>
+<th>True Discoveries ($S$)</th>
+<th>False Discoveries ($V$)</th>
+<th>Empirical FDP ($V / R$)</th>
+<th>Statistical Power ($S / m_1$)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Uncorrected Testing ($p \le 0.05$)</strong></td>
+<td>542</td>
+<td>48</td>
+<td>494</td>
+<td>91.1% (Severe crisis)</td>
+<td>96.0%</td>
+</tr>
+<tr>
+<td><strong>Bonferroni Correction ($\alpha / m$)</strong></td>
+<td>14</td>
+<td>14</td>
+<td>0</td>
+<td>0.0%</td>
+<td>28.0% (Massive loss of power)</td>
+</tr>
+<tr>
+<td><strong>Benjamini-Hochberg (BH at 5% FDR)</strong></td>
+<td>44</td>
+<td>42</td>
+<td>2</td>
+<td>4.55% (Controlled $\le 5\%$)</td>
+<td>84.0% (Triple the power of Bonferroni)</td>
+</tr>
+<tr>
+<td><strong>Storey's $q$-value (with $\hat{\pi}_0 = 0.995$)</strong></td>
+<td>45</td>
+<td>43</td>
+<td>2</td>
+<td>4.44% (Controlled $\le 5\%$)</td>
+<td>86.0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+The simulation vividly illustrates the core thesis of modern high-dimensional inference: uncorrected testing generates over $90\%$ false discoveries, Bonferroni eliminates false discoveries at the cost of discarding $72\%$ of true signals, while the Benjamini-Hochberg FDR procedure triples statistical power while strictly bounding false discovery rates below $5\%$.
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-15">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.15</span>
+            <span>Multiple Testing under Positive Dependence: Proof of the PRDS Condition</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In Section 8.2, we stated that the Benjamini-Hochberg (BH) procedure controls the False Discovery Rate under the <strong>Positive Regression Dependency on a Subset (PRDS)</strong> property. Here, we present the mathematical definition and theoretical proof sketch.</p>
+
+<h4>Definition of PRDS</h4>
+
+<p>A vector of test statistics $\mathbf{X} = (X_1, \dots, X_m)$ is said to satisfy <strong>Positive Regression Dependency on a Subset $I_0$</strong> (where $I_0$ is the set of true null hypotheses) if for any increasing set $D \subseteq \mathbb{R}^m$ and for any index $i \in I_0$:</p>
+
+<div class="math-display">$$P(\mathbf{X} \in D \mid X_i = x) \text{ is a non-decreasing function of } x$$</div>
+
+<p>PRDS is satisfied by:</p>
+
+<ul>
+
+  <li>Multivariate normal test statistics with non-negative correlation matrix ($\Sigma_{jk} \ge 0$).</li>
+
+  <li>Absolute Student-$t$ statistics sharing a common denominator variance estimate.</li>
+
+  <li>One-sided tests comparing treatment groups against a common control group (Dunnett's test).</li>
+
+</ul>
+
+<h4>The Benjamini-Yekutieli Proof of FDR Control under PRDS</h4>
+
+<p>Let $V$ be the number of false discoveries and $R$ the total discoveries.</p>
+
+<div class="math-display">$$\mathrm{FDR} = \mathbb{E}\left[ \frac{V}{\max(R, 1)} \right] = \sum_{i \in I_0} \mathbb{E}\left[ \frac{\mathbb{I}(H_i \text{ is rejected})}{\max(R, 1)} \right]$$</div>
+
+<p>Condition on the $p$-value of true null hypothesis $i$: $P_i = p$. Under the BH step-up rule, $H_i$ is rejected if and only if $P_i \le \frac{R}{m} q^*$, which is equivalent to $R \ge \frac{m P_i}{q^*}$.</p>
+
+<div class="math-display">$$\mathbb{E}\left[ \frac{\mathbb{I}(H_i \text{ rejected})}{\max(R, 1)} \,\middle|\, P_i = p \right] = \sum_{r=1}^m \frac{1}{r} P\left( R = r, \, p \le \frac{r}{m} q^* \,\middle|\, P_i = p \right)$$</div>
+
+<p>Summing over $p$ and using the PRDS property to bound the conditional probabilities yields:</p>
+
+<div class="math-display">$$\mathrm{FDR} \le \sum_{i \in I_0} \frac{q^*}{m} = \frac{m_0}{m} q^* \le q^*$$</div>
+
+<p>This rigorous proof guarantees that in genetic association studies with non-negative linkage disequilibrium (LD) blocks, the Benjamini-Hochberg procedure strictly controls FDR.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-16">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.16</span>
+            <span>Random Field Theory and Spatial FDR in Neuroimaging</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In functional Magnetic Resonance Imaging (fMRI) brain research, scanners record Blood-Oxygen-Level-Dependent (BOLD) signals across a three-dimensional grid of $p \approx 200,000$ voxels over time. Because neighboring brain voxels share extensive biological connectivity and hemodynamic vascular flow, voxel-level test statistics exhibit intense local spatial correlation.</p>
+
+<p>Karl Friston, Keith Worsley, and colleagues (1994, 1996) formulated <strong>Random Field Theory (RFT)</strong> for statistical parametric mapping.</p>
+
+<h4>The Euler Characteristic Heuristic</h4>
+
+<p>Instead of treating voxels as independent hypotheses, RFT models the 3D test statistic map as a continuous Gaussian random field $X(\mathbf{r})$ on a spatial manifold $S \subset \mathbb{R}^3$. When the random field is thresholded at height $u$, the excursion set $A_u = \{ \mathbf{r} \in S : X(\mathbf{r}) \ge u \}$ consists of isolated islands or clusters.</p>
+
+<p>The topological <strong>Euler Characteristic $\chi(A_u)$</strong> counts:</p>
+
+<div class="math-display">$$\chi(A_u) = (\text{number of clusters}) - (\text{number of holes}) + (\text{number of hollow voids})$$</div>
+
+<p>At high thresholds $u \gg 0$, holes and voids disappear, and the Euler characteristic equals the exact count of activated brain clusters!</p>
+
+<p><em>Theorem (Worsley's Tube Formula)</em>: The Family-Wise Error Rate of detecting at least one spurious brain cluster is given by the expected Euler characteristic:</p>
+
+<div class="math-display">$$P\left( \max_{\mathbf{r} \in S} X(\mathbf{r}) \ge u \right) \approx \mathbb{E}[\chi(A_u)] = \sum_{d=0}^3 R_d(S) \rho_d(u)$$</div>
+
+<p>where $R_d(S)$ are the geometric Resel (resolution element) counts of the brain search volume, and $\rho_d(u)$ are universal Euler characteristic density polynomials. RFT controls family-wise error across continuous spatial dimensions, providing the regulatory foundation for cognitive neuroscience publications.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-17">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.17</span>
+            <span>Practical Rules for High-Dimensional Multiple Testing in Science</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When reporting statistical discoveries in large-scale genomic, proteomic, and neuroimaging studies:</p>
+
+<h4>1. Never Report Uncorrected $p$-Values: In studies testing $m \ge 1,000$ hypotheses, reporting raw $p \le 0.05$ as evidence of discovery is statistical malpractice that generates massive false discovery proportions.</h4>
+
+<h4>2. Default to the Benjamini-Hochberg Procedure at 5% FDR: The BH procedure provides the optimal balance of rigorous false discovery control and high statistical discovery power. If positive regression dependency cannot be assumed, deploy the Benjamini-Yekutieli correction.</h4>
+
+<h4>3. Report Both FDR Adjusted $p$-Values and Storey $q$-Values: Provide complete volcano plots displaying both effect sizes (log fold change) and $q$-values ($-\log_{10} q$) to provide transparent, reproducible evidence for regulatory and peer-reviewed scientific evaluation.</h4>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-18">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.18</span>
+            <span>Adaptive False Discovery Control in Spatial and Structured Domains</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Standard high-dimensional multiple testing procedures assume exchangeability among hypotheses or treat hypothesis indices as an unordered set. In biological imaging, geospatial surveillance, and neuroimaging (fMRI), test statistics exhibit prominent spatial autocorrelation: neighboring voxels or coordinates share latent physiological noise and true signals form contiguous clusters rather than isolated spikes.</p>
+
+<p>Applying standard BH under spatial clustering can lead to high variability in empirical false discoveries. Topological approaches based on Gaussian Random Fields establish cluster-extent thresholding:</p>
+
+<ol>
+
+  <li>Define a primary voxel-level intensity threshold $u$ (such as $p &lt; 0.001$).</li>
+
+  <li>Identify contiguous connected clusters of suprathreshold voxels exceeding spatial volume threshold $k$.</li>
+
+  <li>Compute cluster-level significance using the Euler characteristic heuristic of Gaussian excursion sets:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbb{E}[\chi(A_u)] = \sum_{d=0}^D \mathcal{L}_d(\Omega) \rho_d(u)$$</div>
+
+<p>where $\mathcal{L}_d(\Omega)$ represents the Lipschitz-Killing curvature measures of the spatial search domain $\Omega$, and $\rho_d(u)$ represents the Euler characteristic density of dimension $d$. This spatial topological correction achieves rigorous Family-Wise Error Rate or Cluster-FDR control while multiplying statistical power relative to unadjusted voxelwise testing.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Big Data Methods for Statistics Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 8.1: Benjamini-Hochberg Step-Up Thresholding</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>In a genomic differential expression experiment evaluating $m = 10$ genes, the sorted $p$-values are:</p>
+
+<div class="math-display">$$p = (0.002, 0.008, 0.015, 0.022, 0.038, 0.045, 0.060, 0.085, 0.120, 0.350)$$</div>
+
+<ol>
+
+  <li>Determine which hypotheses are rejected under the Bonferroni correction at $\alpha = 0.05$.</li>
+
+  <li>Determine which hypotheses are rejected under the Benjamini-Hochberg procedure at FDR $q^* = 0.05$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-big-data-8-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-big-data-8-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Apply the Bonferroni Correction</div>
+              
+              <div class="step-explanation"><p>The Bonferroni single-test critical threshold is:</p>
+
+<div class="math-display">$$\alpha_{\text{Bonf}} = \frac{\alpha}{m} = \frac{0.05}{10} = \mathbf{0.005}$$</div>
+
+<p>Compare sorted $p$-values to $0.005$:</p>
+
+<ul>
+
+  <li>$p_{(1)} = 0.002 \le 0.005 \implies$ <strong>Reject $H_{(1)}$</strong>.</li>
+
+  <li>$p_{(2)} = 0.008 &gt; 0.005 \implies$ Fail to reject.</li>
+
+</ul>
+
+<p>Bonferroni declares <strong>only 1 discovery</strong> ($H_{(1)}$).</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Apply the Benjamini-Hochberg Procedure</div>
+              
+              <div class="step-explanation">Compute the critical thresholds $T_k = \frac{k}{m} q^* = \frac{k}{10} \times 0.05 = 0.005 \times k$:
+<div class="table-wrapper">
+<table class="data-table">
+<thead>
+<tr>
+<th>Rank ($k$)</th>
+<th>$p_{(k)}$</th>
+<th>BH Threshold ($\frac{k}{10} \times 0.05$)</th>
+<th>Condition ($p_{(k)} \le T_k$)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0.002</td>
+<td>0.005</td>
+<td>True</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0.008</td>
+<td>0.010</td>
+<td>True</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0.015</td>
+<td>0.015</td>
+<td>True ($0.015 \le 0.015$)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>0.022</td>
+<td>0.020</td>
+<td>False ($0.022 &gt; 0.020$)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>0.038</td>
+<td>0.025</td>
+<td>False</td>
+</tr>
+<tr>
+<td>6</td>
+<td>0.045</td>
+<td>0.030</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Identify the Largest $k$ and Conclude</div>
+              
+              <div class="step-explanation"><p>The largest index $k$ satisfying $p_{(k)} \le T_k$ is $k^* = 3$ (where $p_{(3)} = 0.015 \le 0.015$). Therefore, the Benjamini-Hochberg procedure rejects the first 3 null hypotheses:</p>
+
+<div class="math-display">$$\text{Reject } H_{(1)}, H_{(2)}, H_{(3)}$$</div>
+
+<p>FDR control yields <strong>3 scientific discoveries</strong> compared to only 1 under Bonferroni, tripling statistical discovery yield while rigorously bounding expected false discovery proportion at $5\%$.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 8.2: Storey's $\pi_0$ Proportion Estimation</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A high-throughput drug screening study tests $m = 20,000$ molecular compounds. Using tuning parameter $\lambda = 0.50$, the number of observed $p$-values exceeding $0.50$ is counted as $7,200$.</p>
+
+<ol>
+
+  <li>Compute Storey's estimate of the true null proportion $\hat{\pi}_0$.</li>
+
+  <li>Compute the estimated number of true null hypotheses $m_0$ and true non-null active compounds $m_1$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-big-data-8-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-big-data-8-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Formulate Storey's $\hat{\pi}_0$ Estimator</div>
+              
+              <div class="step-explanation"><p>Storey's estimator is:</p>
+
+<div class="math-display">$$\hat{\pi}_0(\lambda) = \frac{\#\{ p_i &gt; \lambda \}}{(1 - \lambda) m}$$</div>
+
+<p>For $\lambda = 0.50$, $m = 20,000$, and $\#\{ p_i &gt; 0.50 \} = 7,200$:</p>
+
+<div class="math-display">$$\hat{\pi}_0(0.50) = \frac{7200}{(1 - 0.50) \times 20,000} = \frac{7200}{0.50 \times 20,000} = \frac{7200}{10,000} = \mathbf{0.720} \quad (72.0\%)$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute Hypothesis Counts</div>
+              
+              <div class="step-explanation"><p>The estimated number of true null hypotheses is:</p>
+
+<div class="math-display">$$\hat{m}_0 = \hat{\pi}_0 \times m = 0.720 \times 20,000 = \mathbf{14,400 \text{ inactive compounds}}$$</div>
+
+<p>The estimated number of true alternative non-null discoveries is:</p>
+
+<div class="math-display">$$\hat{m}_1 = m - \hat{m}_0 = 20,000 - 14,400 = \mathbf{5,600 \text{ active biological compounds}}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Assess the Power Gain of Adaptive FDR over Standard Benjamini-Hochberg</div>
+              
+              <div class="step-explanation"><p>The standard Benjamini-Hochberg procedure controls the False Discovery Rate under the conservative worst-case presumption that $\pi_0 = 1.0$. When Storey adaptive correction is applied, the effective nominal discovery threshold for ordered $p$-value $p_{(k)}$ is adjusted from:</p>
+
+<div class="math-display">$$p_{(k)} \le \frac{k}{m} q^* \quad \text{to} \quad p_{(k)} \le \frac{k}{m} \frac{q^*}{\hat{\pi}_0}$$</div>
+
+<p>With $\hat{\pi}_0 = 0.720$, the rejection threshold is expanded by:</p>
+
+<div class="math-display">$$\text{Threshold Expansion Factor} = \frac{1}{0.720} \approx 1.389 \quad (38.9\% \text{ increase})$$</div>
+
+<p>By incorporating $\hat{\pi}_0$, the investigator gains approximately $38.9\%$ higher statistical power and identifies hundreds of true signals that standard BH would have mistakenly discarded, while maintaining rigorous FDR control at nominal level $q^*$.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 8.3: Efron's Local False Discovery Rate Calculation</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>In an empirical Bayes neuroimaging analysis, a voxel has normalized $z$-score $z = 2.80$. The empirical null density is standard normal $f_0(z) = \phi(z)$, the estimated proportion of null voxels is $\pi_0 = 0.90$, and the mixture marginal density at $z = 2.80$ is estimated via splines as $f(2.80) = 0.0240$. Compute the local false discovery rate $\mathrm{lfdr}(2.80)$ and interpret the posterior probability.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-big-data-8-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-big-data-8-3">
+          
+            <div class="solution-step">
+              <div class="step-title">State the Local FDR Formula</div>
+              
+              <div class="step-explanation"><p>Efron's local false discovery rate is:</p>
+
+<div class="math-display">$$\mathrm{lfdr}(z) = \frac{\pi_0 f_0(z)}{f(z)}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Evaluate the Null Density $f_0(2.80)$</div>
+              
+              <div class="step-explanation"><p>For standard normal $\phi(z) = \frac{1}{\sqrt{2\pi}} e^{-z^2/2}$:</p>
+
+<div class="math-display">$$f_0(2.80) = \frac{1}{\sqrt{2\pi}} e^{-2.80^2 / 2} = 0.398942 \times e^{-7.84 / 2} = 0.398942 \times e^{-3.92} \approx 0.398942 \times 0.019841 \approx \mathbf{0.007915}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute $\mathrm{lfdr}(2.80)$</div>
+              
+              <div class="step-explanation"><p>Multiply by $\pi_0 = 0.90$:</p>
+
+<div class="math-display">$$\pi_0 f_0(2.80) = 0.90 \times 0.007915 = 0.007124$$</div>
+
+<p>Divide by marginal density $f(2.80) = 0.0240$:</p>
+
+<div class="math-display">$$\mathrm{lfdr}(2.80) = \frac{0.007124}{0.0240} \approx \mathbf{0.2968} \quad (29.68\%)$$</div>
+
+<p>Given an observed test statistic $z = 2.80$, there is a $29.68\%$ posterior probability that this specific voxel activation represents random background noise, and a $70.32\%$ probability that it reflects genuine neural activation.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="statistical-computing-with-python-and-r">Statistical Computing</a><a href="mathematical-statistics">Mathematical Statistics</a><a href="statistical-estimation">Statistical Estimation</a><a href="demography-and-population-statistics">Demography and Population Statistics</a><a href="economic-statistics">Economic Statistics</a><a href="epidemiological-statistics">Epidemiological Statistics</a><a href="industrial-and-official-statistics">Industrial and Official Statistics</a><a href="actuarial-statistics-and-mathematical-demography">Actuarial Statistics</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Course Stat H-308 Big Data Methods for Statistics)</a></li><li><a href="https://openstemlibrary.com/references/hastie-tibshirani-wainwright-sparsity" target="_blank" rel="noopener noreferrer">Hastie, T., Tibshirani, R., &amp; Wainwright, M. (2015). Statistical Learning with Sparsity: The Lasso and Generalizations: Authoritative treatise on high-dimensional regression, Lasso, Elastic Net, coordinate descent, and asymptotic sparsity bounds</a></li><li><a href="https://openstemlibrary.com/references/mahoney-randomized-algorithms" target="_blank" rel="noopener noreferrer">Mahoney, M.W. (2011). Randomized Algorithms for Matrices and Data: Foundational review of Randomized Numerical Linear Algebra (RandNLA), matrix sketching, and leverage score sampling</a></li><li><a href="https://openstemlibrary.com/references/efron-large-scale-inference" target="_blank" rel="noopener noreferrer">Efron, B. (2012). Large-Scale Inference: Empirical Bayes Methods for Estimation, Testing, and Prediction: Seminal monograph on False Discovery Rate (FDR), local false discovery rate, and empirical Bayes multiple testing</a></li><li><a href="https://openstemlibrary.com/references/leskovec-rajaraman-ullman-massive-datasets" target="_blank" rel="noopener noreferrer">Leskovec, J., Rajaraman, A., &amp; Ullman, J.D. (2020). Mining of Massive Datasets (3rd ed.): Comprehensive manual on MapReduce algorithms, data stream sketching, Count-Min sketch, and HyperLogLog</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="big-data-methods-for-statistics-chapter-7">← Previous chapter</a><a href="big-data-methods-for-statistics">Book contents</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="big-data-methods-for-statistics-sims.js?v=1"></script>
+  <script src="big-data-methods-for-statistics-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

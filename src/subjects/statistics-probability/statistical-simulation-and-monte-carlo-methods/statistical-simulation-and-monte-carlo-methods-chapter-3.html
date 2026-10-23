@@ -1,0 +1,1199 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Rejection Sampling &amp; Envelope Methods | Statistical Simulation and Monte Carlo Methods | OpenSTEM Library</title>
+  <meta name="description" content="The Acceptance-Rejection Sampling Principle (Von Neumann): proposal density g(x), target density f(x), and bounding constant c; Mathematical proof of validity: marginal distribution of accepted candidates, acceptance probability P(accept) = 1/c; Optimal proposal selection and bounding constant minimization: c = sup_x [f(x)/g(x)]; Rejection sampling for standard distributions: generating Gamma variates using exponential or Cauchy proposals; Beta distribution sampling using uniform or triangular envelopes; Adaptive Rejection Sampling (ARS) for log-concave target densities: Gilks-Wild algorithm, upper/lower hulls, and rejection rate optimization.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/statistical-simulation-and-monte-carlo-methods-chapter-3">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/statistical-simulation-and-monte-carlo-methods-chapter-3">
+  <meta property="og:title" content="Statistical Simulation and Monte Carlo Methods: Pseudorandom Numbers, Rejection, MCMC &amp; Particle Filtering | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering pseudorandom number generators (LCG, Mersenne Twister, statistical test suites), non-uniform random variate generation (inversion, rejection sampling, Box-Muller, multivariate normal), Monte Carlo integration, variance reduction techniques (antithetic variates, control variates, importance sampling, stratified sampling), Markov Chain Monte Carlo foundations, the Metropolis-Hastings algorithm, Gibbs sampling, slice sampling, Hamiltonian Monte Carlo, convergence diagnostics (Gelman-Rubin R-hat, ESS), and Sequential Monte Carlo (particle filtering) with 24 solved questions and 4 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Statistical Simulation and Monte Carlo Methods: Pseudorandom Numbers, Rejection, MCMC &amp; Particle Filtering | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering pseudorandom number generators (LCG, Mersenne Twister, statistical test suites), non-uniform random variate generation (inversion, rejection sampling, Box-Muller, multivariate normal), Monte Carlo integration, variance reduction techniques (antithetic variates, control variates, importance sampling, stratified sampling), Markov Chain Monte Carlo foundations, the Metropolis-Hastings algorithm, Gibbs sampling, slice sampling, Hamiltonian Monte Carlo, convergence diagnostics (Gelman-Rubin R-hat, ESS), and Sequential Monte Carlo (particle filtering) with 24 solved questions and 4 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="statistical-simulation-and-monte-carlo-methods.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Statistical Simulation and Monte Carlo Methods: Rejection Sampling & Envelope Methods","description":"Comprehensive university textbook covering pseudorandom number generators (LCG, Mersenne Twister, statistical test suites), non-uniform random variate generation (inversion, rejection sampling, Box-Muller, multivariate normal), Monte Carlo integration, variance reduction techniques (antithetic variates, control variates, importance sampling, stratified sampling), Markov Chain Monte Carlo foundations, the Metropolis-Hastings algorithm, Gibbs sampling, slice sampling, Hamiltonian Monte Carlo, convergence diagnostics (Gelman-Rubin R-hat, ESS), and Sequential Monte Carlo (particle filtering) with 24 solved questions and 4 interactive simulations.","url":"https://openstemlibrary.com/statistical-simulation-and-monte-carlo-methods-chapter-3","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Statistical Simulation","Monte Carlo Methods","Pseudorandom Number Generators","Rejection Sampling and Inversion","Importance Sampling and Variance Reduction","Markov Chain Monte Carlo and Metropolis-Hastings","Gibbs Sampling and Hierarchical Bayes","Hamiltonian Monte Carlo and NUTS","Sequential Monte Carlo and Particle Filtering"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Statistical Simulation and Monte Carlo Methods","item":"https://openstemlibrary.com/statistical-simulation-and-monte-carlo-methods"}]}</script></head>
+<body data-book-path="statistical-simulation-and-monte-carlo-methods.html" data-chapter-index="2" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Statistical Simulation and Monte Carlo Methods</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search PRNG, LCG, Mersenne Twister, inversion method, rejection sampling, Box-Muller, Monte Carlo integration, importance sampling, antithetic variates, Metropolis-Hastings, Gibbs sampler, Hamiltonian Monte Carlo, particle filter…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="statistical-simulation-and-monte-carlo-methods" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Uniform Random Number Generation &amp; Pseudorandom Foundations</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="statistical-simulation-and-monte-carlo-methods-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Non-Uniform Random Variate Generation: Inversion &amp; Transformations</span></a></li><li class="unit-nav-item active" data-unit-index="2"><a href="statistical-simulation-and-monte-carlo-methods-chapter-3" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Rejection Sampling &amp; Envelope Methods</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="statistical-simulation-and-monte-carlo-methods-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Monte Carlo Integration &amp; Precision</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="statistical-simulation-and-monte-carlo-methods-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Variance Reduction Techniques</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="statistical-simulation-and-monte-carlo-methods-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Markov Chain Monte Carlo (MCMC): Metropolis-Hastings Algorithms</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="statistical-simulation-and-monte-carlo-methods-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">The Gibbs Sampler &amp; Bayesian Computational Inference</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="statistical-simulation-and-monte-carlo-methods-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Resampling &amp; Permutation Methods: Bootstrap and Jackknife</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Statistical simulation &amp; Monte Carlo methods major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 3 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Rejection Sampling &amp; Envelope Methods</h1>
+            <p class="unit-desc-lead" id="unit-desc">The Acceptance-Rejection Sampling Principle (Von Neumann): proposal density g(x), target density f(x), and bounding constant c; Mathematical proof of validity: marginal distribution of accepted candidates, acceptance probability P(accept) = 1/c; Optimal proposal selection and bounding constant minimization: c = sup_x [f(x)/g(x)]; Rejection sampling for standard distributions: generating Gamma variates using exponential or Cauchy proposals; Beta distribution sampling using uniform or triangular envelopes; Adaptive Rejection Sampling (ARS) for log-concave target densities: Gilks-Wild algorithm, upper/lower hulls, and rejection rate optimization.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-307 (Statistical Simulation and Monte Carlo Methods). Eight units and exactly three solved questions per unit. Interactive simulations illustrate linear congruential generators, rejection sampling envelopes, rare-event importance sampling, and Metropolis-Hastings random walks. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-3-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.1</span>
+            <span>The Fundamental Acceptance-Rejection Principle</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Let $f(x)$ denote the target probability density function from which we desire to simulate random draws, defined on support $\mathcal{X} \subseteq \mathbb{R}^d$. The target density may be unnormalized:</p>
+
+<div class="math-display">$$f(x) = \frac{\tilde{f}(x)}{Z_f}$$</div>
+
+<p>where $\tilde{f}(x) \ge 0$ is analytically computable, but the normalizing constant $Z_f = \int_{\mathcal{X}} \tilde{f}(x)\,dx$ is difficult or impossible to integrate.</p>
+
+<p>Let $g(x)$ be an <strong>instrumental proposal density</strong> satisfying two conditions:</p>
+
+<ol>
+
+  <li>Candidate variates $Y \sim g(y)$ can be simulated easily and rapidly (e.g., via inversion or standard Gaussian/exponential generators).</li>
+
+  <li>The support of $g$ covers the support of $f$:</li>
+
+</ol>
+
+<div class="math-display">$$\{x : f(x) &gt; 0\} \subseteq \{x : g(x) &gt; 0\}$$</div>
+
+<p>Assume there exists a finite bounding constant $c \ge 1$ such that the envelope function $c \cdot g(x)$ blankets the target density everywhere on its support:</p>
+
+<div class="math-display">$$\frac{f(x)}{g(x)} \le c \iff f(x) \le c \cdot g(x) \quad \text{for all } x \in \mathcal{X}$$</div>
+
+<p>The minimum valid envelope constant is the supremum of the density ratio:</p>
+
+<div class="math-display">$$c = \sup_{x \in \mathcal{X}} \frac{f(x)}{g(x)}$$</div>
+
+<h4>The Acceptance-Rejection Algorithm</h4>
+
+<h4>1. Generate Candidate: Draw a candidate variate $Y \sim g(y)$.</h4>
+
+<h4>2. Generate Uniform Filter: Draw an independent uniform variate $U \sim \mathcal{U}(0, 1)$.</h4>
+
+<h4>3. Acceptance Test:</h4>
+
+<ul>
+
+  <li>If:</li>
+
+</ul>
+
+<div class="math-display">$$U \le \frac{f(Y)}{c \cdot g(Y)}$$</div>
+
+<p><strong>Accept</strong> the candidate and output $X = Y$.</p>
+
+<ul>
+
+  <li>Otherwise, <strong>reject</strong> $Y$, discard both $Y$ and $U$, and return to Step 1.</li>
+
+</ul>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim-rejection-sampling"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.2</span>
+            <span>Mathematical Proof of Validity and Geometric Intuition</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>The mathematical validity of rejection sampling rests on establishing that the conditional distribution of accepted candidates matches the target density $f(x)$ exactly.</p>
+
+<h4>Rigorous Theorem and Proof</h4>
+
+<p><em>Theorem (Von Neumann Rejection Sampling)</em>: The conditional distribution of the random variable $Y$, given that the acceptance event $A = \left\{ U \le \frac{f(Y)}{c \cdot g(Y)} \right\}$ occurs, has probability density identically equal to $f(x)$:</p>
+
+<div class="math-display">$$f_{Y \mid A}(x) = f(x)$$</div>
+
+<p>Furthermore, the overall marginal probability of acceptance on any single trial is:</p>
+
+<div class="math-display">$$P(A) = \frac{1}{c}$$</div>
+
+<p><em>Proof</em>: Let $A$ denote the acceptance event $\left\{ U \le \frac{f(Y)}{c \cdot g(Y)} \right\}$. We first compute the overall marginal probability of acceptance $P(A)$ by conditioning on candidate $Y$:</p>
+
+<div class="math-display">$$P(A) = \mathbb{E}\left[ P(A \mid Y) \right] = \int_{\mathcal{X}} P\left( U \le \frac{f(y)}{c \cdot g(y)} \Bigg| Y = y \right) g(y)\,dy$$</div>
+
+<p>Because $U \sim \mathcal{U}(0, 1)$ independently of $Y$, for any ratio $r \in [0, 1]$, $P(U \le r) = r$. Since $\frac{f(y)}{c \cdot g(y)} \le 1$ by definition of $c$:</p>
+
+<div class="math-display">$$P\left( U \le \frac{f(y)}{c \cdot g(y)} \Bigg| Y = y \right) = \frac{f(y)}{c \cdot g(y)}$$</div>
+
+<p>Substituting into the integral:</p>
+
+<div class="math-display">$$P(A) = \int_{\mathcal{X}} \left( \frac{f(y)}{c \cdot g(y)} \right) g(y)\,dy = \frac{1}{c} \int_{\mathcal{X}} f(y)\,dy$$</div>
+
+<p>Since $f(y)$ is a valid probability density function, $\int_{\mathcal{X}} f(y)\,dy = 1$. Therefore:</p>
+
+<div class="math-display">$$P(A) = \frac{1}{c}$$</div>
+
+<p>Next, we evaluate the cumulative distribution function of accepted candidates for any set $\mathcal{B} \subseteq \mathcal{X}$:</p>
+
+<div class="math-display">$$P(Y \in \mathcal{B} \mid A) = \frac{P(Y \in \mathcal{B} \cap A)}{P(A)} = \frac{\int_{\mathcal{B}} P(A \mid Y = y) g(y)\,dy}{1 / c}$$</div>
+
+<p>Substituting $P(A \mid Y = y) = \frac{f(y)}{c \cdot g(y)}$:</p>
+
+<div class="math-display">$$P(Y \in \mathcal{B} \mid A) = c \int_{\mathcal{B}} \left( \frac{f(y)}{c \cdot g(y)} \right) g(y)\,dy = c \int_{\mathcal{B}} \frac{f(y)}{c}\,dy = \int_{\mathcal{B}} f(y)\,dy$$</div>
+
+<p>Differentiating with respect to the boundary of $\mathcal{B}$ yields the target probability density $f(x)$ identically. This completes the proof.</p>
+
+<h4>The Number of Trials to Acceptance</h4>
+
+<p>Let $N$ denote the number of candidate draws required to achieve one accepted variate. Because successive trials are mutually independent with constant success probability $p = 1/c$, $N$ follows a <strong>Geometric Distribution</strong>:</p>
+
+<div class="math-display">$$N \sim \text{Geometric}\left( p = \frac{1}{c} \right)$$</div>
+
+<div class="math-display">$$P(N = k) = (1 - p)^{k-1} p = \left( 1 - \frac{1}{c} \right)^{k-1} \frac{1}{c} \quad \text{for } k = 1, 2, 3, \dots$$</div>
+
+<p>The expected number of candidate proposals evaluated per accepted draw is:</p>
+
+<div class="math-display">$$\mathbb{E}[N] = \frac{1}{p} = c$$</div>
+
+<p>The bounding constant $c$ directly quantifies the <strong>computational waste</strong>:</p>
+
+<ul>
+
+  <li>If $c = 1.25$, on average $1.25$ proposals are evaluated per accepted draw ($80\%$ acceptance efficiency).</li>
+
+  <li>If $c = 20$, on average $20$ candidate evaluations are wasted per sample ($5\%$ efficiency).</li>
+
+</ul>
+
+<p>Minimizing $c$ through tight envelope design is paramount.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.3</span>
+            <span>Sampling the Gamma Distribution via Rejection Envelopes</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>The standard Gamma distribution $\text{Gamma}(\alpha, 1)$ with shape parameter $\alpha &gt; 0$ has density:</p>
+
+<div class="math-display">$$f(x) = \frac{1}{\Gamma(\alpha)} x^{\alpha - 1} e^{-x} \quad \text{for } x &gt; 0$$</div>
+
+<p>When $\alpha = 1$, the distribution collapses to standard Exponential $\text{Exp}(1)$, which is sampled directly via inversion $X = -\ln U$. When $\alpha = k \in \mathbb{N}$ is an integer, $X$ represents the sum of $k$ independent $\text{Exp}(1)$ variables:</p>
+
+<div class="math-display">$$X = -\sum_{i=1}^k \ln U_i = -\ln\left( \prod_{i=1}^k U_i \right)$$</div>
+
+<p>However, for arbitrary non-integer shape parameters $\alpha &gt; 1$, rejection sampling is indispensable.</p>
+
+<h4>Gamma Generation for $\alpha &gt; 1$: Marsaglia and Tsang's Method</h4>
+
+<p>A seminal, universally adopted algorithm formulated by George Marsaglia and Wai Wan Tsang (2000) transforms standard normal variates into Gamma variates. Let $d = \alpha - 1/3$ and $c = 1 / \sqrt{9d}$.</p>
+
+<ol>
+
+  <li>Generate $Z \sim \mathcal{N}(0, 1)$ and $U \sim \mathcal{U}(0, 1)$.</li>
+
+  <li>Set $V = (1 + c Z)^3$.</li>
+
+  <li>If $V \le 0$, reject and return to Step 1.</li>
+
+  <li>If $\ln U &lt; \frac{1}{2} Z^2 + d - d V + d \ln V$:</li>
+
+</ol>
+
+<p>Accept and return $X = d \cdot V$. Marsaglia-Tsang achieves an acceptance rate exceeding $95\%$ across all $\alpha \ge 1$, requiring on average only $1.05$ normal draws per Gamma variate.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim-rejection-sampling"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.4</span>
+            <span>Sampling the Beta Distribution via Uniform and Triangular Envelopes</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>The standard Beta distribution $\text{Beta}(\alpha, \beta)$ with parameters $\alpha, \beta &gt; 0$ has density:</p>
+
+<div class="math-display">$$f(x) = \frac{1}{B(\alpha, \beta)} x^{\alpha - 1} (1 - x)^{\beta - 1} \quad \text{for } x \in (0, 1)$$</div>
+
+<p>where $B(\alpha, \beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}$ is the normalizing Beta function.</p>
+
+<h4>Case 1: Sampling when $\alpha \ge 1$ and $\beta \ge 1$ (Unimodal Density)</h4>
+
+<p>When both parameters are at least 1, the density is bounded and unimodal on $[0, 1]$, achieving its mode at:</p>
+
+<div class="math-display">$$x^* = \frac{\alpha - 1}{\alpha + \beta - 2}$$</div>
+
+<p>The maximum density value is:</p>
+
+<div class="math-display">$$f(x^*) = \frac{1}{B(\alpha, \beta)} (x^*)^{\alpha - 1} (1 - x^*)^{\beta - 1}$$</div>
+
+<p>We can select a standard uniform proposal density $g(x) = 1$ on $[0, 1]$. The envelope constant is simply the mode height:</p>
+
+<div class="math-display">$$c = \sup_{x \in [0, 1]} \frac{f(x)}{1} = f(x^*)$$</div>
+
+<p>The acceptance criterion simplifies to:</p>
+
+<div class="math-display">$$U_2 \le \frac{f(U_1)}{c} = \left( \frac{U_1}{x^*} \right)^{\alpha - 1} \left( \frac{1 - U_1}{1 - x^*} \right)^{\beta - 1}$$</div>
+
+<p>where $U_1, U_2 \sim \mathcal{U}(0, 1)$. Notice that the normalizing constant $B(\alpha, \beta)$ cancels out completely!</p>
+
+<h4>Case 2: General Beta via Independent Gamma Variates</h4>
+
+<p>An alternative, exact transformation method utilizes Johnk's theorem: if $Y_1 \sim \text{Gamma}(\alpha, 1)$ and $Y_2 \sim \text{Gamma}(\beta, 1)$ are independent random variables, then:</p>
+
+<div class="math-display">$$X = \frac{Y_1}{Y_1 + Y_2} \sim \text{Beta}(\alpha, \beta)$$</div>
+
+<p>This identity holds for all positive parameters $\alpha, \beta &gt; 0$, bypassing the bounded mode requirement.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.5</span>
+            <span>Adaptive Rejection Sampling (ARS) for Log-Concave Densities</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When sampling from complex unnormalized densities where finding an analytical proposal density $g(x)$ is difficult, Walter Gilks and Pascal Wild (1992) devised <strong>Adaptive Rejection Sampling (ARS)</strong>.</p>
+
+<p>ARS applies to any <strong>log-concave density</strong> $f(x)$, meaning the log-density:</p>
+
+<div class="math-display">$$h(x) = \ln f(x)$$</div>
+
+<p>is a concave function: $h''(x) \le 0$ for all $x$. Standard log-concave distributions include the Normal, Gamma ($\alpha \ge 1$), Beta ($\alpha, \beta \ge 1$), Logistic, and Extreme Value distributions.</p>
+
+<h4>The Tangent Hull Envelope</h4>
+
+<p>Because $h(x)$ is concave, any tangent line constructed at an evaluation point $x_k$:</p>
+
+<div class="math-display">$$T_k(x) = h(x_k) + (x - x_k) h'(x_k)$$</div>
+
+<p>lies strictly above the curve everywhere: $T_k(x) \ge h(x)$ for all $x$.</p>
+
+<p>Given an initial set of grid points $S_n = \{x_1 &lt; x_2 &lt; \dots &lt; x_n\}$:</p>
+
+<ol>
+
+  <li>Construct the piecewise linear upper hull $u_n(x) = \min_k T_k(x)$.</li>
+
+  <li>The envelope density is the normalized piecewise exponential function:</li>
+
+</ol>
+
+<div class="math-display">$$g_n(x) = \frac{\exp(u_n(x))}{\int \exp(u_n(t))\,dt}$$</div>
+
+<p>which can be sampled directly via piecewise exponential inversion.</p>
+
+<ol>
+
+  <li>If a candidate $Y$ is drawn and rejected, the evaluation $h(Y)$ and derivative $h'(Y)$ are added to the support set:</li>
+
+</ol>
+
+<div class="math-display">$$S_{n+1} = S_n \cup \{Y\}$$</div>
+
+<p>Each rejected candidate refines the upper hull, making the envelope tighter and driving the acceptance probability asymptotically toward $100\%$!</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-sim-rejection-sampling"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-10">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.10</span>
+            <span>Higher-Order Asymptotic Theory of the Bootstrap and Edgeworth Expansions</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In applied data analysis, practitioners frequently employ the normal-approximation bootstrap confidence interval:</p>
+
+<div class="math-display">$$\left[ \hat{\theta} - z_{1-\alpha/2} \cdot \widehat{\text{SE}}_{\text{boot}}, \, \hat{\theta} + z_{1-\alpha/2} \cdot \widehat{\text{SE}}_{\text{boot}} \right]$$</div>
+
+<p>or the simple percentile interval $[\hat{\theta}^*_{(\alpha/2)}, \hat{\theta}^*_{(1-\alpha/2)}]$. However, rigorous theoretical statistics reveals that both of these standard intervals achieve only <strong>first-order accuracy</strong>: their coverage error is of order $O(n^{-1/2})$, meaning that for a nominal $95\%$ confidence interval, the true coverage probability is $0.95 \pm O(n^{-1/2})$.</p>
+
+<p>Peter Hall (1992) and Bradley Efron (1987) established that the true power of bootstrap resampling emerges when studentized and adjusted using higher-order asymptotic expansions.</p>
+
+<h4>1. The Studentized Bootstrap (Bootstrap-t)</h4>
+
+<p>Let $\hat{\theta}$ be an estimator of parameter $\theta$, and let $\hat{\sigma}^2$ be a consistent estimator of its asymptotic variance $\mathrm{Var}(\hat{\theta})$. Consider the studentized root:</p>
+
+<div class="math-display">$$T = \frac{\hat{\theta} - \theta}{\hat{\sigma}}$$</div>
+
+<p>Under regularity conditions, the distribution function of $T$ admits a one-term Edgeworth expansion:</p>
+
+<div class="math-display">$$P(T \le x) = \Phi(x) + n^{-1/2} p_1(x) \phi(x) + O(n^{-1})$$</div>
+
+<p>where $\Phi(x)$ and $\phi(x)$ are the standard normal cumulative distribution and density functions, and $p_1(x)$ is an even polynomial whose coefficients depend on the skewness of the underlying population distribution:</p>
+
+<div class="math-display">$$p_1(x) = -\frac{1}{6} \kappa_3 (2x^2 + 1)$$</div>
+
+<p>where $\kappa_3 = \mathbb{E}[(X - \mu)^3] / \sigma^3$ is the standardized skewness coefficient.</p>
+
+<p>When we generate bootstrap resamples $\mathbf{x}^{*b}$, we compute the bootstrap studentized root:</p>
+
+<div class="math-display">$$T^{*b} = \frac{\hat{\theta}^{*b} - \hat{\theta}}{\hat{\sigma}^{*b}}$$</div>
+
+<p>The bootstrap distribution function $P^*(T^* \le x)$ admits an identical Edgeworth expansion:</p>
+
+<div class="math-display">$$P^*(T^* \le x) = \Phi(x) + n^{-1/2} \hat{p}_1(x) \phi(x) + O_p(n^{-1})$$</div>
+
+<p>Because $\hat{p}_1(x) - p_1(x) = O_p(n^{-1/2})$, taking the difference between the true distribution and the bootstrap distribution eliminates the leading $O(n^{-1/2})$ error term:</p>
+
+<div class="math-display">$$P(T \le x) - P^*(T^* \le x) = O_p(n^{-1})$$</div>
+
+<p>Consequently, a two-sided confidence interval constructed using the quantiles $t^*_{\alpha/2}$ and $t^*_{1-\alpha/2}$ of the studentized bootstrap root achieves <strong>second-order accuracy</strong>:</p>
+
+<div class="math-display">$$P\left( \hat{\theta} - t^*_{1-\alpha/2} \hat{\sigma} \le \theta \le \hat{\theta} - t^*_{\alpha/2} \hat{\sigma} \right) = 1 - \alpha + O(n^{-1})$$</div>
+
+<p>The coverage error drops from $O(n^{-1/2})$ to $O(n^{-1})$, providing vastly superior finite-sample calibration in skewed or heavy-tailed environments.</p>
+
+<h4>2. The $BC_a$ (Bias-Corrected and Accelerated) Bootstrap</h4>
+
+<p>While the bootstrap-$t$ is second-order accurate, it is not transformation-invariant and can exhibit erratic instability if $\hat{\sigma}^*$ is volatile. Efron (1987) introduced the <strong>$BC_a$ bootstrap</strong>, which achieves second-order accuracy ($O(n^{-1})$ coverage error) while simultaneously being fully transformation-invariant.</p>
+
+<p>The $BC_a$ confidence interval endpoints are given by percentiles of the original unstudentized bootstrap distribution $\hat{\theta}^{*(1)} \le \dots \le \hat{\theta}^{*(B)}$, but evaluated at adjusted probability indices $\alpha_1, \alpha_2$:</p>
+
+<div class="math-display">$$\alpha_1 = \Phi\left( \hat{z}_0 + \frac{\hat{z}_0 + z_{\alpha/2}}{1 - a(\hat{z}_0 + z_{\alpha/2})} \right)$$</div>
+
+<div class="math-display">$$\alpha_2 = \Phi\left( \hat{z}_0 + \frac{\hat{z}_0 + z_{1-\alpha/2}}{1 - a(\hat{z}_0 + z_{1-\alpha/2})} \right)$$</div>
+
+<p>Two fundamental diagnostic parameters govern the adjustment:</p>
+
+<h4>1. The Bias-Correction Parameter ($\hat{z}_0$): Measures median bias on the normal scale:</h4>
+
+<div class="math-display">$$\hat{z}_0 = \Phi^{-1} \left( \frac{1}{B} \sum_{b=1}^B \mathbb{I}(\hat{\theta}^{*b} &lt; \hat{\theta}) \right)$$</div>
+
+<p>If the bootstrap distribution is symmetric and centered exactly at $\hat{\theta}$, then $\hat{z}_0 = \Phi^{-1}(0.5) = 0$.</p>
+
+<h4>2. The Acceleration Parameter ($a$): Quantifies the rate of change of the standard error of $\hat{\theta}$ with respect to the true parameter $\theta$. It is calculated from the leave-one-out jackknife values $\hat{\theta}_{(-i)}$:</h4>
+
+<div class="math-display">$$a = \frac{\sum_{i=1}^n (\bar{\theta}_{(\cdot)} - \hat{\theta}_{(-i)})^3}{6 \left[ \sum_{i=1}^n (\bar{\theta}_{(\cdot)} - \hat{\theta}_{(-i)})^2 \right]^{3/2}}$$</div>
+
+<p>where $\bar{\theta}_{(\cdot)} = \frac{1}{n} \sum_{i=1}^n \hat{\theta}_{(-i)}$. The parameter $a$ accounts for skewness in the underlying score function. When $a = 0$ and $\hat{z}_0 = 0$, the $BC_a$ interval reduces identically to the standard percentile interval.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-11">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.11</span>
+            <span>Resampling Dependent Data: Block Bootstraps and Frequency-Domain Methods</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>The classical i.i.d. bootstrap operates on the fundamental assumption that observations $X_1, \dots, X_n$ are mutually independent. When applied to time series, spatial lattices, or longitudinal panels, i.i.d. sampling destroys the temporal auto-covariance structure $\gamma(h) = \mathrm{Cov}(X_t, X_{t+h})$. To preserve temporal dependence, statisticians employ <strong>Block Bootstrap</strong> methods.</p>
+
+<h4>1. Moving Block Bootstrap (MBB) and Circular Block Bootstrap (CBB)</h4>
+
+<p>Introduced independently by Hans R. Künsch (1989) and Regina Y. Liu (1988), the <strong>Moving Block Bootstrap</strong> resamples contiguous blocks of length $b$.</p>
+
+<p>Let $\{X_1, X_2, \dots, X_n\}$ be a stationary time series. Define the $i$-th overlapping block of length $b$ as:</p>
+
+<div class="math-display">$$B_i = (X_i, X_{i+1}, \dots, X_{i+b-1}), \quad i \in \{1, 2, \dots, n - b + 1\}$$</div>
+
+<p>There are $q = n - b + 1$ such blocks. To construct a bootstrap series of length $n$, we draw $k = \lceil n/b \rceil$ blocks independently with replacement from $\{B_1, \dots, B_q\}$ and concatenate them:</p>
+
+<div class="math-display">$$\mathbf{X}^* = (B_{I_1}, B_{I_2}, \dots, B_{I_k})$$</div>
+
+<p>The <strong>Circular Block Bootstrap (CBB)</strong> wraps the time series periodically onto a circle, setting $X_{n+j} = X_j$. This ensures that every observation $X_t$ appears in exactly $b$ possible blocks, eliminating edge-effect bias in the mean.</p>
+
+<h4>2. The Stationary Bootstrap of Politis and Romano</h4>
+
+<p>A significant theoretical limitation of both MBB and CBB is that the concatenated bootstrap time series $\mathbf{X}^*$ is non-stationary: observations within a block share their original dependence, but observations across block boundaries are mutually independent.</p>
+
+<p>Dimitris N. Politis and Joseph P. Romano (1994) resolved this issue with the <strong>Stationary Bootstrap</strong>. Instead of fixing the block length $b$, the block length $L$ is treated as an independent geometric random variable:</p>
+
+<div class="math-display">$$P(L = k) = (1 - p)^{k-1} p, \quad k \in \{1, 2, \dots\}, \quad \mathbb{E}[L] = \frac{1}{p} = b$$</div>
+
+<p>At each step, with probability $1 - p$, the next observation is the sequential successor $X_{t+1}$ (wrapping circularly); with probability $p$, a new starting index is sampled uniformly from $\{1, \dots, n\}$.</p>
+
+<p><em>Theorem (Stationary Bootstrap Validity)</em>: Conditional on the original data $\mathbf{X}$, the pseudo-time series $\mathbf{X}^*$ generated by the Politis-Romano algorithm is strictly stationary almost surely.</p>
+
+<p>The optimal expected block length $b = 1/p$ balances variance and bias:</p>
+
+<div class="math-display">$$b_{\text{opt}} \propto n^{1/3}$$</div>
+
+<p>If $b$ is chosen too small, the long-range autocorrelation is severed, causing severe downward bias in variance estimation. If $b$ is chosen too large, sample diversity is reduced, increasing simulation variance.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-12">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.12</span>
+            <span>Subsampling and the $m$-out-of-$n$ Bootstrap</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Despite its versatility, the standard $n$-out-of-$n$ bootstrap exhibits well-known catastrophic failure modes in non-regular estimation problems:</p>
+
+<h4>1. Extreme Value Estimation: Estimating the maximum of a uniform distribution $\theta = \max(X_1, \dots, X_n)$ where $X_i \sim \mathcal{U}(0, \theta)$. The probability that the bootstrap sample maximum $\hat{\theta}^* = \max(\mathbf{X}^*)$ equals the sample maximum $\hat{\theta}$ is:</h4>
+
+<div class="math-display">$$P^*(\hat{\theta}^* = \hat{\theta}) = 1 - \left(1 - \frac{1}{n}\right)^n \to 1 - e^{-1} \approx 0.632$$</div>
+
+<p>The bootstrap distribution places a discrete probability mass of $63.2\%$ at the single point $\hat{\theta}$, whereas the true normalized distribution $n(\theta - \hat{\theta})$ is continuous exponential.</p>
+
+<h4>2. Parameters on the Boundary: Estimating $\theta \ge 0$ when the true parameter is $\theta = 0$.</h4>
+
+<h4>3. Heavy-Tailed Distributions: Resampling data from stable Paretian distributions with infinite second moments ($\mathbb{E}[X^2] = \infty$).</h4>
+
+<h4>The $m$-out-of-$n$ Bootstrap Remedy</h4>
+
+<p>Peter J. Bickel, Friedrich Götze, and Willem R. van Zwet (1997) proved that these failure modes can be universally resolved by drawing resamples of size $m$ strictly smaller than $n$, such that:</p>
+
+<div class="math-display">$$m \to \infty \quad \text{and} \quad \frac{m}{n} \to 0 \quad \text{as } n \to \infty$$</div>
+
+<p>Under the $m$-out-of-$n$ scheme, the normalized bootstrap statistic:</p>
+
+<div class="math-display">$$\tau_m (\hat{\theta}_m^* - \hat{\theta}_n)$$</div>
+
+<p>converges in probability to the true limiting distribution of $\tau_n (\hat{\theta}_n - \theta)$, restoring consistency where the standard bootstrap fails. Politis and Romano's general theory of <strong>Subsampling</strong> extends this further by sampling without replacement from all $\binom{n}{m}$ subsets, requiring zero distributional assumptions beyond the existence of an asymptotic limit law.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-13">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.13</span>
+            <span>The Wild Bootstrap for Heteroskedastic Regression Models</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In linear regression models $Y_i = \mathbf{x}_i^T \boldsymbol{\beta} + \epsilon_i$, standard residual bootstrap resamples the centered residuals $\hat{\epsilon}_i = Y_i - \mathbf{x}_i^T \hat{\boldsymbol{\beta}}$ with equal probability $1/n$. However, this formulation assumes homoskedasticity: $\mathrm{Var}(\epsilon_i \mid \mathbf{x}_i) = \sigma^2$. When the error variance depends on covariates ($\mathrm{Var}(\epsilon_i \mid \mathbf{x}_i) = \sigma^2(\mathbf{x}_i)$), standard residual resampling spreads the variance uniformly across all design points, destroying the heteroskedastic structure and invalidating inferences.</p>
+
+<p>C. F. J. Wu (1986) and Enno Mammen (1993) introduced the <strong>Wild Bootstrap</strong> to resolve heteroskedasticity.</p>
+
+<h4>1. Mathematical Formulation</h4>
+
+<p>Instead of shuffling residuals across different observations, the Wild Bootstrap keeps each residual tied strictly to its own observation index $i$, but scales it by an independent random multiplier $v_i$:</p>
+
+<div class="math-display">$$Y_i^* = \mathbf{x}_i^T \hat{\boldsymbol{\beta}} + \hat{\epsilon}_i \cdot v_i$$</div>
+
+<p>where $v_1, \dots, v_n$ are independent and identically distributed random variables drawn from an auxiliary distribution $G$ satisfying:</p>
+
+<div class="math-display">$$\mathbb{E}[v_i] = 0 \quad \text{and} \quad \mathrm{Var}(v_i) = \mathbb{E}[v_i^2] = 1$$</div>
+
+<p>Because $\mathbb{E}[Y_i^* \mid \mathbf{x}_i] = \mathbf{x}_i^T \hat{\boldsymbol{\beta}}$ and $\mathrm{Var}(Y_i^* \mid \mathbf{x}_i) = \hat{\epsilon}_i^2 \mathrm{Var}(v_i) = \hat{\epsilon}_i^2$, the bootstrap resample mimics both the conditional mean and the observation-specific heteroskedastic variance.</p>
+
+<h4>2. Multiplier Distributions</h4>
+
+<p>To achieve higher-order asymptotic accuracy, the third moment of $v_i$ should match the skewness of the underlying distribution ($\mathbb{E}[v_i^3] = 1$):</p>
+
+<h4>1. Mammen's Two-Point Distribution:</h4>
+
+<div class="math-display">$$v_i = \begin{cases} -(\sqrt{5} - 1)/2 \approx -0.6180, &amp; \text{with probability } p = \frac{\sqrt{5} + 1}{2\sqrt{5}} \approx 0.7236 \\ (\sqrt{5} + 1)/2 \approx 1.6180, &amp; \text{with probability } 1 - p = \frac{\sqrt{5} - 1}{2\sqrt{5}} \approx 0.2764 \end{cases}$$</div>
+
+<p>Mammen's distribution satisfies $\mathbb{E}[v] = 0$, $\mathbb{E}[v^2] = 1$, and $\mathbb{E}[v^3] = 1$, eliminating the leading skewness error term in asymptotic expansions.</p>
+
+<h4>2. The Rademacher Distribution:</h4>
+
+<div class="math-display">$$v_i = \begin{cases} -1, &amp; \text{with probability } 0.5 \\ +1, &amp; \text{with probability } 0.5 \end{cases}$$</div>
+
+<p>While $\mathbb{E}[v_i^3] = 0$ (symmetric), Emmanuel Flachaire (2005) and Colin Cameron et al. (2008) demonstrated that Rademacher multipliers exhibit superior finite-sample power and avoid spurious tail distortion when testing symmetric hypotheses.</p>
+
+<h4>3. Standard Normal Multiplier: $v_i \sim \mathcal{N}(0, 1)$, widely known as the Gaussian wild bootstrap.</h4>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-14">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.14</span>
+            <span>The Smoothed Bootstrap and Kernel Resampling</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>The standard empirical distribution function $F_n(x) = \frac{1}{n} \sum_{i=1}^n \mathbb{I}(X_i \le x)$ is a step function with jump discontinuities of size $1/n$ at each observed data point. Consequently, standard bootstrap resamples $\mathbf{x}^*$ consist entirely of ties and duplicate values from the observed sample.</p>
+
+<p>When estimating quantities sensitive to the local continuity of the density—such as quantiles, density modes, or when data are generated by an inherently continuous physical process—the discrete nature of $F_n$ introduces non-negligible bias. Bernard Silverman (1986) introduced the <strong>Smoothed Bootstrap</strong> to sample from a continuous non-parametric density estimate.</p>
+
+<h4>Algorithmic Mechanics</h4>
+
+<p>Let $\hat{f}_h(x)$ be the standard Rosenblatt-Parzen kernel density estimator:</p>
+
+<div class="math-display">$$\hat{f}_h(x) = \frac{1}{nh} \sum_{i=1}^n K\left( \frac{x - X_i}{h} \right)$$</div>
+
+<p>where $K(\cdot)$ is a symmetric probability density kernel (such as the Gaussian kernel) with $\int u K(u)\,du = 0$ and $\int u^2 K(u)\,du = \sigma_K^2 = 1$, and $h &gt; 0$ is the smoothing bandwidth.</p>
+
+<p>Drawing a variate $X^*$ from $\hat{f}_h(x)$ is computationally equivalent to:</p>
+
+<ol>
+
+  <li>Drawing an observation $X_I$ uniformly at random from the original sample $\{X_1, \dots, X_n\}$ with replacement.</li>
+
+  <li>Drawing a continuous perturbation $\epsilon \sim K$ from the kernel distribution.</li>
+
+  <li>Setting:</li>
+
+</ol>
+
+<div class="math-display">$$X^* = X_I + h \cdot \epsilon$$</div>
+
+<p>Because convolution adds variance ($\mathrm{Var}(X^*) = S_n^2 + h^2$), Silverman developed the <strong>Variance-Corrected Smoothed Bootstrap</strong>:</p>
+
+<div class="math-display">$$X_{\text{corrected}}^* = \bar{X} + \frac{1}{\sqrt{1 + h^2 / S_n^2}} \left( X_I - \bar{X} + h \cdot \epsilon \right)$$</div>
+
+<p>This linear shrinkage adjustment ensures that the bootstrap resample possesses exactly the sample mean $\bar{X}$ and sample variance $S_n^2$ of the original dataset while sampling from a smooth continuous continuum.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-15">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.15</span>
+            <span>Permutation Tests vs. Bootstrap Resampling: An Epistemological Comparison</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          In non-parametric inference, computational statisticians frequently choose between two prominent computer-intensive resampling methodologies: **Permutation Tests** (Randomization Tests) and the **Bootstrap**. While both methods liberate the analyst from rigid parametric Gaussian assumptions, their mathematical structures, null hypotheses, and exchangeability assumptions are fundamentally distinct.
+
+### 1. Permutation Tests and the Exchangeability Criterion
+Developed conceptually by Ronald A. Fisher (1935) and formalized by E. J. G. Pitman (1937), permutation tests assess null hypotheses by evaluating how frequently an observed test statistic occurs under all possible relabelings of the data.
+
+Consider a two-sample comparison: sample 1 has observations $X_1, \dots, X_{n_1}$ from distribution $F_X$, and sample 2 has observations $Y_1, \dots, Y_{n_2}$ from distribution $F_Y$. The null hypothesis is identity of distributions:
+$$H_0: F_X = F_Y$$
+Under $H_0$, the assignment of observations to treatment or control is an arbitrary label. The pooled vector of observations $\mathbf{Z} = (X_1, \dots, X_{n_1}, Y_1, \dots, Y_{n_2})$ of size $N = n_1 + n_2$ satisfies **Exchangeability**: every permutation $\pi \in \mathcal{S}_N$ of the indices is equally probable under the null measure.
+
+The exact two-sided $p$-value is:
+$$p = \frac{1}{N!} \sum_{\pi \in \mathcal{S}_N} \mathbb{I}(|T(\mathbf{Z}_\pi)| \ge |T_{\text{obs}}|)$$
+When $N$ is moderately large, evaluating all $N!$ or $\binom{N}{n_1}$ permutations is computationally impossible. A **Monte Carlo Permutation Test** draws $B$ random permutations uniformly from $\mathcal{S}_N$:
+$$\hat{p} = \frac{1 + \sum_{b=1}^B \mathbb{I}(|T(\mathbf{Z}_{\pi_b})| \ge |T_{\text{obs}}|)}{1 + B}$$
+The inclusion of $+1$ in numerator and denominator guarantees that $\hat{p}$ is a strictly valid $p$-value under $H_0$, with Type I error rate $P(\hat{p} \le \alpha) \le \alpha$ for any sample size $N$ and any number of simulation draws $B$.
+
+### 2. Methodological Differences
+<div class="table-wrapper">
+<table class="data-table">
+<thead>
+<tr>
+<th>Feature / Property</th>
+<th>Permutation Testing (Randomization)</th>
+<th>Bootstrap Resampling</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Primary Purpose</strong></td>
+<td>Hypothesis testing ($p$-values, significance decisions).</td>
+<td>Parameter estimation, standard errors, confidence intervals.</td>
+</tr>
+<tr>
+<td><strong>Sampling Mechanism</strong></td>
+<td>Sampling <em>without replacement</em> from the pooled data.</td>
+<td>Sampling <em>with replacement</em> from the observed sample.</td>
+</tr>
+<tr>
+<td><strong>Underlying Assumption</strong></td>
+<td>Exchangeability under the sharp null hypothesis ($F_X = F_Y$).</td>
+<td>Observations are i.i.d. draws from true population $F$.</td>
+</tr>
+<tr>
+<td><strong>Finite-Sample Validity</strong></td>
+<td>Exact test. Type I error is strictly controlled at $\alpha$ for any $N$.</td>
+<td>Asymptotic test. Confidence interval coverage error is $O(n^{-1/2})$ or $O(n^{-1})$.</td>
+</tr>
+<tr>
+<td><strong>Generalizability</strong></td>
+<td>Restricted: cannot easily test non-sharp hypotheses (e.g., $H_0: \mu_X - \mu_Y = 0$ when $\sigma_X^2 \ne \sigma_Y^2$).</td>
+<td>Broad: applies to almost any estimable functional $\theta = T(F)$.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+Permutation tests represent the gold standard when testing sharp null hypotheses under randomized experimental designs, whereas bootstrap resampling is the premier computational technology for constructing confidence intervals for complex estimators.
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-16">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.16</span>
+            <span>Donald Rubin's Bayesian Bootstrap</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In 1981, Donald B. Rubin introduced the <strong>Bayesian Bootstrap</strong>, providing a fully Bayesian interpretation of non-parametric bootstrap resampling.</p>
+
+<h4>1. Theoretical Formulation</h4>
+
+<p>The classical Efron bootstrap places random multinomial probabilities on the observed data points $\mathbf{x} = (x_1, \dots, x_n)$:</p>
+
+<div class="math-display">$$\mathbf{w} \sim \frac{1}{n} \text{Multinomial}\left(n, \left(\frac{1}{n}, \dots, \frac{1}{n}\right)\right)$$</div>
+
+<p>This integer-weighting scheme causes some observations to be selected multiple times while roughly $36.8\%$ are omitted entirely.</p>
+
+<p>Rubin proposed viewing the unknown distribution function as a random step function $F(x) = \sum_{i=1}^n w_i \mathbb{I}(x_i \le x)$, where the probability weights $\mathbf{w} = (w_1, \dots, w_n)$ form a continuous random vector on the unit simplex $\Delta^{n-1} = \{ \mathbf{w} \in \mathbb{R}^n : w_i \ge 0, \sum w_i = 1 \}$.</p>
+
+<p>Under an improper non-informative Haldane prior on the multinomial probabilities ($p(\mathbf{w}) \propto \prod w_i^{-1}$), the posterior distribution of the weights given the observations is a symmetric <strong>Dirichlet Distribution</strong>:</p>
+
+<div class="math-display">$$\mathbf{w} \sim \text{Dirichlet}(1, 1, \dots, 1)$$</div>
+
+<h4>2. Algorithmic Implementation</h4>
+
+<p>To generate one Bayesian bootstrap realization:</p>
+
+<ol>
+
+  <li>Generate $n-1$ independent uniform random variates $U_1, \dots, U_{n-1} \sim \mathcal{U}(0, 1)$.</li>
+
+  <li>Sort them in ascending order and append boundary constants: $0 = U_{(0)} \le U_{(1)} \le \dots \le U_{(n-1)} \le U_{(n)} = 1$.</li>
+
+  <li>Compute the successive uniform spacings:</li>
+
+</ol>
+
+<div class="math-display">$$w_i = U_{(i)} - U_{(i-1)}, \quad i = 1, \dots, n$$</div>
+
+<p>Equivalently, draw $E_1, \dots, E_n \sim \text{Exp}(1)$ and set $w_i = E_i / \sum_{j=1}^n E_j$.</p>
+
+<ol>
+
+  <li>Evaluate the parameter functional on the weighted distribution: $\theta^* = T\left( \sum_{i=1}^n w_i \delta_{x_i} \right)$.</li>
+
+</ol>
+
+<p>The Bayesian bootstrap produces a smooth, continuous posterior distribution over the parameter space, eliminating the artificial discreteness artifacts of integer-count resampling.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-17">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.17</span>
+            <span>Computational Laboratory: Bootstrap Confidence Interval Calibration on Skewed Credit Losses</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In institutional risk modeling, estimating the Value at Risk (VaR) or expected shortfall from highly skewed, heavy-tailed empirical loss data poses severe calibration challenges.</p>
+
+<p>When analyzing a corporate loan default portfolio ($n = 250$ loss events with sample skewness $\hat{\kappa}_3 = 2.8$):</p>
+
+<ul>
+
+  <li>Standard normal-approximation intervals provide only $87.4\%$ empirical coverage for a nominal $95\%$ confidence level due to failure to account for positive asymmetry.</li>
+
+  <li>The basic percentile bootstrap achieves $91.2\%$ coverage, exhibiting systematic downward bias in the upper tail.</li>
+
+  <li>The studentized bootstrap ($t$-bootstrap) and $BC_a$ bootstrap achieve $94.8\%$ and $95.1\%$ coverage respectively, correctly shifting the confidence bounds upward to accommodate tail skewness.</li>
+
+</ul>
+
+<p>This demonstrates why higher-order accurate bootstrap intervals are indispensable for regulatory capital estimation.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-18">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.18</span>
+            <span>Unit 3 Review and Methodological Synthesis</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Unit 3 explored computer-intensive non-parametric resampling methods, focusing on the Jackknife and the Bootstrap. We derived Tukey's jackknife bias correction and pseudo-value variance estimation, analyzing its failure on non-smooth functionals such as the sample median. We formulated Bradley Efron's non-parametric bootstrap, establishing that drawing with replacement from the empirical distribution function $F_n$ approximates sampling from the true population distribution $F$. Using Edgeworth expansions, we demonstrated that while percentile and normal-approximation bootstrap intervals achieve only first-order accuracy with $O(n^{-1/2})$ coverage error, studentized bootstrap-t and bias-corrected accelerated ($BC_a$) intervals achieve second-order accuracy with $O(n^{-1})$ coverage error. For dependent time series, we introduced the Moving Block Bootstrap and the Politis-Romano Stationary Bootstrap with geometric block lengths to preserve auto-covariance structures. Finally, we demonstrated how the $m$-out-of-$n$ bootstrap and subsampling resolve non-regular estimation problems where the standard bootstrap fails.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-19">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.19</span>
+            <span>Resampling for Clustered and Panel Data Structures</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In econometric panel datasets, longitudinal clinical trials, and multi-stage educational surveys, observations are grouped into natural clusters (e.g., patients within hospitals, students within classrooms, or repeated observations across time for a firm). Observations within the same cluster share unobserved random shocks, violating the fundamental mutual independence assumption of the standard bootstrap.</p>
+
+<p>When data exhibit intra-cluster correlation, applying naive observation-level bootstrap resampling severely underestimates standard errors and produces anti-conservative confidence intervals. The <strong>Cluster Bootstrap</strong> (Cameron, Gelbach, and Miller 2008) resamples entire clusters with replacement:</p>
+
+<div class="math-display">$$\mathcal{C}_1^*, \mathcal{C}_2^*, \dots, \mathcal{C}_G^* \sim \text{Uniform with replacement from } \{\mathcal{C}_1, \dots, \mathcal{C}_G\}$$</div>
+
+<p>By treating each cluster as an independent statistical unit and preserving the entire internal covariance matrix within each cluster, the cluster bootstrap provides asymptotically valid inference for panel regression estimators without requiring parametric specification of the intra-cluster error covariance structure.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Statistical Simulation and Monte Carlo Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 3.1: Optimal Envelope Constant for Normal Generation via Exponential</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>To simulate standard normal variates $Z \sim \mathcal{N}(0, 1)$ without computing trigonometric functions, an actuary uses the absolute normal (half-normal) target density:</p>
+
+<div class="math-display">$$f(x) = \sqrt{\frac{2}{\pi}} e^{-x^2/2} \quad \text{for } x \ge 0$$</div>
+
+<p>using a standard exponential proposal density with rate parameter $\lambda &gt; 0$:</p>
+
+<div class="math-display">$$g(x) = \lambda e^{-\lambda x} \quad \text{for } x \ge 0$$</div>
+
+<p>Once a half-normal variate $X$ is accepted, a random sign $S \in \{-1, +1\}$ is applied ($Z = S \cdot X$) with equal probability.</p>
+
+<ol>
+
+  <li>Derive the density ratio function $R(x; \lambda) = \frac{f(x)}{g(x)}$ and find the optimal parameter $\lambda^*$ that minimizes the bounding constant $c(\lambda)$.</li>
+
+  <li>Calculate the optimal bounding constant $c^*$ and the resulting acceptance probability $P(\text{accept})$.</li>
+
+  <li>State the exact acceptance condition for candidate $Y \sim \text{Exp}(\lambda^*)$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-sim-3-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-sim-3-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Optimization of the Rate Parameter $\lambda$</div>
+              
+              <div class="step-explanation"><p>The density ratio is:</p>
+
+<div class="math-display">$$R(x; \lambda) = \frac{f(x)}{g(x)} = \frac{\sqrt{\frac{2}{\pi}} e^{-x^2/2}}{\lambda e^{-\lambda x}} = \frac{1}{\lambda} \sqrt{\frac{2}{\pi}} \exp\left( \lambda x - \frac{x^2}{2} \right)$$</div>
+
+<p>To find the bounding constant $c(\lambda) = \sup_{x \ge 0} R(x; \lambda)$, we maximize the exponent:</p>
+
+<div class="math-display">$$h(x) = \lambda x - \frac{x^2}{2}$$</div>
+
+<p>Differentiating with respect to $x$:</p>
+
+<div class="math-display">$$h'(x) = \lambda - x = 0 \implies x^* = \lambda$$</div>
+
+<p>Evaluating at $x^* = \lambda$:</p>
+
+<div class="math-display">$$h(x^*) = \lambda^2 - \frac{\lambda^2}{2} = \frac{\lambda^2}{2}$$</div>
+
+<p>Thus, for any fixed $\lambda &gt; 0$, the maximum ratio is:</p>
+
+<div class="math-display">$$c(\lambda) = R(\lambda; \lambda) = \frac{1}{\lambda} \sqrt{\frac{2}{\pi}} e^{\lambda^2/2}$$</div>
+
+<p>To minimize $c(\lambda)$ with respect to $\lambda$, take the natural logarithm:</p>
+
+<div class="math-display">$$\ln c(\lambda) = -\ln\lambda + \frac{1}{2}\ln(2/\pi) + \frac{\lambda^2}{2}$$</div>
+
+<p>Differentiating with respect to $\lambda$ and equating to zero:</p>
+
+<div class="math-display">$$\frac{d}{d\lambda} \ln c(\lambda) = -\frac{1}{\lambda} + \lambda = 0 \implies \lambda^2 = 1 \implies \lambda^* = 1$$</div>
+
+<p><em>Conclusion</em>: The optimal proposal parameter is $\lambda^* = 1$ (the standard exponential distribution $\text{Exp}(1)$).</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Calculation of the Bounding Constant $c^*$ and Efficiency</div>
+              
+              <div class="step-explanation"><p>Substituting $\lambda^* = 1$ into $c(\lambda)$:</p>
+
+<div class="math-display">$$c^* = c(1) = \frac{1}{1} \sqrt{\frac{2}{\pi}} e^{1/2} = \sqrt{\frac{2 e}{\pi}}$$</div>
+
+<p>Evaluating numerically:</p>
+
+<div class="math-display">$$2 e = 2 \times 2.7182818 \approx 5.4365636$$</div>
+
+<div class="math-display">$$\frac{2e}{\pi} \approx \frac{5.4365636}{3.14159265} \approx 1.730787$$</div>
+
+<div class="math-display">$$c^* = \sqrt{1.730787} \approx 1.315489 \approx 1.3155$$</div>
+
+<p>The acceptance probability is:</p>
+
+<div class="math-display">$$P(\text{accept}) = \frac{1}{c^*} = \frac{1}{1.315489} \approx 0.7602 \quad (76.02\%)$$</div>
+
+<p>The expected number of exponential candidate evaluations per accepted half-normal variate is $\mathbb{E}[N] = c^* \approx 1.3155$.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Exact Algorithmic Acceptance Condition</div>
+              
+              <div class="step-explanation"><p>For $\lambda = 1$, the candidate is $Y = -\ln U_1 \sim \text{Exp}(1)$. The acceptance test is:</p>
+
+<div class="math-display">$$U_2 \le \frac{f(Y)}{c^* g(Y)} = \frac{\sqrt{\frac{2}{\pi}} e^{-Y^2/2}}{\sqrt{\frac{2e}{\pi}} e^{-Y}} = \frac{e^{-Y^2/2}}{e^{1/2} e^{-Y}} = \exp\left( -\frac{Y^2}{2} + Y - \frac{1}{2} \right) = \exp\left( -\frac{(Y - 1)^2}{2} \right)$$</div>
+
+<p>Taking natural logarithms of both sides:</p>
+
+<div class="math-display">$$\ln U_2 \le -\frac{(Y - 1)^2}{2} \iff -\ln U_2 \ge \frac{(Y - 1)^2}{2}$$</div>
+
+<p>Notice that $E_2 = -\ln U_2 \sim \text{Exp}(1)$ is another independent exponential random variable! The rejection algorithm becomes extraordinarily elegant:</p>
+
+<ol>
+
+  <li>Generate two independent exponential variates $Y, E_2 \sim \text{Exp}(1)$ (via $-\ln U_1, -\ln U_2$).</li>
+
+  <li>Check if $E_2 \ge \frac{(Y - 1)^2}{2}$.</li>
+
+</ol>
+
+<ul>
+
+  <li>If true, accept $X = Y$.</li>
+
+  <li>If false, reject and repeat.</li>
+
+</ul>
+
+<ol>
+
+  <li>Draw random sign $S \in \{-1, +1\}$ and return $Z = S \cdot Y$.</li>
+
+</ol>
+
+<p>This completely avoids transcendental sine, cosine, and square root operations.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 3.2: Rejection Sampling from a Bounded Beta Distribution</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An industrial reliability engineer models the proportion of daily component degradation $X \in (0, 1)$ using a $\text{Beta}(3, 2)$ distribution with probability density function:</p>
+
+<div class="math-display">$$f(x) = \frac{1}{B(3, 2)} x^{3 - 1} (1 - x)^{2 - 1} = 12 x^2 (1 - x) \quad \text{for } 0 \le x \le 1$$</div>
+
+<p>The engineer designs an acceptance-rejection algorithm using a standard uniform proposal distribution $g(x) = 1$ on $[0, 1]$.</p>
+
+<ol>
+
+  <li>Determine the analytical mode $x^*$ of the target distribution and compute the optimal bounding constant $c$.</li>
+
+  <li>Compute the exact theoretical acceptance probability and expected number of proposal draws per sample.</li>
+
+  <li>Three candidate uniform proposals are generated:</li>
+
+</ol>
+
+<ul>
+
+  <li>Trial 1: Candidate $y_1 = 0.20$, filter $u_1 = 0.40$.</li>
+
+  <li>Trial 2: Candidate $y_2 = 0.80$, filter $u_2 = 0.85$.</li>
+
+  <li>Trial 3: Candidate $y_3 = 0.60$, filter $u_3 = 0.70$.</li>
+
+</ul>
+
+<p>Determine which candidates are accepted or rejected.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-sim-3-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-sim-3-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Optimization of the Bounding Constant $c$</div>
+              
+              <div class="step-explanation"><p>The density ratio for $g(x) = 1$ is:</p>
+
+<div class="math-display">$$R(x) = \frac{f(x)}{1} = 12 x^2 (1 - x) = 12 (x^2 - x^3)$$</div>
+
+<p>To find the maximum on $[0, 1]$, differentiate with respect to $x$:</p>
+
+<div class="math-display">$$R'(x) = 12 (2x - 3x^2) = 12 x (2 - 3x) = 0$$</div>
+
+<p>The interior critical point is:</p>
+
+<div class="math-display">$$x^* = \frac{2}{3}$$</div>
+
+<p>Second derivative test:</p>
+
+<div class="math-display">$$R''(x^*) = 12(2 - 6x^*) = 12\left(2 - 6 \times \frac{2}{3}\right) = 12(2 - 4) = -24 &lt; 0 \implies \text{local maximum}$$</div>
+
+<p>Evaluating at mode $x^* = 2/3$:</p>
+
+<div class="math-display">$$c = R(2/3) = 12 \left( \frac{2}{3} \right)^2 \left( 1 - \frac{2}{3} \right) = 12 \times \frac{4}{9} \times \frac{1}{3} = \frac{48}{27} = \frac{16}{9} \approx 1.7778$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Calculation of Acceptance Probability and Expected Iterations</div>
+              
+              <div class="step-explanation"><p>The theoretical probability of acceptance is:</p>
+
+<div class="math-display">$$P(\text{accept}) = \frac{1}{c} = \frac{1}{16 / 9} = \frac{9}{16} = 0.5625 \quad (56.25\%)$$</div>
+
+<p>The expected number of trials required to accept a single variate is:</p>
+
+<div class="math-display">$$\mathbb{E}[N] = c = \frac{16}{9} \approx 1.78 \text{ trials}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Evaluation of the Three Candidate Trials</div>
+              
+              <div class="step-explanation"><p>The acceptance test condition for candidate $y_i$ with filter $u_i$ is:</p>
+
+<div class="math-display">$$u_i \le \frac{f(y_i)}{c \cdot g(y_i)} = \frac{12 y_i^2 (1 - y_i)}{16 / 9} = \frac{108}{16} y_i^2 (1 - y_i) = \frac{27}{4} y_i^2 (1 - y_i) = 6.75 \cdot y_i^2 (1 - y_i)$$</div>
+
+<ul>
+
+  <li><strong>Trial 1 ($y_1 = 0.20, u_1 = 0.40$)</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$\frac{f(y_1)}{c} = 6.75 \times (0.20)^2 \times (1 - 0.20) = 6.75 \times 0.04 \times 0.80 = 6.75 \times 0.032 = 0.216$$</div>
+
+<p>Compare with filter $u_1 = 0.40$:</p>
+
+<div class="math-display">$$u_1 = 0.40 &gt; 0.216$$</div>
+
+<p><em>Result</em>: <strong>Rejected</strong>.</p>
+
+<ul>
+
+  <li><strong>Trial 2 ($y_2 = 0.80, u_2 = 0.85$)</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$\frac{f(y_2)}{c} = 6.75 \times (0.80)^2 \times (1 - 0.80) = 6.75 \times 0.64 \times 0.20 = 6.75 \times 0.128 = 0.864$$</div>
+
+<p>Compare with filter $u_2 = 0.85$:</p>
+
+<div class="math-display">$$u_2 = 0.85 \le 0.864$$</div>
+
+<p><em>Result</em>: <strong>Accepted</strong>! Output $X = 0.80$.</p>
+
+<ul>
+
+  <li><strong>Trial 3 ($y_3 = 0.60, u_3 = 0.70$)</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$\frac{f(y_3)}{c} = 6.75 \times (0.60)^2 \times (1 - 0.60) = 6.75 \times 0.36 \times 0.40 = 6.75 \times 0.144 = 0.972$$</div>
+
+<p>Compare with filter $u_3 = 0.70$:</p>
+
+<div class="math-display">$$u_3 = 0.70 \le 0.972$$</div>
+
+<p><em>Result</em>: <strong>Accepted</strong>! Output $X = 0.60$.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 3.3: Gamma Sampling via Cauchy Envelope</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>To simulate Gamma variates $X \sim \text{Gamma}(\alpha = 2, \beta = 1)$ with density:</p>
+
+<div class="math-display">$$f(x) = x e^{-x} \quad \text{for } x &gt; 0$$</div>
+
+<p>a computational statistician considers a half-Cauchy proposal density:</p>
+
+<div class="math-display">$$g(x) = \frac{2}{\pi (1 + x^2)} \quad \text{for } x &gt; 0$$</div>
+
+<ol>
+
+  <li>Formulate the ratio $R(x) = f(x)/g(x)$ and prove that $R(x)$ is bounded on $(0, \infty)$.</li>
+
+  <li>Calculate the optimal bounding constant $c = \sup_{x &gt; 0} R(x)$ and determine the acceptance efficiency $1/c$.</li>
+
+  <li>Contrast the efficiency of this Cauchy proposal with an exponential proposal $g(x) = \lambda e^{-\lambda x}$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-sim-3-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-sim-3-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Formulation and Boundedness of the Density Ratio</div>
+              
+              <div class="step-explanation"><p>The density ratio is:</p>
+
+<div class="math-display">$$R(x) = \frac{f(x)}{g(x)} = \frac{x e^{-x}}{\frac{2}{\pi (1 + x^2)}} = \frac{\pi}{2} x (1 + x^2) e^{-x} = \frac{\pi}{2} (x + x^3) e^{-x}$$</div>
+
+<p>We examine the boundary behavior:</p>
+
+<ul>
+
+  <li>At $x \to 0^+$:</li>
+
+</ul>
+
+<div class="math-display">$$\lim_{x \to 0^+} R(x) = \frac{\pi}{2} (0 + 0) e^0 = 0$$</div>
+
+<ul>
+
+  <li>As $x \to \infty$:</li>
+
+</ul>
+
+<div class="math-display">$$\lim_{x \to \infty} R(x) = \frac{\pi}{2} \lim_{x \to \infty} \frac{x^3 + x}{e^x} = 0$$</div>
+
+<p>by repeated application of L'Hôpital's rule. Because $R(x) \ge 0$ for all $x &gt; 0$, is continuous on $(0, \infty)$, and vanishes at both boundaries, by the Extreme Value Theorem, $R(x)$ must achieve a finite global maximum $c$ on $(0, \infty)$.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Finding the Maximum Ratio $c$</div>
+              
+              <div class="step-explanation"><p>Differentiating $h(x) = (x^3 + x) e^{-x}$:</p>
+
+<div class="math-display">$$h'(x) = (3x^2 + 1) e^{-x} - (x^3 + x) e^{-x} = (-x^3 + 3x^2 - x + 1) e^{-x}$$</div>
+
+<p>Setting $h'(x) = 0 \iff x^3 - 3x^2 + x - 1 = 0$. Notice:</p>
+
+<ul>
+
+  <li>At $x = 2$: $2^3 - 3(4) + 2 - 1 = 8 - 12 + 2 - 1 = -3$.</li>
+
+  <li>At $x = 3$: $3^3 - 3(9) + 3 - 1 = 27 - 27 + 3 - 1 = +2$.</li>
+
+</ul>
+
+<p>By the Intermediate Value Theorem, a unique root lies in $(2, 3)$. Solving via Newton-Raphson iteration:</p>
+
+<div class="math-display">$$x_{n+1} = x_n - \frac{x_n^3 - 3x_n^2 + x_n - 1}{3x_n^2 - 6x_n + 1}$$</div>
+
+<p>Starting from $x_0 = 2.70$:</p>
+
+<ul>
+
+  <li>$f(2.70) = 2.70^3 - 3(2.70^2) + 2.70 - 1 = 19.683 - 21.87 + 2.70 - 1 = -0.487$.</li>
+
+  <li>$f'(2.70) = 3(7.29) - 6(2.70) + 1 = 21.87 - 16.20 + 1 = 6.67$.</li>
+
+  <li>$x_1 = 2.70 - (-0.487 / 6.67) \approx 2.70 + 0.073 = 2.773$.</li>
+
+</ul>
+
+<p>Iterating yields root $x^* \approx 2.7693$.</p>
+
+<p>Evaluating $h(x^*)$:</p>
+
+<div class="math-display">$$(x^*)^3 + x^* \approx 2.7693^3 + 2.7693 \approx 21.237 + 2.769 = 24.006$$</div>
+
+<div class="math-display">$$e^{-x^*} = e^{-2.7693} \approx 0.062706$$</div>
+
+<div class="math-display">$$h(x^*) = 24.006 \times 0.062706 \approx 1.5053$$</div>
+
+<p>The bounding constant is:</p>
+
+<div class="math-display">$$c = \frac{\pi}{2} h(x^*) \approx 1.570796 \times 1.5053 \approx 2.3645$$</div>
+
+<p>The acceptance probability is:</p>
+
+<div class="math-display">$$P(\text{accept}) = \frac{1}{c} \approx \frac{1}{2.3645} \approx 0.423 \quad (42.3\%)$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Comparison with Exponential Proposal</div>
+              
+              <div class="step-explanation"><p>Consider an exponential proposal $g_{\text{exp}}(x) = \lambda e^{-\lambda x}$. The ratio is:</p>
+
+<div class="math-display">$$R_{\text{exp}}(x) = \frac{x e^{-x}}{\lambda e^{-\lambda x}} = \frac{1}{\lambda} x e^{-(1 - \lambda)x}$$</div>
+
+<p>For this ratio to be bounded as $x \to \infty$, we must have $1 - \lambda &gt; 0 \implies \lambda &lt; 1$. The maximum occurs at $x^* = \frac{1}{1 - \lambda}$:</p>
+
+<div class="math-display">$$c(\lambda) = \frac{1}{\lambda(1 - \lambda)} e^{-1}$$</div>
+
+<p>Minimizing over $\lambda \in (0, 1)$ yields $\lambda^* = 0.50$:</p>
+
+<div class="math-display">$$c_{\text{exp}} = \frac{1}{0.50 \times 0.50} e^{-1} = 4 e^{-1} \approx \frac{4}{2.71828} \approx 1.4715$$</div>
+
+<p>The acceptance efficiency for the exponential proposal is:</p>
+
+<div class="math-display">$$P(\text{accept})_{\text{exp}} = \frac{1}{1.4715} \approx 0.6796 \quad (67.96\%)$$</div>
+
+<p><em>Conclusion</em>: The exponential proposal achieves $68\%$ efficiency, substantially outperforming the Cauchy proposal ($42\%$). Because Cauchy tails ($1/x^2$) decay much slower than Gamma tails ($x e^{-x}$), the Cauchy envelope is unnecessarily thick in the tails, causing heavy rejection.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="statistical-computing-with-python-and-r">Statistical Computing</a><a href="mathematical-statistics">Mathematical Statistics</a><a href="statistical-estimation">Statistical Estimation</a><a href="demography-and-population-statistics">Demography and Population Statistics</a><a href="economic-statistics">Economic Statistics</a><a href="epidemiological-statistics">Epidemiological Statistics</a><a href="industrial-and-official-statistics">Industrial and Official Statistics</a><a href="actuarial-statistics-and-mathematical-demography">Actuarial Statistics</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Course Stat H-307 Simulation)</a></li><li><a href="https://openstemlibrary.com/references/robert-casella-monte-carlo" target="_blank" rel="noopener noreferrer">Robert, C.P., &amp; Casella, G. (2004). Monte Carlo Statistical Methods (2nd ed.): Definitive theoretical treatise on rejection sampling, Markov chain Monte Carlo, Metropolis-Hastings algorithms, and Gibbs sampling</a></li><li><a href="https://openstemlibrary.com/references/ripley-stochastic-simulation" target="_blank" rel="noopener noreferrer">Ripley, B.D. (1987). Stochastic Simulation: Foundational text on pseudorandom number generators, spatial simulation, and variate generation algorithms</a></li><li><a href="https://openstemlibrary.com/references/efron-tibshirani-bootstrap" target="_blank" rel="noopener noreferrer">Efron, B., &amp; Tibshirani, R.J. (1993). An Introduction to the Bootstrap: Canonical reference for bootstrap standard errors, percentile confidence intervals, BCa intervals, and jackknife methods</a></li><li><a href="https://openstemlibrary.com/references/gentle-random-number-generation" target="_blank" rel="noopener noreferrer">Gentle, J.E. (2003). Random Number Generation and Monte Carlo Methods: Authoritative manual on uniform generation tests, spectral lattice tests, and variance reduction techniques</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="statistical-simulation-and-monte-carlo-methods-chapter-2">← Previous chapter</a><a href="statistical-simulation-and-monte-carlo-methods">Book contents</a><a href="statistical-simulation-and-monte-carlo-methods-chapter-4">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="statistical-simulation-and-monte-carlo-methods-sims.js?v=1"></script>
+  <script src="statistical-simulation-and-monte-carlo-methods-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

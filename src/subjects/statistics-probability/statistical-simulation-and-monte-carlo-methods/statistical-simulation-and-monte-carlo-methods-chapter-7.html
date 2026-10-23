@@ -1,0 +1,1118 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>The Gibbs Sampler &amp; Bayesian Computational Inference | Statistical Simulation and Monte Carlo Methods | OpenSTEM Library</title>
+  <meta name="description" content="The Gibbs Sampler as a special case of Metropolis-Hastings with acceptance probability identically equal to 1.0; Full conditional posterior distributions pi(theta_i | theta_(-i), y) and componentwise updates; Systematic scan vs random scan Gibbs sampling: transition kernels and convergence properties; Data augmentation and latent variable simulation (Tanner &amp; Wong framework); Gibbs sampling implementation for normal-normal conjugate models and Bayesian multiple linear regression with conjugate priors; Bayesian Probit regression using Albert-Chib latent Gaussian data augmentation; Hierarchical models: random-effects modeling and variance component estimation via Gibbs sampling.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/statistical-simulation-and-monte-carlo-methods-chapter-7">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/statistical-simulation-and-monte-carlo-methods-chapter-7">
+  <meta property="og:title" content="Statistical Simulation and Monte Carlo Methods: Pseudorandom Numbers, Rejection, MCMC &amp; Particle Filtering | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering pseudorandom number generators (LCG, Mersenne Twister, statistical test suites), non-uniform random variate generation (inversion, rejection sampling, Box-Muller, multivariate normal), Monte Carlo integration, variance reduction techniques (antithetic variates, control variates, importance sampling, stratified sampling), Markov Chain Monte Carlo foundations, the Metropolis-Hastings algorithm, Gibbs sampling, slice sampling, Hamiltonian Monte Carlo, convergence diagnostics (Gelman-Rubin R-hat, ESS), and Sequential Monte Carlo (particle filtering) with 24 solved questions and 4 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Statistical Simulation and Monte Carlo Methods: Pseudorandom Numbers, Rejection, MCMC &amp; Particle Filtering | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering pseudorandom number generators (LCG, Mersenne Twister, statistical test suites), non-uniform random variate generation (inversion, rejection sampling, Box-Muller, multivariate normal), Monte Carlo integration, variance reduction techniques (antithetic variates, control variates, importance sampling, stratified sampling), Markov Chain Monte Carlo foundations, the Metropolis-Hastings algorithm, Gibbs sampling, slice sampling, Hamiltonian Monte Carlo, convergence diagnostics (Gelman-Rubin R-hat, ESS), and Sequential Monte Carlo (particle filtering) with 24 solved questions and 4 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="statistical-simulation-and-monte-carlo-methods.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Statistical Simulation and Monte Carlo Methods: The Gibbs Sampler & Bayesian Computational Inference","description":"Comprehensive university textbook covering pseudorandom number generators (LCG, Mersenne Twister, statistical test suites), non-uniform random variate generation (inversion, rejection sampling, Box-Muller, multivariate normal), Monte Carlo integration, variance reduction techniques (antithetic variates, control variates, importance sampling, stratified sampling), Markov Chain Monte Carlo foundations, the Metropolis-Hastings algorithm, Gibbs sampling, slice sampling, Hamiltonian Monte Carlo, convergence diagnostics (Gelman-Rubin R-hat, ESS), and Sequential Monte Carlo (particle filtering) with 24 solved questions and 4 interactive simulations.","url":"https://openstemlibrary.com/statistical-simulation-and-monte-carlo-methods-chapter-7","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Statistical Simulation","Monte Carlo Methods","Pseudorandom Number Generators","Rejection Sampling and Inversion","Importance Sampling and Variance Reduction","Markov Chain Monte Carlo and Metropolis-Hastings","Gibbs Sampling and Hierarchical Bayes","Hamiltonian Monte Carlo and NUTS","Sequential Monte Carlo and Particle Filtering"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Statistical Simulation and Monte Carlo Methods","item":"https://openstemlibrary.com/statistical-simulation-and-monte-carlo-methods"}]}</script></head>
+<body data-book-path="statistical-simulation-and-monte-carlo-methods.html" data-chapter-index="6" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Statistical Simulation and Monte Carlo Methods</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search PRNG, LCG, Mersenne Twister, inversion method, rejection sampling, Box-Muller, Monte Carlo integration, importance sampling, antithetic variates, Metropolis-Hastings, Gibbs sampler, Hamiltonian Monte Carlo, particle filter…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="statistical-simulation-and-monte-carlo-methods" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Uniform Random Number Generation &amp; Pseudorandom Foundations</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="statistical-simulation-and-monte-carlo-methods-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Non-Uniform Random Variate Generation: Inversion &amp; Transformations</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="statistical-simulation-and-monte-carlo-methods-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Rejection Sampling &amp; Envelope Methods</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="statistical-simulation-and-monte-carlo-methods-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Monte Carlo Integration &amp; Precision</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="statistical-simulation-and-monte-carlo-methods-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Variance Reduction Techniques</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="statistical-simulation-and-monte-carlo-methods-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Markov Chain Monte Carlo (MCMC): Metropolis-Hastings Algorithms</span></a></li><li class="unit-nav-item active" data-unit-index="6"><a href="statistical-simulation-and-monte-carlo-methods-chapter-7" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">The Gibbs Sampler &amp; Bayesian Computational Inference</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="statistical-simulation-and-monte-carlo-methods-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Resampling &amp; Permutation Methods: Bootstrap and Jackknife</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Statistical simulation &amp; Monte Carlo methods major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 7 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">The Gibbs Sampler &amp; Bayesian Computational Inference</h1>
+            <p class="unit-desc-lead" id="unit-desc">The Gibbs Sampler as a special case of Metropolis-Hastings with acceptance probability identically equal to 1.0; Full conditional posterior distributions pi(theta_i | theta_(-i), y) and componentwise updates; Systematic scan vs random scan Gibbs sampling: transition kernels and convergence properties; Data augmentation and latent variable simulation (Tanner &amp; Wong framework); Gibbs sampling implementation for normal-normal conjugate models and Bayesian multiple linear regression with conjugate priors; Bayesian Probit regression using Albert-Chib latent Gaussian data augmentation; Hierarchical models: random-effects modeling and variance component estimation via Gibbs sampling.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-307 (Statistical Simulation and Monte Carlo Methods). Eight units and exactly three solved questions per unit. Interactive simulations illustrate linear congruential generators, rejection sampling envelopes, rare-event importance sampling, and Metropolis-Hastings random walks. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-7-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.1</span>
+            <span>Mechanics of the Gibbs Sampler: Systematic and Random Scan</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Let $\mathbf{\theta} = (\theta_1, \theta_2, \dots, \theta_p)^T \in \Theta$ be a parameter vector with joint posterior distribution $\pi(\mathbf{\theta} \mid \mathbf{y})$. Let $\mathbf{\theta}_{-j} = (\theta_1, \dots, \theta_{j-1}, \theta_{j+1}, \dots, \theta_p)^T$ denote the subvector of all parameters excluding $\theta_j$.</p>
+
+<p>The <strong>Full Conditional Distribution</strong> of parameter $\theta_j$ is the conditional distribution of $\theta_j$ given all remaining parameters and the data:</p>
+
+<div class="math-display">$$\pi(\theta_j \mid \mathbf{\theta}_{-j}, \mathbf{y}) = \frac{\pi(\theta_1, \dots, \theta_p \mid \mathbf{y})}{\int \pi(\theta_1, \dots, \theta_j^*, \dots, \theta_p \mid \mathbf{y})\,d\theta_j^*} \propto \pi(\mathbf{\theta} \mid \mathbf{y})$$</div>
+
+<h4>1. The Systematic Scan Gibbs Sampler</h4>
+
+<p>Given an initial state $\mathbf{\theta}^{(0)} = (\theta_1^{(0)}, \dots, \theta_p^{(0)})^T$, iteration $t+1$ executes a deterministic sweep through all $p$ coordinates:</p>
+
+<ol>
+
+  <li>Sample $\theta_1^{(t+1)} \sim \pi(\theta_1 \mid \theta_2^{(t)}, \theta_3^{(t)}, \dots, \theta_p^{(t)}, \mathbf{y})$.</li>
+
+  <li>Sample $\theta_2^{(t+1)} \sim \pi(\theta_2 \mid \theta_1^{(t+1)}, \theta_3^{(t)}, \dots, \theta_p^{(t)}, \mathbf{y})$.</li>
+
+</ol>
+
+<p>$\dots$ $j$. Sample $\theta_j^{(t+1)} \sim \pi(\theta_j \mid \theta_1^{(t+1)}, \dots, \theta_{j-1}^{(t+1)}, \theta_{j+1}^{(t)}, \dots, \theta_p^{(t)}, \mathbf{y})$. $\dots$ $p$. Sample $\theta_p^{(t+1)} \sim \pi(\theta_p \mid \theta_1^{(t+1)}, \dots, \theta_{p-1}^{(t+1)}, \mathbf{y})$.</p>
+
+<p>Notice that as each new parameter $\theta_j^{(t+1)}$ is drawn, it is immediately used in the conditioning sets of all subsequent updates within the same iteration.</p>
+
+<h4>2. The Gibbs Sampler as Metropolis-Hastings with Acceptance $\alpha \equiv 1$</h4>
+
+<p>A profound theoretical insight is that the Gibbs sampler is mathematically equivalent to a multi-stage Metropolis-Hastings algorithm where the acceptance probability is <strong>identically 100%</strong>:</p>
+
+<p><em>Theorem</em>: Consider updating coordinate $j$ using candidate proposal $q(\mathbf{\theta}^* \mid \mathbf{\theta}) = \pi(\theta_j^* \mid \mathbf{\theta}_{-j}, \mathbf{y}) \cdot I(\mathbf{\theta}_{-j}^* = \mathbf{\theta}_{-j})$. The Metropolis-Hastings acceptance ratio is:</p>
+
+<div class="math-display">$$\alpha(\mathbf{\theta}, \mathbf{\theta}^*) = \min\left( 1, \; \frac{\pi(\mathbf{\theta}^* \mid \mathbf{y}) q(\mathbf{\theta} \mid \mathbf{\theta}^*)}{\pi(\mathbf{\theta} \mid \mathbf{y}) q(\mathbf{\theta}^* \mid \mathbf{\theta})} \right)$$</div>
+
+<p>By definition of conditional probability:</p>
+
+<div class="math-display">$$\pi(\mathbf{\theta}^* \mid \mathbf{y}) = \pi(\theta_j^* \mid \mathbf{\theta}_{-j}, \mathbf{y}) \pi(\mathbf{\theta}_{-j} \mid \mathbf{y})$$</div>
+
+<div class="math-display">$$\pi(\mathbf{\theta} \mid \mathbf{y}) = \pi(\theta_j \mid \mathbf{\theta}_{-j}, \mathbf{y}) \pi(\mathbf{\theta}_{-j} \mid \mathbf{y})$$</div>
+
+<p>Substituting into the acceptance ratio:</p>
+
+<div class="math-display">$$\frac{\pi(\mathbf{\theta}^* \mid \mathbf{y}) q(\mathbf{\theta} \mid \mathbf{\theta}^*)}{\pi(\mathbf{\theta} \mid \mathbf{y}) q(\mathbf{\theta}^* \mid \mathbf{\theta})} = \frac{\left[ \pi(\theta_j^* \mid \mathbf{\theta}_{-j}, \mathbf{y}) \pi(\mathbf{\theta}_{-j} \mid \mathbf{y}) \right] \left[ \pi(\theta_j \mid \mathbf{\theta}_{-j}, \mathbf{y}) \right]}{\left[ \pi(\theta_j \mid \mathbf{\theta}_{-j}, \mathbf{y}) \pi(\mathbf{\theta}_{-j} \mid \mathbf{y}) \right] \left[ \pi(\theta_j^* \mid \mathbf{\theta}_{-j}, \mathbf{y}) \right]} \equiv 1$$</div>
+
+<p>Every single candidate draw is accepted with probability $\alpha \equiv 1.0$! Zero proposals are rejected.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.2</span>
+            <span>Data Augmentation and Latent Variable Models</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In many statistical models, the observed data likelihood $p(\mathbf{y} \mid \mathbf{\theta})$ is analytically intractable, but the complete data likelihood $p(\mathbf{y}, \mathbf{z} \mid \mathbf{\theta})$ involving unobserved <strong>latent variables</strong> $\mathbf{z}$ is simple and conjugate. In 1987, Martin Tanner and Wing Hung Wong formulated the <strong>Data Augmentation Framework</strong>.</p>
+
+<h4>The Tanner-Wong Two-Step Iteration</h4>
+
+<h4>1. Imputation Step (I-Step): Sample the missing latent variables from their predictive distribution given current parameters:</h4>
+
+<div class="math-display">$$\mathbf{z}^{(t+1)} \sim p(\mathbf{z} \mid \mathbf{y}, \mathbf{\theta}^{(t)})$$</div>
+
+<h4>2. Posterior Step (P-Step): Sample the parameters from their complete-data posterior distribution given augmented data:</h4>
+
+<div class="math-display">$$\mathbf{\theta}^{(t+1)} \sim p(\mathbf{\theta} \mid \mathbf{y}, \mathbf{z}^{(t+1)})$$</div>
+
+<p>As $t \to \infty$, the marginal sequence $\{\mathbf{\theta}^{(t)}\}$ converges in distribution to the exact observed posterior $\pi(\mathbf{\theta} \mid \mathbf{y})$.</p>
+
+<h4>The Albert-Chib Algorithm for Bayesian Probit Regression</h4>
+
+<p>Consider a binary probit regression model where observed responses $y_i \in \{0, 1\}$ follow:</p>
+
+<div class="math-display">$$P(y_i = 1 \mid \mathbf{x}_i, \mathbf{\beta}) = \Phi(\mathbf{x}_i^T \mathbf{\beta})$$</div>
+
+<p>The likelihood function $\prod_{i=1}^n \Phi(\mathbf{x}_i^T \mathbf{\beta})^{y_i} [1 - \Phi(\mathbf{x}_i^T \mathbf{\beta})]^{1 - y_i}$ is non-conjugate with respect to a Gaussian prior $\mathbf{\beta} \sim \mathcal{N}(\mathbf{\beta}_0, \mathbf{\Sigma}_0)$.</p>
+
+<p>In 1993, James Albert and Siddhartha Chib introduced continuous latent variables $Z_i \sim \mathcal{N}(\mathbf{x}_i^T \mathbf{\beta}, 1)$ such that:</p>
+
+<div class="math-display">$$y_i = \begin{cases} 1 &amp; \text{if } Z_i &gt; 0 \\ 0 &amp; \text{if } Z_i \le 0 \end{cases}$$</div>
+
+<p>Under this formulation, the full conditionals are analytically tractable standard distributions:</p>
+
+<h4>1. Update Latent Variables: For each $i = 1, \dots, n$:</h4>
+
+<ul>
+
+  <li>If $y_i = 1$, sample $Z_i \sim \mathcal{N}(\mathbf{x}_i^T \mathbf{\beta}, 1)$ truncated to the positive interval $(0, \infty)$.</li>
+
+  <li>If $y_i = 0$, sample $Z_i \sim \mathcal{N}(\mathbf{x}_i^T \mathbf{\beta}, 1)$ truncated to the negative interval $(-\infty, 0]$.</li>
+
+</ul>
+
+<h4>2. Update Regression Coefficients: Conditional on continuous vector $\mathbf{Z} = (Z_1, \dots, Z_n)^T$, the model is standard linear regression $\mathbf{Z} = \mathbf{X}\mathbf{\beta} + \mathbf{\epsilon}$ with $\mathbf{\epsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$. With prior $\mathbf{\beta} \sim \mathcal{N}(\mathbf{\beta}_0, \mathbf{\Sigma}_0)$:</h4>
+
+<div class="math-display">$$\mathbf{\beta} \mid \mathbf{Z}, \mathbf{y} \sim \mathcal{N}\left( (\mathbf{\Sigma}_0^{-1} + \mathbf{X}^T\mathbf{X})^{-1} (\mathbf{\Sigma}_0^{-1}\mathbf{\beta}_0 + \mathbf{X}^T\mathbf{Z}), \; (\mathbf{\Sigma}_0^{-1} + \mathbf{X}^T\mathbf{X})^{-1} \right)$$</div>
+
+<p>The Albert-Chib sampler transforms non-linear categorical inference into linear Gaussian updates.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.3</span>
+            <span>Gibbs Sampling for Bayesian Multiple Linear Regression</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Consider the classical multiple linear regression model:</p>
+
+<div class="math-display">$$\mathbf{y} = \mathbf{X}\mathbf{\beta} + \mathbf{\epsilon}, \quad \mathbf{\epsilon} \sim \mathcal{N}_n(\mathbf{0}, \sigma^2 \mathbf{I}_n)$$</div>
+
+<p>where $\mathbf{y} \in \mathbb{R}^n$ is the response vector, $\mathbf{X} \in \mathbb{R}^{n \times p}$ is the design matrix, $\mathbf{\beta} \in \mathbb{R}^p$ is the regression coefficient vector, and $\sigma^2 &gt; 0$ is the residual variance.</p>
+
+<p>We place independent semi-conjugate priors on $\mathbf{\beta}$ and $\sigma^2$:</p>
+
+<ul>
+
+  <li>$\mathbf{\beta} \sim \mathcal{N}_p(\mathbf{\beta}_0, \mathbf{\Sigma}_0)$ (Gaussian prior).</li>
+
+  <li>$\sigma^2 \sim \text{Inverse-Gamma}(a_0, b_0)$ with density $p(\sigma^2) \propto (\sigma^2)^{-(a_0 + 1)} \exp(-b_0 / \sigma^2)$.</li>
+
+</ul>
+
+<h4>The Full Conditional Posterior Distributions</h4>
+
+<h4>1. Full Conditional of $\mathbf{\beta}$ given $\sigma^2$ and $\mathbf{y}$:</h4>
+
+<div class="math-display">$$\mathbf{\beta} \mid \sigma^2, \mathbf{y} \sim \mathcal{N}_p(\mathbf{\beta}_n, \mathbf{\Sigma}_n)$$</div>
+
+<p>where:</p>
+
+<div class="math-display">$$\mathbf{\Sigma}_n = \left( \mathbf{\Sigma}_0^{-1} + \frac{1}{\sigma^2} \mathbf{X}^T \mathbf{X} \right)^{-1}$$</div>
+
+<div class="math-display">$$\mathbf{\beta}_n = \mathbf{\Sigma}_n \left( \mathbf{\Sigma}_0^{-1} \mathbf{\beta}_0 + \frac{1}{\sigma^2} \mathbf{X}^T \mathbf{y} \right)$$</div>
+
+<h4>2. Full Conditional of $\sigma^2$ given $\mathbf{\beta}$ and $\mathbf{y}$:</h4>
+
+<div class="math-display">$$\sigma^2 \mid \mathbf{\beta}, \mathbf{y} \sim \text{Inverse-Gamma}(a_n, b_n)$$</div>
+
+<p>where:</p>
+
+<div class="math-display">$$a_n = a_0 + \frac{n}{2}$$</div>
+
+<div class="math-display">$$b_n = b_0 + \frac{1}{2} (\mathbf{y} - \mathbf{X}\mathbf{\beta})^T (\mathbf{y} - \mathbf{X}\mathbf{\beta}) = b_0 + \frac{1}{2} \sum_{i=1}^n (y_i - \mathbf{x}_i^T\mathbf{\beta})^2$$</div>
+
+<p>The Gibbs sampler alternates between drawing $\mathbf{\beta}^{(t+1)} \sim \mathcal{N}_p(\mathbf{\beta}_n, \mathbf{\Sigma}_n)$ using Cholesky factorization and drawing $\sigma^{2(t+1)} \sim \text{Inverse-Gamma}(a_n, b_n)$ via inverted Gamma sampling.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-9">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.9</span>
+            <span>Hamiltonian Monte Carlo (HMC) and Symplectic Integration</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In high-dimensional parameter spaces ($d \ge 50$), Random Walk Metropolis and Gibbs sampling suffer from diffusive behavior: the distance traveled scales only as $\sqrt{n}$. To escape diffusion, Radford Neal (2011) adapted physical mechanics into <strong>Hamiltonian Monte Carlo (HMC)</strong>, originally introduced by Simon Duane, Anthony Kennedy, Brian Pendleton, and Duncan Roweth in 1987.</p>
+
+<p>HMC translates Bayesian posterior sampling into the physical simulation of a particle sliding frictionless over a multi-dimensional energy potential.</p>
+
+<h4>1. The Hamiltonian Dynamical System</h4>
+
+<p>Let $\mathbf{q} \in \mathbb{R}^d$ represent the position vector (the parameters of interest), with potential energy equal to the negative unnormalized log-posterior:</p>
+
+<div class="math-display">$$U(\mathbf{q}) = -\log \pi(\mathbf{q})$$</div>
+
+<p>We introduce fictitious auxiliary momentum variables $\mathbf{p} \in \mathbb{R}^d$, typically drawn from a multivariate Gaussian distribution $\mathbf{p} \sim \mathcal{N}(\mathbf{0}, \mathbf{M})$, where $\mathbf{M}$ is a symmetric positive-definite mass matrix. The kinetic energy is:</p>
+
+<div class="math-display">$$K(\mathbf{p}) = \frac{1}{2} \mathbf{p}^T \mathbf{M}^{-1} \mathbf{p}$$</div>
+
+<p>The total energy of the physical system is the <strong>Hamiltonian</strong>:</p>
+
+<div class="math-display">$$H(\mathbf{q}, \mathbf{p}) = U(\mathbf{q}) + K(\mathbf{p}) = -\log \pi(\mathbf{q}) + \frac{1}{2} \mathbf{p}^T \mathbf{M}^{-1} \mathbf{p}$$</div>
+
+<p>The time evolution of the system follows <strong>Hamilton's equations of motion</strong>:</p>
+
+<div class="math-display">$$\frac{d\mathbf{q}}{dt} = \frac{\partial H}{\partial \mathbf{p}} = \mathbf{M}^{-1} \mathbf{p}$$</div>
+
+<div class="math-display">$$\frac{d\mathbf{p}}{dt} = -\frac{\partial H}{\partial \mathbf{q}} = -\nabla U(\mathbf{q}) = \nabla \log \pi(\mathbf{q})$$</div>
+
+<p>Three fundamental physical properties guarantee the validity of HMC:</p>
+
+<h4>1. Conservation of Energy: $\frac{dH}{dt} = \sum_i \left( \frac{\partial H}{\partial q_i} \frac{dq_i}{dt} + \frac{\partial H}{\partial p_i} \frac{dp_i}{dt} \right) = \sum_i \left( \frac{\partial H}{\partial q_i} \frac{\partial H}{\partial p_i} - \frac{\partial H}{\partial p_i} \frac{\partial H}{\partial q_i} \right) = 0$.</h4>
+
+<h4>2. Reversibility: Negating the momentum $\mathbf{p} \to -\mathbf{p}$ reverses the trajectory precisely.</h4>
+
+<h4>3. Volume Preservation (Liouville's Theorem): The phase space flow $(\mathbf{q}(0), \mathbf{p}(0)) \mapsto (\mathbf{q}(t), \mathbf{p}(t))$ has a Jacobian determinant identically equal to $1.0$, meaning phase space volume is strictly conserved: $|\det(J)| = 1$.</h4>
+
+<h4>2. The Symplectic Leapfrog Integrator</h4>
+
+<p>Because continuous differential equations cannot be solved analytically for arbitrary posteriors, HMC discretizes time into steps of size $\epsilon$ using the <strong>Leapfrog Integrator</strong>:</p>
+
+<div class="math-display">$$\mathbf{p}\left(t + \frac{\epsilon}{2}\right) = \mathbf{p}(t) - \frac{\epsilon}{2} \nabla U(\mathbf{q}(t))$$</div>
+
+<div class="math-display">$$\mathbf{q}(t + \epsilon) = \mathbf{q}(t) + \epsilon \mathbf{M}^{-1} \mathbf{p}\left(t + \frac{\epsilon}{2}\right)$$</div>
+
+<div class="math-display">$$\mathbf{p}(t + \epsilon) = \mathbf{p}\left(t + \frac{\epsilon}{2}\right) - \frac{\epsilon}{2} \nabla U(\mathbf{q}(t + \epsilon))$$</div>
+
+<p>Unlike naive Euler integration (which spirals away due to numerical energy drift), the leapfrog integrator is <strong>symplectic</strong>: it exactly preserves an approximate "shadow Hamiltonian" $\tilde{H} = H + O(\epsilon^2)$.</p>
+
+<p>After $L$ leapfrog steps from $(\mathbf{q}, \mathbf{p})$ to proposed state $(\mathbf{q}^*, \mathbf{p}^*)$, the Metropolis acceptance probability is:</p>
+
+<div class="math-display">$$\alpha = \min\left( 1, \exp\left( -H(\mathbf{q}^*, \mathbf{p}^*) + H(\mathbf{q}, \mathbf{p}) \right) \right) = \min\left( 1, \exp(-\Delta H) \right)$$</div>
+
+<p>Because $\Delta H = O(\epsilon^2)$ is purely due to discretization error, $\alpha$ remains close to $1.0$ (typically tuned to $65\% - 80\%$) even across vast distances in hundreds of dimensions.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-10">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.10</span>
+            <span>The No-U-Turn Sampler (NUTS) and Autonomous Tuning</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>While HMC overcomes random walk diffusion, its performance is sensitive to two hyperparameters: the step size $\epsilon$ and the trajectory length $L$. If $L$ is too small, the algorithm degenerates into random walk exploration. If $L$ is too large, the simulated particle loops back along its orbital trajectory, wasting expensive gradient evaluations.</p>
+
+<p>Matthew D. Hoffman and Andrew Gelman (2014) introduced the <strong>No-U-Turn Sampler (NUTS)</strong> to automate trajectory termination.</p>
+
+<h4>1. The U-Turn Criterion</h4>
+
+<p>The trajectory should be terminated the instant the particle begins folding back on itself, meaning the Euclidean distance between the current position $\mathbf{q}$ and the initial position $\mathbf{q}_0$ stops increasing:</p>
+
+<div class="math-display">$$\frac{d}{dt} \frac{1}{2} \|\mathbf{q} - \mathbf{q}_0\|_2^2 &lt; 0 \iff (\mathbf{q} - \mathbf{q}_0)^T \frac{d\mathbf{q}}{dt} &lt; 0 \iff (\mathbf{q} - \mathbf{q}_0)^T \mathbf{p} &lt; 0$$</div>
+
+<h4>2. Recursive Binary Tree Building</h4>
+
+<p>To preserve exact time-reversibility and detailed balance, NUTS builds a balanced binary tree by simulating leapfrog steps forward and backward in time with equal probability. If the sub-trajectories in either direction satisfy the U-turn condition:</p>
+
+<div class="math-display">$$(\mathbf{q}^+ - \mathbf{q}^-)^T \mathbf{p}^+ &lt; 0 \quad \text{or} \quad (\mathbf{q}^+ - \mathbf{q}^-)^T \mathbf{p}^- &lt; 0$$</div>
+
+<p>where $\mathbf{q}^+$ and $\mathbf{q}^-$ are the leftmost and rightmost endpoints of the tree, trajectory expansion halts. A point is then sampled from the tree trajectory using progressive multinomial sampling.</p>
+
+<h4>3. Dual Averaging Step Size Adaptation</h4>
+
+<p>NUTS tunes step size $\epsilon$ during warmup using Yurii Nesterov's primal-dual subgradient method (<strong>Dual Averaging</strong>). The step size is adjusted at each iteration to match a target acceptance rate $\delta_{\text{target}}$ (typically $0.80$ in Stan and PyMC):</p>
+
+<div class="math-display">$$\bar{w}_{t+1} = \left( 1 - \frac{1}{t + t_0} \right) \bar{w}_t + \frac{1}{t + t_0} (\delta_{\text{target}} - \alpha_t)$$</div>
+
+<div class="math-display">$$\log \epsilon_{t+1} = \mu - \frac{\sqrt{t}}{\gamma} \bar{w}_{t+1}$$</div>
+
+<p>This automated adaptation eliminates manual tuning, making NUTS the core computational engine of modern probabilistic programming.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-11">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.11</span>
+            <span>Slice Sampling</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Introduced by Radford M. Neal (2003), <strong>Slice Sampling</strong> provides an auxiliary variable MCMC method that samples from continuous distributions without requiring explicit proposal distribution tuning.</p>
+
+<h4>1. Univariate Slice Sampling</h4>
+
+<p>Let $f(x) \propto h(x)$ be an unnormalized target density. Introduce an auxiliary vertical variable $y \in \mathbb{R}$:</p>
+
+<div class="math-display">$$p(x, y) = \begin{cases} 1, &amp; 0 \le y \le h(x) \\ 0, &amp; \text{otherwise} \end{cases}$$</div>
+
+<p>The marginal distribution of $x$ is:</p>
+
+<div class="math-display">$$\int_0^{h(x)} 1\,dy = h(x) \propto f(x)$$</div>
+
+<p>Univariate slice sampling alternates between two steps:</p>
+
+<h4>1. Vertical Slice Draw: Given current state $x_0$, draw $y \sim \mathcal{U}(0, h(x_0))$. This defines a horizontal slice through the density:</h4>
+
+<div class="math-display">$$S = \{ x \in \mathbb{R} : h(x) \ge y \}$$</div>
+
+<h4>2. Horizontal Coordinate Draw: Sample a new position $x_1$ uniformly from the horizontal slice set $S$.</h4>
+
+<h4>2. Stepping-Out and Shrinkage Procedures</h4>
+
+<p>Because the exact boundaries of the slice $S$ cannot be determined analytically for general densities, Neal developed the <strong>stepping-out</strong> and <strong>shrinkage</strong> algorithms:</p>
+
+<h4>1. Stepping-Out: An initial interval $[L, R]$ of width $w$ is positioned randomly around $x_0$: $L = x_0 - U \cdot w$ and $R = L + w$ with $U \sim \mathcal{U}(0, 1)$. The interval is expanded outward in steps of size $w$ until both ends fall outside the slice ($h(L) &lt; y$ and $h(R) &lt; y$).</h4>
+
+<h4>2. Shrinkage: A candidate point $x^*$ is proposed uniformly from $[L, R]$. If $h(x^*) \ge y$, $x^*$ is accepted. If $h(x^*) &lt; y$, the candidate falls outside the slice; the interval $[L, R]$ is shrunk directly to $x^*$ (setting $L = x^*$ if $x^* &lt; x_0$, or $R = x^*$ if $x^* &gt; x_0$), and a new proposal is drawn from the narrowed interval.</h4>
+
+<p>Because rejected points immediately shrink the candidate interval, slice sampling adapts automatically to local curvature: the step size expands rapidly in flat plateaus and contracts automatically in steep ravines, achieving near-$100\%$ efficiency without tuning parameters.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-12">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.12</span>
+            <span>Variational Inference vs. Markov Chain Monte Carlo</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          In modern computational statistics and machine learning, Bayesian posterior approximation is divided into two competing paradigms: **Markov Chain Monte Carlo (MCMC)** and **Variational Inference (VI)**. While MCMC approaches posterior estimation via stochastic simulation, VI recasts posterior inference as a deterministic optimization problem.
+
+### 1. The Evidence Lower Bound (ELBO)
+Let $\mathbf{x}$ be observed data and $\mathbf{z}$ be latent variables or model parameters with joint density $p(\mathbf{x}, \mathbf{z}) = p(\mathbf{x} \mid \mathbf{z}) p(\mathbf{z})$. We specify a family of tractable approximate distributions $\mathcal{Q} = \{ q_\phi(\mathbf{z}) \}$ and search for the variational parameters $\phi^*$ that minimize the Kullback-Leibler (KL) divergence to the exact posterior:
+
+$$\phi^* = \arg\min_\phi \mathcal{D}_{\text{KL}}(q_\phi(\mathbf{z}) \parallel p(\mathbf{z} \mid \mathbf{x})) = \arg\min_\phi \int q_\phi(\mathbf{z}) \log \left( \frac{q_\phi(\mathbf{z})}{p(\mathbf{z} \mid \mathbf{x})} \right) d\mathbf{z}$$
+
+Because the posterior $p(\mathbf{z} \mid \mathbf{x}) = p(\mathbf{x}, \mathbf{z}) / p(\mathbf{x})$ contains the intractable evidence $p(\mathbf{x})$, the KL divergence cannot be minimized directly. However, decomposing the marginal log-likelihood reveals:
+
+$$\log p(\mathbf{x}) = \int q_\phi(\mathbf{z}) \log p(\mathbf{x})\,d\mathbf{z} = \int q_\phi(\mathbf{z}) \log \left( \frac{p(\mathbf{x}, \mathbf{z})}{q_\phi(\mathbf{z})} \cdot \frac{q_\phi(\mathbf{z})}{p(\mathbf{z} \mid \mathbf{x})} \right) d\mathbf{z}$$
+$$\log p(\mathbf{x}) = \underbrace{\mathbb{E}_{q_\phi}\left[ \log \frac{p(\mathbf{x}, \mathbf{z})}{q_\phi(\mathbf{z})} \right]}_{\text{ELBO}(\phi)} + \underbrace{\mathcal{D}_{\text{KL}}(q_\phi(\mathbf{z}) \parallel p(\mathbf{z} \mid \mathbf{x}))}_{\ge 0}$$
+
+Because the KL divergence is strictly non-negative, the **Evidence Lower Bound (ELBO)** forms a rigorous lower bound on the marginal likelihood:
+$$\log p(\mathbf{x}) \ge \text{ELBO}(\phi) = \mathbb{E}_{q_\phi}[\log p(\mathbf{x}, \mathbf{z})] - \mathbb{E}_{q_\phi}[\log q_\phi(\mathbf{z})]$$
+Maximizing $\text{ELBO}(\phi)$ with respect to $\phi$ is mathematically identical to minimizing $\mathcal{D}_{\text{KL}}(q_\phi \parallel p(\cdot \mid \mathbf{x}))$.
+
+### 2. Methodological Trade-Off Comparison
+<div class="table-wrapper">
+<table class="data-table">
+<thead>
+<tr>
+<th>Dimension / Property</th>
+<th>Markov Chain Monte Carlo (MCMC / HMC)</th>
+<th>Variational Inference (VI / CAVI / SVI)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Asymptotic Guarantee</strong></td>
+<td>Exact in the limit ($n \to \infty$ simulation draws). Guarantees consistent posterior estimation.</td>
+<td>Inherently biased. Confined to the variational family $\mathcal{Q}$ even with infinite computation.</td>
+</tr>
+<tr>
+<td><strong>Computational Speed</strong></td>
+<td>Slow to moderate. Requires serial evaluation of thousands of sequential proposal steps.</td>
+<td>Fast. Leverages numerical optimization (gradient ascent, SGD) to converge in seconds.</td>
+</tr>
+<tr>
+<td><strong>Scalability to Big Data</strong></td>
+<td>Difficult. Standard MCMC requires evaluating the likelihood over all $N$ data points at each step.</td>
+<td>Seamless. Stochastic Variational Inference (SVI) evaluates mini-batches using Robbins-Monro updates.</td>
+</tr>
+<tr>
+<td><strong>Uncertainty / Variance</strong></td>
+<td>Captures full non-Gaussian geometry, multimodality, skewness, and exact parameter correlations.</td>
+<td>Underestimates posterior variance; mean-field factorization assumes independence, suppressing covariances.</td>
+</tr>
+<tr>
+<td><strong>Diagnostic Verification</strong></td>
+<td>Rigorous diagnostics ($\hat{R} \le 1.01$, ESS, trace plots, divergence flags).</td>
+<td>Difficult to assess error without comparing against an expensive MCMC gold standard.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+In modern workflows, VI is routinely deployed for rapid exploratory data analysis, initial hyperparameter screening, and initializing MCMC warmup trajectories, while Hamiltonian Monte Carlo is employed for final regulatory and scientific hypothesis reporting.
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-13">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.13</span>
+            <span>Coupling from the Past (CFTP) and Perfect Simulation</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In standard MCMC simulation, the practitioner faces an insurmountable theoretical obstacle: the Markov chain only converges to the stationary distribution $\pi$ asymptotically as $n \to \infty$. In any finite simulation of $N$ steps, the distribution of state $X_N$ is only approximately equal to $\pi$, and determining the exact warmup time required to render the remaining bias negligible is notoriously difficult.</p>
+
+<p>James G. Propp and David B. Wilson (1996) shocked the probability community by inventing <strong>Coupling from the Past (CFTP)</strong>, an algorithm that generates <strong>exact, unbiased, perfect draws</strong> from the stationary distribution $\pi$ of a Markov chain in finite computational time.</p>
+
+<h4>1. Monotonicity and the Coalescence Criterion</h4>
+
+<p>Consider a discrete or continuous state space $\mathcal{X}$ equipped with a partial order $\preceq$, with unique minimum element $\hat{0}$ and maximum element $\hat{1}$ (such as the Ising model of ferromagnetic spins on a lattice).</p>
+
+<p>Suppose the Markov transition update can be represented by a deterministic update function $\phi: \mathcal{X} \times \mathcal{U} \to \mathcal{X}$ driven by independent uniform random numbers $U_t \sim \mathcal{U}$:</p>
+
+<div class="math-display">$$X_{t+1} = \phi(X_t, U_t)$$</div>
+
+<p>The update function is said to be <strong>monotone</strong> if:</p>
+
+<div class="math-display">$$x \preceq y \implies \phi(x, u) \preceq \phi(y, u) \quad \forall u \in \mathcal{U}$$</div>
+
+<h4>2. Why Running Forward Fails vs. Coupling From the Past</h4>
+
+<p>If one starts two Markov chains at time $t = 0$ from different states and runs them forward until they meet (coalesce) at time $T$, the distribution at coalescence time $T$ is <strong>biased</strong>: stopping at the random time $T$ selects for trajectories that coalesce rapidly, violating stationarity.</p>
+
+<p>Propp and Wilson realized that the coalescence must occur at fixed time $t = 0$ by starting chains in the infinite past:</p>
+
+<ol>
+
+  <li>Fix observation time $t = 0$.</li>
+
+  <li>Choose a starting time in the past $T_1 = -1$.</li>
+
+  <li>Run chains starting from <strong>all possible states</strong> $x \in \mathcal{X}$ from time $T_1$ up to $t = 0$, using the random sequence $(U_{-1})$.</li>
+
+  <li>If all trajectories coalesce into a single state at $t = 0$, output that common state $X_0$.</li>
+
+  <li>If trajectories have not coalesced, double the starting horizon: $T_2 = -2, -4, -8, \dots, -2^k$.</li>
+
+  <li><strong>Crucial Coupling Principle</strong>: When restarting from $T_{k+1} = -2^{k+1}$, one <strong>must reuse the exact same random numbers</strong> $U_t$ that were used previously for $t \in [-2^k, 0)$. Only new random numbers are drawn for the extended interval $[-2^{k+1}, -2^k)$.</li>
+
+</ol>
+
+<p><em>The Sandwiching Property</em>: Thanks to monotonicity, one does not need to simulate trajectories from all $2^N$ possible states: one only simulates the two extreme chains starting from $\hat{0}$ and $\hat{1}$. If the top chain and bottom chain coalesce by time $t = 0$:</p>
+
+<div class="math-display">$$X_0^{\hat{0}} = X_0^{\hat{1}} = X_0$$</div>
+
+<p>then every intermediate chain is squeezed between them and must also have coalesced to $X_0$.</p>
+
+<p><em>Theorem (Propp-Wilson)</em>: The coalesced state $X_0$ is distributed <strong>exactly according to the stationary measure $\pi$</strong>, with zero burn-in bias and zero approximation error.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-14">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.14</span>
+            <span>Stochastic Gradient Langevin Dynamics (SGLD)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When fitting Bayesian models to massive datasets containing $N = 10^7$ or $10^8$ observations, standard Hamiltonian Monte Carlo and Metropolis algorithms become computationally prohibitive: computing the gradient of the log-posterior requires evaluating $N$ terms at every leapfrog step:</p>
+
+<div class="math-display">$$\nabla \log \pi(\boldsymbol{\theta} \mid \mathbf{X}) = \nabla \log p(\boldsymbol{\theta}) + \sum_{i=1}^N \nabla \log p(\mathbf{x}_i \mid \boldsymbol{\theta})$$</div>
+
+<p>Max Welling and Yee Whye Teh (2011) formulated <strong>Stochastic Gradient Langevin Dynamics (SGLD)</strong>, integrating stochastic gradient descent with continuous Langevin diffusion to enable scalable Bayesian MCMC on big data.</p>
+
+<h4>1. Mini-Batch Gradient Approximations</h4>
+
+<p>At step $t$, SGLD computes an unbiased stochastic estimate of the log-likelihood gradient using a small random mini-batch $S_t \subset \{1, \dots, N\}$ of size $n \ll N$ (e.g., $n = 256$):</p>
+
+<div class="math-display">$$\mathbf{g}_t(\boldsymbol{\theta}_t) = \nabla \log p(\boldsymbol{\theta}_t) + \frac{N}{n} \sum_{i \in S_t} \nabla \log p(\mathbf{x}_i \mid \boldsymbol{\theta}_t)$$</div>
+
+<p>The parameter vector updates according to:</p>
+
+<div class="math-display">$$\boldsymbol{\theta}_{t+1} = \boldsymbol{\theta}_t + \frac{\epsilon_t}{2} \mathbf{g}_t(\boldsymbol{\theta}_t) + \boldsymbol{\eta}_t, \quad \boldsymbol{\eta}_t \sim \mathcal{N}(\mathbf{0}, \epsilon_t \mathbf{I})$$</div>
+
+<p>where $\epsilon_t$ is a decaying learning rate schedule satisfying the Robbins-Monro conditions:</p>
+
+<div class="math-display">$$\sum_{t=1}^\infty \epsilon_t = \infty \quad \text{and} \quad \sum_{t=1}^\infty \epsilon_t^2 &lt; \infty$$</div>
+
+<h4>2. Transition from Optimization to Posterior Sampling</h4>
+
+<p>In the early iterations where $\epsilon_t$ is large, the gradient drift term $\frac{\epsilon_t}{2} \mathbf{g}_t$ dominates the injected Gaussian noise $\sqrt{\epsilon_t}$, causing the algorithm to act like mini-batch SGD and rapidly descend toward high-density posterior modes.</p>
+
+<p>As $t \to \infty$ and $\epsilon_t \to 0$, the mini-batch sampling noise (which scales as $\epsilon_t^2$) decays much faster than the injected thermal noise $\sqrt{\epsilon_t}$. The injected noise dominates the sub-sampling error, causing the discrete trajectory to converge weakly to the continuous Langevin diffusion whose stationary distribution is the true Bayesian posterior. SGLD eliminates the costly $O(N)$ Metropolis accept-reject step entirely, enabling Bayesian inference on big data streams.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-15">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.15</span>
+            <span>Computational Laboratory: Gibbs Sampling vs. Variational Bayes in Topic Modeling</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Latent Dirichlet Allocation (LDA) models the semantic composition of text corpora by assigning words to latent topics. Fitting an LDA model with $K = 50$ topics to a corpus of 100,000 documents:</p>
+
+<ul>
+
+  <li><strong>Collapsed Gibbs Sampling (Griffiths &amp; Steyvers)</strong>: Iterates sequentially through every word token in the corpus. While achieving high posterior perplexity and capturing multi-word semantic subtleties, each sweep requires 45 minutes of computation, taking 15 hours to converge over 20 sweeps.</li>
+
+  <li><strong>Stochastic Variational Inference (Hoffman et al.)</strong>: Optimizes the variational ELBO using mini-batches of 256 documents. SVI reaches 95% of the optimal perplexity in only 12 minutes—a 75-fold reduction in wall-clock time.</li>
+
+</ul>
+
+<p>This empirical comparison highlights the complementary roles of VI (for rapid discovery and real-time processing) and Gibbs/HMC (for high-precision scientific parameter quantification).</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-16">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.16</span>
+            <span>Unit 7 Review and Methodological Synthesis</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Unit 7 focused on advanced MCMC architectures and modern Hamiltonian dynamics. We analyzed the Gibbs sampler as an exact Metropolis-Hastings scheme with acceptance probability identically equal to 1.0, examining systematic-scan and random-scan variations. We formulated Hamiltonian Monte Carlo (HMC), demonstrating how auxiliary Gaussian momentum variables transform posterior sampling into frictionless physical motion governed by Hamilton's equations. We analyzed the volume-preserving, time-reversible properties of the symplectic Leapfrog integrator and the No-U-Turn Sampler (NUTS), which automates trajectory termination via recursive binary trees and dual averaging step size adaptation. We studied Radford Neal's Slice Sampling with stepping-out and shrinkage procedures, which adaptively navigates varying posterior scales without parameter tuning. Finally, we contrasted MCMC against Variational Inference (VI) and Stochastic Gradient Langevin Dynamics (SGLD), and surveyed Propp and Wilson's Coupling from the Past (CFTP) for exact, unbiased perfect simulation.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-17">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.17</span>
+            <span>Systematic Debugging of Markov Chain Monte Carlo Algorithms</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When developing custom MCMC samplers or diagnosing convergence failures in probabilistic programming models, following a systematic troubleshooting hierarchy prevents widespread inference errors:</p>
+
+<h4>1. Analytical Test Verification via Prior Simulation: Before fitting empirical data, simulate synthetic datasets from known parameter priors $\boldsymbol{\theta}_0 \sim p(\boldsymbol{\theta})$ and $\mathbf{x} \sim p(\mathbf{x} \mid \boldsymbol{\theta}_0)$. Verify that the posterior credibility intervals cover the true parameters $\boldsymbol{\theta}_0$ at nominal theoretical frequencies across 1,000 independent simulation replications (Simulation-Based Calibration).</h4>
+
+<h4>2. Detection of Geometric Funnels via Divergent Transitions: In Hamiltonian Monte Carlo, any single divergent transition signifies that the simulated trajectory has encountered a region of infinite curvature where numerical leapfrog integration breaks down. Reparameterizing the model from a centered formulation $\theta \sim \mathcal{N}(\mu, \sigma^2)$ to a non-centered formulation $\tilde{\theta} \sim \mathcal{N}(0, 1)$ with $\theta = \mu + \sigma \tilde{\theta}$ straightens the target geometry and eliminates divergences.</h4>
+
+<h4>3. Energy Bayesian Fraction of Missing Information (E-BFMI): In HMC, compute the energy metric:</h4>
+
+<div class="math-display">$$\text{E-BFMI} = \frac{\sum_{t=1}^N (E_t - E_{t-1})^2}{\sum_{t=1}^N (E_t - \bar{E})^2}$$</div>
+
+<p>A value of $\text{E-BFMI} &lt; 0.3$ indicates that the momentum distribution cannot effectively explore the energy state space, diagnosing poor momentum mass matrix adaptation or heavy tail pathologies.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-18">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.18</span>
+            <span>Simulated Annealing for Global Non-Convex Optimization</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In structural bioinformatics, portfolio optimization with cardinality constraints, and neural architecture search, objective loss functions $f(\mathbf{x})$ exhibit complex non-convex landscapes with thousands of deceptive local minima. Deterministic gradient descent gets trapped permanently in the nearest local basin of attraction.</p>
+
+<p>Scott Kirkpatrick, C. Daniel Gelatt, and Mario P. Vecchi (1983) adapted the Metropolis MCMC algorithm into <strong>Simulated Annealing (SA)</strong>, treating optimization as the physical process of slowly cooling molten metal to find its crystalline ground state.</p>
+
+<p>At cooling iteration $k$, a proposed move $\mathbf{x}_{\text{prop}} \sim q(\cdot \mid \mathbf{x}_k)$ is accepted with probability:</p>
+
+<div class="math-display">$$\alpha = \min\left( 1, \exp\left( -\frac{f(\mathbf{x}_{\text{prop}}) - f(\mathbf{x}_k)}{T_k} \right) \right)$$</div>
+
+<p>When the temperature $T_k$ is high, the algorithm readily accepts uphill moves ($f(\mathbf{x}_{\text{prop}}) &gt; f(\mathbf{x}_k)$), freely exploring the global state space. As temperature $T_k \to 0$ according to a logarithmic cooling schedule $T_k = T_0 / \log(k + 1)$ (Hajek 1988), the chain freezes into the deepest global minimum with probability approaching 1.0.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Statistical Simulation and Monte Carlo Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.1: Gibbs Sampling for a Bivariate Gaussian Distribution</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A bivariate target distribution is a zero-mean Gaussian vector $(X, Y)^T \sim \mathcal{N}_2(\mathbf{0}, \mathbf{\Sigma})$ with unit variances $\sigma_X^2 = \sigma_Y^2 = 1.0$ and correlation coefficient $\rho = 0.80$:</p>
+
+<div class="math-display">$$\mathbf{\Sigma} = \begin{pmatrix} 1.0 &amp; 0.80 \\ 0.80 &amp; 1.0 \end{pmatrix}$$</div>
+
+<ol>
+
+  <li>Derive the full conditional distributions $X \mid Y = y$ and $Y \mid X = x$.</li>
+
+  <li>Starting from initial state $(x_0, y_0) = (2.0, 2.0)$, execute two complete iterations of the systematic scan Gibbs sampler using the following standard normal draws:</li>
+
+</ol>
+
+<ul>
+
+  <li>For $x_1$: $z_{x1} = -0.50$.</li>
+
+  <li>For $y_1$: $z_{y1} = +0.25$.</li>
+
+  <li>For $x_2$: $z_{x2} = +1.10$.</li>
+
+  <li>For $y_2$: $z_{y2} = -0.40$.</li>
+
+</ul>
+
+<ol>
+
+  <li>Compute the lag-1 autocorrelation between successive states of $X$ in the Gibbs sequence.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-sim-7-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-sim-7-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Derivation of the Full Conditional Distributions</div>
+              
+              <div class="step-explanation"><p>For a bivariate normal vector with means 0, unit variances, and correlation $\rho$:</p>
+
+<ul>
+
+  <li>The conditional distribution of $X$ given $Y = y$ is univariate Gaussian:</li>
+
+</ul>
+
+<div class="math-display">$$X \mid Y = y \sim \mathcal{N}\left( \rho y, \; 1 - \rho^2 \right)$$</div>
+
+<ul>
+
+  <li>Symmetrically:</li>
+
+</ul>
+
+<div class="math-display">$$Y \mid X = x \sim \mathcal{N}\left( \rho x, \; 1 - \rho^2 \right)$$</div>
+
+<p>Given $\rho = 0.80$:</p>
+
+<div class="math-display">$$\rho^2 = 0.80^2 = 0.64 \implies 1 - \rho^2 = 1 - 0.64 = 0.36$$</div>
+
+<div class="math-display">$$\sigma_{\text{cond}} = \sqrt{1 - \rho^2} = \sqrt{0.36} = 0.60$$</div>
+
+<p>Thus, the sampling rules are:</p>
+
+<div class="math-display">$$X \mid Y = y \sim \mathcal{N}(0.80 y, \; 0.60^2) \implies X = 0.80 y + 0.60 Z_X$$</div>
+
+<div class="math-display">$$Y \mid X = x \sim \mathcal{N}(0.80 x, \; 0.60^2) \implies Y = 0.80 x + 0.60 Z_Y$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Execution of Two Gibbs Iterations</div>
+              
+              <div class="step-explanation"><p>Starting state: $x_0 = 2.0, y_0 = 2.0$.</p>
+
+<ul>
+
+  <li><strong>Iteration 1</strong>:</li>
+
+</ul>
+
+<ol>
+
+  <li>Sample $x_1 \sim \mathcal{N}(0.80 y_0, 0.60^2)$ using $z_{x1} = -0.50$:</li>
+
+</ol>
+
+<div class="math-display">$$\mu_{x1} = 0.80 \times 2.0 = 1.60$$</div>
+
+<div class="math-display">$$x_1 = 1.60 + 0.60 \times (-0.50) = 1.60 - 0.30 = 1.30$$</div>
+
+<ol>
+
+  <li>Sample $y_1 \sim \mathcal{N}(0.80 x_1, 0.60^2)$ using new $x_1 = 1.30$ and $z_{y1} = +0.25$:</li>
+
+</ol>
+
+<div class="math-display">$$\mu_{y1} = 0.80 \times 1.30 = 1.04$$</div>
+
+<div class="math-display">$$y_1 = 1.04 + 0.60 \times (+0.25) = 1.04 + 0.15 = 1.19$$</div>
+
+<p><em>State after Iteration 1</em>: $(x_1, y_1) = (1.30, 1.19)$.</p>
+
+<ul>
+
+  <li><strong>Iteration 2</strong>:</li>
+
+</ul>
+
+<ol>
+
+  <li>Sample $x_2 \sim \mathcal{N}(0.80 y_1, 0.60^2)$ using $y_1 = 1.19$ and $z_{x2} = +1.10$:</li>
+
+</ol>
+
+<div class="math-display">$$\mu_{x2} = 0.80 \times 1.19 = 0.952$$</div>
+
+<div class="math-display">$$x_2 = 0.952 + 0.60 \times (+1.10) = 0.952 + 0.660 = 1.612$$</div>
+
+<ol>
+
+  <li>Sample $y_2 \sim \mathcal{N}(0.80 x_2, 0.60^2)$ using new $x_2 = 1.612$ and $z_{y2} = -0.40$:</li>
+
+</ol>
+
+<div class="math-display">$$\mu_{y2} = 0.80 \times 1.612 = 1.2896$$</div>
+
+<div class="math-display">$$y_2 = 1.2896 + 0.60 \times (-0.40) = 1.2896 - 0.2400 = 1.0496$$</div>
+
+<p><em>State after Iteration 2</em>: $(x_2, y_2) = (1.612, 1.050)$.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Lag-1 Autocorrelation of the Sequence</div>
+              
+              <div class="step-explanation"><p>Notice the recurrence relation for the $X$ sequence across full iterations:</p>
+
+<div class="math-display">$$X_{t+1} = \rho Y_t + \sigma_{\text{cond}} Z_{X, t+1} = \rho (\rho X_t + \sigma_{\text{cond}} Z_{Y, t}) + \sigma_{\text{cond}} Z_{X, t+1}$$</div>
+
+<div class="math-display">$$X_{t+1} = \rho^2 X_t + \rho \sigma_{\text{cond}} Z_{Y, t} + \sigma_{\text{cond}} Z_{X, t+1}$$</div>
+
+<p>This is an autoregressive process of order 1 ($\text{AR}(1)$) with autoregressive coefficient $\phi = \rho^2$! Therefore, the lag-1 autocorrelation between successive Gibbs iterations is:</p>
+
+<div class="math-display">$$\mathrm{Corr}(X_t, X_{t+1}) = \rho^2 = 0.80^2 = 0.64$$</div>
+
+<p>Notice that if $\rho \to 1.0$ (extreme correlation), $\rho^2 \to 1.0$, and the Gibbs sampler moves in tiny orthogonal steps along coordinate axes, suffering extreme slow mixing.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.2: Conjugate Normal-Inverse-Gamma Gibbs Sampling</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A pharmaceutical quality assurance lab measures tablet dissolution time. An observed sample of $n = 10$ measurements yields:</p>
+
+<div class="math-display">$$\sum_{i=1}^{10} y_i = 120.0 \implies \bar{y} = 12.0, \quad \sum_{i=1}^{10} (y_i - \bar{y})^2 = 18.0$$</div>
+
+<p>The data are modeled as $y_i \mid \mu, \sigma^2 \sim \mathcal{N}(\mu, \sigma^2)$. Priors are:</p>
+
+<ul>
+
+  <li>$\mu \sim \mathcal{N}(\mu_0 = 10.0, \sigma_0^2 = 4.0)$.</li>
+
+  <li>$\sigma^2 \sim \text{Inverse-Gamma}(a_0 = 2.0, b_0 = 5.0)$.</li>
+
+</ul>
+
+<ol>
+
+  <li>Derive the full conditional posterior distribution formulas for $\mu \mid \sigma^2, \mathbf{y}$ and $\sigma^2 \mid \mu, \mathbf{y}$.</li>
+
+  <li>In a Gibbs sampler step, the current variance is $\sigma^{2(t)} = 2.0$. Compute the numerical mean and variance of the full conditional distribution for $\mu$.</li>
+
+  <li>If the newly sampled mean is $\mu^{(t+1)} = 11.50$, compute the updated shape $a_n$ and scale $b_n$ for the full conditional distribution of $\sigma^2$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-sim-7-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-sim-7-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Full Conditional Formulations</div>
+              
+              <div class="step-explanation"><h4>1. Full Conditional of $\mu \mid \sigma^2, \mathbf{y}$:</h4>
+
+<p>Since the prior is Gaussian and likelihood is Gaussian:</p>
+
+<div class="math-display">$$\mu \mid \sigma^2, \mathbf{y} \sim \mathcal{N}\left( \mu_n, \; \sigma_n^2 \right)$$</div>
+
+<p>where:</p>
+
+<div class="math-display">$$\frac{1}{\sigma_n^2} = \frac{1}{\sigma_0^2} + \frac{n}{\sigma^2} \implies \sigma_n^2 = \left( \frac{1}{\sigma_0^2} + \frac{n}{\sigma^2} \right)^{-1}$$</div>
+
+<div class="math-display">$$\mu_n = \sigma_n^2 \left( \frac{\mu_0}{\sigma_0^2} + \frac{n \bar{y}}{\sigma^2} \right)$$</div>
+
+<h4>2. Full Conditional of $\sigma^2 \mid \mu, \mathbf{y}$:</h4>
+
+<p>Since the prior is Inverse-Gamma and likelihood is Gaussian:</p>
+
+<div class="math-display">$$\sigma^2 \mid \mu, \mathbf{y} \sim \text{Inverse-Gamma}(a_n, b_n)$$</div>
+
+<p>where:</p>
+
+<div class="math-display">$$a_n = a_0 + \frac{n}{2}$$</div>
+
+<div class="math-display">$$b_n = b_0 + \frac{1}{2} \sum_{i=1}^n (y_i - \mu)^2$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Numerical Update of $\mu$ for $\sigma^2 = 2.0$</div>
+              
+              <div class="step-explanation"><p>Given $n = 10, \bar{y} = 12.0, \mu_0 = 10.0, \sigma_0^2 = 4.0$, and $\sigma^2 = 2.0$:</p>
+
+<ul>
+
+  <li>Posterior precision:</li>
+
+</ul>
+
+<div class="math-display">$$\frac{1}{\sigma_n^2} = \frac{1}{4.0} + \frac{10}{2.0} = 0.25 + 5.00 = 5.25$$</div>
+
+<div class="math-display">$$\sigma_n^2 = \frac{1}{5.25} \approx 0.190476$$</div>
+
+<ul>
+
+  <li>Posterior mean:</li>
+
+</ul>
+
+<div class="math-display">$$\frac{\mu_0}{\sigma_0^2} = \frac{10.0}{4.0} = 2.50$$</div>
+
+<div class="math-display">$$\frac{n \bar{y}}{\sigma^2} = \frac{10 \times 12.0}{2.0} = \frac{120.0}{2.0} = 60.0$$</div>
+
+<div class="math-display">$$\mu_n = 0.190476 \times (2.50 + 60.0) = 0.190476 \times 62.50 \approx 11.9048$$</div>
+
+<p><em>Conditional Distribution</em>: $\mu \mid \sigma^2 = 2.0, \mathbf{y} \sim \mathcal{N}(11.905, \; 0.1905)$.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Numerical Update of $\sigma^2$ for $\mu = 11.50$</div>
+              
+              <div class="step-explanation"><p>Given $a_0 = 2.0, b_0 = 5.0, n = 10$, and $\mu = 11.50$:</p>
+
+<ol>
+
+  <li>Updated shape parameter:</li>
+
+</ol>
+
+<div class="math-display">$$a_n = a_0 + \frac{n}{2} = 2.0 + \frac{10}{2} = 2.0 + 5.0 = 7.0$$</div>
+
+<ol>
+
+  <li>Sum of squared deviations:</li>
+
+</ol>
+
+<div class="math-display">$$\sum_{i=1}^{10} (y_i - \mu)^2 = \sum_{i=1}^{10} (y_i - \bar{y})^2 + n (\bar{y} - \mu)^2$$</div>
+
+<p>Given $\sum (y_i - \bar{y})^2 = 18.0$, $\bar{y} = 12.0$, and $\mu = 11.50$:</p>
+
+<div class="math-display">$$n (\bar{y} - \mu)^2 = 10 \times (12.0 - 11.50)^2 = 10 \times (0.50)^2 = 10 \times 0.25 = 2.50$$</div>
+
+<div class="math-display">$$\sum_{i=1}^{10} (y_i - \mu)^2 = 18.0 + 2.50 = 20.50$$</div>
+
+<ol>
+
+  <li>Updated scale parameter:</li>
+
+</ol>
+
+<div class="math-display">$$b_n = b_0 + \frac{1}{2} \sum_{i=1}^{10} (y_i - \mu)^2 = 5.0 + \frac{1}{2}(20.50) = 5.0 + 10.25 = 15.25$$</div>
+
+<p><em>Conditional Distribution</em>: $\sigma^2 \mid \mu = 11.50, \mathbf{y} \sim \text{Inverse-Gamma}(a_n = 7.0, \; b_n = 15.25)$.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.3: Albert-Chib Data Augmentation for Probit Regression</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Consider an Albert-Chib Bayesian probit regression model with a single predictor $x$ and no intercept:</p>
+
+<div class="math-display">$$P(y_i = 1 \mid x_i, \beta) = \Phi(x_i \beta)$$</div>
+
+<p>Prior is $\beta \sim \mathcal{N}(0, \sigma_0^2 = 10)$. Two observations are recorded:</p>
+
+<ul>
+
+  <li>Observation 1: $x_1 = 1.0, y_1 = 1$.</li>
+
+  <li>Observation 2: $x_2 = 2.0, y_2 = 0$.</li>
+
+</ul>
+
+<p>The Gibbs sampler is at state $\beta = 0.50$.</p>
+
+<ol>
+
+  <li>Specify the exact conditional distributions of the latent variables $Z_1$ and $Z_2$ given $\beta = 0.50$.</li>
+
+  <li>In the imputation step, pseudorandom uniform draws yield:</li>
+
+</ol>
+
+<ul>
+
+  <li>For $Z_1$: draw $U_1 = 0.400$.</li>
+
+  <li>For $Z_2$: draw $U_2 = 0.600$.</li>
+
+</ul>
+
+<p>Compute the sampled values $Z_1$ and $Z_2$ using truncated normal inversion.</p>
+
+<ol>
+
+  <li>Compute the parameters of the updated full conditional distribution $\beta \mid Z_1, Z_2$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-sim-7-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-sim-7-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Conditional Distributions of Latent Variables $Z_1, Z_2$</div>
+              
+              <div class="step-explanation"><p>Under the Albert-Chib model, the latent variable is $Z_i \sim \mathcal{N}(x_i \beta, 1)$:</p>
+
+<ul>
+
+  <li>For $i = 1$ ($y_1 = 1$): $Z_1 &gt; 0$.</li>
+
+</ul>
+
+<p>Mean: $\mu_{Z1} = x_1 \beta = 1.0 \times 0.50 = 0.50$. $Z_1 \sim \mathcal{N}(0.50, 1)$ truncated to $(0, \infty)$.</p>
+
+<ul>
+
+  <li>For $i = 2$ ($y_2 = 0$): $Z_2 \le 0$.</li>
+
+</ul>
+
+<p>Mean: $\mu_{Z2} = x_2 \beta = 2.0 \times 0.50 = 1.00$. $Z_2 \sim \mathcal{N}(1.00, 1)$ truncated to $(-\infty, 0]$.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Truncated Normal Sampling via Uniform Inversion</div>
+              
+              <div class="step-explanation"><p>To sample $Z \sim \mathcal{N}(\mu, 1)$ truncated to $(a, b)$:</p>
+
+<div class="math-display">$$Z = \mu + \Phi^{-1}\left( \Phi(a - \mu) + U \cdot [\Phi(b - \mu) - \Phi(a - \mu)] \right)$$</div>
+
+<h4>1. Sampling $Z_1$ on $(0, \infty)$ with $\mu = 0.50, U_1 = 0.400$:</h4>
+
+<ul>
+
+  <li>$a = 0, b = \infty$.</li>
+
+  <li>$a - \mu = 0 - 0.50 = -0.50$.</li>
+
+  <li>$\Phi(-0.50) = 1 - \Phi(0.50) \approx 1 - 0.69146 = 0.30854$.</li>
+
+  <li>$\Phi(\infty) = 1.0$.</li>
+
+  <li>Interpolated probability:</li>
+
+</ul>
+
+<div class="math-display">$$P_1 = 0.30854 + 0.400 \times (1.0 - 0.30854) = 0.30854 + 0.400 \times 0.69146 = 0.30854 + 0.27658 = 0.58512$$</div>
+
+<ul>
+
+  <li>Invert: $\Phi^{-1}(0.58512) \approx +0.2150$.</li>
+
+  <li>Sampled value:</li>
+
+</ul>
+
+<div class="math-display">$$Z_1 = \mu + \Phi^{-1}(P_1) = 0.50 + 0.2150 = 0.7150$$</div>
+
+<h4>2. Sampling $Z_2$ on $(-\infty, 0]$ with $\mu = 1.00, U_2 = 0.600$:</h4>
+
+<ul>
+
+  <li>$a = -\infty, b = 0$.</li>
+
+  <li>$\Phi(-\infty) = 0.0$.</li>
+
+  <li>$b - \mu = 0 - 1.00 = -1.00$.</li>
+
+  <li>$\Phi(-1.00) = 1 - \Phi(1.00) \approx 1 - 0.84134 = 0.15866$.</li>
+
+  <li>Interpolated probability:</li>
+
+</ul>
+
+<div class="math-display">$$P_2 = 0.0 + 0.600 \times 0.15866 = 0.095196$$</div>
+
+<ul>
+
+  <li>Invert: $\Phi^{-1}(0.095196) \approx -1.3094$.</li>
+
+  <li>Sampled value:</li>
+
+</ul>
+
+<div class="math-display">$$Z_2 = \mu + \Phi^{-1}(P_2) = 1.00 - 1.3094 = -0.3094$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Update of $\beta$ Conditional on $\mathbf{Z} = (0.7150, -0.3094)^T$</div>
+              
+              <div class="step-explanation"><p>Conditional on $\mathbf{Z}$, the model is standard linear regression:</p>
+
+<div class="math-display">$$\mathbf{Z} = \mathbf{X}\beta + \mathbf{\epsilon}, \quad \mathbf{\epsilon} \sim \mathcal{N}_2(\mathbf{0}, \mathbf{I})$$</div>
+
+<p>where $\mathbf{X} = \begin{pmatrix} x_1 \\ x_2 \end{pmatrix} = \begin{pmatrix} 1.0 \\ 2.0 \end{pmatrix}$, and prior $\beta \sim \mathcal{N}(0, \sigma_0^2 = 10)$:</p>
+
+<ul>
+
+  <li>$\mathbf{X}^T \mathbf{X} = 1.0^2 + 2.0^2 = 1.0 + 4.0 = 5.0$.</li>
+
+  <li>Posterior variance:</li>
+
+</ul>
+
+<div class="math-display">$$\sigma_\beta^2 = \left( \frac{1}{\sigma_0^2} + \mathbf{X}^T \mathbf{X} \right)^{-1} = \left( \frac{1}{10} + 5.0 \right)^{-1} = (0.10 + 5.0)^{-1} = \frac{1}{5.10} \approx 0.19608$$</div>
+
+<ul>
+
+  <li>Cross product:</li>
+
+</ul>
+
+<div class="math-display">$$\mathbf{X}^T \mathbf{Z} = x_1 Z_1 + x_2 Z_2 = 1.0 \times (0.7150) + 2.0 \times (-0.3094) = 0.7150 - 0.6188 = +0.0962$$</div>
+
+<ul>
+
+  <li>Posterior mean:</li>
+
+</ul>
+
+<div class="math-display">$$\mu_\beta = \sigma_\beta^2 \left( \frac{\mu_0}{\sigma_0^2} + \mathbf{X}^T \mathbf{Z} \right) = 0.19608 \times (0 + 0.0962) = 0.19608 \times 0.0962 \approx +0.01886$$</div>
+
+<p><em>Full Conditional</em>: $\beta \mid \mathbf{Z}, \mathbf{y} \sim \mathcal{N}(\mu_\beta = 0.0189, \; \sigma_\beta^2 = 0.1961)$. The step transforms non-linear categorical inference into elementary linear Gaussian regression.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="statistical-computing-with-python-and-r">Statistical Computing</a><a href="mathematical-statistics">Mathematical Statistics</a><a href="statistical-estimation">Statistical Estimation</a><a href="demography-and-population-statistics">Demography and Population Statistics</a><a href="economic-statistics">Economic Statistics</a><a href="epidemiological-statistics">Epidemiological Statistics</a><a href="industrial-and-official-statistics">Industrial and Official Statistics</a><a href="actuarial-statistics-and-mathematical-demography">Actuarial Statistics</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Course Stat H-307 Simulation)</a></li><li><a href="https://openstemlibrary.com/references/robert-casella-monte-carlo" target="_blank" rel="noopener noreferrer">Robert, C.P., &amp; Casella, G. (2004). Monte Carlo Statistical Methods (2nd ed.): Definitive theoretical treatise on rejection sampling, Markov chain Monte Carlo, Metropolis-Hastings algorithms, and Gibbs sampling</a></li><li><a href="https://openstemlibrary.com/references/ripley-stochastic-simulation" target="_blank" rel="noopener noreferrer">Ripley, B.D. (1987). Stochastic Simulation: Foundational text on pseudorandom number generators, spatial simulation, and variate generation algorithms</a></li><li><a href="https://openstemlibrary.com/references/efron-tibshirani-bootstrap" target="_blank" rel="noopener noreferrer">Efron, B., &amp; Tibshirani, R.J. (1993). An Introduction to the Bootstrap: Canonical reference for bootstrap standard errors, percentile confidence intervals, BCa intervals, and jackknife methods</a></li><li><a href="https://openstemlibrary.com/references/gentle-random-number-generation" target="_blank" rel="noopener noreferrer">Gentle, J.E. (2003). Random Number Generation and Monte Carlo Methods: Authoritative manual on uniform generation tests, spectral lattice tests, and variance reduction techniques</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="statistical-simulation-and-monte-carlo-methods-chapter-6">← Previous chapter</a><a href="statistical-simulation-and-monte-carlo-methods">Book contents</a><a href="statistical-simulation-and-monte-carlo-methods-chapter-8">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="statistical-simulation-and-monte-carlo-methods-sims.js?v=1"></script>
+  <script src="statistical-simulation-and-monte-carlo-methods-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

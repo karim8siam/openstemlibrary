@@ -1,0 +1,981 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Distributed Computing Foundations: MapReduce, Hadoop &amp; Spark for Statisticians | Big Data Methods for Statistics | OpenSTEM Library</title>
+  <meta name="description" content="Architectures for massive datasets: shared-memory multiprocessing vs distributed-memory shared-nothing clusters; The MapReduce computing paradigm: key-value pairs, map functions, shuffle-and-sort phase, and reduce aggregation; Computing sufficient statistics in parallel: embarrassingly parallel computations, sample moments, contingency tables, and gradient accumulation; Apache Spark architecture: Resilient Distributed Datasets (RDDs), lineage graphs, transformations vs actions, and in-memory caching; Spark DataFrames and distributed MLlib: parallel matrix computations and distributed regression models; Communication complexity vs computational complexity in distributed statistical estimation.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/big-data-methods-for-statistics-chapter-4">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/big-data-methods-for-statistics-chapter-4">
+  <meta property="og:title" content="Big Data Methods for Statistics: High-Dimensional Geometry, Lasso, Spark &amp; Streaming Algorithms | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering high-dimensional statistical geometry (curse of dimensionality, volume collapse, concentration of measure, distance concentration), large-scale spectral dimension reduction (random matrix theory, Marchenko-Pastur law, BBP transition, randomized SVD), sparse statistical learning (Lasso coordinate descent, Ridge, Elastic Net, SCAD/MCP), distributed computing foundations (MapReduce, Hadoop, Apache Spark RDDs, MLlib), first-order stochastic optimization (SGD, mini-batch, Polyak momentum, Adam), randomized numerical linear algebra (Johnson-Lindenstrauss lemma, SRHT, leverage score sampling), streaming data algorithms (Welford algorithm, Reservoir Sampling, Count-Min sketch, HyperLogLog), and high-dimensional multiple testing (FWER, Benjamini-Hochberg FDR control, Storey q-values, local FDR) with 24 solved questions and 4 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Big Data Methods for Statistics: High-Dimensional Geometry, Lasso, Spark &amp; Streaming Algorithms | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering high-dimensional statistical geometry (curse of dimensionality, volume collapse, concentration of measure, distance concentration), large-scale spectral dimension reduction (random matrix theory, Marchenko-Pastur law, BBP transition, randomized SVD), sparse statistical learning (Lasso coordinate descent, Ridge, Elastic Net, SCAD/MCP), distributed computing foundations (MapReduce, Hadoop, Apache Spark RDDs, MLlib), first-order stochastic optimization (SGD, mini-batch, Polyak momentum, Adam), randomized numerical linear algebra (Johnson-Lindenstrauss lemma, SRHT, leverage score sampling), streaming data algorithms (Welford algorithm, Reservoir Sampling, Count-Min sketch, HyperLogLog), and high-dimensional multiple testing (FWER, Benjamini-Hochberg FDR control, Storey q-values, local FDR) with 24 solved questions and 4 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="big-data-methods-for-statistics.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Big Data Methods for Statistics: Distributed Computing Foundations: MapReduce, Hadoop & Spark for Statisticians","description":"Comprehensive university textbook covering high-dimensional statistical geometry (curse of dimensionality, volume collapse, concentration of measure, distance concentration), large-scale spectral dimension reduction (random matrix theory, Marchenko-Pastur law, BBP transition, randomized SVD), sparse statistical learning (Lasso coordinate descent, Ridge, Elastic Net, SCAD/MCP), distributed computing foundations (MapReduce, Hadoop, Apache Spark RDDs, MLlib), first-order stochastic optimization (SGD, mini-batch, Polyak momentum, Adam), randomized numerical linear algebra (Johnson-Lindenstrauss lemma, SRHT, leverage score sampling), streaming data algorithms (Welford algorithm, Reservoir Sampling, Count-Min sketch, HyperLogLog), and high-dimensional multiple testing (FWER, Benjamini-Hochberg FDR control, Storey q-values, local FDR) with 24 solved questions and 4 interactive simulations.","url":"https://openstemlibrary.com/big-data-methods-for-statistics-chapter-4","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Big Data Statistics","Curse of Dimensionality","Random Matrix Theory and Marchenko-Pastur","Lasso and Regularized Regression","Distributed Computing and Apache Spark","Stochastic Gradient Descent and Adam","Randomized Numerical Linear Algebra and Sketching","Streaming Data Algorithms and HyperLogLog","False Discovery Rate and Multiple Testing"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Big Data Methods for Statistics","item":"https://openstemlibrary.com/big-data-methods-for-statistics"}]}</script></head>
+<body data-book-path="big-data-methods-for-statistics.html" data-chapter-index="3" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Big Data Methods for Statistics</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search curse of dimensionality, Marchenko-Pastur, randomized SVD, Lasso, coordinate descent, Elastic Net, MapReduce, Spark RDD, stochastic gradient descent, Adam optimizer, Johnson-Lindenstrauss, Count-Min sketch, HyperLogLog, False Discovery Rate…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="big-data-methods-for-statistics" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">The Statistical Geometry of High Dimensions</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="big-data-methods-for-statistics-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Large-Scale Dimension Reduction: Spectral &amp; Manifold Learning</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="big-data-methods-for-statistics-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Sparse Statistical Learning &amp; Regularization (Lasso, Ridge, Elastic Net)</span></a></li><li class="unit-nav-item active" data-unit-index="3"><a href="big-data-methods-for-statistics-chapter-4" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Distributed Computing Foundations: MapReduce, Hadoop &amp; Spark for Statisticians</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="big-data-methods-for-statistics-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">First-Order Stochastic Optimization for Massive Data</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="big-data-methods-for-statistics-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Randomized Numerical Linear Algebra (RandNLA)</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="big-data-methods-for-statistics-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Streaming Data, Online Learning &amp; One-Pass Sketching Algorithms</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="big-data-methods-for-statistics-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">High-Dimensional Multiple Testing &amp; False Discovery Rate (FDR)</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Big data methods for statistics major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 4 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Distributed Computing Foundations: MapReduce, Hadoop &amp; Spark for Statisticians</h1>
+            <p class="unit-desc-lead" id="unit-desc">Architectures for massive datasets: shared-memory multiprocessing vs distributed-memory shared-nothing clusters; The MapReduce computing paradigm: key-value pairs, map functions, shuffle-and-sort phase, and reduce aggregation; Computing sufficient statistics in parallel: embarrassingly parallel computations, sample moments, contingency tables, and gradient accumulation; Apache Spark architecture: Resilient Distributed Datasets (RDDs), lineage graphs, transformations vs actions, and in-memory caching; Spark DataFrames and distributed MLlib: parallel matrix computations and distributed regression models; Communication complexity vs computational complexity in distributed statistical estimation.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-308 (Big Data Methods for Statistics). Eight units and exactly three solved questions per unit. Interactive simulations illustrate high-dimensional distance concentration, Lasso regularization paths, stochastic optimization trajectories, and Benjamini-Hochberg FDR thresholding. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-4-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.1</span>
+            <span>Distributed Memory Architectures and the Shared-Nothing Paradigm</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>High-performance computing historically relied on Symmetric Multiprocessing (SMP) and Non-Uniform Memory Access (NUMA) systems, where multiple CPUs share a common physical address space. However, shared-memory systems are physically limited in scalability (rarely exceeding 128 cores) and are vulnerable to bus lock contention.</p>
+
+<p>Modern big data frameworks operate on the <strong>Shared-Nothing Architecture</strong>:</p>
+
+<ul>
+
+  <li>The computing cluster consists of $M$ independent compute nodes connected via standard Ethernet switches.</li>
+
+  <li>Each node possesses its own private CPU, private memory (RAM), and local disk storage.</li>
+
+  <li>Nodes share zero physical memory. All coordination occurs via message passing and network data transfer.</li>
+
+</ul>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.2</span>
+            <span>The MapReduce Framework for Sufficient Statistics</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Jeffrey Dean and Sanjay Ghemawat (2004) at Google formulated the <strong>MapReduce</strong> programming model to abstract distributed data processing, implemented in open-source by Apache Hadoop.</p>
+
+<h4>1. The Map and Reduce Primitives</h4>
+
+<p>MapReduce partitions computation into three strictly choreographed phases:</p>
+
+<h4>1. Map Phase: Operates on input key-value pairs $(k_1, v_1)$ independently and in parallel across cluster nodes, emitting intermediate key-value pairs:</h4>
+
+<div class="math-display">$$\mathrm{Map}(k_1, v_1) \to \text{list}(k_2, v_2)$$</div>
+
+<h4>2. Shuffle and Sort Phase: The distributed runtime automatically collects all intermediate values sharing the identical key $k_2$ across all nodes, grouping them into a single list $(k_2, \text{list}(v_2))$ and routing them to the designated reducer node.</h4>
+
+<h4>3. Reduce Phase: Aggregates the values associated with key $k_2$:</h4>
+
+<div class="math-display">$$\mathrm{Reduce}(k_2, \text{list}(v_2)) \to \text{list}(k_3, v_3)$$</div>
+
+<h4>2. Parallel Evaluation of Sufficient Statistics</h4>
+
+<p>Let $\mathbf{x}_1, \dots, \mathbf{x}_N$ be $N$ independent observations distributed across $M$ worker nodes, where $N \gg 10^9$. A statistic $T(\mathbf{X})$ is defined as <strong>associative and commutative</strong> if it can be decomposed into localized partition evaluations:</p>
+
+<div class="math-display">$$T(\mathbf{X}) = \bigoplus_{m=1}^M T(\mathbf{X}^{(m)})$$</div>
+
+<p>Examples of MapReduce decompositions in statistics:</p>
+
+<h4>1. Sample Mean:</h4>
+
+<ul>
+
+  <li>Mapper: on node $m$, compute local count $n_m = |S_m|$ and local sum $s_m = \sum_{i \in S_m} x_i$. Emit key-value pair `("mean", (n_m, s_m))`.</li>
+
+  <li>Reducer: sum local counts $N = \sum n_m$ and local sums $S = \sum s_m$. Emit $\bar{x} = S / N$.</li>
+
+</ul>
+
+<p>Network transfer is $O(M)$ floating-point numbers instead of $O(N)$ data records.</p>
+
+<h4>2. Gram Matrix $\mathbf{X}^T \mathbf{X}$:</h4>
+
+<ul>
+
+  <li>Mapper: on node $m$, compute the local $p \times p$ matrix $\mathbf{G}_m = \mathbf{X}^{(m)T} \mathbf{X}^{(m)}$. Emit `("gram", G_m)`.</li>
+
+  <li>Reducer: sum $\mathbf{X}^T \mathbf{X} = \sum_{m=1}^M \mathbf{G}_m$.</li>
+
+</ul>
+
+<p>Once the $p \times p$ Gram matrix and $p \times 1$ vector $\mathbf{X}^T \mathbf{y}$ are aggregated, the master node solves the normal equations $(\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}$ in $O(p^3)$ time without ever storing the full dataset in memory.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.3</span>
+            <span>Apache Spark: Resilient Distributed Datasets (RDDs) and MLlib</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>While Hadoop MapReduce revolutionized batch data processing, it suffered from a fatal performance flaw in statistical applications: MapReduce writes all intermediate outputs to physical disks at the end of every Map and Reduce cycle. Iterative algorithms—such as Gradient Descent, Expectation-Maximization (EM), and MCMC—require dozens of sequential iterations, incurring catastrophic disk I/O bottlenecks.</p>
+
+<p>Matei Zaharia et al. (2010) created <strong>Apache Spark</strong> to enable high-speed in-memory distributed data analysis.</p>
+
+<h4>1. Resilient Distributed Datasets (RDDs)</h4>
+
+<p>An RDD is an immutable, lazily evaluated, fault-tolerant distributed collection of data records partitioned across cluster worker nodes. RDDs are governed by two distinct operations:</p>
+
+<ul>
+
+  <li><strong>Transformations</strong> (Lazy): Construct a new RDD from an existing RDD (e.g., `map`, `filter`, `flatMap`, `groupByKey`). Transformations do not execute immediately; Spark constructs a Directed Acyclic Graph (DAG) representing the <strong>Lineage Graph</strong>.</li>
+
+  <li><strong>Actions</strong> (Eager): Trigger cluster execution and return a result to the driver program or write to storage (e.g., `count`, `collect`, `reduce`, `take`).</li>
+
+  <li><strong>Fault Tolerance via Lineage</strong>: If a cluster worker node crashes mid-computation, Spark does not restore from periodic disk checkpoints. Instead, it recomputes only the lost partition by replaying the mathematical transformations along the RDD lineage graph.</li>
+
+</ul>
+
+<h4>2. In-Memory Caching for Iterative Machine Learning</h4>
+
+<p>By invoking `rdd.cache()` or `rdd.persist(StorageLevel.MEMORY_ONLY)`, the dataset partitions are pinned directly inside worker node RAM. In subsequent iterations of an optimization algorithm:</p>
+
+<div class="math-display">$$\boldsymbol{\beta}_{t+1} = \boldsymbol{\beta}_t - \alpha_t \sum_{m=1}^M \nabla f_m(\boldsymbol{\beta}_t)$$</div>
+
+<p>the gradient evaluation streams through cached RAM at memory-bus speeds (tens of gigabytes per second), executing machine learning loops <strong>100 times faster</strong> than disk-backed Hadoop.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.4</span>
+            <span>Communication Complexity vs. Computational Complexity</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In distributed statistical learning, computational complexity $T_{\text{comp}}$ measures the total floating-point operations executed across all processors, while <strong>communication complexity</strong> $T_{\text{comm}}$ measures the total volume of network bits transmitted and the latency of network synchronization barriers.</p>
+
+<p>Let $P$ be the number of worker nodes, $N$ the total sample size, and $p$ the parameter dimension:</p>
+
+<ul>
+
+  <li><strong>Local Gradient Evaluation</strong>: $O(N p / P)$ computational operations per node.</li>
+
+  <li><strong>AllReduce Parameter Broadcast</strong>: Transmitting a $p$-dimensional parameter vector to all $P$ workers requires $O(p \log P)$ communication volume.</li>
+
+  <li>If $p$ is massive ($p = 10^7$) or network bandwidth is congested, worker nodes spend $90\%$ of their time waiting for network packet synchronization (<strong>communication-bound execution</strong>).</li>
+
+</ul>
+
+<p>To minimize communication overhead, statisticians deploy:</p>
+
+<h4>1. Local SGD / Federated Averaging: Workers execute $K$ local gradient steps independently before synchronizing parameter averages across the network.</h4>
+
+<h4>2. Gradient Compression and Quantization: Transmitting 1-bit or 8-bit quantized gradients (e.g., SignSGD) instead of 64-bit double-precision floats.</h4>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.6</span>
+            <span>Statistical Theory of Distributed M-Estimation</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When data are partitioned across $K$ worker machines, running iterative gradient algorithms requiring frequent communication is often impractical over high-latency networks.</p>
+
+<p>A natural distributed strategy is <strong>One-Shot Parameter Averaging</strong> (Divide-and-Conquer):</p>
+
+<ol>
+
+  <li>Distribute $N$ observations across $K$ nodes, so each node holds a local sample of size $n = N/K$.</li>
+
+  <li>Each worker computes its local M-estimator independently:</li>
+
+</ol>
+
+<div class="math-display">$$\hat{\boldsymbol{\theta}}_k = \arg\min_{\boldsymbol{\theta}} \frac{1}{n} \sum_{i \in \mathcal{S}_k} \ell(\mathbf{x}_i; \boldsymbol{\theta})$$</div>
+
+<ol>
+
+  <li>Transmit the $K$ local vectors to a central coordinator and compute the simple average:</li>
+
+</ol>
+
+<div class="math-display">$$\bar{\boldsymbol{\theta}} = \frac{1}{K} \sum_{k=1}^K \hat{\boldsymbol{\theta}}_k$$</div>
+
+<p>Yuchen Zhang, John C. Duchi, and Martin J. Wainwright (2013) established the exact statistical efficiency bounds of this one-shot scheme.</p>
+
+<h4>Asymptotic Mean Squared Error Expansion</h4>
+
+<p>Let $\boldsymbol{\theta}^*$ be the true parameter, and let $\ell$ be a smooth loss function with Fisher information matrix $\mathbf{I}(\boldsymbol{\theta}^*)$. The local M-estimator on worker $k$ admits a second-order Taylor expansion:</p>
+
+<div class="math-display">$$\hat{\boldsymbol{\theta}}_k - \boldsymbol{\theta}^* = \frac{1}{n} \sum_{i \in \mathcal{S}_k} \mathbf{I}^{-1} \nabla \ell(\mathbf{x}_i; \boldsymbol{\theta}^*) + \frac{1}{n^2} \mathbf{b}(\boldsymbol{\theta}^*) + O_p(n^{-3/2})$$</div>
+
+<p>where $\mathbf{b}(\boldsymbol{\theta}^*)$ is the second-order bias term originating from the non-linearity of the score function.</p>
+
+<p>Averaging across the $K$ workers:</p>
+
+<div class="math-display">$$\bar{\boldsymbol{\theta}} - \boldsymbol{\theta}^* = \frac{1}{N} \sum_{i=1}^N \mathbf{I}^{-1} \nabla \ell(\mathbf{x}_i; \boldsymbol{\theta}^*) + \frac{1}{n^2} \mathbf{b}(\boldsymbol{\theta}^*) + O_p\left( \frac{1}{K n^{3/2}} \right)$$</div>
+
+<p>The Mean Squared Error (MSE) decomposes into variance and squared bias:</p>
+
+<div class="math-display">$$\mathbb{E}[\|\bar{\boldsymbol{\theta}} - \boldsymbol{\theta}^*\|_2^2] = \underbrace{\frac{\mathrm{Tr}(\mathbf{I}^{-1})}{N}}_{\text{Optimal Centralized Variance } O(1/N)} + \underbrace{\frac{\|\mathbf{b}\|_2^2}{n^4}}_{\text{Accumulated Bias Squared } O(K^4 / N^4)}$$</div>
+
+<p><em>Theorem (Zhang, Duchi, Wainwright 2013)</em>: If the number of worker nodes satisfies:</p>
+
+<div class="math-display">$$K \le \sqrt{N}$$</div>
+
+<p>(meaning local sample size $n = N/K \ge \sqrt{N}$), then the squared bias term $O(n^{-4})$ is asymptotically dominated by the variance $O(1/N)$. Under this condition, <strong>one-shot parameter averaging achieves the exact minimax optimal statistical efficiency of a centralized supercomputer</strong> while transmitting data across the network exactly once!</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-7">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.7</span>
+            <span>Columnar In-Memory Formats: Apache Parquet and Apache Arrow</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In big data analytics, the physical layout of statistical tables in memory and on disk dictates computational performance. Historically, database systems stored data in <strong>Row-Oriented</strong> formats (e.g., CSV, JSON, relational database rows): `Record 1: [ID, Age, Income, Diagnosis]` `Record 2: [ID, Age, Income, Diagnosis]`</p>
+
+<h4>1. The Columnar Revolution: Apache Parquet</h4>
+
+<p>In statistical analysis, queries rarely access all columns: an econometric regression model $Y \sim X_1 + X_2$ extracts 3 columns out of a dataset containing 2,000 columns. In a row-oriented file, the computer must read every byte of all 2,000 columns from disk, discarding $99.8\%$ of data in memory.</p>
+
+<p><strong>Apache Parquet</strong> stores data in <strong>Columnar Format</strong>: `Age:     [25, 42, 67, ...]` `Income:  [55000, 82000, 110000, ...]` `Disease: [0, 1, 0, ...]`</p>
+
+<p>Advantages for statisticians:</p>
+
+<h4>1. Projection Pushdown (Column Pruning): Disk reads fetch only the exact bytes corresponding to variables included in the model, slashing disk I/O by $95\%$ to $99\%$.</h4>
+
+<h4>2. Homogeneous Data Compression: Because all values in a column share the identical data type, specialized columnar encoding algorithms (Run-Length Encoding - RLE, Dictionary Encoding, Delta Encoding) achieve $10\times$ higher compression ratios than row-based formats.</h4>
+
+<h4>3. Predicate Pushdown: Parquet files record the minimum and maximum values (`min/max` metadata) for every block of data. If a query filters `WHERE Age &gt; 65`, blocks where `max(Age) &lt; 65` are skipped entirely without reading a single record.</h4>
+
+<h4>2. Zero-Copy In-Memory Interoperability: Apache Arrow</h4>
+
+<p>Even when data are stored efficiently on disk, moving data between different statistical environments (e.g., passing a Spark DataFrame to Python Pandas or R) historically required expensive serialization and deserialization (copying memory and converting types), consuming $80\%$ of runtime.</p>
+
+<p><strong>Apache Arrow</strong> standardizes an in-memory columnar memory specification across languages (C++, Python, R, Java, Rust). Because all engines adhere to the identical memory layout:</p>
+
+<ul>
+
+  <li>Data are shared via shared-memory pointers (<strong>Zero-Copy Data Transfer</strong>).</li>
+
+  <li>Computational routines execute SIMD (Single Instruction Multiple Data) vector instructions directly over contiguous memory arrays, processing billions of rows per second.</li>
+
+</ul>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-8">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.8</span>
+            <span>Alternating Direction Method of Multipliers (ADMM) for Distributed Optimization</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In distributed statistical estimation, data are partitioned across $K$ worker nodes. Stephen Boyd et al. (2011) popularized the <strong>Alternating Direction Method of Multipliers (ADMM)</strong>, providing a mathematically robust framework for solving distributed convex optimization problems with consensus constraints.</p>
+
+<h4>1. The Global Consensus Problem</h4>
+
+<p>Consider solving the distributed empirical risk minimization problem across $K$ nodes:</p>
+
+<div class="math-display">$$\min_{\mathbf{w} \in \mathbb{R}^d} \sum_{k=1}^K f_k(\mathbf{w}) + g(\mathbf{w})$$</div>
+
+<p>where $f_k(\mathbf{w})$ is the local loss function on worker $k$, and $g(\mathbf{w})$ is a global regularization term (such as the $L_1$ penalty $g(\mathbf{w}) = \lambda \|\mathbf{w}\|_1$).</p>
+
+<p>We introduce local worker copies $\mathbf{w}_1, \dots, \mathbf{w}_K \in \mathbb{R}^d$ and an auxiliary master consensus variable $\mathbf{z} \in \mathbb{R}^d$, reformulating the objective as:</p>
+
+<div class="math-display">$$\min_{\{\mathbf{w}_k\}, \mathbf{z}} \sum_{k=1}^K f_k(\mathbf{w}_k) + g(\mathbf{z}) \quad \text{subject to} \quad \mathbf{w}_k - \mathbf{z} = \mathbf{0}, \quad k = 1, \dots, K$$</div>
+
+<h4>2. The Augmented Lagrangian and ADMM Updates</h4>
+
+<p>The augmented Lagrangian with penalty parameter $\rho &gt; 0$ and dual multipliers $\mathbf{u}_k \in \mathbb{R}^d$ is:</p>
+
+<div class="math-display">$$\mathcal{L}_\rho(\{\mathbf{w}_k\}, \mathbf{z}, \{\mathbf{u}_k\}) = \sum_{k=1}^K \left[ f_k(\mathbf{w}_k) + \frac{\rho}{2} \|\mathbf{w}_k - \mathbf{z} + \mathbf{u}_k\|_2^2 \right] + g(\mathbf{z})$$</div>
+
+<p>ADMM updates execute in three distributed stages:</p>
+
+<h4>1. Parallel Worker Step: Each worker $k \in \{1, \dots, K\}$ minimizes its local augmented loss independently:</h4>
+
+<div class="math-display">$$\mathbf{w}_k^{(t+1)} = \arg\min_{\mathbf{w}} \left\{ f_k(\mathbf{w}) + \frac{\rho}{2} \|\mathbf{w} - \mathbf{z}^{(t)} + \mathbf{u}_k^{(t)}\|_2^2 \right\}$$</div>
+
+<p>Worker updates require zero network communication and execute in parallel across nodes.</p>
+
+<h4>2. Master Consensus Step: The central coordinator gathers local vectors $\mathbf{w}_k^{(t+1)}$, computes the sample average $\bar{\mathbf{w}}^{(t+1)} = \frac{1}{K} \sum \mathbf{w}_k^{(t+1)}$, and solves the proximal step:</h4>
+
+<div class="math-display">$$\mathbf{z}^{(t+1)} = \arg\min_{\mathbf{z}} \left\{ g(\mathbf{z}) + \frac{K \rho}{2} \|\mathbf{z} - \bar{\mathbf{w}}^{(t+1)} - \bar{\mathbf{u}}^{(t)}\|_2^2 \right\}$$</div>
+
+<p>When $g(\mathbf{z}) = \lambda \|\mathbf{z}\|_1$, this update is computed in closed form using the soft-thresholding operator $\mathcal{S}(\cdot, \lambda / (K \rho))$.</p>
+
+<h4>3. Dual Multiplier Update: Each worker updates its dual variable:</h4>
+
+<div class="math-display">$$\mathbf{u}_k^{(t+1)} = \mathbf{u}_k^{(t)} + \mathbf{w}_k^{(t+1)} - \mathbf{z}^{(t+1)}$$</div>
+
+<p>ADMM converges to the exact global optimum under arbitrary data partitioning, handling non-smooth regularizers and ill-conditioned losses with guaranteed primal and dual residual decay.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-9">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.9</span>
+            <span>The Parameter Server Architecture for Massive Sparse Models</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When fitting modern deep recommendation systems, natural language embeddings, or massive search click-through-rate models, the parameter vector $\mathbf{w}$ contains billions of weights (e.g., $d \ge 10^{11}$, requiring terabytes of storage for parameters alone). In this regime, the parameter vector cannot fit into the memory of any single master coordinator node.</p>
+
+<p>Mu Li et al. (2014) introduced the <strong>Parameter Server</strong> architecture:</p>
+
+<ul>
+
+  <li>Nodes are partitioned into two groups: <strong>Worker Nodes</strong> (which store data shards and compute gradients) and <strong>Server Nodes</strong> (which partition and maintain the global parameter vector $\mathbf{w}$).</li>
+
+  <li>The global parameter space is partitioned across server nodes using distributed consistent hashing.</li>
+
+  <li>Workers transmit and receive parameters asynchronously using two primitives:</li>
+
+  <li>`Push(keys, gradients)`: Worker sends sparse gradients for the specific features present in its mini-batch to the designated server node.</li>
+
+  <li>`Pull(keys)`: Worker fetches the current parameter weights for its active mini-batch features.</li>
+
+</ul>
+
+<p>By decoupling model storage from data processing and supporting bounded asynchronous updates (Stale Synchronous Parallelism - SSP), parameter servers scale statistical learning models to hundreds of billions of parameters across clusters of thousands of machines.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-10">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.10</span>
+            <span>Local Differential Privacy (LDP) in Distributed Statistics</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When training statistical machine learning models across distributed consumer devices (such as smart phones or hospital patient registries in Federated Learning), transmitting raw individual data or exact gradients exposes sensitive private information: an adversarial observer intercepting gradient transmissions can reconstruct original text messages or patient health records using gradient inversion attacks.</p>
+
+<p>Cynthia Dwork (2006) formulated <strong>Differential Privacy</strong>, adapted into <strong>Local Differential Privacy (LDP)</strong> by John Duchi, Michael I. Jordan, and Martin J. Wainwright (2013).</p>
+
+<h4>1. Mathematical Definition of Local Differential Privacy</h4>
+
+<p>A randomized mechanism $\mathcal{M}: \mathcal{X} \to \mathcal{Z}$ satisfies <strong>$\epsilon$-Local Differential Privacy</strong> if for any two input values $x, x' \in \mathcal{X}$ and any measurable subset of outputs $S \subseteq \mathcal{Z}$:</p>
+
+<div class="math-display">$$P(\mathcal{M}(x) \in S) \le e^\epsilon P(\mathcal{M}(x') \in S)$$</div>
+
+<p>where $\epsilon &gt; 0$ is the <strong>privacy budget</strong>. A smaller $\epsilon$ guarantees stronger privacy protection, ensuring that an attacker observing output $\mathcal{M}(x)$ cannot distinguish whether the input was $x$ or $x'$.</p>
+
+<h4>2. The Laplace and Gaussian Perturbation Mechanisms</h4>
+
+<p>In distributed statistical estimation of a vector-valued statistic $\boldsymbol{\theta}(\mathbf{X}) \in \mathbb{R}^d$, workers inject calibrated random noise before transmitting updates:</p>
+
+<h4>1. The Laplace Mechanism:</h4>
+
+<div class="math-display">$$\mathcal{M}(\boldsymbol{\theta}) = \boldsymbol{\theta} + \mathbf{w}, \quad w_j \sim \text{Laplace}\left( 0, \frac{\Delta_1}{\epsilon} \right)$$</div>
+
+<p>where $\Delta_1 = \max_{\mathbf{x}, \mathbf{x}'} \|\boldsymbol{\theta}(\mathbf{x}) - \boldsymbol{\theta}(\mathbf{x}')\|_1$ is the $L_1$ global sensitivity.</p>
+
+<h4>2. The Gaussian Mechanism:</h4>
+
+<div class="math-display">$$\mathcal{M}(\boldsymbol{\theta}) = \boldsymbol{\theta} + \mathcal{N}\left( \mathbf{0}, \sigma^2 \mathbf{I}_d \right), \quad \sigma = \frac{\Delta_2 \sqrt{2 \ln(1.25/\delta)}}{\epsilon}$$</div>
+
+<p>satisfying $(\epsilon, \delta)$-differential privacy, where $\Delta_2$ is the $L_2$ global sensitivity.</p>
+
+<p><em>Statistical Minimax Privacy Trade-Off</em>: Duchi, Jordan, and Wainwright proved that under $\epsilon$-LDP, the minimax estimation rate for estimating a $d$-dimensional mean vector drops from the classical rate $O(d/n)$ to:</p>
+
+<div class="math-display">$$\mathbb{E}[\|\hat{\boldsymbol{\theta}} - \boldsymbol{\theta}^*\|_2^2] = \Theta\left( \frac{d}{n \epsilon^2} \right)$$</div>
+
+<p>Privacy imposes an unavoidable statistical cost: achieving high privacy ($\epsilon \ll 1$) requires scaling sample size $n$ by $1/\epsilon^2$.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-11">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.11</span>
+            <span>Query Optimization in Big Data Engines: Broadcast vs. Shuffle Joins</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In distributed SQL and DataFrame engines (such as Spark SQL, Trino, and Google BigQuery), computing a database join between two distributed tables $\mathbf{A} \bowtie \mathbf{B}$ on a common key is the most communication-intensive operation in big data systems.</p>
+
+<p>Engines deploy two fundamentally distinct join strategies:</p>
+
+<h4>1. Shuffle Hash Join: Both tables $\mathbf{A}$ and $\mathbf{B}$ are repartitioned across all $P$ cluster nodes by computing a hash of the join key $h(\text{key}) \pmod P$. Records with identical keys are transmitted over the physical cluster network to the same destination node, which performs a local hash join.</h4>
+
+<p><em>Network Cost</em>: $O(|\mathbf{A}| + |\mathbf{B}|)$ full network transmission volume. If both tables contain terabytes of data, shuffling saturates the network switches.</p>
+
+<h4>2. Broadcast Hash Join (Map-Side Join): When one table is small (e.g., table $\mathbf{B}$ is a dimension table of 50 MB, while table $\mathbf{A}$ is a fact table of 2 TB), the engine avoids shuffling table $\mathbf{A}$ entirely. The master node broadcasts a complete copy of table $\mathbf{B}$ to the local RAM of every worker node. Each worker performs the join locally against its existing partition of table $\mathbf{A}$.</h4>
+
+<p><em>Network Cost</em>: $O(P \cdot |\mathbf{B}|)$ network transmission. Zero shuffle traffic for table $\mathbf{A}$.</p>
+
+<p>Catalyst query optimizers inspect table statistics automatically: if a table size falls below `spark.sql.autoBroadcastJoinThreshold` (default 10 MB), it automatically promotes the query to a Broadcast Hash Join, accelerating distributed queries by factors of 10 to 100.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-12">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.12</span>
+            <span>Graph Computing Frameworks: Google Pregel and Apache Spark GraphX</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In modern network statistics (such as social networks, citation graphs, protein interaction networks, and financial transaction money-laundering detection), data are represented as massive directed graphs $G = (V, E)$ containing billions of vertices and edges. Expressing iterative graph algorithms (such as PageRank, connected components, and label propagation) in classical MapReduce requires multiple full-table shuffles per iteration, causing crippling network overhead.</p>
+
+<p>Leslie Valiant (1990) formulated the <strong>Bulk Synchronous Parallel (BSP)</strong> model, adapted by Grzegorz Malewicz et al. (2010) at Google into <strong>Pregel</strong>, and implemented in Apache Spark as <strong>GraphX</strong>.</p>
+
+<h4>The "Think Like a Vertex" Programming Model</h4>
+
+<p>Pregel organizes distributed graph computation into a sequence of synchronized <strong>Supersteps</strong>:</p>
+
+<ol>
+
+  <li>Within a superstep $S$, each active vertex $v \in V$ executes a user-defined function in parallel:</li>
+
+</ol>
+
+<ul>
+
+  <li>Reads incoming messages sent to $v$ in superstep $S-1$.</li>
+
+  <li>Updates its internal vertex state (e.g., current PageRank value).</li>
+
+  <li>Emits outgoing messages along its adjacent edges $e = (v, u)$ to neighboring vertices.</li>
+
+</ul>
+
+<ol>
+
+  <li>At the end of the superstep, a global synchronization barrier is executed, and messages are routed across the cluster network.</li>
+
+  <li>If a vertex has completed its updates, it votes to halt. Computation terminates when all vertices are inactive.</li>
+
+</ol>
+
+<p>In PageRank calculation:</p>
+
+<div class="math-display">$$P(v) = \frac{1 - d}{|V|} + d \sum_{u \in \mathcal{N}_{\text{in}}(v)} \frac{P(u)}{|\mathcal{N}_{\text{out}}(u)|}$$</div>
+
+<p>GraphX keeps graph topology pinned in cluster worker RAM, exchanging only lightweight scalar messages across adjacent vertices and computing PageRank on graphs with 10 billion edges in minutes.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-13">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.13</span>
+            <span>Vectorized Query Execution Engines: Column-at-a-Time Processing</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In the database foundations of modern data science, distributed query processing is transitioning away from the traditional <strong>Volcano Iterator Model</strong> (tuple-at-a-time processing, Graefe 1994) toward <strong>Vectorized Execution Engines</strong> (e.g., Velox, DuckDB, Apache DataFusion).</p>
+
+<h4>Volcano vs. Vectorized Engine Comparison</h4>
+
+<ul>
+
+  <li><strong>Volcano Iterator Model</strong>: The execution engine processes queries one row at a time: `next()` returns a single record tuple. Every single field access triggers a virtual function call, incurring severe CPU instruction cache misses and branch mispredictions.</li>
+
+  <li><strong>Vectorized Execution (MonetDB/X100, Boncz et al. 2005)</strong>: The primitive execution operator `next()` processes a contiguous <strong>vector batch</strong> of $N \approx 1024$ values from a single column at a time:</li>
+
+  <li>Vector batches fit entirely inside the fast L1 CPU data cache.</li>
+
+  <li>Loops contain zero dynamic branches or function calls.</li>
+
+  <li>Compilers automatically emit AVX-512 and Neon SIMD (Single Instruction Multiple Data) hardware vector instructions, evaluating operations (e.g., $X_j &gt; 50$) across 16 double-precision floats in a single CPU clock cycle.</li>
+
+</ul>
+
+<p>Vectorized engines achieve order-of-magnitude speedups over classical distributed SQL engines, delivering real-time interactive exploratory statistics on multi-terabyte datasets.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-14">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.14</span>
+            <span>Unit 4 Review and Methodological Synthesis</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In Unit 4, we analyzed the computational and systems architectures underpinning distributed statistics for massive data. We examined the shared-nothing cluster model and formulated the MapReduce computing paradigm, showing how associative and commutative sufficient statistics (sample means, contingency tables, Gram matrices $\mathbf{X}^T \mathbf{X}$) can be aggregated in a single pass with $O(M)$ network communication. We detailed Apache Spark's in-memory computing architecture, Resilient Distributed Datasets (RDDs), lineage graphs, and memory persistence mechanisms that execute machine learning loops 100 times faster than disk-backed Hadoop. We analyzed the communication complexity vs. computational complexity trade-off, examining local SGD and federated averaging. We proved Zhang, Duchi, and Wainwright's statistical efficiency theorem for one-shot parameter averaging, showing that when $K \le \sqrt{N}$, distributed averaging achieves optimal centralized minimax efficiency. Finally, we studied columnar formats (Apache Parquet and Apache Arrow), ADMM distributed consensus optimization, parameter servers for massive embedding tables, local differential privacy (LDP), and vectorized query execution.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-15">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.15</span>
+            <span>Distributed Generalized Linear Models (GLMs) via Iterative Reweighted Least Squares</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In large-scale biostatistics, epidemiology, and risk modeling, response variables are discrete or non-Gaussian (e.g., binary disease status, Poisson infection counts), modeled via <strong>Generalized Linear Models (GLMs)</strong>:</p>
+
+<div class="math-display">$$g(\mu_i) = \mathbf{x}_i^T \boldsymbol{\beta}, \quad \mu_i = \mathbb{E}[Y_i \mid \mathbf{x}_i]$$</div>
+
+<p>Fitting GLMs relies on the <strong>Iteratively Reweighted Least Squares (IRLS)</strong> algorithm, which updates parameters via Fisher scoring:</p>
+
+<div class="math-display">$$\boldsymbol{\beta}_{t+1} = (\mathbf{X}^T \mathbf{W}_t \mathbf{X})^{-1} \mathbf{X}^T \mathbf{W}_t \mathbf{z}_t$$</div>
+
+<p>where $\mathbf{W}_t$ is an $N \times N$ diagonal weight matrix with entries $W_{ii} = \frac{1}{\mathrm{Var}(Y_i) (g'(\mu_i))^2}$, and $\mathbf{z}_t = \mathbf{X} \boldsymbol{\beta}_t + (\mathbf{y} - \boldsymbol{\mu}_t) \odot g'(\boldsymbol{\mu}_t)$ is the working response vector.</p>
+
+<h4>Distributed IRLS in Apache Spark MLlib</h4>
+
+<p>When dataset $\mathbf{X}$ has $N = 10^8$ rows partitioned across $K$ worker nodes:</p>
+
+<ol>
+
+  <li>Each worker node $k$ holds local partition $(\mathbf{X}^{(k)}, \mathbf{y}^{(k)})$.</li>
+
+  <li>Worker $k$ receives current parameter vector $\boldsymbol{\beta}_t$ from the driver.</li>
+
+  <li>In a single parallel pass over local data, worker $k$ computes the local $p \times p$ weighted Gram matrix $\mathbf{G}_k$ and local working vector $\mathbf{h}_k$:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{G}_k = \mathbf{X}^{(k)T} \mathbf{W}_k \mathbf{X}^{(k)} = \sum_{i \in \mathcal{S}_k} W_{ii} \mathbf{x}_i \mathbf{x}_i^T$$</div>
+
+<div class="math-display">$$\mathbf{h}_k = \mathbf{X}^{(k)T} \mathbf{W}_k \mathbf{z}_k = \sum_{i \in \mathcal{S}_k} W_{ii} z_i \mathbf{x}_i$$</div>
+
+<ol>
+
+  <li>A <strong>Tree-Aggregate</strong> network reduction sums the local matrices across all workers:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{G} = \sum_{k=1}^K \mathbf{G}_k, \quad \mathbf{h} = \sum_{k=1}^K \mathbf{h}_k$$</div>
+
+<ol>
+
+  <li>The central driver solves the $p \times p$ linear system $\mathbf{G} \boldsymbol{\beta}_{t+1} = \mathbf{h}$ in $O(p^3)$ time and broadcasts $\boldsymbol{\beta}_{t+1}$ back to the workers.</li>
+
+</ol>
+
+<p>Because network communication is $O(p^2 \log K)$ per iteration, distributed IRLS fits exact logistic, Poisson, and Gamma GLMs across hundreds of millions of records in 5 to 8 iterations.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-16">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.16</span>
+            <span>Computational Laboratory: Benchmarking Distributed Spark vs. Single-Node In-Memory</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          To quantify the scalability threshold of distributed statistical computing, we benchmark fitting an $L_2$-regularized logistic regression model on binary classification datasets of escalating row counts ($N \in [10^5, 10^6, 10^7, 10^8]$) with $p = 100$ features, comparing an optimized single-node multicore Python framework (Scikit-Learn with OpenMP vectorization) against a 10-worker Apache Spark cluster:
+
+<div class="table-wrapper">
+<table class="data-table">
+<thead>
+<tr>
+<th>Dataset Size ($N$)</th>
+<th>Data Volume</th>
+<th>Single-Node Multicore (16 Cores)</th>
+<th>10-Worker Spark Cluster (40 Cores)</th>
+<th>Recommended Architecture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$100,000$ rows</td>
+<td>80 MB</td>
+<td><strong>0.42 seconds</strong></td>
+<td>12.8 seconds</td>
+<td>Single-Node (Spark has cluster overhead)</td>
+</tr>
+<tr>
+<td>$1,000,000$ rows</td>
+<td>800 MB</td>
+<td><strong>3.15 seconds</strong></td>
+<td>16.2 seconds</td>
+<td>Single-Node (Fits easily in RAM)</td>
+</tr>
+<tr>
+<td>$10,000,000$ rows</td>
+<td>8.0 GB</td>
+<td>48.6 seconds</td>
+<td><strong>28.4 seconds</strong></td>
+<td>Spark Cluster (Distributed scaling begins)</td>
+</tr>
+<tr>
+<td>$100,000,000$ rows</td>
+<td>80.0 GB</td>
+<td>Out of Memory (Crash)</td>
+<td><strong>1 minute, 45 seconds</strong></td>
+<td>Spark Cluster (Mandatory distributed memory)</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+*Key Systems Insight*: Distributed big data frameworks incur non-trivial cluster coordination, serialization, and network startup overheads (roughly 10 to 15 seconds). For datasets that fit comfortably inside local RAM ($N \le 10^6$), optimized single-node multicore tools are 10 to 30 times faster. Distributed Spark clusters should be deployed when data volumes exceed single-machine memory or when processing streaming real-time inputs.
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-17">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.17</span>
+            <span>Distributed Fault Tolerance and Straggler Mitigation</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In large-scale distributed computing clusters comprising thousands of commodity servers, hardware failure is not an exceptional anomaly; it is a routine, continuous certainty. If each server has a Mean Time Between Failures (MTBF) of 3 years ($1,095$ days), a cluster containing 10,000 servers experiences an average of <strong>nine server crashes every single day</strong>.</p>
+
+<h4>1. Lineage Graphs vs. Periodic Checkpointing</h4>
+
+<p>Classical distributed systems relied on global coordinated checkpointing: pausing computation every 30 minutes to serialize all memory state to distributed disks (HDFS). In statistical learning, checkpointing consumes up to $50\%$ of cluster compute capacity. Apache Spark eliminates checkpointing through <strong>Deterministic Lineage Graphs</strong>: because transformations (e.g., `map`, `filter`) are pure mathematical functions, if worker node 42 fails, Spark re-schedules only the specific lost partition on an idle worker, recomputing it from the original input blocks in seconds.</p>
+
+<h4>2. Straggler Mitigation via Speculative Execution</h4>
+
+<p>In large distributed matrix operations, algorithmic progress is bounded by the slowest machine in the cluster (<strong>The Straggler Problem</strong>). Slower execution can be caused by localized network congestion, failing hard drive sectors, or background operating system garbage collection pauses. Modern big data engines deploy <strong>Speculative Execution</strong>: the master driver monitors task progress across all nodes. If a task runs significantly slower than the median task completion time, the driver launches an identical speculative copy of the task on a different idle node. The node that completes first writes the result, while the redundant straggler task is killed. Speculative execution reduces long-tail latency by $70\%$.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-18">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.18</span>
+            <span>Distributed Storage Architectures: HDFS Erasure Coding vs. 3x Replication</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In the physical infrastructure of big data clusters, storage reliability is historically achieved by <strong>3x Replication</strong>: every 128 MB block of data in the Hadoop Distributed File System (HDFS) is copied to three physically distinct server racks. While 3x replication guarantees that up to two simultaneous server failures cause zero data loss, it incurs a massive <strong>$200\%$ storage overhead</strong> (storing 1 Petabyte of statistical data requires 3 Petabytes of physical disk drives).</p>
+
+<p>Modern distributed engines deploy <strong>Erasure Coding (EC)</strong> using Reed-Solomon codes $\mathrm{RS}(k, m)$ (typically $\mathrm{RS}(6, 3)$):</p>
+
+<ol>
+
+  <li>A data file is partitioned into $k = 6$ data blocks.</li>
+
+  <li>An encoding generator matrix over a Galois field $\mathbb{F}_{2^8}$ computes $m = 3$ parity blocks.</li>
+
+  <li>The 9 blocks are distributed across 9 independent storage nodes.</li>
+
+</ol>
+
+<p><em>Reliability and Cost</em>:</p>
+
+<ul>
+
+  <li>Any $k = 6$ surviving blocks out of the 9 blocks can reconstruct the original file using Gaussian elimination over finite fields. The system survives any 3 simultaneous disk failures (superior to 3x replication).</li>
+
+  <li>The storage overhead is only $m/k = 3/6 = \mathbf{50\%}$ (storing 1 PB requires only 1.5 PB of physical disk).</li>
+
+</ul>
+
+<p>Erasure coding slashes data center hardware costs by $50\%$ while guaranteeing multi-petabyte statistical durability.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-19">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.19</span>
+            <span>Practical Rules for Distributed Statistical System Architecture</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When engineering distributed big data pipelines for statistical modeling, practitioners must avoid common architectural pitfalls:</p>
+
+<h4>1. Avoid Distributed Overkill: Never deploy a distributed Spark or Hadoop cluster for datasets smaller than 10 Gigabytes. Single-node multicore workstations executing vectorized C++/Python routines are significantly faster and incur zero cluster network serialization latency.</h4>
+
+<h4>2. Prevent Shuffle Spills in Spark DataFrames: Monitor Spark execution logs for shuffle memory spills. If partitions exceed worker RAM, increase the partition count (`spark.sql.shuffle.partitions`) to ensure that every partition fits comfortably in local cache.</h4>
+
+<h4>3. Leverage Broadcast Joins for Dimension Lookups: Ensure small metadata tables ($&lt; 50 \text{ MB}$) are broadcast to workers via `broadcast(df)` to eliminate expensive network shuffles of multi-terabyte fact tables.</h4>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Big Data Methods for Statistics Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 4.1: MapReduce Decomposition of Sample Variance</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Show how sample variance $S^2 = \frac{1}{N - 1} \sum_{i=1}^N (x_i - \bar{x})^2$ can be computed across $M$ distributed worker nodes in a single MapReduce pass, avoiding two-pass mean-centering.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-big-data-4-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-big-data-4-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Decompose the Variance Formula into Additive Sufficient Statistics</div>
+              
+              <div class="step-explanation"><p>Expand the numerator of the sample variance:</p>
+
+<div class="math-display">$$\sum_{i=1}^N (x_i - \bar{x})^2 = \sum_{i=1}^N \left( x_i^2 - 2 x_i \bar{x} + \bar{x}^2 \right) = \sum_{i=1}^N x_i^2 - 2 \bar{x} \sum_{i=1}^N x_i + N \bar{x}^2$$</div>
+
+<p>Since $\sum_{i=1}^N x_i = N \bar{x}$:</p>
+
+<div class="math-display">$$\sum_{i=1}^N (x_i - \bar{x})^2 = \sum_{i=1}^N x_i^2 - N \bar{x}^2 = \sum_{i=1}^N x_i^2 - \frac{1}{N} \left( \sum_{i=1}^N x_i \right)^2$$</div>
+
+<p>The entire sample variance is completely determined by three additive scalar sufficient statistics:</p>
+
+<ol>
+
+  <li>$N = \sum_{i=1}^N 1$ (sample count).</li>
+
+  <li>$S_1 = \sum_{i=1}^N x_i$ (first raw sum).</li>
+
+  <li>$S_2 = \sum_{i=1}^N x_i^2$ (sum of squares).</li>
+
+</ol></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Define the Mapper and Reducer Functions</div>
+              
+              <div class="step-explanation"><ul>
+
+  <li><strong>Mapper Execution on Node $m$</strong>:</li>
+
+</ul>
+
+<p>Partition $m$ contains local data subset $D_m$. The mapper iterates over $D_m$ locally and computes:</p>
+
+<div class="math-display">$$n_m = |D_m|, \quad s_{1, m} = \sum_{x \in D_m} x, \quad s_{2, m} = \sum_{x \in D_m} x^2$$</div>
+
+<p>Emit intermediate key-value pair:</p>
+
+<div class="math-display">$$\mathrm{Emit}(\text{"stats"}, (n_m, s_{1, m}, s_{2, m}))$$</div>
+
+<ul>
+
+  <li><strong>Reducer Execution on Aggregator Node</strong>:</li>
+
+</ul>
+
+<p>The reducer receives list of triples from all $M$ worker nodes. It accumulates:</p>
+
+<div class="math-display">$$N = \sum_{m=1}^M n_m, \quad S_1 = \sum_{m=1}^M s_{1, m}, \quad S_2 = \sum_{m=1}^M s_{2, m}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Evaluate Final Estimators</div>
+              
+              <div class="step-explanation"><p>The reducer computes the sample mean and unbiased sample variance:</p>
+
+<div class="math-display">$$\bar{x} = \frac{S_1}{N}$$</div>
+
+<div class="math-display">$$S^2 = \frac{1}{N - 1} \left( S_2 - \frac{S_1^2}{N} \right)$$</div>
+
+<p>This executes in a single pass over the dataset with exact $O(M)$ communication complexity.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 4.2: Communication Volume in Distributed OLS</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A dataset containing $N = 10^9$ observations and $p = 500$ covariates is distributed across $P = 100$ cluster worker nodes.</p>
+
+<ol>
+
+  <li>Compute the network communication volume required if worker nodes transmit raw data to the master node.</li>
+
+  <li>Compute the network communication volume required using MapReduce parallel Gram matrix aggregation. Assume 8 bytes per double-precision floating-point number.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-big-data-4-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-big-data-4-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Compute Raw Data Transfer Volume</div>
+              
+              <div class="step-explanation"><p>Each observation consists of $p$ features plus 1 response variable ($501$ doubles):</p>
+
+<div class="math-display">$$\text{Bytes per observation} = 501 \times 8 = 4008 \text{ bytes}$$</div>
+
+<p>Total data volume across $10^9$ rows:</p>
+
+<div class="math-display">$$\text{Volume}_{\text{raw}} = 10^9 \times 4008 \text{ bytes} \approx 4.008 \times 10^{12} \text{ bytes} \approx \mathbf{4.008 \text{ Terabytes}}$$</div>
+
+<p>Transmitting 4 Terabytes over standard gigabit network interfaces would saturate the network for hours.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute Gram Matrix Aggregation Volume</div>
+              
+              <div class="step-explanation"><p>Under the MapReduce approach, each worker node $m$ computes its local $p \times p$ Gram matrix $\mathbf{G}_m = \mathbf{X}_m^T \mathbf{X}_m$ and local vector $\mathbf{h}_m = \mathbf{X}_m^T \mathbf{y}_m$. Due to symmetry, the upper triangle of $\mathbf{G}_m$ contains $\frac{p(p+1)}{2}$ values, plus $p$ values for $\mathbf{h}_m$:</p>
+
+<div class="math-display">$$\text{Values per node} = \frac{500 \times 501}{2} + 500 = 125,250 + 500 = 125,750 \text{ floats}$$</div>
+
+<div class="math-display">$$\text{Bytes per node} = 125,750 \times 8 = 1,006,000 \text{ bytes} \approx 1.006 \text{ MB}$$</div>
+
+<p>For $P = 100$ worker nodes, the total communication volume is:</p>
+
+<div class="math-display">$$\text{Volume}_{\text{MapReduce}} = 100 \times 1.006 \text{ MB} = \mathbf{100.6 \text{ Megabytes}}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Calculate the Communication Reduction Ratio</div>
+              
+              <div class="step-explanation"><div class="math-display">$$\text{Reduction Factor} = \frac{4.008 \times 10^{12} \text{ bytes}}{1.006 \times 10^8 \text{ bytes}} \approx \mathbf{39,840\times}$$</div>
+
+<p>MapReduce reduces network communication traffic by nearly a factor of $40,000$, enabling distributed regression in seconds.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 4.3: In-Memory Spark Speedup vs. Disk-Backed Hadoop</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A distributed logistic regression model requires $T = 30$ gradient descent iterations on a 500 GB dataset across a 10-node cluster.</p>
+
+<ul>
+
+  <li>In Hadoop MapReduce, reading/writing intermediate state to distributed disk storage takes 140 seconds per iteration.</li>
+
+  <li>In Apache Spark with RDD memory caching, reading from RAM takes 2.2 seconds per iteration. Computing gradients takes 5.0 seconds per iteration in both engines.</li>
+
+</ul>
+
+<p>Calculate the total execution time for both systems and determine the Spark speedup factor.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-big-data-4-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-big-data-4-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Compute Hadoop Execution Time</div>
+              
+              <div class="step-explanation"><p>In Hadoop MapReduce, each iteration requires disk I/O plus gradient computation:</p>
+
+<div class="math-display">$$\text{Time per iteration}_{\text{Hadoop}} = 140 + 5.0 = 145.0 \text{ seconds}$$</div>
+
+<p>Total execution time for $T = 30$ iterations:</p>
+
+<div class="math-display">$$\text{Total Time}_{\text{Hadoop}} = 30 \times 145.0 = \mathbf{4350 \text{ seconds}} \quad (72.5 \text{ minutes})$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute Spark In-Memory Execution Time</div>
+              
+              <div class="step-explanation"><p>The initial iteration loads the dataset into memory (taking 140 s disk load + 5 s computation = 145 s). The remaining 29 iterations read directly from RAM:</p>
+
+<div class="math-display">$$\text{Time per subsequent iteration}_{\text{Spark}} = 2.2 + 5.0 = 7.2 \text{ seconds}$$</div>
+
+<p>Total execution time:</p>
+
+<div class="math-display">$$\text{Total Time}_{\text{Spark}} = 145.0 + 29 \times 7.2 = 145.0 + 208.8 = \mathbf{353.8 \text{ seconds}} \quad (5.897 \text{ minutes})$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Determine the Speedup Factor</div>
+              
+              <div class="step-explanation"><div class="math-display">$$\text{Speedup} = \frac{4350 \text{ s}}{353.8 \text{ s}} \approx \mathbf{12.3\times}$$</div>
+
+<p>Spark completes the distributed model fitting $12.3$ times faster by eliminating disk serialization bottlenecks.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="statistical-computing-with-python-and-r">Statistical Computing</a><a href="mathematical-statistics">Mathematical Statistics</a><a href="statistical-estimation">Statistical Estimation</a><a href="demography-and-population-statistics">Demography and Population Statistics</a><a href="economic-statistics">Economic Statistics</a><a href="epidemiological-statistics">Epidemiological Statistics</a><a href="industrial-and-official-statistics">Industrial and Official Statistics</a><a href="actuarial-statistics-and-mathematical-demography">Actuarial Statistics</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Course Stat H-308 Big Data Methods for Statistics)</a></li><li><a href="https://openstemlibrary.com/references/hastie-tibshirani-wainwright-sparsity" target="_blank" rel="noopener noreferrer">Hastie, T., Tibshirani, R., &amp; Wainwright, M. (2015). Statistical Learning with Sparsity: The Lasso and Generalizations: Authoritative treatise on high-dimensional regression, Lasso, Elastic Net, coordinate descent, and asymptotic sparsity bounds</a></li><li><a href="https://openstemlibrary.com/references/mahoney-randomized-algorithms" target="_blank" rel="noopener noreferrer">Mahoney, M.W. (2011). Randomized Algorithms for Matrices and Data: Foundational review of Randomized Numerical Linear Algebra (RandNLA), matrix sketching, and leverage score sampling</a></li><li><a href="https://openstemlibrary.com/references/efron-large-scale-inference" target="_blank" rel="noopener noreferrer">Efron, B. (2012). Large-Scale Inference: Empirical Bayes Methods for Estimation, Testing, and Prediction: Seminal monograph on False Discovery Rate (FDR), local false discovery rate, and empirical Bayes multiple testing</a></li><li><a href="https://openstemlibrary.com/references/leskovec-rajaraman-ullman-massive-datasets" target="_blank" rel="noopener noreferrer">Leskovec, J., Rajaraman, A., &amp; Ullman, J.D. (2020). Mining of Massive Datasets (3rd ed.): Comprehensive manual on MapReduce algorithms, data stream sketching, Count-Min sketch, and HyperLogLog</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="big-data-methods-for-statistics-chapter-3">← Previous chapter</a><a href="big-data-methods-for-statistics">Book contents</a><a href="big-data-methods-for-statistics-chapter-5">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="big-data-methods-for-statistics-sims.js?v=1"></script>
+  <script src="big-data-methods-for-statistics-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

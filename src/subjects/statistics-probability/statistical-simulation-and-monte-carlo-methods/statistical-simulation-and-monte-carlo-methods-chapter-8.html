@@ -1,0 +1,1188 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Resampling &amp; Permutation Methods: Bootstrap and Jackknife | Statistical Simulation and Monte Carlo Methods | OpenSTEM Library</title>
+  <meta name="description" content="The Plug-in Principle and Bradley Efron's Empirical Bootstrap: drawing resamples with replacement from empirical distribution F_hat_n; Non-parametric bootstrap for standard error estimation, bias estimation, and sampling distribution approximation; Parametric bootstrap: simulating from estimated parametric families F_hat_theta; Bootstrap confidence intervals: standard normal approximation, basic bootstrap intervals, percentile bootstrap intervals, and studentized bootstrap-t; Bias-Corrected and Accelerated (BCa) bootstrap confidence intervals: acceleration parameter a and bias-correction factor z_0; The Quenouille-Tukey Jackknife: leave-one-out pseudovalues, jackknife bias estimator, and variance estimator; Permutation tests: Fisher's exact test of independence, two-sample permutation tests, and exact Monte Carlo p-value computation.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/statistical-simulation-and-monte-carlo-methods-chapter-8">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/statistical-simulation-and-monte-carlo-methods-chapter-8">
+  <meta property="og:title" content="Statistical Simulation and Monte Carlo Methods: Pseudorandom Numbers, Rejection, MCMC &amp; Particle Filtering | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering pseudorandom number generators (LCG, Mersenne Twister, statistical test suites), non-uniform random variate generation (inversion, rejection sampling, Box-Muller, multivariate normal), Monte Carlo integration, variance reduction techniques (antithetic variates, control variates, importance sampling, stratified sampling), Markov Chain Monte Carlo foundations, the Metropolis-Hastings algorithm, Gibbs sampling, slice sampling, Hamiltonian Monte Carlo, convergence diagnostics (Gelman-Rubin R-hat, ESS), and Sequential Monte Carlo (particle filtering) with 24 solved questions and 4 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Statistical Simulation and Monte Carlo Methods: Pseudorandom Numbers, Rejection, MCMC &amp; Particle Filtering | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering pseudorandom number generators (LCG, Mersenne Twister, statistical test suites), non-uniform random variate generation (inversion, rejection sampling, Box-Muller, multivariate normal), Monte Carlo integration, variance reduction techniques (antithetic variates, control variates, importance sampling, stratified sampling), Markov Chain Monte Carlo foundations, the Metropolis-Hastings algorithm, Gibbs sampling, slice sampling, Hamiltonian Monte Carlo, convergence diagnostics (Gelman-Rubin R-hat, ESS), and Sequential Monte Carlo (particle filtering) with 24 solved questions and 4 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="statistical-simulation-and-monte-carlo-methods.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Statistical Simulation and Monte Carlo Methods: Resampling & Permutation Methods: Bootstrap and Jackknife","description":"Comprehensive university textbook covering pseudorandom number generators (LCG, Mersenne Twister, statistical test suites), non-uniform random variate generation (inversion, rejection sampling, Box-Muller, multivariate normal), Monte Carlo integration, variance reduction techniques (antithetic variates, control variates, importance sampling, stratified sampling), Markov Chain Monte Carlo foundations, the Metropolis-Hastings algorithm, Gibbs sampling, slice sampling, Hamiltonian Monte Carlo, convergence diagnostics (Gelman-Rubin R-hat, ESS), and Sequential Monte Carlo (particle filtering) with 24 solved questions and 4 interactive simulations.","url":"https://openstemlibrary.com/statistical-simulation-and-monte-carlo-methods-chapter-8","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Statistical Simulation","Monte Carlo Methods","Pseudorandom Number Generators","Rejection Sampling and Inversion","Importance Sampling and Variance Reduction","Markov Chain Monte Carlo and Metropolis-Hastings","Gibbs Sampling and Hierarchical Bayes","Hamiltonian Monte Carlo and NUTS","Sequential Monte Carlo and Particle Filtering"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Statistical Simulation and Monte Carlo Methods","item":"https://openstemlibrary.com/statistical-simulation-and-monte-carlo-methods"}]}</script></head>
+<body data-book-path="statistical-simulation-and-monte-carlo-methods.html" data-chapter-index="7" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Statistical Simulation and Monte Carlo Methods</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search PRNG, LCG, Mersenne Twister, inversion method, rejection sampling, Box-Muller, Monte Carlo integration, importance sampling, antithetic variates, Metropolis-Hastings, Gibbs sampler, Hamiltonian Monte Carlo, particle filter…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="statistical-simulation-and-monte-carlo-methods" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Uniform Random Number Generation &amp; Pseudorandom Foundations</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="statistical-simulation-and-monte-carlo-methods-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Non-Uniform Random Variate Generation: Inversion &amp; Transformations</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="statistical-simulation-and-monte-carlo-methods-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Rejection Sampling &amp; Envelope Methods</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="statistical-simulation-and-monte-carlo-methods-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Monte Carlo Integration &amp; Precision</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="statistical-simulation-and-monte-carlo-methods-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Variance Reduction Techniques</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="statistical-simulation-and-monte-carlo-methods-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Markov Chain Monte Carlo (MCMC): Metropolis-Hastings Algorithms</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="statistical-simulation-and-monte-carlo-methods-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">The Gibbs Sampler &amp; Bayesian Computational Inference</span></a></li><li class="unit-nav-item active" data-unit-index="7"><a href="statistical-simulation-and-monte-carlo-methods-chapter-8" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Resampling &amp; Permutation Methods: Bootstrap and Jackknife</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Statistical simulation &amp; Monte Carlo methods major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 8 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Resampling &amp; Permutation Methods: Bootstrap and Jackknife</h1>
+            <p class="unit-desc-lead" id="unit-desc">The Plug-in Principle and Bradley Efron's Empirical Bootstrap: drawing resamples with replacement from empirical distribution F_hat_n; Non-parametric bootstrap for standard error estimation, bias estimation, and sampling distribution approximation; Parametric bootstrap: simulating from estimated parametric families F_hat_theta; Bootstrap confidence intervals: standard normal approximation, basic bootstrap intervals, percentile bootstrap intervals, and studentized bootstrap-t; Bias-Corrected and Accelerated (BCa) bootstrap confidence intervals: acceleration parameter a and bias-correction factor z_0; The Quenouille-Tukey Jackknife: leave-one-out pseudovalues, jackknife bias estimator, and variance estimator; Permutation tests: Fisher's exact test of independence, two-sample permutation tests, and exact Monte Carlo p-value computation.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-307 (Statistical Simulation and Monte Carlo Methods). Eight units and exactly three solved questions per unit. Interactive simulations illustrate linear congruential generators, rejection sampling envelopes, rare-event importance sampling, and Metropolis-Hastings random walks. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-8-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.1</span>
+            <span>The Plug-In Principle and Bradley Efron's Empirical Bootstrap</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Let $\mathbf{X} = (X_1, X_2, \dots, X_n)$ be an independent and identically distributed (i.i.d.) random sample drawn from an unknown cumulative distribution function $F$:</p>
+
+<div class="math-display">$$X_i \sim F \quad \text{i.i.d. for } i = 1, \dots, n$$</div>
+
+<p>We desire to estimate an unknown population parameter $\theta = t(F)$, such as the population mean $\mu = \int x\,dF(x)$, population median $F^{-1}(0.5)$, or variance $\sigma^2$.</p>
+
+<p>Let $\hat{\theta} = s(\mathbf{X})$ be a sample estimator of $\theta$. To quantify the statistical uncertainty of $\hat{\theta}$, we need its sampling distribution $F_{\hat{\theta}}$, standard error $\text{se}_F(\hat{\theta})$, and bias $\text{bias}_F(\hat{\theta}) = \mathbb{E}_F[\hat{\theta}] - \theta$.</p>
+
+<h4>1. The Empirical Distribution Function (EDF)</h4>
+
+<p>The sample data $\mathbf{X}$ define the <strong>Empirical Distribution Function (EDF)</strong> $\hat{F}_n$:</p>
+
+<div class="math-display">$$\hat{F}_n(x) = \frac{1}{n} \sum_{i=1}^n I(X_i \le x)$$</div>
+
+<p>The EDF assigns discrete probability mass $1/n$ to each of the $n$ observed data points:</p>
+
+<div class="math-display">$$P_{\hat{F}_n}(X^* = X_i) = \frac{1}{n} \quad \text{for } i = 1, 2, \dots, n$$</div>
+
+<p>By the <strong>Glivenko-Cantelli Theorem (The Fundamental Theorem of Statistics)</strong>:</p>
+
+<div class="math-display">$$\lim_{n \to \infty} \sup_{x \in \mathbb{R}} |\hat{F}_n(x) - F(x)| = 0 \quad \text{almost surely}$$</div>
+
+<p>As $n \to \infty$, the empirical distribution $\hat{F}_n$ converges uniformly to the true population distribution $F$.</p>
+
+<h4>2. The Plug-In Principle</h4>
+
+<p>The <strong>Plug-In Principle</strong> dictates that any unknown population characteristic $\theta = t(F)$ is estimated by the corresponding characteristic of the empirical distribution:</p>
+
+<div class="math-display">$$\hat{\theta} = t(\hat{F}_n)$$</div>
+
+<p>Similarly, the unknown standard error $\text{se}_F(\hat{\theta})$ is estimated by the plug-in estimate:</p>
+
+<div class="math-display">$$\widehat{\text{se}}(\hat{\theta}) = \text{se}_{\hat{F}_n}(\hat{\theta}^*)$$</div>
+
+<h4>3. The Non-Parametric Bootstrap Algorithm</h4>
+
+<p>Because calculating $\text{se}_{\hat{F}_n}(\hat{\theta}^*)$ analytically is intractable for complex estimators, Efron approximated it via Monte Carlo simulation:</p>
+
+<ol>
+
+  <li>For $b = 1, 2, \dots, B$ (where $B \ge 1,000$ bootstrap replicates):</li>
+
+</ol>
+
+<ul>
+
+  <li>Draw a <strong>bootstrap sample</strong> $\mathbf{X}^{*b} = (X_1^{*b}, X_2^{*b}, \dots, X_n^{*b})$ by sampling $n$ observations <strong>uniformly at random with replacement</strong> from the original dataset $\mathbf{X}$.</li>
+
+  <li>Compute the bootstrap replicate of the statistic:</li>
+
+</ul>
+
+<div class="math-display">$$\hat{\theta}^{*b} = s(\mathbf{X}^{*b})$$</div>
+
+<ol>
+
+  <li>The <strong>Bootstrap Standard Error</strong> is the sample standard deviation of the $B$ bootstrap replications:</li>
+
+</ol>
+
+<div class="math-display">$$\widehat{\text{se}}_B(\hat{\theta}) = \sqrt{\frac{1}{B - 1} \sum_{b=1}^B \left( \hat{\theta}^{*b} - \bar{\theta}^* \right)^2}$$</div>
+
+<p>where $\bar{\theta}^* = \frac{1}{B} \sum_{b=1}^B \hat{\theta}^{*b}$.</p>
+
+<ol>
+
+  <li>The <strong>Bootstrap Bias Estimate</strong> is:</li>
+
+</ol>
+
+<div class="math-display">$$\widehat{\text{bias}}_B(\hat{\theta}) = \bar{\theta}^* - \hat{\theta}$$</div>
+
+<p>The bias-corrected point estimate is $\hat{\theta}_{\text{bc}} = \hat{\theta} - \widehat{\text{bias}}_B = 2\hat{\theta} - \bar{\theta}^*$.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.2</span>
+            <span>Bootstrap Confidence Intervals: Normal, Percentile, Basic, and BCa</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Constructing confidence intervals for parameter $\theta$ via bootstrapping admits several formulations:</p>
+
+<h4>1. The Standard Normal Bootstrap Interval</h4>
+
+<p>Assuming the sampling distribution of $\hat{\theta}$ is approximately Gaussian:</p>
+
+<div class="math-display">$$\mathcal{CI}_{\text{norm}} = \left[ \hat{\theta} - z_{1 - \alpha/2} \widehat{\text{se}}_B, \; \hat{\theta} + z_{1 - \alpha/2} \widehat{\text{se}}_B \right]$$</div>
+
+<p><em>Limitation</em>: Fails when the sampling distribution is skewed, heavy-tailed, or bounded.</p>
+
+<h4>2. The Percentile Bootstrap Interval</h4>
+
+<p>Sort the $B$ bootstrap estimates in ascending order:</p>
+
+<div class="math-display">$$\hat{\theta}^{*(1)} \le \hat{\theta}^{*(2)} \le \dots \le \hat{\theta}^{*(B)}$$</div>
+
+<p>The $(1 - \alpha) \times 100\%$ <strong>Percentile Interval</strong> uses the empirical quantiles of the bootstrap distribution:</p>
+
+<div class="math-display">$$\mathcal{CI}_{\text{perc}} = \left[ \hat{\theta}^{*(\lfloor B \cdot \alpha/2 \rfloor)}, \; \hat{\theta}^{*(\lfloor B \cdot (1 - \alpha/2) \rfloor)} \right]$$</div>
+
+<p>For a $95\%$ confidence interval with $B = 2,000$:</p>
+
+<div class="math-display">$$\mathcal{CI}_{0.95} = \left[ \hat{\theta}^{*(50)}, \; \hat{\theta}^{*(1950)} \right]$$</div>
+
+<p><em>Key Property (Transformation Invariance)</em>: If $g(\cdot)$ is any strictly monotonic transformation, the percentile interval for $g(\theta)$ is exactly $[g(\hat{\theta}_{\text{low}}), g(\hat{\theta}_{\text{high}})]$. <em>Accuracy</em>: First-order accurate: coverage error $= \mathcal{O}(n^{-1/2})$.</p>
+
+<h4>3. The Basic (Empirical) Bootstrap Interval</h4>
+
+<p>Let the estimation error be $\delta = \hat{\theta} - \theta$. The basic bootstrap approximates the distribution of $\delta$ by the bootstrap errors $\delta^* = \hat{\theta}^* - \hat{\theta}$:</p>
+
+<div class="math-display">$$\mathcal{CI}_{\text{basic}} = \left[ 2\hat{\theta} - \hat{\theta}^{*(1 - \alpha/2)}, \; 2\hat{\theta} - \hat{\theta}^{*(\alpha/2)} \right]$$</div>
+
+<h4>4. Bias-Corrected and Accelerated (BCa) Intervals</h4>
+
+<p>Formulated by Efron in 1987, the <strong>BCa Interval</strong> corrects for both median bias and variance stabilization through two parameters:</p>
+
+<ul>
+
+  <li><strong>$z_0$ (Bias-Correction Factor)</strong>: Measures the median bias of $\hat{\theta}^*$:</li>
+
+</ul>
+
+<div class="math-display">$$z_0 = \Phi^{-1}\left( \frac{\#\{\hat{\theta}^{*b} &lt; \hat{\theta}\}}{B} \right)$$</div>
+
+<ul>
+
+  <li><strong>$a$ (Acceleration Parameter)</strong>: Measures the rate of change of the standard error of $\hat{\theta}$ with respect to the true parameter $\theta$, computed via jackknife influence values:</li>
+
+</ul>
+
+<div class="math-display">$$a = \frac{\sum_{i=1}^n (\bar{U} - U_i)^3}{6 \left[ \sum_{i=1}^n (\bar{U} - U_i)^2 \right]^{3/2}}$$</div>
+
+<p>The adjusted quantile points $\alpha_1, \alpha_2$ are:</p>
+
+<div class="math-display">$$\alpha_1 = \Phi\left( z_0 + \frac{z_0 + z_{\alpha/2}}{1 - a(z_0 + z_{\alpha/2})} \right), \quad \alpha_2 = \Phi\left( z_0 + \frac{z_0 + z_{1 - \alpha/2}}{1 - a(z_0 + z_{1 - \alpha/2})} \right)$$</div>
+
+<div class="math-display">$$\mathcal{CI}_{\text{BCa}} = \left[ \hat{\theta}^{*(\alpha_1)}, \; \hat{\theta}^{*(\alpha_2)} \right]$$</div>
+
+<p>The BCa interval is <strong>second-order accurate</strong>: coverage error $= \mathcal{O}(n^{-1})$ and is transformation-invariant.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.3</span>
+            <span>The Quenouille-Tukey Jackknife</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Developed by Maurice Quenouille (1949) for bias reduction and extended by John Tukey (1958) for variance estimation, the <strong>Jackknife</strong> is a deterministic leave-one-out resampling method that requires no random number generation.</p>
+
+<h4>1. Leave-One-Out Estimators and Pseudovalues</h4>
+
+<p>Let $\mathbf{X} = (X_1, \dots, X_n)$ be a sample of size $n$, with point estimate $\hat{\theta} = s(\mathbf{X})$. For each observation $i \in \{1, 2, \dots, n\}$, define the <strong>leave-one-out subsample</strong> $\mathbf{X}_{(i)}$ omitting the $i$-th data point:</p>
+
+<div class="math-display">$$\mathbf{X}_{(i)} = (X_1, \dots, X_{i-1}, X_{i+1}, \dots, X_n)$$</div>
+
+<p>Let $\hat{\theta}_{(i)} = s(\mathbf{X}_{(i)})$ be the statistic evaluated on this $(n-1)$-sized subsample.</p>
+
+<p>The mean of the leave-one-out estimates is:</p>
+
+<div class="math-display">$$\hat{\theta}_{(\bullet)} = \frac{1}{n} \sum_{i=1}^n \hat{\theta}_{(i)}$$</div>
+
+<h4>2. Jackknife Bias and Variance Formulas</h4>
+
+<ul>
+
+  <li><strong>Jackknife Bias Estimator</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$\widehat{\text{bias}}_{\text{jack}} = (n - 1) (\hat{\theta}_{(\bullet)} - \hat{\theta})$$</div>
+
+<ul>
+
+  <li><strong>Bias-Corrected Jackknife Estimator</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$\hat{\theta}_{\text{jack}} = \hat{\theta} - \widehat{\text{bias}}_{\text{jack}} = n \hat{\theta} - (n - 1) \hat{\theta}_{(\bullet)}$$</div>
+
+<ul>
+
+  <li><strong>Jackknife Variance Estimator</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$\widehat{\text{var}}_{\text{jack}}(\hat{\theta}) = \frac{n - 1}{n} \sum_{i=1}^n \left( \hat{\theta}_{(i)} - \hat{\theta}_{(\bullet)} \right)^2$$</div>
+
+<ul>
+
+  <li><strong>Jackknife Standard Error</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$\widehat{\text{se}}_{\text{jack}} = \sqrt{\widehat{\text{var}}_{\text{jack}}}$$</div>
+
+<p><em>Theoretical Limitation</em>: The jackknife is non-smooth: it fails completely for non-differentiable statistics such as the sample median or sample quantiles, where $\widehat{\text{var}}_{\text{jack}}$ is inconsistent. The bootstrap, by contrast, handles non-smooth statistics seamlessly.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.4</span>
+            <span>Permutation Tests: Fisher's Exact Hypothesis Testing</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When testing the null hypothesis $H_0$ that two samples come from identical distributions, Ronald Fisher formulated the <strong>Permutation Test (Randomization Test)</strong>.</p>
+
+<h4>The Two-Sample Permutation Algorithm</h4>
+
+<p>Consider sample $\mathbf{X} = (X_1, \dots, X_{n_1})$ from group 1 and sample $\mathbf{Y} = (Y_1, \dots, Y_{n_2})$ from group 2.</p>
+
+<ul>
+
+  <li>Null hypothesis: $H_0: F_X = F_Y$.</li>
+
+  <li>Compute the observed test statistic (e.g., difference in sample means):</li>
+
+</ul>
+
+<div class="math-display">$$T_{\text{obs}} = \bar{X} - \bar{Y}$$</div>
+
+<ul>
+
+  <li>Under $H_0$, group membership labels are completely exchangeable. Pool the $N = n_1 + n_2$ observations into a single dataset $\mathbf{Z} = (\mathbf{X}, \mathbf{Y})$.</li>
+
+  <li>The total number of possible partitions of $N$ items into groups of size $n_1$ and $n_2$ is:</li>
+
+</ul>
+
+<div class="math-display">$$M = \binom{N}{n_1} = \frac{N!}{n_1! n_2!}$$</div>
+
+<p>For each of the $M$ partitions $\pi$:</p>
+
+<ul>
+
+  <li>Assign $n_1$ items to group 1 and $n_2$ items to group 2, and compute $T_\pi = \bar{X}_\pi - \bar{Y}_\pi$.</li>
+
+</ul>
+
+<p>The <strong>Exact Permutation p-value</strong> (for a two-tailed test) is:</p>
+
+<div class="math-display">$$p_{\text{exact}} = \frac{1}{M} \sum_{\pi=1}^M I(|T_\pi| \ge |T_{\text{obs}}|)$$</div>
+
+<p>When $M$ is astronomically large (e.g., $n_1 = n_2 = 50 \implies \binom{100}{50} \approx 10^{29}$), exact enumeration is impossible. Statisticians draw a random sample of $B = 10,000$ random permutations to compute the <strong>Monte Carlo Permutation p-value</strong>:</p>
+
+<div class="math-display">$$\hat{p}_{\text{MC}} = \frac{1 + \sum_{b=1}^B I(|T_b^*| \ge |T_{\text{obs}}|)}{B + 1}$$</div>
+
+<p>Permutation tests are completely distribution-free, valid for any sample size, and require zero parametric assumptions.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-9">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.9</span>
+            <span>The Auxiliary Particle Filter (APF)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In Section 8.4, we examined the Sequential Importance Resampling (SIR) particle filter. While SIR is simple, it suffers from a major defect known as the "blind proposal" problem: particles $\mathbf{x}_t^{(i)}$ are propagated forward according to the state transition density $f(\mathbf{x}_t \mid \mathbf{x}_{t-1}^{(i)})$ without taking into account the newly arrived observation $\mathbf{y}_t$. If the measurement noise is small, the likelihood function $g(\mathbf{y}_t \mid \mathbf{x}_t)$ forms a narrow peak in state space. Propagating particles blindly causes almost all particles to land in regions of near-zero likelihood, triggering catastrophic particle collapse.</p>
+
+<p>Michael K. Pitt and Neil Shephard (1999) solved this deficiency by inventing the <strong>Auxiliary Particle Filter (APF)</strong>.</p>
+
+<h4>1. The Auxiliary Joint Density</h4>
+
+<p>The key insight of the APF is to introduce an auxiliary index variable $k \in \{1, \dots, N\}$ that identifies which particle from time $t-1$ will be propagated forward to generate state $\mathbf{x}_t$. The joint target distribution of the pair $(k, \mathbf{x}_t)$ conditional on $\mathbf{y}_{1:t}$ is:</p>
+
+<div class="math-display">$$p(k, \mathbf{x}_t \mid \mathbf{y}_{1:t}) \propto g(\mathbf{y}_t \mid \mathbf{x}_t) f(\mathbf{x}_t \mid \mathbf{x}_{t-1}^{(k)}) w_{t-1}^{(k)}$$</div>
+
+<p>Instead of sampling from this intractable joint density directly, the APF samples from an auxiliary proposal distribution:</p>
+
+<div class="math-display">$$q(k, \mathbf{x}_t \mid \mathbf{y}_{1:t}) = q(k \mid \mathbf{y}_{1:t}) q(\mathbf{x}_t \mid k, \mathbf{y}_{1:t})$$</div>
+
+<h4>2. Pre-Weighting and Lookahead</h4>
+
+<p>To construct $q(k \mid \mathbf{y}_{1:t})$, the APF computes a deterministic point estimate $\boldsymbol{\mu}_t^{(k)}$ of the future state given $\mathbf{x}_{t-1}^{(k)}$ (such as the conditional mean $\boldsymbol{\mu}_t^{(k)} = \mathbb{E}[\mathbf{X}_t \mid \mathbf{x}_{t-1}^{(k)}]$ or the mode). The first-stage auxiliary weights are defined as:</p>
+
+<div class="math-display">$$\lambda_k \propto w_{t-1}^{(k)} g(\mathbf{y}_t \mid \boldsymbol{\mu}_t^{(k)}), \quad k = 1, \dots, N$$</div>
+
+<p>The auxiliary weights $\lambda_k$ act as a predictive lookahead: particles whose predicted future states are consistent with the new observation $\mathbf{y}_t$ receive large auxiliary weights, while particles that would produce low likelihood are pruned <strong>before</strong> state propagation occurs.</p>
+
+<h4>3. Two-Stage APF Algorithm</h4>
+
+<h4>1. Auxiliary Selection: Resample indices $k_1, \dots, k_N$ from $\{1, \dots, N\}$ with probabilities proportional to $\lambda_k$.</h4>
+
+<h4>2. State Propagation: For each selected index $k_i$, draw the candidate state:</h4>
+
+<div class="math-display">$$\mathbf{x}_t^{(i)} \sim q(\mathbf{x}_t \mid \mathbf{x}_{t-1}^{(k_i)}, \mathbf{y}_t)$$</div>
+
+<h4>3. Weight Correction: Assign the second-stage importance weights:</h4>
+
+<div class="math-display">$$\tilde{w}_t^{(i)} = \frac{g(\mathbf{y}_t \mid \mathbf{x}_t^{(i)}) f(\mathbf{x}_t^{(i)} \mid \mathbf{x}_{t-1}^{(k_i)})}{g(\mathbf{y}_t \mid \boldsymbol{\mu}_t^{(k_i)}) q(\mathbf{x}_t^{(i)} \mid \mathbf{x}_{t-1}^{(k_i)}, \mathbf{y}_t)}$$</div>
+
+<p>When $q(\mathbf{x}_t \mid \mathbf{x}_{t-1}^{(k_i)}) = f(\mathbf{x}_t \mid \mathbf{x}_{t-1}^{(k_i)})$, the weight simplifies to:</p>
+
+<div class="math-display">$$\tilde{w}_t^{(i)} = \frac{g(\mathbf{y}_t \mid \mathbf{x}_t^{(i)})}{g(\mathbf{y}_t \mid \boldsymbol{\mu}_t^{(k_i)})}$$</div>
+
+<p>Because $\mathbf{x}_t^{(i)}$ is close to $\boldsymbol{\mu}_t^{(k_i)}$, the ratio $\tilde{w}_t^{(i)}$ is nearly constant, keeping the Effective Sample Size close to $N$ and eliminating weight variance even in highly informative measurement regimes.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-10">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.10</span>
+            <span>Approximate Bayesian Computation (ABC) and Likelihood-Free Inference</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In evolutionary genomics, complex queueing networks, ecology, and agent-based macroeconomics, the underlying scientific forward simulation model can easily generate synthetic data $\mathbf{x} \sim p(\mathbf{x} \mid \boldsymbol{\theta})$, but the analytical likelihood function:</p>
+
+<div class="math-display">$$p(\mathbf{y} \mid \boldsymbol{\theta}) = \int p(\mathbf{y}, \mathbf{z} \mid \boldsymbol{\theta})\,d\mathbf{z}$$</div>
+
+<p>involves integrating over millions of unobserved latent variables $\mathbf{z}$, rendering the likelihood completely intractable.</p>
+
+<p><strong>Approximate Bayesian Computation (ABC)</strong> enables exact or approximate Bayesian inference using exclusively forward stochastic simulations.</p>
+
+<h4>1. The Rejection ABC Algorithm</h4>
+
+<p>Let $\mathbf{y}_{\text{obs}}$ be the observed dataset. Rejection ABC proceeds as follows:</p>
+
+<ol>
+
+  <li>Sample candidate parameter vector $\boldsymbol{\theta}^* \sim p(\boldsymbol{\theta})$ from the prior.</li>
+
+  <li>Simulate a synthetic dataset $\mathbf{x}^* \sim p(\mathbf{x} \mid \boldsymbol{\theta}^*)$ using the forward simulator.</li>
+
+  <li>Compute a vector of summary statistics $S(\mathbf{x}^*)$ and compare it to the observed summary statistics $S(\mathbf{y}_{\text{obs}})$ using a distance metric $\rho(\cdot, \cdot)$:</li>
+
+</ol>
+
+<div class="math-display">$$d = \rho\left( S(\mathbf{x}^*), S(\mathbf{y}_{\text{obs}}) \right)$$</div>
+
+<ol>
+
+  <li>Accept $\boldsymbol{\theta}^*$ if $d \le \epsilon$; otherwise, reject.</li>
+
+</ol>
+
+<p><em>Theorem (Rubin 1984, Tavare et al. 1997)</em>: If $S(\cdot)$ is a vector of sufficient statistics for $\boldsymbol{\theta}$ and the tolerance threshold $\epsilon \to 0$, the accepted draws sample exactly from the true posterior distribution $p(\boldsymbol{\theta} \mid \mathbf{y}_{\text{obs}})$.</p>
+
+<h4>2. Sequential Monte Carlo ABC (ABC-SMC)</h4>
+
+<p>In practice, setting $\epsilon$ small results in an acceptance rate near zero under standard rejection ABC. Tina Toni, David Welch, Natalja Strelkowa, Andreas Ipsen, and Michael P. H. Stumpf (2009) formulated <strong>ABC-SMC</strong>, which propagates a population of particles through a decaying sequence of tolerance thresholds $\epsilon_1 &gt; \epsilon_2 &gt; \dots &gt; \epsilon_T$:</p>
+
+<ol>
+
+  <li>At population iteration $t = 1$, obtain particles using standard rejection ABC with broad tolerance $\epsilon_1$.</li>
+
+  <li>For subsequent stages $t = 2, \dots, T$:</li>
+
+</ol>
+
+<ul>
+
+  <li>Sample a particle $\boldsymbol{\theta}^*$ from the previous population $t-1$ with weights $w_{t-1}^{(i)}$.</li>
+
+  <li>Perturb the particle using a transition kernel: $\boldsymbol{\theta}^{**} \sim K_t(\boldsymbol{\theta} \mid \boldsymbol{\theta}^*)$.</li>
+
+  <li>Simulate synthetic data $\mathbf{x} \sim p(\mathbf{x} \mid \boldsymbol{\theta}^{**})$.</li>
+
+  <li>If $\rho(S(\mathbf{x}), S(\mathbf{y}_{\text{obs}})) \le \epsilon_t$, accept $\boldsymbol{\theta}^{**}$ and compute its updated importance weight:</li>
+
+</ul>
+
+<div class="math-display">$$w_t^{(i)} = \frac{p(\boldsymbol{\theta}^{**})}{\sum_{j=1}^N w_{t-1}^{(j)} K_t(\boldsymbol{\theta}^{**} \mid \boldsymbol{\theta}_{t-1}^{(j)})}$$</div>
+
+<p>ABC-SMC maintains high acceptance rates across orders-of-magnitude reductions in $\epsilon$, providing an industrial-strength engine for simulator calibration.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-11">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.11</span>
+            <span>Simulation-Based Inference (SBI) and Normalizing Flows</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Over the past decade, the interface between machine learning and computational statistics has generated <strong>Simulation-Based Inference (SBI)</strong>, replacing heuristic summary statistic distances with deep neural density estimators.</p>
+
+<p>Prominent modern SBI paradigms include:</p>
+
+<h4>1. Neural Posterior Estimation (NPE): Trains a continuous Normalizing Flow $q_\phi(\boldsymbol{\theta} \mid \mathbf{y})$ (such as Masked Autoregressive Flow or RealNVP) by minimizing the expected Kullback-Leibler divergence over synthetic parameter-data pairs $(\boldsymbol{\theta}_i, \mathbf{x}_i) \sim p(\boldsymbol{\theta}) p(\mathbf{x} \mid \boldsymbol{\theta})$:</h4>
+
+<div class="math-display">$$\mathcal{L}(\phi) = -\sum_{i=1}^N \log q_\phi(\boldsymbol{\theta}_i \mid \mathbf{x}_i)$$</div>
+
+<p>Once trained, the normalizing flow amortizes posterior inference: evaluating $q_\phi(\boldsymbol{\theta} \mid \mathbf{y}_{\text{obs}})$ generates millions of independent posterior draws in milliseconds without running any further simulations.</p>
+
+<h4>2. Neural Likelihood Estimation (NLE): Trains a neural density estimator $q_\psi(\mathbf{x} \mid \boldsymbol{\theta})$ to approximate the intractable simulator likelihood directly, which is subsequently embedded into standard MCMC or HMC samplers to obtain exact Bayesian posteriors.</h4>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-12">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.12</span>
+            <span>Particle MCMC and Particle Marginal Metropolis-Hastings (PMMH)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When analyzing non-linear state space models, the joint parameter-state inference problem involves two coupled estimation layers:</p>
+
+<ol>
+
+  <li>The static parameter vector $\boldsymbol{\theta}$ governing system dynamics (e.g., volatility parameters, transmission rates).</li>
+
+  <li>The dynamic time-varying latent state trajectory $\mathbf{x}_{1:T}$.</li>
+
+</ol>
+
+<p>Standard MCMC can alternate between updating $\boldsymbol{\theta} \mid \mathbf{x}_{1:T}$ and updating $\mathbf{x}_{1:T} \mid \boldsymbol{\theta}$. However, because the dimension of $\mathbf{x}_{1:T}$ grows linearly with time $T$, the parameters and states become tightly coupled, causing Gibbs samplers to mix with glacial slowness.</p>
+
+<p>Christophe Andrieu, Arnaud Doucet, and Roman Holenstein (2010) formulated <strong>Particle Markov Chain Monte Carlo (PMCMC)</strong>, embedding Sequential Monte Carlo inside MCMC to sample directly from the exact marginal posterior $p(\boldsymbol{\theta} \mid \mathbf{y}_{1:T})$.</p>
+
+<h4>1. The Particle Marginal Metropolis-Hastings (PMMH) Algorithm</h4>
+
+<p>Suppose we propose a new parameter vector $\boldsymbol{\theta}^* \sim q(\boldsymbol{\theta}^* \mid \boldsymbol{\theta})$. To evaluate the ideal marginal Metropolis-Hastings ratio:</p>
+
+<div class="math-display">$$\alpha(\boldsymbol{\theta}, \boldsymbol{\theta}^*) = \min\left( 1, \frac{p(\boldsymbol{\theta}^*) p(\mathbf{y}_{1:T} \mid \boldsymbol{\theta}^*)}{p(\boldsymbol{\theta}) p(\mathbf{y}_{1:T} \mid \boldsymbol{\theta})} \frac{q(\boldsymbol{\theta} \mid \boldsymbol{\theta}^*)}{q(\boldsymbol{\theta}^* \mid \boldsymbol{\theta})} \right)$$</div>
+
+<p>the marginal likelihood $p(\mathbf{y}_{1:T} \mid \boldsymbol{\theta}) = \prod_{t=1}^T p(\mathbf{y}_t \mid \mathbf{y}_{1:t-1}, \boldsymbol{\theta})$ must be evaluated.</p>
+
+<p>Because this likelihood is analytically intractable, PMMH runs a bootstrap particle filter with $N$ particles targeted at $\boldsymbol{\theta}^*$. The particle filter provides an unbiased Monte Carlo estimate of the marginal likelihood:</p>
+
+<div class="math-display">$$\hat{p}(\mathbf{y}_{1:T} \mid \boldsymbol{\theta}^*) = \prod_{t=1}^T \left( \frac{1}{N} \sum_{i=1}^N \tilde{w}_t^{(i)} \right)$$</div>
+
+<p>PMMH replaces the exact intractable likelihood with this particle-filter estimate in the acceptance ratio:</p>
+
+<div class="math-display">$$\alpha_{\text{PMMH}} = \min\left( 1, \frac{p(\boldsymbol{\theta}^*) \hat{p}(\mathbf{y}_{1:T} \mid \boldsymbol{\theta}^*)}{p(\boldsymbol{\theta}) \hat{p}(\mathbf{y}_{1:T} \mid \boldsymbol{\theta})} \frac{q(\boldsymbol{\theta} \mid \boldsymbol{\theta}^*)}{q(\boldsymbol{\theta}^* \mid \boldsymbol{\theta})} \right)$$</div>
+
+<h4>2. The Pseudo-Marginal Theorem</h4>
+
+<p>A naive statistician might assume that substituting a stochastic estimate $\hat{p}(\mathbf{y}_{1:T} \mid \boldsymbol{\theta})$ introduces approximation error into the resulting Markov chain. Remarkably, the <strong>Pseudo-Marginal Theorem</strong> (Beaumont 2003, Andrieu and Roberts 2009) proves that this is not the case:</p>
+
+<p><em>Theorem (Pseudo-Marginal Validity)</em>: If the likelihood estimator $\hat{p}(\mathbf{y}_{1:T} \mid \boldsymbol{\theta})$ is non-negative and strictly unbiased:</p>
+
+<div class="math-display">$$\mathbb{E}[\hat{p}(\mathbf{y}_{1:T} \mid \boldsymbol{\theta})] = p(\mathbf{y}_{1:T} \mid \boldsymbol{\theta})$$</div>
+
+<p>for all $\boldsymbol{\theta}$, then the stationary distribution of the Markov chain generated by PMMH is <strong>identically and exactly</strong> the true posterior distribution $p(\boldsymbol{\theta} \mid \mathbf{y}_{1:T})$, regardless of the number of particles $N \ge 1$.</p>
+
+<p><em>Proof Intuition</em>: The particle filter's internal random numbers $\mathbf{U}$ can be viewed as auxiliary variables on an extended state space $(\boldsymbol{\theta}, \mathbf{U})$. Because the joint target distribution on this extended space integrates out to the exact marginal target, the Metropolis-Hastings acceptance ratio on the extended space matches $\alpha_{\text{PMMH}}$ exactly.</p>
+
+<p>The number of particles $N$ affects only the variance of the likelihood estimator: if $N$ is too small, $\hat{p}$ occasionally overestimates the likelihood, trapping the chain at an unrepresentative parameter value. Doucet et al. (2015) proved that the optimal computational efficiency is achieved when $N$ is tuned so that the standard deviation of $\log \hat{p}(\mathbf{y}_{1:T} \mid \boldsymbol{\theta})$ is approximately $1.2$ to $1.8$.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-13">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.13</span>
+            <span>The Ensemble Kalman Filter (EnKF) for Massive Geophysical Data Assimilation</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In numerical weather prediction, oceanography, and atmospheric monitoring, dynamic state vectors represent temperature, atmospheric pressure, and wind velocities across three-dimensional spatial grids, with state dimensions reaching $d \approx 10^8$ to $10^9$. In this ultra-high-dimensional regime, standard particle filters collapse instantly due to particle degeneracy, while classical Kalman filters cannot store or invert the $10^9 \times 10^9$ error covariance matrix.</p>
+
+<p>Geir Evensen (1994) introduced the <strong>Ensemble Kalman Filter (EnKF)</strong>, combining Monte Carlo ensemble forecasting with Kalman update geometry to make global data assimilation computationally feasible.</p>
+
+<h4>1. The Stochastic Forecast and Analysis Cycle</h4>
+
+<p>The EnKF represents the probability distribution of the high-dimensional state $\mathbf{x}_t \in \mathbb{R}^d$ through an ensemble of $N$ model states (typically $N \approx 50$ to $100$):</p>
+
+<div class="math-display">$$\mathbf{X} = [\mathbf{x}^{(1)}, \mathbf{x}^{(2)}, \dots, \mathbf{x}^{(N)}] \in \mathbb{R}^{d \times N}$$</div>
+
+<h4>1. Forecast Step: Each ensemble member is integrated forward in time through the non-linear forward geophysical simulation model $\mathcal{M}$:</h4>
+
+<div class="math-display">$$\mathbf{x}_{t|t-1}^{(i)} = \mathcal{M}(\mathbf{x}_{t-1|t-1}^{(i)}) + \boldsymbol{\eta}_t^{(i)}, \quad i = 1, \dots, N$$</div>
+
+<p>The ensemble mean $\bar{\mathbf{x}}$ and ensemble perturbation matrix $\mathbf{A} = \mathbf{X} - \bar{\mathbf{x}} \mathbf{1}^T$ define an implicit low-rank sample covariance matrix:</p>
+
+<div class="math-display">$$\mathbf{P}^f = \frac{1}{N-1} \mathbf{A} \mathbf{A}^T$$</div>
+
+<p>Crucially, $\mathbf{P}^f$ is never explicitly formed in memory.</p>
+
+<h4>2. Perturbed Observation Analysis Step: Let $\mathbf{y}_t \in \mathbb{R}^p$ be the newly arrived satellite observation vector with measurement error covariance $\mathbf{R}$. To preserve proper ensemble spread, independent random perturbations are added to the observation vector for each member (Burgers et al. 1998):</h4>
+
+<div class="math-display">$$\mathbf{y}_t^{(i)} = \mathbf{y}_t + \boldsymbol{\epsilon}^{(i)}, \quad \boldsymbol{\epsilon}^{(i)} \sim \mathcal{N}(\mathbf{0}, \mathbf{R})$$</div>
+
+<p>The analysis update for member $i$ is:</p>
+
+<div class="math-display">$$\mathbf{x}_{t|t}^{(i)} = \mathbf{x}_{t|t-1}^{(i)} + \mathbf{K} \left( \mathbf{y}_t^{(i)} - \mathbf{H} \mathbf{x}_{t|t-1}^{(i)} \right)$$</div>
+
+<p>where the Kalman gain matrix $\mathbf{K}$ is computed directly in the low-dimensional observation space:</p>
+
+<div class="math-display">$$\mathbf{K} = \mathbf{P}^f \mathbf{H}^T \left( \mathbf{H} \mathbf{P}^f \mathbf{H}^T + \mathbf{R} \right)^{-1}$$</div>
+
+<h4>2. Covariance Localization and Inflation</h4>
+
+<p>Because the ensemble size $N \approx 100$ is astronomically smaller than the state dimension $d \approx 10^8$, the sample covariance $\mathbf{P}^f$ suffers from two critical sampling artifacts:</p>
+
+<h4>1. Spurious Long-Range Correlations: Small random correlations appear between physically distant geographic locations (e.g., surface temperature in Paris and rainfall in the South Pacific). Covariance Localization applies a Schur (element-wise) product with a compact smooth spatial correlation function $\boldsymbol{\rho}$:</h4>
+
+<div class="math-display">$$\mathbf{P}_{\text{loc}}^f = \boldsymbol{\rho} \circ \mathbf{P}^f$$</div>
+
+<p>forcing correlations between distant grid points to zero.</p>
+
+<h4>2. Filter Divergence (Inbreeding): Because the ensemble systematically underestimates forecast error variance, the filter progressively ignores new incoming observations. Covariance Inflation multiplies the perturbation matrix by an inflation factor $\lambda &gt; 1$:</h4>
+
+<div class="math-display">$$\mathbf{A}_{\text{infl}} = \lambda \mathbf{A}$$</div>
+
+<p>restoring realistic ensemble spread and ensuring stable, continuous tracking of planetary weather dynamics.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-14">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.14</span>
+            <span>Continuous-Time Sequential Monte Carlo and Particle Smoothing</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>While filtering estimates the marginal filtering distribution $p(\mathbf{x}_t \mid \mathbf{y}_{1:t})$ online as observations arrive, retrospective historical reconstruction requires estimating the full joint smoothing distribution:</p>
+
+<div class="math-display">$$p(\mathbf{x}_{0:T} \mid \mathbf{y}_{1:T})$$</div>
+
+<p>Naively extracting the ancestral path trajectories of surviving particles from a forward particle filter results in severe <strong>Path Degeneracy</strong>: due to repeated resampling across $T$ steps, all surviving particles at time $T$ trace back to a single common ancestor at time $t \ll T$, collapsing historical trajectory diversity.</p>
+
+<h4>Forward-Filtering Backward-Smoothing (FFBS)</h4>
+
+<p>Doucet, Godsill, and Andrieu (2000) resolved path degeneracy with the <strong>Forward-Filtering Backward-Smoothing (FFBS)</strong> algorithm:</p>
+
+<ol>
+
+  <li>Run a standard forward particle filter, storing all particles $\{\mathbf{x}_t^{(i)}\}$ and normalized weights $\{w_t^{(i)}\}$ for all timesteps $t = 1, \dots, T$.</li>
+
+  <li>At the final timestep $T$, sample an index $k_T$ with probability $w_T^{(k_T)}$ and set state $\tilde{\mathbf{x}}_T = \mathbf{x}_T^{(k_T)}$.</li>
+
+  <li>For $t = T-1, T-2, \dots, 0$, compute backward transition weights:</li>
+
+</ol>
+
+<div class="math-display">$$w_{t|t+1}^{(i)} \propto w_t^{(i)} f(\tilde{\mathbf{x}}_{t+1} \mid \mathbf{x}_t^{(i)})$$</div>
+
+<ol>
+
+  <li>Sample state index $k_t$ with probability $w_{t|t+1}^{(k_t)}$ and set $\tilde{\mathbf{x}}_t = \mathbf{x}_t^{(k_t)}$.</li>
+
+</ol>
+
+<p>By decoupling historical smoothing from the forward resampling bottleneck, FFBS produces independent, non-degenerate historical state trajectories across the entire time horizon $[0, T]$.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-15">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.15</span>
+            <span>Computational Laboratory: Autonomous Vehicle Localization via Particle Filtering</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In robotics and autonomous navigation, a vehicle must estimate its two-dimensional position $(x, y)$ and heading angle $\theta$ inside an urban canyon where GPS signals suffer from severe multipath interference. The vehicle relies on wheel odometry sensors (noisy kinematic drift) and range-bearing LIDAR landmark scans.</p>
+
+<p>Comparing localization filters across a 5-kilometer urban route:</p>
+
+<ul>
+
+  <li><strong>Extended Kalman Filter (EKF)</strong>: Linearizes measurement equations via Taylor expansions. When the vehicle executes sharp turns with high bearing non-linearities, the EKF covariance matrix diverges, causing the estimated path to drift by over 45 meters.</li>
+
+  <li><strong>Sequential Importance Resampling (SIR) Filter ($N = 2,000$ particles)</strong>: Accurately tracks multimodal position hypotheses during GPS dropouts, maintaining a localization error within $\pm 0.85$ meters.</li>
+
+  <li><strong>Auxiliary Particle Filter (APF)</strong>: Eliminates particle depletion during high-speed maneuvers, sustaining continuous sub-meter tracking with only $N = 500$ particles and reducing CPU utilization by $68\%$.</li>
+
+</ul>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-16">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.16</span>
+            <span>Unit 8 Review and Methodological Synthesis</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Unit 8 synthesized sequential simulation, state space tracking, and modern simulation-based inference. We formulated state-space hidden Markov models and derived the Bayesian recursive filtering equations. We detailed Sequential Importance Sampling (SIS) and demonstrated how weight degeneration inevitably collapses particle diversity. We explored Sequential Importance Resampling (SIR) under multinomial, stratified, residual, and systematic resampling schemes, evaluating the Effective Sample Size $N_{\text{eff}} = 1 / \sum (w_t^{(i)})^2$. We examined Pitt and Shephard's Auxiliary Particle Filter (APF), showing how predictive lookahead auxiliary weights prevent particle starvation during informative observation updates. We analyzed Approximate Bayesian Computation (ABC) rejection and ABC-SMC algorithms for likelihood-free scientific models, and surveyed the Pseudo-Marginal theorem underpinning Particle MCMC (PMMH). Finally, we examined the Ensemble Kalman Filter (EnKF) for planetary-scale data assimilation and Neural Posterior Estimation (NPE) via normalizing flows.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-17">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.17</span>
+            <span>Normalizing Flows for Amortized Generative Sampling</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In contemporary computational statistics, <strong>Normalizing Flows</strong> provide an expressive class of invertible generative models that bridge parametric density estimation and Monte Carlo simulation.</p>
+
+<p>A normalizing flow transforms a simple base distribution (such as a standard isotropic Gaussian $\mathbf{z} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$) into a complex, multimodal target density $\mathbf{x} \in \mathbb{R}^d$ through a sequence of $K$ invertible, differentiable transformations:</p>
+
+<div class="math-display">$$\mathbf{x} = f_K \circ f_{K-1} \circ \dots \circ f_1(\mathbf{z})$$</div>
+
+<p>By the multivariate change-of-variables theorem, the exact target log-density is computable in closed form:</p>
+
+<div class="math-display">$$\log p_X(\mathbf{x}) = \log p_Z(\mathbf{z}) - \sum_{k=1}^K \log \left| \det \left( \frac{\partial f_k}{\partial \mathbf{z}_{k-1}} \right) \right|$$</div>
+
+<p>By designing transformations with triangular Jacobian matrices (such as RealNVP or Masked Autoregressive Flows), evaluating the determinant requires only $O(d)$ operations. Once trained on simulation trajectories, normalizing flows generate millions of exact synthetic data draws in milliseconds, amortizing inference across complex physical systems.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Statistical Simulation and Monte Carlo Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 8.1: Non-Parametric Bootstrap Standard Error and Confidence Intervals</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A biomedical researcher observes $n = 5$ patient recovery durations (in days) following a clinical therapy:</p>
+
+<div class="math-display">$$\mathbf{x} = (12, 15, 18, 22, 33)$$</div>
+
+<p>The sample mean is $\bar{x} = 20.0$ days.</p>
+
+<ol>
+
+  <li>Compute the analytical standard error of the sample mean $\text{se}(\bar{x}) = s / \sqrt{n}$.</li>
+
+  <li>In a small Monte Carlo bootstrap study, $B = 6$ bootstrap samples are drawn with replacement from $\mathbf{x}$:</li>
+
+</ol>
+
+<ul>
+
+  <li>Sample 1: $(15, 15, 18, 22, 33) \implies \bar{x}^{*1} = 20.6$</li>
+
+  <li>Sample 2: $(12, 18, 18, 18, 22) \implies \bar{x}^{*2} = 17.6$</li>
+
+  <li>Sample 3: $(12, 12, 15, 22, 33) \implies \bar{x}^{*3} = 18.8$</li>
+
+  <li>Sample 4: $(15, 18, 22, 33, 33) \implies \bar{x}^{*4} = 24.2$</li>
+
+  <li>Sample 5: $(12, 15, 15, 18, 22) \implies \bar{x}^{*5} = 16.4$</li>
+
+  <li>Sample 6: $(18, 22, 22, 33, 33) \implies \bar{x}^{*6} = 25.6$</li>
+
+</ul>
+
+<p>Compute the bootstrap mean $\bar{x}^*$, the bootstrap standard error $\widehat{\text{se}}_B$, and the bootstrap bias estimate.</p>
+
+<ol>
+
+  <li>Construct the $90\%$ percentile bootstrap confidence interval using the sorted bootstrap replicates.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-sim-8-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-sim-8-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Analytical Sample Standard Error</div>
+              
+              <div class="step-explanation"><p>Given data $\mathbf{x} = (12, 15, 18, 22, 33)$ with $n = 5$:</p>
+
+<ul>
+
+  <li>Sample mean:</li>
+
+</ul>
+
+<div class="math-display">$$\bar{x} = \frac{12 + 15 + 18 + 22 + 33}{5} = \frac{100}{5} = 20.0$$</div>
+
+<ul>
+
+  <li>Deviations from mean:</li>
+
+</ul>
+
+<div class="math-display">$$(12 - 20) = -8 \implies (-8)^2 = 64$$</div>
+
+<div class="math-display">$$(15 - 20) = -5 \implies (-5)^2 = 25$$</div>
+
+<div class="math-display">$$(18 - 20) = -2 \implies (-2)^2 = 4$$</div>
+
+<div class="math-display">$$(22 - 20) = +2 \implies 2^2 = 4$$</div>
+
+<div class="math-display">$$(33 - 20) = +13 \implies 13^2 = 169$$</div>
+
+<ul>
+
+  <li>Sum of squared deviations:</li>
+
+</ul>
+
+<div class="math-display">$$\sum (x_i - \bar{x})^2 = 64 + 25 + 4 + 4 + 169 = 266$$</div>
+
+<ul>
+
+  <li>Sample variance and standard deviation:</li>
+
+</ul>
+
+<div class="math-display">$$s^2 = \frac{266}{n - 1} = \frac{266}{4} = 66.50 \implies s = \sqrt{66.50} \approx 8.1548$$</div>
+
+<ul>
+
+  <li>Analytical standard error:</li>
+
+</ul>
+
+<div class="math-display">$$\text{se}(\bar{x}) = \frac{s}{\sqrt{n}} = \frac{8.1548}{\sqrt{5}} = \frac{8.1548}{2.2361} \approx 3.6469 \approx 3.65 \text{ days}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Bootstrap Estimates</div>
+              
+              <div class="step-explanation"><p>The $B = 6$ bootstrap means are:</p>
+
+<div class="math-display">$$\bar{\mathbf{x}}^* = (20.6, 17.6, 18.8, 24.2, 16.4, 25.6)$$</div>
+
+<h4>1. Bootstrap Mean:</h4>
+
+<div class="math-display">$$\bar{x}^* = \frac{20.6 + 17.6 + 18.8 + 24.2 + 16.4 + 25.6}{6} = \frac{123.2}{6} \approx 20.533$$</div>
+
+<h4>2. Bootstrap Bias Estimate:</h4>
+
+<div class="math-display">$$\widehat{\text{bias}}_B = \bar{x}^* - \bar{x} = 20.533 - 20.000 = +0.533 \text{ days}$$</div>
+
+<h4>3. Bootstrap Standard Error:</h4>
+
+<p>Deviations from $\bar{x}^* = 20.533$:</p>
+
+<ul>
+
+  <li>$(20.6 - 20.533)^2 = 0.067^2 \approx 0.0045$</li>
+
+  <li>$(17.6 - 20.533)^2 = (-2.933)^2 \approx 8.6025$</li>
+
+  <li>$(18.8 - 20.533)^2 = (-1.733)^2 \approx 3.0033$</li>
+
+  <li>$(24.2 - 20.533)^2 = (3.667)^2 \approx 13.4469$</li>
+
+  <li>$(16.4 - 20.533)^2 = (-4.133)^2 \approx 17.0817$</li>
+
+  <li>$(25.6 - 20.533)^2 = (5.067)^2 \approx 25.6745$</li>
+
+</ul>
+
+<p>Sum of squares:</p>
+
+<div class="math-display">$$\sum (\bar{x}^{*b} - \bar{x}^*)^2 = 0.0045 + 8.6025 + 3.0033 + 13.4469 + 17.0817 + 25.6745 = 67.8134$$</div>
+
+<div class="math-display">$$\widehat{\text{se}}_B = \sqrt{\frac{67.8134}{6 - 1}} = \sqrt{\frac{67.8134}{5}} = \sqrt{13.5627} \approx 3.6828 \approx 3.68 \text{ days}$$</div>
+
+<p>Notice how closely the bootstrap standard error ($3.68$) approximates the true analytical standard error ($3.65$) even with only 6 bootstrap replicates!</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Percentile Bootstrap Confidence Interval</div>
+              
+              <div class="step-explanation"><p>Sort the $B = 6$ bootstrap replicates in ascending order:</p>
+
+<div class="math-display">$$\bar{\mathbf{x}}^{*(sorted)} = [16.4, 17.6, 18.8, 20.6, 24.2, 25.6]$$</div>
+
+<p>For a $90\%$ confidence interval ($\alpha = 0.10$), the lower quantile is $\alpha/2 = 0.05$ and upper quantile is $1 - \alpha/2 = 0.95$. With $B = 6$, taking the lowest and highest values:</p>
+
+<div class="math-display">$$\mathcal{CI}_{0.90} = [16.4, \; 25.6] \text{ days}$$</div></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 8.2: Jackknife Bias and Variance for Ratio Estimation</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An economist estimates the population debt-to-income ratio $R = \mu_Y / \mu_X$ using sample ratio estimator:</p>
+
+<div class="math-display">$$\hat{R} = \frac{\bar{Y}}{\bar{X}}$$</div>
+
+<p>from a sample of $n = 4$ household pairs $(X_i, Y_i)$ where $X$ is income and $Y$ is debt (in thousands of dollars):</p>
+
+<ul>
+
+  <li>Household 1: $(X_1 = 50, Y_1 = 20)$</li>
+
+  <li>Household 2: $(X_2 = 60, Y_2 = 30)$</li>
+
+  <li>Household 3: $(X_3 = 80, Y_3 = 40)$</li>
+
+  <li>Household 4: $(X_4 = 110, Y_4 = 70)$</li>
+
+</ul>
+
+<ol>
+
+  <li>Compute the full-sample totals and the plug-in ratio estimate $\hat{R}$.</li>
+
+  <li>Evaluate the four leave-one-out ratio estimates $\hat{R}_{(1)}, \dots, \hat{R}_{(4)}$.</li>
+
+  <li>Compute the Jackknife bias estimate $\widehat{\text{bias}}_{\text{jack}}$ and the Jackknife standard error $\widehat{\text{se}}_{\text{jack}}$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-sim-8-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-sim-8-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Full-Sample Ratio Estimate</div>
+              
+              <div class="step-explanation"><p>Total income:</p>
+
+<div class="math-display">$$\sum_{i=1}^4 X_i = 50 + 60 + 80 + 110 = 300$$</div>
+
+<p>Total debt:</p>
+
+<div class="math-display">$$\sum_{i=1}^4 Y_i = 20 + 30 + 40 + 70 = 160$$</div>
+
+<p>The sample ratio estimate is:</p>
+
+<div class="math-display">$$\hat{R} = \frac{\bar{Y}}{\bar{X}} = \frac{160 / 4}{300 / 4} = \frac{160}{300} = \frac{8}{15} \approx 0.533333$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Computation of Leave-One-Out Estimates</div>
+              
+              <div class="step-explanation"><p>For each $i \in \{1, 2, 3, 4\}$, the leave-one-out ratio is $\hat{R}_{(i)} = \frac{\sum_{j \ne i} Y_j}{\sum_{j \ne i} X_j}$:</p>
+
+<ul>
+
+  <li><strong>Omitting Household 1 ($X_1 = 50, Y_1 = 20$)</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$\sum X_{(1)} = 300 - 50 = 250, \quad \sum Y_{(1)} = 160 - 20 = 140$$</div>
+
+<div class="math-display">$$\hat{R}_{(1)} = \frac{140}{250} = 0.560000$$</div>
+
+<ul>
+
+  <li><strong>Omitting Household 2 ($X_2 = 60, Y_2 = 30$)</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$\sum X_{(2)} = 300 - 60 = 240, \quad \sum Y_{(2)} = 160 - 30 = 130$$</div>
+
+<div class="math-display">$$\hat{R}_{(2)} = \frac{130}{240} \approx 0.541667$$</div>
+
+<ul>
+
+  <li><strong>Omitting Household 3 ($X_3 = 80, Y_3 = 40$)</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$\sum X_{(3)} = 300 - 80 = 220, \quad \sum Y_{(3)} = 160 - 40 = 120$$</div>
+
+<div class="math-display">$$\hat{R}_{(3)} = \frac{120}{220} = \frac{6}{11} \approx 0.545455$$</div>
+
+<ul>
+
+  <li><strong>Omitting Household 4 ($X_4 = 110, Y_4 = 70$)</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$\sum X_{(4)} = 300 - 110 = 190, \quad \sum Y_{(4)} = 160 - 70 = 90$$</div>
+
+<div class="math-display">$$\hat{R}_{(4)} = \frac{90}{190} = \frac{9}{19} \approx 0.473684$$</div>
+
+<p>Mean of leave-one-out estimates:</p>
+
+<div class="math-display">$$\hat{R}_{(\bullet)} = \frac{0.560000 + 0.541667 + 0.545455 + 0.473684}{4} = \frac{2.120806}{4} \approx 0.530202$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Jackknife Bias and Standard Error</div>
+              
+              <div class="step-explanation"><h4>1. Jackknife Bias Estimate:</h4>
+
+<div class="math-display">$$\widehat{\text{bias}}_{\text{jack}} = (n - 1) (\hat{R}_{(\bullet)} - \hat{R}) = (4 - 1) (0.530202 - 0.533333) = 3 \times (-0.003131) \approx -0.009393$$</div>
+
+<p>The bias-corrected estimate is:</p>
+
+<div class="math-display">$$\hat{R}_{\text{jack}} = \hat{R} - \widehat{\text{bias}}_{\text{jack}} = 0.533333 - (-0.009393) \approx 0.542726$$</div>
+
+<h4>2. Jackknife Variance and Standard Error:</h4>
+
+<p>Deviations from $\hat{R}_{(\bullet)} = 0.530202$:</p>
+
+<ul>
+
+  <li>$(0.560000 - 0.530202)^2 = 0.029798^2 \approx 0.0008879$</li>
+
+  <li>$(0.541667 - 0.530202)^2 = 0.011465^2 \approx 0.0001314$</li>
+
+  <li>$(0.545455 - 0.530202)^2 = 0.015253^2 \approx 0.0002327$</li>
+
+  <li>$(0.473684 - 0.530202)^2 = (-0.056518)^2 \approx 0.0031943$</li>
+
+</ul>
+
+<p>Sum of squared deviations:</p>
+
+<div class="math-display">$$\sum_{i=1}^4 (\hat{R}_{(i)} - \hat{R}_{(\bullet)})^2 = 0.0008879 + 0.0001314 + 0.0002327 + 0.0031943 = 0.0044463$$</div>
+
+<div class="math-display">$$\widehat{\text{var}}_{\text{jack}}(\hat{R}) = \frac{n - 1}{n} \sum_{i=1}^n (\hat{R}_{(i)} - \hat{R}_{(\bullet)})^2 = \frac{3}{4} \times 0.0044463 \approx 0.0033347$$</div>
+
+<div class="math-display">$$\widehat{\text{se}}_{\text{jack}} = \sqrt{0.0033347} \approx 0.057747 \approx 0.0577$$</div>
+
+<p><em>Conclusion</em>: The estimated debt-to-income ratio is $0.533 \pm 0.058$, with a small negative finite-sample bias of $-0.009$.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 8.3: Exact Two-Sample Permutation Test</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A randomized clinical trial compares a new drug (Group A, $n_A = 3$) against a standard placebo (Group B, $n_B = 3$) on blood pressure reduction (mm Hg):</p>
+
+<ul>
+
+  <li>Group A: $(8, 11, 14) \implies \bar{X}_A = 11.0$</li>
+
+  <li>Group B: $(3, 5, 7) \implies \bar{X}_B = 5.0$</li>
+
+</ul>
+
+<p>The observed test statistic is the difference in group means:</p>
+
+<div class="math-display">$$T_{\text{obs}} = \bar{X}_A - \bar{X}_B = 11.0 - 5.0 = +6.0$$</div>
+
+<ol>
+
+  <li>Calculate the total number of distinct permutations $M = \binom{n_A + n_B}{n_A}$.</li>
+
+  <li>Enumerate all distinct permutations and compute the test statistic $T$ for each partition.</li>
+
+  <li>Determine the exact one-tailed and two-tailed permutation p-values, and state the statistical conclusion at significance level $\alpha = 0.05$.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-stat-sim-8-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-stat-sim-8-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Total Number of Partitions</div>
+              
+              <div class="step-explanation"><p>The pooled dataset of $N = 3 + 3 = 6$ observations is:</p>
+
+<div class="math-display">$$\mathbf{Z} = (3, 5, 7, 8, 11, 14)$$</div>
+
+<p>The sum of all six observations is:</p>
+
+<div class="math-display">$$\sum Z_i = 3 + 5 + 7 + 8 + 11 + 14 = 48$$</div>
+
+<p>The overall mean is $\bar{Z} = 48 / 6 = 8.0$. Notice that:</p>
+
+<div class="math-display">$$\bar{X}_A - \bar{X}_B = \frac{\sum_{i \in A} Z_i}{3} - \frac{48 - \sum_{i \in A} Z_i}{3} = \frac{2 \sum_{i \in A} Z_i - 48}{3}$$</div>
+
+<p>The test statistic is completely determined by the sum of elements assigned to Group A: $S_A = \sum_{i \in A} Z_i$!</p>
+
+<p>The total number of equiprobable permutations under $H_0$ is:</p>
+
+<div class="math-display">$$M = \binom{6}{3} = \frac{6 \times 5 \times 4}{3 \times 2 \times 1} = 20 \text{ distinct permutations}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Enumeration of All 20 Permutations and Test Statistics</div>
+              
+              <div class="step-explanation"><p>We list all 20 possible subsets of size 3 from $\{3, 5, 7, 8, 11, 14\}$ and compute $S_A$ and $T = \frac{2 S_A - 48}{3}$:</p>
+
+<ol>
+
+  <li>$\{3, 5, 7\} \implies S_A = 15 \implies T = \frac{30 - 48}{3} = -6.0$</li>
+
+  <li>$\{3, 5, 8\} \implies S_A = 16 \implies T = \frac{32 - 48}{3} = -5.33$</li>
+
+  <li>$\{3, 5, 11\} \implies S_A = 19 \implies T = \frac{38 - 48}{3} = -3.33$</li>
+
+  <li>$\{3, 5, 14\} \implies S_A = 22 \implies T = \frac{44 - 48}{3} = -1.33$</li>
+
+  <li>$\{3, 7, 8\} \implies S_A = 18 \implies T = \frac{36 - 48}{3} = -4.0$</li>
+
+  <li>$\{3, 7, 11\} \implies S_A = 21 \implies T = \frac{42 - 48}{3} = -2.0$</li>
+
+  <li>$\{3, 7, 14\} \implies S_A = 24 \implies T = \frac{48 - 48}{3} = 0.0$</li>
+
+  <li>$\{3, 8, 11\} \implies S_A = 22 \implies T = -1.33$</li>
+
+  <li>$\{3, 8, 14\} \implies S_A = 25 \implies T = +0.67$</li>
+
+  <li>$\{3, 11, 14\} \implies S_A = 28 \implies T = +2.67$</li>
+
+  <li>$\{5, 7, 8\} \implies S_A = 20 \implies T = \frac{40 - 48}{3} = -2.67$</li>
+
+  <li>$\{5, 7, 11\} \implies S_A = 23 \implies T = -0.67$</li>
+
+  <li>$\{5, 7, 14\} \implies S_A = 26 \implies T = +1.33$</li>
+
+  <li>$\{5, 8, 11\} \implies S_A = 24 \implies T = 0.0$</li>
+
+  <li>$\{5, 8, 14\} \implies S_A = 27 \implies T = +2.0$</li>
+
+  <li>$\{5, 11, 14\} \implies S_A = 30 \implies T = +4.0$</li>
+
+  <li>$\{7, 8, 11\} \implies S_A = 26 \implies T = +1.33$</li>
+
+  <li>$\{7, 8, 14\} \implies S_A = 29 \implies T = +3.33$</li>
+
+  <li>$\{7, 11, 14\} \implies S_A = 32 \implies T = +5.33$</li>
+
+  <li>$\{8, 11, 14\} \implies S_A = 33 \implies T = \frac{66 - 48}{3} = +6.0$ (Observed data!)</li>
+
+</ol>
+
+<p>The observed statistic is $T_{\text{obs}} = +6.0$.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Exact p-Value Determination</div>
+              
+              <div class="step-explanation"><h4>1. One-Tailed Test ($H_1: \mu_A &gt; \mu_B$):</h4>
+
+<p>We count the number of permutations where $T \ge T_{\text{obs}} = +6.0$: Only permutation 20 satisfies $T \ge +6.0$ ($T = +6.0$).</p>
+
+<div class="math-display">$$p_{\text{one-tailed}} = \frac{\#\{T \ge 6.0\}}{20} = \frac{1}{20} = 0.0500$$</div>
+
+<h4>2. Two-Tailed Test ($H_1: \mu_A \ne \mu_B$):</h4>
+
+<p>We count permutations where $|T| \ge |T_{\text{obs}}| = 6.0$:</p>
+
+<ul>
+
+  <li>Permutation 1: $T = -6.0$ ($|-6.0| = 6.0$).</li>
+
+  <li>Permutation 20: $T = +6.0$ ($|+6.0| = 6.0$).</li>
+
+</ul>
+
+<p>Exactly 2 permutations satisfy $|T| \ge 6.0$:</p>
+
+<div class="math-display">$$p_{\text{two-tailed}} = \frac{\#\{|T| \ge 6.0\}}{20} = \frac{2}{20} = 0.1000$$</div>
+
+<p><em>Statistical Conclusion</em>: At significance level $\alpha = 0.05$, the two-tailed p-value is $p = 0.1000 &gt; 0.05$. Therefore, we fail to reject the null hypothesis of equal efficacy. Because sample sizes are tiny ($n_A = n_B = 3$), even with completely separated samples (every observation in A exceeds every observation in B), the smallest possible two-tailed p-value is $2/20 = 0.10$, mathematically preventing rejection at the $5\%$ level without larger sample sizes.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="statistical-computing-with-python-and-r">Statistical Computing</a><a href="mathematical-statistics">Mathematical Statistics</a><a href="statistical-estimation">Statistical Estimation</a><a href="demography-and-population-statistics">Demography and Population Statistics</a><a href="economic-statistics">Economic Statistics</a><a href="epidemiological-statistics">Epidemiological Statistics</a><a href="industrial-and-official-statistics">Industrial and Official Statistics</a><a href="actuarial-statistics-and-mathematical-demography">Actuarial Statistics</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Course Stat H-307 Simulation)</a></li><li><a href="https://openstemlibrary.com/references/robert-casella-monte-carlo" target="_blank" rel="noopener noreferrer">Robert, C.P., &amp; Casella, G. (2004). Monte Carlo Statistical Methods (2nd ed.): Definitive theoretical treatise on rejection sampling, Markov chain Monte Carlo, Metropolis-Hastings algorithms, and Gibbs sampling</a></li><li><a href="https://openstemlibrary.com/references/ripley-stochastic-simulation" target="_blank" rel="noopener noreferrer">Ripley, B.D. (1987). Stochastic Simulation: Foundational text on pseudorandom number generators, spatial simulation, and variate generation algorithms</a></li><li><a href="https://openstemlibrary.com/references/efron-tibshirani-bootstrap" target="_blank" rel="noopener noreferrer">Efron, B., &amp; Tibshirani, R.J. (1993). An Introduction to the Bootstrap: Canonical reference for bootstrap standard errors, percentile confidence intervals, BCa intervals, and jackknife methods</a></li><li><a href="https://openstemlibrary.com/references/gentle-random-number-generation" target="_blank" rel="noopener noreferrer">Gentle, J.E. (2003). Random Number Generation and Monte Carlo Methods: Authoritative manual on uniform generation tests, spectral lattice tests, and variance reduction techniques</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="statistical-simulation-and-monte-carlo-methods-chapter-7">← Previous chapter</a><a href="statistical-simulation-and-monte-carlo-methods">Book contents</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="statistical-simulation-and-monte-carlo-methods-sims.js?v=1"></script>
+  <script src="statistical-simulation-and-monte-carlo-methods-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

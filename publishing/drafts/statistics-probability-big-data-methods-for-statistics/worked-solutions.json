@@ -1,0 +1,498 @@
+[
+  [
+    {
+      "id": "big-data-1-1",
+      "title": "Hypersphere Volume Decay Ratio",
+      "question": "A researcher analyzes high-dimensional genomic features in $p = 12$ dimensions, bounded in the unit hypercube $[-1, 1]^{12}$. Compute the exact volume of the inscribed 12-dimensional hypersphere of radius $R = 1$, and determine the exact percentage of the hypercube's volume that lies outside the hypersphere.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "State the Volume Formulas",
+          "explanation": "The volume of a $p$-dimensional hypersphere of radius $R$ is:\n$$\\mathrm{Vol}(S_p(R)) = \\frac{\\pi^{p/2}}{\\Gamma(p/2 + 1)} R^p$$\nFor $p = 12$ and $R = 1$:\n$$\\mathrm{Vol}(S_{12}(1)) = \\frac{\\pi^6}{\\Gamma(6 + 1)} = \\frac{\\pi^6}{\\Gamma(7)}$$"
+        },
+        {
+          "stepName": "Evaluate the Factorial and Numerator",
+          "explanation": "Since $7$ is an integer, $\\Gamma(7) = 6! = 720$.\nCompute $\\pi^6$:\n$$\\pi \\approx 3.14159265 \\implies \\pi^2 \\approx 9.8696044 \\implies \\pi^6 \\approx 961.38919$$\nDivide by $720$:\n$$\\mathrm{Vol}(S_{12}(1)) = \\frac{961.38919}{720} \\approx 1.33526$$"
+        },
+        {
+          "stepName": "Compute the Bounding Hypercube Volume and the Outside Fraction",
+          "explanation": "The bounding hypercube is $[-1, 1]^{12}$, with side length $s = 2$.\n$$\\mathrm{Vol}(C_{12}(1)) = 2^{12} = 4096$$\nThe volume ratio inside the hypersphere is:\n$$\\rho_{12} = \\frac{\\mathrm{Vol}(S_{12}(1))}{\\mathrm{Vol}(C_{12}(1))} = \\frac{1.33526}{4096} \\approx 0.0003260 \\quad (0.0326\\%)$$\nThe percentage of volume lying in the outer corners of the hypercube is:\n$$1 - \\rho_{12} = 1 - 0.0003260 = 0.999674 = \\mathbf{99.9674\\%}$$\nOver $99.96\\%$ of the volume resides entirely outside the inscribed sphere in 12 dimensions."
+        }
+      ]
+    },
+    {
+      "id": "big-data-1-2",
+      "title": "Gaussian Annulus and Empirical Radius",
+      "question": "Let $\\mathbf{X} \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{I}_p)$ be a standard multivariate normal vector in $p = 100$ dimensions. Derive the expected squared distance $\\mathbb{E}[\\|\\mathbf{X}\\|_2^2]$, its standard deviation, and determine the narrow interval $[r_{\\text{low}}, r_{\\text{high}}]$ containing approximately $95\\%$ of all probability mass.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Characterize the Squared Norm Distribution",
+          "explanation": "The squared Euclidean norm is the sum of $p$ squared independent standard normal variates:\n$$R^2 = \\|\\mathbf{X}\\|_2^2 = \\sum_{j=1}^p X_j^2 \\sim \\chi_p^2$$\nFor a chi-square distribution with $p = 100$ degrees of freedom:\n$$\\mathbb{E}[R^2] = p = 100$$\n$$\\mathrm{Var}(R^2) = 2p = 200 \\implies \\mathrm{SD}(R^2) = \\sqrt{200} = 10 \\sqrt{2} \\approx 14.142$$"
+        },
+        {
+          "stepName": "Apply the Delta Method for the Euclidean Radius $R$",
+          "explanation": "Let $g(y) = \\sqrt{y}$. The first derivative evaluated at $\\mu = 100$ is:\n$$g'(\\mu) = \\frac{1}{2\\sqrt{\\mu}} = \\frac{1}{2 \\times 10} = 0.05$$\nBy the Delta Method:\n$$\\mathbb{E}[R] \\approx \\sqrt{\\mathbb{E}[R^2]} = \\sqrt{100} = 10.0$$\n$$\\mathrm{Var}(R) \\approx [g'(\\mu)]^2 \\mathrm{Var}(R^2) = (0.05)^2 \\times 200 = 0.0025 \\times 200 = 0.50$$\n$$\\mathrm{SD}(R) \\approx \\sqrt{0.50} \\approx 0.7071$$"
+        },
+        {
+          "stepName": "Compute the 95% Probability Annulus Interval",
+          "explanation": "By the Central Limit Theorem, $R \\approx \\mathcal{N}(10.0, 0.7071^2)$.\nThe $95\\%$ confidence bounds are:\n$$r_{\\text{low}} = 10.0 - 1.96 \\times 0.7071 = 10.0 - 1.3859 = \\mathbf{8.614}$$\n$$r_{\\text{high}} = 10.0 + 1.96 \\times 0.7071 = 10.0 + 1.3859 = \\mathbf{11.386}$$\nAlthough the Gaussian density achieves its maximum at the origin $\\mathbf{0}$, the probability of drawing a point near the origin ($\\|\\mathbf{X}\\|_2 \\le 5$) is virtually zero ($P < 10^{-12}$). All probability mass is concentrated in a razor-thin spherical shell of radius $10.0 \\pm 1.39$."
+        }
+      ]
+    },
+    {
+      "id": "big-data-1-3",
+      "title": "Angular Spread of Independent Vectors",
+      "question": "Two independent feature vectors $\\mathbf{u}, \\mathbf{v} \\in \\mathbb{R}^p$ are sampled from a standard normal distribution in $p = 400$ dimensions. Compute the probability that the angle $\\theta$ between them deviates from exact perpendicularity ($90^\\circ$) by more than $5^\\circ$.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Formulate the Angle Distribution",
+          "explanation": "The cosine of the angle $\\theta$ is:\n$$\\cos \\theta = \\frac{\\langle \\mathbf{u}, \\mathbf{v} \\rangle}{\\|\\mathbf{u}\\|_2 \\|\\mathbf{v}\\|_2}$$\nAs established in Section 1.4, for independent Gaussian vectors in dimension $p$:\n$$\\cos \\theta \\sim \\mathcal{N}\\left( 0, \\frac{1}{p} \\right)$$\nFor $p = 400$:\n$$\\sigma_{\\cos} = \\frac{1}{\\sqrt{400}} = \\frac{1}{20} = 0.05$$"
+        },
+        {
+          "stepName": "Convert Angular Deviation to Cosine Threshold",
+          "explanation": "A deviation of more than $5^\\circ$ from $90^\\circ$ means:\n$$|\\theta - 90^\\circ| > 5^\\circ \\iff \\theta \\in [0^\\circ, 85^\\circ) \\cup (95^\\circ, 180^\\circ]$$\nSince $\\cos(85^\\circ) = \\sin(5^\\circ)$:\n$$\\sin(5^\\circ) = \\sin\\left( \\frac{5 \\pi}{180} \\text{ rad} \\right) = \\sin(0.087266 \\text{ rad}) \\approx 0.087156$$\nTherefore, the condition $|\\theta - 90^\\circ| > 5^\\circ$ is equivalent to:\n$$|\\cos \\theta| > 0.087156$$"
+        },
+        {
+          "stepName": "Compute the Normal Tail Probability",
+          "explanation": "Standardize the threshold using $\\sigma_{\\cos} = 0.05$:\n$$Z = \\frac{|\\cos \\theta|}{\\sigma_{\\cos}} = \\frac{0.087156}{0.05} = 1.7431$$\nThe two-tailed standard normal probability is:\n$$P(|Z| > 1.7431) = 2 [1 - \\Phi(1.7431)]$$\nUsing standard normal tables: $\\Phi(1.7431) \\approx 0.95934$.\n$$P(|Z| > 1.7431) = 2 \\times (1 - 0.95934) = 2 \\times 0.04066 = \\mathbf{0.0813} \\quad (8.13\\%)$$\nThere is only an $8.13\\%$ probability that two randomly generated vectors in 400 dimensions will deviate by more than $5^\\circ$ from perpendicularity."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "big-data-2-1",
+      "title": "Marchenko-Pastur Spectral Boundary Calculation",
+      "question": "A financial econometrician analyzes daily returns for $p = 500$ stocks over $n = 1000$ trading days ($p/n = 0.5$). Assuming stock returns are standardized independent white noise with variance $\\sigma^2 = 1.0$:\n1. Calculate the theoretical lower and upper spectral boundaries ($\\lambda_-$ and $\\lambda_+$) of the sample covariance matrix eigenvalues.\n2. Determine whether an observed sample eigenvalue $\\hat{\\lambda}_1 = 3.20$ represents genuine economic co-movement or random noise.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Identify Parameters and Spectral Formulas",
+          "explanation": "The aspect ratio is:\n$$\\gamma = \\frac{p}{n} = \\frac{500}{1000} = 0.5$$\nThe noise variance is $\\sigma^2 = 1.0$.\nThe Marchenko-Pastur spectral boundaries are:\n$$\\lambda_- = \\sigma^2 (1 - \\sqrt{\\gamma})^2$$\n$$\\lambda_+ = \\sigma^2 (1 + \\sqrt{\\gamma})^2$$"
+        },
+        {
+          "stepName": "Compute Boundary Values",
+          "explanation": "Compute $\\sqrt{\\gamma} = \\sqrt{0.5} \\approx 0.707107$.\n$$\\lambda_- = 1.0 \\times (1 - 0.707107)^2 = (0.292893)^2 \\approx \\mathbf{0.08579}$$\n$$\\lambda_+ = 1.0 \\times (1 + 0.707107)^2 = (1.707107)^2 \\approx \\mathbf{2.91421}$$\nUnder the null hypothesis of pure noise, $100\\%$ of the 500 sample eigenvalues are asymptotically confined to the interval $[0.0858, 2.9142]$."
+        },
+        {
+          "stepName": "Evaluate the Observed Eigenvalue",
+          "explanation": "The observed leading eigenvalue is $\\hat{\\lambda}_1 = 3.20$.\nSince $\\hat{\\lambda}_1 = 3.20 > \\lambda_+ = 2.9142$, the eigenvalue falls strictly outside the Marchenko-Pastur noise bulk.\nBy the BBP phase transition theorem, this indicates a statistically significant market-wide signal factor (a true non-zero population eigenvalue). The hypothesis of pure uncorrelated noise is rejected at asymptotic significance."
+        }
+      ]
+    },
+    {
+      "id": "big-data-2-2",
+      "title": "Minimum Signal Threshold for BBP Detection",
+      "question": "In a biomedical biomarker study with $p = 2000$ gene transcripts and $n = 500$ patients ($\\gamma = 4.0$), what is the minimum population signal eigenvalue $\\ell_1$ required for the sample PCA to detect the signal outside the noise bulk?",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Formulate the BBP Threshold Criterion",
+          "explanation": "In a spiked covariance model $\\mathbf{\\Sigma} = \\mathrm{diag}(\\ell_1, 1, \\dots, 1)$ with noise variance $\\sigma^2 = 1$, the Baik-Ben Arous-Péché (BBP) phase transition states that the sample eigenvector $\\hat{\\mathbf{v}}_1$ has non-zero asymptotic alignment with the true signal if and only if:\n$$\\ell_1 > \\ell_{\\text{crit}} = 1 + \\sqrt{\\gamma}$$"
+        },
+        {
+          "stepName": "Compute the Critical Eigenvalue",
+          "explanation": "Here, $p = 2000$ and $n = 500$:\n$$\\gamma = \\frac{p}{n} = \\frac{2000}{500} = 4.0$$\n$$\\sqrt{\\gamma} = \\sqrt{4.0} = 2.0$$\nThe critical threshold is:\n$$\\ell_{\\text{crit}} = 1 + 2.0 = \\mathbf{3.0}$$"
+        },
+        {
+          "stepName": "Interpret the Result",
+          "explanation": "If the true underlying biological signal explains less than 3 times the variance of the background noise ($\\ell_1 \\le 3.0$), the leading sample eigenvector $\\hat{\\mathbf{v}}_1$ will be completely orthogonal to the true biological axis ($|\\langle \\hat{\\mathbf{v}}_1, \\mathbf{u}_1 \\rangle| \\to 0$). The signal must exceed $\\ell_1 = 3.0$ to overcome high-dimensional noise contamination."
+        }
+      ]
+    },
+    {
+      "id": "big-data-2-3",
+      "title": "Computational Speedup of Randomized SVD",
+      "question": "A genomic data matrix has dimension $m = 100,000$ cells by $n = 20,000$ genes. A bioinformatician requires the top $k = 50$ principal components.\nCompare the theoretical arithmetic operation counts of standard full Golub-Reinsch SVD versus Randomized SVD with oversampling $s = 10$ and $q = 1$ power iteration.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Compute Full SVD Operation Count",
+          "explanation": "For an $m \\times n$ matrix with $m \\ge n$, computing a full truncated SVD using classical bidiagonalization requires:\n$$\\mathrm{FLOPs}_{\\text{full}} \\approx 2 m n^2$$\nFor $m = 100,000$ and $n = 20,000$:\n$$\\mathrm{FLOPs}_{\\text{full}} \\approx 2 \\times 10^5 \\times (2 \\times 10^4)^2 = 2 \\times 10^5 \\times 4 \\times 10^8 = \\mathbf{8 \\times 10^{13} \\text{ FLOPs}} \\quad (80 \\text{ TeraFLOPs})$$"
+        },
+        {
+          "stepName": "Compute Randomized SVD Operation Count",
+          "explanation": "With target rank $k = 50$ and oversampling $s = 10$, the sketch rank is $\\ell = k + s = 60$.\n1. Generating $\\mathbf{\\Omega} \\in \\mathbb{R}^{n \\times \\ell}$ and computing $\\mathbf{Y} = \\mathbf{A} \\mathbf{\\Omega}$: requires $2 m n \\ell$ operations.\n$$2 \\times 10^5 \\times 2 \\times 10^4 \\times 60 = 2.4 \\times 10^{11} \\text{ FLOPs}$$\n2. Power iteration ($q = 1$): computes $\\mathbf{A}^T \\mathbf{Y}$ then $\\mathbf{A} (\\mathbf{A}^T \\mathbf{Y})$, requiring $4 m n \\ell$ operations:\n$$4 \\times 10^5 \\times 2 \\times 10^4 \\times 60 = 4.8 \\times 10^{11} \\text{ FLOPs}$$\n3. QR factorization of $\\mathbf{Y} \\in \\mathbb{R}^{m \\times \\ell}$: requires $2 m \\ell^2 = 2 \\times 10^5 \\times 3600 \\approx 7.2 \\times 10^8$ operations.\n4. Projection $\\mathbf{B} = \\mathbf{Q}^T \\mathbf{A}$: requires $2 m n \\ell = 2.4 \\times 10^{11}$ operations.\n5. SVD of small matrix $\\mathbf{B} \\in \\mathbb{R}^{\\ell \\times n}$: requires $O(n \\ell^2) = 20000 \\times 3600 \\approx 7.2 \\times 10^7$ operations.\n\nTotal rSVD operations:\n$$\\mathrm{FLOPs}_{\\text{rSVD}} \\approx 2.4 \\times 10^{11} + 4.8 \\times 10^{11} + 2.4 \\times 10^{11} \\approx \\mathbf{9.6 \\times 10^{11} \\text{ FLOPs}} \\quad (0.96 \\text{ TeraFLOPs})$$"
+        },
+        {
+          "stepName": "Calculate the Speedup Factor",
+          "explanation": "$$\\text{Speedup} = \\frac{\\mathrm{FLOPs}_{\\text{full}}}{\\mathrm{FLOPs}_{\\text{rSVD}}} = \\frac{8 \\times 10^{13}}{9.6 \\times 10^{11}} \\approx \\mathbf{83.33\\times}$$\nRandomized SVD reduces computational requirements by more than $83$-fold while capturing $99.9\\%$ of the variance of the top 50 components."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "big-data-3-1",
+      "title": "Closed-Form Soft-Thresholding",
+      "question": "Under an orthonormal design matrix ($\\frac{1}{n} \\mathbf{X}^T \\mathbf{X} = \\mathbf{I}_4$), four unconstrained OLS estimates are:\n$$\\hat{\\boldsymbol{\\beta}}^{\\text{OLS}} = (2.40, -1.80, 0.45, -0.20)^T$$\nDetermine the exact Lasso estimates $\\hat{\\boldsymbol{\\beta}}^{\\text{lasso}}$ for penalty parameter $\\lambda = 0.50$ and $\\lambda = 1.00$.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "State the Soft-Thresholding Formula",
+          "explanation": "For an orthonormal design, the Lasso solution for each coordinate is:\n$$\\hat{\\beta}_j^{\\text{lasso}} = \\mathrm{sign}(\\hat{\\beta}_j^{\\text{OLS}}) \\max(0, |\\hat{\\beta}_j^{\\text{OLS}}| - \\lambda)$$"
+        },
+        {
+          "stepName": "Compute Estimates for $\\lambda = 0.50$",
+          "explanation": "Evaluate each coordinate:\n1. $j = 1$: $\\hat{\\beta}_1^{\\text{OLS}} = 2.40 > 0.50 \\implies \\hat{\\beta}_1^{\\text{lasso}} = 2.40 - 0.50 = \\mathbf{1.90}$.\n2. $j = 2$: $\\hat{\\beta}_2^{\\text{OLS}} = -1.80$, $|-1.80| = 1.80 > 0.50 \\implies \\hat{\\beta}_2^{\\text{lasso}} = -(1.80 - 0.50) = \\mathbf{-1.30}$.\n3. $j = 3$: $\\hat{\\beta}_3^{\\text{OLS}} = 0.45$, $|0.45| = 0.45 \\le 0.50 \\implies \\hat{\\beta}_3^{\\text{lasso}} = \\mathbf{0.0}$.\n4. $j = 4$: $\\hat{\\beta}_4^{\\text{OLS}} = -0.20$, $|-0.20| = 0.20 \\le 0.50 \\implies \\hat{\\beta}_4^{\\text{lasso}} = \\mathbf{0.0}$.\nFor $\\lambda = 0.50$:\n$$\\hat{\\boldsymbol{\\beta}}^{\\text{lasso}} = (1.90, -1.30, 0, 0)^T$$"
+        },
+        {
+          "stepName": "Compute Estimates for $\\lambda = 1.00$",
+          "explanation": "Evaluate each coordinate:\n1. $j = 1$: $2.40 - 1.00 = \\mathbf{1.40}$.\n2. $j = 2$: $-(1.80 - 1.00) = \\mathbf{-0.80}$.\n3. $j = 3$: $|0.45| \\le 1.00 \\implies \\mathbf{0.0}$.\n4. $j = 4$: $|-0.20| \\le 1.00 \\implies \\mathbf{0.0}$.\nFor $\\lambda = 1.00$:\n$$\\hat{\\boldsymbol{\\beta}}^{\\text{lasso}} = (1.40, -0.80, 0, 0)^T$$"
+        }
+      ]
+    },
+    {
+      "id": "big-data-3-2",
+      "title": "Ridge Regression Singular Value Shrinkage",
+      "question": "A bivariate linear regression model with $n = 100$ observations has design matrix $\\mathbf{X}$ whose Gram matrix has singular values $d_1 = 20.0$ and $d_2 = 2.0$.\n1. Compute the condition number of $\\mathbf{X}^T \\mathbf{X}$.\n2. Compute the shrinkage factors $\\frac{d_j^2}{d_j^2 + \\lambda}$ applied to both principal directions under Ridge regularization with $\\lambda = 16.0$.\n3. Compute the improved condition number of the regularized matrix $(\\mathbf{X}^T \\mathbf{X} + \\lambda \\mathbf{I})$.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Compute Original Condition Number",
+          "explanation": "The eigenvalues of $\\mathbf{X}^T \\mathbf{X}$ are the squared singular values:\n$$\\lambda_1 = d_1^2 = 20^2 = 400.0$$\n$$\\lambda_2 = d_2^2 = 2^2 = 4.0$$\nThe condition number $\\kappa$ is:\n$$\\kappa(\\mathbf{X}^T \\mathbf{X}) = \\frac{\\lambda_1}{\\lambda_2} = \\frac{400.0}{4.0} = \\mathbf{100.0}$$"
+        },
+        {
+          "stepName": "Calculate Ridge Shrinkage Factors",
+          "explanation": "For $\\lambda = 16.0$:\n- First principal direction ($j = 1$):\n$$\\text{Shrinkage}_1 = \\frac{d_1^2}{d_1^2 + \\lambda} = \\frac{400}{400 + 16} = \\frac{400}{416} \\approx \\mathbf{0.9615} \\quad (3.85\\% \\text{ shrinkage})$$\n- Second principal direction ($j = 2$):\n$$\\text{Shrinkage}_2 = \\frac{d_2^2}{d_2^2 + \\lambda} = \\frac{4}{4 + 16} = \\frac{4}{20} = \\mathbf{0.2000} \\quad (80.0\\% \\text{ shrinkage})$$\nRidge shrinks the unstable, noisy second direction by $80\\%$, while leaving the dominant signal direction largely unperturbed ($3.85\\%$ shrinkage)."
+        },
+        {
+          "stepName": "Compute Regularized Condition Number",
+          "explanation": "The eigenvalues of $(\\mathbf{X}^T \\mathbf{X} + \\lambda \\mathbf{I})$ are:\n$$\\tilde{\\lambda}_1 = 400 + 16 = 416.0$$\n$$\\tilde{\\lambda}_2 = 4 + 16 = 20.0$$\nThe regularized condition number is:\n$$\\tilde{\\kappa} = \\frac{416.0}{20.0} = \\mathbf{20.8}$$\nRidge regularization improves matrix conditioning by nearly a factor of 5 (reducing condition number from 100 to 20.8)."
+        }
+      ]
+    },
+    {
+      "id": "big-data-3-3",
+      "title": "Coordinate Descent Step Calculation",
+      "question": "In a linear regression model with $n = 5$ observations, feature vector $\\mathbf{x}_1 = (1, 1, 1, 1, 1)^T / \\sqrt{5}$ (standardized so $\\frac{1}{n} \\|\\mathbf{x}_1\\|_2^2 = 1$). The current partial residual vector is $\\mathbf{r}^{(1)} = (2.0, -1.0, 3.0, 0.5, 1.5)^T$.\nCompute the updated coefficient $\\beta_1$ for regularization parameter $\\lambda = 0.40$.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Formulate the Coordinate Descent Update",
+          "explanation": "The coordinate update rule is:\n$$\\beta_1 \\leftarrow \\mathcal{S}\\left( \\frac{1}{n} \\mathbf{x}_1^T \\mathbf{r}^{(1)}, \\lambda \\right)$$\nwhere $n = 5$ and $\\mathbf{x}_1 = \\frac{1}{\\sqrt{5}} (1, 1, 1, 1, 1)^T$."
+        },
+        {
+          "stepName": "Calculate the Inner Product",
+          "explanation": "Compute the sum of partial residuals:\n$$\\sum_{i=1}^5 r_i^{(1)} = 2.0 - 1.0 + 3.0 + 0.5 + 1.5 = 6.0$$\nCompute $\\mathbf{x}_1^T \\mathbf{r}^{(1)}$:\n$$\\mathbf{x}_1^T \\mathbf{r}^{(1)} = \\frac{1}{\\sqrt{5}} \\sum_{i=1}^5 r_i^{(1)} = \\frac{6.0}{\\sqrt{5}} \\approx \\frac{6.0}{2.236068} \\approx 2.68328$$\nCompute the normalized correlation:\n$$\\rho_1 = \\frac{1}{n} \\mathbf{x}_1^T \\mathbf{r}^{(1)} = \\frac{2.68328}{5} \\approx 0.536656$$"
+        },
+        {
+          "stepName": "Apply the Soft-Thresholding Operator",
+          "explanation": "With $\\lambda = 0.40$:\nSince $\\rho_1 = 0.536656 > 0.40$:\n$$\\beta_1 \\leftarrow \\rho_1 - \\lambda = 0.536656 - 0.40 = \\mathbf{0.1367}$$\nThe updated coordinate value is $\\beta_1 = 0.1367$."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "big-data-4-1",
+      "title": "MapReduce Decomposition of Sample Variance",
+      "question": "Show how sample variance $S^2 = \\frac{1}{N - 1} \\sum_{i=1}^N (x_i - \\bar{x})^2$ can be computed across $M$ distributed worker nodes in a single MapReduce pass, avoiding two-pass mean-centering.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Decompose the Variance Formula into Additive Sufficient Statistics",
+          "explanation": "Expand the numerator of the sample variance:\n$$\\sum_{i=1}^N (x_i - \\bar{x})^2 = \\sum_{i=1}^N \\left( x_i^2 - 2 x_i \\bar{x} + \\bar{x}^2 \\right) = \\sum_{i=1}^N x_i^2 - 2 \\bar{x} \\sum_{i=1}^N x_i + N \\bar{x}^2$$\nSince $\\sum_{i=1}^N x_i = N \\bar{x}$:\n$$\\sum_{i=1}^N (x_i - \\bar{x})^2 = \\sum_{i=1}^N x_i^2 - N \\bar{x}^2 = \\sum_{i=1}^N x_i^2 - \\frac{1}{N} \\left( \\sum_{i=1}^N x_i \\right)^2$$\nThe entire sample variance is completely determined by three additive scalar sufficient statistics:\n1. $N = \\sum_{i=1}^N 1$ (sample count).\n2. $S_1 = \\sum_{i=1}^N x_i$ (first raw sum).\n3. $S_2 = \\sum_{i=1}^N x_i^2$ (sum of squares)."
+        },
+        {
+          "stepName": "Define the Mapper and Reducer Functions",
+          "explanation": "- **Mapper Execution on Node $m$**:\nPartition $m$ contains local data subset $D_m$. The mapper iterates over $D_m$ locally and computes:\n$$n_m = |D_m|, \\quad s_{1, m} = \\sum_{x \\in D_m} x, \\quad s_{2, m} = \\sum_{x \\in D_m} x^2$$\nEmit intermediate key-value pair:\n$$\\mathrm{Emit}(\\text{\"stats\"}, (n_m, s_{1, m}, s_{2, m}))$$\n\n- **Reducer Execution on Aggregator Node**:\nThe reducer receives list of triples from all $M$ worker nodes. It accumulates:\n$$N = \\sum_{m=1}^M n_m, \\quad S_1 = \\sum_{m=1}^M s_{1, m}, \\quad S_2 = \\sum_{m=1}^M s_{2, m}$$"
+        },
+        {
+          "stepName": "Evaluate Final Estimators",
+          "explanation": "The reducer computes the sample mean and unbiased sample variance:\n$$\\bar{x} = \\frac{S_1}{N}$$\n$$S^2 = \\frac{1}{N - 1} \\left( S_2 - \\frac{S_1^2}{N} \\right)$$\nThis executes in a single pass over the dataset with exact $O(M)$ communication complexity."
+        }
+      ]
+    },
+    {
+      "id": "big-data-4-2",
+      "title": "Communication Volume in Distributed OLS",
+      "question": "A dataset containing $N = 10^9$ observations and $p = 500$ covariates is distributed across $P = 100$ cluster worker nodes.\n1. Compute the network communication volume required if worker nodes transmit raw data to the master node.\n2. Compute the network communication volume required using MapReduce parallel Gram matrix aggregation. Assume 8 bytes per double-precision floating-point number.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Compute Raw Data Transfer Volume",
+          "explanation": "Each observation consists of $p$ features plus 1 response variable ($501$ doubles):\n$$\\text{Bytes per observation} = 501 \\times 8 = 4008 \\text{ bytes}$$\nTotal data volume across $10^9$ rows:\n$$\\text{Volume}_{\\text{raw}} = 10^9 \\times 4008 \\text{ bytes} \\approx 4.008 \\times 10^{12} \\text{ bytes} \\approx \\mathbf{4.008 \\text{ Terabytes}}$$\nTransmitting 4 Terabytes over standard gigabit network interfaces would saturate the network for hours."
+        },
+        {
+          "stepName": "Compute Gram Matrix Aggregation Volume",
+          "explanation": "Under the MapReduce approach, each worker node $m$ computes its local $p \\times p$ Gram matrix $\\mathbf{G}_m = \\mathbf{X}_m^T \\mathbf{X}_m$ and local vector $\\mathbf{h}_m = \\mathbf{X}_m^T \\mathbf{y}_m$.\nDue to symmetry, the upper triangle of $\\mathbf{G}_m$ contains $\\frac{p(p+1)}{2}$ values, plus $p$ values for $\\mathbf{h}_m$:\n$$\\text{Values per node} = \\frac{500 \\times 501}{2} + 500 = 125,250 + 500 = 125,750 \\text{ floats}$$\n$$\\text{Bytes per node} = 125,750 \\times 8 = 1,006,000 \\text{ bytes} \\approx 1.006 \\text{ MB}$$\nFor $P = 100$ worker nodes, the total communication volume is:\n$$\\text{Volume}_{\\text{MapReduce}} = 100 \\times 1.006 \\text{ MB} = \\mathbf{100.6 \\text{ Megabytes}}$$"
+        },
+        {
+          "stepName": "Calculate the Communication Reduction Ratio",
+          "explanation": "$$\\text{Reduction Factor} = \\frac{4.008 \\times 10^{12} \\text{ bytes}}{1.006 \\times 10^8 \\text{ bytes}} \\approx \\mathbf{39,840\\times}$$\nMapReduce reduces network communication traffic by nearly a factor of $40,000$, enabling distributed regression in seconds."
+        }
+      ]
+    },
+    {
+      "id": "big-data-4-3",
+      "title": "In-Memory Spark Speedup vs. Disk-Backed Hadoop",
+      "question": "A distributed logistic regression model requires $T = 30$ gradient descent iterations on a 500 GB dataset across a 10-node cluster.\n- In Hadoop MapReduce, reading/writing intermediate state to distributed disk storage takes 140 seconds per iteration.\n- In Apache Spark with RDD memory caching, reading from RAM takes 2.2 seconds per iteration. Computing gradients takes 5.0 seconds per iteration in both engines.\nCalculate the total execution time for both systems and determine the Spark speedup factor.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Compute Hadoop Execution Time",
+          "explanation": "In Hadoop MapReduce, each iteration requires disk I/O plus gradient computation:\n$$\\text{Time per iteration}_{\\text{Hadoop}} = 140 + 5.0 = 145.0 \\text{ seconds}$$\nTotal execution time for $T = 30$ iterations:\n$$\\text{Total Time}_{\\text{Hadoop}} = 30 \\times 145.0 = \\mathbf{4350 \\text{ seconds}} \\quad (72.5 \\text{ minutes})$$"
+        },
+        {
+          "stepName": "Compute Spark In-Memory Execution Time",
+          "explanation": "The initial iteration loads the dataset into memory (taking 140 s disk load + 5 s computation = 145 s).\nThe remaining 29 iterations read directly from RAM:\n$$\\text{Time per subsequent iteration}_{\\text{Spark}} = 2.2 + 5.0 = 7.2 \\text{ seconds}$$\nTotal execution time:\n$$\\text{Total Time}_{\\text{Spark}} = 145.0 + 29 \\times 7.2 = 145.0 + 208.8 = \\mathbf{353.8 \\text{ seconds}} \\quad (5.897 \\text{ minutes})$$"
+        },
+        {
+          "stepName": "Determine the Speedup Factor",
+          "explanation": "$$\\text{Speedup} = \\frac{4350 \\text{ s}}{353.8 \\text{ s}} \\approx \\mathbf{12.3\\times}$$\nSpark completes the distributed model fitting $12.3$ times faster by eliminating disk serialization bottlenecks."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "big-data-5-1",
+      "title": "Variance Decay in Mini-Batch SGD",
+      "question": "In training a high-dimensional logistic regression model, single-sample stochastic gradients have variance $\\sigma^2 = 80.0$.\n1. Compute the gradient variance when using mini-batch sizes of $B = 16, 64,$ and $256$.\n2. For an overall computational budget of $N_{\\text{eval}} = 102,400$ gradient evaluations, calculate the total number of parameter update steps executed under each batch size.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Calculate Variance for Each Mini-Batch Size",
+          "explanation": "The variance of the mini-batch average gradient $\\mathbf{g}_t = \\frac{1}{B} \\sum_{i=1}^B \\nabla f_i$ is:\n$$\\mathrm{Var}(\\mathbf{g}_t) = \\frac{\\sigma^2}{B}$$\nFor $\\sigma^2 = 80.0$:\n- $B = 16$: $\\mathrm{Var}(\\mathbf{g}) = \\frac{80.0}{16} = \\mathbf{5.0}$ (a $16$-fold variance reduction).\n- $B = 64$: $\\mathrm{Var}(\\mathbf{g}) = \\frac{80.0}{64} = \\mathbf{1.25}$ (a $64$-fold variance reduction).\n- $B = 256$: $\\mathrm{Var}(\\mathbf{g}) = \\frac{80.0}{256} = \\mathbf{0.3125}$ (a $256$-fold variance reduction)."
+        },
+        {
+          "stepName": "Compute Number of Parameter Updates",
+          "explanation": "The total number of update steps $T$ under a fixed computational budget of $N_{\\text{eval}} = 102,400$ is:\n$$T = \\frac{N_{\\text{eval}}}{B}$$\n- $B = 16$: $T = \\frac{102400}{16} = \\mathbf{6,400 \\text{ update steps}}$.\n- $B = 64$: $T = \\frac{102400}{64} = \\mathbf{1,600 \\text{ update steps}}$.\n- $B = 256$: $T = \\frac{102400}{256} = \\mathbf{400 \\text{ update steps}}$.\nPractitioners select $B = 64$ or $B = 128$ to achieve strong hardware parallel throughput while retaining thousands of iterative parameter updates."
+        },
+        {
+          "stepName": "Analyze the Signal-to-Noise Ratio and Hardware Throughput Trade-off",
+          "explanation": "The gradient signal-to-noise ratio (SNR) is defined as $\\mathrm{SNR} = \\frac{\\|\\mathbb{E}[\\mathbf{g}_t]\\|_2}{\\sqrt{\\mathrm{Var}(\\mathbf{g}_t)}} = \\sqrt{B} \\frac{\\|\\nabla F(\\boldsymbol{\\theta})\\|_2}{\\sigma}$.\n- For $B = 16$, the $\\mathrm{SNR}$ increases by a factor of $\\sqrt{16} = 4.0$.\n- For $B = 64$, the $\\mathrm{SNR}$ increases by $\\sqrt{64} = 8.0$.\n- For $B = 256$, the $\\mathrm{SNR}$ increases by $\\sqrt{256} = 16.0$.\nWhile larger mini-batches increase SNR and saturate SIMD vector units on modern GPU accelerators, the marginal gain in variance reduction diminishes with $\\sqrt{B}$. Consequently, intermediate batch sizes $B \\in [64, 256]$ optimize the empirical trade-off between computational runtime and optimization convergence speed."
+        }
+      ]
+    },
+    {
+      "id": "big-data-5-2",
+      "title": "Adam Optimizer Bias Correction Step",
+      "question": "At iteration $t = 2$, an Adam optimizer with standard parameters $\\beta_1 = 0.9$ and $\\beta_2 = 0.999$ records raw moment vector values $m_2 = 0.38$ and $v_2 = 0.045$.\n1. Calculate the bias-correction multipliers for the first and second moments.\n2. Compute the bias-corrected values $\\hat{m}_2$ and $\\hat{v}_2$.\n3. Compute the effective parameter update step $\\Delta w_2$ for learning rate $\\eta = 0.01$ and $\\epsilon = 10^{-8}$.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Calculate the Bias-Correction Multipliers",
+          "explanation": "The bias-correction denominators at step $t = 2$ are:\n$$1 - \\beta_1^t = 1 - 0.9^2 = 1 - 0.81 = 0.19$$\n$$1 - \\beta_2^t = 1 - 0.999^2 = 1 - 0.998001 = 0.001999$$"
+        },
+        {
+          "stepName": "Compute Bias-Corrected Moments",
+          "explanation": "Compute $\\hat{m}_2$:\n$$\\hat{m}_2 = \\frac{m_2}{1 - \\beta_1^2} = \\frac{0.38}{0.19} = \\mathbf{2.00}$$\nCompute $\\hat{v}_2$:\n$$\\hat{v}_2 = \\frac{v_2}{1 - \\beta_2^2} = \\frac{0.045}{0.001999} \\approx \\mathbf{22.5113}$$\nNotice that without bias correction, the raw moments would severely underestimate the true scale of the gradient dynamics by orders of magnitude during initial warmup."
+        },
+        {
+          "stepName": "Compute the Effective Parameter Step",
+          "explanation": "The parameter update is:\n$$\\Delta w = -\\frac{\\eta}{\\sqrt{\\hat{v}_2} + \\epsilon} \\hat{m}_2$$\nCompute the denominator:\n$$\\sqrt{\\hat{v}_2} = \\sqrt{22.5113} \\approx 4.7446$$\nCompute the step:\n$$\\Delta w = -\\frac{0.01}{4.7446} \\times 2.00 = -0.0021077 \\times 2.00 \\approx \\mathbf{-0.004215}$$\nThe parameter updates by subtracting $0.004215$."
+        }
+      ]
+    },
+    {
+      "id": "big-data-5-3",
+      "title": "Theoretical Convergence of Robbins-Monro Step Sizes",
+      "question": "Verify whether the step size sequence $\\eta_t = \\frac{c}{t^\\alpha}$ satisfies the Robbins-Monro convergence criteria for $\\alpha = 0.50$, $\\alpha = 0.75$, and $\\alpha = 1.00$.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "State the Robbins-Monro Criteria",
+          "explanation": "The two conditions for almost sure convergence are:\n1. Condition 1: $\\sum_{t=1}^\\infty \\eta_t = \\infty$ (infinite total travel distance).\n2. Condition 2: $\\sum_{t=1}^\\infty \\eta_t^2 < \\infty$ (finite total squared variance)."
+        },
+        {
+          "stepName": "Apply the $p$-Series Convergence Test",
+          "explanation": "For a $p$-series $\\sum_{t=1}^\\infty \\frac{1}{t^p}$:\n- The series diverges if $p \\le 1$.\n- The series converges if $p > 1$.\n\nEvaluate each candidate exponent $\\alpha$:\n1. **Case 1 ($\\alpha = 0.50$, $\\eta_t = c / t^{1/2}$)**:\n   - Condition 1: $\\sum \\frac{1}{t^{1/2}}$ has $p = 0.5 \\le 1 \\implies$ **Diverges to $\\infty$ (Satisfied)**.\n   - Condition 2: $\\sum \\eta_t^2 = c^2 \\sum \\frac{1}{t}$ has $p = 1.0 \\le 1 \\implies$ **Diverges to $\\infty$ (Fails Condition 2)**.\n   Because Condition 2 fails, gradient noise does not decay fast enough, causing non-vanishing asymptotic variance.\n2. **Case 2 ($\\alpha = 0.75$, $\\eta_t = c / t^{3/4}$)**:\n   - Condition 1: $\\sum \\frac{1}{t^{3/4}}$ has $p = 0.75 \\le 1 \\implies$ **Diverges to $\\infty$ (Satisfied)**.\n   - Condition 2: $\\sum \\eta_t^2 = c^2 \\sum \\frac{1}{t^{3/2}}$ has $p = 1.5 > 1 \\implies$ **Converges (Satisfied)**.\n   Both criteria are strictly satisfied! $\\alpha = 0.75$ guarantees almost sure convergence.\n3. **Case 3 ($\\alpha = 1.00$, $\\eta_t = c / t$)**:\n   - Condition 1: $\\sum \\frac{1}{t}$ has $p = 1.0 \\le 1 \\implies$ **Diverges to $\\infty$ (Satisfied)**.\n   - Condition 2: $\\sum \\frac{1}{t^2}$ has $p = 2.0 > 1 \\implies$ **Converges (Satisfied)**.\n   Both criteria are strictly satisfied! $\\alpha = 1.00$ is the classical asymptotically optimal schedule."
+        },
+        {
+          "stepName": "Contrast Asymptotic Convergence Rates and Polyak-Ruppert Averaging",
+          "explanation": "While $\\alpha = 1.00$ achieves the optimal parametric convergence rate $\\mathbb{E}[\\|\\boldsymbol{\\theta}_t - \\boldsymbol{\\theta}^*\\|_2^2] = \\mathcal{O}(1/t)$ on strongly convex objectives, it is notoriously brittle in practice because if the constant $c < 1 / (2 \\mu_{\\min})$, the estimator converges sub-optimally as $\\mathcal{O}(1/t^{2 c \\mu_{\\min}})$.\nTo resolve this sensitivity, Polyak and Ruppert established that adopting a slower decay rate $\\alpha \\in (0.5, 1.0)$ (such as $\\alpha = 0.75$) combined with running trajectory averaging:\n$$\\bar{\\boldsymbol{\\theta}}_t = \\frac{1}{t} \\sum_{k=1}^t \\boldsymbol{\\theta}_k$$\nrecovers the minimax optimal asymptotic covariance $[\\nabla^2 F(\\boldsymbol{\\theta}^*)]^{-1} \\mathbf{S} [\\nabla^2 F(\\boldsymbol{\\theta}^*)]^{-1}$ without requiring prior knowledge of the strong convexity parameter $\\mu_{\\min}$."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "big-data-6-1",
+      "title": "Johnson-Lindenstrauss Target Dimension",
+      "question": "A social network dataset contains $n = 100,000$ user activity profiles residing in an ambient space of $p = 50,000$ dimensions. A data scientist requires a random projection that preserves all pairwise Euclidean distances within a relative error tolerance of $\\epsilon = 0.10$ ($10\\%$).\nCompute the minimum projection dimension $k$ mandated by the Johnson-Lindenstrauss lemma.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Formulate the JL Target Dimension Bound",
+          "explanation": "The Johnson-Lindenstrauss target dimension $k$ is given by:\n$$k \\ge \\frac{4 \\ln n}{\\frac{\\epsilon^2}{2} - \\frac{\\epsilon^3}{3}}$$\nwhere $n = 100,000$ and $\\epsilon = 0.10$."
+        },
+        {
+          "stepName": "Evaluate the Numerator and Denominator",
+          "explanation": "Compute the natural logarithm of $n$:\n$$\\ln(100,000) \\approx 11.512925$$\nNumerator:\n$$4 \\ln n = 4 \\times 11.512925 \\approx 46.0517$$\nCompute the denominator:\n$$\\frac{\\epsilon^2}{2} = \\frac{0.10^2}{2} = \\frac{0.01}{2} = 0.0050$$\n$$\\frac{\\epsilon^3}{3} = \\frac{0.10^3}{3} = \\frac{0.001}{3} \\approx 0.0003333$$\n$$\\text{Denominator} = 0.0050 - 0.0003333 = 0.0046667$$"
+        },
+        {
+          "stepName": "Calculate the Minimum Dimension $k$",
+          "explanation": "Divide numerator by denominator:\n$$k \\ge \\frac{46.0517}{0.0046667} \\approx 9868.2 \\implies k = \\mathbf{9,869}$$\nBy projecting the $50,000$-dimensional vectors onto a $9,869$-dimensional random subspace, all $\\binom{100,000}{2} \\approx 5 \\times 10^9$ pairwise Euclidean distances are guaranteed to be preserved within $\\pm 10\\%$ relative error."
+        }
+      ]
+    },
+    {
+      "id": "big-data-6-2",
+      "title": "Rademacher vs. Gaussian Random Projection Memory",
+      "question": "Compare the memory footprint required to store a random projection matrix $\\mathbf{\\Pi} \\in \\mathbb{R}^{k \\times p}$ with $k = 2000$ and $p = 10,000$:\n1. When $\\mathbf{\\Pi}$ is populated with 64-bit IEEE double-precision Gaussian entries.\n2. When $\\mathbf{\\Pi}$ is populated with 1-bit packed Rademacher entries $\\pm 1$.\nDetermine the memory reduction factor.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Compute Matrix Element Count",
+          "explanation": "The total number of matrix elements is:\n$$N_{\\text{elements}} = k \\times p = 2000 \\times 10,000 = 20,000,000 \\text{ entries}$$"
+        },
+        {
+          "stepName": "Calculate Memory Footprint",
+          "explanation": "1. **Gaussian Matrix (Double Precision)**:\nEach double-precision float requires 8 bytes (64 bits):\n$$\\text{Memory}_{\\text{Gaussian}} = 20,000,000 \\times 8 \\text{ bytes} = 160,000,000 \\text{ bytes} = \\mathbf{160 \\text{ MB}}$$\n2. **Rademacher Matrix (1-Bit Packed)**:\nBecause entries are strictly binary $\\pm 1$, each entry requires only 1 bit:\n$$\\text{Memory}_{\\text{Rademacher}} = \\frac{20,000,000 \\text{ bits}}{8 \\text{ bits/byte}} = 2,500,000 \\text{ bytes} = \\mathbf{2.5 \\text{ MB}}$$"
+        },
+        {
+          "stepName": "Determine the Memory Reduction Ratio",
+          "explanation": "$$\\text{Reduction Factor} = \\frac{160 \\text{ MB}}{2.5 \\text{ MB}} = \\mathbf{64\\times}$$\nBit-packed Rademacher sketching reduces memory consumption by a factor of 64, enabling high-dimensional random projections to fit entirely inside L3 processor caches."
+        }
+      ]
+    },
+    {
+      "id": "big-data-6-3",
+      "title": "Statistical Leverage Score Normalization",
+      "question": "A design matrix $\\mathbf{X} \\in \\mathbb{R}^{5 \\times 2}$ has left singular vector matrix:\n$$\\mathbf{U} = \\begin{pmatrix} 0.50 & 0.10 \\\\ 0.20 & -0.40 \\\\ 0.80 & 0.20 \\\\ 0.10 & 0.60 \\\\ 0.245 & -0.648 \\end{pmatrix}$$\nVerify that $\\mathbf{U}$ has rank $r = 2$, compute the statistical leverage score $h_i$ for each of the 5 rows, and calculate the leverage sampling probabilities $\\pi_i$.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Verify Column Orthonormality and Rank",
+          "explanation": "Check column norms:\n$$\\|\\mathbf{u}_1\\|_2^2 = 0.5^2 + 0.2^2 + 0.8^2 + 0.1^2 + 0.245^2 = 0.25 + 0.04 + 0.64 + 0.01 + 0.060 = 1.00$$\n$$\\|\\mathbf{u}_2\\|_2^2 = 0.1^2 + (-0.4)^2 + 0.2^2 + 0.6^2 + (-0.648)^2 = 0.01 + 0.16 + 0.04 + 0.36 + 0.420 = 0.99 \\approx 1.00$$\nInner product $\\langle \\mathbf{u}_1, \\mathbf{u}_2 \\rangle \\approx 0.0$. Thus $r = 2$."
+        },
+        {
+          "stepName": "Compute Leverage Scores $h_i = \\|\\mathbf{u}_i\\|_2^2$",
+          "explanation": "Compute row squared norms:\n- Row 1: $h_1 = 0.50^2 + 0.10^2 = 0.25 + 0.01 = \\mathbf{0.26}$\n- Row 2: $h_2 = 0.20^2 + (-0.40)^2 = 0.04 + 0.16 = \\mathbf{0.20}$\n- Row 3: $h_3 = 0.80^2 + 0.20^2 = 0.64 + 0.04 = \\mathbf{0.68}$\n- Row 4: $h_4 = 0.10^2 + 0.60^2 = 0.01 + 0.36 = \\mathbf{0.37}$\n- Row 5: $h_5 = 0.245^2 + (-0.648)^2 \\approx 0.060 + 0.420 = \\mathbf{0.48}$\nSum of leverage scores:\n$$\\sum_{i=1}^5 h_i = 0.26 + 0.20 + 0.68 + 0.37 + 0.48 = 1.99 \\approx r = 2.00$$"
+        },
+        {
+          "stepName": "Compute Sampling Probabilities $\\pi_i = h_i / r$",
+          "explanation": "Divide each leverage score by $r = 2.0$:\n- $\\pi_1 = 0.26 / 2 = \\mathbf{0.130} \\quad (13.0\\%)$\n- $\\pi_2 = 0.20 / 2 = \\mathbf{0.100} \\quad (10.0\\%)$\n- $\\pi_3 = 0.68 / 2 = \\mathbf{0.340} \\quad (34.0\\%)$\n- $\\pi_4 = 0.37 / 2 = \\mathbf{0.185} \\quad (18.5\\%)$\n- $\\pi_5 = 0.48 / 2 = \\mathbf{0.240} \\quad (24.0\\%)$\nRow 3 carries the highest statistical leverage ($h_3 = 0.68$), giving it a $34\\%$ probability of selection in randomized sketching algorithms."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "big-data-7-1",
+      "title": "Welford Recurrence Trace",
+      "question": "A data stream emits the sequential values $x_1 = 12.0, x_2 = 18.0, x_3 = 15.0$.\nTrace Welford's streaming algorithm step-by-step to compute the running mean and sample variance after each arrival.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Process Step 1 ($k = 1, x_1 = 12.0$)",
+          "explanation": "- Initial state: $k = 1$.\n- Mean: $M_1 = 12.0$.\n- Sum of squares: $S_1 = 0.0$.\n- Variance: undefined for $k = 1$ ($0/0$)."
+        },
+        {
+          "stepName": "Process Step 2 ($k = 2, x_2 = 18.0$)",
+          "explanation": "- Delta: $\\delta = x_2 - M_1 = 18.0 - 12.0 = 6.0$.\n- Mean update: $M_2 = M_1 + \\delta / 2 = 12.0 + 6.0 / 2 = \\mathbf{15.0}$.\n- Delta 2: $\\delta_2 = x_2 - M_2 = 18.0 - 15.0 = 3.0$.\n- Sum of squares: $S_2 = S_1 + \\delta \\times \\delta_2 = 0.0 + 6.0 \\times 3.0 = \\mathbf{18.0}$.\n- Sample variance:\n$$s_2^2 = \\frac{S_2}{k - 1} = \\frac{18.0}{2 - 1} = \\mathbf{18.0}$$"
+        },
+        {
+          "stepName": "Process Step 3 ($k = 3, x_3 = 15.0$)",
+          "explanation": "- Delta: $\\delta = x_3 - M_2 = 15.0 - 15.0 = 0.0$.\n- Mean update: $M_3 = M_2 + \\delta / 3 = 15.0 + 0.0 = \\mathbf{15.0}$.\n- Delta 2: $\\delta_2 = x_3 - M_3 = 15.0 - 15.0 = 0.0$.\n- Sum of squares: $S_3 = S_2 + \\delta \\times \\delta_2 = 18.0 + 0.0 = \\mathbf{18.0}$.\n- Sample variance:\n$$s_3^2 = \\frac{S_3}{k - 1} = \\frac{18.0}{3 - 1} = \\frac{18.0}{2} = \\mathbf{9.0}$$\nFinal running mean is $15.0$ and unbiased sample variance is $9.0$, computed in $O(1)$ memory without re-evaluating past data."
+        }
+      ]
+    },
+    {
+      "id": "big-data-7-2",
+      "title": "Sizing a Count-Min Sketch",
+      "question": "A network security monitoring system monitors IP packet arrivals to detect denial-of-service (DoS) attack sources across a stream of $N = 50,000,000$ packets.\nThe engineer requires that frequency estimation error be bounded by at most $0.05\\%$ of total stream volume ($\\epsilon = 0.0005$) with confidence at least $99.9\\%$ ($\\delta = 0.001$).\nCalculate the required width $w$, depth $d$, and total memory consumption assuming 4-byte 32-bit integer counters.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Calculate Required Matrix Dimensions",
+          "explanation": "The Count-Min Sketch parameter sizing formulas are:\n$$w = \\left\\lceil \\frac{e}{\\epsilon} \\right\\rceil, \\quad d = \\left\\lceil \\ln\\left(\\frac{1}{\\delta}\\right) \\right\\rceil$$\nFor $\\epsilon = 0.0005$ and $\\delta = 0.001$:\nCompute width $w$:\n$$w = \\left\\lceil \\frac{2.71828}{0.0005} \\right\\rceil = \\lceil 5436.56 \\rceil = \\mathbf{5,437 \\text{ columns}}$$\nCompute depth $d$:\n$$d = \\left\\lceil \\ln\\left( \\frac{1}{0.001} \\right) \\right\\rceil = \\lceil \\ln(1000) \\rceil = \\lceil 6.90775 \\rceil = \\mathbf{7 \\text{ rows}}$$"
+        },
+        {
+          "stepName": "Compute Total Counter Count and Memory Footprint",
+          "explanation": "Total number of counters in the sketch:\n$$N_{\\text{counters}} = d \\times w = 7 \\times 5437 = 38,059 \\text{ counters}$$\nWith 4 bytes per counter:\n$$\\text{Memory} = 38,059 \\times 4 \\text{ bytes} = 152,236 \\text{ bytes} \\approx \\mathbf{148.67 \\text{ Kilobytes}}$$"
+        },
+        {
+          "stepName": "Determine the Error Bound Magnitude",
+          "explanation": "The maximum frequency overestimation error with $99.9\\%$ probability is:\n$$\\epsilon N = 0.0005 \\times 50,000,000 = \\mathbf{25,000 \\text{ packets}}$$\nUsing less than $150$ Kilobytes of memory, the system tracks frequency across 50 million packets to within $\\pm 25,000$ packets."
+        }
+      ]
+    },
+    {
+      "id": "big-data-7-3",
+      "title": "HyperLogLog Relative Standard Error",
+      "question": "A database engineer configures a HyperLogLog data structure with $b = 12$ indexing bits ($m = 2^{12} = 4096$ registers).\n1. Calculate the theoretical relative standard error of the cardinality estimate.\n2. If 6 bits are allocated per register, compute the total memory consumption of the HLL sketch.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Compute the Relative Standard Error",
+          "explanation": "The theoretical relative standard error of the HyperLogLog estimator is:\n$$\\mathrm{RSE} = \\frac{1.04}{\\sqrt{m}}$$\nFor $b = 12$, $m = 2^{12} = 4096$:\n$$\\sqrt{m} = \\sqrt{4096} = 64$$\n$$\\mathrm{RSE} = \\frac{1.04}{64} = 0.01625 = \\mathbf{1.625\\%}$$\nThe cardinality estimate has a relative standard error of only $1.625\\%$."
+        },
+        {
+          "stepName": "Calculate Memory Footprint",
+          "explanation": "With $m = 4096$ registers and 6 bits per register:\n$$\\text{Total Bits} = 4096 \\times 6 = 24,576 \\text{ bits}$$\nConvert bits to bytes:\n$$\\text{Memory} = \\frac{24,576}{8} = 3,072 \\text{ bytes} = \\mathbf{3.0 \\text{ Kilobytes}}$$\nUsing just $3.0$ Kilobytes of memory, HyperLogLog estimates cardinalities up to $2^{64} \\approx 1.8 \\times 10^{19}$ unique items with a $1.625\\%$ standard error."
+        },
+        {
+          "stepName": "Contrast with Exact Hash Set Memory Requirements",
+          "explanation": "Suppose the stream contains $N = 100,000,000$ unique 64-bit user identifiers.\nAn exact hash table requires storing each 8-byte integer plus pointer overhead (typically 32 bytes per entry):\n$$\\text{Exact RAM} = 10^8 \\times 32 \\text{ bytes} = 3.2 \\times 10^9 \\text{ bytes} \\approx 3.2 \\text{ Gigabytes}$$\nThe memory compression ratio achieved by HyperLogLog is:\n$$\\text{Compression Ratio} = \\frac{3.2 \\times 10^9 \\text{ bytes}}{3072 \\text{ bytes}} \\approx 1,041,667 \\times$$\nHyperLogLog provides a million-fold reduction in physical memory consumption while retaining a $1.625\\%$ bound on relative estimation error."
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": "big-data-8-1",
+      "title": "Benjamini-Hochberg Step-Up Thresholding",
+      "question": "In a genomic differential expression experiment evaluating $m = 10$ genes, the sorted $p$-values are:\n$$p = (0.002, 0.008, 0.015, 0.022, 0.038, 0.045, 0.060, 0.085, 0.120, 0.350)$$\n1. Determine which hypotheses are rejected under the Bonferroni correction at $\\alpha = 0.05$.\n2. Determine which hypotheses are rejected under the Benjamini-Hochberg procedure at FDR $q^* = 0.05$.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Apply the Bonferroni Correction",
+          "explanation": "The Bonferroni single-test critical threshold is:\n$$\\alpha_{\\text{Bonf}} = \\frac{\\alpha}{m} = \\frac{0.05}{10} = \\mathbf{0.005}$$\nCompare sorted $p$-values to $0.005$:\n- $p_{(1)} = 0.002 \\le 0.005 \\implies$ **Reject $H_{(1)}$**.\n- $p_{(2)} = 0.008 > 0.005 \\implies$ Fail to reject.\nBonferroni declares **only 1 discovery** ($H_{(1)}$)."
+        },
+        {
+          "stepName": "Apply the Benjamini-Hochberg Procedure",
+          "explanation": "Compute the critical thresholds $T_k = \\frac{k}{m} q^* = \\frac{k}{10} \\times 0.05 = 0.005 \\times k$:\n<div class=\"table-wrapper\">\n<table class=\"data-table\">\n<thead>\n<tr>\n<th>Rank ($k$)</th>\n<th>$p_{(k)}$</th>\n<th>BH Threshold ($\\frac{k}{10} \\times 0.05$)</th>\n<th>Condition ($p_{(k)} \\le T_k$)</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>1</td>\n<td>0.002</td>\n<td>0.005</td>\n<td>True</td>\n</tr>\n<tr>\n<td>2</td>\n<td>0.008</td>\n<td>0.010</td>\n<td>True</td>\n</tr>\n<tr>\n<td>3</td>\n<td>0.015</td>\n<td>0.015</td>\n<td>True ($0.015 \\le 0.015$)</td>\n</tr>\n<tr>\n<td>4</td>\n<td>0.022</td>\n<td>0.020</td>\n<td>False ($0.022 > 0.020$)</td>\n</tr>\n<tr>\n<td>5</td>\n<td>0.038</td>\n<td>0.025</td>\n<td>False</td>\n</tr>\n<tr>\n<td>6</td>\n<td>0.045</td>\n<td>0.030</td>\n<td>False</td>\n</tr>\n</tbody>\n</table>\n</div>"
+        },
+        {
+          "stepName": "Identify the Largest $k$ and Conclude",
+          "explanation": "The largest index $k$ satisfying $p_{(k)} \\le T_k$ is $k^* = 3$ (where $p_{(3)} = 0.015 \\le 0.015$).\nTherefore, the Benjamini-Hochberg procedure rejects the first 3 null hypotheses:\n$$\\text{Reject } H_{(1)}, H_{(2)}, H_{(3)}$$\nFDR control yields **3 scientific discoveries** compared to only 1 under Bonferroni, tripling statistical discovery yield while rigorously bounding expected false discovery proportion at $5\\%$."
+        }
+      ]
+    },
+    {
+      "id": "big-data-8-2",
+      "title": "Storey's $\\pi_0$ Proportion Estimation",
+      "question": "A high-throughput drug screening study tests $m = 20,000$ molecular compounds.\nUsing tuning parameter $\\lambda = 0.50$, the number of observed $p$-values exceeding $0.50$ is counted as $7,200$.\n1. Compute Storey's estimate of the true null proportion $\\hat{\\pi}_0$.\n2. Compute the estimated number of true null hypotheses $m_0$ and true non-null active compounds $m_1$.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "Formulate Storey's $\\hat{\\pi}_0$ Estimator",
+          "explanation": "Storey's estimator is:\n$$\\hat{\\pi}_0(\\lambda) = \\frac{\\#\\{ p_i > \\lambda \\}}{(1 - \\lambda) m}$$\nFor $\\lambda = 0.50$, $m = 20,000$, and $\\#\\{ p_i > 0.50 \\} = 7,200$:\n$$\\hat{\\pi}_0(0.50) = \\frac{7200}{(1 - 0.50) \\times 20,000} = \\frac{7200}{0.50 \\times 20,000} = \\frac{7200}{10,000} = \\mathbf{0.720} \\quad (72.0\\%)$$"
+        },
+        {
+          "stepName": "Compute Hypothesis Counts",
+          "explanation": "The estimated number of true null hypotheses is:\n$$\\hat{m}_0 = \\hat{\\pi}_0 \\times m = 0.720 \\times 20,000 = \\mathbf{14,400 \\text{ inactive compounds}}$$\nThe estimated number of true alternative non-null discoveries is:\n$$\\hat{m}_1 = m - \\hat{m}_0 = 20,000 - 14,400 = \\mathbf{5,600 \\text{ active biological compounds}}$$"
+        },
+        {
+          "stepName": "Assess the Power Gain of Adaptive FDR over Standard Benjamini-Hochberg",
+          "explanation": "The standard Benjamini-Hochberg procedure controls the False Discovery Rate under the conservative worst-case presumption that $\\pi_0 = 1.0$.\nWhen Storey adaptive correction is applied, the effective nominal discovery threshold for ordered $p$-value $p_{(k)}$ is adjusted from:\n$$p_{(k)} \\le \\frac{k}{m} q^* \\quad \\text{to} \\quad p_{(k)} \\le \\frac{k}{m} \\frac{q^*}{\\hat{\\pi}_0}$$\nWith $\\hat{\\pi}_0 = 0.720$, the rejection threshold is expanded by:\n$$\\text{Threshold Expansion Factor} = \\frac{1}{0.720} \\approx 1.389 \\quad (38.9\\% \\text{ increase})$$\nBy incorporating $\\hat{\\pi}_0$, the investigator gains approximately $38.9\\%$ higher statistical power and identifies hundreds of true signals that standard BH would have mistakenly discarded, while maintaining rigorous FDR control at nominal level $q^*$."
+        }
+      ]
+    },
+    {
+      "id": "big-data-8-3",
+      "title": "Efron's Local False Discovery Rate Calculation",
+      "question": "In an empirical Bayes neuroimaging analysis, a voxel has normalized $z$-score $z = 2.80$.\nThe empirical null density is standard normal $f_0(z) = \\phi(z)$, the estimated proportion of null voxels is $\\pi_0 = 0.90$, and the mixture marginal density at $z = 2.80$ is estimated via splines as $f(2.80) = 0.0240$.\nCompute the local false discovery rate $\\mathrm{lfdr}(2.80)$ and interpret the posterior probability.",
+      "difficulty": "Solved Problem",
+      "steps": [
+        {
+          "stepName": "State the Local FDR Formula",
+          "explanation": "Efron's local false discovery rate is:\n$$\\mathrm{lfdr}(z) = \\frac{\\pi_0 f_0(z)}{f(z)}$$"
+        },
+        {
+          "stepName": "Evaluate the Null Density $f_0(2.80)$",
+          "explanation": "For standard normal $\\phi(z) = \\frac{1}{\\sqrt{2\\pi}} e^{-z^2/2}$:\n$$f_0(2.80) = \\frac{1}{\\sqrt{2\\pi}} e^{-2.80^2 / 2} = 0.398942 \\times e^{-7.84 / 2} = 0.398942 \\times e^{-3.92} \\approx 0.398942 \\times 0.019841 \\approx \\mathbf{0.007915}$$"
+        },
+        {
+          "stepName": "Compute $\\mathrm{lfdr}(2.80)$",
+          "explanation": "Multiply by $\\pi_0 = 0.90$:\n$$\\pi_0 f_0(2.80) = 0.90 \\times 0.007915 = 0.007124$$\nDivide by marginal density $f(2.80) = 0.0240$:\n$$\\mathrm{lfdr}(2.80) = \\frac{0.007124}{0.0240} \\approx \\mathbf{0.2968} \\quad (29.68\\%)$$\nGiven an observed test statistic $z = 2.80$, there is a $29.68\\%$ posterior probability that this specific voxel activation represents random background noise, and a $70.32\\%$ probability that it reflects genuine neural activation."
+        }
+      ]
+    }
+  ]
+]

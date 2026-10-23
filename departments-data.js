@@ -1458,6 +1458,63 @@ window.LIBRARY_CATALOG = {
             "Benefit Reserves, Thiele's Differential Equation & Expense Loadings",
             "Mathematical Demography, Multiple Decrement Models & Population Dynamics"
           ]
+        },
+        {
+          "id": "statistical-simulation-and-monte-carlo-methods",
+          "title": "Statistical Simulation and Monte Carlo Methods",
+          "subtitle": "Pseudorandom Generation, Non-Uniform Sampling, Importance Sampling, MCMC & Particle Filtering",
+          "status": "AVAILABLE",
+          "url": "statistical-simulation-and-monte-carlo-methods.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering pseudorandom number generators (LCG, Mersenne Twister, statistical test suites), non-uniform random variate generation (inversion, rejection sampling, Box-Muller, multivariate normal), Monte Carlo integration, variance reduction techniques (antithetic variates, control variates, importance sampling, stratified sampling), Markov Chain Monte Carlo foundations, the Metropolis-Hastings algorithm, Gibbs sampling, slice sampling, Hamiltonian Monte Carlo, convergence diagnostics (Gelman-Rubin R-hat, ESS), and Sequential Monte Carlo (particle filtering) with 24 solved questions and 4 interactive simulations.",
+          "topics": [
+            "Uniform Random Number Generation & Pseudorandom Foundations",
+            "Non-Uniform Random Variate Generation: Inversion & Transformations",
+            "Rejection Sampling & Envelope Methods",
+            "Monte Carlo Integration & Precision",
+            "Variance Reduction Techniques",
+            "Markov Chain Monte Carlo (MCMC): Metropolis-Hastings Algorithms",
+            "The Gibbs Sampler & Bayesian Computational Inference",
+            "Resampling & Permutation Methods: Bootstrap and Jackknife"
+          ]
+        },
+        {
+          "id": "big-data-methods-for-statistics",
+          "title": "Big Data Methods for Statistics",
+          "subtitle": "High-Dimensional Geometry, Spectral Learning, Regularization, Distributed Spark & Streaming Algorithms",
+          "status": "AVAILABLE",
+          "url": "big-data-methods-for-statistics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering high-dimensional statistical geometry (curse of dimensionality, volume collapse, concentration of measure, distance concentration), large-scale spectral dimension reduction (random matrix theory, Marchenko-Pastur law, BBP transition, randomized SVD), sparse statistical learning (Lasso coordinate descent, Ridge, Elastic Net, SCAD/MCP), distributed computing foundations (MapReduce, Hadoop, Apache Spark RDDs, MLlib), first-order stochastic optimization (SGD, mini-batch, Polyak momentum, Adam), randomized numerical linear algebra (Johnson-Lindenstrauss lemma, SRHT, leverage score sampling), streaming data algorithms (Welford algorithm, Reservoir Sampling, Count-Min sketch, HyperLogLog), and high-dimensional multiple testing (FWER, Benjamini-Hochberg FDR control, Storey q-values, local FDR) with 24 solved questions and 4 interactive simulations.",
+          "topics": [
+            "The Statistical Geometry of High Dimensions",
+            "Large-Scale Dimension Reduction: Spectral & Manifold Learning",
+            "Sparse Statistical Learning & Regularization (Lasso, Ridge, Elastic Net)",
+            "Distributed Computing Foundations: MapReduce, Hadoop & Spark for Statisticians",
+            "First-Order Stochastic Optimization for Massive Data",
+            "Randomized Numerical Linear Algebra (RandNLA)",
+            "Streaming Data, Online Learning & One-Pass Sketching Algorithms",
+            "High-Dimensional Multiple Testing & False Discovery Rate (FDR)"
+          ]
+        },
+        {
+          "id": "statistical-research-methods",
+          "title": "Statistical Research Methods",
+          "subtitle": "Epistemology, Research Design, Psychometrics, Survey Sampling, Power Analysis, Causal Inference & Reproducibility",
+          "status": "AVAILABLE",
+          "url": "statistical-research-methods.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering epistemology of statistical inquiry (positivism, Popperian falsificationism, Kuhn, Lakatos, Box's maxim), research design architectures (Campbell-Stanley taxonomy, internal and external validity threats, regression to the mean, Heckman selection models), measurement theory and psychometrics (Stevens scales, Classical Test Theory, Cronbach's alpha, McDonald's omega, MTMM matrix, Item Response Theory), survey design and sampling strategies (Total Survey Error, Tourangeau cognitive model, nonresponse weighting, Kish design effect, Warner randomized response), statistical power analysis (non-central distributions, Cohen's d, Hedges' g, sample size formulas, post-hoc power fallacy), modern causal inference (Neyman-Rubin potential outcomes, Judea Pearl's DAGs, d-separation, backdoor criterion, instrumental variables, RDD, Difference-in-Differences), research ethics and privacy (Belmont Report, differential privacy, publication bias, Egger's test), and reproducible scientific communication with 24 solved questions and 4 interactive simulations.",
+          "topics": [
+            "Epistemology of Statistical Science & Scientific Inquiry",
+            "Problem Formulation, Conceptualization & Research Design Architectures",
+            "Measurement Theory, Psychometrics, Reliability & Validity",
+            "Survey Design, Questionnaire Engineering & Sampling Strategies",
+            "Statistical Power Analysis, Effect Size Estimation & Sample Size Determination",
+            "Modern Causal Inference in Statistical Research",
+            "Research Ethics, Data Integrity, Confidentiality & Publication Practices",
+            "Scientific Communication, Reproducible Research & Technical Reporting"
+          ]
         }
       ]
     }

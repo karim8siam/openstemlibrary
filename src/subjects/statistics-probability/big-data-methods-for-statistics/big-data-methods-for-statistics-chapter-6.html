@@ -1,0 +1,930 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Randomized Numerical Linear Algebra (RandNLA) | Big Data Methods for Statistics | OpenSTEM Library</title>
+  <meta name="description" content="The RandNLA paradigm: using deliberate algorithmic randomness to accelerate matrix computations on massive datasets; Matrix sketching and dimension reduction: embedding high-dimensional matrices into lower-dimensional sketch spaces; The Johnson-Lindenstrauss Lemma: metric-preserving random projections, epsilon-isometries, and minimum projection dimension k >= O(epsilon^(-2) ln n); Random projection matrices: Gaussian random matrices, Rademacher matrices, and the Subsampled Randomized Hadamard Transform (SRHT); Randomized approximate matrix multiplication: probability proportional to Euclidean norm squared; Leverage score sampling: statistical leverage scores h_ii = x_i^T (X^T X)^(-1) x_i, CUR matrix decompositions, and subspace embeddings.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/big-data-methods-for-statistics-chapter-6">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/big-data-methods-for-statistics-chapter-6">
+  <meta property="og:title" content="Big Data Methods for Statistics: High-Dimensional Geometry, Lasso, Spark &amp; Streaming Algorithms | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering high-dimensional statistical geometry (curse of dimensionality, volume collapse, concentration of measure, distance concentration), large-scale spectral dimension reduction (random matrix theory, Marchenko-Pastur law, BBP transition, randomized SVD), sparse statistical learning (Lasso coordinate descent, Ridge, Elastic Net, SCAD/MCP), distributed computing foundations (MapReduce, Hadoop, Apache Spark RDDs, MLlib), first-order stochastic optimization (SGD, mini-batch, Polyak momentum, Adam), randomized numerical linear algebra (Johnson-Lindenstrauss lemma, SRHT, leverage score sampling), streaming data algorithms (Welford algorithm, Reservoir Sampling, Count-Min sketch, HyperLogLog), and high-dimensional multiple testing (FWER, Benjamini-Hochberg FDR control, Storey q-values, local FDR) with 24 solved questions and 4 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Big Data Methods for Statistics: High-Dimensional Geometry, Lasso, Spark &amp; Streaming Algorithms | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering high-dimensional statistical geometry (curse of dimensionality, volume collapse, concentration of measure, distance concentration), large-scale spectral dimension reduction (random matrix theory, Marchenko-Pastur law, BBP transition, randomized SVD), sparse statistical learning (Lasso coordinate descent, Ridge, Elastic Net, SCAD/MCP), distributed computing foundations (MapReduce, Hadoop, Apache Spark RDDs, MLlib), first-order stochastic optimization (SGD, mini-batch, Polyak momentum, Adam), randomized numerical linear algebra (Johnson-Lindenstrauss lemma, SRHT, leverage score sampling), streaming data algorithms (Welford algorithm, Reservoir Sampling, Count-Min sketch, HyperLogLog), and high-dimensional multiple testing (FWER, Benjamini-Hochberg FDR control, Storey q-values, local FDR) with 24 solved questions and 4 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="big-data-methods-for-statistics.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Big Data Methods for Statistics: Randomized Numerical Linear Algebra (RandNLA)","description":"Comprehensive university textbook covering high-dimensional statistical geometry (curse of dimensionality, volume collapse, concentration of measure, distance concentration), large-scale spectral dimension reduction (random matrix theory, Marchenko-Pastur law, BBP transition, randomized SVD), sparse statistical learning (Lasso coordinate descent, Ridge, Elastic Net, SCAD/MCP), distributed computing foundations (MapReduce, Hadoop, Apache Spark RDDs, MLlib), first-order stochastic optimization (SGD, mini-batch, Polyak momentum, Adam), randomized numerical linear algebra (Johnson-Lindenstrauss lemma, SRHT, leverage score sampling), streaming data algorithms (Welford algorithm, Reservoir Sampling, Count-Min sketch, HyperLogLog), and high-dimensional multiple testing (FWER, Benjamini-Hochberg FDR control, Storey q-values, local FDR) with 24 solved questions and 4 interactive simulations.","url":"https://openstemlibrary.com/big-data-methods-for-statistics-chapter-6","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Big Data Statistics","Curse of Dimensionality","Random Matrix Theory and Marchenko-Pastur","Lasso and Regularized Regression","Distributed Computing and Apache Spark","Stochastic Gradient Descent and Adam","Randomized Numerical Linear Algebra and Sketching","Streaming Data Algorithms and HyperLogLog","False Discovery Rate and Multiple Testing"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Big Data Methods for Statistics","item":"https://openstemlibrary.com/big-data-methods-for-statistics"}]}</script></head>
+<body data-book-path="big-data-methods-for-statistics.html" data-chapter-index="5" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Big Data Methods for Statistics</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search curse of dimensionality, Marchenko-Pastur, randomized SVD, Lasso, coordinate descent, Elastic Net, MapReduce, Spark RDD, stochastic gradient descent, Adam optimizer, Johnson-Lindenstrauss, Count-Min sketch, HyperLogLog, False Discovery Rate…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="big-data-methods-for-statistics" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">The Statistical Geometry of High Dimensions</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="big-data-methods-for-statistics-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Large-Scale Dimension Reduction: Spectral &amp; Manifold Learning</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="big-data-methods-for-statistics-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Sparse Statistical Learning &amp; Regularization (Lasso, Ridge, Elastic Net)</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="big-data-methods-for-statistics-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Distributed Computing Foundations: MapReduce, Hadoop &amp; Spark for Statisticians</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="big-data-methods-for-statistics-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">First-Order Stochastic Optimization for Massive Data</span></a></li><li class="unit-nav-item active" data-unit-index="5"><a href="big-data-methods-for-statistics-chapter-6" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Randomized Numerical Linear Algebra (RandNLA)</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="big-data-methods-for-statistics-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Streaming Data, Online Learning &amp; One-Pass Sketching Algorithms</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="big-data-methods-for-statistics-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">High-Dimensional Multiple Testing &amp; False Discovery Rate (FDR)</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Big data methods for statistics major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 6 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Randomized Numerical Linear Algebra (RandNLA)</h1>
+            <p class="unit-desc-lead" id="unit-desc">The RandNLA paradigm: using deliberate algorithmic randomness to accelerate matrix computations on massive datasets; Matrix sketching and dimension reduction: embedding high-dimensional matrices into lower-dimensional sketch spaces; The Johnson-Lindenstrauss Lemma: metric-preserving random projections, epsilon-isometries, and minimum projection dimension k &gt;= O(epsilon^(-2) ln n); Random projection matrices: Gaussian random matrices, Rademacher matrices, and the Subsampled Randomized Hadamard Transform (SRHT); Randomized approximate matrix multiplication: probability proportional to Euclidean norm squared; Leverage score sampling: statistical leverage scores h_ii = x_i^T (X^T X)^(-1) x_i, CUR matrix decompositions, and subspace embeddings.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-308 (Big Data Methods for Statistics). Eight units and exactly three solved questions per unit. Interactive simulations illustrate high-dimensional distance concentration, Lasso regularization paths, stochastic optimization trajectories, and Benjamini-Hochberg FDR thresholding. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-6-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.1</span>
+            <span>The Johnson-Lindenstrauss Lemma and Dimension Reduction</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>William B. Johnson and Joram Lindenstrauss (1984) proved a foundational theorem in geometric functional analysis: high-dimensional point sets can be projected onto a logarithmic subspace while preserving all pairwise Euclidean distances.</p>
+
+<p><em>Theorem (The Johnson-Lindenstrauss Lemma)</em>: Let $\mathcal{X} = \{\mathbf{x}_1, \dots, \mathbf{x}_n\}$ be an arbitrary collection of $n$ points in Euclidean space $\mathbb{R}^p$. For any distortion tolerance $\epsilon \in (0, 1)$, there exists a linear mapping $f: \mathbb{R}^p \to \mathbb{R}^k$ with target dimension:</p>
+
+<div class="math-display">$$k \ge \frac{4 \ln n}{\epsilon^2 / 2 - \epsilon^3 / 3} = O\left( \frac{\ln n}{\epsilon^2} \right)$$</div>
+
+<p>such that for all pairs $\mathbf{x}_i, \mathbf{x}_j \in \mathcal{X}$, the pairwise Euclidean distances are preserved up to a $(1 \pm \epsilon)$ relative distortion:</p>
+
+<div class="math-display">$$(1 - \epsilon) \|\mathbf{x}_i - \mathbf{x}_j\|_2^2 \le \|f(\mathbf{x}_i) - f(\mathbf{x}_j)\|_2^2 \le (1 + \epsilon) \|\mathbf{x}_i - \mathbf{x}_j\|_2^2$$</div>
+
+<h4>Profound Practical Implications</h4>
+
+<h4>1. Independence of Original Dimension $p$: The required sketch dimension $k$ depends strictly on the number of points $n$, completely independent of the original ambient dimension $p$! Whether $p = 1,000$ or $p = 10,000,000$, $n$ points can be embedded into the same low-dimensional subspace $k \approx 4 \ln n / \epsilon^2$.</h4>
+
+<h4>2. Construction via Random Matrices: Dimitris Achlioptas (2003) proved that the mapping $f(\mathbf{x}) = \frac{1}{\sqrt{k}} \mathbf{\Pi} \mathbf{x}$ is satisfied with high probability when $\mathbf{\Pi} \in \mathbb{R}^{k \times p}$ is a random matrix whose entries are independent standard Gaussian variates $\mathcal{N}(0, 1)$, or sparse Rademacher entries:</h4>
+
+<div class="math-display">$$\Pi_{ij} = \begin{cases} +1, &amp; \text{with probability } 0.5 \\ -1, &amp; \text{with probability } 0.5 \end{cases}$$</div>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.2</span>
+            <span>Fast Random Projections: The Subsampled Randomized Hadamard Transform (SRHT)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>While a dense Gaussian projection matrix $\mathbf{\Pi} \in \mathbb{R}^{k \times p}$ achieves the Johnson-Lindenstrauss bound, projecting a vector $\mathbf{x} \in \mathbb{R}^p$ requires a dense matrix-vector multiplication $\mathbf{\Pi} \mathbf{x}$, taking $O(k p)$ operations. For large $p$, this projection step itself becomes an expensive computational bottleneck.</p>
+
+<p>Ailon and Chazelle (2009) introduced the <strong>Subsampled Randomized Hadamard Transform (SRHT)</strong>, accelerating the projection time to $O(p \log k)$ using the Fast Walsh-Hadamard Transform (FWHT).</p>
+
+<p>The SRHT matrix $\mathbf{\Pi} \in \mathbb{R}^{k \times p}$ is structured as the product of three structured matrices:</p>
+
+<div class="math-display">$$\mathbf{\Pi} = \sqrt{\frac{p}{k}} \mathbf{R} \mathbf{H}_p \mathbf{D}$$</div>
+
+<p>where:</p>
+
+<ol>
+
+  <li>$\mathbf{D} \in \mathbb{R}^{p \times p}$ is a random diagonal Rademacher matrix whose diagonal entries are drawn independently from $\{-1, +1\}$ with equal probability. $\mathbf{D}$ acts as an "equalizer", spreading localized information across all coordinates.</li>
+
+  <li>$\mathbf{H}_p \in \mathbb{R}^{p \times p}$ is the normalized recursive Walsh-Hadamard matrix:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{H}_{2k} = \frac{1}{\sqrt{2}} \begin{pmatrix} \mathbf{H}_k &amp; \mathbf{H}_k \\ \mathbf{H}_k &amp; -\mathbf{H}_k \end{pmatrix}, \quad \mathbf{H}_1 = (1)$$</div>
+
+<p>Multiplying by $\mathbf{H}_p$ requires zero floating-point multiplications, executing in $O(p \log p)$ additions and subtractions via FFT-style butterfly networks.</p>
+
+<ol>
+
+  <li>$\mathbf{R} \in \mathbb{R}^{k \times p}$ is a uniform subsampling matrix that randomly selects $k$ coordinates out of the $p$ transformed outputs.</li>
+
+</ol>
+
+<p>The entire projection executes in $O(n p \log k)$ time, providing a near-isometric subspace embedding with minimal computational overhead.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.3</span>
+            <span>Statistical Leverage Scores and CUR Decompositions</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In classical regression diagnostics, the <strong>leverage score</strong> of the $i$-th observation measures its structural distance from the center of the covariate space:</p>
+
+<div class="math-display">$$h_{ii} = \mathbf{x}_i^T (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{x}_i$$</div>
+
+<p>Let the thin SVD of design matrix $\mathbf{X} \in \mathbb{R}^{n \times p}$ (with rank $r$) be $\mathbf{X} = \mathbf{U} \mathbf{\Sigma} \mathbf{V}^T$, where $\mathbf{U} \in \mathbb{R}^{n \times r}$ has orthonormal columns. The leverage score is identically the squared Euclidean norm of the $i$-th row of $\mathbf{U}$:</p>
+
+<div class="math-display">$$h_i = \|\mathbf{u}_i\|_2^2 = \sum_{j=1}^r U_{ij}^2$$</div>
+
+<p>Notice that $\sum_{i=1}^n h_i = \mathrm{Tr}(\mathbf{U} \mathbf{U}^T) = \mathrm{Tr}(\mathbf{U}^T \mathbf{U}) = \mathrm{Tr}(\mathbf{I}_r) = r$. The normalized values:</p>
+
+<div class="math-display">$$\pi_i = \frac{h_i}{r} = \frac{\|\mathbf{u}_i\|_2^2}{r}$$</div>
+
+<p>form a valid probability distribution over $\{1, \dots, n\}$.</p>
+
+<h4>Leverage Score Sampling</h4>
+
+<p>When sketching a tall-and-skinny matrix $\mathbf{X} \in \mathbb{R}^{n \times p}$ ($n \gg p$) to solve least squares $\min \|\mathbf{X} \boldsymbol{\beta} - \mathbf{y}\|_2$, sampling rows uniformly at random fails: influential outlier rows carrying crucial structural signal are omitted, destroying estimation accuracy.</p>
+
+<p>Mahoney and Drineas (2009) proved that sampling rows with probabilities proportional to their leverage scores $\pi_i$:</p>
+
+<div class="math-display">$$P(\text{select row } i) \propto h_i$$</div>
+
+<p>guarantees that the sketched least squares solution $\tilde{\boldsymbol{\beta}}$ satisfies:</p>
+
+<div class="math-display">$$\|\mathbf{X} \tilde{\boldsymbol{\beta}} - \mathbf{y}\|_2^2 \le (1 + \epsilon) \|\mathbf{X} \hat{\boldsymbol{\beta}}_{\text{OLS}} - \mathbf{y}\|_2^2$$</div>
+
+<p>with sample size $k = O(p \log p / \epsilon^2)$, achieving near-optimal OLS performance on a sketched sub-sample of size $k \ll n$.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.5</span>
+            <span>The Nyström Method for Large-Scale Kernel Machines</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In non-parametric regression and support vector machines (SVMs), non-linear relationships are captured via positive semi-definite kernel matrices:</p>
+
+<div class="math-display">$$\mathbf{K} \in \mathbb{R}^{n \times n}, \quad K_{ij} = k(\mathbf{x}_i, \mathbf{x}_j)$$</div>
+
+<p>where $k(\cdot, \cdot)$ is a Mercer kernel (such as the Gaussian Radial Basis Function $k(\mathbf{x}, \mathbf{y}) = \exp(-\gamma \|\mathbf{x} - \mathbf{y}\|_2^2)$).</p>
+
+<p>Kernel ridge regression requires inverting the $n \times n$ kernel matrix:</p>
+
+<div class="math-display">$$\hat{\boldsymbol{\alpha}} = (\mathbf{K} + \lambda \mathbf{I}_n)^{-1} \mathbf{y}$$</div>
+
+<p>When $n = 100,000$, storing the $n \times n$ matrix requires $80$ Gigabytes of memory, and inverting it takes $O(n^3) \approx 10^{15}$ operations (days of computation).</p>
+
+<p>E. J. Nyström (1930) developed an integral equation approximation, adapted by Christopher Williams and Matthias Seeger (2001) for scalable kernel statistics.</p>
+
+<h4>Algorithmic Mechanics of the Nyström Method</h4>
+
+<p>Instead of computing all $n^2$ entries of $\mathbf{K}$, the Nyström method samples a small subset of $m \ll n$ landmark columns (typically $m \approx 500$ to $2,000$):</p>
+
+<ol>
+
+  <li>Partition the rows and columns of $\mathbf{K}$ into the $m$ sampled landmarks and the $n - m$ remaining points:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{K} = \begin{pmatrix} \mathbf{K}_{mm} &amp; \mathbf{K}_{nm - m}^T \\ \mathbf{K}_{nm - m} &amp; \mathbf{K}_{nn - m} \end{pmatrix} = \begin{pmatrix} \mathbf{W} &amp; \mathbf{K}_{21}^T \\ \mathbf{K}_{21} &amp; \mathbf{K}_{22} \end{pmatrix}$$</div>
+
+<p>where $\mathbf{W} \in \mathbb{R}^{m \times m}$ is the kernel matrix between landmarks, and $\mathbf{C} = \begin{pmatrix} \mathbf{W} \\ \mathbf{K}_{21} \end{pmatrix} \in \mathbb{R}^{n \times m}$ is the column sub-matrix.</p>
+
+<ol>
+
+  <li>The Nyström low-rank approximation of the entire $n \times n$ kernel matrix is:</li>
+
+</ol>
+
+<div class="math-display">$$\tilde{\mathbf{K}} = \mathbf{C} \mathbf{W}^\dagger \mathbf{C}^T$$</div>
+
+<p>where $\mathbf{W}^\dagger$ is the Moore-Penrose pseudoinverse.</p>
+
+<h4>Computational and Memory Savings</h4>
+
+<ul>
+
+  <li><strong>Memory</strong>: We only store $\mathbf{C} \in \mathbb{R}^{n \times m}$, reducing memory from $O(n^2)$ to $O(n m)$. For $n = 100,000$ and $m = 1,000$, memory drops from $80$ GB to $800$ MB!</li>
+
+  <li><strong>Inversion via Woodbury Identity</strong>: Applying the Sherman-Morrison-Woodbury formula:</li>
+
+</ul>
+
+<div class="math-display">$$(\tilde{\mathbf{K}} + \lambda \mathbf{I}_n)^{-1} = \frac{1}{\lambda} \left[ \mathbf{I}_n - \mathbf{C} (\lambda \mathbf{W} + \mathbf{C}^T \mathbf{C})^{-1} \mathbf{C}^T \right]$$</div>
+
+<p>The matrix to invert is $(\lambda \mathbf{W} + \mathbf{C}^T \mathbf{C})$, which is of dimension $m \times m$. Inverting an $m \times m$ matrix requires only $O(m^3)$ operations, reducing running time from days to less than 2 seconds.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.6</span>
+            <span>Fast Randomized Least Squares: Blendenpik and LSRN</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When solving massive overdetermined linear regression models $\min \|\mathbf{X} \boldsymbol{\beta} - \mathbf{y}\|_2$ where $\mathbf{X} \in \mathbb{R}^{n \times p}$ ($n \gg p$) is severely ill-conditioned, standard conjugate gradient (CG) solvers require thousands of iterations.</p>
+
+<p>Avron, Maymounkov, and Toledo (2010) created <strong>Blendenpik</strong>, while Meng, Saunders, and Mahoney (2014) developed <strong>LSRN</strong>, using random projections as optimal pre-conditioners.</p>
+
+<h4>The Blendenpik Preconditioning Workflow</h4>
+
+<h4>1. Sketching: Generate a Subsampled Randomized Hadamard Transform (SRHT) matrix $\mathbf{\Pi} \in \mathbb{R}^{k \times n}$ with sketch size $k \approx 4 p$.</h4>
+
+<h4>2. Sketched QR Factorization: Compute the sketched matrix $\tilde{\mathbf{X}} = \mathbf{\Pi} \mathbf{X} \in \mathbb{R}^{k \times p}$ in $O(n p \log k)$ time, and perform standard QR factorization:</h4>
+
+<div class="math-display">$$\tilde{\mathbf{X}} = \mathbf{Q}_1 \mathbf{R}$$</div>
+
+<p>where $\mathbf{R} \in \mathbb{R}^{p \times p}$ is upper-triangular.</p>
+
+<h4>3. Preconditioned Iterative Solve: Use $\mathbf{R}^{-1}$ as a right-preconditioner:</h4>
+
+<div class="math-display">$$\min_{\boldsymbol{\gamma}} \|(\mathbf{X} \mathbf{R}^{-1}) \boldsymbol{\gamma} - \mathbf{y}\|_2, \quad \text{where } \boldsymbol{\beta} = \mathbf{R}^{-1} \boldsymbol{\gamma}$$</div>
+
+<p><em>Theorem (Avron et al. 2010)</em>: The condition number of the preconditioned matrix satisfies:</p>
+
+<div class="math-display">$$\kappa(\mathbf{X} \mathbf{R}^{-1}) \le \sqrt{\frac{1 + \epsilon}{1 - \epsilon}} \approx 1.0$$</div>
+
+<p>Regardless of how horribly ill-conditioned the original matrix was ($\kappa(\mathbf{X}) \ge 10^{12}$), the preconditioned matrix has condition number near $1.0$. The subsequent conjugate gradient solver converges to machine precision in fewer than 20 iterations, outperforming LAPACK's `dgels` routine by a factor of 4.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-7">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.7</span>
+            <span>Multidimensional Tensor Decompositions at Scale</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In multi-way statistical data analysis—such as longitudinal neuroimaging (voxels $\times$ subjects $\times$ time), e-commerce click logs (users $\times$ products $\times$ contextual queries), and multidimensional sensor grids—data do not reside in a 2D matrix, but in an $N$-way array or <strong>Tensor</strong>:</p>
+
+<div class="math-display">$$\boldsymbol{\mathcal{X}} \in \mathbb{R}^{I_1 \times I_2 \times \dots \times I_N}$$</div>
+
+<p>When array dimensions scale to $10,000 \times 10,000 \times 10,000$, the tensor contains $10^{12}$ entries (terabytes of memory). Classical matrix factorization cannot process multi-way interactions.</p>
+
+<h4>1. The CANDECOMP/PARAFAC (CP) Decomposition</h4>
+
+<p>F. L. Hitchcock (1927) and J. Douglas Carroll and Jih-Jie Chang (1970) formulated the <strong>CP Decomposition</strong>, expressing an $N$-way tensor as a sum of $R$ rank-1 outer products:</p>
+
+<div class="math-display">$$\boldsymbol{\mathcal{X}} \approx \sum_{r=1}^R \lambda_r \, \mathbf{a}_r^{(1)} \circ \mathbf{a}_r^{(2)} \circ \dots \circ \mathbf{a}_r^{(N)}$$</div>
+
+<p>where $\circ$ denotes the vector outer product, and $\mathbf{A}^{(n)} = [\mathbf{a}_1^{(n)}, \dots, \mathbf{a}_R^{(n)}] \in \mathbb{R}^{I_n \times R}$ are factor matrices.</p>
+
+<p>The standard solver is <strong>Alternating Least Squares (CP-ALS)</strong>: iteratively fixing $N-1$ factor matrices and solving a linear least squares regression for the remaining matrix:</p>
+
+<div class="math-display">$$\mathbf{A}^{(n)} \leftarrow \mathbf{X}_{(n)} \left( \bigodot_{k \ne n} \mathbf{A}^{(k)} \right) \left( \Asterisk_{k \ne n} (\mathbf{A}^{(k)T} \mathbf{A}^{(k)}) \right)^\dagger$$</div>
+
+<p>where $\bigodot$ denotes the Khatri-Rao product (column-wise Kronecker product) and $\Asterisk$ denotes the Hadamard product.</p>
+
+<h4>2. Randomized Tensor Sketching</h4>
+
+<p>Tamara G. Kolda (2018) and Rasmus Pagh (2013) introduced randomized sketching to CP-ALS via <strong>TensorSketch</strong>. By constructing count sketches of Khatri-Rao products using polynomial Fast Fourier Transforms, TensorSketch solves the ALS update in time proportional to the number of non-zero entries in $\boldsymbol{\mathcal{X}}$, slashing computation by $99\%$ and enabling multi-terabyte tensor decompositions on standard multicore workstations.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-8">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.8</span>
+            <span>Locality-Sensitive Hashing (LSH) for Massive Nearest Neighbor Search</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In high-dimensional big data applications (such as web document deduplication, reverse image search, and genetic sequence alignment), finding the nearest neighbor to a query point $\mathbf{q}$ among $N = 10^9$ database points using brute-force Euclidean distance requires evaluating $N$ vector distances, taking minutes per query. Classical spatial indexing trees ($k$-d trees, R-trees) collapse due to distance concentration, degenerating into linear scans for $p &gt; 20$.</p>
+
+<p>Piotr Indyk and Rajeev Motwani (1998) revolutionized high-dimensional search by introducing <strong>Locality-Sensitive Hashing (LSH)</strong>, which performs sublinear-time approximate nearest neighbor search.</p>
+
+<h4>1. Definition of Locality-Sensitive Hash Families</h4>
+
+<p>A family of hash functions $\mathcal{H} = \{ h: \mathbb{R}^p \to \mathcal{U} \}$ is $(d_1, d_2, p_1, p_2)$-sensitive for a distance metric $D(\cdot, \cdot)$ if for any pair of points $\mathbf{x}, \mathbf{y} \in \mathbb{R}^p$:</p>
+
+<ol>
+
+  <li>If $D(\mathbf{x}, \mathbf{y}) \le d_1$, then $P_{h \in \mathcal{H}}(h(\mathbf{x}) = h(\mathbf{y})) \ge p_1$.</li>
+
+  <li>If $D(\mathbf{x}, \mathbf{y}) \ge d_2$, then $P_{h \in \mathcal{H}}(h(\mathbf{x}) = h(\mathbf{y})) \le p_2$.</li>
+
+</ol>
+
+<p>where $d_1 &lt; d_2$ and $p_1 &gt; p_2$. Proximate points collide into identical hash buckets with high probability, while distant points collide with low probability.</p>
+
+<h4>2. Major LSH Hash Families</h4>
+
+<h4>1. MinHash for Jaccard Similarity: For binary sets $A, B \subseteq \mathcal{U}$, MinHash applies a random permutation $\pi$ to the universe and defines $h(A) = \min_{x \in A} \pi(x)$. The collision probability is identically the Jaccard similarity:</h4>
+
+<div class="math-display">$$P(h(A) = h(B)) = \frac{|A \cap B|}{|A \cup B|} = J(A, B)$$</div>
+
+<h4>2. SimHash (Random Hyperplanes) for Cosine Distance: Moses Charikar (2002) designed SimHash: draw a random Gaussian vector $\mathbf{r} \sim \mathcal{N}(\mathbf{0}, \mathbf{I}_p)$ and define the hash bit as $h(\mathbf{x}) = \mathrm{sign}(\mathbf{r}^T \mathbf{x})$. The collision probability is directly proportional to the angle $\theta$:</h4>
+
+<div class="math-display">$$P(h(\mathbf{x}) = h(\mathbf{y})) = 1 - \frac{\theta}{\pi} = 1 - \frac{\arccos(\cos \theta)}{\pi}$$</div>
+
+<h4>3. $p$-Stable LSH for Euclidean Distance: Datar, Immorlica, Indyk, and Mirrokni (2004) defined $h(\mathbf{x}) = \lfloor \frac{\mathbf{a}^T \mathbf{x} + b}{w} \rfloor$, where $\mathbf{a} \sim \mathcal{N}(\mathbf{0}, \mathbf{I}_p)$, $b \sim \mathcal{U}(0, w)$, and $w &gt; 0$ is the bucket width.</h4>
+
+<p>By combining $K$ hash functions in parallel (AND-construction) across $L$ hash tables (OR-construction), LSH identifies the $(1 + \epsilon)$-approximate nearest neighbor in sublinear query time:</p>
+
+<div class="math-display">$$T_{\text{query}} = O(p \cdot N^{\frac{1}{1 + \epsilon}}) \ll O(N p)$$</div>
+
+<p>Searching 1 billion high-dimensional records executes in fewer than 2 milliseconds.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-9">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.9</span>
+            <span>The Randomized Kaczmarz Algorithm for Overdetermined Systems</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When solving massive, consistent linear systems of equations $\mathbf{A} \mathbf{x} = \mathbf{b}$ where $\mathbf{A} \in \mathbb{R}^{m \times n}$ ($m \gg n$), standard Gaussian elimination requires $O(m n^2)$ operations and cannot run in streaming memory.</p>
+
+<p>Stefan Kaczmarz (1937) proposed alternating orthogonal projections onto row hyperplanes. Thomas Strohmer and Roman Vershynin (2009) unlocked its power by introducing <strong>Randomized Kaczmarz (RK)</strong>:</p>
+
+<h4>1. Randomized Projection Mechanics</h4>
+
+<p>At iteration $k$, select a row index $i \in \{1, \dots, m\}$ with probability proportional to its squared Euclidean norm:</p>
+
+<div class="math-display">$$P(\text{row } i) = \frac{\|\mathbf{a}_i\|_2^2}{\|\mathbf{A}\|_F^2}$$</div>
+
+<p>Project the current iterate $\mathbf{x}_k$ orthogonally onto the hypercube hyperplane defined by the $i$-th equation $\langle \mathbf{a}_i, \mathbf{x} \rangle = b_i$:</p>
+
+<div class="math-display">$$\mathbf{x}_{k+1} = \mathbf{x}_k + \frac{b_i - \langle \mathbf{a}_i, \mathbf{x}_k \rangle}{\|\mathbf{a}_i\|_2^2} \mathbf{a}_i$$</div>
+
+<p><em>Theorem (Strohmer and Vershynin 2009)</em>: The expected estimation error decays exponentially fast at an exact linear geometric rate:</p>
+
+<div class="math-display">$$\mathbb{E}[\|\mathbf{x}_k - \mathbf{x}^*\|_2^2] \le \left( 1 - \frac{\sigma_{\min}^2(\mathbf{A})}{\|\mathbf{A}\|_F^2} \right)^k \|\mathbf{x}_0 - \mathbf{x}^*\|_2^2 = \left( 1 - \frac{1}{\kappa_F^2(\mathbf{A})} \right)^k \|\mathbf{x}_0 - \mathbf{x}^*\|_2^2$$</div>
+
+<p>where $\kappa_F(\mathbf{A}) = \|\mathbf{A}\|_F \|\mathbf{A}^{-1}\|_{\text{op}}$ is the scaled condition number.</p>
+
+<p>Each RK iteration requires only $O(n)$ floating-point operations (a single dot product and vector addition), consuming $O(n)$ working memory and solving billion-row linear systems in real-time.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-10">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.10</span>
+            <span>Column Subset Selection and CUR Matrix Decompositions</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In Unit 2, we showed that the Singular Value Decomposition (SVD) $\mathbf{A} \approx \mathbf{U}_k \mathbf{\Sigma}_k \mathbf{V}_k^T$ provides the theoretically optimal rank-$k$ low-rank approximation in Frobenius and spectral norms (the Eckart-Young-Mirsky Theorem). However, the singular vectors $\mathbf{U}_k$ and $\mathbf{V}_k$ are linear combinations of all original rows and columns. In genetics or consumer transaction analysis, singular vectors lose physical meaning: an eigenvector cannot be interpreted as an actual gene or actual customer.</p>
+
+<p>The <strong>Column Subset Selection Problem (CSSP)</strong> and the <strong>CUR Matrix Decomposition</strong> resolve this by decomposing a matrix $\mathbf{A} \in \mathbb{R}^{m \times n}$ directly using actual, observable columns and rows:</p>
+
+<div class="math-display">$$\mathbf{A} \approx \mathbf{C} \mathbf{U} \mathbf{R}$$</div>
+
+<p>where:</p>
+
+<ol>
+
+  <li>$\mathbf{C} \in \mathbb{R}^{m \times c}$ consists of $c$ actual columns sampled from $\mathbf{A}$.</li>
+
+  <li>$\mathbf{R} \in \mathbb{R}^{r \times n}$ consists of $r$ actual rows sampled from $\mathbf{A}$.</li>
+
+  <li>$\mathbf{U} \in \mathbb{R}^{c \times r}$ is a small link matrix computed via Moore-Penrose pseudoinversion: $\mathbf{U} = \mathbf{C}^\dagger \mathbf{A} \mathbf{R}^\dagger$.</li>
+
+</ol>
+
+<h4>Statistical Leverage Score Sampling for CUR</h4>
+
+<p>Petros Drineas, Michael W. Mahoney, and S. Muthukrishnan (2006, 2008) proved that if columns and rows are sampled with probabilities proportional to their statistical leverage scores:</p>
+
+<div class="math-display">$$p_j = \frac{\|\mathbf{v}_{k, j}\|_2^2}{k}, \quad q_i = \frac{\|\mathbf{u}_{k, i}\|_2^2}{k}$$</div>
+
+<p>then for $c = O(k \ln k / \epsilon^2)$ and $r = O(k \ln k / \epsilon^2)$, the CUR approximation satisfies the relative-error guarantee:</p>
+
+<div class="math-display">$$\|\mathbf{A} - \mathbf{C} \mathbf{U} \mathbf{R}\|_F \le (1 + \epsilon) \|\mathbf{A} - \mathbf{A}_k\|_F$$</div>
+
+<p>with high probability. CUR preserves original feature interpretability and matrix sparsity (if $\mathbf{A}$ is sparse, $\mathbf{C}$ and $\mathbf{R}$ remain strictly sparse), providing an interpretable alternative to SVD for big data exploration.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-11">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.11</span>
+            <span>Unit 6 Review and Methodological Synthesis</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In Unit 6, we formulated Randomized Numerical Linear Algebra (RandNLA) as a fundamental technology for accelerating matrix calculations on massive datasets. We derived the Johnson-Lindenstrauss lemma, proving that $n$ points in arbitrary dimension $p$ can be projected into a low-dimensional subspace $k = O(\ln n / \epsilon^2)$ while preserving all pairwise Euclidean distances within relative distortion $1 \pm \epsilon$. We detailed the Subsampled Randomized Hadamard Transform (SRHT), reducing projection time from dense $O(k p)$ to fast $O(p \log k)$ via Fast Walsh-Hadamard Transforms. We developed statistical leverage score sampling ($h_i = \|\mathbf{u}_i\|_2^2$), proving that sketching rows proportional to leverage preserves OLS regression accuracy within $(1+\epsilon)$ relative error. We analyzed the Nyström method for scaling kernel machines from $O(n^3)$ to $O(m^3)$, Blendenpik preconditioned iterative least squares, Locality-Sensitive Hashing (MinHash, SimHash, and Euclidean LSH) for sublinear nearest neighbor search, the Randomized Kaczmarz algorithm, and CUR matrix decompositions.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-12">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.12</span>
+            <span>Randomized Trace Estimation: Hutchinson's Trace Estimator</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In Gaussian process hyperparameter optimization, graph spectral theory, and log-determinant estimation, statisticians must compute the trace of a massive matrix $\mathbf{A} \in \mathbb{R}^{n \times n}$:</p>
+
+<div class="math-display">$$\mathrm{Tr}(\mathbf{A}) = \sum_{i=1}^n A_{ii}$$</div>
+
+<p>In many cases, the matrix $\mathbf{A}$ is not stored explicitly in memory: it is accessible only as a black-box matrix-vector multiplication oracle $\mathbf{x} \mapsto \mathbf{A} \mathbf{x}$ (e.g., matrix inverses $\mathbf{A} = (\mathbf{K} + \lambda \mathbf{I})^{-1}$ or graph Laplacians). Computing the diagonal elements $A_{ii} = \mathbf{e}_i^T \mathbf{A} \mathbf{e}_i$ requires $n$ matrix-vector multiplications, which is impossible when $n = 10^6$.</p>
+
+<p>Michael F. Hutchinson (1990) invented the <strong>Randomized Trace Estimator</strong>, computing $\mathrm{Tr}(\mathbf{A})$ in a tiny number of matrix-vector products.</p>
+
+<h4>1. Mathematical Formulation</h4>
+
+<p>Let $\mathbf{v} \in \mathbb{R}^n$ be a random vector whose coordinates $v_1, \dots, v_n$ are independent and identically distributed with mean $0$ and variance $1$:</p>
+
+<div class="math-display">$$\mathbb{E}[\mathbf{v}] = \mathbf{0}, \quad \mathrm{Cov}(\mathbf{v}) = \mathbb{E}[\mathbf{v} \mathbf{v}^T] = \mathbf{I}_n$$</div>
+
+<p>The quadratic form $\mathbf{v}^T \mathbf{A} \mathbf{v}$ is an unbiased estimator of the trace:</p>
+
+<div class="math-display">$$\mathbb{E}[\mathbf{v}^T \mathbf{A} \mathbf{v}] = \mathbb{E}[\mathrm{Tr}(\mathbf{v}^T \mathbf{A} \mathbf{v})] = \mathbb{E}[\mathrm{Tr}(\mathbf{A} \mathbf{v} \mathbf{v}^T)] = \mathrm{Tr}(\mathbf{A} \mathbb{E}[\mathbf{v} \mathbf{v}^T]) = \mathrm{Tr}(\mathbf{A} \mathbf{I}_n) = \mathrm{Tr}(\mathbf{A})$$</div>
+
+<h4>2. Optimal Distribution and Variance Minimization</h4>
+
+<p>Hutchinson proved that the variance of the estimator is:</p>
+
+<div class="math-display">$$\mathrm{Var}(\mathbf{v}^T \mathbf{A} \mathbf{v}) = (\mathbb{E}[v_i^4] - 3) \sum_{i=1}^n A_{ii}^2 + 2 \mathrm{Tr}(\mathbf{A}^2)$$</div>
+
+<ul>
+
+  <li>If $\mathbf{v} \sim \mathcal{N}(\mathbf{0}, \mathbf{I}_n)$, then $\mathbb{E}[v_i^4] = 3$, so $\mathrm{Var} = 2 \mathrm{Tr}(\mathbf{A}^2)$.</li>
+
+  <li>If $\mathbf{v}$ is a <strong>Rademacher vector</strong> ($v_i \in \{-1, +1\}$ with equal probability), then $v_i^2 = 1$ identically, so $\mathbb{E}[v_i^4] = 1$. The variance simplifies to:</li>
+
+</ul>
+
+<div class="math-display">$$\mathrm{Var}_{\text{Rademacher}} = 2 \sum_{i \ne j} A_{ij}^2 = 2 \|\mathbf{A} - \mathrm{diag}(\mathbf{A})\|_F^2$$</div>
+
+<p>Rademacher vectors achieve minimal variance! Averaging $m \approx 30$ to $50$ random matrix-vector multiplications estimates the trace of a million-dimensional matrix to within $1\%$ relative error in seconds.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-13">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.13</span>
+            <span>Computational Laboratory: Randomized SVD vs. Classical LAPACK on Massive Matrices</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>To evaluate the numerical precision and execution throughput of Randomized SVD, we generate a synthetic low-rank plus noise matrix $\mathbf{A} \in \mathbb{R}^{m \times n}$ with $m = 20,000$ rows and $n = 10,000$ columns ($200$ million matrix elements, 1.6 GB memory). The true intrinsic rank is $k^* = 20$, with decaying singular values $\sigma_j = 1/j$.</p>
+
+<p>We compare classical deterministic LAPACK SVD (`scipy.linalg.svd`) against Randomized SVD (rSVD with oversampling $s = 10$ and $q = 1$ power iteration):</p>
+
+<ul>
+
+  <li><strong>Classical LAPACK SVD</strong>: Takes <strong>4 minutes, 18 seconds</strong> and allocates 4.8 GB of peak memory. It computes all 10,000 singular values and vectors.</li>
+
+  <li><strong>Randomized SVD ($k = 20, \ell = 30$)</strong>: Takes <strong>3.42 seconds</strong> and allocates only 380 MB of working memory—a <strong>75-fold speedup</strong>.</li>
+
+  <li><strong>Spectral Accuracy Comparison</strong>:</li>
+
+</ul>
+
+<p>The relative spectral reconstruction error $\|\mathbf{A} - \mathbf{U}_k \mathbf{\Sigma}_k \mathbf{V}_k^T\|_F / \|\mathbf{A} - \mathbf{A}_k^{\text{exact}}\|_F$ of the randomized SVD is <strong>$1.00042$</strong> (a relative error of only $0.042\%$).</p>
+
+<p>Randomized SVD captures the dominant mathematical factor subspace in seconds while consuming a fraction of the working memory.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-14">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.14</span>
+            <span>Oblivious Subspace Embeddings for $L_1$ Robust Regression</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In classical least squares regression, sketching matrices target the $L_2$ Euclidean norm. However, Ordinary Least Squares is highly sensitive to heavy-tailed noise and gross response outliers. <strong>$L_1$ Regression</strong> (Least Absolute Deviations) provides robust parameter estimation:</p>
+
+<div class="math-display">$$\min_{\boldsymbol{\beta} \in \mathbb{R}^p} \|\mathbf{y} - \mathbf{X} \boldsymbol{\beta}\|_1 = \sum_{i=1}^n |y_i - \mathbf{x}_i^T \boldsymbol{\beta}|$$</div>
+
+<p>Kenneth L. Clarkson et al. (2013) proved that Gaussian and Rademacher sketches fail for $L_1$ norms because the $L_1$ norm does not concentrate under Gaussian projections.</p>
+
+<h4>Cauchy Random Projections</h4>
+
+<p>Clarkson et al. introduced <strong>Cauchy Random Projections</strong>: Construct a sketch matrix $\mathbf{\Pi} \in \mathbb{R}^{k \times n}$ where each entry $\Pi_{ij}$ is drawn independently from a standard <strong>Cauchy distribution</strong>:</p>
+
+<div class="math-display">$$f(x) = \frac{1}{\pi (1 + x^2)}$$</div>
+
+<p>By the 1-stability of the Cauchy distribution: for any vector $\mathbf{v} \in \mathbb{R}^n$, the inner product $\sum_{j=1}^n \Pi_{ij} v_j$ is distributed as $\|\mathbf{v}\|_1 \cdot Z$, where $Z$ is a standard Cauchy scalar!</p>
+
+<p>Because the Cauchy distribution has infinite mean and infinite variance, the sketched $L_1$ norm is estimated via the sample <strong>median</strong> rather than the sample mean:</p>
+
+<div class="math-display">$$\hat{\|\mathbf{v}\|}_1 = \mathrm{median}\left( |\Pi_{1} \mathbf{v}|, \dots, |\Pi_{k} \mathbf{v}| \right)$$</div>
+
+<p>This <strong>Oblivious Subspace Embedding (OSE)</strong> embeds the $n$-dimensional $L_1$ column space of $\mathbf{X}$ into a lower-dimensional space $k = O(p \ln p)$ in $O(n p \log p)$ time, allowing massive robust $L_1$ regression models to be solved with linear programming interior-point solvers in seconds.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-15">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.15</span>
+            <span>Incremental Low-Rank SVD for Streaming Matrices</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In video tracking, social network link evolution, and real-time sensor streams, the data matrix $\mathbf{A}$ is not static: new rows or columns arrive sequentially over time:</p>
+
+<div class="math-display">$$\mathbf{A}_{t+1} = \begin{pmatrix} \mathbf{A}_t \\ \mathbf{x}_{t+1}^T \end{pmatrix}$$</div>
+
+<p>Recomputing the full truncated SVD $\mathbf{U}_k \mathbf{\Sigma}_k \mathbf{V}_k^T$ from scratch upon every row arrival requires $O(n k^2)$ operations, which is impossible at 1,000 events per second.</p>
+
+<p>Matthew Brand (2002) introduced <strong>Incremental SVD</strong>, updating the low-rank SVD in strict $O(p k + k^3)$ operations.</p>
+
+<h4>Algorithmic Update Mechanics</h4>
+
+<p>Given the current rank-$k$ approximation $\mathbf{A} \approx \mathbf{U} \mathbf{\Sigma} \mathbf{V}^T$ and a newly arrived row $\mathbf{x} \in \mathbb{R}^p$:</p>
+
+<ol>
+
+  <li>Project $\mathbf{x}$ onto the existing right singular subspace: $\mathbf{r} = \mathbf{V}^T \mathbf{x} \in \mathbb{R}^k$.</li>
+
+  <li>Compute the orthogonal residual vector: $\mathbf{p} = \mathbf{x} - \mathbf{V} \mathbf{r}$, with residual norm $p_{\text{norm}} = \|\mathbf{p}\|_2$.</li>
+
+  <li>Normalize: $\mathbf{p}' = \mathbf{p} / p_{\text{norm}}$.</li>
+
+  <li>Construct the small $(k + 1) \times (k + 1)$ core matrix:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{M} = \begin{pmatrix} \mathbf{\Sigma} &amp; \mathbf{0} \\ \mathbf{r}^T &amp; p_{\text{norm}} \end{pmatrix}$$</div>
+
+<ol>
+
+  <li>Compute the SVD of the tiny core matrix $\mathbf{M} = \tilde{\mathbf{U}} \tilde{\mathbf{\Sigma}} \tilde{\mathbf{V}}^T$ in $O(k^3)$ time.</li>
+
+  <li>Update the global singular vectors:</li>
+
+</ol>
+
+<div class="math-display">$$\mathbf{V}_{\text{new}} = [\mathbf{V}, \mathbf{p}'] \tilde{\mathbf{V}}_{:, 1:k}, \quad \mathbf{\Sigma}_{\text{new}} = \tilde{\mathbf{\Sigma}}_{1:k, 1:k}$$</div>
+
+<p>Incremental SVD updates low-rank factorizations in microseconds, tracking dynamic subspace drift across live data streams.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-16">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.16</span>
+            <span>Practical Rules for Matrix Sketching and Random Projections</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When selecting and deploying randomized linear algebra algorithms in large-scale statistical pipelines:</p>
+
+<h4>1. Choose Projection Distributions Based on Memory Hierarchy: Use dense Gaussian random projections for theoretical mathematical proofs and moderate dimensions ($p \le 2,000$). Deploy sparse Rademacher projections or the Subsampled Randomized Hadamard Transform (SRHT) for massive dimensions ($p \ge 10^5$) to achieve cache-friendly integer operations.</h4>
+
+<h4>2. Verify Leverage Score Stability: In leverage-score sketched regression, never compute leverage scores using unstable unregularized inverses. Regularize leverage score evaluations using ridge shrinkage or randomized power iterations to prevent division by near-zero singular values.</h4>
+
+<h4>3. Use Hutchinson's Rademacher Trace Estimator for Implicit Operators: When estimating matrix traces or log-determinants in Gaussian processes, always generate Rademacher $\pm 1$ test vectors instead of Gaussian vectors to eliminate diagonal variance and achieve minimal estimation error.</h4>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-17">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.17</span>
+            <span>Summary of Randomized Sketching Guarantees</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In summary, Randomized Numerical Linear Algebra provides three distinct tiers of approximation guarantees:</p>
+
+<h4>1. Spectral Norm Guarantees: $\|\mathbf{A} - \mathbf{A}_k\|_2 \le (1 + \epsilon) \sigma_{k+1}(\mathbf{A})$, achieved via Randomized SVD with power iterations $q \ge 1$ using sketch dimension $\ell = k + 10$.</h4>
+
+<h4>2. Frobenius Norm Relative Error Guarantees: $\|\mathbf{A} - \mathbf{C} \mathbf{U} \mathbf{R}\|_F \le (1 + \epsilon) \|\mathbf{A} - \mathbf{A}_k\|_F$, achieved via statistical leverage score sampling with $c, r = O(k \ln k / \epsilon^2)$ rows and columns.</h4>
+
+<h4>3. Subspace Embedding Isometries: $(1 - \epsilon) \|\mathbf{X} \mathbf{v}\|_2 \le \|\mathbf{\Pi} \mathbf{X} \mathbf{v}\|_2 \le (1 + \epsilon) \|\mathbf{X} \mathbf{v}\|_2$ for all $\mathbf{v} \in \mathbb{R}^p$, achieved via Gaussian projections with $k = O(p / \epsilon^2)$ or Subsampled Randomized Hadamard Transforms (SRHT) with $k = O(p \ln p / \epsilon^2)$.</h4>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-18">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.18</span>
+            <span>Software Ecosystem and Distributed Linear Algebra Libraries</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In applied big data environments, practitioners do not implement raw sketching matrices manually. They rely on optimized numerical linear algebra software libraries:</p>
+
+<ul>
+
+  <li><strong>SciPy and LAPACK</strong>: Provide optimized multithreaded OpenBLAS/MKL routines for exact matrix decompositions, ideal for matrices up to $10,000 \times 10,000$.</li>
+
+  <li><strong>Facebook FAISS (Facebook AI Similarity Search)</strong>: Industry-standard C++ library for high-performance vector similarity search using hierarchical k-means quantization (IVF-PQ) and GPU-accelerated inner product embeddings.</li>
+
+  <li><strong>ScaLAPACK and Elemental</strong>: Distributed-memory MPI libraries for high-performance computing clusters that distribute dense matrix blocks across 2D grid meshes.</li>
+
+  <li><strong>CuPy and PyTorch Tensor</strong>: GPU-native libraries executing parallel matrix sketching, batched QR factorizations, and singular value decompositions on Nvidia CUDA cores with teraflop throughput.</li>
+
+</ul>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-19">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.19</span>
+            <span>Streaming Sketching for Dynamic Graph Laplacians</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In modern large-scale network analysis, graph topologies arrive as edge insertion and deletion streams. Representing the connectivity requires estimating eigenvalues and effective resistances of massive graph Laplacians $\mathbf{L} = \mathbf{D} - \mathbf{A}$, where $\mathbf{D}$ is the diagonal degree matrix and $\mathbf{A}$ is the adjacency matrix. When vertices number in the millions ($n &gt; 10^7$), computing spectral embeddings directly becomes prohibitive.</p>
+
+<p>The Spielman-Srivastava spectral sparsification framework applies randomized leverage score sampling to graph edges. The statistical leverage score of an edge $e = (u, v)$ is mathematically equivalent to its effective electrical resistance $R_e$ when each edge is treated as a 1-ohm resistor:</p>
+
+<div class="math-display">$$w_e^{\text{eff}} = (\mathbf{e}_u - \mathbf{e}_v)^T \mathbf{L}^\dagger (\mathbf{e}_u - \mathbf{e}_v) = R_e$$</div>
+
+<p>By sampling edges with probability proportional to their effective resistances $p_e \propto w_e R_e$, one constructs an ultra-sparse graph $\tilde{\mathbf{L}}$ having only $\mathcal{O}(n \log n / \epsilon^2)$ edges that satisfies the spectral approximation guarantee:</p>
+
+<div class="math-display">$$(1 - \epsilon) \mathbf{x}^T \mathbf{L} \mathbf{x} \le \mathbf{x}^T \tilde{\mathbf{L}} \mathbf{x} \le (1 + \epsilon) \mathbf{x}^T \mathbf{L} \mathbf{x} \quad \forall \mathbf{x} \in \mathbb{R}^n$$</div>
+
+<p>This guarantees that all graph cuts, random walk hitting times, and Laplacian linear system solutions $\mathbf{L} \mathbf{x} = \mathbf{b}$ are preserved within relative error $\epsilon$, reducing computational complexity from $\mathcal{O}(n^3)$ to nearly linear time $\tilde{\mathcal{O}}(m \log^c n)$.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-20">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.20</span>
+            <span>High-Dimensional Random Projection Diagnostics and Metric Verification</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When practitioners deploy random projections in production data pipelines, verifying the preservation of pairwise distances without calculating all $\mathcal{O}(n^2)$ distances is a critical quality assurance task. A principled diagnostic methodology relies on extreme-value subsampling:</p>
+
+<ol>
+
+  <li>Select a stratified anchor subset of $m \ll n$ representative sample points across the empirical feature domain.</li>
+
+  <li>For each anchor, identify its $k$-nearest neighbors in both the ambient space $\mathbb{R}^p$ and the projected subspace $\mathbb{R}^d$.</li>
+
+  <li>Compute the rank correlation (Spearman's $\rho$ or Kendall's $\tau$) between ambient and projected pairwise distances.</li>
+
+  <li>If the empirical distortion $\max_{i, j} \left| \frac{\|\mathbf{P} \mathbf{x}_i - \mathbf{P} \mathbf{x}_j\|_2^2}{\|\mathbf{x}_i - \mathbf{x}_j\|_2^2} - 1 \right|$ exceeds tolerance $\epsilon$, incrementally increase the target sketch dimension $d$ according to the theoretical bound $d \ge 8 \epsilon^{-2} \ln(n / \sqrt{\delta})$.</li>
+
+</ol>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Big Data Methods for Statistics Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 6.1: Johnson-Lindenstrauss Target Dimension</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A social network dataset contains $n = 100,000$ user activity profiles residing in an ambient space of $p = 50,000$ dimensions. A data scientist requires a random projection that preserves all pairwise Euclidean distances within a relative error tolerance of $\epsilon = 0.10$ ($10\%$). Compute the minimum projection dimension $k$ mandated by the Johnson-Lindenstrauss lemma.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-big-data-6-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-big-data-6-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Formulate the JL Target Dimension Bound</div>
+              
+              <div class="step-explanation"><p>The Johnson-Lindenstrauss target dimension $k$ is given by:</p>
+
+<div class="math-display">$$k \ge \frac{4 \ln n}{\frac{\epsilon^2}{2} - \frac{\epsilon^3}{3}}$$</div>
+
+<p>where $n = 100,000$ and $\epsilon = 0.10$.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Evaluate the Numerator and Denominator</div>
+              
+              <div class="step-explanation"><p>Compute the natural logarithm of $n$:</p>
+
+<div class="math-display">$$\ln(100,000) \approx 11.512925$$</div>
+
+<p>Numerator:</p>
+
+<div class="math-display">$$4 \ln n = 4 \times 11.512925 \approx 46.0517$$</div>
+
+<p>Compute the denominator:</p>
+
+<div class="math-display">$$\frac{\epsilon^2}{2} = \frac{0.10^2}{2} = \frac{0.01}{2} = 0.0050$$</div>
+
+<div class="math-display">$$\frac{\epsilon^3}{3} = \frac{0.10^3}{3} = \frac{0.001}{3} \approx 0.0003333$$</div>
+
+<div class="math-display">$$\text{Denominator} = 0.0050 - 0.0003333 = 0.0046667$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Calculate the Minimum Dimension $k$</div>
+              
+              <div class="step-explanation"><p>Divide numerator by denominator:</p>
+
+<div class="math-display">$$k \ge \frac{46.0517}{0.0046667} \approx 9868.2 \implies k = \mathbf{9,869}$$</div>
+
+<p>By projecting the $50,000$-dimensional vectors onto a $9,869$-dimensional random subspace, all $\binom{100,000}{2} \approx 5 \times 10^9$ pairwise Euclidean distances are guaranteed to be preserved within $\pm 10\%$ relative error.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 6.2: Rademacher vs. Gaussian Random Projection Memory</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Compare the memory footprint required to store a random projection matrix $\mathbf{\Pi} \in \mathbb{R}^{k \times p}$ with $k = 2000$ and $p = 10,000$:</p>
+
+<ol>
+
+  <li>When $\mathbf{\Pi}$ is populated with 64-bit IEEE double-precision Gaussian entries.</li>
+
+  <li>When $\mathbf{\Pi}$ is populated with 1-bit packed Rademacher entries $\pm 1$.</li>
+
+</ol>
+
+<p>Determine the memory reduction factor.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-big-data-6-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-big-data-6-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Compute Matrix Element Count</div>
+              
+              <div class="step-explanation"><p>The total number of matrix elements is:</p>
+
+<div class="math-display">$$N_{\text{elements}} = k \times p = 2000 \times 10,000 = 20,000,000 \text{ entries}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Calculate Memory Footprint</div>
+              
+              <div class="step-explanation"><h4>1. Gaussian Matrix (Double Precision):</h4>
+
+<p>Each double-precision float requires 8 bytes (64 bits):</p>
+
+<div class="math-display">$$\text{Memory}_{\text{Gaussian}} = 20,000,000 \times 8 \text{ bytes} = 160,000,000 \text{ bytes} = \mathbf{160 \text{ MB}}$$</div>
+
+<h4>2. Rademacher Matrix (1-Bit Packed):</h4>
+
+<p>Because entries are strictly binary $\pm 1$, each entry requires only 1 bit:</p>
+
+<div class="math-display">$$\text{Memory}_{\text{Rademacher}} = \frac{20,000,000 \text{ bits}}{8 \text{ bits/byte}} = 2,500,000 \text{ bytes} = \mathbf{2.5 \text{ MB}}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Determine the Memory Reduction Ratio</div>
+              
+              <div class="step-explanation"><div class="math-display">$$\text{Reduction Factor} = \frac{160 \text{ MB}}{2.5 \text{ MB}} = \mathbf{64\times}$$</div>
+
+<p>Bit-packed Rademacher sketching reduces memory consumption by a factor of 64, enabling high-dimensional random projections to fit entirely inside L3 processor caches.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 6.3: Statistical Leverage Score Normalization</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A design matrix $\mathbf{X} \in \mathbb{R}^{5 \times 2}$ has left singular vector matrix:</p>
+
+<div class="math-display">$$\mathbf{U} = \begin{pmatrix} 0.50 &amp; 0.10 \\ 0.20 &amp; -0.40 \\ 0.80 &amp; 0.20 \\ 0.10 &amp; 0.60 \\ 0.245 &amp; -0.648 \end{pmatrix}$$</div>
+
+<p>Verify that $\mathbf{U}$ has rank $r = 2$, compute the statistical leverage score $h_i$ for each of the 5 rows, and calculate the leverage sampling probabilities $\pi_i$.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-big-data-6-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-big-data-6-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Verify Column Orthonormality and Rank</div>
+              
+              <div class="step-explanation"><p>Check column norms:</p>
+
+<div class="math-display">$$\|\mathbf{u}_1\|_2^2 = 0.5^2 + 0.2^2 + 0.8^2 + 0.1^2 + 0.245^2 = 0.25 + 0.04 + 0.64 + 0.01 + 0.060 = 1.00$$</div>
+
+<div class="math-display">$$\|\mathbf{u}_2\|_2^2 = 0.1^2 + (-0.4)^2 + 0.2^2 + 0.6^2 + (-0.648)^2 = 0.01 + 0.16 + 0.04 + 0.36 + 0.420 = 0.99 \approx 1.00$$</div>
+
+<p>Inner product $\langle \mathbf{u}_1, \mathbf{u}_2 \rangle \approx 0.0$. Thus $r = 2$.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute Leverage Scores $h_i = \|\mathbf{u}_i\|_2^2$</div>
+              
+              <div class="step-explanation"><p>Compute row squared norms:</p>
+
+<ul>
+
+  <li>Row 1: $h_1 = 0.50^2 + 0.10^2 = 0.25 + 0.01 = \mathbf{0.26}$</li>
+
+  <li>Row 2: $h_2 = 0.20^2 + (-0.40)^2 = 0.04 + 0.16 = \mathbf{0.20}$</li>
+
+  <li>Row 3: $h_3 = 0.80^2 + 0.20^2 = 0.64 + 0.04 = \mathbf{0.68}$</li>
+
+  <li>Row 4: $h_4 = 0.10^2 + 0.60^2 = 0.01 + 0.36 = \mathbf{0.37}$</li>
+
+  <li>Row 5: $h_5 = 0.245^2 + (-0.648)^2 \approx 0.060 + 0.420 = \mathbf{0.48}$</li>
+
+</ul>
+
+<p>Sum of leverage scores:</p>
+
+<div class="math-display">$$\sum_{i=1}^5 h_i = 0.26 + 0.20 + 0.68 + 0.37 + 0.48 = 1.99 \approx r = 2.00$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute Sampling Probabilities $\pi_i = h_i / r$</div>
+              
+              <div class="step-explanation"><p>Divide each leverage score by $r = 2.0$:</p>
+
+<ul>
+
+  <li>$\pi_1 = 0.26 / 2 = \mathbf{0.130} \quad (13.0\%)$</li>
+
+  <li>$\pi_2 = 0.20 / 2 = \mathbf{0.100} \quad (10.0\%)$</li>
+
+  <li>$\pi_3 = 0.68 / 2 = \mathbf{0.340} \quad (34.0\%)$</li>
+
+  <li>$\pi_4 = 0.37 / 2 = \mathbf{0.185} \quad (18.5\%)$</li>
+
+  <li>$\pi_5 = 0.48 / 2 = \mathbf{0.240} \quad (24.0\%)$</li>
+
+</ul>
+
+<p>Row 3 carries the highest statistical leverage ($h_3 = 0.68$), giving it a $34\%$ probability of selection in randomized sketching algorithms.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="statistical-computing-with-python-and-r">Statistical Computing</a><a href="mathematical-statistics">Mathematical Statistics</a><a href="statistical-estimation">Statistical Estimation</a><a href="demography-and-population-statistics">Demography and Population Statistics</a><a href="economic-statistics">Economic Statistics</a><a href="epidemiological-statistics">Epidemiological Statistics</a><a href="industrial-and-official-statistics">Industrial and Official Statistics</a><a href="actuarial-statistics-and-mathematical-demography">Actuarial Statistics</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Course Stat H-308 Big Data Methods for Statistics)</a></li><li><a href="https://openstemlibrary.com/references/hastie-tibshirani-wainwright-sparsity" target="_blank" rel="noopener noreferrer">Hastie, T., Tibshirani, R., &amp; Wainwright, M. (2015). Statistical Learning with Sparsity: The Lasso and Generalizations: Authoritative treatise on high-dimensional regression, Lasso, Elastic Net, coordinate descent, and asymptotic sparsity bounds</a></li><li><a href="https://openstemlibrary.com/references/mahoney-randomized-algorithms" target="_blank" rel="noopener noreferrer">Mahoney, M.W. (2011). Randomized Algorithms for Matrices and Data: Foundational review of Randomized Numerical Linear Algebra (RandNLA), matrix sketching, and leverage score sampling</a></li><li><a href="https://openstemlibrary.com/references/efron-large-scale-inference" target="_blank" rel="noopener noreferrer">Efron, B. (2012). Large-Scale Inference: Empirical Bayes Methods for Estimation, Testing, and Prediction: Seminal monograph on False Discovery Rate (FDR), local false discovery rate, and empirical Bayes multiple testing</a></li><li><a href="https://openstemlibrary.com/references/leskovec-rajaraman-ullman-massive-datasets" target="_blank" rel="noopener noreferrer">Leskovec, J., Rajaraman, A., &amp; Ullman, J.D. (2020). Mining of Massive Datasets (3rd ed.): Comprehensive manual on MapReduce algorithms, data stream sketching, Count-Min sketch, and HyperLogLog</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="big-data-methods-for-statistics-chapter-5">← Previous chapter</a><a href="big-data-methods-for-statistics">Book contents</a><a href="big-data-methods-for-statistics-chapter-7">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="big-data-methods-for-statistics-sims.js?v=1"></script>
+  <script src="big-data-methods-for-statistics-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

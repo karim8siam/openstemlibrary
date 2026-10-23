@@ -1,0 +1,956 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Modern Causal Inference in Statistical Research | Statistical Research Methods | OpenSTEM Library</title>
+  <meta name="description" content="Correlation versus causation: observational data limitations and confounding bias; Directed Acyclic Graphs (DAGs, Judea Pearl): nodes, directed edges, paths, colliders, confounders, and mediators; The d-separation criterion: blocking paths, collider conditioning bias (M-bias), and identifying minimal sufficient adjustment sets; The Backdoor Criterion and Frontdoor Criterion: non-parametric causal identification theorems; Instrumental Variables (IV) and Two-Stage Least Squares (2SLS): relevance, exogeneity, exclusion restriction, and local average treatment effects (LATE); Regression Discontinuity Designs (RDD): Sharp RDD, Fuzzy RDD, bandwidth selection, and local polynomial estimation; Difference-in-Differences (DiD) estimation: two-way fixed effects models, the parallel trends assumption, and event-study specifications.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/statistical-research-methods-chapter-6">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/statistical-research-methods-chapter-6">
+  <meta property="og:title" content="Statistical Research Methods: Epistemology, Design, Psychometrics, Power Analysis &amp; Causal Inference | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering epistemology of statistical inquiry (positivism, Popperian falsificationism, Kuhn, Lakatos, Box's maxim), research design architectures (Campbell-Stanley taxonomy, internal and external validity threats, regression to the mean, Heckman selection models), measurement theory and psychometrics (Stevens scales, Classical Test Theory, Cronbach's alpha, McDonald's omega, MTMM matrix, Item Response Theory), survey design and sampling strategies (Total Survey Error, Tourangeau cognitive model, nonresponse weighting, Kish design effect, Warner randomized response), statistical power analysis (non-central distributions, Cohen's d, Hedges' g, sample size formulas, post-hoc power fallacy), modern causal inference (Neyman-Rubin potential outcomes, Judea Pearl's DAGs, d-separation, backdoor criterion, instrumental variables, RDD, Difference-in-Differences), research ethics and privacy (Belmont Report, differential privacy, publication bias, Egger's test), and reproducible scientific communication with 24 solved questions and 4 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Statistical Research Methods: Epistemology, Design, Psychometrics, Power Analysis &amp; Causal Inference | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering epistemology of statistical inquiry (positivism, Popperian falsificationism, Kuhn, Lakatos, Box's maxim), research design architectures (Campbell-Stanley taxonomy, internal and external validity threats, regression to the mean, Heckman selection models), measurement theory and psychometrics (Stevens scales, Classical Test Theory, Cronbach's alpha, McDonald's omega, MTMM matrix, Item Response Theory), survey design and sampling strategies (Total Survey Error, Tourangeau cognitive model, nonresponse weighting, Kish design effect, Warner randomized response), statistical power analysis (non-central distributions, Cohen's d, Hedges' g, sample size formulas, post-hoc power fallacy), modern causal inference (Neyman-Rubin potential outcomes, Judea Pearl's DAGs, d-separation, backdoor criterion, instrumental variables, RDD, Difference-in-Differences), research ethics and privacy (Belmont Report, differential privacy, publication bias, Egger's test), and reproducible scientific communication with 24 solved questions and 4 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="statistical-research-methods.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Statistical Research Methods: Modern Causal Inference in Statistical Research","description":"Comprehensive university textbook covering epistemology of statistical inquiry (positivism, Popperian falsificationism, Kuhn, Lakatos, Box's maxim), research design architectures (Campbell-Stanley taxonomy, internal and external validity threats, regression to the mean, Heckman selection models), measurement theory and psychometrics (Stevens scales, Classical Test Theory, Cronbach's alpha, McDonald's omega, MTMM matrix, Item Response Theory), survey design and sampling strategies (Total Survey Error, Tourangeau cognitive model, nonresponse weighting, Kish design effect, Warner randomized response), statistical power analysis (non-central distributions, Cohen's d, Hedges' g, sample size formulas, post-hoc power fallacy), modern causal inference (Neyman-Rubin potential outcomes, Judea Pearl's DAGs, d-separation, backdoor criterion, instrumental variables, RDD, Difference-in-Differences), research ethics and privacy (Belmont Report, differential privacy, publication bias, Egger's test), and reproducible scientific communication with 24 solved questions and 4 interactive simulations.","url":"https://openstemlibrary.com/statistical-research-methods-chapter-6","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Research Methodology","Epistemology of Statistics","Experimental Design and Threats to Validity","Measurement Theory and Psychometrics","Survey Sampling and Total Survey Error","Statistical Power Analysis and Sample Size","Causal Inference and Directed Acyclic Graphs","Instrumental Variables and Difference-in-Differences","Research Ethics and Differential Privacy","Reproducible Research and Open Science"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Statistical Research Methods","item":"https://openstemlibrary.com/statistical-research-methods"}]}</script></head>
+<body data-book-path="statistical-research-methods.html" data-chapter-index="5" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Statistical Research Methods</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search epistemology, falsificationism, internal validity, regression to the mean, Classical Test Theory, Cronbach's alpha, McDonald's omega, Item Response Theory, Total Survey Error, nonresponse bias, statistical power, Cohen's d, causal DAGs, instrumental variables, RDD, Difference-in-Differences, publication bias, reproducible research…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="statistical-research-methods" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Epistemology of Statistical Science &amp; Scientific Inquiry</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="statistical-research-methods-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Problem Formulation, Conceptualization &amp; Research Design Architectures</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="statistical-research-methods-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Measurement Theory, Psychometrics, Reliability &amp; Validity</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="statistical-research-methods-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Survey Design, Questionnaire Engineering &amp; Sampling Strategies</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="statistical-research-methods-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Statistical Power Analysis, Effect Size Estimation &amp; Sample Size Determination</span></a></li><li class="unit-nav-item active" data-unit-index="5"><a href="statistical-research-methods-chapter-6" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Modern Causal Inference in Statistical Research</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="statistical-research-methods-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Research Ethics, Data Integrity, Confidentiality &amp; Publication Practices</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="statistical-research-methods-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Scientific Communication, Reproducible Research &amp; Technical Reporting</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Statistical research methods major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 6 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Modern Causal Inference in Statistical Research</h1>
+            <p class="unit-desc-lead" id="unit-desc">Correlation versus causation: observational data limitations and confounding bias; Directed Acyclic Graphs (DAGs, Judea Pearl): nodes, directed edges, paths, colliders, confounders, and mediators; The d-separation criterion: blocking paths, collider conditioning bias (M-bias), and identifying minimal sufficient adjustment sets; The Backdoor Criterion and Frontdoor Criterion: non-parametric causal identification theorems; Instrumental Variables (IV) and Two-Stage Least Squares (2SLS): relevance, exogeneity, exclusion restriction, and local average treatment effects (LATE); Regression Discontinuity Designs (RDD): Sharp RDD, Fuzzy RDD, bandwidth selection, and local polynomial estimation; Difference-in-Differences (DiD) estimation: two-way fixed effects models, the parallel trends assumption, and event-study specifications.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-309 (Research Methodology) and Stat H-413 (Research Project). Eight units and exactly three solved questions per unit. Interactive simulations illustrate statistical power curves, causal DAG backdoor adjustment, Difference-in-Differences trajectories, and publication bias funnel plots. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-6-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.1</span>
+            <span>Correlation versus Causation: The Potential Outcomes Framework</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>The modern mathematical formalization of causation originated in Jerzy Neyman's 1923 agricultural experiments and was generalized to observational studies by Donald Rubin in 1974 (the Neyman-Rubin Causal Model).</p>
+
+<p>Consider a binary treatment indicator $D_i \in \{0, 1\}$, where $D_i = 1$ denotes exposure to the experimental treatment and $D_i = 0$ denotes exposure to the control condition. For each individual unit $i$ in a population, we define two Potential Outcomes:</p>
+
+<ul>
+
+  <li>$Y_i(1)$: The outcome value that unit $i$ would realize if exposed to treatment ($D_i = 1$).</li>
+
+  <li>$Y_i(0)$: The outcome value that unit $i$ would realize if exposed to control ($D_i = 0$).</li>
+
+</ul>
+
+<p>The individual causal effect for unit $i$ is defined as the contrast:</p>
+
+<div class="math-display">$$\tau_i \equiv Y_i(1) - Y_i(0)$$</div>
+
+<p>This definition reveals the Fundamental Problem of Causal Inference: For any individual unit $i$, we observe only the outcome corresponding to the treatment actually received:</p>
+
+<div class="math-display">$$Y_i = D_i Y_i(1) + (1 - D_i) Y_i(0)$$</div>
+
+<p>If unit $i$ receives treatment ($D_i = 1$), we observe $Y_i(1)$, while the counterfactual potential outcome $Y_i(0)$ remains unobservable. If unit $i$ receives control ($D_i = 0$), we observe $Y_i(0)$, while $Y_i(1)$ is counterfactual. Causal inference is fundamentally a missing data problem: for every individual, exactly one potential outcome is missing.</p>
+
+<p>To identify causal effects, researchers shift from individual effects $\tau_i$ to population average effects:</p>
+
+<ul>
+
+  <li>Average Treatment Effect (ATE):</li>
+
+</ul>
+
+<div class="math-display">$$\tau_{\text{ATE}} \equiv \mathbb{E}[Y(1) - Y(0)] = \mathbb{E}[Y(1)] - \mathbb{E}[Y(0)]$$</div>
+
+<ul>
+
+  <li>Average Treatment Effect on the Treated (ATT):</li>
+
+</ul>
+
+<div class="math-display">$$\tau_{\text{ATT}} \equiv \mathbb{E}[Y(1) - Y(0) \mid D = 1] = \mathbb{E}[Y(1) \mid D = 1] - \mathbb{E}[Y(0) \mid D = 1]$$</div>
+
+<h4>The Stable Unit Treatment Value Assumption (SUTVA)</h4>
+
+<p>The mathematical validity of the potential outcomes framework requires SUTVA:</p>
+
+<ol>
+
+  <li>No Interference (Spillover): The potential outcomes of unit $i$ are unaffected by the treatment status of any other unit $j \ne i$:</li>
+
+</ol>
+
+<div class="math-display">$$Y_i(d_1, d_2, \dots, d_n) = Y_i(d_i)$$</div>
+
+<p>(Violated in vaccination programs with herd immunity, or social network interventions).</p>
+
+<ol>
+
+  <li>No Hidden Variations of Treatment: The treatment administered to unit $i$ is identical in dosage and delivery mechanism to the treatment received by any other treated unit (consistency: if $D_i = d$, then $Y_i = Y_i(d)$).</li>
+
+</ol>
+
+<h4>Decomposing Naive Observational Association</h4>
+
+<p>Consider the naive observational difference between the sample means of treated and untreated cohorts:</p>
+
+<div class="math-display">$$\Delta_{\text{naive}} = \mathbb{E}[Y \mid D = 1] - \mathbb{E}[Y \mid D = 0]$$</div>
+
+<p>Using the potential outcomes identity, expand $\Delta_{\text{naive}}$:</p>
+
+<div class="math-display">$$\Delta_{\text{naive}} = \mathbb{E}[Y(1) \mid D = 1] - \mathbb{E}[Y(0) \mid D = 0]$$</div>
+
+<p>Add and subtract the counterfactual quantity $\mathbb{E}[Y(0) \mid D = 1]$:</p>
+
+<div class="math-display">$$\Delta_{\text{naive}} = \underbrace{\mathbb{E}[Y(1) \mid D = 1] - \mathbb{E}[Y(0) \mid D = 1]}_{\tau_{\text{ATT}}} + \underbrace{\left( \mathbb{E}[Y(0) \mid D = 1] - \mathbb{E}[Y(0) \mid D = 0] \right)}_{\text{Selection Bias}}$$</div>
+
+<p>Naive observational comparisons confound the true causal treatment effect on the treated ($\tau_{\text{ATT}}$) with Selection Bias: the baseline disparity in potential control outcomes between individuals who choose treatment versus those who do not. In a completely randomized trial, $D \perp\!\!\perp (Y(1), Y(0))$, so baseline selection bias vanishes ($\mathbb{E}[Y(0) \mid D = 1] = \mathbb{E}[Y(0) \mid D = 0]$), guaranteeing $\Delta_{\text{naive}} = \tau_{\text{ATE}}$. In observational studies, selection bias must be neutralized through structural causal modeling.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.2</span>
+            <span>Causal Directed Acyclic Graphs (DAGs) and the $d$-Separation Criterion</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Judea Pearl formalized causal relationships using non-parametric Directed Acyclic Graphs (DAGs). A causal DAG $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ consists of a set of vertices $\mathcal{V}$ representing random variables and a set of directed arrows $\mathcal{E}$ representing direct causal influences. The graph is acyclic: no directed path can loop back to its starting node.</p>
+
+<p>A causal DAG encodes the complete qualitative causal structure of a data-generating system. All statistical associations between two variables $X$ and $Y$ flow along paths connecting them. Paths consist of combinations of three fundamental junction typologies:</p>
+
+<ol>
+
+  <li>The Chain (Mediation):</li>
+
+</ol>
+
+<div class="math-display">$$X \longrightarrow M \longrightarrow Y$$</div>
+
+<p>Variable $X$ causally influences mediator $M$, which causally influences $Y$.</p>
+
+<ul>
+
+  <li>Unconditioned: The path is open; $X$ and $Y$ are statistically dependent ($X \not\perp\!\!\perp Y$).</li>
+
+  <li>Conditioned on $M$: Conditioning on the intermediate mediator blocks the path; $X$ and $Y$ become conditionally independent ($X \perp\!\!\perp Y \mid M$).</li>
+
+</ul>
+
+<ol>
+
+  <li>The Fork (Common Cause / Confounder):</li>
+
+</ol>
+
+<div class="math-display">$$X \longleftarrow Z \longrightarrow Y$$</div>
+
+<p>Variable $Z$ is a mutual common cause of both $X$ and $Y$.</p>
+
+<ul>
+
+  <li>Unconditioned: The path is open; $Z$ transmits a spurious non-causal association between $X$ and $Y$ ($X \not\perp\!\!\perp Y$).</li>
+
+  <li>Conditioned on $Z$: Conditioning on the common cause blocks the spurious path; $X$ and $Y$ become conditionally independent ($X \perp\!\!\perp Y \mid Z$).</li>
+
+</ul>
+
+<ol>
+
+  <li>The Inverted Fork / Collider (Mutual Effect):</li>
+
+</ol>
+
+<div class="math-display">$$X \longrightarrow C \longleftarrow Y$$</div>
+
+<p>Two independent causes $X$ and $Y$ both influence a mutual outcome (collider) $C$.</p>
+
+<ul>
+
+  <li>Unconditioned: The collider naturally blocks the path! Without conditioning, no association flows between $X$ and $Y$; they are completely independent ($X \perp\!\!\perp Y$).</li>
+
+  <li>Conditioned on $C$ (or any descendant of $C$): Conditioning on a collider <em>opens</em> the path! Conditioning induces a spurious, non-causal statistical correlation between previously independent causes ($X \not\perp\!\!\perp Y \mid C$). This phenomenon is known as Berkson's Paradox or Collider Stratification Bias (M-bias).</li>
+
+</ul>
+
+<h4>The $d$-Separation Criterion</h4>
+
+<p>Judea Pearl established the $d$-separation (directional separation) theorem, providing a purely algorithmic graphical rule for determining whether two variables $X$ and $Y$ are conditionally independent given an conditioning set $\mathbf{Z}$:</p>
+
+<p>Definition: A path $p$ between $X$ and $Y$ is blocked (d-separated) by a set of conditioning nodes $\mathbf{Z}$ if and only if:</p>
+
+<ol>
+
+  <li>Path $p$ contains a chain ($A \to B \to C$) or a fork ($A \leftarrow B \to C$) such that the middle node $B$ is in $\mathbf{Z}$; OR</li>
+
+  <li>Path $p$ contains a collider ($A \to C \leftarrow B$) such that neither the collider $C$ nor any descendant of $C$ is in $\mathbf{Z}$.</li>
+
+</ol>
+
+<p>If all paths connecting $X$ and $Y$ are blocked by $\mathbf{Z}$, then $X$ and $Y$ are $d$-separated by $\mathbf{Z}$, which implies that $X$ and $Y$ are conditionally independent given $\mathbf{Z}$ across all probability distributions compatible with the graph:</p>
+
+<div class="math-display">$$X \perp\!\!\perp_{\mathcal{G}} Y \mid \mathbf{Z} \implies X \perp\!\!\perp Y \mid \mathbf{Z}$$</div>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-res-dag-confounding"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.3</span>
+            <span>The Backdoor Criterion and Frontdoor Adjustment</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Pearl derived non-parametric identification theorems that dictate exactly which variables must be adjusted for—and which variables must <em>never</em> be adjusted for—to estimate the true causal effect of an intervention $\mathrm{do}(X = x)$ on outcome $Y$:</p>
+
+<h4>The Backdoor Criterion</h4>
+
+<p>A set of variables $\mathbf{Z}$ satisfies the Backdoor Criterion relative to an ordered pair of variables $(X, Y)$ in a DAG $\mathcal{G}$ if:</p>
+
+<ol>
+
+  <li>No node in $\mathbf{Z}$ is a causal descendant of $X$; AND</li>
+
+  <li>The set $\mathbf{Z}$ blocks (d-separates) every backdoor path from $X$ to $Y$ (where a backdoor path is any path connecting $X$ and $Y$ that begins with an arrow pointing <em>into</em> $X$: $X \leftarrow \cdots Y$).</li>
+
+</ol>
+
+<p>Theorem (Backdoor Adjustment Formula): If a set of covariates $\mathbf{Z}$ satisfies the Backdoor Criterion, the causal effect of $X$ on $Y$ is non-parametrically identified by the adjustment formula:</p>
+
+<div class="math-display">$$P(Y = y \mid \mathrm{do}(X = x)) = \sum_{\mathbf{z}} P(Y = y \mid X = x, \mathbf{Z} = \mathbf{z}) P(\mathbf{Z} = \mathbf{z})$$</div>
+
+<p>The corresponding average causal effect is estimated by adjusting for $\mathbf{Z}$ via multivariable regression, propensity score matching, or inverse probability weighting.</p>
+
+<h4>The Frontdoor Criterion</h4>
+
+<p>When confounders $U$ between $X$ and $Y$ are completely unobserved (making backdoor adjustment impossible), Pearl discovered that causal effects can still be identified if an observed intermediate mechanism $M$ satisfies the Frontdoor Criterion:</p>
+
+<ol>
+
+  <li>$M$ intercepts all directed causal paths from $X$ to $Y$ ($X \to M \to Y$).</li>
+
+  <li>There are no unblocked backdoor paths from $X$ to $M$.</li>
+
+  <li>All backdoor paths from $M$ to $Y$ are blocked by $X$.</li>
+
+</ol>
+
+<p>Under the Frontdoor Criterion, the causal effect is identified without measuring $U$:</p>
+
+<div class="math-display">$$P(Y = y \mid \mathrm{do}(X = x)) = \sum_m P(M = m \mid X = x) \sum_{x'} P(Y = y \mid X = x', M = m) P(X = x')$$</div>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-res-dag-confounding"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.4</span>
+            <span>Instrumental Variables (IV) and Two-Stage Least Squares (2SLS)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When unmeasured confounding between treatment $X$ and outcome $Y$ exists and cannot be blocked, the Instrumental Variables (IV) approach achieves causal identification by exploiting an exogenous source of variation $Z$.</p>
+
+<p>A valid instrumental variable $Z$ must satisfy three structural core conditions:</p>
+
+<ol>
+
+  <li>Relevance Condition (Instrument Strength): $Z$ has a non-zero causal effect on treatment $X$:</li>
+
+</ol>
+
+<div class="math-display">$$\mathrm{Cov}(Z, X) \ne 0$$</div>
+
+<ol>
+
+  <li>Exogeneity / Independence Condition: $Z$ is as good as randomly assigned; it is statistically independent of all unobserved confounders $U$:</li>
+
+</ol>
+
+<div class="math-display">$$Z \perp\!\!\perp U$$</div>
+
+<ol>
+
+  <li>Exclusion Restriction: $Z$ affects the outcome $Y$ <em>only</em> through its effect on treatment $X$. There is no direct causal arrow from $Z$ to $Y$, and no unblocked backdoor path connecting $Z$ and $Y$:</li>
+
+</ol>
+
+<div class="math-display">$$Y(x, z) = Y(x)$$</div>
+
+<p>Under linear homogeneous models:</p>
+
+<div class="math-display">$$Y = \beta_0 + \beta_1 X + \epsilon, \quad \mathrm{Cov}(X, \epsilon) \ne 0$$</div>
+
+<p>The Instrumental Variable estimator (Wald Estimator for binary $Z$) is:</p>
+
+<div class="math-display">$$\beta_{\text{IV}} = \frac{\mathrm{Cov}(Y, Z)}{\mathrm{Cov}(X, Z)} = \frac{\mathbb{E}[Y \mid Z = 1] - \mathbb{E}[Y \mid Z = 0]}{\mathbb{E}[X \mid Z = 1] - \mathbb{E}[X \mid Z = 0]} = \frac{\text{Reduced-Form Intention-to-Treat Effect}}{\text{First-Stage Compliance Rate}}$$</div>
+
+<h4>Local Average Treatment Effects (LATE)</h4>
+
+<p>In their seminal 1994 paper, Joshua Angrist and Guido Imbens (2021 Nobel Prize in Economic Sciences) analyzed IV under heterogeneous treatment effects and non-compliance. They partitioned the population into four latent compliance strata:</p>
+
+<ol>
+
+  <li>Compliers: Units who take treatment if assigned, and do not if not assigned ($X(1) = 1, X(0) = 0$).</li>
+
+  <li>Always-Takers: Units who always take treatment regardless of instrument status ($X(1) = 1, X(0) = 1$).</li>
+
+  <li>Never-Takers: Units who never take treatment regardless of instrument status ($X(1) = 0, X(0) = 0$).</li>
+
+  <li>Defiers: Units who do the exact opposite of their assignment ($X(1) = 0, X(0) = 1$).</li>
+
+</ol>
+
+<p>Under the Monotonicity Assumption (no defiers: $X_i(1) \ge X_i(0)$ for all $i$), Angrist and Imbens proved that the IV estimator identifies the Local Average Treatment Effect (LATE):</p>
+
+<div class="math-display">$$\beta_{\text{IV}} = \mathbb{E}[Y(1) - Y(0) \mid X(1) - X(0) = 1] = \tau_{\text{LATE}}$$</div>
+
+<p>The causal effect is identified specifically for the subpopulation of Compliers—individuals whose treatment uptake was actively induced by the instrument.</p>
+
+<h4>Weak Instrument Problem and Stock-Yogo Diagnostic</h4>
+
+<p>If the instrument is weakly correlated with treatment ($\mathrm{Cov}(Z, X) \approx 0$), the denominator of $\beta_{\text{IV}}$ approaches zero. James Stock and Motohiro Yogo established that weak instruments cause severe finite-sample bias toward the confounded OLS estimate and produce invalid standard errors. Researchers must report the First-Stage $F$-statistic testing $H_0: \gamma = 0$ in $X = \pi_0 + \gamma Z + \nu$. As a rule of thumb, $F &gt; 10$ (or Stock-Yogo critical values $F &gt; 16.38$) is required to rule out weak instrument bias.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.5</span>
+            <span>Regression Discontinuity Design (RDD)</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>The Regression Discontinuity Design (RDD), introduced by Donald Thistlethwaite and Donald Campbell (1960), is widely considered the most credible quasi-experimental architecture because it exploits local administrative rules to mimic randomized trials.</p>
+
+<p>In RDD, treatment assignment $D_i$ is determined strictly by whether an observed continuous running variable (forcing variable) $X_i$ crosses an exogenous cutoff threshold $c$:</p>
+
+<ul>
+
+  <li>Sharp RDD: Treatment is deterministic:</li>
+
+</ul>
+
+<div class="math-display">$$D_i = \mathbb{I}(X_i \ge c)$$</div>
+
+<p>(e.g., students scoring $\ge 80.0$ receive a merit scholarship; students scoring @@MATH_TOKEN_1@@lt; 80.0$ do not).</p>
+
+<ul>
+
+  <li>Fuzzy RDD: The probability of treatment jumps discontinuously at the cutoff:</li>
+
+</ul>
+
+<div class="math-display">$$\lim_{x \downarrow c} P(D = 1 \mid X = x) \ne \lim_{x \uparrow c} P(D = 1 \mid X = x)$$</div>
+
+<h4>Identification Assumption: Continuity of Potential Outcomes</h4>
+
+<p>The foundational identification assumption of RDD is that in the absence of treatment, the conditional expectations of potential outcomes $\mathbb{E}[Y(0) \mid X = x]$ and $\mathbb{E}[Y(1) \mid X = x]$ are smooth, continuous functions of the running variable $X$ across the threshold $c$. Units scoring just above the threshold ($c + \epsilon$) are virtually identical in all baseline traits, unobserved ability, and potential outcomes to units scoring just below ($c - \epsilon$). Under continuity, the causal treatment effect at the cutoff is non-parametrically identified:</p>
+
+<div class="math-display">$$\tau_{\text{SRDD}} = \lim_{x \downarrow c} \mathbb{E}[Y \mid X = x] - \lim_{x \uparrow c} \mathbb{E}[Y \mid X = x]$$</div>
+
+<p>Estimation is executed using Local Polynomial Regression within an optimal bandwidth $h$ around $c$ (using Imbens-Kalyanaraman or Calonico-Cattaneo-Titiunik optimal bandwidth selectors). The McCrary Density Test verifies that individuals cannot precisely manipulate or sort themselves across the cutoff: a discontinuity in the marginal density of $X$ at $c$ indicates strategic gaming, invalidating RDD.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.6</span>
+            <span>Difference-in-Differences (DiD) and Event Studies</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Difference-in-Differences identifies causal effects in longitudinal or panel settings where a treatment group is exposed to an intervention at a specific time point, while a comparison group remains unexposed.</p>
+
+<p>Let $D_i \in \{0, 1\}$ indicate treatment group membership, and let $T_t \in \{0, 1\}$ indicate post-intervention time periods. The canonical Two-Way Fixed Effects (TWFE) regression model is:</p>
+
+<div class="math-display">$$Y_{it} = \alpha + \gamma D_i + \lambda T_t + \tau (D_i \times T_t) + \epsilon_{it}$$</div>
+
+<p>The Difference-in-Differences estimator computes the double difference across groups and time:</p>
+
+<div class="math-display">$$\hat{\tau}_{\text{DiD}} = \left( \bar{Y}_{\text{treat, post}} - \bar{Y}_{\text{treat, pre}} \right) - \left( \bar{Y}_{\text{ctrl, post}} - \bar{Y}_{\text{ctrl, pre}} \right)$$</div>
+
+<h4>The Parallel Trends Assumption</h4>
+
+<p>The fundamental identification assumption of DiD is Parallel Trends: in the counterfactual absence of treatment, the average outcome of the treatment group would have followed the identical temporal trajectory as the control group:</p>
+
+<div class="math-display">$$\mathbb{E}[Y_1(0) - Y_0(0) \mid D = 1] = \mathbb{E}[Y_1(0) - Y_0(0) \mid D = 0]$$</div>
+
+<p>Parallel trends cannot be verified directly in the post-treatment era because counterfactual $Y_1(0) \mid D = 1$ is unobserved. Researchers assess plausibility using Event-Study Specifications across multiple pre-treatment periods:</p>
+
+<div class="math-display">$$Y_{it} = \alpha_i + \lambda_t + \sum_{k = -K, k \ne -1}^M \beta_k (D_i \times \mathbb{I}(t = k)) + \epsilon_{it}$$</div>
+
+<p>Estimating $\beta_k \approx 0$ for all pre-treatment periods $k &lt; -1$ provides empirical support for parallel trends.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-res-did-estimator"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-9">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.9</span>
+            <span>Sensitivity Analysis for Unmeasured Confounding: Rosenbaum's $\Gamma$ and the E-Value</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Because observational causal inference relies on the untestable assumption of no unmeasured confounding (unconfoundedness), rigorous research methodology requires quantitative Sensitivity Analysis: assessing how strong an unmeasured confounder would need to be to overturn the study's conclusions.</p>
+
+<h4>1. Rosenbaum's Bounding Method ($\Gamma$):</h4>
+
+<p>Paul Rosenbaum (2002) formulated sensitivity bounds for matched observational studies. Let $\Gamma \ge 1$ denote the odds ratio of receiving treatment between two individuals matched on all observed covariates $\mathbf{X}$, caused by an unobserved confounder $U$:</p>
+
+<div class="math-display">$$\frac{1}{\Gamma} \le \frac{P(D_i = 1 \mid \mathbf{X}, U_i) / [1 - P(D_i = 1 \mid \mathbf{X}, U_i)]}{P(D_j = 1 \mid \mathbf{X}, U_j) / [1 - P(D_j = 1 \mid \mathbf{X}, U_j)]} \le \Gamma$$</div>
+
+<p>When $\Gamma = 1.0$, there is zero unmeasured confounding. Rosenbaum bounds compute the threshold $\Gamma^*$ at which the $p$-value for the treatment effect crosses the non-significance boundary $\alpha = 0.05$. If a study achieves $\Gamma^* = 3.5$, an unobserved confounder would need to multiply the odds of treatment by $350\%$ to explain away the observed effect, demonstrating exceptional robustness.</p>
+
+<ol>
+
+  <li>The E-Value Metric (Ding &amp; VanderWeele, 2016):</li>
+
+</ol>
+
+<p>Tyler VanderWeele and Peng Ding introduced the E-value, defining the minimum strength of association that an unmeasured confounder $U$ must have with <em>both</em> the treatment $D$ and the outcome $Y$, conditional on observed covariates, to fully explain away the observed treatment-outcome risk ratio $\mathrm{RR}$:</p>
+
+<div class="math-display">$$\mathrm{E\text{-}value} = \mathrm{RR} + \sqrt{\mathrm{RR}(\mathrm{RR} - 1)}$$</div>
+
+<p>For an observed risk ratio of $\mathrm{RR} = 3.0$:</p>
+
+<div class="math-display">$$\mathrm{E\text{-}value} = 3.0 + \sqrt{3.0(2.0)} = 3.0 + \sqrt{6.0} \approx 3.0 + 2.45 = \mathbf{5.45}$$</div>
+
+<p>To nullify the finding, an unmeasured confounder would have to be associated with both the treatment and the outcome by a risk ratio of at least $5.45$-fold each, beyond all measured controls.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-10">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.10</span>
+            <span>Staggered Difference-in-Differences and the Goodman-Bacon Decomposition</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In classical Difference-in-Differences, all treated units receive intervention at the identical calendar time. In real-world policy research, however, interventions adopt a Staggered Rollout architecture: different states, municipalities, or hospitals enact policies at different times.</p>
+
+<p>Historically, researchers estimated staggered DiD using Two-Way Fixed Effects (TWFE) regression:</p>
+
+<div class="math-display">$$Y_{it} = \alpha_i + \lambda_t + \beta_{\text{TWFE}} D_{it} + \epsilon_{it}$$</div>
+
+<p>In a groundbreaking 2021 econometrics paper, Andrew Goodman-Bacon proved the Goodman-Bacon Decomposition Theorem: Under staggered timing, the TWFE coefficient $\hat{\beta}_{\text{TWFE}}$ is a weighted average of all possible $2 \times 2$ DiD comparisons across timing cohorts:</p>
+
+<div class="math-display">$$\hat{\beta}_{\text{TWFE}} = \sum_{k \ne l} w_{k, l} \hat{\beta}_{k, l}^{2 \times 2}$$</div>
+
+<p>Critically, Goodman-Bacon proved that the comparison pairs include:</p>
+
+<ol>
+
+  <li>Early-treated units versus never-treated controls (Clean comparison).</li>
+
+  <li>Late-treated units versus never-treated controls (Clean comparison).</li>
+
+  <li>Late-treated units versus <em>already-treated</em> early units, where the early-treated units serve as the control group ("Forbidden Comparison")!</li>
+
+</ol>
+
+<p>If the causal treatment effect evolves, grows, or decays over time (dynamic treatment heterogeneity), using already-treated units as controls subtracts the ongoing treatment trajectory of the early cohort, producing negative weights! In fact, $\hat{\beta}_{\text{TWFE}}$ can be negative even when every individual unit experiences a positive causal effect! Modern causal econometrics resolves this bias using robust staggered estimators: Callaway and Sant'Anna (2021) and Sun and Abraham (2021), which estimate group-time Average Treatment Effects $\mathrm{ATT}(g, t)$ using strictly clean, untreated comparison cohorts.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-8">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.8</span>
+            <span>Unit 6 Methodological Synthesis and Review</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Modern causal inference provides the mathematical language to answer foundational scientific inquiries:</p>
+
+<ul>
+
+  <li>Formalize causal questions using Potential Outcomes ($Y(1), Y(0)$), recognizing that individual causal effects are missing data problems.</li>
+
+  <li>Construct causal Directed Acyclic Graphs (DAGs) and apply $d$-separation to differentiate mediators, confounders, and colliders.</li>
+
+  <li>Apply the Backdoor Criterion to identify minimal sufficient adjustment sets, strictly avoiding collider stratification bias (M-bias).</li>
+
+  <li>In the presence of unobserved confounding, deploy quasi-experimental identification strategies: Instrumental Variables (2SLS/LATE), Regression Discontinuity Designs (RDD), and Difference-in-Differences (DiD).</li>
+
+</ul>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Statistical Research Methods Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 6.1: Backdoor Path Identification and Sufficient Adjustment Set</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An epidemiological research group investigates the causal effect of physical exercise ($X$) on cardiovascular events ($Y$). The scientific domain knowledge is codified in a causal DAG containing five variables:</p>
+
+<ul>
+
+  <li>$X$: Physical Exercise (Treatment)</li>
+
+  <li>$Y$: Cardiovascular Event (Outcome)</li>
+
+  <li>$A$: Age (Exogenous Demographic Variable)</li>
+
+  <li>$B$: Body Mass Index (BMI)</li>
+
+  <li>$S$: Genetic Cardiovascular Susceptibility (Unobserved Latent Genetic Factor)</li>
+
+</ul>
+
+<p>The directed edges in the causal DAG are:</p>
+
+<ol>
+
+  <li>$A \longrightarrow X$ (Age influences exercise habits)</li>
+
+  <li>$A \longrightarrow Y$ (Age directly influences cardiovascular disease)</li>
+
+  <li>$A \longrightarrow B$ (Age influences BMI)</li>
+
+  <li>$X \longrightarrow B$ (Exercise reduces BMI)</li>
+
+  <li>$B \longrightarrow Y$ (BMI increases cardiovascular risk)</li>
+
+  <li>$S \longrightarrow B$ (Genetics influences BMI)</li>
+
+  <li>$S \longrightarrow Y$ (Genetics directly influences cardiovascular disease)</li>
+
+</ol>
+
+<ol>
+
+  <li>Enumerate all paths connecting treatment $X$ and outcome $Y$. Classify each as a causal (directed) path or a backdoor path.</li>
+
+  <li>For each backdoor path, determine whether it is naturally open or blocked, and identify any colliders.</li>
+
+  <li>Determine the minimal sufficient adjustment set of covariates $\mathbf{Z}$ that identifies the total causal effect of $X$ on $Y$ via the Backdoor Criterion. Specifically evaluate why conditioning on BMI ($B$) produces collider stratification bias (M-bias).</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-res-meth-6-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-res-meth-6-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Enumerate All Paths Between $X$ and $Y$</div>
+              
+              <div class="step-explanation"><p>Examine all sequences of adjacent nodes connecting $X$ and $Y$:</p>
+
+<ul>
+
+  <li>Path 1: $X \longrightarrow B \longrightarrow Y$</li>
+
+  <li>Classification: Directed causal path ($X$ affects $B$, which affects $Y$; $B$ is a mediator).</li>
+
+  <li>Path 2: $X \longleftarrow A \longrightarrow Y$</li>
+
+  <li>Classification: Backdoor path (starts with arrow pointing into $X$: $X \leftarrow A$).</li>
+
+  <li>Path 3: $X \longleftarrow A \longrightarrow B \longrightarrow Y$</li>
+
+  <li>Classification: Backdoor path ($X \leftarrow A$).</li>
+
+  <li>Path 4: $X \longleftarrow A \longrightarrow B \longleftarrow S \longrightarrow Y$</li>
+
+  <li>Classification: Backdoor path ($X \leftarrow A$).</li>
+
+  <li>Path 5: $X \longrightarrow B \longleftarrow S \longrightarrow Y$</li>
+
+  <li>Notice that Path 5 starts with $X \to B$. This is not a backdoor path for $X$; however, it contains node $B$ which is a collider.</li>
+
+</ul></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Analyze Backdoor Paths and Colliders</div>
+              
+              <div class="step-explanation"><p>Evaluate the open/blocked status of each backdoor path without conditioning on any variables ($\mathbf{Z} = \emptyset$):</p>
+
+<ul>
+
+  <li>Path 2 ($X \longleftarrow A \longrightarrow Y$):</li>
+
+  <li>Node $A$ is a fork (common cause). Path 2 is OPEN. It transmits confounding bias from age.</li>
+
+  <li>Path 3 ($X \longleftarrow A \longrightarrow B \longrightarrow Y$):</li>
+
+  <li>Contains fork at $A$ and chain at $B$. Path 3 is OPEN. Transmits confounding bias.</li>
+
+  <li>Path 4 ($X \longleftarrow A \longrightarrow B \longleftarrow S \longrightarrow Y$):</li>
+
+  <li>Notice the junction at $B$: $A \longrightarrow B \longleftarrow S$.</li>
+
+  <li>In this path, node $B$ is a COLLIDER!</li>
+
+  <li>By the rules of $d$-separation, an unconditioned collider naturally blocks the path! Therefore, Path 4 is naturally BLOCKED by collider $B$ when $\mathbf{Z} = \emptyset$.</li>
+
+</ul></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Determine the Minimal Sufficient Adjustment Set</div>
+              
+              <div class="step-explanation"><p>We seek a conditioning set $\mathbf{Z}$ that blocks all backdoor paths without blocking causal paths or opening colliders:</p>
+
+<ol>
+
+  <li>Backdoor Path 2 ($X \leftarrow A \to Y$) is open. To block it, we MUST condition on $A$.</li>
+
+  <li>Backdoor Path 3 ($X \leftarrow A \to B \to Y$) contains $A$. Conditioning on $A$ also blocks Path 3!</li>
+
+  <li>Backdoor Path 4 ($X \leftarrow A \to B \leftarrow S \to Y$) is naturally blocked by collider $B$.</li>
+
+</ol>
+
+<p>Conditioning on $\mathbf{Z} = \{A\}$ blocks both Path 2 and Path 3, while leaving Path 4 blocked. Furthermore, $A$ is not a descendant of $X$. Therefore, the minimal sufficient adjustment set is:</p>
+
+<div class="math-display">$$\mathbf{Z} = \{A\} \quad (\text{Age only})$$</div>
+
+<h4>The Peril of Conditioning on BMI ($B$):</h4>
+
+<p>Suppose an epidemiologist includes BMI ($B$) in their regression model.</p>
+
+<ol>
+
+  <li>Over-controlling (Mediator Blocking): $B$ is on the causal path $X \to B \to Y$. Conditioning on $B$ blocks the indirect causal effect of exercise mediated through weight loss!</li>
+
+  <li>Collider Stratification Bias (M-Bias): In Path 4, $B$ is a collider between Age $A$ and unobserved genetics $S$ ($A \to B \leftarrow S$). Conditioning on $B$ <em>opens</em> Path 4:</li>
+
+</ol>
+
+<div class="math-display">$$X \longleftarrow A \longrightarrow [B] \longleftarrow S \longrightarrow Y$$</div>
+
+<p>This creates a spurious non-causal association between $X$ and $Y$ through unobserved genetics $S$! Controlling for BMI is a severe methodological blunder. The total causal effect is uniquely identified by adjusting strictly for Age: $\mathbf{Z} = \{A\}$.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 6.2: Instrumental Variables Wald Estimator and Weak Instrument Test</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An educational economist investigates the causal effect of completing an elite coding bootcamp ($X \in \{0, 1\}$) on annual software engineering salary ($Y$, in thousands of dollars). Because motivated, high-ability students are more likely to enroll in the bootcamp, OLS regression of $Y$ on $X$ is confounded by unobserved innate ability $U$. The admissions lottery randomly awards tuition vouchers ($Z \in \{0, 1\}$) to applicants:</p>
+
+<ul>
+
+  <li>$Z = 1$: Applicant randomly awarded voucher.</li>
+
+  <li>$Z = 0$: Applicant not awarded voucher.</li>
+
+</ul>
+
+<p>Across a sample of $N = 2,000$ applicants:</p>
+
+<ul>
+
+  <li>Reduced-form salary outcomes:</li>
+
+  <li>Mean salary for voucher winners: $\mathbb{E}[Y \mid Z = 1] = \$92.4\text{k}$.</li>
+
+  <li>Mean salary for non-winners: $\mathbb{E}[Y \mid Z = 0] = \$84.0\text{k}$.</li>
+
+  <li>First-stage bootcamp completion rates:</li>
+
+  <li>Bootcamp completion rate for voucher winners: $\mathbb{E}[X \mid Z = 1] = 0.70$ ($70\%$).</li>
+
+  <li>Bootcamp completion rate for non-winners: $\mathbb{E}[X \mid Z = 0] = 0.22$ ($22\%$).</li>
+
+  <li>First-stage regression coefficient standard error: $\mathrm{SE}(\hat{\gamma}_1) = 0.040$.</li>
+
+</ul>
+
+<ol>
+
+  <li>Compute the First-Stage Compliance Contrast and the Intention-to-Treat (ITT) effect.</li>
+
+  <li>Compute the Instrumental Variables Wald Estimator $\hat{\beta}_{\text{IV}}$ (Local Average Treatment Effect of bootcamp completion).</li>
+
+  <li>Compute the First-Stage $F$-statistic and evaluate whether the lottery voucher is a weak instrument under the Stock-Yogo criterion.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-res-meth-6-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-res-meth-6-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Compute First-Stage Compliance and ITT Effect</div>
+              
+              <div class="step-explanation"><p>The First-Stage compliance contrast is the change in the probability of bootcamp completion induced by winning the voucher:</p>
+
+<div class="math-display">$$\Delta X = \mathbb{E}[X \mid Z = 1] - \mathbb{E}[X \mid Z = 0] = 0.70 - 0.22 = \mathbf{0.48} \quad (48.0\%)$$</div>
+
+<p>Winning the voucher increases the probability of completing the bootcamp by $48$ percentage points. The Reduced-Form Intention-to-Treat (ITT) effect is the average difference in salary between voucher winners and non-winners:</p>
+
+<div class="math-display">$$\mathrm{ITT}_Y = \mathbb{E}[Y \mid Z = 1] - \mathbb{E}[Y \mid Z = 0] = 92.4 - 84.0 = \mathbf{+\$8.4\text{k}} \quad (\$8,400)$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute the Wald Estimator ($\tau_{\text{LATE}}$)</div>
+              
+              <div class="step-explanation"><p>The Wald IV estimator is the ratio of the reduced-form ITT effect to the first-stage compliance contrast:</p>
+
+<div class="math-display">$$\hat{\beta}_{\text{IV}} = \frac{\mathbb{E}[Y \mid Z = 1] - \mathbb{E}[Y \mid Z = 0]}{\mathbb{E}[X \mid Z = 1] - \mathbb{E}[X \mid Z = 0]} = \frac{\mathrm{ITT}_Y}{\Delta X}$$</div>
+
+<p>Substitute the numerical values:</p>
+
+<div class="math-display">$$\hat{\beta}_{\text{IV}} = \frac{8.4}{0.48} = \mathbf{+\$17.5\text{k}} \quad (\$17,500)$$</div>
+
+<p>The Local Average Treatment Effect (LATE) of completing the coding bootcamp is an increase in annual salary of $\$17,500$ for the Compliers—students whose decision to complete the bootcamp was actively triggered by winning the tuition voucher.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Calculate First-Stage $F$-Statistic and Test for Weak Instrument</div>
+              
+              <div class="step-explanation"><p>In the first-stage linear regression $X_i = \gamma_0 + \gamma_1 Z_i + \nu_i$: The estimated coefficient is $\hat{\gamma}_1 = \Delta X = 0.48$. The standard error is $\mathrm{SE}(\hat{\gamma}_1) = 0.040$. The $t$-statistic for the instrument is:</p>
+
+<div class="math-display">$$t = \frac{\hat{\gamma}_1}{\mathrm{SE}(\hat{\gamma}_1)} = \frac{0.48}{0.040} = 12.0$$</div>
+
+<p>For a single instrumental variable, the first-stage $F$-statistic is simply the square of the $t$-statistic:</p>
+
+<div class="math-display">$$F = t^2 = (12.0)^2 = \mathbf{144.0}$$</div>
+
+<p>Evaluate against the Stock-Yogo weak instrument benchmarks:</p>
+
+<ul>
+
+  <li>Traditional rule of thumb: $F &gt; 10$.</li>
+
+  <li>Stock-Yogo critical value for $10\%$ maximal IV relative bias: $F = 16.38$.</li>
+
+</ul>
+
+<p>Because $F = 144.0 \gg 16.38$, the voucher lottery is an extraordinarily strong instrument. Weak instrument bias is completely ruled out, and finite-sample inference is reliable.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 6.3: Difference-in-Differences with Parallel Trends Verification</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A municipal health department evaluates the impact of an urban sugar-sweetened beverage excise tax introduced on January 1, 2024, in City A ($D = 1$). Neighboring City B did not enact a beverage tax ($D = 0$). An observational panel tracks average monthly consumption of sugary beverages (liters per capita):</p>
+
+<ul>
+
+  <li>2022 (Pre-tax Baseline 1): City A = $14.2$, City B = $12.1$</li>
+
+  <li>2023 (Pre-tax Baseline 2): City A = $14.0$, City B = $11.9$</li>
+
+  <li>2024 (Post-tax Year 1): City A = $11.2$, City B = $11.8$</li>
+
+</ul>
+
+<ol>
+
+  <li>Test the Parallel Trends Assumption during the pre-tax period (2022 to 2023).</li>
+
+  <li>Calculate the Difference-in-Differences estimator $\hat{\tau}_{\text{DiD}}$ of the causal effect of the beverage tax.</li>
+
+  <li>Formulate the standard Two-Way Fixed Effects regression equation and interpret the interaction parameter.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-res-meth-6-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-res-meth-6-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Verify the Parallel Trends Assumption Pre-Intervention</div>
+              
+              <div class="step-explanation"><p>The parallel trends assumption demands that prior to the intervention, both cities followed identical trajectories: Compute change from 2022 to 2023 in City A (Treatment):</p>
+
+<div class="math-display">$$\Delta_{\text{City A, pre}} = Y_{\text{A}, 2023} - Y_{\text{A}, 2022} = 14.0 - 14.2 = \mathbf{-0.2 \text{ liters}}$$</div>
+
+<p>Compute change from 2022 to 2023 in City B (Control):</p>
+
+<div class="math-display">$$\Delta_{\text{City B, pre}} = Y_{\text{B}, 2023} - Y_{\text{B}, 2022} = 11.9 - 12.1 = \mathbf{-0.2 \text{ liters}}$$</div>
+
+<p>Compute the pre-treatment differential trend:</p>
+
+<div class="math-display">$$\Delta_{\text{pre-trend}} = \Delta_{\text{City A, pre}} - \Delta_{\text{City B, pre}} = -0.2 - (-0.2) = \mathbf{0.0 \text{ liters}}$$</div>
+
+<p>Both cities experienced the identical $0.2\text{ liter}$ decline prior to the policy. The parallel trends assumption is verified during the pre-treatment window.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Calculate the Difference-in-Differences Estimator</div>
+              
+              <div class="step-explanation"><p>Using 2023 as the baseline pre-period and 2024 as the post-period:</p>
+
+<ul>
+
+  <li>Observed change in Treatment City A:</li>
+
+</ul>
+
+<div class="math-display">$$\Delta_{\text{Treat}} = Y_{\text{A}, 2024} - Y_{\text{A}, 2023} = 11.2 - 14.0 = \mathbf{-2.8 \text{ liters}}$$</div>
+
+<ul>
+
+  <li>Observed change in Control City B:</li>
+
+</ul>
+
+<div class="math-display">$$\Delta_{\text{Control}} = Y_{\text{B}, 2024} - Y_{\text{B}, 2023} = 11.8 - 11.9 = \mathbf{-0.1 \text{ liters}}$$</div>
+
+<p>Compute the Difference-in-Differences:</p>
+
+<div class="math-display">$$\hat{\tau}_{\text{DiD}} = \Delta_{\text{Treat}} - \Delta_{\text{Control}} = (-2.8) - (-0.1) = \mathbf{-2.7 \text{ liters per capita}}$$</div>
+
+<p>The beverage excise tax caused a causal reduction of $2.7$ liters of sugary beverage consumption per capita per month.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the Two-Way Fixed Effects Specification</div>
+              
+              <div class="step-explanation"><p>The regression model estimated on monthly panel data is:</p>
+
+<div class="math-display">$$Y_{it} = \beta_0 + \beta_1 \mathrm{Treat}_i + \beta_2 \mathrm{Post}_t + \tau (\mathrm{Treat}_i \times \mathrm{Post}_t) + \epsilon_{it}$$</div>
+
+<p>where:</p>
+
+<ul>
+
+  <li>$\mathrm{Treat}_i = 1$ for City A, $0$ for City B.</li>
+
+  <li>$\mathrm{Post}_t = 1$ for Year 2024, $0$ for Year 2023.</li>
+
+  <li>$\beta_1 = 14.0 - 11.9 = +2.1$ captures the permanent baseline difference between City A and City B.</li>
+
+  <li>$\beta_2 = -0.1$ captures the secular macroeconomic time trend common to both cities.</li>
+
+  <li>The interaction coefficient $\tau = \mathbf{-2.7}$ is the true causal DiD effect of the excise tax.</li>
+
+</ul></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="statistical-computing-with-python-and-r">Statistical Computing</a><a href="mathematical-statistics">Mathematical Statistics</a><a href="statistical-estimation">Statistical Estimation</a><a href="demography-and-population-statistics">Demography and Population Statistics</a><a href="economic-statistics">Economic Statistics</a><a href="epidemiological-statistics">Epidemiological Statistics</a><a href="industrial-and-official-statistics">Industrial and Official Statistics</a><a href="actuarial-statistics-and-mathematical-demography">Actuarial Statistics</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Course Stat H-309 Research Methodology &amp; Stat H-413 Research Project)</a></li><li><a href="https://openstemlibrary.com/references/pearl-causality" target="_blank" rel="noopener noreferrer">Pearl, J. (2009). Causality: Models, Reasoning, and Inference (2nd ed.): Definitive mathematical formulation of Directed Acyclic Graphs (DAGs), d-separation, backdoor criterion, and structural causal models</a></li><li><a href="https://openstemlibrary.com/references/groves-survey-methodology" target="_blank" rel="noopener noreferrer">Groves, R.M., Fowler, F.J., Couper, M.P., Lepkowski, J.M., Singer, E., &amp; Tourangeau, R. (2009). Survey Methodology (2nd ed.): Authoritative treatise on Total Survey Error (TSE), questionnaire design, nonresponse adjustment, and cognitive response models</a></li><li><a href="https://openstemlibrary.com/references/cohen-power-analysis" target="_blank" rel="noopener noreferrer">Cohen, J. (1988). Statistical Power Analysis for the Behavioral Sciences (2nd ed.): Foundational text on effect size indices (d, r, f^2, w), non-central distributions, and analytical sample size determination</a></li><li><a href="https://openstemlibrary.com/references/angrist-pischke-mostly-harmless-econometrics" target="_blank" rel="noopener noreferrer">Angrist, J.D., &amp; Pischke, J.-S. (2009). Mostly Harmless Econometrics: An Empiricist's Companion: Rigorous treatment of instrumental variables (2SLS), regression discontinuity designs (RDD), and difference-in-differences (DiD)</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="statistical-research-methods-chapter-5">← Previous chapter</a><a href="statistical-research-methods">Book contents</a><a href="statistical-research-methods-chapter-7">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="statistical-research-methods-sims.js?v=1"></script>
+  <script src="statistical-research-methods-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

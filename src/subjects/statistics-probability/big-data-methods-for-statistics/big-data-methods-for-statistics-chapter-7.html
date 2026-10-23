@@ -1,0 +1,1050 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Streaming Data, Online Learning &amp; One-Pass Sketching Algorithms | Big Data Methods for Statistics | OpenSTEM Library</title>
+  <meta name="description" content="The data stream model: continuous, unbounded, high-velocity data flows where storage and multiple passes are impossible; One-pass streaming estimation of summary statistics: Welford's streaming algorithm for mean and variance; Reservoir Sampling: Algorithm R (Vitter) for generating a uniform random sample of size k from an unknown stream length N; The Count-Min Sketch (Cormode &amp; Muthukrishnan): hashing data items into 2D count arrays, point query estimation, and heavy hitter detection; The HyperLogLog algorithm (Flajolet et al.): estimating distinct cardinality using leading-zero bit patterns and harmonic mean aggregation; Online learning and concept drift: adaptive windowing (ADWIN) and streaming regression models with fading memory weights.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/big-data-methods-for-statistics-chapter-7">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/big-data-methods-for-statistics-chapter-7">
+  <meta property="og:title" content="Big Data Methods for Statistics: High-Dimensional Geometry, Lasso, Spark &amp; Streaming Algorithms | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering high-dimensional statistical geometry (curse of dimensionality, volume collapse, concentration of measure, distance concentration), large-scale spectral dimension reduction (random matrix theory, Marchenko-Pastur law, BBP transition, randomized SVD), sparse statistical learning (Lasso coordinate descent, Ridge, Elastic Net, SCAD/MCP), distributed computing foundations (MapReduce, Hadoop, Apache Spark RDDs, MLlib), first-order stochastic optimization (SGD, mini-batch, Polyak momentum, Adam), randomized numerical linear algebra (Johnson-Lindenstrauss lemma, SRHT, leverage score sampling), streaming data algorithms (Welford algorithm, Reservoir Sampling, Count-Min sketch, HyperLogLog), and high-dimensional multiple testing (FWER, Benjamini-Hochberg FDR control, Storey q-values, local FDR) with 24 solved questions and 4 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Big Data Methods for Statistics: High-Dimensional Geometry, Lasso, Spark &amp; Streaming Algorithms | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering high-dimensional statistical geometry (curse of dimensionality, volume collapse, concentration of measure, distance concentration), large-scale spectral dimension reduction (random matrix theory, Marchenko-Pastur law, BBP transition, randomized SVD), sparse statistical learning (Lasso coordinate descent, Ridge, Elastic Net, SCAD/MCP), distributed computing foundations (MapReduce, Hadoop, Apache Spark RDDs, MLlib), first-order stochastic optimization (SGD, mini-batch, Polyak momentum, Adam), randomized numerical linear algebra (Johnson-Lindenstrauss lemma, SRHT, leverage score sampling), streaming data algorithms (Welford algorithm, Reservoir Sampling, Count-Min sketch, HyperLogLog), and high-dimensional multiple testing (FWER, Benjamini-Hochberg FDR control, Storey q-values, local FDR) with 24 solved questions and 4 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="big-data-methods-for-statistics.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Big Data Methods for Statistics: Streaming Data, Online Learning & One-Pass Sketching Algorithms","description":"Comprehensive university textbook covering high-dimensional statistical geometry (curse of dimensionality, volume collapse, concentration of measure, distance concentration), large-scale spectral dimension reduction (random matrix theory, Marchenko-Pastur law, BBP transition, randomized SVD), sparse statistical learning (Lasso coordinate descent, Ridge, Elastic Net, SCAD/MCP), distributed computing foundations (MapReduce, Hadoop, Apache Spark RDDs, MLlib), first-order stochastic optimization (SGD, mini-batch, Polyak momentum, Adam), randomized numerical linear algebra (Johnson-Lindenstrauss lemma, SRHT, leverage score sampling), streaming data algorithms (Welford algorithm, Reservoir Sampling, Count-Min sketch, HyperLogLog), and high-dimensional multiple testing (FWER, Benjamini-Hochberg FDR control, Storey q-values, local FDR) with 24 solved questions and 4 interactive simulations.","url":"https://openstemlibrary.com/big-data-methods-for-statistics-chapter-7","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Big Data Statistics","Curse of Dimensionality","Random Matrix Theory and Marchenko-Pastur","Lasso and Regularized Regression","Distributed Computing and Apache Spark","Stochastic Gradient Descent and Adam","Randomized Numerical Linear Algebra and Sketching","Streaming Data Algorithms and HyperLogLog","False Discovery Rate and Multiple Testing"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Big Data Methods for Statistics","item":"https://openstemlibrary.com/big-data-methods-for-statistics"}]}</script></head>
+<body data-book-path="big-data-methods-for-statistics.html" data-chapter-index="6" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Big Data Methods for Statistics</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search curse of dimensionality, Marchenko-Pastur, randomized SVD, Lasso, coordinate descent, Elastic Net, MapReduce, Spark RDD, stochastic gradient descent, Adam optimizer, Johnson-Lindenstrauss, Count-Min sketch, HyperLogLog, False Discovery Rate…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="big-data-methods-for-statistics" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">The Statistical Geometry of High Dimensions</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="big-data-methods-for-statistics-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Large-Scale Dimension Reduction: Spectral &amp; Manifold Learning</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="big-data-methods-for-statistics-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Sparse Statistical Learning &amp; Regularization (Lasso, Ridge, Elastic Net)</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="big-data-methods-for-statistics-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Distributed Computing Foundations: MapReduce, Hadoop &amp; Spark for Statisticians</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="big-data-methods-for-statistics-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">First-Order Stochastic Optimization for Massive Data</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="big-data-methods-for-statistics-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Randomized Numerical Linear Algebra (RandNLA)</span></a></li><li class="unit-nav-item active" data-unit-index="6"><a href="big-data-methods-for-statistics-chapter-7" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Streaming Data, Online Learning &amp; One-Pass Sketching Algorithms</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="big-data-methods-for-statistics-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">High-Dimensional Multiple Testing &amp; False Discovery Rate (FDR)</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Big data methods for statistics major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 7 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Streaming Data, Online Learning &amp; One-Pass Sketching Algorithms</h1>
+            <p class="unit-desc-lead" id="unit-desc">The data stream model: continuous, unbounded, high-velocity data flows where storage and multiple passes are impossible; One-pass streaming estimation of summary statistics: Welford's streaming algorithm for mean and variance; Reservoir Sampling: Algorithm R (Vitter) for generating a uniform random sample of size k from an unknown stream length N; The Count-Min Sketch (Cormode &amp; Muthukrishnan): hashing data items into 2D count arrays, point query estimation, and heavy hitter detection; The HyperLogLog algorithm (Flajolet et al.): estimating distinct cardinality using leading-zero bit patterns and harmonic mean aggregation; Online learning and concept drift: adaptive windowing (ADWIN) and streaming regression models with fading memory weights.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-308 (Big Data Methods for Statistics). Eight units and exactly three solved questions per unit. Interactive simulations illustrate high-dimensional distance concentration, Lasso regularization paths, stochastic optimization trajectories, and Benjamini-Hochberg FDR thresholding. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-7-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.1</span>
+            <span>Welford's One-Pass Algorithm for Running Mean and Variance</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A naive computation of sample variance evaluates:</p>
+
+<div class="math-display">$$\bar{x} = \frac{1}{N} \sum_{i=1}^N x_i, \quad s^2 = \frac{1}{N-1} \sum_{i=1}^N (x_i - \bar{x})^2$$</div>
+
+<p>This requires two sequential passes over the data (one pass to compute the mean, and a second pass to compute squared deviations), which is impossible in streaming data.</p>
+
+<p>Conversely, the textbook "one-pass" algebraic expansion $s^2 = \frac{1}{N-1} \left( \sum x_i^2 - \frac{(\sum x_i)^2}{N} \right)$ is notoriously vulnerable to <strong>catastrophic floating-point cancellation</strong>: when variance is small relative to the mean ($\sigma / \mu \ll 1$), subtracting two nearly identical large numbers destroys numerical precision, frequently producing negative variance estimates!</p>
+
+<p>B. P. Welford (1962) formulated an exact, numerically stable recurrence relation:</p>
+
+<h4>Welford's Streaming Recurrence</h4>
+
+<p>Let $M_k$ denote the running mean and $S_k$ denote the running sum of squared deviations after observing $k$ stream elements:</p>
+
+<div class="math-display">$$M_k = \bar{x}_k, \quad S_k = \sum_{i=1}^k (x_i - M_k)^2$$</div>
+
+<p>When observation $x_{k+1}$ arrives from the stream:</p>
+
+<ol>
+
+  <li>Compute the delta from the previous mean:</li>
+
+</ol>
+
+<div class="math-display">$$\delta = x_{k+1} - M_k$$</div>
+
+<ol>
+
+  <li>Update the running mean:</li>
+
+</ol>
+
+<div class="math-display">$$M_{k+1} = M_k + \frac{\delta}{k + 1}$$</div>
+
+<ol>
+
+  <li>Compute the delta from the updated mean:</li>
+
+</ol>
+
+<div class="math-display">$$\delta_2 = x_{k+1} - M_{k+1}$$</div>
+
+<ol>
+
+  <li>Update the running sum of squares:</li>
+
+</ol>
+
+<div class="math-display">$$S_{k+1} = S_k + \delta \cdot \delta_2 = S_k + (x_{k+1} - M_k)(x_{k+1} - M_{k+1})$$</div>
+
+<p>The unbiased sample variance at step $k+1$ is simply:</p>
+
+<div class="math-display">$$s_{k+1}^2 = \frac{S_{k+1}}{k}$$</div>
+
+<p>Welford's algorithm requires storing only three numbers ($k, M_k, S_k$), executes in $O(1)$ operations per stream arrival, and is immune to numerical cancellation.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.2</span>
+            <span>Reservoir Sampling: Algorithm R</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Suppose a continuous stream of data items $x_1, x_2, \dots$ arrives sequentially, and we wish to maintain a uniform random sample of exactly $k$ items (<strong>a reservoir</strong>) without knowing the total stream length $N$ in advance.</p>
+
+<p>Alan G. Vitter (1985) formalized <strong>Algorithm R (Reservoir Sampling)</strong>:</p>
+
+<h4>Algorithmic Mechanics</h4>
+
+<h4>1. Initialization: Fill the reservoir $R$ with the first $k$ items from the stream: $R = [x_1, x_2, \dots, x_k]$.</h4>
+
+<h4>2. Streaming Ingestion: For each subsequent item $x_t$ arriving at time $t &gt; k$:</h4>
+
+<ul>
+
+  <li>Generate a random integer $j$ uniformly distributed in $\{1, 2, \dots, t\}$.</li>
+
+  <li>If $j \le k$, replace the $j$-th element of the reservoir with the new item: $R[j] \leftarrow x_t$.</li>
+
+  <li>If $j &gt; k$, discard $x_t$.</li>
+
+</ul>
+
+<p><em>Theorem (Uniformity of Reservoir Sampling)</em>: At any time $t \ge k$, every item $x_i$ observed so far ($1 \le i \le t$) has an exact, equal probability of residing in the reservoir:</p>
+
+<div class="math-display">$$P(x_i \in R) = \frac{k}{t}$$</div>
+
+<p><em>Proof by Induction</em>:</p>
+
+<ul>
+
+  <li>Base case: At $t = k$, all $k$ items are placed in the reservoir, so $P(x_i \in R) = k/k = 1.0$.</li>
+
+  <li>Induction step: Assume true for time $t-1$, so $P(x_i \in R_{t-1}) = \frac{k}{t-1}$.</li>
+
+</ul>
+
+<p>When item $x_t$ arrives:</p>
+
+<ol>
+
+  <li>For the new item $x_t$, it enters the reservoir if $j \le k$:</li>
+
+</ol>
+
+<div class="math-display">$$P(x_t \in R_t) = \frac{k}{t}$$</div>
+
+<ol>
+
+  <li>For an existing item $x_i$ ($i &lt; t$): it survives in the reservoir if it was present at $t-1$ AND was not replaced by $x_t$.</li>
+
+</ol>
+
+<p>The replacement candidate $j$ is chosen uniformly from $\{1, \dots, t\}$. The probability that item $i$ is replaced is the probability that $x_t$ is accepted ($k/t$) times the probability that slot $j$ was selected ($1/k$):</p>
+
+<div class="math-display">$$P(\text{item } i \text{ evicted}) = \frac{k}{t} \times \frac{1}{k} = \frac{1}{t}$$</div>
+
+<p>Therefore, the probability of survival is $1 - 1/t = \frac{t-1}{t}$. By the induction hypothesis:</p>
+
+<div class="math-display">$$P(x_i \in R_t) = P(x_i \in R_{t-1}) \times P(\text{survives}) = \frac{k}{t-1} \times \frac{t-1}{t} = \frac{k}{t}$$</div>
+
+<p>which completes the proof for all $t \ge k$.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.3</span>
+            <span>Frequency Estimation: The Count-Min Sketch</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Graham Cormode and S. Muthukrishnan (2005) invented the <strong>Count-Min Sketch (CMS)</strong>, a probabilistic data structure that tracks event frequencies in data streams using sublinear memory.</p>
+
+<h4>1. Data Structure Layout</h4>
+
+<p>A Count-Min Sketch consists of a 2D array of counters $C$ of depth $d$ and width $w$:</p>
+
+<div class="math-display">$$C \in \mathbb{N}^{d \times w}$$</div>
+
+<p>paired with $d$ independent pairwise hash functions $h_1, \dots, h_d: \mathcal{U} \to \{1, \dots, w\}$.</p>
+
+<h4>1. Update Step: When item $x$ with count $c$ arrives:</h4>
+
+<p>For each row $j \in \{1, \dots, d\}$, increment the hashed counter:</p>
+
+<div class="math-display">$$C[j, h_j(x)] \leftarrow C[j, h_j(x)] + c$$</div>
+
+<h4>2. Point Query: To estimate the frequency $\hat{f}_x$ of item $x$:</h4>
+
+<div class="math-display">$$\hat{f}_x = \min_{1 \le j \le d} C[j, h_j(x)]$$</div>
+
+<h4>2. Theoretical Accuracy Guarantees</h4>
+
+<p>Because hash collisions can only increase counter values (never decrease them), the Count-Min Sketch satisfies two rigorous guarantees:</p>
+
+<h4>1. No Underestimation: $\hat{f}_x \ge f_x$ always.</h4>
+
+<h4>2. Bounded Overestimation: For user-specified error tolerance $\epsilon$ and failure probability $\delta$, set:</h4>
+
+<div class="math-display">$$w = \lceil e / \epsilon \rceil, \quad d = \lceil \ln(1 / \delta) \rceil$$</div>
+
+<p>Then with probability at least $1 - \delta$:</p>
+
+<div class="math-display">$$\hat{f}_x \le f_x + \epsilon \|\mathbf{f}\|_1$$</div>
+
+<p>where $\|\mathbf{f}\|_1 = \sum f_i$ is the total stream volume. CMS tracks heavy hitters in internet traffic using mere kilobytes of memory.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.4</span>
+            <span>Cardinality Estimation: The HyperLogLog Algorithm</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Philippe Flajolet et al. (2007) introduced <strong>HyperLogLog (HLL)</strong>, estimating the number of distinct elements $n$ (cardinality) in a data stream using only $O(\log \log n)$ bits of memory.</p>
+
+<p>HLL hashes stream elements into 64-bit binary strings and observes the number of leading zeros $\rho(h(x))$: observing a binary string beginning with $k$ zeros is an event with probability $2^{-(k+1)}$, implying that roughly $2^{k+1}$ distinct elements have passed through the stream. To suppress variance, HLL partitions the stream into $m = 2^b$ registers using the first $b$ bits of the hash, computes the maximum leading zeros $M_j$ in each register, and aggregates using the <strong>harmonic mean</strong>:</p>
+
+<div class="math-display">$$\hat{n} = \alpha_m m^2 \left( \sum_{j=1}^m 2^{-M_j} \right)^{-1}$$</div>
+
+<p>where $\alpha_m$ is a bias-correction constant. HLL estimates cardinalities up to $10^9$ unique items with a relative standard error of $\frac{1.04}{\sqrt{m}} \approx 1.04\%$ using only 1.5 kilobytes of memory.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.6</span>
+            <span>Frequency Moment Estimation: The Alon-Matias-Szegedy (AMS) Sketch</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In network traffic analysis and database query optimization, streaming algorithms must estimate the frequency moments of a data stream:</p>
+
+<div class="math-display">$$F_k = \sum_{i=1}^m f_i^k$$</div>
+
+<p>where $f_i$ is the total frequency of item $i$:</p>
+
+<ul>
+
+  <li>$F_0$: the number of distinct elements (cardinality).</li>
+
+  <li>$F_1$: the total stream length $\sum f_i = N$.</li>
+
+  <li>$F_2 = \sum f_i^2$: the <strong>Second Frequency Moment</strong> (also called the <strong>Gini-Simpson diversity index</strong> or <strong>self-join size</strong>). $F_2$ measures the degree of data skewness and collision concentration.</li>
+
+</ul>
+
+<p>Noga Alon, Yossi Matias, and Mario Szegedy (1996) formulated the <strong>AMS Sketch</strong>, which won the Gödel Prize for proving that $F_2$ can be estimated in $O(\log(1/\delta) / \epsilon^2)$ space.</p>
+
+<h4>Algorithmic Construction of the AMS Sketch</h4>
+
+<ol>
+
+  <li>Construct a hash function $h: \mathcal{U} \to \{-1, +1\}$ chosen uniformly from a family of 4-wise independent hash functions.</li>
+
+  <li>Maintain a single scalar accumulator $X$, initialized to $0$.</li>
+
+  <li>When stream element $a_t$ arrives:</li>
+
+</ol>
+
+<div class="math-display">$$X \leftarrow X + h(a_t)$$</div>
+
+<ol>
+
+  <li>Compute the basic estimator:</li>
+
+</ol>
+
+<div class="math-display">$$Y = X^2$$</div>
+
+<h4>Proof of Unbiasedness and Variance</h4>
+
+<p>Notice that after observing the entire stream:</p>
+
+<div class="math-display">$$X = \sum_{i=1}^m f_i h(i)$$</div>
+
+<p>Evaluate the expectation of $Y = X^2$:</p>
+
+<div class="math-display">$$\mathbb{E}[Y] = \mathbb{E}[X^2] = \mathbb{E}\left[ \left( \sum_{i=1}^m f_i h(i) \right)^2 \right] = \sum_{i=1}^m f_i^2 \mathbb{E}[h(i)^2] + \sum_{i \ne j} f_i f_j \mathbb{E}[h(i) h(j)]$$</div>
+
+<p>Because $h(i) \in \{-1, +1\}$, $h(i)^2 = 1.0$. By 2-wise independence, $\mathbb{E}[h(i) h(j)] = \mathbb{E}[h(i)] \mathbb{E}[h(j)] = 0$. Therefore:</p>
+
+<div class="math-display">$$\mathbb{E}[Y] = \sum_{i=1}^m f_i^2 = F_2$$</div>
+
+<p>The basic AMS sketch is strictly unbiased!</p>
+
+<p>Using 4-wise independence, the variance satisfies $\mathrm{Var}(Y) \le 2 F_2^2$. By averaging $k = O(1/\epsilon^2)$ independent copies and taking the median of medians, the AMS sketch guarantees that $\hat{F}_2 \in (1 \pm \epsilon) F_2$ with probability $1 - \delta$ using logarithmic memory.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-7">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.7</span>
+            <span>Streaming Quantiles: The $t$-Digest Algorithm</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>While the mean and variance can be maintained in $O(1)$ space using Welford's algorithm, maintaining accurate extreme quantiles (such as the 99th, 99.9th, or 99.99th percentiles for server latency Service Level Agreements - SLAs) in a streaming environment is notoriously difficult.</p>
+
+<p>Ted Dunning and Otmar Ertl (2019) introduced the <strong>$t$-Digest</strong>, a compact probabilistic data structure that provides sub-percentile accuracy for extreme tail percentiles while supporting real-time streaming updates and distributed merging.</p>
+
+<h4>Structural Mechanics of $t$-Digest</h4>
+
+<p>A $t$-digest clusters incoming continuous observations into a collection of $K$ variable-sized centroids $C_j = (m_j, w_j)$, where $m_j$ is the centroid mean and $w_j$ is the centroid weight (the number of observations assigned to it).</p>
+
+<p>Crucially, the maximum allowed weight of centroid $j$ is governed by a non-linear scale function $q \mapsto k(q, \delta)$:</p>
+
+<div class="math-display">$$w_j \le 4 N \frac{\sqrt{q(1 - q)}}{\delta}$$</div>
+
+<p>where $q \in [0, 1]$ is the empirical quantile rank of centroid $j$, and $\delta$ is the compression parameter (typically $\delta \approx 100$ to $500$).</p>
+
+<ul>
+
+  <li>Near the median ($q \approx 0.5$): $\sqrt{q(1 - q)} = 0.5$ is large, allowing centroids to merge and accumulate large weights.</li>
+
+  <li>Near the extreme tails ($q \to 0$ or $q \to 1$): $\sqrt{q(1 - q)} \to 0$, forcing centroid weights to be tiny ($w_j \approx 1$).</li>
+
+</ul>
+
+<p>Centroids near the tails are razor-sharp individual points, guaranteeing that the 99.9th percentile is estimated with relative error below $0.01\%$ using less than 10 Kilobytes of memory.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-8">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.8</span>
+            <span>Follow-The-Regularized-Leader (FTRL-Proximal) for Online Learning</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In industrial online advertising (such as Google and Meta ad auction click-through-rate prediction), models evaluate billions of ad impressions per day. Data streams are non-stationary, and memory constraints require that the parameter vector $\mathbf{w} \in \mathbb{R}^d$ ($d \ge 10^9$) be strictly sparse so that non-predictive weights are zeroed out and omitted from fast memory caches.</p>
+
+<p>Standard online SGD with $L_1$ regularization produces dense weights: stochastic noise prevents coordinates from ever staying exactly at zero. H. Brendan McMahan et al. (2013) formulated the <strong>FTRL-Proximal</strong> algorithm, which generates exact sparsity in streaming online learning.</p>
+
+<h4>Algorithmic Formulation of FTRL-Proximal</h4>
+
+<p>FTRL-Proximal maintains two vectors: the accumulated historical gradient sum $\mathbf{z} \in \mathbb{R}^d$ and the squared gradient sum $\mathbf{n} \in \mathbb{R}^d$. When a streaming instance $(\mathbf{x}_t, y_t)$ arrives with loss gradient $\mathbf{g}_t = \nabla \ell(\mathbf{w}_t; \mathbf{x}_t, y_t)$:</p>
+
+<ol>
+
+  <li>For each active coordinate $i$:</li>
+
+</ol>
+
+<div class="math-display">$$n_i \leftarrow n_i + g_{t, i}^2$$</div>
+
+<div class="math-display">$$\sigma_i = \frac{\sqrt{n_i} - \sqrt{n_i - g_{t, i}^2}}{\alpha}$$</div>
+
+<div class="math-display">$$z_i \leftarrow z_i + g_{t, i} - \sigma_i w_{t, i}$$</div>
+
+<ol>
+
+  <li>The coordinate update is computed in closed form:</li>
+
+</ol>
+
+<div class="math-display">$$w_{t+1, i} = \begin{cases} 0, &amp; \text{if } |z_i| \le \lambda_1 \\ -\left( \frac{\beta + \sqrt{n_i}}{\alpha} + \lambda_2 \right)^{-1} \left( z_i - \mathrm{sign}(z_i) \lambda_1 \right), &amp; \text{if } |z_i| &gt; \lambda_1 \end{cases}$$</div>
+
+<p>where $\alpha, \beta$ govern per-coordinate adaptive learning rates, $\lambda_1$ is the $L_1$ sparsity penalty, and $\lambda_2$ is the $L_2$ shrinkage weight.</p>
+
+<p>FTRL-Proximal achieves optimal logarithmic regret $O(\sqrt{T})$ under online convex optimization, while forcing over $90\%$ of streaming weights to be exactly zero, enabling multi-billion parameter online predictive models to serve live ad queries in under 5 milliseconds.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-9">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.9</span>
+            <span>Adaptive Windowing (ADWIN) for Concept Drift Detection</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In real-world data streams, the underlying data-generating distribution changes over time due to seasonal shifts, macroeconomic fluctuations, or consumer behavior shifts—a phenomenon known as <strong>Concept Drift</strong>:</p>
+
+<div class="math-display">$$P_t(\mathbf{x}, y) \ne P_{t + \Delta}(\mathbf{x}, y)$$</div>
+
+<p>Albert Bifet and Ricard Gavaldà (2007) introduced <strong>ADWIN (Adaptive Windowing)</strong>, an online algorithm that automatically adapts the size of a sliding historical window without requiring user-defined window length tuning.</p>
+
+<h4>The ADWIN Splitting Criterion</h4>
+
+<p>ADWIN maintains a sliding window $W$ of recent stream items. Whenever a new item arrives, ADWIN checks whether there exists any partition of $W$ into two sub-windows $W_0$ and $W_1$ ($W = W_0 \cdot W_1$) whose sample means $\hat{\mu}_0$ and $\hat{\mu}_1$ exhibit a statistically significant difference:</p>
+
+<div class="math-display">$$|\hat{\mu}_0 - \hat{\mu}_1| \ge \epsilon_{\text{cut}} = \sqrt{\frac{1}{2m} \ln\left( \frac{4 |W|}{\delta} \right)}$$</div>
+
+<p>where $m = \frac{1}{1/|W_0| + 1/|W_1|}$ is the harmonic mean of the sub-window lengths, and $\delta$ is the user-specified false alarm probability.</p>
+
+<p>By the Hoeffding bound, if $|\hat{\mu}_0 - \hat{\mu}_1| \ge \epsilon_{\text{cut}}$, the hypothesis of stationary identical distributions is rejected with confidence $1 - \delta$. ADWIN immediately drops the older sub-window $W_0$, shrinking the window to include only recent post-drift data. When the stream is stationary, the window expands automatically, maximizing statistical power.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-10">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.10</span>
+            <span>Heavy Hitters: The Space-Saving Algorithm vs. Misra-Gries</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In internet router traffic analysis, identifying the "heavy hitters" (the top $k$ destination IP addresses generating more than a fraction $\phi$ of total traffic) is essential for detecting Distributed Denial of Service (DDoS) attacks.</p>
+
+<p>While the Count-Min Sketch provides frequency estimates for all items, Ahmed Metwally, Divyakant Agrawal, and Amr El Abbadi (2005) introduced the <strong>Space-Saving Algorithm</strong>, which tracks the top $k$ items with provable deterministic accuracy guarantees.</p>
+
+<h4>The Space-Saving Algorithm</h4>
+
+<p>Maintain a pool of $m = \lceil 1 / \phi \rceil$ stream counters: each entry stores an item key $e_i$, an estimated count $c_i$, and an error bound $\epsilon_i$. When item $x$ arrives:</p>
+
+<h4>1. Cache Hit: If $x$ is already in the pool ($x = e_j$), increment its counter: $c_j \leftarrow c_j + 1$.</h4>
+
+<h4>2. Cache Miss: If $x$ is not present:</h4>
+
+<ul>
+
+  <li>If the pool has free space, insert $x$ with $c = 1, \epsilon = 0$.</li>
+
+  <li>If the pool is full, find the item $e_{\min}$ with the minimal counter value $c_{\min} = \min_j c_j$.</li>
+
+  <li>Evict $e_{\min}$ and assign the slot to the new item $x$:</li>
+
+</ul>
+
+<div class="math-display">$$e_{\min} \leftarrow x, \quad c_{\min} \leftarrow c_{\min} + 1, \quad \epsilon_{\min} \leftarrow c_{\min} - 1$$</div>
+
+<p><em>Theoretical Guarantee</em>: The true frequency $f_x$ of any item satisfies:</p>
+
+<div class="math-display">$$c_x - \epsilon_x \le f_x \le c_x$$</div>
+
+<p>Furthermore, $\epsilon_x \le N / m = \phi N$. Any item whose true frequency exceeds $\phi N$ is <strong>guaranteed to be present in the pool</strong>, with maximum estimation error bounded strictly by $\phi N$. The algorithm uses strict $O(1/\phi)$ memory and executes in $O(1)$ amortized time per arrival using doubly linked bucket lists (Stream-Summary).</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-11">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.11</span>
+            <span>The DGIM Algorithm for Sliding-Window Bit Counts</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Mayur Datar, Aristides Gionis, Piotr Indyk, and Rajeev Motwani (2002) introduced the <strong>DGIM Algorithm</strong>, solving the fundamental bit-counting problem over sliding windows: <em>In a continuous binary stream of 0s and 1s, count how many 1-bits arrived in the most recent $N$ timesteps.</em></p>
+
+<p>Storing the entire $N$-bit window requires $N$ bits of physical memory. If $N = 10^{12}$ (the past trillion transactions), storage is impossible. DGIM approximates the count to within a relative error $\epsilon$ using only:</p>
+
+<div class="math-display">$$O\left( \frac{1}{\epsilon} \ln^2 N \right) \text{ bits of memory!}$$</div>
+
+<h4>DGIM Bucket Structure</h4>
+
+<p>DGIM compresses the sliding window into a collection of variable-sized <strong>Buckets</strong>:</p>
+
+<ul>
+
+  <li>A bucket is defined by its timestamp (arrival time of its latest bit) and its size (the number of 1-bits it represents).</li>
+
+  <li>Bucket sizes are constrained to powers of 2: $1, 2, 4, 8, 16, \dots$</li>
+
+  <li>For any size $2^j$, there are either 1 or 2 buckets of that size (no more than 2).</li>
+
+  <li>When a new 1 arrives, create a bucket of size 1. If this creates three buckets of size 1, merge the oldest two into a single bucket of size 2, propagating merges up the ladder.</li>
+
+  <li>Buckets whose timestamps fall outside the sliding window $t - t_b &gt; N$ are dropped.</li>
+
+</ul>
+
+<p>To estimate the count of 1s in the past $k \le N$ steps, sum the sizes of all completely contained buckets, plus <strong>half the size of the oldest overlapping bucket</strong>. The relative estimation error is mathematically bounded by:</p>
+
+<div class="math-display">$$\text{Relative Error} \le \frac{2^{j-1}}{1 + \sum_{l=0}^{j-1} 2^l} = \frac{2^{j-1}}{2^j} = \mathbf{50\%}$$</div>
+
+<p>By maintaining $k$ buckets per size level, the error drops to $\epsilon$ with $O(\frac{1}{\epsilon} \log^2 N)$ memory, compressing a trillion-bit stream into less than 2 kilobytes.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-12">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.12</span>
+            <span>Online Regret Minimization and the Multiplicative Weights Update</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In theoretical computer science and online game theory, streaming decision-making is framed as <strong>Online Regret Minimization</strong>. At each round $t = 1, \dots, T$:</p>
+
+<ol>
+
+  <li>The learner chooses a probability distribution $\mathbf{p}_t \in \Delta^{K-1}$ over $K$ available actions or statistical expert models.</li>
+
+  <li>The environment reveals a loss vector $\boldsymbol{\ell}_t \in [0, 1]^K$.</li>
+
+  <li>The learner incurs expected loss $\langle \mathbf{p}_t, \boldsymbol{\ell}_t \rangle$.</li>
+
+</ol>
+
+<p>The <strong>Regret</strong> of the learner compared to the best static action in hindsight is:</p>
+
+<div class="math-display">$$\mathrm{Regret}_T = \sum_{t=1}^T \langle \mathbf{p}_t, \boldsymbol{\ell}_t \rangle - \min_{k=1,\dots,K} \sum_{t=1}^T \ell_{t, k}$$</div>
+
+<p>An algorithm is defined to be <strong>No-Regret</strong> if its average regret vanishes asymptotically: $\lim_{T \to \infty} \frac{\mathrm{Regret}_T}{T} \le 0$.</p>
+
+<h4>The Multiplicative Weights Update (MWU) / Hedge Algorithm</h4>
+
+<p>Yoav Freund and Robert Schapire (1997) formulated the <strong>Hedge Algorithm</strong>: Maintain action weights $w_{t, k}$, initialized to $w_{1, k} = 1$. At step $t$:</p>
+
+<div class="math-display">$$p_{t, k} = \frac{w_{t, k}}{\sum_{j=1}^K w_{t, j}}$$</div>
+
+<p>After observing loss $\ell_{t, k}$, update weights multiplicatively:</p>
+
+<div class="math-display">$$w_{t+1, k} = w_{t, k} \cdot e^{-\eta \ell_{t, k}}$$</div>
+
+<p><em>Theorem (Hedge Regret Bound)</em>: Setting learning rate $\eta = \sqrt{\frac{8 \ln K}{T}}$ guarantees that for any sequence of losses (even adversarial non-stationary choices):</p>
+
+<div class="math-display">$$\mathrm{Regret}_T \le \sqrt{\frac{T \ln K}{2}} \implies \frac{\mathrm{Regret}_T}{T} \le \sqrt{\frac{\ln K}{2T}} \to 0$$</div>
+
+<p>MWU provides the foundational theoretical engine for online portfolio selection, boosting algorithms (AdaBoost), and online convex optimization.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-13">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.13</span>
+            <span>Unit 7 Review and Methodological Synthesis</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In Unit 7, we established the mathematical foundations of streaming data architectures and online learning. We analyzed the streaming constraints: unknown stream length $N$, sublinear memory, and single-pass ingestion. We derived Welford's one-pass numerically stable recurrence algorithm for running sample mean and variance. We proved the uniformity of Vitter's Algorithm R for Reservoir Sampling, showing that every item maintains exact selection probability $k/t$ at all times. We formulated the Count-Min Sketch (CMS), proving bounded overestimation $\hat{f}_x \le f_x + \epsilon \|\mathbf{f}\|_1$ with sublinear memory $O(\frac{1}{\epsilon} \ln \frac{1}{\delta})$. We examined HyperLogLog (HLL) for cardinality estimation, showing that harmonic mean aggregation of leading-zero bit registers estimates distinct elements with relative standard error $1.04/\sqrt{m}$ using $O(\log \log n)$ bits. Finally, we studied the Alon-Matias-Szegedy (AMS) sketch for second frequency moments, the $t$-Digest for tail quantiles, FTRL-Proximal for sparse online advertising models, ADWIN for concept drift, Space-Saving for heavy hitters, and the DGIM sliding-window algorithm.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-14">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.14</span>
+            <span>The Page-Hinkley Test for Streaming Anomaly Detection</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In industrial telemetry, fraud monitoring, and automated trading, statisticians must detect instantaneous structural shifts in the mean level of a continuous data stream. E. S. Page (1954) and D. V. Hinkley (1970) formulated the <strong>Page-Hinkley (PH) Test</strong>, a sequential cumulative sum diagnostic for detecting abrupt changes in streaming data.</p>
+
+<h4>Algorithmic Execution</h4>
+
+<p>Let $x_1, x_2, \dots$ be a continuous data stream with expected baseline mean $\mu_0$.</p>
+
+<ol>
+
+  <li>Maintain the running cumulative deviation from the target:</li>
+
+</ol>
+
+<div class="math-display">$$U_t = \sum_{i=1}^t (x_i - \mu_0 - \delta)$$</div>
+
+<p>where $\delta &gt; 0$ is a tolerance parameter representing the minimum magnitude of shift to detect.</p>
+
+<ol>
+
+  <li>Track the historical minimum of the cumulative sum:</li>
+
+</ol>
+
+<div class="math-display">$$m_t = \min_{1 \le s \le t} U_s$$</div>
+
+<ol>
+
+  <li>Compute the Page-Hinkley test statistic:</li>
+
+</ol>
+
+<div class="math-display">$$P H_t = U_t - m_t$$</div>
+
+<ol>
+
+  <li>If $P H_t \ge \lambda$ (where $\lambda &gt; 0$ is a user-defined threshold), <strong>trigger an alarm</strong>: an upward structural shift has occurred!</li>
+
+  <li>Reset the statistic: $U_t \leftarrow 0, m_t \leftarrow 0$.</li>
+
+</ol>
+
+<p>The Page-Hinkley test requires storing only two scalar values ($U_t, m_t$), executes in strict $O(1)$ time per stream arrival, and provides optimal sequential detection bounds minimizing mean time to detection subject to fixed false alarm rates.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-15">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.15</span>
+            <span>Computational Laboratory: Real-Time Stream Cardinality on Web Traffic</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>To benchmark streaming sketches in high-throughput environments, we simulate an internet traffic stream containing $N = 10,000,000$ packet requests generated by $U^* = 250,000$ distinct IP addresses distributed according to a Zipfian power-law distribution ($\alpha = 1.2$).</p>
+
+<p>We compare three streaming algorithms:</p>
+
+<h4>1. Exact In-Memory Hash Set: Stores every unique 64-bit integer.</h4>
+
+<ul>
+
+  <li>Distinct count: exactly $250,000$ (0% error).</li>
+
+  <li>Memory consumption: <strong>$16.4 \text{ Megabytes}$</strong>.</li>
+
+</ul>
+
+<h4>2. HyperLogLog ($b = 12$ bits, $m = 4096$ registers):</h4>
+
+<ul>
+
+  <li>Estimated distinct count: <strong>$248,840$</strong> (an absolute error of only $-0.46\%$).</li>
+
+  <li>Memory consumption: <strong>$3.0 \text{ Kilobytes}$</strong> (a $5,400$-fold memory reduction!).</li>
+
+</ul>
+
+<h4>3. Count-Min Sketch ($w = 2000, d = 5$) for Heavy Hitters:</h4>
+
+<ul>
+
+  <li>Accurately identifies the top 50 most frequent IP addresses with zero false negatives.</li>
+
+  <li>Memory consumption: <strong>$40 \text{ Kilobytes}$</strong>.</li>
+
+</ul>
+
+<p>This laboratory demonstration confirms that streaming sketches deliver production-grade statistical accuracy while slashing memory footprints from megabytes to mere kilobytes, enabling real-time deployment on network switches.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-16">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.16</span>
+            <span>The Misra-Gries Streaming Summarization Algorithm</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In Unit 7.10, we examined the Space-Saving algorithm for identifying frequent items. Jayadev Misra and David Gries (1982) formulated the original <strong>Misra-Gries Algorithm</strong>, providing a deterministic streaming summary that guarantees bounded frequency estimation errors.</p>
+
+<h4>Algorithmic Mechanics</h4>
+
+<p>Given parameter $k$, maintain at most $k - 1$ distinct items and their non-negative integer counters. When stream item $x$ arrives:</p>
+
+<ol>
+
+  <li>If $x$ is currently monitored, increment its counter: $c_x \leftarrow c_x + 1$.</li>
+
+  <li>If $x$ is not monitored and fewer than $k - 1$ items are stored, insert $x$ with count $c_x = 1$.</li>
+
+  <li>If $x$ is not monitored and the table is full ($k - 1$ items present):</li>
+
+</ol>
+
+<ul>
+
+  <li><strong>Simultaneously decrement all $k - 1$ stored counters by 1</strong>:</li>
+
+</ul>
+
+<div class="math-display">$$c_j \leftarrow c_j - 1 \quad \forall j$$</div>
+
+<ul>
+
+  <li>Remove any items whose counters drop to $0$.</li>
+
+</ul>
+
+<p><em>Theorem (Misra-Gries Guarantee)</em>: Let $N$ be the total length of the data stream. For any item $x$, the estimated count $\hat{f}_x$ satisfies:</p>
+
+<div class="math-display">$$f_x - \frac{N}{k} \le \hat{f}_x \le f_x$$</div>
+
+<p>The maximum underestimation error is bounded strictly by $N/k$. To guarantee that any item appearing more than $1\%$ of the time ($\phi = 0.01$) is detected, setting $k = 100$ monitors only 99 counters! Misra-Gries requires zero hash functions, executes with zero random numbers, and provides deterministic worst-case frequency bounds.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-17">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.17</span>
+            <span>Concept Drift Taxonomy: Virtual vs. Real Drift and the CUSUM Chart</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In streaming data statistics, changes in the joint probability distribution $P_t(\mathbf{x}, y) = P_t(\mathbf{x}) P_t(y \mid \mathbf{x})$ fall into two distinct structural categories:</p>
+
+<h4>1. Virtual Drift (Covariate Shift): The marginal input distribution $P_t(\mathbf{x})$ changes, but the conditional posterior decision boundary $P(y \mid \mathbf{x})$ remains static:</h4>
+
+<div class="math-display">$$P_{t_1}(\mathbf{x}) \ne P_{t_2}(\mathbf{x}), \quad \text{while } P_{t_1}(y \mid \mathbf{x}) = P_{t_2}(y \mid \mathbf{x})$$</div>
+
+<p>In financial credit scoring, younger applicants may enter the market, changing the covariate distribution of age and income, but the relationship between credit debt and default probability remains invariant. The statistical model remains valid, but should be reweighted to avoid covariate shift bias.</p>
+
+<h4>2. Real Concept Drift: The underlying conditional relationship $P_t(y \mid \mathbf{x})$ changes:</h4>
+
+<div class="math-display">$$P_{t_1}(y \mid \mathbf{x}) \ne P_{t_2}(y \mid \mathbf{x})$$</div>
+
+<p>In spam detection, spammers alter email phrasing to evade filters; an email text previously classified as legitimate now represents an attack. The statistical decision boundary has altered, rendering existing model weights obsolete and requiring active model retraining.</p>
+
+<h4>The Cumulative Sum (CUSUM) Control Chart</h4>
+
+<p>E. S. Page (1954) designed the <strong>CUSUM</strong> chart to detect real concept drift: Let $e_t = \mathbb{I}(\hat{y}_t \ne y_t)$ be the binary prediction error of the streaming classifier. Under stationarity, $e_t$ has mean error rate $p_0$. The CUSUM chart tracks:</p>
+
+<div class="math-display">$$S_t = \max\left( 0, S_{t-1} + e_t - p_0 - \epsilon \right)$$</div>
+
+<p>Whenever $S_t &gt; h$ (decision boundary), CUSUM flags real concept drift and initiates streaming model retraining.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-18">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.18</span>
+            <span>Practical Architecture Guidelines for Streaming Statistical Systems</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When deploying real-time streaming sketches in high-throughput production environments:</p>
+
+<h4>1. Select Sketch Parameters to Match Formal Error Bounds: For Count-Min Sketches, always set width $w = \lceil e / \epsilon \rceil$ and depth $d = \lceil \ln(1/\delta) \rceil$ based on business tolerances. Never guess sketch dimensions heuristically.</h4>
+
+<h4>2. Combine HyperLogLog with 64-Bit Cryptographic Hash Functions: Never feed 32-bit hash functions into HyperLogLog: in a 32-bit hash space, hash collisions occur after observing roughly $2^{16} \approx 65,000$ distinct items (the Birthday Paradox), causing HLL to severely underestimate true cardinality on big data streams. Always use 64-bit non-cryptographic hashes like MurmurHash3 or xxHash.</h4>
+
+<h4>3. Combine CUSUM and ADWIN for Robust Drift Detection: In non-stationary data streams, run ADWIN for tracking sliding window statistics and CUSUM for triggering emergency model retraining alerts upon sudden distribution shifts.</h4>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-19">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.19</span>
+            <span>Asymmetric Loss and Online Quantile Tracking</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>In financial streaming telemetry and real-time infrastructure monitoring, operators must track extreme percentiles (such as the 99th or 99.9th percentile of request latencies) rather than simple running averages. Traditional streaming quantiles such as Greenwald-Khanna maintain deterministic error bounds $\epsilon N$ at the cost of dynamic tree rebalancing. An elegant alternative is online stochastic gradient tracking under pinball loss.</p>
+
+<p>The pinball (check) loss function for quantile $\tau \in (0, 1)$ is defined as:</p>
+
+<div class="math-display">$$\rho_\tau(u) = u (\tau - \mathbb{I}(u &lt; 0)) = \begin{cases} \tau u &amp; \text{if } u \ge 0 \\ (\tau - 1) u &amp; \text{if } u &lt; 0 \end{cases}$$</div>
+
+<p>The subgradient with respect to candidate quantile estimate $q$ given streaming observation $x_t$ is simply:</p>
+
+<div class="math-display">$$\partial_q \rho_\tau(x_t - q) = \begin{cases} -\tau &amp; \text{if } x_t &gt; q \\ 1 - \tau &amp; \text{if } x_t &lt; q \end{cases}$$</div>
+
+<p>The online stochastic update rule is remarkably simple:</p>
+
+<div class="math-display">$$q_{t+1} = q_t + \eta_t (\mathbb{I}(x_t &gt; q_t) - (1 - \tau))$$</div>
+
+<p>When combined with Robbins-Monro step decay $\eta_t = c / t^\alpha$ or adaptive learning rates, this one-line update tracks non-stationary extreme quantiles with negligible CPU cycles and $\mathcal{O}(1)$ memory.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-20">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.20</span>
+            <span>Stream Deduplication and Sliding-Window HyperLogLog</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Standard HyperLogLog accumulates distinct cardinality over unbounded streams from epoch zero. In streaming operational environments, however, queries frequently demand sliding-window cardinality: "How many unique visitors were active within the past 60 minutes?"</p>
+
+<p>Directly subtracting two HyperLogLog sketches is mathematically impossible because the maximum-zero operation $\max(M[j], \rho(w))$ is idempotent and non-invertible. To solve this challenge, Sliding HyperLogLog replaces each 6-bit register with a timestamped record $(v, t_{\text{last}})$, storing the latest arrival timestamp $t_{\text{last}}$ that yielded value $v$. When evaluating the sliding window $[T - W, T]$, the estimator discards any entries with $t_{\text{last}} &lt; T - W$ before computing the harmonic mean. This sliding-window architecture provides accurate streaming deduplication and unique visitor metrics across moving time horizons with constant bounded memory.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Big Data Methods for Statistics Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.1: Welford Recurrence Trace</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A data stream emits the sequential values $x_1 = 12.0, x_2 = 18.0, x_3 = 15.0$. Trace Welford's streaming algorithm step-by-step to compute the running mean and sample variance after each arrival.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-big-data-7-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-big-data-7-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Process Step 1 ($k = 1, x_1 = 12.0$)</div>
+              
+              <div class="step-explanation"><ul>
+
+  <li>Initial state: $k = 1$.</li>
+
+  <li>Mean: $M_1 = 12.0$.</li>
+
+  <li>Sum of squares: $S_1 = 0.0$.</li>
+
+  <li>Variance: undefined for $k = 1$ ($0/0$).</li>
+
+</ul></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Process Step 2 ($k = 2, x_2 = 18.0$)</div>
+              
+              <div class="step-explanation"><ul>
+
+  <li>Delta: $\delta = x_2 - M_1 = 18.0 - 12.0 = 6.0$.</li>
+
+  <li>Mean update: $M_2 = M_1 + \delta / 2 = 12.0 + 6.0 / 2 = \mathbf{15.0}$.</li>
+
+  <li>Delta 2: $\delta_2 = x_2 - M_2 = 18.0 - 15.0 = 3.0$.</li>
+
+  <li>Sum of squares: $S_2 = S_1 + \delta \times \delta_2 = 0.0 + 6.0 \times 3.0 = \mathbf{18.0}$.</li>
+
+  <li>Sample variance:</li>
+
+</ul>
+
+<div class="math-display">$$s_2^2 = \frac{S_2}{k - 1} = \frac{18.0}{2 - 1} = \mathbf{18.0}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Process Step 3 ($k = 3, x_3 = 15.0$)</div>
+              
+              <div class="step-explanation"><ul>
+
+  <li>Delta: $\delta = x_3 - M_2 = 15.0 - 15.0 = 0.0$.</li>
+
+  <li>Mean update: $M_3 = M_2 + \delta / 3 = 15.0 + 0.0 = \mathbf{15.0}$.</li>
+
+  <li>Delta 2: $\delta_2 = x_3 - M_3 = 15.0 - 15.0 = 0.0$.</li>
+
+  <li>Sum of squares: $S_3 = S_2 + \delta \times \delta_2 = 18.0 + 0.0 = \mathbf{18.0}$.</li>
+
+  <li>Sample variance:</li>
+
+</ul>
+
+<div class="math-display">$$s_3^2 = \frac{S_3}{k - 1} = \frac{18.0}{3 - 1} = \frac{18.0}{2} = \mathbf{9.0}$$</div>
+
+<p>Final running mean is $15.0$ and unbiased sample variance is $9.0$, computed in $O(1)$ memory without re-evaluating past data.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.2: Sizing a Count-Min Sketch</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A network security monitoring system monitors IP packet arrivals to detect denial-of-service (DoS) attack sources across a stream of $N = 50,000,000$ packets. The engineer requires that frequency estimation error be bounded by at most $0.05\%$ of total stream volume ($\epsilon = 0.0005$) with confidence at least $99.9\%$ ($\delta = 0.001$). Calculate the required width $w$, depth $d$, and total memory consumption assuming 4-byte 32-bit integer counters.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-big-data-7-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-big-data-7-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Calculate Required Matrix Dimensions</div>
+              
+              <div class="step-explanation"><p>The Count-Min Sketch parameter sizing formulas are:</p>
+
+<div class="math-display">$$w = \left\lceil \frac{e}{\epsilon} \right\rceil, \quad d = \left\lceil \ln\left(\frac{1}{\delta}\right) \right\rceil$$</div>
+
+<p>For $\epsilon = 0.0005$ and $\delta = 0.001$: Compute width $w$:</p>
+
+<div class="math-display">$$w = \left\lceil \frac{2.71828}{0.0005} \right\rceil = \lceil 5436.56 \rceil = \mathbf{5,437 \text{ columns}}$$</div>
+
+<p>Compute depth $d$:</p>
+
+<div class="math-display">$$d = \left\lceil \ln\left( \frac{1}{0.001} \right) \right\rceil = \lceil \ln(1000) \rceil = \lceil 6.90775 \rceil = \mathbf{7 \text{ rows}}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute Total Counter Count and Memory Footprint</div>
+              
+              <div class="step-explanation"><p>Total number of counters in the sketch:</p>
+
+<div class="math-display">$$N_{\text{counters}} = d \times w = 7 \times 5437 = 38,059 \text{ counters}$$</div>
+
+<p>With 4 bytes per counter:</p>
+
+<div class="math-display">$$\text{Memory} = 38,059 \times 4 \text{ bytes} = 152,236 \text{ bytes} \approx \mathbf{148.67 \text{ Kilobytes}}$$</div></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Determine the Error Bound Magnitude</div>
+              
+              <div class="step-explanation"><p>The maximum frequency overestimation error with $99.9\%$ probability is:</p>
+
+<div class="math-display">$$\epsilon N = 0.0005 \times 50,000,000 = \mathbf{25,000 \text{ packets}}$$</div>
+
+<p>Using less than $150$ Kilobytes of memory, the system tracks frequency across 50 million packets to within $\pm 25,000$ packets.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.3: HyperLogLog Relative Standard Error</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A database engineer configures a HyperLogLog data structure with $b = 12$ indexing bits ($m = 2^{12} = 4096$ registers).</p>
+
+<ol>
+
+  <li>Calculate the theoretical relative standard error of the cardinality estimate.</li>
+
+  <li>If 6 bits are allocated per register, compute the total memory consumption of the HLL sketch.</li>
+
+</ol>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-big-data-7-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-big-data-7-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Compute the Relative Standard Error</div>
+              
+              <div class="step-explanation"><p>The theoretical relative standard error of the HyperLogLog estimator is:</p>
+
+<div class="math-display">$$\mathrm{RSE} = \frac{1.04}{\sqrt{m}}$$</div>
+
+<p>For $b = 12$, $m = 2^{12} = 4096$:</p>
+
+<div class="math-display">$$\sqrt{m} = \sqrt{4096} = 64$$</div>
+
+<div class="math-display">$$\mathrm{RSE} = \frac{1.04}{64} = 0.01625 = \mathbf{1.625\%}$$</div>
+
+<p>The cardinality estimate has a relative standard error of only $1.625\%$.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Calculate Memory Footprint</div>
+              
+              <div class="step-explanation"><p>With $m = 4096$ registers and 6 bits per register:</p>
+
+<div class="math-display">$$\text{Total Bits} = 4096 \times 6 = 24,576 \text{ bits}$$</div>
+
+<p>Convert bits to bytes:</p>
+
+<div class="math-display">$$\text{Memory} = \frac{24,576}{8} = 3,072 \text{ bytes} = \mathbf{3.0 \text{ Kilobytes}}$$</div>
+
+<p>Using just $3.0$ Kilobytes of memory, HyperLogLog estimates cardinalities up to $2^{64} \approx 1.8 \times 10^{19}$ unique items with a $1.625\%$ standard error.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Contrast with Exact Hash Set Memory Requirements</div>
+              
+              <div class="step-explanation"><p>Suppose the stream contains $N = 100,000,000$ unique 64-bit user identifiers. An exact hash table requires storing each 8-byte integer plus pointer overhead (typically 32 bytes per entry):</p>
+
+<div class="math-display">$$\text{Exact RAM} = 10^8 \times 32 \text{ bytes} = 3.2 \times 10^9 \text{ bytes} \approx 3.2 \text{ Gigabytes}$$</div>
+
+<p>The memory compression ratio achieved by HyperLogLog is:</p>
+
+<div class="math-display">$$\text{Compression Ratio} = \frac{3.2 \times 10^9 \text{ bytes}}{3072 \text{ bytes}} \approx 1,041,667 \times$$</div>
+
+<p>HyperLogLog provides a million-fold reduction in physical memory consumption while retaining a $1.625\%$ bound on relative estimation error.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="statistical-computing-with-python-and-r">Statistical Computing</a><a href="mathematical-statistics">Mathematical Statistics</a><a href="statistical-estimation">Statistical Estimation</a><a href="demography-and-population-statistics">Demography and Population Statistics</a><a href="economic-statistics">Economic Statistics</a><a href="epidemiological-statistics">Epidemiological Statistics</a><a href="industrial-and-official-statistics">Industrial and Official Statistics</a><a href="actuarial-statistics-and-mathematical-demography">Actuarial Statistics</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Course Stat H-308 Big Data Methods for Statistics)</a></li><li><a href="https://openstemlibrary.com/references/hastie-tibshirani-wainwright-sparsity" target="_blank" rel="noopener noreferrer">Hastie, T., Tibshirani, R., &amp; Wainwright, M. (2015). Statistical Learning with Sparsity: The Lasso and Generalizations: Authoritative treatise on high-dimensional regression, Lasso, Elastic Net, coordinate descent, and asymptotic sparsity bounds</a></li><li><a href="https://openstemlibrary.com/references/mahoney-randomized-algorithms" target="_blank" rel="noopener noreferrer">Mahoney, M.W. (2011). Randomized Algorithms for Matrices and Data: Foundational review of Randomized Numerical Linear Algebra (RandNLA), matrix sketching, and leverage score sampling</a></li><li><a href="https://openstemlibrary.com/references/efron-large-scale-inference" target="_blank" rel="noopener noreferrer">Efron, B. (2012). Large-Scale Inference: Empirical Bayes Methods for Estimation, Testing, and Prediction: Seminal monograph on False Discovery Rate (FDR), local false discovery rate, and empirical Bayes multiple testing</a></li><li><a href="https://openstemlibrary.com/references/leskovec-rajaraman-ullman-massive-datasets" target="_blank" rel="noopener noreferrer">Leskovec, J., Rajaraman, A., &amp; Ullman, J.D. (2020). Mining of Massive Datasets (3rd ed.): Comprehensive manual on MapReduce algorithms, data stream sketching, Count-Min sketch, and HyperLogLog</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="big-data-methods-for-statistics-chapter-6">← Previous chapter</a><a href="big-data-methods-for-statistics">Book contents</a><a href="big-data-methods-for-statistics-chapter-8">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="big-data-methods-for-statistics-sims.js?v=1"></script>
+  <script src="big-data-methods-for-statistics-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>
