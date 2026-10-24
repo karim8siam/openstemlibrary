@@ -1619,6 +1619,101 @@ window.LIBRARY_CATALOG = {
             "Parallel architectures",
             "Architecture evaluation"
           ]
+        },
+        {
+          "id": "operating-systems",
+          "title": "Operating Systems",
+          "subtitle": "Kernel Abstractions, Process Scheduling, Synchronization, Memory Virtualization & File Systems",
+          "status": "AVAILABLE",
+          "url": "operating-systems.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering operating system kernel architecture, dual-mode execution, preemptive scheduling, process control blocks, synchronization primitives, deadlock avoidance (Banker's algorithm), two-level paging, translation lookaside buffers, demand paging, inode allocation, and journaling file systems with 24 solved questions and 8 interactive simulations.",
+          "topics": [
+            "OS organization",
+            "Processes and threads",
+            "Concurrency",
+            "Memory management",
+            "File systems",
+            "Storage and I/O",
+            "Isolation and security",
+            "Distributed and practical systems"
+          ]
+        },
+        {
+          "id": "database-systems",
+          "title": "Database Systems",
+          "subtitle": "Relational Algebra, SQL Semantics, Storage Structures, B+ Trees, Query Optimization & ACID Transactions",
+          "status": "AVAILABLE",
+          "url": "database-systems.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering relational model mathematics, relational algebra, SQL declarative semantics, heap files, slotted pages, B+ tree indexing, buffer pool replacement (LRU-K), cost-based join optimization (nested loops, hash join, sort-merge), concurrency control (2PL, snapshot isolation), and ARIES write-ahead logging recovery with 24 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Data modeling",
+            "Relational systems",
+            "Storage engines",
+            "Query processing",
+            "Transactions",
+            "Recovery and integrity",
+            "Distributed databases",
+            "Application databases"
+          ]
+        },
+        {
+          "id": "computer-networks",
+          "title": "Computer Networks",
+          "subtitle": "Layered Architectures, Link Framing, IP Routing, BGP, Reliable Transport, Congestion Control & Security",
+          "status": "AVAILABLE",
+          "url": "computer-networks.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering the layered Internet architecture, framing, error detection (CRC), link-layer switching, IPv4 and IPv6 routing, distance-vector and link-state protocols (OSPF, BGP), TCP reliable transport, flow control, sliding windows, AIMD congestion control, DNS, HTTP/3, and cryptographic network security (TLS 1.3) with 24 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Network architecture",
+            "Link technologies",
+            "Internet routing",
+            "Transport",
+            "Application protocols",
+            "Network security",
+            "Network operations",
+            "Modern architectures"
+          ]
+        },
+        {
+          "id": "software-engineering",
+          "title": "Software Engineering",
+          "subtitle": "Requirements Engineering, Architectural Styles, Design Patterns, Agile Methods, CI/CD & Verification",
+          "status": "AVAILABLE",
+          "url": "software-engineering.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering software lifecycle models, requirements engineering, architectural styles (layered, event-driven, microservices), object-oriented design principles (SOLID), design patterns, refactoring patterns, automated testing pyramids, continuous integration and delivery (CI/CD), version control branching models, and technical debt management with 24 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Requirements",
+            "System design",
+            "Development methods",
+            "Modeling and documentation",
+            "Quality engineering",
+            "Maintenance",
+            "Project delivery",
+            "Professional practice"
+          ]
+        },
+        {
+          "id": "programming-languages-and-compilers",
+          "title": "Programming Languages and Compilers",
+          "subtitle": "Lexical Analysis, Context-Free Grammars, LR Parsing, Type Systems, Static Single Assignment & Code Generation",
+          "status": "AVAILABLE",
+          "url": "programming-languages-and-compilers.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering programming language paradigms, formal grammars, deterministic finite automata for lexing, LL(k) and LR(k) shift-reduce parsing, abstract syntax tree representations, static type systems, unification and Hindley-Milner type inference, Static Single Assignment (SSA) intermediate representation, control-flow graphs, loop optimizations, graph-coloring register allocation, and code generation with 24 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Language concepts",
+            "Type systems",
+            "Parsing",
+            "Intermediate representations",
+            "Runtime systems",
+            "Optimization",
+            "Code generation",
+            "Language implementation"
+          ]
         }
       ]
     }

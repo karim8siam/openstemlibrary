@@ -1,0 +1,462 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Application databases | Database Systems | OpenSTEM Library</title>
+  <meta name="description" content="Document Stores Key–Value Systems Schema Migration Access Control; applied transactions, test cases, counterexamples and engineering limitations.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/database-systems-chapter-8">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/database-systems-chapter-8">
+  <meta property="og:title" content="Database Systems: Relational Algebra, B+ Trees, Query Optimization &amp; ACID Transactions | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering relational model mathematics, relational algebra, SQL declarative semantics, heap files, slotted pages, B+ tree indexing, buffer pool replacement (LRU-K), cost-based join optimization (nested loops, hash join, sort-merge), concurrency control (2PL, snapshot isolation), and ARIES write-ahead logging recovery with 24 solved questions and 8 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Database Systems: Relational Algebra, B+ Trees, Query Optimization &amp; ACID Transactions | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering relational model mathematics, relational algebra, SQL declarative semantics, heap files, slotted pages, B+ tree indexing, buffer pool replacement (LRU-K), cost-based join optimization (nested loops, hash join, sort-merge), concurrency control (2PL, snapshot isolation), and ARIES write-ahead logging recovery with 24 solved questions and 8 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="database-systems.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Database Systems: Application databases","description":"Comprehensive university textbook covering relational model mathematics, relational algebra, SQL declarative semantics, heap files, slotted pages, B+ tree indexing, buffer pool replacement (LRU-K), cost-based join optimization (nested loops, hash join, sort-merge), concurrency control (2PL, snapshot isolation), and ARIES write-ahead logging recovery with 24 solved questions and 8 interactive simulations.","url":"https://openstemlibrary.com/database-systems-chapter-8","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Database Systems","Relational Algebra","SQL Semantics","B+ Tree Indexing","Query Optimization","ACID Transactions","Concurrency Control","ARIES Recovery"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Database Systems","item":"https://openstemlibrary.com/database-systems"}]}</script></head>
+<body data-book-path="database-systems.html" data-chapter-index="7" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Database Systems</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search relational algebra, tuple relational calculus, B+ tree leaf split, buffer pool management, external merge sort, cost-based query optimization, two-phase locking, serializability, write-ahead logging, ARIES recovery…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="database-systems" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Data modeling</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="database-systems-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Relational systems</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="database-systems-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Storage engines</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="database-systems-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Query processing</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="database-systems-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Transactions</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="database-systems-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Recovery and integrity</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="database-systems-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Distributed databases</span></a></li><li class="unit-nav-item active" data-unit-index="7"><a href="database-systems-chapter-8" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Application databases</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Database systems core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 8 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Application databases</h1>
+            <p class="unit-desc-lead" id="unit-desc">Document Stores Key–Value Systems Schema Migration Access Control; applied transactions, test cases, counterexamples and engineering limitations.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university database systems courses. Eight units with exactly three solved questions per unit and interactive simulations illustrating B+ tree splits, join selectivity, two-phase locking schedules, and write-ahead log recovery. Numerical checks and an editorial review support this edition.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-8-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.1</span>
+            <span>Document Stores</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Document Stores</strong></p>
+
+<p>Document stores keep records as structured documents and may favor aggregate-oriented reads. Schema flexibility transfers some validation responsibility to applications.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>An order document can embed a small array of line items to retrieve the whole order in one read, avoiding a join for that access pattern.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Unbounded embedded arrays create large documents and costly updates; relationships and validation still require design.</p>
+
+<h4>Domain model and precise assumptions</h4>
+
+<p>Document stores group related information into hierarchical values such as JSON-like objects. They suit cases where one aggregate is usually read and modified together, but that does not eliminate schema design. A document is an application data model with structure and compatibility obligations even if its database accepts flexible fields. Embedding can make a single read convenient; referencing avoids duplicating large or shared objects. The central question is the boundary of an aggregate that must remain consistent. Document storage cannot substitute for transaction requirements or carefully chosen indexes.</p>
+
+<h4>Worked field scenario</h4>
+
+<p>Imagine a library book document containing title, authors, tags and a small set of edition metadata. Embedding an author's biographical profile in every book would repeat mutable information and create inconsistent copies when the author updates it. Referencing a separate author record can preserve one source of truth, but now a book page may require additional fetches or application-side joins. In a curriculum platform, embedding a few unit headings with a book may be reasonable, while storing thousands of evolving student annotations inside one book document can create contention and oversized records.</p>
+
+<h4>Counterexample and limits</h4>
+
+<p>Flexible schema complicates evolution when some documents use `studentName`, others use `full_name`, and old readers assume one field. Validate data at application boundaries and consider database-enforced schema validation if supported. Index nested fields that correspond to measured query patterns. Arrays can produce multikey indexing effects and query semantics that differ from simple scalar fields. Denormalization reduces some joins but increases update coordination and data duplication.</p>
+
+<h4>Investigation and self-check</h4>
+
+<p>Compare two document designs for Course: one embeds all enrollment records and one stores enrollments separately by student and offering. Evaluate update frequency, maximum size, required aggregate consistency, queries by student and deletion requirements. Explain which reads favor embedding and which independent updates favor referencing. Draft a versioned JSON schema and a compatibility reader for an old field name.</p>
+
+<h4>Engineering verification</h4>
+
+<p>Benchmark actual document sizes, update conflicts, index amplification and validation failures. A JSON document with no agreed structure is not automatically more adaptable than a normalized table; migration effort has merely moved into application code.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-database-systems-unit-8"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.2</span>
+            <span>Key–Value Systems</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Key–Value Systems</strong></p>
+
+<p>Key-value systems access opaque values by key and are well suited to caches, sessions and lookups. Rich predicates may require secondary structures or external indexes.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>A key user:42 can map to a serialized session record, retrieved with one exact-key operation in the abstract model.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Cache eviction and expiry mean a key-value cache cannot be treated as the only durable copy of important application state.</p>
+
+<h4>Domain model and precise assumptions</h4>
+
+<p>A key–value database presents access through a key and an associated value, often with optional expiration and atomic operations. Its apparent simplicity is powerful for direct lookup, caches, sessions and counters, but it does not imply rich joins or complex constraints. Keys need stable namespaces that distinguish object type, tenant and identifier; otherwise unrelated data can collide. A cache is a derived copy whose invalidation and staleness behavior must be specified. TTL expiration is generally a cleanup and freshness mechanism, not a hard real-time promise that data vanish at an exact microsecond.</p>
+
+<h4>Worked field scenario</h4>
+
+<p>Suppose application sessions are stored under `session:{opaque_id}` with an expiry. The session key must be unguessable; users must not be able to choose another person's session identifier. Changing access privileges may require immediate revocation, and waiting for the TTL to expire is not always safe. A course-catalog cache under `book:{id}:v{revision}` can avoid serving stale schema versions when a revision changes, at the cost of extra storage for old keys until cleanup. A write to the authoritative database and a cache update are not normally one atomic operation.</p>
+
+<h4>Counterexample and limits</h4>
+
+<p>For a shared counter, check whether the engine supplies an atomic INCR-like command instead of implementing GET then SET. Atomicity of one key says nothing about a transaction spanning many keys. High-frequency counters can create a hot key; partitioning counters across keys introduces aggregation and staleness trade-offs. Memory eviction policies may remove values independently of TTL and must be accounted for when using a cache as an optimization.</p>
+
+<h4>Investigation and self-check</h4>
+
+<p>Design keys for tenants, student sessions and resource metadata. Distinguish user data from cache-derived data and decide which keys may be rebuilt after eviction. Simulate two clients incrementing a counter first with read-then-write and then with a documented atomic primitive. Define what should happen when the cache is unavailable or data in the cache disagree with the authoritative database.</p>
+
+<h4>Engineering verification</h4>
+
+<p>Monitor hit ratio, memory usage, eviction count, latency and key cardinality. A high hit ratio can coexist with poor tail latency if expensive misses occur at critical times. Do not put secrets in easily enumerated keys or log full session tokens during troubleshooting.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.3</span>
+            <span>Schema Migration</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Schema Migration</strong></p>
+
+<p>Schema migrations modify production structures and data while preserving availability and compatibility. Expand/backfill/contract is safer than simultaneous breaking changes.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>Add a nullable new column, deploy writers that populate it, backfill old rows, switch readers, then enforce NOT NULL after verifying coverage.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>A large backfill can block hot tables or saturate replication; plan batch size, rollbacks and version coexistence.</p>
+
+<h4>Domain model and precise assumptions</h4>
+
+<p>Schema migration changes an application's storage contract while existing code and data continue to exist. A safe rollout usually separates expanding compatibility, moving data, switching reads and writes, and eventually contracting old structures. For example, rename a column by first adding the new column, writing both values during transition, backfilling existing rows in batches, updating readers and then removing the old column only after verification. The exact algorithm depends on data volume, transaction guarantees and whether writes can continue during backfill. “ALTER TABLE is one command” does not imply that the whole application migration is instantaneous or risk-free.</p>
+
+<h4>Worked field scenario</h4>
+
+<p>Imagine 20 million Student rows that currently store `full_name` and must move to `given_name` plus `family_name`. Automatic splitting is not reliable for all naming systems; a migration must avoid assuming every name follows one Western naming pattern. An alternative could preserve display_name while introducing optional structured components. If two application versions run simultaneously during deployment, both must accept the staged schema. A migration can be technically reversible while having irreversible information loss if a dropped field was the only copy of some data.</p>
+
+<h4>Counterexample and limits</h4>
+
+<p>Operational migrations should measure backfill progress, lock duration, replication lag and row-level validation failures. Large updates can create WAL volume, index churn and replication delay. Smaller batches with checkpoints reduce blast radius but increase complexity. A feature flag can enable the new read path after both old and new data are available. A rollback plan must describe how writes made under the new schema remain visible to old code.</p>
+
+<h4>Investigation and self-check</h4>
+
+<p>Plan the migration of Enrollment.status from free text to an enum-like controlled domain. Inventory existing spellings and unknown values, define an explicit mapping, create a compatible new field, backfill under a measurable count, and validate the totals. Demonstrate rollback after the new writer has accepted a previously unseen status; explain why a simple schema revert could lose meaning.</p>
+
+<h4>Engineering verification</h4>
+
+<p>Include forward and backward compatibility tests in CI against a disposable database. Never rely solely on a successful migration command; test actual application queries and prepared statements against the changed schema. Keep backups and restore instructions independent of the migration code.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.4</span>
+            <span>Access Control</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Access Control</strong></p>
+
+<p>Database access control uses roles, grants, row policies and audit records. Least privilege limits the damage from a compromised application component.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>A reporting account granted SELECT on a restricted view should not hold schema-altering permissions in the same database.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Filtering rows only in front-end JavaScript is not a security boundary; server/database authorization must enforce the policy.</p>
+
+<h4>Domain model and precise assumptions</h4>
+
+<p>Access control determines which identities can read, write or administer data. Authentication establishes an identity; authorization evaluates that identity's privileges on a particular operation and object. Least privilege gives each role only what it requires. At the database layer, table, column, schema, function and sometimes row-level permissions can protect data even when an application contains a bug. However, database roles do not automatically solve every tenant-boundary problem, and administrative or owner privileges may bypass ordinary policies. Authorization must be tested using real low-privilege accounts, not only a superuser connection.</p>
+
+<h4>Worked field scenario</h4>
+
+<p>Suppose a multi-tenant teaching service has organizations O1 and O2. Every enrollment belongs to one organization through an authoritative tenant identifier. A web request for O1 must never read O2's enrollments even if the caller guesses O2's record ID. Filtering by tenant_id in application queries can be necessary but is fragile if one endpoint forgets the predicate. Engine-supported row-level security can offer defense in depth if session identity is propagated securely and the policy is configured and tested. Using a single privileged service account that bypasses all policy can nullify the intended protection.</p>
+
+<h4>Counterexample and limits</h4>
+
+<p>Permission grants need operational hygiene: schema migrations may introduce new tables without the expected restrictions; temporary diagnostic access may persist; database backups expose content outside normal query paths. Encryption at rest protects storage media under certain threat models but does not prevent an authenticated database account from reading rows it is authorized to query. Auditing sensitive accesses and keeping credentials out of source files are separate duties.</p>
+
+<h4>Investigation and self-check</h4>
+
+<p>Construct a permission matrix with roles student, instructor, registrar and analytics_reader. Define which role may see a grade, update a grade, export an entire cohort or alter schema. Test one permitted and one forbidden action for every role. Add a second tenant to every test to catch cross-tenant leakage. Explain why column masking is not the same as preventing inference through aggregates or error messages.</p>
+
+<h4>Engineering verification</h4>
+
+<p>Review privileges whenever the schema changes, not only at initial deployment. Monitor failed access attempts, privileged role usage, stale credentials and backup access. Ensure that the application's error messages do not reveal whether another tenant's private record exists.</p>
+
+<h4>Integrated unit case study</h4>
+
+<p><strong>Unit case study: evolving a multi-tenant academic portal.</strong></p>
+
+<p>A teaching platform initially uses a relational Students table and a simple cache for course descriptions. It will introduce rich book metadata, tenant-specific settings, and a renamed enrollment status field. Rather than move every object to one fashionable data store, analyze each data access pattern. Relational constraints are valuable for enrollment identity and payment references. Document-style storage can group evolving book descriptors, but book IDs and author identities should still have clear uniqueness and reference rules. A key–value cache can reduce repeated reads for popular public descriptions without becoming the canonical record.</p>
+
+<p>Suppose the cache stores `book:CS101:v4` as a JSON value. An editor publishes version v5 in the authoritative store but a service still serves v4 under a stale pointer. An immutable versioned key plus an updated current-version reference can make invalidation tractable, but clients must decide how much staleness is acceptable. Do not place private student progress inside a public cache namespace. Namespaces should include tenant and privilege scopes where appropriate; cache key design is part of access control when data are shared among users.</p>
+
+<p>The schema migration renames `Enrollment.state` to `Enrollment.status`. Begin with an expand step: introduce status while keeping state readable. Backfill historical rows, use application compatibility code to keep both fields synchronized during the transition, test readers on both application versions, then switch reads to status. Only after traffic confirms that no old reader requires state should the column be contracted. A reversible DDL statement is not enough for rollback if a new status value has no representation in the old schema. Preserve an explicit mapping policy and count unmapped values.</p>
+
+<p>A second tenant is then onboarded. Every enrollment must be tied to an authoritative tenant or institutional boundary. Test access with three principals: a learner from tenant A, a learner from tenant B, and an admin permitted only inside tenant A. A guessable enrollment ID from tenant B must not expose data when requested by tenant A. SQL row-level policies can help where supported and correctly configured, but a highly privileged connection may bypass intended restrictions. Application-level validation and database authorization should reinforce one another. Analytics exports and backups need their own access controls.</p>
+
+<p><strong>Release gate.</strong> In a staging system, deploy old and new application versions against the expanded schema, write and read both old and new status values, and validate row counts after backfill. Simulate cache loss and confirm the portal can still fetch authoritative data. Run negative authorization tests for cross-tenant access. Only then remove the old column and stale cache keys. Keep rollback procedures, data backups and migration SQL in version control, and monitor errors and performance during the cutover.</p>
+
+<h4>Extended executable laboratory</h4>
+
+<p><strong>Extended laboratory: safe evolution and tenant isolation.</strong></p>
+
+<p>Create a tenant-aware Enrollment table with IDs, tenant_id, learner_id, offering_id and state. Populate two tenants, each with an enrollment bearing a similar human-readable reference. Begin with a negative authorization test: a user authenticated for tenant A requests a known record from tenant B. The correct API response must reveal no confidential data and must not allow modification, regardless of whether the identifier is guessed or read from an old link. Test the same endpoint under a normal application role and under an administrative maintenance role; explain why the latter may intentionally have broader access and requires a separate audit path.</p>
+
+<p>Stage a schema migration from `state` to `status`. Deploy a new nullable column first. Backfill old data with a validated mapping, including records whose legacy values are unknown. During a mixed-version release, use compatible reads and writes or a deliberate transition mechanism. Measure the number of rows where old and new fields disagree. Only remove the old column after all active services and background jobs have switched and the mismatch count is acceptably resolved. Include tests for rollback after a new status value appears, because the old schema may lack a representation for that value.</p>
+
+<p>Add a key–value cache for public book metadata. Set a stable `book:{id}:{revision}` key for versioned data, and keep the authoritative value in the database. Evict the cache and show the application can rebuild the value; change the revision and prove clients do not inadvertently receive stale content from an old key. Inject cache unavailability and ensure enrollment writes remain correct. A cache miss may increase latency, but it should not corrupt canonical enrollment data.</p>
+
+<p>Finish with a deployment checklist that includes a backup restore rehearsal, application compatibility matrix, privileged role audit, cross-tenant negative tests, old-client reads, new-client reads and metrics for long-running migrations. A feature cannot be declared complete merely because every file compiles. The final artifact must demonstrate behavior on valid data, invalid data, concurrent access and interrupted operations under the explicitly chosen engine.</p>
+
+<h4>Connections and deeper pitfalls</h4>
+
+<p><strong>Further investigation: choosing the right persistence boundary.</strong> A document store, relational store and key–value store can coexist in a service, but every additional technology creates another failure mode and operational skill requirement. First determine whether a real workload needs another storage model. A relational database with JSON columns can support flexible descriptors without adding a separate cluster, while an in-process cache may be sufficient for small public datasets. Introducing a new database solely because a content format is JSON is not a meaningful architectural criterion.</p>
+
+<p>For a migration, estimate operational impact before implementation. Backfilling ten million rows means write amplification, possible replication lag and long-running transactions if batching is careless. Add metrics for rows scanned, rows converted, rows rejected and time spent holding locks. Test compatibility with the oldest application process still permitted to run. Changing the contract too early can break delayed queue consumers even when the web application deployment appears successful.</p>
+
+<p>Security review must include alternative access paths. Analytics exports, backup readers, customer-support tools and administrator scripts may hold broad privileges that bypass normal application filters. A least-privilege design distinguishes roles and includes revocation for temporary access. Row-level filtering is helpful but should be verified with the actual connection identity, including any database-owner bypass rules. When data are cached, ensure tenant and authorization boundaries survive the cache key scheme. A migration is complete only when old, new and privileged access paths have been reviewed.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-database-systems-advanced-8"></div>
+          </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Database Systems Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem — draft; editorial QA pending</span>
+            <strong>Example 8.1: Document Stores: worked verification</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An app stores orders and line items together as one document. What is the benefit and the danger?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-database-systems-u8-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-database-systems-u8-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>The app can read one order aggregate without performing a separate join.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>A very large or frequently changing item array expands the write and storage cost of that aggregate.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>Embedding helps bounded aggregates but should be reconsidered for unbounded growth.</p>
+
+<p><strong>Detailed reasoning and validation.</strong> Embedding all line items with their parent order can make the whole aggregate easy to retrieve and update when item counts remain modest. The risk is that an unbounded array grows large and forces repeated rewrites or creates contention when independently edited. Suppose an order has six items and is almost always read as a whole; embedding may suit that use case. If an account has hundreds of thousands of audit events, embedding all events in one account document is likely an inappropriate aggregate boundary. Referencing those events separately can support pagination and independently indexed searches. The decision follows lifecycle and access patterns, not a blanket preference for relational or document storage.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Embedding helps bounded aggregates but should be reconsidered for unbounded growth.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem — draft; editorial QA pending</span>
+            <strong>Example 8.2: Key–Value Systems: worked verification</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A cache maps user:42 to a session, then evicts it. May this be the only durable copy?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-database-systems-u8-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-database-systems-u8-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Eviction removes the key without any authoritative application-level delete.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>Important session state needs a durable source or explicit regeneration semantics.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>No: an evictable cache is not a suitable sole durable store by default.</p>
+
+<p><strong>Detailed reasoning and validation.</strong> An evictable cache can discard `user:42` without any domain-level logout action, according to its memory policy. Therefore it must not be assumed to be the only persistent record of a business-critical session unless the application explicitly accepts losing the session and can recover safely. The cache may hold regenerable derived data or an expiring session token, but its failure semantics need design. A cache hit is not proof of authorization: secrets can be revoked or privileges changed in the authoritative identity store. Define the consequence of eviction, stale data and outage, then test the application against all three rather than only the happy-path cache hit.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>No: an evictable cache is not a suitable sole durable store by default.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem — draft; editorial QA pending</span>
+            <strong>Example 8.3: Schema Migration: worked verification</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Describe a safe expand/backfill/contract migration for a new required column.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-database-systems-u8-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-database-systems-u8-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Add the column in a backward-compatible nullable form and deploy dual-compatible readers/writers.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>Backfill old rows in controlled batches, verify counts, and update all clients.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>Only then enforce NOT NULL and remove compatibility code.</p>
+
+<p><strong>Detailed reasoning and validation.</strong> First expand the schema with a nullable column so existing clients keep working. Introduce compatible writers/readers, backfill historical rows, and verify counts and unmapped values. Only after every active writer is known to populate the new field should the deployment enforce NOT NULL and remove compatibility code. A single large UPDATE may hold locks, generate substantial logs or strain replicas; batch it under an idempotent migration process with progress checkpoints. Rollback is not simply the reverse DDL command if the new system has stored values the old schema cannot represent. Test mixed-version application rollout before contracting the old schema.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Only then enforce NOT NULL and remove compatibility code.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="operating-systems">Operating Systems</a><a href="database-systems">Database Systems</a><a href="computer-networks">Computer Networks</a><a href="software-engineering">Software Engineering</a><a href="programming-languages-and-compilers">Programming Languages and Compilers</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/ramakrishnan-gehrke" target="_blank" rel="noopener noreferrer">Ramakrishnan, R., &amp; Gehrke, J. (2003). Database Management Systems (3rd ed.): Canonical textbook covering relational theory, query evaluation, transaction processing, and storage engines</a></li><li><a href="https://openstemlibrary.com/references/silberschatz-db" target="_blank" rel="noopener noreferrer">Silberschatz, A., Korth, H.F., &amp; Sudarshan, S. (2019). Database System Concepts (7th ed.): Standard theoretical reference for indexing, multi-granularity locking, and distributed commit protocols</a></li><li><a href="https://openstemlibrary.com/references/mohan-aries" target="_blank" rel="noopener noreferrer">Mohan, C., et al. (1992). ARIES: A Transaction Recovery Method Supporting Fine-Granularity Locking: Foundational research paper defining write-ahead logging, compensation log records, and physiological logging</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="database-systems-chapter-7">← Previous chapter</a><a href="database-systems">Book contents</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="database-systems-sims.js?v=1"></script>
+  <script src="database-systems-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

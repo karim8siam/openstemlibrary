@@ -1,0 +1,418 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Concurrency | Operating Systems | OpenSTEM Library</title>
+  <meta name="description" content="synchronization; locks; condition variables; deadlock">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/operating-systems-chapter-3">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/operating-systems-chapter-3">
+  <meta property="og:title" content="Operating Systems: Kernel Abstractions, Virtual Memory, Concurrency &amp; File Systems | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering operating system kernel architecture, dual-mode execution, preemptive scheduling, process control blocks, synchronization primitives, deadlock avoidance (Banker's algorithm), two-level paging, translation lookaside buffers, demand paging, inode allocation, and journaling file systems with 24 solved questions and 8 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Operating Systems: Kernel Abstractions, Virtual Memory, Concurrency &amp; File Systems | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering operating system kernel architecture, dual-mode execution, preemptive scheduling, process control blocks, synchronization primitives, deadlock avoidance (Banker's algorithm), two-level paging, translation lookaside buffers, demand paging, inode allocation, and journaling file systems with 24 solved questions and 8 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="operating-systems.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Operating Systems: Concurrency","description":"Comprehensive university textbook covering operating system kernel architecture, dual-mode execution, preemptive scheduling, process control blocks, synchronization primitives, deadlock avoidance (Banker's algorithm), two-level paging, translation lookaside buffers, demand paging, inode allocation, and journaling file systems with 24 solved questions and 8 interactive simulations.","url":"https://openstemlibrary.com/operating-systems-chapter-3","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Operating Systems","Kernel Architecture","Process Scheduling","Concurrency and Deadlocks","Virtual Memory and Paging","File Systems and Inodes","I/O Subsystems","Protection and Security"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Operating Systems","item":"https://openstemlibrary.com/operating-systems"}]}</script></head>
+<body data-book-path="operating-systems.html" data-chapter-index="2" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Operating Systems</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search system calls, user/kernel mode, process state transitions, context switching, scheduling policies, mutexes, semaphores, deadlock conditions, page replacement, TLB misses, virtual memory, inode file system…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="operating-systems" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">OS organization</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="operating-systems-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Processes and threads</span></a></li><li class="unit-nav-item active" data-unit-index="2"><a href="operating-systems-chapter-3" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Concurrency</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="operating-systems-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Memory management</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="operating-systems-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">File systems</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="operating-systems-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Storage and I/O</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="operating-systems-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Isolation and security</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="operating-systems-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Distributed and practical systems</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Operating systems core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 3 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Concurrency</h1>
+            <p class="unit-desc-lead" id="unit-desc">synchronization; locks; condition variables; deadlock</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university operating systems courses. Eight units with exactly three solved questions per unit and interactive simulations illustrating scheduling algorithms, page replacement policies, and semaphore mutual exclusion. Numerical checks and an editorial review support this edition.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-3-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.1</span>
+            <span>Synchronization</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Synchronization</strong></p>
+
+<p>Synchronization coordinates critical sections and shared invariants. Mutual exclusion is necessary when interleaved memory operations would otherwise violate a required state property.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>An account balance updated by read-modify-write must exclude another overlapping updater or use a suitable atomic operation to avoid lost updates.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>A lock protecting different variables may still be insufficient if the invariant spans both and transactions can observe inconsistent intermediate states.</p>
+
+<h4>Atomicity, race conditions, and invariant preservation</h4>
+
+<p>Synchronization is needed when legal interleavings of operations can violate a shared-state invariant. The canonical counter example is useful because the expected result is simple, but real invariants are often relational. In a bounded queue, the write index, read index, item count, and actual storage must stay consistent. In a money-transfer system, debiting one account and crediting another should not expose a state with lost funds to a concurrent observer unless the design explicitly permits provisional states. The important unit of reasoning is the critical operation whose externally observable effects must be controlled, not necessarily a single source-code statement. A compiler or processor may split a high-level expression into multiple memory operations.</p>
+
+<p>A data race in a language with a formal memory model can have consequences beyond an intuitively 'wrong value.' Some languages treat races on ordinary memory as undefined behavior, allowing compiler optimizations that defeat naive reasoning about interleaving. Atomic variables, locks, message passing, and thread confinement address different parts of the problem. Atomic load and store operations avoid torn values under the relevant memory model, but a multistep invariant can still fail if it requires a transaction rather than one atomic cell. Memory-ordering guarantees also matter: publishing a pointer before fully initializing the pointed-to object can expose partially constructed state if synchronization is incorrect.</p>
+
+<p>One practical exercise is to specify an inventory rule: available count may never become negative, and every accepted reservation must decrement availability exactly once. If two workers both read one available item and both approve, the rule is violated. Surrounding only the final write with a mutex does not solve the stale decision. Instead, put read-check-decrement within a single protected region or use an atomic conditional update with a clear success/failure outcome. Prove safety by showing every successful reservation observes positive availability and commits exactly one decrement. Then discuss liveness: a system that preserves safety by blocking forever is not a useful reservation service. Instrument the example with randomized task interleavings, record each operation's logical timestamp, and distinguish a deterministic failure trace from a probabilistic reproduction rate.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.2</span>
+            <span>Locks</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Locks</strong></p>
+
+<p>A lock provides exclusive access but adds waiting, scheduling and possible priority inversion. Deadlock-free locking rules often impose a global acquisition order.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>If every thread acquires lock A before lock B, a cycle in which one holds A waiting for B while another holds B waiting for A cannot arise from conforming threads.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Nonblocking progress and fairness are separate: a deadlock-free program can still starve a thread.</p>
+
+<h4>Locks, fairness, and the scope of protected state</h4>
+
+<p>A mutex provides mutual exclusion over a programmer-defined critical section; it does not know which variables form the application invariant. A correct locking plan lists all state whose relationships need protection and ensures every modifying path follows the same policy. Locking a counter update while reading a related limit without protection can still break the invariant. Conversely, holding one broad lock through a disk operation may preserve correctness but turn a parallel system into a serialized queue. Fine-grained locking can improve throughput but increases the number of potential lock-order cycles and consistency states an engineer must reason about.</p>
+
+<p>Suppose a cache has a map of keys to entries and a least-recently-used list recording access order. The map and the list must agree. If a writer removes an entry from the map but another thread reads the list before the removal is reflected there, the reader may follow a pointer to an invalid object. A single lock protecting both structures provides a simple proof. More complex designs can use reference counting, per-bucket locks, read-copy-update, or versioned snapshots, but every technique demands a careful account of reclamation and reader visibility. A lock-free data structure is not automatically faster; it can create retries and memory-reclamation challenges under contention.</p>
+
+<p>Fairness is also not guaranteed by every lock API. A thread that releases a lock may reacquire it before waiting threads execute, and high-priority work can wait behind a low-priority holder. Priority inversion occurs when a high-priority task depends on a resource held by a low-priority task, possibly while medium-priority work consumes CPU time. Priority inheritance is one possible mitigation when supported and appropriate, but it does not magically solve arbitrary cycles or lengthy critical sections. For a lab, plot lock-hold time, acquisition wait time, and total useful throughput as worker count grows. Vary how much computation occurs inside versus outside the critical region. Identify where adding workers ceases to help and why. The lesson is not simply to use fewer locks; it is to write down the invariant, choose the smallest correct protection scope, and measure contention honestly.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.3</span>
+            <span>Condition Variables</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Condition Variables</strong></p>
+
+<p>A condition variable allows waiting until a predicate becomes true while releasing and reacquiring an associated mutex. The predicate is rechecked in a loop.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>A consumer waits while a queue is empty, releasing the mutex. After a producer inserts an item and signals, the consumer reacquires the mutex and rechecks nonemptiness.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Signals are not durable messages. Using if instead of while can fail under spurious wakeups or competition from other consumers.</p>
+
+<h4>Condition variables and predicate-based waiting</h4>
+
+<p>A condition variable signals that some state <em>may</em> now satisfy a predicate. It is not a mailbox that remembers an unlimited number of events. The standard discipline is to hold an associated mutex, check a shared predicate, and wait in a loop while the predicate is false. Waiting releases the mutex atomically with entering the wait state under the library's documented semantics, allowing another thread to modify state and signal. On return, the waiter reacquires the mutex and checks again because notifications may be spurious or competing consumers may have already changed the state.</p>
+
+<p>Consider a producer and consumer sharing a bounded queue with capacity three. A producer must wait while the queue is full; a consumer waits while it is empty. Inserting an item changes the empty predicate and may justify signaling a consumer; removing one changes the full predicate and may justify signaling a producer. If a producer checks queue size without the mutex and then waits, it can miss a notification between the check and the wait. The queue then has free space but the producer sleeps indefinitely. The condition variable did not fail; the program violated the atomic check-and-wait discipline. The full and empty predicates should be written as exact expressions over protected state.</p>
+
+<p>Broadcast wakes multiple waiters, but it does not promise that all will pass their predicates. A system may choose signal rather than broadcast when exactly one task can progress, although cases with multiple different predicates may require broader wakeups. A timeout introduces an additional outcome that must be distinguished from ordinary notification and cancellation. Build an interleaving table with columns for queue count, mutex owner, waiting producers, waiting consumers, and the predicate each evaluates. Walk through two producers and two consumers from an empty queue, then create a hypothetical missed wakeup by separating the predicate check from its locking protocol. A model checker can enumerate a small bounded number of operations; in human reasoning, an explicit transition table is often enough to expose the incorrect step.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.4</span>
+            <span>Deadlock</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Deadlock</strong></p>
+
+<p>Deadlock requires a cycle of waiting under conditions such as exclusive resources and hold-and-wait. Prevention, avoidance, detection and recovery have different costs.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>Thread 1 holds A and waits for B while thread 2 holds B and waits for A; neither can advance. Consistent lock ordering removes this example.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>A wait-for cycle is sufficient for deadlock in common single-instance models, but resource multiplicity requires more careful analysis.</p>
+
+<h4>Deadlock, livelock, and recovery</h4>
+
+<p>Deadlock occurs when a collection of activities cannot proceed because each waits for resources held or conditions dependent on others in the collection. The familiar necessary conditions in a resource-allocation model are mutual exclusion, hold-and-wait, no forced preemption, and circular wait. Breaking one of those conditions can prevent deadlock, but the costs differ. A global lock order prevents a circular wait when all code follows it. Acquiring all resources at once may avoid hold-and-wait but waste resources. Forced rollback may restore progress for transactional resources, yet is unsafe for irrevocable physical effects. A wait-for graph is a useful diagnostic only when edges faithfully represent the blocking relationship.</p>
+
+<p>Suppose worker A holds lock X and requests lock Y, while worker B holds Y and requests X. Draw edges A→B and B→A. Neither can advance under ordinary blocking mutex semantics. If the application imposes X-before-Y order on both workers, B cannot acquire Y before X in the relevant path, removing the cycle. But adding a third lock Z through a helper method can silently violate that order, so the rule must be checked at every acquisition point. Timed try-lock with retries avoids some deadlocks but can cause livelock: both workers repeatedly retreat and retry in synchrony without completing useful work. Backoff or deterministic ordering may be required.</p>
+
+<p>A production deadlock report needs more than the statement that the application stopped responding. Collect stacks showing threads waiting, the resources and owners, and the operations required for release. Differentiate true cycles from slow I/O, starvation, resource exhaustion, and a failed worker that never sends completion. For an educational exercise, provide a resource matrix of two resource classes and three processes, then test a candidate execution sequence for safe completion rather than guessing from totals alone. Note that a 'safe state' in avoidance theory means there exists a completion sequence under declared maximum claims; it is not a prediction that the actual workload will choose that sequence. A recovery policy should specify whether rollback, process termination, or administrator intervention is acceptable for the affected resources.</p>
+
+<h4>Integrative case study — a bounded queue with two producers and three consumers</h4>
+
+<p>A bounded work queue has capacity four. Two producers place jobs into it; three consumers remove jobs and process them. The correctness requirements are not just that the queue size stays between zero and four. Each successfully submitted job must be removed exactly once unless an explicit cancellation or drop policy applies; no consumer may read an uninitialized slot; and shutdown must not strand threads permanently waiting for a condition that will never become true. A simple shared representation has a circular buffer, head and tail indices, and a count. All four values form a related invariant. One mutex can protect their updates while condition variables indicate potential changes to the nonempty and nonfull predicates.</p>
+
+<p>A producer locks the mutex and waits in a loop while count equals capacity, then writes a job into the tail slot, updates tail modulo capacity, increments count, and signals a consumer before unlocking. A consumer locks, waits in a loop while count equals zero and producers are still active, takes the head job, updates head modulo capacity, decrements count, and signals a producer. It releases the mutex before performing expensive job processing. Keeping processing inside the critical section would serialize all consumers and make the concurrency largely fictional. But moving the dequeue itself outside the lock would create races over indices and ownership. The critical section protects just the shared queue-state transition.</p>
+
+<p>Why use a loop around the condition wait? A waiting consumer may wake spuriously, or another consumer may remove the only job before this one reacquires the mutex. The signal means the shared predicate should be checked again, not that the receiving thread owns a job. To expose a lost wakeup, write an incorrect version in which the consumer checks count without a mutex, the producer inserts and signals, and the consumer then begins waiting. The queue contains a job but the consumer sleeps. A correct atomic check-and-wait arrangement prevents that interval. This is a proof about the synchronization protocol, not a guarantee that the scheduler will always run the consumer promptly.</p>
+
+<p>Shutdown adds a nontrivial state transition. When the last producer stops, set a closed flag under the mutex and broadcast to consumers. A consumer awakened to find the queue empty and closed may exit. If jobs remain, it should drain or discard them according to a documented shutdown policy. One possible design rejects future submissions once closed, continues processing existing entries, and signals joiners after all consumers finish. Cancellation needs the same careful thought: a producer canceled while holding the mutex must not leave it permanently locked, and a consumer canceled after removing a job needs a defined handoff or failure record.</p>
+
+<p>To test the queue, enumerate all interleavings of two producers each submitting one tagged job and two consumers each requesting one job, under a bounded deterministic simulator. Check no loss, no duplication, and the count bounds. Then test capacity one, multiple consumers waiting on empty, producer waiting on full, and shutdown before any item is submitted. Measure throughput with short and long job processing times. As processing grows, parallel consumers may help; as the lock hold time grows, the queue becomes the bottleneck. Distinguish safety (invariants never violated) from liveness (work eventually progresses under stated fairness conditions). Both are required for a useful operating-system service.</p>
+
+<h4>Diagnostic exercise — prove and break a shared-state invariant</h4>
+
+<p>Define the bounded queue invariant as 0≤count≤capacity, with read and write positions always in range. Add the stronger statement that each accepted item has exactly one owner: a producer before submission, the queue while enqueued, or one consumer after removal. Verify each atomic transition preserves the invariant if the mutex is held. Then intentionally move a count increment outside the critical region and enumerate an interleaving that loses an update or exposes an inconsistent queue. Draw a wait-for graph when two locks protect separate resources; show a cycle and then impose a total acquisition order. Introduce a timeout and ask whether it resolves deadlock, livelock, or starvation in the trace. Finish with shutdown while one producer is blocked on a full queue: if consumers exit first without signaling, the producer may remain asleep forever. Document a closed state and broadcast rule that lets all waiters recognize terminal conditions.</p>
+
+<h4>Boundary cases and falsifiable design claims</h4>
+
+<p>The notion of an 'atomic operation' depends on the abstraction level. A CPU instruction may atomically update one aligned memory word under specified conditions, but a multi-field application invariant can still be exposed between separate atomic updates. A compare-and-swap loop can implement conditional updates, yet must handle retries and appropriate memory ordering; it may also suffer starvation under contention. Avoid the simplistic idea that changing every shared variable into an atomic value automatically makes an entire concurrent object correct. Linearizability requires that each operation appears to take effect at a valid single point between invocation and response; that is stronger than each individual register load being atomic.</p>
+
+<p>Deadlock diagnosis needs blocked edges, not merely two busy threads. A thread consuming CPU in an infinite loop may prevent a cooperative worker from progressing without forming a mutex wait cycle. A livelock can involve threads repeatedly acquiring and releasing locks while making no useful progress; metrics may show activity rather than sleep. Starvation means a particular task fails to receive service even though the system as a whole continues progressing. These conditions have distinct remedies: lock ordering, backoff, admission fairness, or fixing a spin condition. A watchdog terminating tasks indiscriminately may restore availability while destroying incomplete critical updates.</p>
+
+<p>An extra exercise compares two producers racing to close a queue. If the first producer closes it while the second has pending work, the second may lose accepted jobs unless ownership of shutdown is coordinated. Use a producer-reference count or one supervising coordinator, and write down when the queue becomes terminal. At exactly full capacity, an additional enqueue should either wait, reject, or replace an item under an explicit policy. Silent overwrite violates at-most-once ownership if the consumer has not yet acquired the displaced item. Every exit path must wake the right waiters or the system may remain blocked indefinitely.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-operating-systems-lab-3"></div>
+          </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Operating Systems Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — external editorial review pending</span>
+            <strong>Example 3.1: Synchronization: worked application 1</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Two threads each increment a shared counter from five without locks. Show lost update.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-operating-systems-u3-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-operating-systems-u3-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Thread A reads 5; thread B reads 5 before A stores.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>Both compute 6 and both write 6.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>Final value can be 6 rather than the expected 7.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Independent verification and failure-mode analysis</div>
+              
+              <div class="step-explanation"><h5>Extended verification and failure-mode analysis</h5>
+
+<p>The unsafe trace begins with count five. Thread A reads five, thread B reads five, A computes and stores six, and B computes and stores six. The final count is six even though two increments were requested, violating the expected postcondition count=old+2=7. This is a lost update, not an arithmetic overflow. The precise order of the two stores does not matter because both computed the same stale value. A correct implementation protects the entire read-modify-write critical section or uses an atomic fetch-add operation with appropriate memory semantics. Protecting only the final store would still allow both threads to compute six. Test that a synchronized implementation produces seven for every allowed ordering of the two complete atomic increments, and explain why the programming language's memory model matters when ordinary non-atomic variables are raced.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Final value can be 6 rather than the expected 7.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — external editorial review pending</span>
+            <strong>Example 3.2: Locks: worked application 2</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A consumer wakes from a condition-variable wait. May it assume the queue is nonempty?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-operating-systems-u3-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-operating-systems-u3-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>The wakeup only says a notification or spurious wake occurred.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>Another consumer may remove the queued item before this thread reacquires the mutex.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>No; re-check queue nonemptiness in a while loop while holding the mutex.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Independent verification and failure-mode analysis</div>
+              
+              <div class="step-explanation"><h5>Extended verification and failure-mode analysis</h5>
+
+<p>A consumer awakened after waiting must hold the associated mutex and re-evaluate the predicate queue_nonempty. An earlier signal proves only that the predicate may have become true at some time. Another consumer can remove the item before the first waiter reacquires the mutex; spurious wakeups may also occur. The safe protocol is `while queue empty and not closed: wait(condition,mutex)` with a clearly defined closed-queue outcome. An `if` is inadequate because it checks at most once. Verify the behavior using an execution trace: producer inserts one item, broadcasts; consumer A acquires the mutex and removes it; consumer B subsequently acquires the mutex and finds the queue empty. B must wait again or exit under shutdown rules, not access a missing element. This is a demonstration of predicate correctness, separate from whether the operating system guarantees fairness in which waiter runs first.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>No; re-check queue nonemptiness in a while loop while holding the mutex.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — external editorial review pending</span>
+            <strong>Example 3.3: Condition Variables: worked application 3</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Threads T1 holds A waiting B and T2 holds B waiting A. Identify the deadlock cycle.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-operating-systems-u3-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-operating-systems-u3-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>T1 cannot proceed until T2 releases B.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>T2 cannot proceed until T1 releases A.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>Wait-for graph T1→T2→T1 is cyclic; global ordering prevents this case.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Independent verification and failure-mode analysis</div>
+              
+              <div class="step-explanation"><h5>Extended verification and failure-mode analysis</h5>
+
+<p>Build a wait-for graph with one vertex per thread and an edge X→Y when X cannot progress until Y releases a resource. Here T1 holds A and needs B held by T2, so T1→T2. T2 holds B and needs A held by T1, so T2→T1. The two edges form a directed cycle. Under the stated nonpreemptive mutex conditions, neither worker can complete. A prevention rule is to acquire A before B on every code path: a worker that currently holds B cannot then request A without violating the order. Timeouts might break the blocking behavior but require safe rollback and may introduce repeated livelock. Test an acyclic case such as T1 holding A while requesting B held by T2, with T2 not waiting on any other resource; once T2 releases B, progress is possible. The presence or absence of a graph cycle is meaningful only when graph edges accurately represent real blocking dependencies.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Wait-for graph T1→T2→T1 is cyclic; global ordering prevents this case.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="operating-systems">Operating Systems</a><a href="database-systems">Database Systems</a><a href="computer-networks">Computer Networks</a><a href="software-engineering">Software Engineering</a><a href="programming-languages-and-compilers">Programming Languages and Compilers</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/silberschatz-os" target="_blank" rel="noopener noreferrer">Silberschatz, A., Galvin, P.B., &amp; Gagne, G. (2018). Operating System Concepts (10th ed.): Canonical university textbook covering kernel structures, threads, CPU scheduling, synchronization, and storage management</a></li><li><a href="https://openstemlibrary.com/references/ostep" target="_blank" rel="noopener noreferrer">Arpaci-Dusseau, R.H., &amp; Arpaci-Dusseau, A.C. (2018). Operating Systems: Three Easy Pieces: Authoritative modern treatise on virtualization (CPU, memory), concurrency, and persistence</a></li><li><a href="https://openstemlibrary.com/references/tanenbaum-mos" target="_blank" rel="noopener noreferrer">Tanenbaum, A.S., &amp; Bos, H. (2014). Modern Operating Systems (4th ed.): Definitive theoretical and design foundation for microkernels, deadlocks, memory virtualization, and file system integrity</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="operating-systems-chapter-2">← Previous chapter</a><a href="operating-systems">Book contents</a><a href="operating-systems-chapter-4">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="operating-systems-sims.js?v=1"></script>
+  <script src="operating-systems-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

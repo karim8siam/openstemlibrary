@@ -1,0 +1,433 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Network operations | Computer Networks | OpenSTEM Library</title>
+  <meta name="description" content="Measurement; Troubleshooting; Traffic Analysis; Quality Of Service. Includes independently testable simulation models, a cross-topic case study, fully worked problems and failure-analysis exercises.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/computer-networks-chapter-7">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/computer-networks-chapter-7">
+  <meta property="og:title" content="Computer Networks: Layered Architecture, IP Routing, TCP Congestion Control &amp; Sockets | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering the layered Internet architecture, framing, error detection (CRC), link-layer switching, IPv4 and IPv6 routing, distance-vector and link-state protocols (OSPF, BGP), TCP reliable transport, flow control, sliding windows, AIMD congestion control, DNS, HTTP/3, and cryptographic network security (TLS 1.3) with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Computer Networks: Layered Architecture, IP Routing, TCP Congestion Control &amp; Sockets | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering the layered Internet architecture, framing, error detection (CRC), link-layer switching, IPv4 and IPv6 routing, distance-vector and link-state protocols (OSPF, BGP), TCP reliable transport, flow control, sliding windows, AIMD congestion control, DNS, HTTP/3, and cryptographic network security (TLS 1.3) with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="computer-networks.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Computer Networks: Network operations","description":"Comprehensive university textbook covering the layered Internet architecture, framing, error detection (CRC), link-layer switching, IPv4 and IPv6 routing, distance-vector and link-state protocols (OSPF, BGP), TCP reliable transport, flow control, sliding windows, AIMD congestion control, DNS, HTTP/3, and cryptographic network security (TLS 1.3) with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/computer-networks-chapter-7","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Computer Networks","Layered Architectures","Link Layer Framing","IPv4 and IPv6 Routing","TCP Flow and Congestion Control","BGP Peering","DNS and HTTP/3","Transport Layer Security"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Computer Networks","item":"https://openstemlibrary.com/computer-networks"}]}</script></head>
+<body data-book-path="computer-networks.html" data-chapter-index="6" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Computer Networks</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search OSI and TCP/IP models, CSMA/CD, link serialization, IPv4/IPv6 addressing, subnet masking, Dijkstra link-state, Bellman-Ford distance vector, BGP peering, TCP three-way handshake, sliding window, Tahoe/Reno congestion control, TLS handshake…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="computer-networks" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Network architecture</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="computer-networks-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Link technologies</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="computer-networks-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Internet routing</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="computer-networks-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Transport</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="computer-networks-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Application protocols</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="computer-networks-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Network security</span></a></li><li class="unit-nav-item active" data-unit-index="6"><a href="computer-networks-chapter-7" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Network operations</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="computer-networks-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Modern architectures</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Computer networks core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 7 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Network operations</h1>
+            <p class="unit-desc-lead" id="unit-desc">Measurement; Troubleshooting; Traffic Analysis; Quality Of Service. Includes independently testable simulation models, a cross-topic case study, fully worked problems and failure-analysis exercises.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university computer networking courses. Eight units with exactly three solved questions per unit and 16 interactive simulations illustrating packet serialization, propagation delay, sliding window dynamics, and queueing models. Numerical checks and an editorial review support this edition.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-7-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.1</span>
+            <span>Measurement</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Measurement: conceptual explanation</strong></p>
+
+<p>Network measurement begins with an observable quantity: throughput, latency, loss, jitter, utilization or error counts. Packet captures show traffic at a particular point, not omniscient truth about an entire path. Sampling and clock accuracy matter when inferring round-trip time from timestamps.</p>
+
+<h4>Deep technical explanation</h4>
+
+<p>A network measurement is meaningful only if its observation point and definition are known. One-way propagation delay differs from round-trip time, and an application request's wall-clock latency can include DNS, transport setup, server queuing, application work, and retransmissions. Link utilization is a ratio of carried bits to nominal capacity, not a direct measure of user experience. Packet loss may be inferred from transport behavior but a capture on one endpoint can be affected by hardware offload and capture drops. Report how metrics were collected before interpreting them.</p>
+
+<p>A baseline captures normal variability. Measure distributions such as median, 95th percentile, and 99th percentile rather than only averages. A service with 10-ms typical latency and occasional 2-second pauses can have a respectable mean but poor interactive performance. Align clocks if comparing logs across devices; millisecond-level timing claims are invalid if host clocks differ by seconds. Separate active probes that create measurement traffic from passive observations of existing traffic. Probes can be deprioritized by routers or treated differently by firewalls.</p>
+
+<p>A useful performance budget can assign latency to stages. Record a trace ID, timestamp, hop or interface, payload size, and response category at each stage where possible. Use confidence intervals or repeat measurements under controlled load to decide whether a change is real. The purpose of measurement is not to produce the highest possible number but to discriminate between competing explanations of a user-visible failure.</p>
+
+<h4>Controlled experiment and observation notebook</h4>
+
+<p>Record a trace spanning client, proxy, application, and database for a single request, with synchronized timestamps if possible. Estimate contributions of DNS, connection setup, queue delay, application compute, and network propagation. Compute p50, p95, and p99 from repeated measurements, explaining the sample-size uncertainty. Next compare one-way and round-trip probe results without treating them as equal. Introduce offload in a test capture and examine whether apparent huge packets are artifacts of the observation point. Document the exact device and tool version used for each metric so another student can reproduce the result.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-cn-queue-length"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.2</span>
+            <span>Troubleshooting</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Troubleshooting: conceptual explanation</strong></p>
+
+<p>Troubleshooting works best as a sequence of falsifiable tests: local interface, address assignment, local gateway, name resolution, remote endpoint and application behavior. A successful ping does not prove that HTTPS works, while failed ICMP may reflect filtering rather than lack of connectivity.</p>
+
+<h4>Deep technical explanation</h4>
+
+<p>Troubleshooting is a sequence of falsifiable hypotheses. Start with the symptom and a precise scope: which users, sites, protocols, and times are affected? Establish whether the failure is at the physical link, local addressing, name resolution, route selection, transport negotiation, security policy, or application. A simple decision tree can reduce unnecessary changes. For example, if the default gateway responds but a named service does not, test the resolved address and port separately before treating DNS as the root cause.</p>
+
+<p>Use changes to evidence, not just to configuration. A failed request from one client may be caused by a browser proxy, an expired local certificate store, or a local firewall while all network switches are healthy. Conversely, many clients in one VLAN failing simultaneously suggests shared infrastructure. A route table snapshot, ARP or neighbor entry, interface counter, packet trace, and server log each covers a different failure stage. No single tool reveals the whole path. ICMP filtering can make a traceroute look broken even when application traffic is forwarding normally.</p>
+
+<p>During a live incident, record what was changed and when. Applying three fixes at once makes the cause impossible to infer. Use a reversible change with a success metric, ideally in staging first. After recovery, write a concise timeline, actual trigger, detection gap, and preventive action. A post-incident analysis should separate the initiating event from architectural conditions that amplified its impact.</p>
+
+<h4>Controlled experiment and observation notebook</h4>
+
+<p>Create a lab fault tree for “browser cannot load the page.” First resolve the name, then test the intended address, TCP or QUIC reachability, TLS negotiation, and HTTP status. Introduce one controlled fault at a time: wrong DNS answer, missing default gateway, blocked server port, or expired certificate. Record which observation falsifies which hypothesis. Show why a missing traceroute hop can be caused by control-message filtering rather than failed application forwarding. Finish with a reversible change plan: evidence to collect, expected improvement, rollback condition, and post-incident timeline.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-cn-queue-wait"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.3</span>
+            <span>Traffic Analysis</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Traffic Analysis: conceptual explanation</strong></p>
+
+<p>Traffic analysis inspects protocol mix, flow sizes and temporal variation. Mean bandwidth alone can hide short bursts that overflow buffers. When sampling packet traces, record capture location, snap length and packet loss; otherwise absence of packets may reflect measurement failure.</p>
+
+<h4>Deep technical explanation</h4>
+
+<p>Traffic analysis characterizes who is communicating, over which transport, at what rate, and with which timing patterns. A five-tuple flow view is useful but imperfect: encryption obscures higher-layer content, tunnels can conceal inner endpoints, and address translation can merge many clients behind one public IP. Packet sampling reduces collection overhead but may miss small short-lived flows. Flow records provide aggregate counters without requiring payload inspection, improving privacy in many operational contexts.</p>
+
+<p>Burstiness matters because equal average bit rates can place very different demand on buffers. A 10-Mbit/s mean produced by a smooth sender can be easier to serve than repeated bursts at 100 Mbit/s separated by idle periods. A bottleneck queue sees the instantaneous arrival and service processes, not only the long-term mean. Microbursts may cause drops even when a one-minute utilization graph shows spare capacity. Capture resolution, counter polling intervals, and NIC telemetry determine what short events can be detected.</p>
+
+<p>Before diagnosing an elephant flow as malicious, check scheduled backups, software updates, and data synchronization. Compare source/destination distribution, protocol mix, flow duration, retransmission fraction, and application deadlines. Minimize packet payload retention and apply an approved retention policy because raw traffic may include credentials or personal data. A useful diagnosis prioritizes repeatable observations and avoids making claims about users' intent from a few header fields.</p>
+
+<h4>Controlled experiment and observation notebook</h4>
+
+<p>Construct two traffic sources with identical average offered rate but different temporal burst shapes. Feed them to a queue with finite buffers and record short-term occupancy, drops, and end-to-end latency. Compare a 1-second rate counter with a 60-second counter to expose microbursts that disappear in coarse aggregation. Classify flows by duration and byte count without collecting payload content. Add one large scheduled backup flow and explain why its volume does not alone prove malicious activity. Evaluate privacy risks of retaining flow metadata, particularly when many users share the same public address.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.4</span>
+            <span>Quality Of Service</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Quality Of Service: conceptual explanation</strong></p>
+
+<p>Quality of service allocates resources among competing classes through marking, shaping, policing and scheduling. Priority queues can improve delay for one class while starving another under sustained overload. QoS cannot create missing physical capacity, and service targets must include explicit load assumptions.</p>
+
+<h4>Deep technical explanation</h4>
+
+<p>Quality of service is the management of contention when traffic demands exceed available service at some moment. Classification places traffic into classes; marking carries policy signals; scheduling decides which queued packet transmits next; policing limits offered traffic; shaping delays traffic to smooth bursts. These are different tools. Priority scheduling can protect small interactive packets but can starve lower classes if unlimited traffic receives the highest priority. Weighted fair queuing seeks a more deliberate division of capacity among classes.</p>
+
+<p>An application should be classified by its observable needs rather than its marketing label. A voice call values low delay and modest loss, whereas a large backup can often tolerate additional latency but needs sustained throughput. Misclassifying a high-volume backup as real-time traffic makes prioritization ineffective. End-to-end markings might be rewritten or ignored across providers. A local priority class cannot force an upstream Internet bottleneck to honor the same policy.</p>
+
+<p>To validate QoS, run a controlled mixed workload with interactive probes and bulk transfers. Record delay percentiles, jitter, throughput, and drop rates before and after policy under the same offered load. Check the location of the actual bottleneck; shaping after a congested upstream link cannot undo already-lost packets. Protect control and management traffic without making a universal claim that priority removes congestion. A good design documents which service loses resources first during overload.</p>
+
+<h4>Controlled experiment and observation notebook</h4>
+
+<p>Generate a mixed workload containing delay-sensitive voice packets and a large background transfer. Configure a hypothetical strict-priority queue, measure the voice delay, and check whether the background transfer starves. Replace strict priority with a bounded or weighted scheduler and compare both classes. Apply shaping at the local egress and then move the bottleneck upstream; demonstrate why local scheduling cannot undo upstream drops. Record what happens if all traffic is mistakenly marked high priority. Define an acceptance criterion using delay percentiles and minimum throughput, not a vague claim that every application has improved.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.5</span>
+            <span>Integrated Case Study and Model Limitations</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Integrated case study</h4>
+
+<p>An online classroom has complaints of sporadic delay. Operators see 30 percent average utilization on a link and initially rule out congestion. That conclusion is premature: a minute-average graph cannot reveal a hundred-millisecond microburst that overflows a shallow buffer. Build a test with a background file transfer and short interactive probes. Record a timestamped event log, interface drops, queue occupancy where supported, retransmissions, p50 and p99 RTT, server CPU time, and application request identifiers. Describe collection points: sender, bottleneck router, proxy, and receiving application. Clock synchronization is essential for a reliable cross-device timeline.</p>
+
+<p>Introduce a simplified M/M/1 model with 20 jobs/s service capacity. At 10 arrivals/s, utilization is 0.5 and the expected jobs in the system is one; at 16 arrivals/s, utilization is 0.8 and the expected jobs rises to four. Mean queue waiting time rises correspondingly. These values are valid only under the Poisson-arrival, exponential-service, and steady-state assumptions. Real networks can be self-similar or bursty and may have multiple service disciplines. Use the model to build intuition, then use actual queue measurements to judge the real incident. A sustained 80 percent utilization is not intrinsically safe or unsafe without a latency and workload specification.</p>
+
+<p>Run a controlled QoS comparison. Give voice-like probes a modest high-priority class and bulk transfer a lower class. Under moderate load, both may succeed without any visible benefit from prioritization. Under overload, scheduling may reduce voice tail latency while limiting bulk throughput. If all packets are classified as high priority, the mechanism no longer distinguishes applications. Strict priority can starve lower queues; weighted schemes involve explicit minimum shares. Local marking might not survive an Internet provider's domain, so record precisely where the policy operates.</p>
+
+<p>Finish with a scientific incident report. State the user symptom and measurement window, list competing hypotheses, show evidence supporting or rejecting each, and identify the smallest reversible intervention. Possible remedies include pacing a batch sender, resizing a buffer with a latency budget, fixing a server hot path, changing a physical link, or updating classification. The selected remedy should match the diagnosed bottleneck. After the fix, repeat the same workload with the same metrics and report any remaining uncertainty. This prevents an attractive but unsupported fix from becoming the official explanation.</p>
+
+<h4>Engineering review and field notebook</h4>
+
+<p>Operations work should combine measurement with controlled change. A useful problem statement has a user-visible symptom, a defined affected population, a time window, and a success criterion. "The network is slow" lacks all four. "Students in one building see p99 page latency above two seconds during a scheduled backup between 10:00 and 10:30" provides a more testable starting point. The operator can then compare link utilization at a suitable time scale, drops, retransmission, application queue delay, and server work. A high average latency alone cannot identify where the problem originates.</p>
+
+<p>Every metric has an observation cost. Very frequent high-fidelity packet capture may consume disk, CPU, and sensitive payload storage; very coarse counters may hide the incident. Select the least intrusive measurement with adequate temporal resolution. A 60-second utilization graph can miss a 100-millisecond egress burst. A packet trace may show transport retransmissions without revealing whether loss occurred on the wireless hop, the provider network, or the capture interface itself. Identify alternative explanations explicitly and collect discriminating evidence before acting.</p>
+
+<p>Performance mathematics should be taught as conditional reasoning. M/M/1 queue formulas can demonstrate the rapid growth of expected delay as arrival rate approaches service rate, but they assume Poisson arrivals, exponential service times, and steady state. If students try to model a finite bursty buffer with this stationary queue and obtain an implausibly smooth result, the error is not a reason to abandon mathematics; it is a signal that the model's premises do not describe the observed workload. Choose a model appropriate to the question and then validate it against measurements.</p>
+
+<p>After intervention, compare the same workload. If the fix is traffic shaping, do not celebrate improved voice p95 while ignoring backup starvation. If the fix is a bigger switch buffer, check whether tail latency grew. If the fix is a new DNS resolver, check whether the original application failure was in fact DNS-related. A reliable incident report gives the chosen change, measurement before and after, risks of the intervention, rollback condition, and untested alternatives. It treats technical uncertainty as part of operations, not as an embarrassment to hide.</p>
+
+<p>Capacity planning must distinguish an average demand estimate from a service-level objective. Suppose an online exam system handles many small requests at the beginning of an exam, followed by quieter reading and a second wave of submission events. The minute-mean request rate might appear comfortably below a server's nominal capacity, yet the initial arrivals can create a long queue precisely when users need immediate feedback. Design a workload generator with a realistic time profile: ramp, short burst, steady phase, and recovery. Report per-phase arrival rates, response time percentiles, queue length where observed, and errors. Synthetic tests must be rate-limited and confined to infrastructure you control. If the generator itself becomes CPU limited, its numbers cannot be interpreted as a server capacity result.</p>
+
+<p>Error budgets connect measurements to action. A service might require that at least 99 percent of interactions complete within one second for a defined set of clients and test intervals. Averages alone cannot evaluate that threshold. Mark every failed or missing response consistently instead of deleting timeouts from the sample: removing failures can make p99 artificially flattering. Define whether client-side network failures, application validation rejections, and user cancellations belong in the objective. Comparing two releases also requires matched endpoints, approximate load mix, deployment region, and enough observations to limit sampling noise. Without that control, the new release's apparent improvement could be the consequence of a quiet hour rather than a software change.</p>
+
+<p>The protocol stack provides a useful incident narrative. A request can incur DNS delay, TLS setup delay, router queueing, application processing, and database waiting. If only total time is captured, optimization teams may argue about ownership without evidence. A distributed trace with correctly correlated clocks can allocate measured spans, but asynchronous work and shared-resource contention complicate interpretation. Distinguish elapsed wall-clock critical path from the sum of overlapping component spans; adding concurrent spans can produce a number larger than the user's actual response time. Finish with a correction report that names the dominant observed component, the competing explanations, the chosen reversible intervention, and the precise condition under which rollback should occur.</p>
+
+<h4>Key technical vocabulary</h4>
+
+<p><strong>p99 latency.</strong> Value at or below which roughly ninety-nine percent of the sampled latencies fall.</p>
+
+<p><strong>jitter.</strong> Variation in packet delay or interarrival spacing under a defined measurement.</p>
+
+<p><strong>utilization.</strong> Fraction of a service resource consumed during a stated interval.</p>
+
+<p><strong>M/M/1.</strong> A single-server queue model with memoryless interarrival and service-time assumptions.</p>
+
+<p><strong>tail latency.</strong> Behavior of unusually slow requests, typically evaluated with upper percentiles.</p>
+
+<p><strong>QoS classification.</strong> Assignment of traffic to policy classes based on observable attributes.</p>
+
+<p><strong>traffic shaping.</strong> Buffering or pacing output to meet a defined transmission rate profile.</p>
+
+<p><strong>policing.</strong> Enforcement of a traffic rate or burst allowance, sometimes by dropping or marking.</p>
+
+<p><strong>queue discipline.</strong> Rule choosing which waiting packet or job is served next.</p>
+
+<p><strong>fault tree.</strong> Structure connecting a symptom to testable possible causes and discriminating checks.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Computer Networks Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.1: Queue behavior near service capacity</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A simple M/M/1 classroom queue serves 20 jobs per second, with Poisson arrival and exponential service times. Compute the stationary expected number of jobs in the system and the mean waiting time before service for arrivals of 10 and 16 jobs per second. State when this model becomes invalid.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-networks-7-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-networks-7-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Check stability and utilization</div>
+              
+              <div class="step-explanation"><p>For a stationary M/M/1 model, arrival rate lambda must be less than service rate mu. With mu=20 jobs/s, lambda=10 gives rho=0.5 and lambda=16 gives rho=0.8. Both are under the stability condition. At lambda≥20, the stationary finite-mean formulas no longer apply.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute expected number in system</div>
+              
+              <div class="step-explanation"><p>The M/M/1 expected system population is L=lambda/(mu−lambda). At lambda=10, L=10/10=1 job. At lambda=16, L=16/4=4 jobs. This includes jobs waiting plus any in service; do not confuse it with Lq, the queue-only mean.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute waiting before service</div>
+              
+              <div class="step-explanation"><p>The expected queue wait is Wq=lambda/[mu(mu−lambda)]. For lambda=10, Wq=10/(20×10)=0.05 s or 50 ms. For lambda=16, Wq=16/(20×4)=0.20 s or 200 ms. The mean time including service would be larger by 1/mu=50 ms.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the correct interpretation</div>
+              
+              <div class="step-explanation"><p>The strong rise as utilization approaches one is an insight of this assumed model. Real traffic burstiness, priorities, finite buffers, multicore service, and changing workload can invalidate the stationary M/M/1 prediction. Use measured latency distributions for decisions about actual networks.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>At 10/s: L=1, Wq=50 ms; at 16/s: L=4, Wq=200 ms.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.2: A reproducible network incident fault tree</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Students report that a web application is unreachable. A resolver returns the expected IP address; a TCP connection to port 443 succeeds; the TLS handshake fails because the certificate name does not match the requested hostname. Explain which hypotheses are weakened by these observations, what the next action should be, and why disabling certificate verification is an unsound production fix.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-networks-7-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-networks-7-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Bound evidence from DNS</div>
+              
+              <div class="step-explanation"><p>The resolver supplied an answer for the requested name, reducing the likelihood of a simple missing-record problem from that vantage point. It does not prove every resolver has the same answer, or that the resulting address is the intended host under every security policy.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Interpret transport reachability</div>
+              
+              <div class="step-explanation"><p>The successful TCP connection shows that a path permitted a TCP handshake to the chosen endpoint and port. It does not prove that the endpoint provides the correct secure application, that authorization will succeed, or that user-visible content exists.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Locate the identified failure</div>
+              
+              <div class="step-explanation"><p>A hostname mismatch is a TLS identity-validation failure. Investigate the server certificate's authorized names, requested hostname, SNI and proxy configuration. Correct the name or certificate deployment through an approved workflow, then validate with the same affected client.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Protect the trust guarantee</div>
+              
+              <div class="step-explanation"><p>Disabling certificate verification removes a key defense against impersonation and interception. It masks the symptom without establishing the true intended peer. Document the final certificate chain and hostname match as part of verification.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Diagnose a TLS hostname identity mismatch; fix endpoint naming or certificate configuration, not client verification.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.3: QoS classification under overload</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A router carries latency-sensitive voice packets and bulk backup traffic on a saturated egress. An operator puts every packet into the highest priority class and announces that QoS has been enabled. Explain why this cannot provide differentiation, propose a bounded alternative policy, and define measurements needed to evaluate a claimed voice improvement.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-networks-7-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-networks-7-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Explain the logical error</div>
+              
+              <div class="step-explanation"><p>Priority queuing matters only if traffic classes differ. If every packet is marked highest priority, the scheduler has no lower class from which to take service and cannot protect voice against bulk within that single class. This is a classification failure, not necessarily a scheduler implementation bug.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Define class and fairness constraints</div>
+              
+              <div class="step-explanation"><p>Classify voice using an approved signal or application identity that cannot be spoofed casually. Give the latency-sensitive class a bounded share or cap so background traffic is not indefinitely starved. Assign backup traffic a lower scheduling weight or a shaped rate consistent with capacity.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Measure both user experience and collateral effects</div>
+              
+              <div class="step-explanation"><p>Record voice packet delay variation, p95 or p99 latency, loss, backup throughput, link queue occupancy, and dropped packets before and after under matched offered load. A voice benefit with complete starvation of necessary backups may violate the service objectives.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Check the bottleneck location</div>
+              
+              <div class="step-explanation"><p>The configured router must actually be the congested egress where packet scheduling influences order. Markings may be ignored beyond the organization's domain, and local QoS cannot reverse losses that occurred before packets reached the queue.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Putting everything in the same top class provides no prioritization; classify carefully and measure all classes under matched overload.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="operating-systems">Operating Systems</a><a href="database-systems">Database Systems</a><a href="computer-networks">Computer Networks</a><a href="software-engineering">Software Engineering</a><a href="programming-languages-and-compilers">Programming Languages and Compilers</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/kurose-ross" target="_blank" rel="noopener noreferrer">Kurose, J.F., &amp; Ross, K.W. (2021). Computer Networking: A Top-Down Approach (8th ed.): Leading university textbook covering transport protocols, congestion control, and network layer architecture</a></li><li><a href="https://openstemlibrary.com/references/tanenbaum-networks" target="_blank" rel="noopener noreferrer">Tanenbaum, A.S., &amp; Wetherall, D.J. (2011). Computer Networks (5th ed.): Canonical theoretical foundation for physical transmission, framing, routing algorithms, and protocol verification</a></li><li><a href="https://openstemlibrary.com/references/stevens-tcpip" target="_blank" rel="noopener noreferrer">Stevens, W.R., &amp; Fall, K.R. (2011). TCP/IP Illustrated, Vol. 1: The Protocols (2nd ed.): Authoritative engineering reference for TCP state machine transitions, slow start, and window management</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="computer-networks-chapter-6">← Previous chapter</a><a href="computer-networks">Book contents</a><a href="computer-networks-chapter-8">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="computer-networks-sims.js?v=1"></script>
+  <script src="computer-networks-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

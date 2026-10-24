@@ -1,0 +1,385 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Runtime systems | Programming Languages and Compilers | OpenSTEM Library</title>
+  <meta name="description" content="Topic foundations, carefully bounded examples, implementation reasoning, two original simulations, and three detailed worked exercises for runtime systems.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/programming-languages-and-compilers-chapter-5">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/programming-languages-and-compilers-chapter-5">
+  <meta property="og:title" content="Programming Languages and Compilers: Lexing, Parsing, Type Systems, SSA &amp; Code Generation | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering programming language paradigms, formal grammars, deterministic finite automata for lexing, LL(k) and LR(k) shift-reduce parsing, abstract syntax tree representations, static type systems, unification and Hindley-Milner type inference, Static Single Assignment (SSA) intermediate representation, control-flow graphs, loop optimizations, graph-coloring register allocation, and code generation with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Programming Languages and Compilers: Lexing, Parsing, Type Systems, SSA &amp; Code Generation | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering programming language paradigms, formal grammars, deterministic finite automata for lexing, LL(k) and LR(k) shift-reduce parsing, abstract syntax tree representations, static type systems, unification and Hindley-Milner type inference, Static Single Assignment (SSA) intermediate representation, control-flow graphs, loop optimizations, graph-coloring register allocation, and code generation with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="programming-languages-and-compilers.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Programming Languages and Compilers: Runtime systems","description":"Comprehensive university textbook covering programming language paradigms, formal grammars, deterministic finite automata for lexing, LL(k) and LR(k) shift-reduce parsing, abstract syntax tree representations, static type systems, unification and Hindley-Milner type inference, Static Single Assignment (SSA) intermediate representation, control-flow graphs, loop optimizations, graph-coloring register allocation, and code generation with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/programming-languages-and-compilers-chapter-5","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Compilers","Programming Language Theory","Lexical Analysis","Context-Free Grammars","LR Parsing","Static Type Systems","SSA Intermediate Representation","Register Allocation"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Programming Languages and Compilers","item":"https://openstemlibrary.com/programming-languages-and-compilers"}]}</script></head>
+<body data-book-path="programming-languages-and-compilers.html" data-chapter-index="4" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Programming Languages and Compilers</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search regular expressions, deterministic finite automata, context-free grammars, LL(1) parsing, LR(1) and LALR parser tables, abstract syntax trees, Hindley-Milner type inference, Static Single Assignment form, register allocation, garbage collection…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="programming-languages-and-compilers" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Language concepts</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="programming-languages-and-compilers-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Type systems</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="programming-languages-and-compilers-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Parsing</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="programming-languages-and-compilers-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Intermediate representations</span></a></li><li class="unit-nav-item active" data-unit-index="4"><a href="programming-languages-and-compilers-chapter-5" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Runtime systems</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="programming-languages-and-compilers-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Optimization</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="programming-languages-and-compilers-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Code generation</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="programming-languages-and-compilers-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Language implementation</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Programming languages and compilers major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 5 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Runtime systems</h1>
+            <p class="unit-desc-lead" id="unit-desc">Topic foundations, carefully bounded examples, implementation reasoning, two original simulations, and three detailed worked exercises for runtime systems.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university compilers and programming language theory courses. Eight units with exactly three solved questions per unit and 16 interactive simulations illustrating grammar parsing, type checking, and optimization lowering. Numerical checks and an editorial review support this edition.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-5-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.1</span>
+            <span>Memory Layouts</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Memory Layouts: conceptual explanation</strong></p>
+
+<p>Runtime layout divides work among memory regions, but an implementation should not assume that a particular language object always occupies a familiar region. A typical native call frame contains return information, saved registers, spill slots and local temporaries, while heap objects outlive a particular call and global storage may contain static objects. A compiler must obey the target ABI’s stack alignment and calling convention; a wrong alignment can break foreign calls even when the compiler's own tests appear to run. Escaping variables captured by closures cannot simply become invalid when their declaring function returns.</p>
+
+<p>Use a frame layout exercise. Suppose a target requires 16-byte stack alignment and a function needs 24 bytes of local storage plus 8 bytes of saved state; the total is already 32 bytes, but adding one extra 8-byte spill may require rounding to 48 to preserve alignment. A real ABI’s pre-call and entry alignment rules must be applied rather than assuming all architectures share this convention. Distinguish the logical stack discipline from implementation: tail-call optimization may reuse frames, async functions may store activation records on the heap, and green-thread runtimes may grow or move stacks. Correctness tests include deep recursion, foreign function calls, exceptions, and closure escape after the creating call has finished.</p>
+
+<h4>Design investigation: frame layout with escaping state</h4>
+
+<p>Define a procedure with two integer parameters, 24 bytes of locals, one saved register and one spilled temporary under a hypothetical ABI requiring 16-byte stack alignment. Compute the required frame size carefully and describe which stack-pointer state is aligned at call boundaries. Avoid asserting one exact layout for all real ABIs. Add a returned closure capturing a local variable; show why deallocating the entire call frame cannot also destroy the captured cell. Compare allocating a closure environment on the heap with copying an immutable value into a separate object. Run a recursion test deep enough to exercise multiple frames and an exception that unwinds through two calls. Verify that saved registers and root references are still valid. A function’s correctness depends on both logical semantics and physical boundary protocol.</p>
+
+<h4>Garbage Collection Invariants and Memory Management</h4>
+
+<p>Managed language runtimes implement automated garbage collection to preserve memory safety invariants and prevent use-after-free vulnerabilities. In generational garbage collection architectures, objects are partitioned into young and old generations based on the empirical weak generational hypothesis: most allocated objects become unreachable shortly after instantiation. The collector maintains precise write barriers during pointer mutations, recording inter-generational references from old-to-young generations to avoid costly full-heap mark sweeps during minor garbage collection pauses.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-plc-u5-a"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.2</span>
+            <span>Garbage Collection</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Garbage Collection: conceptual explanation</strong></p>
+
+<p>Tracing garbage collection begins with a defined root set: registers, active stack slots, globals or runtime-managed handles. The collector walks the object graph reachable from those roots and reclaims unreachable objects under the language’s memory-safety assumptions. If root A points to B and B points to C, C must remain live even without a direct root reference. Mark-sweep marks reachable objects and sweeps the rest, while copying collectors move live objects into a new region and update references. Generational collectors exploit empirical allocation patterns, but their write barriers must record old-to-young references to avoid losing live objects.</p>
+
+<p>Reference counting is conceptually different: increment counts on new strong references, decrement on release, and reclaim when a count becomes zero. Cycles such as A pointing to B and B pointing back to A are not recovered by basic reference counting without an additional strategy. Liveness is not semantic usefulness: an unused object may remain reachable from a cache, so the collector cannot know that the application no longer cares about it. Investigate the difference between a memory leak caused by accidental reachability and one caused by an incorrect native allocation with no release. A timing trace should separately report allocation rate, pause duration, throughput and retained heap size rather than advertising a single unexplained “GC speed” metric.</p>
+
+<h4>Design investigation: reachable is not the same as useful</h4>
+
+<p>Draw objects A,B,C,D,E with edges A-&gt;B, B-&gt;C, D-&gt;E and E-&gt;D. If the only root points to A, a correct tracing collector retains A,B,C and reclaims D,E. If the root changes to D, it retains D,E and may reclaim A,B,C. Basic reference counting would not reclaim the isolated D/E cycle when external references disappear. Now add a global cache pointing to A even though the application never reads A again: the collector must keep it because it remains reachable, illustrating retention caused by application references. Track root set at an exception handler and a foreign callback, not just ordinary stack locals. Build an independent DFS reachability oracle and compare the collector's survivor list on randomly generated directed object graphs. State whether the toy collector models weak references and finalizers; if not, exclude them instead of pretending they work.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.3</span>
+            <span>Closures</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Closures: conceptual explanation</strong></p>
+
+<p>A closure pairs executable code with an environment containing captured bindings. Consider `makeCounter()` creating local c=0 and returning `increment() { c=c+1; return c }`. Two calls to one returned closure should yield 1 then 2, but a separately created closure should normally start at 1. To implement this, determine whether the closure holds a mutable cell or a copied scalar. Copying c at closure creation without mutation semantics can accidentally make repeated calls return 1 forever; sharing one global cell can make separate counters interfere.</p>
+
+<p>Escape analysis identifies storage whose lifetime must exceed the current stack frame. Some closures can be allocated on the stack when the compiler proves that they never escape; others require heap-backed environments. Capturing immutable values, mutable variables, references to external objects, and loop variables may have different rules. In concurrent contexts the environment may need synchronization or prohibit simultaneous mutation. Build an interpreter environment model with parent pointers, then write a source-level test for nested closures shadowing the same identifier. Draw the object graph after the creating function returns: code pointer, captured environment, mutable cell, and any transitive objects. The compiler's allocation optimization is sound only if observable closure behavior is preserved.</p>
+
+<h4>Design investigation: mutable closure identities</h4>
+
+<p>Construct two counters from `makeCounter`, one stored in a and one in b. Call a twice, b once, and a again; expected sequence is 1,2,1,3 under separate mutable environments. Dump closure object identifiers and captured cell addresses. If both counters share one cell, the sequence might become 1,2,3,4, demonstrating a capture bug. Add a closure that reads a nested binding with the same source spelling as a global binding and verify that lexical identity wins. Free the creating function’s stack frame before invoking the closure and check that captured storage remains valid. In a moving garbage collector, ensure the closure environment references are updated or represented through handles. A test that only calls the closure before its creator returns does not establish escape correctness. Explain the lifetime invariant that makes this design work.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-plc-u5-b"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.4</span>
+            <span>Exception Handling</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Exception Handling: conceptual explanation</strong></p>
+
+<p>Exceptions introduce nonlocal control flow. A `throw` skips ordinary statements until a matching handler is found; cleanup rules must specify when deferred actions, destructors or finally blocks execute. If a function acquires a lock, allocates memory and then fails, the runtime must not silently abandon cleanup. The semantics also needs to decide what happens if cleanup itself raises another exception. A simple compiler can lower try/catch to explicit landing-pad blocks, unwind tables or a runtime search strategy, depending on the target ABI and supported operations.</p>
+
+<p>Observe code `try { open(); f(); } finally { close(); }`. Whether `f` returns or throws, `close` should run according to the language contract, although failure of open may require a guard. Exception unwinding interacts with register state, debug information, foreign frames and garbage collector roots. Comparing exceptional and normal CFG edges prevents optimizations from moving side effects past an operation that might throw. Asynchronous cancellation is not necessarily a normal exception; code may need cancellation-safe critical regions. Test nested handlers, rethrow, partially initialized objects, cleanup failure, return from finally if permitted, and cross-language exception boundaries. Make a clear distinction between tested semantics and the host platform’s accidental behavior.</p>
+
+<h4>Design investigation: unwinding plus resources</h4>
+
+<p>Write a function that opens a resource, allocates an object and calls a function that throws. Use a finally block or language-specific defer to release the resource according to the language contract. Instrument a log: Open, Allocate, Call, Throw, Unwind, Close, Handle. Confirm that Close occurs once even when control exits through the exception. Introduce a second exception during cleanup and define which error is observed; languages differ, so the policy must come from the source semantics. Include a nested handler that catches only one exception type and permits another to propagate. Test that garbage collector roots for the exception payload remain live while unwinding frames. An optimizer must not move an effectful operation after a potentially throwing call merely because the normal-return path would still produce the same value.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.5</span>
+            <span>Integrated Case Study and Model Limitations</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A closure returned from `makeCounter` captures a mutable count variable. If the variable's storage lived only on the caller stack, the returned closure could reference invalid memory. An implementation may use heap-allocated environments or escape analysis to retain captured storage. In the same program, garbage collection should reclaim unreachable closures but must not reclaim an object still reachable through a live captured reference. A reference-counting collector needs another mechanism to break cycles between objects. Describe how an exception thrown during counter initialization affects cleanup and observable state.</p>
+
+<h4>Laboratory: implement closure capture and tracing collection together</h4>
+
+<p>Extend a small interpreted language with nested functions, allocation of pair objects, mutation and a `makeCounter` function. The function should return a closure whose captured variable remains valid after the surrounding call has returned. Represent a closure as `(code, environment)` where the environment contains cells for captured mutable values. Test one closure twice and two separately created closures alternately. Expected behavior depends on the language specification: each counter has its own cell unless an explicit shared object is passed. If every call returns one, a snapshot copy may be used in place of mutable capture. If different counters interfere, an unintended shared global might have been introduced.</p>
+
+<p>Build a heap graph from nodes with identifiers and reference fields. Designate roots from global variables, interpreter operand stack and active frames. Mark all nodes reachable from roots; sweep those not marked. For a graph A -&gt; B -&gt; C and isolated cycle D -&gt; E -&gt; D, roots containing A should keep A, B and C and permit reclaiming D and E. Now remove A from the root set: A, B and C become reclaimable too, provided no other roots reference them. A tracing collector is not allowed to reclaim an object because the source compiler considers its variable dead if a live runtime handle may still exist.</p>
+
+<p>Add an explicit foreign-handle table to the root set. Suppose a native library stores a pointer to an object that the language VM wishes to move during compacting collection. Without a stable handle or pinning protocol the native pointer can become invalid even though the object remains reachable. Decide on one supported policy and test it. Basic mark-sweep with nonmoving objects is easier as a first implementation; generational and copying designs introduce forwarding pointers, write barriers and remembered sets. Implement one policy fully before adding optimizations with complex invariants.</p>
+
+<p>Model exceptions and stack unwinding. Make a function allocate a pair, register a cleanup callback, then throw. The handler should observe the exception; cleanup should run according to the language contract; unreachable objects should be collected later rather than leaked through a stale frame root. If the cleanup also throws, define which exception is delivered. An exception must not cause a heap object to be collected while it remains referenced from the exception payload or handler environment. Instrument root snapshots at every allocation and handler transition.</p>
+
+<p>Assess performance with simulated allocation traces rather than unsupported claims about real runtimes. Record total allocations, bytes retained after collection, time or operation count spent marking, and peak heap usage. A small cyclic graph can show why reference counting alone may fail; it does not establish that tracing is better on every workload. Validate collector behavior against a simple graph reachability implementation written independently. Your final result should demonstrate correctness on escaped closures, aliasing, cycles, nested exceptions and foreign roots before discussing tuning.</p>
+
+<h4>Failure clinic: a disappearing closure under garbage collection</h4>
+
+<p>A runtime uses a conservative stack scan as its only root discovery mechanism and moves objects during compaction. A native callback keeps a raw pointer to a closure environment while the original language function has returned. The callback invokes the closure later, and occasionally the pointer refers to moved or freed storage. The bug depends on allocation history, so ordinary unit tests pass inconsistently. Diagnose the ownership and root protocol. A foreign-held pointer must either be stable through a runtime handle, pinned according to the collector's rules, or updated when the object moves. Conservatively scanning currently active stack frames does not discover an arbitrary pointer retained in native library state.</p>
+
+<p>Construct a controlled reproduction. Create a closure capturing a mutable counter; hand an invocation handle to the mock foreign library; drop ordinary language references; force repeated allocations and collection; then invoke the callback through the handle. The expected counter sequence must continue rather than resetting or crashing. Record handle creation, protection, release and collection cycles. Add a negative test that releases the handle and confirms the runtime no longer promises the callback remains valid; the foreign library must not call it after the documented release event.</p>
+
+<p>A related leak arises when the root table never removes handles after callbacks are unregistered. Tracing collection properly retains every reachable object, so the heap grows even though the application no longer needs those closures. Distinguish incorrect garbage collection from incorrect application reachability. Capture a heap graph and count roots across registration and deregistration operations. A heap snapshot showing objects retained by a global table can reveal a leak that simply increasing the collection frequency cannot fix.</p>
+
+<p>Finally test exception unwinding. A callback raises a language exception during a native call that has no compatible unwind ABI. The exception must be translated into a supported error result or routed through an explicitly tested callback boundary. Do not allow arbitrary language exceptions to cross foreign frames on the assumption that every platform uses the same unwinding format. The runtime’s correctness contract includes allocation, capture lifetime, root management, cleanup, exceptions and foreign ownership, all of which interact in this one apparently simple callback scenario.</p>
+
+<h4>Worked comparative study: lifetime, aliasing and exception semantics</h4>
+
+<p>In a simple interpreter, values may appear to be numbers stored in a dictionary. Real runtimes must also represent heap objects, closures, calls, stack frames, exceptions and foreign references. A variable binding and an object lifetime are different concepts. Removing a local variable from scope does not necessarily make its referenced object unreachable: a returned closure, global cache or foreign handle may still refer to it. Conversely, a programmer may still consider an object logically useful even though no runtime root can reach it; the collector must follow reachability rules, not human intention.</p>
+
+<p>Compare two memory management models. In reference counting, assignment of an additional strong reference increases a count, and releasing a reference decreases it. A simple cycle can preserve positive counts after external references vanish. Tracing collection instead walks from roots and can reclaim unreachable cycles. Each has implementation costs and edge cases; hybrid runtimes exist. Even tracing collection cannot reclaim an object retained by an accidental global reference. Record the root set and graph before claiming a particular algorithm has a leak or correctness defect.</p>
+
+<p>Exceptions connect memory to control flow. When an operation throws, frames may unwind without executing ordinary return statements. Cleanup constructs must restore resource invariants and release locks. The runtime still needs correct roots for any exception object and captured environment used by handlers. Optimizations that eliminate a seemingly dead local may be safe at the source level but must leave appropriate roots for the runtime at safepoints. Native interfaces complicate this because the runtime may not be able to inspect or relocate arbitrary foreign pointers.</p>
+
+<p>Construct a combined test. Create a closure capturing a heap object, register it as a callback, leave the creating stack frame, force collection, invoke the callback, and then throw an exception from its body. Check that the captured object survives, cleanup runs according to policy, the exception is reported through a supported boundary, and release of the foreign handle eventually permits collection. Document any features not supported by the small runtime. This case illustrates why the semantics of closures, garbage collection, foreign ownership and unwinding cannot be verified completely in isolation.</p>
+
+<h4>Unit review: audit all roots and cleanup paths</h4>
+
+<p>Draw a heap graph before and after returning a closure and before and after an exception unwinds the stack. Show the runtime roots that keep a captured environment alive. Introduce a foreign callback handle and decide whether it is pinned, copied or represented by a movable collector-aware handle. A collector can reclaim only objects unreachable from the actual root set; an unexpected global reference can keep otherwise useless objects alive indefinitely. Check that resource cleanup executes on both normal and exceptional paths and that exceptions do not cross incompatible native unwind frames without a defined protocol. If the small simulator omits finalizers, weak references or concurrent collection, record those omissions. Their complexity is not removed by drawing a simpler object graph.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Programming Languages and Compilers Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked example — original OpenSTEM editorial draft</span>
+            <strong>Example 5.1: Trace reachable objects</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>In a heap graph A-&gt;B-&gt;C with root A and isolated cycle D&lt;-&gt;E, identify what mark-sweep may reclaim.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-programming-languages-and-compilers-u5-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-programming-languages-and-compilers-u5-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up definitions and premises</div>
+              
+              <div class="step-explanation"><p>Starting from root A, mark A, then follow A-&gt;B and B-&gt;C to mark B and C. Neither D nor E is reachable from any root under the specified graph.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Derive the result</div>
+              
+              <div class="step-explanation"><p>Sweep reclaims unmarked D and E. A reference counter without cycle detection might keep D/E allocated after external references disappear because they still reference each other.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Validate limits and interpretation</div>
+              
+              <div class="step-explanation"><p>If a foreign handle points to D, it must be treated as an additional root; D and E would then be live. The collector is correct relative to its actual roots, not to a guessed application intention.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Retain A,B,C; reclaim D,E only when no root, including foreign roots, reaches them.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked example — original OpenSTEM editorial draft</span>
+            <strong>Example 5.2: Evaluate separate counters</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Two closures are produced by separate calls to makeCounter and each captures its own mutable integer starting at zero. Find outputs of a(),a(),b(),a().</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-programming-languages-and-compilers-u5-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-programming-languages-and-compilers-u5-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up definitions and premises</div>
+              
+              <div class="step-explanation"><p>Closure a owns cell ca=0 and closure b owns cb=0. Calling a increments ca to one and returns one, while the second call increments it to two and returns two.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Derive the result</div>
+              
+              <div class="step-explanation"><p>Calling b increments cb to one without changing ca. Calling a again increments ca from two to three. Keeping captured cells distinct is necessary for these observations.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Validate limits and interpretation</div>
+              
+              <div class="step-explanation"><p>A runtime storing c only in the creation frame can use freed storage after return; a runtime using one shared global cell makes the third call return three instead of one. Both designs violate the stated separate-closure semantics.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Outputs 1,2,1,3 under independent captured mutable environments.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked example — original OpenSTEM editorial draft</span>
+            <strong>Example 5.3: Exception cleanup trace</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A function opens a resource, calls a function that throws, and has a finally cleanup. Describe the mandatory event order under ordinary finally semantics.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-programming-languages-and-compilers-u5-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-programming-languages-and-compilers-u5-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up definitions and premises</div>
+              
+              <div class="step-explanation"><p>The function opens the resource successfully and enters the protected region. The nested call throws; ordinary instructions after the call are not executed.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Derive the result</div>
+              
+              <div class="step-explanation"><p>The unwinder invokes the finally cleanup before the exception is delivered to the surrounding handler. Record Open, Call, Throw, Cleanup, Handle, with exactly one cleanup if the contract specifies that outcome.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Validate limits and interpretation</div>
+              
+              <div class="step-explanation"><p>A cleanup that itself throws creates another semantic question: which exception is propagated or suppressed? Test the selected language policy. Cross-FFI unwinding must not be assumed legal across incompatible runtimes.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Cleanup precedes outer handling after the throw; secondary cleanup failure is language-specific.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="operating-systems">Operating Systems</a><a href="database-systems">Database Systems</a><a href="computer-networks">Computer Networks</a><a href="software-engineering">Software Engineering</a><a href="programming-languages-and-compilers">Programming Languages and Compilers</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/dragon-book" target="_blank" rel="noopener noreferrer">Aho, A.V., Lam, M.S., Sethi, R., &amp; Ullman, J.D. (2006). Compilers: Principles, Techniques, and Tools (2nd ed.): Canonical Dragon Book covering scanner generation, LR parsing, syntax-directed translation, and data-flow analysis</a></li><li><a href="https://openstemlibrary.com/references/cooper-torczon" target="_blank" rel="noopener noreferrer">Cooper, K.D., &amp; Torczon, L. (2011). Engineering a Compiler (2nd ed.): Leading modern reference on intermediate representations, SSA transformation, instruction scheduling, and register allocation</a></li><li><a href="https://openstemlibrary.com/references/pierce-tapl" target="_blank" rel="noopener noreferrer">Pierce, B.C. (2002). Types and Programming Languages: Definitive mathematical foundations for the lambda calculus, operational semantics, and formal type systems</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="programming-languages-and-compilers-chapter-4">← Previous chapter</a><a href="programming-languages-and-compilers">Book contents</a><a href="programming-languages-and-compilers-chapter-6">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="programming-languages-and-compilers-sims.js?v=1"></script>
+  <script src="programming-languages-and-compilers-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

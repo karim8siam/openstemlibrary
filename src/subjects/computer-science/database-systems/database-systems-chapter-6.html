@@ -1,0 +1,462 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Recovery and integrity | Database Systems | OpenSTEM Library</title>
+  <meta name="description" content="Logging Checkpoints Crash Recovery Consistency Constraints; applied transactions, test cases, counterexamples and engineering limitations.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/database-systems-chapter-6">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/database-systems-chapter-6">
+  <meta property="og:title" content="Database Systems: Relational Algebra, B+ Trees, Query Optimization &amp; ACID Transactions | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering relational model mathematics, relational algebra, SQL declarative semantics, heap files, slotted pages, B+ tree indexing, buffer pool replacement (LRU-K), cost-based join optimization (nested loops, hash join, sort-merge), concurrency control (2PL, snapshot isolation), and ARIES write-ahead logging recovery with 24 solved questions and 8 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Database Systems: Relational Algebra, B+ Trees, Query Optimization &amp; ACID Transactions | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering relational model mathematics, relational algebra, SQL declarative semantics, heap files, slotted pages, B+ tree indexing, buffer pool replacement (LRU-K), cost-based join optimization (nested loops, hash join, sort-merge), concurrency control (2PL, snapshot isolation), and ARIES write-ahead logging recovery with 24 solved questions and 8 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="database-systems.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Database Systems: Recovery and integrity","description":"Comprehensive university textbook covering relational model mathematics, relational algebra, SQL declarative semantics, heap files, slotted pages, B+ tree indexing, buffer pool replacement (LRU-K), cost-based join optimization (nested loops, hash join, sort-merge), concurrency control (2PL, snapshot isolation), and ARIES write-ahead logging recovery with 24 solved questions and 8 interactive simulations.","url":"https://openstemlibrary.com/database-systems-chapter-6","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Database Systems","Relational Algebra","SQL Semantics","B+ Tree Indexing","Query Optimization","ACID Transactions","Concurrency Control","ARIES Recovery"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Database Systems","item":"https://openstemlibrary.com/database-systems"}]}</script></head>
+<body data-book-path="database-systems.html" data-chapter-index="5" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Database Systems</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search relational algebra, tuple relational calculus, B+ tree leaf split, buffer pool management, external merge sort, cost-based query optimization, two-phase locking, serializability, write-ahead logging, ARIES recovery…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="database-systems" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Data modeling</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="database-systems-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Relational systems</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="database-systems-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Storage engines</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="database-systems-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Query processing</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="database-systems-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Transactions</span></a></li><li class="unit-nav-item active" data-unit-index="5"><a href="database-systems-chapter-6" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Recovery and integrity</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="database-systems-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Distributed databases</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="database-systems-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Application databases</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Database systems core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 6 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Recovery and integrity</h1>
+            <p class="unit-desc-lead" id="unit-desc">Logging Checkpoints Crash Recovery Consistency Constraints; applied transactions, test cases, counterexamples and engineering limitations.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university database systems courses. Eight units with exactly three solved questions per unit and interactive simulations illustrating B+ tree splits, join selectivity, two-phase locking schedules, and write-ahead log recovery. Numerical checks and an editorial review support this edition.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-6-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.1</span>
+            <span>Logging</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Logging</strong></p>
+
+<p>Write-ahead logging records changes before dirty pages reach stable storage. The WAL rule underpins redo/undo recovery in many systems.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>If a transaction changes page P, its log record must become durable before the modified data page is flushed, so recovery can replay or roll back safely.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>A commit acknowledgment requires the engine's configured durability semantics; unsafe disk caches or relaxed fsync settings can invalidate assumptions.</p>
+
+<h4>Domain model and precise assumptions</h4>
+
+<p>Logging records enough information to recover a durable database state after failure. Write-ahead logging requires a relevant log record to reach durable storage before the corresponding changed data page is allowed to reach durable storage. This ordering makes it possible to reconstruct committed changes even when some pages were not flushed at commit. The log is not merely an audit trail for business users; it is a low-level recovery structure recording operations or page changes and transaction boundaries. Its format, record identifiers and durability choices differ among systems. A source log may contain sensitive data, so backup and retention policies matter.</p>
+
+<h4>Worked field scenario</h4>
+
+<p>Consider a page P initially containing value 10. A transaction changes the value to 15, and the engine appends a log record describing the update. If the data page is written before the relevant log record is durable, a crash can leave data and log irreconcilable. In a WAL protocol, log durability must precede unsafe data-page flushing. The transaction's commit acknowledgment must also follow the durability policy the service promises; otherwise a client can receive success for work that may disappear after power loss. Different synchronous-commit settings deliberately trade latency against the strength of that promise.</p>
+
+<h4>Counterexample and limits</h4>
+
+<p>Some recovery designs combine redo and undo information; other designs use multiversion reconstruction and different mechanisms. Do not reduce all DBMS recovery to a single uniform algorithm. PostgreSQL WAL and SQLite WAL share the idea of logging before later data-file integration but differ greatly in file format and recovery architecture. The data page and log need not be written on the same schedule, and a checkpoint is not equivalent to permanently deleting every older log record.</p>
+
+<h4>Investigation and self-check</h4>
+
+<p>Write a toy trace: BEGIN T1, UPDATE P(10→15), COMMIT T1, then a crash before data page P is written. Explain which log evidence allows recovery of 15. Compare with a crash before the commit record is durable and state why recovery behavior depends on the database's commit protocol. Explicitly distinguish the logical final value from the physical ordering of writes.</p>
+
+<h4>Engineering verification</h4>
+
+<p>Test crash consistency only with controlled fault injection and a disposable database. Validate checksums or other recovery signals according to the engine. Database backups should include all relevant files and WAL segments for the intended recovery point; copying a hot data directory with ordinary file-copy commands can be unsafe.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-database-systems-unit-6"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.2</span>
+            <span>Checkpoints</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Checkpoints</strong></p>
+
+<p>A checkpoint records a recovery starting position or dirty-page/transaction state, limiting recovery work without guaranteeing every page is immediately clean.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>If all required log records before LSN 100 are durable and the checkpoint tracks remaining dirty pages, recovery may avoid scanning older irrelevant history.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>A checkpoint is not the same as a backup, and its mechanics differ between fuzzy and quiescent checkpoint designs.</p>
+
+<h4>Domain model and precise assumptions</h4>
+
+<p>A checkpoint narrows the amount of recovery work by recording a recovery boundary and coordinating dirty-page or log-management state. Its precise meaning depends on the storage engine. A checkpoint need not flush every dirty page to durable storage, and it may be fuzzy, allowing normal changes to continue while checkpoint metadata is produced. Recovery may still need log records from before or after the checkpoint depending on active transactions and page states. In SQLite WAL mode, checkpointing moves committed WAL frames into the main database under its particular protocol. In PostgreSQL, checkpointing and log recycling have different internal mechanics. Do not transfer operational advice uncritically between these systems.</p>
+
+<h4>Worked field scenario</h4>
+
+<p>Suppose a system generates 6 MB of recovery log each minute and a complete scan of a log segment takes a fixed amount of time. Halving the interval between safe recovery boundaries may reduce potential replay work but can increase write bursts or flush pressure during normal operation. A toy trade-off measures log growth separately from write amplification and checkpoint duration. It is a mistake to assume recovery time is determined by the checkpoint interval alone: dirty-page volume, checkpoint overlap, storage bandwidth and index rebuilding can also matter.</p>
+
+<h4>Counterexample and limits</h4>
+
+<p>Operational systems may perform background checkpoints automatically. Forcing checkpoints too frequently can damage throughput. Long-running snapshots can keep WAL segments or page versions alive beyond the apparent checkpoint and must be considered in retention and backup planning. A monitoring dashboard should distinguish log bytes generated, bytes retained, recovery-lag estimates, checkpoint frequency and checkpoint I/O. Correlated counters are not interchangeable measures.</p>
+
+<h4>Investigation and self-check</h4>
+
+<p>Create a checkpoint schedule for a laboratory workload with 30 transactions per minute, each producing two illustrative change records. Predict 60 log records per minute, then describe why those records do not directly translate to a fixed number of database pages. Introduce a long-running reader and ask whether old versions or WAL segments may have to be retained. Compare an automatic policy with an artificial policy that forces a checkpoint after every transaction.</p>
+
+<h4>Engineering verification</h4>
+
+<p>Measure checkpoint duration, write latency percentiles and log retention simultaneously. A configuration change that shortens replay but causes extreme online stalls might not improve system availability. Keep recovery point and recovery time objectives distinct when reporting results.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.3</span>
+            <span>Crash Recovery</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Crash Recovery</strong></p>
+
+<p>Crash recovery analyzes persisted logs and data pages to reconstruct a transactionally consistent state. Systems may redo history then undo losers.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>If T1's committed update has a durable log but an old data page remains on disk, redo restores it. If T2 never committed, undo removes its effects as required.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Recovery claims require testing crashes at different write boundaries and understanding torn writes, checksums and storage guarantees.</p>
+
+<h4>Domain model and precise assumptions</h4>
+
+<p>Crash recovery reconstructs a consistent state after unexpected termination using log records, checkpoints and a defined commit protocol. A classic ARIES-style explanation separates analysis, redo and undo passes, but not every engine implements precisely that algorithm. Analysis discovers transaction and dirty-page state, redo repeats relevant updates, and undo reverses uncommitted work under the algorithm's rules. Idempotent redo is essential because recovery itself can be interrupted and restarted. The first question is always which transactions were committed according to durable evidence, not which SQL statements a client happened to send.</p>
+
+<h4>Worked field scenario</h4>
+
+<p>Consider T1 committed an insertion and T2 updated another row but did not commit before a crash. The required recovered logical state contains T1's effect and excludes T2's incomplete effect, assuming a durability policy that acknowledged T1 only after the necessary log was persisted. Some pages may already contain portions of both transactions when recovery begins. Recovery logic must reconcile this mixed physical state without interpreting physical presence as proof of commit. The textbook distinction between STEAL/NO-STEAL and FORCE/NO-FORCE describes when uncommitted changes may reach disk and when committed pages must be forced; those policies influence what undo and redo information is needed.</p>
+
+<h4>Counterexample and limits</h4>
+
+<p>The recovery window also interacts with replica failover and external side effects. After a crash, a client may not know whether a request committed. A durable idempotency record lets it query the outcome and avoid duplicate logical effects. Restoring from a backup adds another layer: point-in-time recovery requires the backup and the correct retained log history. A backup that opens correctly is not proof that the application schema and required business invariants remain usable.</p>
+
+<h4>Investigation and self-check</h4>
+
+<p>Construct a trace with UPDATE records for T1 and T2, a COMMIT for T1, a checkpoint marker and a crash. Classify the transactions as winners or losers for a simplified undo/redo system. Explain why replaying a committed update must not create duplicate payments if recovery is restarted. Build an application-level test with a unique business event ID and show how it detects duplicate replay at the logical layer.</p>
+
+<h4>Engineering verification</h4>
+
+<p>Perform restore rehearsals on isolated infrastructure. Check that recovered row counts, referential constraints and representative business workflows pass. Record achieved recovery point and recovery time instead of assuming backup availability guarantees zero data loss or a fixed recovery deadline.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.4</span>
+            <span>Consistency Constraints</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Consistency Constraints</strong></p>
+
+<p>Consistency constraints include uniqueness, foreign keys, checks and procedural business invariants. A transaction preserving declared constraints may still violate undeclared requirements.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>CHECK(quantity&gt;=0) can prevent negative stock per row; preventing overselling across several rows may require a stronger transaction-level rule.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Application-level validation alone is race-prone if another writer modifies data after the check.</p>
+
+<h4>Domain model and precise assumptions</h4>
+
+<p>Integrity constraints must hold across normal writes, maintenance and recovery. A primary key prevents duplicate identifiers in its scope; foreign keys restrict references; business invariants may additionally depend on multiple rows and transactions. A database can pass an internal page checksum yet contain logically invalid business data produced by a flawed application. Conversely, a reported constraint violation after a migration may reflect an invalid import rather than physical corruption. Distinguish physical integrity, relational integrity and domain integrity in incident reports.</p>
+
+<h4>Worked field scenario</h4>
+
+<p>Suppose Purchase(order_id,customer_id,total) and LineItem(order_id,quantity,price) exist. An invariant might require the order total to equal the sum of quantity×price of its lines. This is not an ordinary one-row CHECK. If order totals are stored as derived data, the application must maintain them transactionally, use a reliable trigger, or calculate them when needed. If storing both values for performance, a periodic reconciliation query detects divergence but does not prevent transient inconsistency. Monetary rounding and currency rules also require explicit policy; floating point should not silently stand in for exact accounting representation.</p>
+
+<h4>Counterexample and limits</h4>
+
+<p>A migration can expose hidden violations when legacy systems allowed orphan references or disabled constraints for bulk loading. Validation needs staged checks, remediations and a rollback plan. Deferred constraints can allow temporary intermediate states inside a transaction but require validity at commit under their documented rules. A design should not assume all engines support every deferrable constraint. Security permissions and administrative bypass paths must also be considered when claiming an invariant is enforced.</p>
+
+<h4>Investigation and self-check</h4>
+
+<p>Write integrity tests for absent customers, duplicate order IDs, negative quantity and a mismatch between stored and derived total. Use a transaction to add two line items and update the order total, then deliberately raise an exception between statements. Verify that the final committed state either includes the consistent change or excludes it. Separate the invariant that protects current transactions from an audit that catches legacy defects.</p>
+
+<h4>Engineering verification</h4>
+
+<p>Schedule periodic reconciliation without interpreting it as a replacement for safe constraints. Track bad-row counts, failed schema changes and the age of unresolved inconsistencies. Before repairing inconsistent rows, preserve evidence of their origin; silent overwrites can erase the information needed to diagnose recurring defects.</p>
+
+<h4>Integrated unit case study</h4>
+
+<p><strong>Unit case study: failure during a grade update.</strong></p>
+
+<p>A school system stores Grade(student_id,course_id,score), and a registrar publishes final scores in batches. Consider an update that changes Grade(S17,CS101) from 68 to 74, then writes a corresponding GradeChange event containing actor, reason and timestamp. The domain requirement is that the score and its auditable event commit together. A transaction that updates Grade but crashes before inserting the event should roll back if both changes are within the same atomic boundary. If the event must also be sent to another service, store an outbox record in the same local transaction and publish it asynchronously with retry and deduplication.</p>
+
+<p>At the physical layer, imagine page P contains the Grade row and page Q contains the GradeChange row. The engine has dirtied both in memory and recorded appropriate WAL. A crash can occur after P was written but before Q, or after durable commit but before either page was written. A write-ahead protocol and the engine's recovery logic reconcile such mixed physical states. Never infer transaction commit from observing one changed page in a low-level dump. The relevant durable commit evidence and recovery rules determine whether the transaction survives.</p>
+
+<p>Build a toy log timeline: LSN 10 BEGIN T1, LSN 11 change P, LSN 12 change Q, LSN 13 COMMIT T1. Suppose P and Q remain dirty when the process terminates. A simplified redo recovery can restore both committed effects using the relevant log records. Now remove durable LSN 13 and reconsider: an incomplete transaction must not appear as a committed update under the assumed policy. This trace teaches the conceptual distinction; real engine logs contain much more bookkeeping and may perform physical undo differently.</p>
+
+<p>Next define a backup scenario. A nightly base backup and retained WAL segments can support point-in-time restore, but only if the backup mechanism and segment retention are correct for the engine. Restore to a staging environment, check that the final score matches the chosen recovery point, and verify that GradeChange events agree with Grade rows. An empty error log is not sufficient evidence of a usable restore.</p>
+
+<p><strong>Operational checks.</strong> Measure write latency during checkpoints, log retention under a long-running reader, and recovery time after a controlled termination. Document whether the client received COMMIT acknowledgment before the fault. A lost acknowledgment is an application ambiguity that should be resolved through a durable operation ID and status lookup rather than blind repeat updates.</p>
+
+<h4>Extended executable laboratory</h4>
+
+<p><strong>Extended laboratory: recoverable changes under fault injection.</strong></p>
+
+<p>Create two related rows, a Grade and a GradeChange event, updated in one transaction. In the normal case, commit produces the new grade and one corresponding event. Inject an exception after updating Grade but before inserting GradeChange; an explicit rollback should leave both in the old logical state. Inject an exception after both statements but before COMMIT; the transaction should again roll back when aborted. Reconnect after each simulated failure so the test does not accidentally inspect uncommitted values through the same session.</p>
+
+<p>Now reason about physical durability separately. A write-ahead protocol can acknowledge a committed transaction after required log data are durable without forcing every changed table page immediately. A subsequent crash may leave some pages old, some updated. Recovery uses durable log and page information to reconstruct a consistent committed result. Draw a timeline for BEGIN, row update, event insert, COMMIT, page flush and crash. Consider three crash points: before durable commit, after durable commit but before page flush, and after checkpoint. Do not assume checkpoint always means all pages have been flushed; inspect the engine's documented behavior.</p>
+
+<p>Add an application ambiguity test: terminate a client connection just after sending COMMIT, before the client receives a reply. The client cannot infer from silence alone whether the commit succeeded. A durable unique request ID stored within the transaction enables a status lookup. If the ID already exists with a committed result, the retry should return the previous result instead of writing a duplicate event. This mechanism addresses logical duplication and complements, rather than replaces, low-level WAL recovery.</p>
+
+<p>Complete the lab by restoring a backup to a clean database. Verify row counts, foreign keys, representative joins and the correspondence of current grades to GradeChange history. Measure the restore's actual duration and record the recovered timestamp or log position. A recovery plan is not validated by the mere existence of backup files. Use disposable data for fault tests; deliberately killing a real production database is not a safe way to learn recovery mechanics.</p>
+
+<h4>Connections and deeper pitfalls</h4>
+
+<p><strong>Further investigation: recovery assurance as a measurable property.</strong> Recovery point objective is a bound on tolerated data loss, while recovery time objective is a bound on acceptable service restoration delay. They are different dimensions. An application can have fast restart but lose recently acknowledged data if durability settings are weak, or preserve every acknowledged transaction but require a lengthy restore after total storage loss. Define the failure scenario first: process crash, server power loss, corrupted disk, accidental delete or region outage may demand different recovery processes.</p>
+
+<p>Backups should be validated for logical usability. A successful checksum of an archive proves that bytes can be read, not that the right time range and external dependencies were included. Restore the database, execute representative application queries, verify role permissions and confirm expected schema versions. If a logical backup omits large object storage or external file references, the user experience may remain broken despite valid table data. Keep restore documentation synchronized with schema migrations.</p>
+
+<p>When writing a toy WAL simulator, label its assumptions. A counter of `two records per transaction` cannot predict the real WAL volume of an engine whose updates affect pages, indexes and metadata. The simulator is valuable for reasoning about growth under an explicitly chosen record-count model, but it should not be presented as an operational log-sizing calculator. The same principle applies to checkpoint simulations: useful conceptual models are not measurements of a deployment.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-database-systems-advanced-6"></div>
+          </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Database Systems Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem — draft; editorial QA pending</span>
+            <strong>Example 6.1: Logging: worked verification</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A page has an updated value but its WAL record is not durable. Is it safe to flush the page?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-database-systems-u6-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-database-systems-u6-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>The WAL rule requires the describing log record to become durable before the dirty page reaches disk.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>If flushed first, a crash may leave an unlogged data change that recovery cannot correctly explain.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>No; force the appropriate log record first.</p>
+
+<p><strong>Detailed reasoning and validation.</strong> Write-ahead means the change-describing log information must reach the required durable medium before a modified data page containing that change is allowed to reach durable storage. If the page is flushed first and the server crashes, recovery may find a changed page without the information required to reconcile its update with commit status. The phrase “write the log first” refers to durability ordering, not just placing a record in an in-memory log buffer. In an implementation with buffered I/O, the relevant flush barrier or durability primitive matters. State the guarantee at the chosen engine's configured synchronous-commit level instead of assuming every cache and drive honors the same promises.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>No; force the appropriate log record first.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem — draft; editorial QA pending</span>
+            <strong>Example 6.2: Checkpoints: worked verification</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A committed update has durable WAL but its data page remains old at crash. What does redo do?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-database-systems-u6-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-database-systems-u6-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Recovery inspects durable committed log records and page progress information.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>It reapplies needed logged changes to the data page, using idempotent/log sequence logic.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>Redo restores the committed update if it was not already reflected on disk.</p>
+
+<p><strong>Detailed reasoning and validation.</strong> A committed transaction can be durable even when its changed page is still only in memory, provided the engine's log protocol has durably recorded the necessary information. After a crash, redo inspects log and page progress to apply updates not already reflected in persistent data pages. Reapplying must be safe across repeated interrupted recovery attempts, often using log-sequence comparisons or an equivalent mechanism. This example is intentionally abstract and does not specify an engine's exact redo algorithm. A restored logical value should match the committed transaction, whereas an uncommitted concurrent update must not be reported as a committed outcome.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Redo restores the committed update if it was not already reflected on disk.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem — draft; editorial QA pending</span>
+            <strong>Example 6.3: Crash Recovery: worked verification</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Explain why a checkpoint is not a backup.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-database-systems-u6-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-database-systems-u6-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>A checkpoint is recovery metadata and may describe dirty pages or active transactions.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>It does not create an independent recoverable copy of every required data file.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>A backup needs separate durable data and log retention practices.</p>
+
+<p><strong>Detailed reasoning and validation.</strong> A checkpoint creates a recovery reference point and can coordinate flushing or log state, but it does not copy the whole database to independent safe storage. If the underlying data drive fails permanently, a checkpoint on that drive can be lost with the data. A backup provides a separately managed recoverable copy, possibly combined with retained log history for point-in-time recovery. Test by restoring to a clean environment and checking application-level consistency; finding a recent checkpoint is not a substitute. Likewise replication may carry accidental deletions to every follower, so replication and backup serve different failure scenarios.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>A backup needs separate durable data and log retention practices.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="operating-systems">Operating Systems</a><a href="database-systems">Database Systems</a><a href="computer-networks">Computer Networks</a><a href="software-engineering">Software Engineering</a><a href="programming-languages-and-compilers">Programming Languages and Compilers</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/ramakrishnan-gehrke" target="_blank" rel="noopener noreferrer">Ramakrishnan, R., &amp; Gehrke, J. (2003). Database Management Systems (3rd ed.): Canonical textbook covering relational theory, query evaluation, transaction processing, and storage engines</a></li><li><a href="https://openstemlibrary.com/references/silberschatz-db" target="_blank" rel="noopener noreferrer">Silberschatz, A., Korth, H.F., &amp; Sudarshan, S. (2019). Database System Concepts (7th ed.): Standard theoretical reference for indexing, multi-granularity locking, and distributed commit protocols</a></li><li><a href="https://openstemlibrary.com/references/mohan-aries" target="_blank" rel="noopener noreferrer">Mohan, C., et al. (1992). ARIES: A Transaction Recovery Method Supporting Fine-Granularity Locking: Foundational research paper defining write-ahead logging, compensation log records, and physiological logging</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="database-systems-chapter-5">← Previous chapter</a><a href="database-systems">Book contents</a><a href="database-systems-chapter-7">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="database-systems-sims.js?v=1"></script>
+  <script src="database-systems-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

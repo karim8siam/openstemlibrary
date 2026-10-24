@@ -1,0 +1,462 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Distributed databases | Database Systems | OpenSTEM Library</title>
+  <meta name="description" content="Replication Partitioning Distributed Transactions Consistency Models; applied transactions, test cases, counterexamples and engineering limitations.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/database-systems-chapter-7">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/database-systems-chapter-7">
+  <meta property="og:title" content="Database Systems: Relational Algebra, B+ Trees, Query Optimization &amp; ACID Transactions | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering relational model mathematics, relational algebra, SQL declarative semantics, heap files, slotted pages, B+ tree indexing, buffer pool replacement (LRU-K), cost-based join optimization (nested loops, hash join, sort-merge), concurrency control (2PL, snapshot isolation), and ARIES write-ahead logging recovery with 24 solved questions and 8 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Database Systems: Relational Algebra, B+ Trees, Query Optimization &amp; ACID Transactions | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering relational model mathematics, relational algebra, SQL declarative semantics, heap files, slotted pages, B+ tree indexing, buffer pool replacement (LRU-K), cost-based join optimization (nested loops, hash join, sort-merge), concurrency control (2PL, snapshot isolation), and ARIES write-ahead logging recovery with 24 solved questions and 8 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="database-systems.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Database Systems: Distributed databases","description":"Comprehensive university textbook covering relational model mathematics, relational algebra, SQL declarative semantics, heap files, slotted pages, B+ tree indexing, buffer pool replacement (LRU-K), cost-based join optimization (nested loops, hash join, sort-merge), concurrency control (2PL, snapshot isolation), and ARIES write-ahead logging recovery with 24 solved questions and 8 interactive simulations.","url":"https://openstemlibrary.com/database-systems-chapter-7","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Database Systems","Relational Algebra","SQL Semantics","B+ Tree Indexing","Query Optimization","ACID Transactions","Concurrency Control","ARIES Recovery"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Database Systems","item":"https://openstemlibrary.com/database-systems"}]}</script></head>
+<body data-book-path="database-systems.html" data-chapter-index="6" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Database Systems</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search relational algebra, tuple relational calculus, B+ tree leaf split, buffer pool management, external merge sort, cost-based query optimization, two-phase locking, serializability, write-ahead logging, ARIES recovery…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="database-systems" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Data modeling</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="database-systems-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Relational systems</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="database-systems-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Storage engines</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="database-systems-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Query processing</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="database-systems-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Transactions</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="database-systems-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Recovery and integrity</span></a></li><li class="unit-nav-item active" data-unit-index="6"><a href="database-systems-chapter-7" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Distributed databases</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="database-systems-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Application databases</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Database systems core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 7 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Distributed databases</h1>
+            <p class="unit-desc-lead" id="unit-desc">Replication Partitioning Distributed Transactions Consistency Models; applied transactions, test cases, counterexamples and engineering limitations.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university database systems courses. Eight units with exactly three solved questions per unit and interactive simulations illustrating B+ tree splits, join selectivity, two-phase locking schedules, and write-ahead log recovery. Numerical checks and an editorial review support this edition.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-7-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.1</span>
+            <span>Replication</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Replication</strong></p>
+
+<p>Replication maintains multiple copies to improve availability, read scaling or resilience. Synchronous and asynchronous replication trade acknowledgement latency against possible lag.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>If a leader acknowledges a write before a follower receives it, reading the follower immediately can return the previous value.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Replication alone is not backup: deletion or corruption may propagate to every replica.</p>
+
+<h4>Domain model and precise assumptions</h4>
+
+<p>Replication keeps multiple copies or representations of data available on different nodes, but it introduces questions about ordering, lag, failure and acknowledgment semantics. Primary–replica arrangements route writes through a primary and distribute reads to followers, while multi-leader designs have to confront conflicting concurrent writes. A replicated copy is not necessarily current. A read from a lagging follower may return an old balance or missing recently created record even though the primary acknowledged a successful write. Durability and availability improve only under specified failure assumptions and protocols.</p>
+
+<h4>Worked field scenario</h4>
+
+<p>Suppose a primary commits enrollment E at 10:00:00 and its replica applies the change at 10:00:03. A user directed immediately to the replica at 10:00:01 may not see E. This is a read-after-write consistency problem, not necessarily a lost commit. Solutions include reading through the primary for a bounded period, waiting for a replication position, session routing or using a system that offers stronger read guarantees. The choice must consider latency, failover, replica load and the application requirement. It would be unsafe for a confirmation page to claim enrollment was never created simply because a stale replica lacked it.</p>
+
+<h4>Counterexample and limits</h4>
+
+<p>Synchronous replication can wait for acknowledgments from other nodes before reporting success, but “synchronous” is not a magic guarantee of zero data loss under every disaster. Some protocols wait for reception, others for durable persistence or application. Asynchronous replication reduces normal write latency but can leave a divergence window after failover. Replication also faithfully propagates accidental deletes; it is not a replacement for historical backup or point-in-time restore.</p>
+
+<h4>Investigation and self-check</h4>
+
+<p>Design a student registration service with a primary and two followers. State exactly which reads can tolerate a few seconds of lag and which need immediately consistent results. Draw a timeline of commit, replication and failover. Explain how the system handles a client whose write was acknowledged but whose next read is routed to a stale node. Propose a test that delays one replica and verifies the expected UI behavior.</p>
+
+<h4>Engineering verification</h4>
+
+<p>Monitor replica delay, replication slot or log retention, follower replay errors and promotion procedures. Conduct failover rehearsals with concurrent writes. A health check that only pings TCP connectivity is not evidence that a node is current or able to serve the required consistency level.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-database-systems-unit-7"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.2</span>
+            <span>Partitioning</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Partitioning</strong></p>
+
+<p>Partitioning shards records across storage or nodes by key, range or hash. A good partition key balances load while supporting important queries.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>Hashing user_id across four shards spreads uniformly distributed IDs approximately evenly; a query by exact user_id can route to one shard.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>A very popular key remains hot even under hashing; range scans can cross many shards and cause fan-out costs.</p>
+
+<h4>Domain model and precise assumptions</h4>
+
+<p>Partitioning divides a logical data set into regions to reduce per-node storage and processing or to manage lifecycle policies. Range partitioning groups records by ordered values such as event date; hash partitioning distributes identifiers according to a deterministic hash; list partitioning groups declared categories. In a single database, partitions can be physical tables managed by one engine. In a distributed system, shards may live on different nodes with routing and rebalancing. These are related but distinct mechanisms. A partition key should reflect actual query patterns, growth and operational constraints.</p>
+
+<h4>Worked field scenario</h4>
+
+<p>Consider an events table recording timestamp, student_id and event_type. Monthly range partitions can make retention and date-restricted queries easier if the engine can prune irrelevant months. A query lacking the date predicate may still scan many partitions. If events are also routed to shards by student ID, a report aggregating every student across all shards must communicate and merge partial results. A poor hash key, such as a small number of departments with uneven activity, creates hot shards despite multiple servers.</p>
+
+<h4>Counterexample and limits</h4>
+
+<p>Changing the partition count or mapping requires migration and coordination; consistent hashing can reduce movement for some designs but does not eliminate rebalancing complexity. Cross-partition uniqueness and foreign keys may have engine-specific restrictions. Global secondary indexes can be expensive. Time-based partitioning also needs a policy for late-arriving data and clock corrections. The simplest partition strategy that meets measurable scale and maintenance needs is generally safer than speculative sharding.</p>
+
+<h4>Investigation and self-check</h4>
+
+<p>Route student IDs 1 through 12 to three shards using `student_id mod 3` and tabulate where each goes. Increase to four shards and compute which IDs move under naïve modulo; explain why this is disruptive for a large data set. Next partition an event log by month and show which partitions a query for one week should need, assuming proper query predicates and engine pruning.</p>
+
+<h4>Engineering verification</h4>
+
+<p>Record per-partition row counts, hot keys, scan counts and rebalance time. A “balanced” total row count can hide a hot partition receiving most writes. Require a rollback plan for routing changes, because the mapping itself becomes critical application state.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.3</span>
+            <span>Distributed Transactions</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Distributed Transactions</strong></p>
+
+<p>Distributed transactions must coordinate updates across participants. Two-phase commit can achieve atomic decisions but introduces blocking risks when coordinators fail.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>A cross-shard transfer requires both debiting shard A and crediting shard B; a prepared participant should not unilaterally commit before the global decision.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Two-phase commit is not a consensus protocol and does not solve availability under arbitrary network partitions by itself.</p>
+
+<h4>Domain model and precise assumptions</h4>
+
+<p>A distributed transaction attempts to coordinate one logical operation across independently failing participants. Two-phase commit first asks participants to prepare, then communicates a commit or abort decision. It can produce atomic outcomes under specified assumptions, but may block when the coordinator fails and participants retain prepared state. It is not a universal reliability solution for arbitrary HTTP services. Modern workflows sometimes choose sagas: a chain of local transactions with compensating steps. Compensation is a new business action, not a literal reversal of time or guaranteed undo of an external effect.</p>
+
+<h4>Worked field scenario</h4>
+
+<p>Suppose a reservation spans a room database and a payment service. A coordinator can make promises about two transactional databases that support a compatible protocol, but a card processor's payment API usually cannot be enlisted in the same SQL transaction. A practical saga may create a pending reservation, request payment using an idempotency key, confirm on success, and release the reservation on failure. A refund is not the same thing as the original payment never happening: fees, settlement delays and customer notifications may already exist.</p>
+
+<h4>Counterexample and limits</h4>
+
+<p>Distributed consistency also depends on message delivery. A message may be delivered more than once after retries, so handlers should tolerate duplicates with durable IDs. The transactional outbox pattern stores the business change and an outgoing message record atomically in one database, then asynchronously publishes the message. Consumers still need deduplication or idempotent processing. This reduces a common gap where a database commit succeeds but an attempted message send fails.</p>
+
+<h4>Investigation and self-check</h4>
+
+<p>Draw the states PENDING, PAID, CONFIRMED and CANCELLED for a booking saga. Label which transitions are local SQL commits and which depend on an external acknowledgment. Introduce a lost acknowledgment after payment succeeded and state how an idempotency key and status lookup prevent a second charge. Contrast this with the prepared/commit phases of two-phase commit and identify the blocking failure mode.</p>
+
+<h4>Engineering verification</h4>
+
+<p>Test retries, duplicate messages, reordered callbacks and coordinator loss. Do not claim “exactly once” end-to-end processing without defining which event or effect is counted and the atomic boundary protecting it. Reconcile externally visible outcomes with internal state after fault injection.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.4</span>
+            <span>Consistency Models</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Consistency Models</strong></p>
+
+<p>Consistency models specify what order and freshness clients can rely on. Linearizability appears as if operations take effect atomically within real-time boundaries.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>If a write completes before a read begins, a linearizable register must return that write or a later value, not an older one.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Eventual consistency alone does not bound staleness. Product terms such as strong consistency need a precise formal interpretation.</p>
+
+<h4>Domain model and precise assumptions</h4>
+
+<p>Consistency models describe what values reads may return relative to writes under concurrency and failures. Linearizability treats each completed operation as if it occurred at one instant between its call and response; serializability concerns transaction histories equivalent to some serial execution order. These are not the same property. Eventual consistency means replicas converge when updates stop and propagation succeeds, but by itself does not bound convergence time or guarantee session read-after-write behavior. A system can offer causal consistency, monotonic reads or bounded staleness according to its protocol. Statements like “distributed databases are eventually consistent” are much too broad.</p>
+
+<h4>Worked field scenario</h4>
+
+<p>A replicated inventory service may display an outdated product count for a short period yet require every accepted purchase to obey a global stock invariant. That combination forces an architectural decision: writes to stock may need a single authoritative partition or coordination, while catalog descriptions may tolerate replica lag. Quorum arithmetic is often summarized as R+W&gt;N for N replicas, but overlapping quorum sets alone do not guarantee linearizability. Version ordering, conflict resolution, membership changes and reads overlapping writes matter.</p>
+
+<h4>Counterexample and limits</h4>
+
+<p>The CAP theorem concerns consistency and availability during network partitions under a particular formal model, not a slogan that engineers can choose exactly two of three vague virtues at all times. A system may reduce availability for operations requiring a consistent decision during a partition while continuing to serve cached read-only pages. Real design also involves latency, durability, recovery and application semantics. Describe the user-visible contract rather than branding the whole product with one consistency label.</p>
+
+<h4>Investigation and self-check</h4>
+
+<p>For five replicas, test read quorum R=3 and write quorum W=3; show that any such sets intersect because 3+3&gt;5. Then consider R=2, W=3, where equality does not ensure a common node. Explain why even an intersecting read may encounter old or concurrent versions without correct version-selection rules. Design separate consistency requirements for payment confirmation and a public article view counter.</p>
+
+<h4>Engineering verification</h4>
+
+<p>Document guarantees with executable tests: write then read through a new session, concurrent writers, node isolation and replica recovery. Identify the specific interface and scope of each guarantee. Treat ambiguous “strong consistency” marketing claims as incomplete engineering requirements.</p>
+
+<h4>Integrated unit case study</h4>
+
+<p><strong>Unit case study: global course registration with replica lag.</strong></p>
+
+<p>A distributed registration service has one write primary and two regional followers. Students in different regions read the catalog from the nearest follower; the primary accepts enrollment writes. Suppose student S12 receives a successful enrollment confirmation, but the next page load is routed to a follower that is two seconds behind. The follower reports no matching enrollment. The application could accidentally tell the student to enroll again, creating a duplicate or frightening the user. Define a read-after-write strategy: temporarily route that student's confirmation and immediate status requests to the primary, wait for a replay position, or use a database feature with an explicit consistency guarantee. The acceptable choice depends on latency and availability requirements.</p>
+
+<p>Now distribute write data into shards by student_id modulo three. If students 1–12 are evenly distributed, each shard receives four students. But the same count does not mean equal work: students from one institution may all take a heavily promoted exam at the same time, creating a hot shard. A domain-based partition may localize most queries but makes cross-domain reporting and rebalancing harder. Hash sharding can distribute steady-state volume more evenly in some workloads, but adding another shard under simple modulo remaps many keys. Routing metadata and migration rules become part of the system's correctness boundary.</p>
+
+<p>Introduce a payment service for registration fees. Payment is external to the enrollment database, so a local SQL BEGIN does not roll the card network backward. Design a saga with a reservation hold, a payment intent carrying an idempotency key, a durable confirmation event and compensating release/refund paths. A delayed callback should be recognized as belonging to the original request, not treated as a new registration. Track reconciliation states and distinguish confirmed payment from merely submitted payment intent.</p>
+
+<p>For a five-replica replicated record, quorum values R=3 and W=3 satisfy R+W&gt;5; thus any fixed-size read and write quorums overlap. But that arithmetic alone does not guarantee that a read selects the latest version, that clocks are comparable or that write conflicts are resolved safely. A protocol must specify version ordering and membership changes. In a network partition, some operations may be unavailable if preserving a particular consistency guarantee is mandatory.</p>
+
+<p><strong>Verification plan.</strong> Delay one follower, partition another, and send concurrent enrollment requests. Assert database uniqueness for the business enrollment key, document which reads may be stale and measure how long stale reads persist. Run a safe promotion exercise and check that every acknowledged registration remains accounted for under the advertised durability promise. Keep backups because replication does not protect against accidental deletion replicated to every follower.</p>
+
+<h4>Extended executable laboratory</h4>
+
+<p><strong>Extended laboratory: consistency under replica and network failure.</strong></p>
+
+<p>Begin with a leader and two followers in a modeled replication system. The leader commits student enrollment E with revision 15, follower A has applied revision 15 and follower B remains at revision 14. Route a user to B immediately after the leader acknowledged the write. The follower may omit E; this is permitted under an asynchronous lag contract but violates an application promise of immediate read-after-write visibility. Choose a remedy such as primary read routing for recently written session data or waiting for a follower replay position. Define a timeout and an honest user message when the condition cannot be met.</p>
+
+<p>Now model a replicated key with N=5 replicas. Enumerate read quorums of size 3 and write quorums of size 3; every pair overlaps. For R=2 and W=3, disjoint subsets can exist because their sizes sum to five, so overlap is not guaranteed. Explicitly distinguish this combinatorial property from complete linearizability: an overlapping node must also participate in a correct version and conflict-resolution protocol. Ask what happens if two clients write concurrently or membership is reconfigured during the operation.</p>
+
+<p>Next route user identifiers 1–12 to three shards by modulo and count four IDs in each. Add a fourth shard and show the remapping. Distinguish key-count balance from request load; a few very active users can dominate one shard. Create a synthetic hotspot and compare per-shard throughput rather than claiming the modulo map ensures equal processing work.</p>
+
+<p>Finally add an external payment provider. Duplicate callback delivery, timeout after success, and callback arrival after reservation expiry must all be simulated. Store a stable request identifier and a durable state machine, and reconcile inconsistent states. Two-phase commit is not a generic solution for providers lacking transactional prepare/commit interfaces. The lab report should state which components are modeled, which use actual database connections and which guarantees are only hypothetical until tested on a deployed cluster.</p>
+
+<h4>Connections and deeper pitfalls</h4>
+
+<p><strong>Further investigation: availability and correctness during partial failure.</strong> Network partitions may leave one region reachable by some users and unreachable by others. The application should explicitly classify operations by consistency needs: viewing a public syllabus might tolerate cached data while issuing a unique certificate, allocating a scarce seat or changing a financial balance may need stronger coordination. A single global consistency label is not detailed enough to design user workflows. Identify what the interface promises about read freshness, write acknowledgment and retry behavior.</p>
+
+<p>A follower that responds quickly is not necessarily healthy for a freshness-sensitive task. Health checks should assess replay progress, acceptable lag and role suitability. Promotion of a lagging follower can lose recently acknowledged asynchronous writes under some configurations. A failover plan must specify whether the system prioritizes continuous write availability or avoiding loss of acknowledged state in each scenario. This is an engineering contract, not a matter of using an impressive database brand.</p>
+
+<p>Distributed transactions add the possibility of partially completed external effects. A well-designed saga state machine makes each transition and compensating action visible and retryable, with durable identifiers. If a payment settled while reservation confirmation failed, the system must reconcile and potentially refund; pretending the original operation never occurred would be misleading. Monitor the age of unresolved saga states. “Exactly once” claims should describe a scoped effect, such as one committed enrollment per request ID, rather than an unspecified guarantee over every message and service.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-database-systems-advanced-7"></div>
+          </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Database Systems Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem — draft; editorial QA pending</span>
+            <strong>Example 7.1: Replication: worked verification</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A follower replica lags a leader by one committed write. What can an immediate follower read return?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-database-systems-u7-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-database-systems-u7-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Asynchronous replication may acknowledge a write before the follower receives it.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>A read routed to that follower can observe the previous value.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>The read may be stale unless the consistency mechanism prevents this.</p>
+
+<p><strong>Detailed reasoning and validation.</strong> With asynchronous replication, primary acknowledgment may precede follower replay. If the primary has committed state version v11 while the follower remains at v10, a read from the follower can return v10. That behavior is stale but consistent with the stated asynchronous lag. A session that requires read-after-write can route to the primary, wait for a replay position, or use a protocol with a stronger guarantee. If the user receives a “record missing” error after a successful registration, blindly resubmitting could create duplicates unless the database also enforces an idempotent business key. Monitor the replica's replay progress before advertising a freshness promise.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>The read may be stale unless the consistency mechanism prevents this.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem — draft; editorial QA pending</span>
+            <strong>Example 7.2: Partitioning: worked verification</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>For N=5 replicas with read quorum R=3 and write quorum W=3, do quorums necessarily intersect?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-database-systems-u7-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-database-systems-u7-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Compute R+W=3+3=6.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>Since 6&gt;5, any read set and write set of these sizes overlap at least one replica.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>Yes, quorums intersect; this alone does not solve stale-version or failure handling.</p>
+
+<p><strong>Detailed reasoning and validation.</strong> For N=5, R=3 and W=3, the sum of the quorum sizes is six, greater than five. Two subsets of a five-element set with sizes three and three cannot be disjoint, because disjoint subsets would require six distinct nodes. Hence every such pair intersects at least once. The intersection claim is combinatorial; it does not specify which version the shared replica holds, how concurrent writes are ordered, or what happens when membership changes. Correct quorum protocols add version or consensus rules. The exercise demonstrates necessary overlap for one family of designs, not a complete proof of linearizable storage.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Yes, quorums intersect; this alone does not solve stale-version or failure handling.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem — draft; editorial QA pending</span>
+            <strong>Example 7.3: Distributed Transactions: worked verification</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Explain a blocking risk of two-phase commit when a coordinator fails after participants prepare.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-database-systems-u7-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-database-systems-u7-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Participants have voted ready and may hold resources awaiting commit/abort decision.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>If the coordinator's decision is unavailable, they cannot always safely choose one unilaterally.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>Prepared participants may block until a durable decision is recovered.</p>
+
+<p><strong>Detailed reasoning and validation.</strong> During the prepare phase of two-phase commit, participants may have logged a prepared state and retained locks while awaiting a final decision. If the coordinator fails before its durable commit/abort decision becomes available, those participants cannot simply decide on their own without risking disagreement. They may remain blocked until the coordinator or recovery mechanism resolves the outcome. The approach addresses atomic agreement under stated assumptions but can harm availability during failures. A saga uses local commits and compensating steps instead; compensation does not retroactively erase external effects such as a notification or payment processing fee.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Prepared participants may block until a durable decision is recovered.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="operating-systems">Operating Systems</a><a href="database-systems">Database Systems</a><a href="computer-networks">Computer Networks</a><a href="software-engineering">Software Engineering</a><a href="programming-languages-and-compilers">Programming Languages and Compilers</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/ramakrishnan-gehrke" target="_blank" rel="noopener noreferrer">Ramakrishnan, R., &amp; Gehrke, J. (2003). Database Management Systems (3rd ed.): Canonical textbook covering relational theory, query evaluation, transaction processing, and storage engines</a></li><li><a href="https://openstemlibrary.com/references/silberschatz-db" target="_blank" rel="noopener noreferrer">Silberschatz, A., Korth, H.F., &amp; Sudarshan, S. (2019). Database System Concepts (7th ed.): Standard theoretical reference for indexing, multi-granularity locking, and distributed commit protocols</a></li><li><a href="https://openstemlibrary.com/references/mohan-aries" target="_blank" rel="noopener noreferrer">Mohan, C., et al. (1992). ARIES: A Transaction Recovery Method Supporting Fine-Granularity Locking: Foundational research paper defining write-ahead logging, compensation log records, and physiological logging</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="database-systems-chapter-6">← Previous chapter</a><a href="database-systems">Book contents</a><a href="database-systems-chapter-8">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="database-systems-sims.js?v=1"></script>
+  <script src="database-systems-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

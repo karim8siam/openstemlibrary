@@ -1,0 +1,422 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Operating Systems: Kernel Abstractions, Virtual Memory, Concurrency &amp; File Systems | OpenSTEM Library</title>
+  <meta name="description" content="Comprehensive university textbook covering operating system kernel architecture, dual-mode execution, preemptive scheduling, process control blocks, synchronization primitives, deadlock avoidance (Banker's algorithm), two-level paging, translation lookaside buffers, demand paging, inode allocation, and journaling file systems with 24 solved questions and 8 interactive simulations.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/operating-systems">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/operating-systems">
+  <meta property="og:title" content="Operating Systems: Kernel Abstractions, Virtual Memory, Concurrency &amp; File Systems | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering operating system kernel architecture, dual-mode execution, preemptive scheduling, process control blocks, synchronization primitives, deadlock avoidance (Banker's algorithm), two-level paging, translation lookaside buffers, demand paging, inode allocation, and journaling file systems with 24 solved questions and 8 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Operating Systems: Kernel Abstractions, Virtual Memory, Concurrency &amp; File Systems | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering operating system kernel architecture, dual-mode execution, preemptive scheduling, process control blocks, synchronization primitives, deadlock avoidance (Banker's algorithm), two-level paging, translation lookaside buffers, demand paging, inode allocation, and journaling file systems with 24 solved questions and 8 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="operating-systems.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Operating Systems","description":"Comprehensive university textbook covering operating system kernel architecture, dual-mode execution, preemptive scheduling, process control blocks, synchronization primitives, deadlock avoidance (Banker's algorithm), two-level paging, translation lookaside buffers, demand paging, inode allocation, and journaling file systems with 24 solved questions and 8 interactive simulations.","url":"https://openstemlibrary.com/operating-systems","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Operating Systems","Kernel Architecture","Process Scheduling","Concurrency and Deadlocks","Virtual Memory and Paging","File Systems and Inodes","I/O Subsystems","Protection and Security"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Operating Systems","item":"https://openstemlibrary.com/operating-systems"}]}</script></head>
+<body data-book-path="operating-systems.html" data-chapter-index="0" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Operating Systems</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search system calls, user/kernel mode, process state transitions, context switching, scheduling policies, mutexes, semaphores, deadlock conditions, page replacement, TLB misses, virtual memory, inode file system…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item active" data-unit-index="0"><a href="operating-systems" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">OS organization</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="operating-systems-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Processes and threads</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="operating-systems-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Concurrency</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="operating-systems-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Memory management</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="operating-systems-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">File systems</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="operating-systems-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Storage and I/O</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="operating-systems-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Isolation and security</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="operating-systems-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Distributed and practical systems</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Operating systems core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 1 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">OS organization</h1>
+            <p class="unit-desc-lead" id="unit-desc">kernels; system calls; protection domains; resource abstractions</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university operating systems courses. Eight units with exactly three solved questions per unit and interactive simulations illustrating scheduling algorithms, page replacement policies, and semaphore mutual exclusion. Numerical checks and an editorial review support this edition.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-1-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§1.1</span>
+            <span>Kernels</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Kernels</strong></p>
+
+<p>A kernel mediates protected access to hardware, schedules execution and provides abstractions such as processes and files. Monolithic, modular and microkernel organizations differ in which services execute in privileged mode.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>A user program requesting a file read passes through a system-call interface into kernel-managed file and device layers rather than directly controlling an untrusted disk controller.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Kernel privilege is not a guarantee of bug-free behavior; large trusted codebases enlarge the impact of a kernel memory-safety error.</p>
+
+<h4>Kernel responsibilities as enforceable invariants</h4>
+
+<p>The kernel is not simply a library that happens to sit near the hardware. It is part of the trusted computing base: code that determines whether an unprivileged process may access a device, memory mapping, file, timer, or network endpoint. The critical distinction is authority. A normal library can assist a program, but cannot safely prevent a malicious program from bypassing a check if the machine allows that program to execute arbitrary privileged instructions. Hardware privilege modes and memory translation make the boundary enforceable. A system call is a controlled transition across that boundary, not an ordinary function call with a different name. An application may propose an operation; the kernel checks whether it is legal in that process's identity and resource context.</p>
+
+<p>Kernel design is therefore an exercise in balancing failure domains, performance, and operational simplicity. A monolithic kernel may put networking, drivers, file systems, and scheduling in one privileged address space. A microkernel attempts to keep a smaller privileged core and move many services into separate protected processes. Neither name alone establishes reliability. A buggy privileged driver may compromise a large monolithic system; a microkernel service can also contain vulnerabilities, and messages between services introduce more boundary crossings and complicated recovery paths. Modular organization means code can be loaded or replaced in modules; it does not automatically separate the module's authority from the kernel's. Evaluate designs by the concrete location of privilege, message and memory-copy costs, fault containment, testability, and upgrade strategy.</p>
+
+<p>Consider a keyboard driver that erroneously writes outside its allocated buffer. If it executes with unconstrained kernel privileges, one mistake may corrupt unrelated privileged state. If it runs in a suitably confined user-mode service, a comparable error might terminate that service without corrupting the scheduler, though it can still interrupt input and require recovery. The containment argument depends on actual hardware-enforced permissions and exposed interfaces, not whether the implementation calls itself a service. Use a threat table with three columns: untrusted actor, protected resource, and mechanism enforcing isolation. Distinguish a software convention from a hardware-enforced boundary in each row. A useful experiment is to draw the path of a keypress through interrupt handling, driver queues, input routing, and user-space retrieval, annotating every privilege transition. Such a diagram makes the architectural trade-off testable rather than rhetorical.</p>
+
+<h4>Architectural Invariants and Hardware Enforcement</h4>
+
+<p>The kernel boundary enforces complete mediation through privileged hardware rings. On transitions from user privilege to supervisor execution via synchronous traps or hardware interrupts, the processor saves the unprivileged instruction pointer, flags register, and stack pointer to a designated kernel interrupt stack frame. Unprivileged code cannot bypass the trap handler vector table loaded into the IDTR register during bootstrap. When servicing system calls, parameter registers must be strictly validated against user space bounds before dereferencing to prevent kernel space address exploitation.</p>
+        </div>
+
+      </section><section class="textbook-section-card" id="sec-1-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§1.2</span>
+            <span>System Calls</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — System Calls</strong></p>
+
+<p>A system call is an intentional user-to-kernel transition with arguments, validation, privileged work and a return or error code.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>For read(fd,buffer,count), the kernel validates the descriptor and destination memory and may return fewer bytes than requested if data available is limited.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Treating partial reads as impossible causes truncated data. Some calls can be interrupted or restarted depending on the platform contract.</p>
+
+<h4>System-call interfaces, partial completion, and ownership</h4>
+
+<p>An application-facing call can request that the operating system perform work, but neither the call name nor its arguments guarantee that the desired physical work completes immediately. A read operation might copy available bytes out of a kernel buffer, wait for a device, return end-of-file, or return a partial result. The caller must interpret the result contract precisely. Zero bytes on an ordinary end-of-file condition means something different from temporary unavailability on a nonblocking descriptor. Interruptions by signals introduce additional control paths. Wrappers that turn every non-full read into a fatal error break on ordinary streams; wrappers that retry forever without considering EOF can hang. The correct implementation is driven by the type of descriptor, the API contract, and the application's framing requirements.</p>
+
+<p>Suppose a telemetry process must decode a four-byte length header followed by a variable-length payload. If its first read returns two bytes, the next read must fill only the remainder of the header. Once the header is complete, the process validates the claimed length against a configured maximum <em>before</em> allocating the payload. Then it accumulates payload bytes until it has the declared number or encounters EOF or error. This is separate from parsing the record: TCP, pipes, and many device streams do not preserve application message boundaries. An individual call can transfer some bytes successfully and still leave a larger application operation incomplete. A robust loop records the number already transferred, bounds checks the offset, and handles termination without discarding accumulated data.</p>
+
+<p>The kernel must also validate user pointers and lengths. A process might pass an address that is unmapped, a pointer to a buffer without write permission, or a length so large that an addition overflows. Careful implementations avoid trusting a user-supplied integer as proof that a memory range exists. A transfer can require pinning pages, copying data, or moving ownership of a mapped region; each has a different lifetime contract. For an asynchronous interface, the operation may outlive the function that submitted it, so buffer ownership cannot be inferred from stack scope alone. A teaching laboratory should trace two separate failure paths: a short but valid read and a validation failure before any copy. Record whether each should advance the application's offset. Avoid concluding that every platform returns identical error codes or that one high-level language call exposes every kernel transition.</p>
+        </div>
+
+      </section><section class="textbook-section-card" id="sec-1-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§1.3</span>
+            <span>Protection Domains</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Protection Domains</strong></p>
+
+<p>A protection domain specifies which operations a subject is authorized to perform on which objects. User/kernel separation and process address spaces enforce important domain boundaries.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>A process with read-only access to a file can read its content but should not be able to overwrite it through an ordinary write operation.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>The principle of least privilege does not remove covert or timing channels; a capability or ACL configuration must be tested against intended access paths.</p>
+
+<h4>Protection domains and the principle of least authority</h4>
+
+<p>A protection domain is the collection of resources and operations a subject is authorized to use. Domains need not line up one-to-one with processes. A process may temporarily receive a file handle granting access to one object, a service may hold credentials on behalf of a client, or threads may share a process address space while using different restricted operation sets. The key question is which authority an operation needs and who may grant, attenuate, or revoke that authority. Rights should be described as specific operations, such as read contents, append records, rename a directory entry, or administer an interface, rather than the vague statement that an entity is 'trusted.'</p>
+
+<p>Imagine a backup component that should only read a set of files and write encrypted archives to an output directory. Giving it unrestricted administrator privileges would make compromise disproportionately damaging. A narrower design passes handles for the required input tree and one output destination, rejects traversal outside the declared roots, and avoids granting network permission unless the backup format actually needs it. There is an additional subtlety: path-based authorization can be vulnerable to time-of-check/time-of-use changes. If code checks a name and then opens that name later, another actor may replace a symbolic link or directory entry between operations. Using an already-open authorized handle or a constrained directory-relative operation often yields a stronger relationship between the checked object and the used object.</p>
+
+<p>Revocation is rarely as simple as deleting an entry from a list. An access decision may have created an outstanding file descriptor, cached a permission result, or started an asynchronous operation. A well-defined system says whether revocation prevents new accesses only or also invalidates extant handles; it must communicate failures consistently to clients. For a classroom exercise, represent rights as an access matrix with subjects in rows, protected objects in columns, and allowed operations in each cell. Compare granting a broad administrator role with passing a single object capability. Then add a compromised service and ask which objects it could modify under each scheme. Model both enforcement and delegation: a right that can be freely copied may spread far beyond the component initially receiving it. The most defensible policy is the one with an explicitly bounded failure scope.</p>
+        </div>
+
+      </section><section class="textbook-section-card" id="sec-1-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§1.4</span>
+            <span>Resource Abstractions</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Resource Abstractions</strong></p>
+
+<p>Resource abstractions provide stable names and operations for variable hardware. An OS virtualizes CPU time, addresses, file handles and sockets to simplify independent applications.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>Two processes can each refer to virtual address 0x1000 while translation maps it to different physical frames, preserving separate address spaces.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>A virtual resource is still constrained by physical capacity; overcommit can lead to page faults, throttling or out-of-memory termination.</p>
+
+<h4>Resource abstractions and the boundary between interface and mechanism</h4>
+
+<p>Processes, files, sockets, virtual memory regions, timers, and device descriptors are abstractions because they offer stable operations over mechanisms that differ across machines. A file object does not require an application to know the geometry of a particular storage device; a virtual address does not expose the location of its physical frame; a scheduler allows a program to run without owning a physical CPU for its entire lifetime. Good abstractions hide irrelevant complexity without hiding correctness obligations. If an API promises a byte stream, its users must still handle fragmentation of application records. If an API exposes buffered output, its users must distinguish successful buffering from durable persistence after a crash.</p>
+
+<p>The abstraction has a cost model. Opening a file may require namespace resolution, permission checking, object allocation, and metadata reads. Once open, repeated operations through the descriptor may avoid repeated path traversal. Memory-mapped access may avoid explicit user-level reads but can trigger page faults and complicate error behavior. Using asynchronous I/O may improve overlapping work but adds lifetime and cancellation complexity. An engineering comparison should account for total operations and state changes rather than measuring a single call on a warm cache. A choice that appears faster for short records may become slower when writes require synchronization or workloads are concurrent.</p>
+
+<p>Consider a process manager that launches ten isolated workers. Each worker receives a separate address space but may inherit selected file descriptors, environment variables, or namespaces. A launch interface should document whether inherited resources are closed on execution, whether workers share an underlying open file offset, and how exit status is returned to the parent. One leak of an inherited write descriptor can prevent another process from observing end-of-file on a pipe. The file abstraction still behaves as designed; the bug is a mistake in resource lifetime management. Create a diagram with process identifiers, descriptor tables, and underlying open file descriptions. Close one descriptor and trace which references remain. Distinguish <em>name</em>, <em>handle</em>, <em>open-object state</em>, and <em>backing data</em>: conflating those layers causes incorrect assumptions about independent offsets and deletion. A practical API design review should finish with explicit preconditions, postconditions, ownership transfer rules, and the failure behavior for every operation.</p>
+
+<h4>Integrative case study — designing a safe file-ingestion daemon</h4>
+
+<p>A small monitoring daemon receives text records from a pipe, validates them, writes accepted records to a rolling file, and exposes aggregate counts to another process. The task sounds trivial, but it spans multiple operating-system boundaries. The pipe is a byte-stream abstraction whose reads can return arbitrarily sized chunks. The rolling output file is a namespaced object whose availability and durability are different properties. The daemon's address space contains untrusted input that must not influence file names, output sizes, or privileged operations without validation. The kernel mediates reads and writes, but the daemon must maintain its own application-level invariants.</p>
+
+<p>Start by defining the record format: a two-byte length field followed by no more than 4096 bytes of UTF-8 data. Require a length between one and 4096 and reject truncated records at end-of-stream. The parser keeps states NEED_HEADER, NEED_PAYLOAD, and REJECTED. If the first read yields one byte, it cannot decode a length yet. If the next yields three, it completes the two-byte header and begins accumulating payload; one remaining byte belongs to the payload rather than a new header. A robust implementation updates an explicit bytes-consumed cursor, bounds-checks every copy, and does not assume that successful read counts equal requested counts. The same logical parser should produce the same output irrespective of how the input stream is chunked. Test with one-byte chunks, a whole-record chunk, and mixed chunk sizes.</p>
+
+<p>Now describe authority. Running the daemon as a privileged account with write access to all system files is unnecessary. It needs a read handle to the input pipe, write permission to one output directory, and perhaps a local metrics endpoint. Prefer a pre-opened directory handle and a controlled output basename to avoid arbitrary-path traversal. If the daemon is compromised through malformed input, its ability to damage other users' files should remain bounded by the actual permitted operations. Separate the authority needed to open the metrics endpoint from the authority needed to rotate log files. The fact that both operations happen inside one executable does not mean they need the same broad permissions.</p>
+
+<p>For rotation, assume the daemon periodically writes a complete next-generation snapshot and makes it visible under a stable filename. A safe design writes a temporary file in the same intended filesystem, checks for errors, requests persistence appropriate to its platform, performs a supported atomic rename, and synchronizes relevant directory metadata when crash durability is required. A successful rename can guarantee an instantaneous namespace switch under the stated scope, but not automatically the durability of the renamed file after power failure. Demonstrate the difference by injecting a crash immediately before and after the rename. State whether the application must preserve the most recent record or merely avoid malformed output; those are different service goals.</p>
+
+<p>Finally, define an acceptance test: records never exceed configured bounds, valid records appear in order, unauthorized file paths remain inaccessible, resource use stays bounded during invalid floods, and an interrupted rotation leaves an allowed old or new snapshot rather than corrupt partial data. Track bytes read, records accepted, rejection reasons, queue size, write errors, and synchronization latency. A kernel or syscall trace can show where time is spent, but the test passes only if application invariants hold. This case illustrates that the operating system provides controlled mechanisms while the application is responsible for composing them into a reliable protocol.</p>
+
+<h4>Diagnostic exercise — audit a syscall boundary</h4>
+
+<p>Build a table for six user requests: reading from an allowed descriptor, writing through a read-only descriptor, reading into an unmapped destination, allocating an excessive buffer, accessing a device register directly, and submitting an asynchronous write with a buffer whose owner exits. For each request, identify the actor that makes the authorization decision, the operation's expected completion stage, and the resources that must remain valid. An application-side check may improve error messages but is not a substitute for kernel enforcement. In the unmapped-buffer case, the kernel must validate user memory before trusting its contents or destination. In the asynchronous case, the owner may be the runtime rather than the original stack frame. Compare system calls that transfer bytes to calls that merely enqueue a request. Mark which successes mean accepted, completed, or durable; the three words need not describe the same point in an operation's lifecycle. Finally, explain why an unsafe privileged driver creates a different failure scope than an unsafe ordinary user library.</p>
+
+<h4>Boundary cases and falsifiable design claims</h4>
+
+<p>System-call correctness often fails at extreme inputs rather than on ordinary examples. A zero-length read can have different operational significance from reading a positive requested length and receiving zero; a negative file offset may be invalid for one object type and meaningless for another. Device-specific interfaces can impose alignment constraints that ordinary buffered files do not. Application authors should not infer portable behavior from one successful test on one filesystem. Validate arguments before allocating arrays, perform overflow-safe size arithmetic, and read return codes rather than assuming exceptions always communicate kernel failures in a uniform way. A good abstraction makes these cases explicit to callers.</p>
+
+<p>A claim such as 'microkernels are always more secure' is not testable until the trusted code, privilege boundaries, and attack model have been specified. Consider whether a user-mode filesystem service can read arbitrary process memory; whether driver isolation is hardware-enforced; and whether a compromised service can ask a privileged broker to perform unrestricted operations. Performance claims also need a denominator: number of kernel transitions, bytes copied, cold versus warm caches, and concurrency level. Challenge the reader to design an experiment that could contradict the preferred architecture. The result should name latency and failure scope separately, since optimizing one metric need not improve the other.</p>
+
+<p>Resource lifetime is the final subtlety. Closing a file descriptor removes one process's reference; it does not necessarily cancel another thread's use of the same open object, remove a directory name, or delete the underlying bytes. Successful process termination can also leave durable records and network requests already accepted by other systems. In a boundary worksheet, list each operation's logical object, kernel-side state, external effects, and cleanup rights. If an operation fails halfway through, ask which invariants still hold and which parts can be retried without duplication. This connects kernel organization to application-level reliability.</p>
+        </div>
+
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-operating-systems-lab-1"></div>
+          </div>
+
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Operating Systems Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — external editorial review pending</span>
+            <strong>Example 1.1: Kernels: worked application 1</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A process reads 100 bytes, but read() returns 40. How many bytes remain and what is a safe next step?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-operating-systems-u1-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-operating-systems-u1-q1">
+
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+
+              <div class="step-explanation"><p>Partial reads are permitted by the API for many stream-like sources.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+
+              <div class="step-explanation"><p>Subtract completed bytes: 100−40=60; advance the buffer and reissue a read as appropriate.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+
+              <div class="step-explanation"><p>Sixty bytes remain; loop with error/end-of-file handling rather than assuming one call fills the buffer.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">Independent verification and failure-mode analysis</div>
+
+              <div class="step-explanation"><h5>Extended verification and failure-mode analysis</h5>
+
+<p>Treat the requested length as the size of the application-level record, not an assurance that one kernel operation supplies it. After a read returns forty of the desired hundred bytes, the remaining count is sixty. Advance the destination pointer by forty before the next read; otherwise the next successful transfer overwrites data already received. On a stream, another read may return any permitted positive count up to the remaining amount. If it returns zero under ordinary end-of-file semantics before sixty more bytes arrive, the application must report truncation rather than spin. A negative error result must be classified under the platform contract; some transient conditions justify retry and others are fatal. The arithmetic invariant is received+remaining=100, with both values bounded between zero and one hundred. Repeat the reasoning with results 40, 25, 35: the offsets become 0, 40, 65, and completion occurs at 100. This check catches incorrect pointer handling as well as incorrect total-byte accounting.</p></div>
+            </div>
+
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Sixty bytes remain; loop with error/end-of-file handling rather than assuming one call fills the buffer.</p></div>
+          </div>
+
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — external editorial review pending</span>
+            <strong>Example 1.2: System Calls: worked application 2</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Two processes use virtual address 4096. Must this be the same physical frame?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-operating-systems-u1-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-operating-systems-u1-q2">
+
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+
+              <div class="step-explanation"><p>Virtual addresses are resolved through each process's translation context.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+
+              <div class="step-explanation"><p>Different page mappings can point at different frames for identical virtual numbers.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+
+              <div class="step-explanation"><p>No; equality of virtual addresses does not imply shared physical memory.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">Independent verification and failure-mode analysis</div>
+
+              <div class="step-explanation"><h5>Extended verification and failure-mode analysis</h5>
+
+<p>Represent address translation as a lookup keyed by both process translation context and virtual page number. If process A maps virtual page one to frame five and process B maps that same virtual page one to frame nine, virtual address 4096 produces physical addresses 5×4096=20,480 and 9×4096=36,864, respectively. Their equality as virtual numbers gives no basis for equal physical frames. Conversely, processes may deliberately map a shared-memory object to the same physical frame even when their virtual addresses differ. The address offset is preserved by page translation, while permission checks still constrain reads or writes. A test should include equal virtual addresses mapped differently, different virtual addresses mapped to one frame, and a denied write to a read-only mapping. These cases separate address-space identity, physical backing, and access rights, which are logically distinct properties.</p></div>
+            </div>
+
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>No; equality of virtual addresses does not imply shared physical memory.</p></div>
+          </div>
+
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — external editorial review pending</span>
+            <strong>Example 1.3: Protection Domains: worked application 3</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Explain why a read-only capability does not permit mutation of the referred file.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-operating-systems-u1-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-operating-systems-u1-q3">
+
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+
+              <div class="step-explanation"><p>The handle designates a particular file object with explicitly limited authority.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+
+              <div class="step-explanation"><p>The kernel verifies requested operations against the attached rights.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+
+              <div class="step-explanation"><p>A write through a read-only handle must be rejected under the stated model.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">Independent verification and failure-mode analysis</div>
+
+              <div class="step-explanation"><h5>Extended verification and failure-mode analysis</h5>
+
+<p>Model the capability as a pair containing an object designation and a rights set, such as {read, metadata}. The requested write operation is not a member of that set, so the access check fails regardless of whether the process can guess the underlying file's pathname or identifier. Merely hiding the filename would not enforce read-only access; the operating system or a trusted reference monitor must actually reject the operation. If the process also holds a separate writable capability to the same object, the file might still be changed through that other authority path. The conclusion is therefore limited to mutation attempted <em>through the read-only handle</em>. A useful follow-up is to pass this handle to another process and ask whether delegation copies read authority, write authority, or neither. Under the stated model, only held rights may be conveyed, unless a separate privileged delegation mechanism grants more. This tests least-authority reasoning without relying on obscurity.</p></div>
+            </div>
+
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>A write through a read-only handle must be rejected under the stated model.</p></div>
+          </div>
+
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="operating-systems">Operating Systems</a><a href="database-systems">Database Systems</a><a href="computer-networks">Computer Networks</a><a href="software-engineering">Software Engineering</a><a href="programming-languages-and-compilers">Programming Languages and Compilers</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/silberschatz-os" target="_blank" rel="noopener noreferrer">Silberschatz, A., Galvin, P.B., &amp; Gagne, G. (2018). Operating System Concepts (10th ed.): Canonical university textbook covering kernel structures, threads, CPU scheduling, synchronization, and storage management</a></li><li><a href="https://openstemlibrary.com/references/ostep" target="_blank" rel="noopener noreferrer">Arpaci-Dusseau, R.H., &amp; Arpaci-Dusseau, A.C. (2018). Operating Systems: Three Easy Pieces: Authoritative modern treatise on virtualization (CPU, memory), concurrency, and persistence</a></li><li><a href="https://openstemlibrary.com/references/tanenbaum-mos" target="_blank" rel="noopener noreferrer">Tanenbaum, A.S., &amp; Bos, H. (2014). Modern Operating Systems (4th ed.): Definitive theoretical and design foundation for microkernels, deadlocks, memory virtualization, and file system integrity</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="operating-systems-chapter-2">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="operating-systems-sims.js?v=1"></script>
+  <script src="operating-systems-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

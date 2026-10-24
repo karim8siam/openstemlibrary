@@ -1,0 +1,431 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Modern architectures | Computer Networks | OpenSTEM Library</title>
+  <meta name="description" content="Software-Defined Networking; Datacenter Networks; Overlays; Edge Networking. Includes independently testable simulation models, a cross-topic case study, fully worked problems and failure-analysis exercises.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/computer-networks-chapter-8">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/computer-networks-chapter-8">
+  <meta property="og:title" content="Computer Networks: Layered Architecture, IP Routing, TCP Congestion Control &amp; Sockets | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering the layered Internet architecture, framing, error detection (CRC), link-layer switching, IPv4 and IPv6 routing, distance-vector and link-state protocols (OSPF, BGP), TCP reliable transport, flow control, sliding windows, AIMD congestion control, DNS, HTTP/3, and cryptographic network security (TLS 1.3) with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Computer Networks: Layered Architecture, IP Routing, TCP Congestion Control &amp; Sockets | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering the layered Internet architecture, framing, error detection (CRC), link-layer switching, IPv4 and IPv6 routing, distance-vector and link-state protocols (OSPF, BGP), TCP reliable transport, flow control, sliding windows, AIMD congestion control, DNS, HTTP/3, and cryptographic network security (TLS 1.3) with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="computer-networks.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Computer Networks: Modern architectures","description":"Comprehensive university textbook covering the layered Internet architecture, framing, error detection (CRC), link-layer switching, IPv4 and IPv6 routing, distance-vector and link-state protocols (OSPF, BGP), TCP reliable transport, flow control, sliding windows, AIMD congestion control, DNS, HTTP/3, and cryptographic network security (TLS 1.3) with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/computer-networks-chapter-8","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Computer Networks","Layered Architectures","Link Layer Framing","IPv4 and IPv6 Routing","TCP Flow and Congestion Control","BGP Peering","DNS and HTTP/3","Transport Layer Security"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Computer Networks","item":"https://openstemlibrary.com/computer-networks"}]}</script></head>
+<body data-book-path="computer-networks.html" data-chapter-index="7" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Computer Networks</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search OSI and TCP/IP models, CSMA/CD, link serialization, IPv4/IPv6 addressing, subnet masking, Dijkstra link-state, Bellman-Ford distance vector, BGP peering, TCP three-way handshake, sliding window, Tahoe/Reno congestion control, TLS handshake…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="computer-networks" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Network architecture</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="computer-networks-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Link technologies</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="computer-networks-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Internet routing</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="computer-networks-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Transport</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="computer-networks-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Application protocols</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="computer-networks-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Network security</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="computer-networks-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Network operations</span></a></li><li class="unit-nav-item active" data-unit-index="7"><a href="computer-networks-chapter-8" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Modern architectures</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Computer networks core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 8 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Modern architectures</h1>
+            <p class="unit-desc-lead" id="unit-desc">Software-Defined Networking; Datacenter Networks; Overlays; Edge Networking. Includes independently testable simulation models, a cross-topic case study, fully worked problems and failure-analysis exercises.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university computer networking courses. Eight units with exactly three solved questions per unit and 16 interactive simulations illustrating packet serialization, propagation delay, sliding window dynamics, and queueing models. Numerical checks and an editorial review support this edition.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-8-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.1</span>
+            <span>Software-Defined Networking</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Software-Defined Networking: conceptual explanation</strong></p>
+
+<p>Software-defined networking separates a logically centralized control process from distributed data-plane forwarding rules. It does not require a physically single controller: replication and failure recovery affect availability and consistency. A match/action rule is only useful while its installed state matches policy.</p>
+
+<h4>Deep technical explanation</h4>
+
+<p>Software-defined networking separates, to varying degrees, decisions about forwarding policy from the act of forwarding packets. A controller can compute or distribute rules, while switches execute match/action processing on packet headers or metadata. This abstraction enables centralized policy reasoning but creates control-plane availability and consistency concerns. A device may continue forwarding with installed rules when a controller becomes unavailable, or it may fail closed, depending on the implementation. Neither behavior is universal.</p>
+
+<p>Suppose a controller installs a path update across three switches. If it updates the middle switch before the edge, packets can temporarily enter a route that has not been installed end-to-end. Ordered updates, version tags, or consistent-update techniques reduce such transitions. A high-level topology diagram alone will not reveal these temporal bugs; an experiment needs to record actual update order, traffic sent during the transition, and the observed path. Controller authorization is also important: a compromised central control point can propagate harmful policy broadly.</p>
+
+<p>Define what the controller is authoritative for, how it obtains topology information, and how failover works. Data-plane counters should be reconciled with intended policy. Tests should cover controller restart, delayed rule installation, link failure, packet-in floods, and bad configuration rollback. SDN is not synonymous with a particular open protocol, virtualization product, or cloud network service; it is a family of architectural choices about programmable forwarding.</p>
+
+<h4>Controlled experiment and observation notebook</h4>
+
+<p>Deploy a three-switch virtual forwarding path with a simple controller. Install an initial path, then push new forwarding entries in the wrong order while sending timestamped probes. Observe transient black holes or loops in the controlled simulator. Repeat with a staged version tag so packets use only a coherent rule set. Restart the controller and document whether the switches keep forwarding, stop forwarding, or use fallback policy, according to the chosen software. Confirm that data-plane counters reflect the intended paths after reconnection. Include a policy-authentication check: not every process that can reach the controller should be able to push rules.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-cn-hop-delay"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.2</span>
+            <span>Datacenter Networks</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Datacenter Networks: conceptual explanation</strong></p>
+
+<p>Datacenter networks often use many equal-cost paths to connect racks and services. ECMP hashes flows across available paths, which reduces but does not eliminate hotspots. East–west service traffic, oversubscription and failure domains matter more to design than a single aggregate link-rate number.</p>
+
+<h4>Deep technical explanation</h4>
+
+<p>Datacenter fabrics connect many servers with short paths and high aggregate traffic. A leaf-spine design provides multiple equal-cost routes between leaves through spines. The attractive symmetry does not mean all traffic receives identical throughput. A small number of very large flows can hash onto one link while parallel links remain underused, and oversubscription ratios depend on uplink and downlink capacity. Workloads also differ from wide-area browsing: east-west service calls, storage replication, distributed jobs, and microbursts can dominate.</p>
+
+<p>Path diversity can improve resilience, but it complicates diagnosis. Equal-cost multipath commonly assigns a flow to one of several links based on a hash of header fields so individual packets of the same flow remain ordered. With four lanes and n independent randomly distributed flows, the expected number of unused lanes is 4(3/4)^n. This elementary occupancy model ignores unequal flow sizes and correlated hashes; it describes neither throughput fairness nor guaranteed balance. It still reveals why adding links does not ensure small flow populations will use them evenly.</p>
+
+<p>Evaluate failure domains and operational cost. A single badly configured route policy can affect many racks even when the physical fabric is redundant. Observe link errors, queue occupancy, flow skew, convergence, and service latency. Separate fabric capacity from server NIC, storage, or CPU bottlenecks. Upgrade strategies should avoid simultaneous failure of redundant planes and should be tested with staged drain and rollback procedures.</p>
+
+<h4>Controlled experiment and observation notebook</h4>
+
+<p>Model a leaf-spine fabric with four equal-cost paths and a small number of client flows. Hash flow identifiers with a documented deterministic seed and count which paths are used. Compare observed idle-path count with the independent uniform-hash expectation 4(3/4)^n, then introduce one very large flow and several small ones. Explain why the occupancy expectation does not predict bandwidth balance. Delete a spine link and measure convergence and transient congestion within the simulator. Record whether the bottleneck is a switch egress queue, a server network card, or storage. Do not assume adding equal-cost routes automatically improves latency for every flow.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-cn-ecmp-unused"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.3</span>
+            <span>Overlays</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Overlays: conceptual explanation</strong></p>
+
+<p>An overlay network encapsulates tenant traffic over an underlay that provides physical reachability. Overlay isolation requires correct identities and policy enforcement, not merely different virtual network identifiers. Added headers reduce effective payload MTU and can create black-hole failures if fragmentation assumptions are wrong.</p>
+
+<h4>Deep technical explanation</h4>
+
+<p>An overlay presents a logical network atop an existing underlay. Tunnels encapsulate tenant or virtual-network packets inside transport or network headers that the physical fabric can route. This can decouple tenant address choices from physical topology and simplify workload mobility. The cost is additional encapsulation, endpoint state, MTU management, and another layer of troubleshooting. An overlay does not create physical bandwidth; every encapsulated packet still consumes capacity in the underlay.</p>
+
+<p>For a 1,500-byte physical IP MTU, a tunnel adding dozens of bytes of headers reduces the safe maximum inner packet size unless the physical fabric supports a larger MTU. If endpoints assume the unmodified MTU, fragmentation or drops can appear only for large transfers, while small pings continue to work. It is therefore valuable to test payloads across a range of sizes and to check path-MTU behavior at tunnel ingress and egress. The exact overhead depends on the encapsulation and address families used.</p>
+
+<p>The logical isolation of a tenant requires more than a tunnel identifier. Enforce authorization, control-plane integrity, and policies restricting which endpoints can join an overlay. Trace both the inner destination used by the workload and the outer destination used by the fabric. A packet capture on the physical wire may show only tunnel endpoints, so operators need mappings to interpret service impact. During failure analysis ask whether a fault exists in the logical route, encapsulation endpoint, or underlay path.</p>
+
+<h4>Controlled experiment and observation notebook</h4>
+
+<p>Design a tenant overlay that adds an illustrative 50 bytes of total outer encapsulation and runs over a physical path with a 1500-byte IP MTU. Determine a conservative inner packet budget and test small and large payloads. Change the outer address family and explain that actual overhead depends on the selected encapsulation and optional fields. Capture a packet before tunnel ingress and after encapsulation and label inner versus outer addresses. Deliberately misconfigure one tunnel endpoint in a bounded lab and show how overlay reachability can fail while underlay pings work. Document tenant-policy controls separately from the tunnel identifier.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.4</span>
+            <span>Edge Networking</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Edge Networking: conceptual explanation</strong></p>
+
+<p>Edge networking moves some computation or caching closer to users or devices to reduce some path latency and upstream load. Placement requires tradeoffs among consistency, resource cost and privacy. A closer geographical location does not always yield lower latency if congestion or routing policy differs.</p>
+
+<h4>Deep technical explanation</h4>
+
+<p>Edge networking places processing, caching, or application services closer to some users to reduce particular latency components or conserve backbone traffic. "Closer" is a property of network paths and workload placement, not merely straight-line geographical distance. A nearby facility can have a poor peering route, whereas a more distant one can have an efficient direct path. The end-to-end response may be dominated by computation, cold starts, database synchronization, or authentication rather than propagation. Measure the component the edge is intended to improve.</p>
+
+<p>A placement decision needs workload semantics. A read-only cache can serve nearby users efficiently if objects are fresh and invalidation is correct. A stateful transaction may need coordination with an authoritative database, so placing a front end at the edge without changing the backend may not reduce critical-path latency. Multi-region writes introduce consistency and conflict-resolution questions. An edge node may be isolated briefly from its origin and must know whether to serve stale content, reject writes, or queue an operation.</p>
+
+<p>Design an experiment with matched clients in two regions and measured DNS selection, transport RTT, application compute time, cache hit ratio, and consistency violations. Compare p50 and p99 response times under cache-warm and cache-cold conditions. Record route changes and deployment versions so an apparent gain can be attributed to placement instead of a simultaneous software upgrade. Security controls and telemetry should follow the application to edge locations without silently broadening trusted access.</p>
+
+<h4>Controlled experiment and observation notebook</h4>
+
+<p>Run an edge placement study using two client locations and a central origin. Partition end-to-end response time into DNS choice, RTT, cache lookup, computation, and origin access. Compare warm-cache and cold-cache scenarios, including stale data after an origin update. Simulate one region becoming disconnected from the authoritative database and state which operations remain safe. Present p95 and p99 response times, not just median. The toy hop-delay simulator is only one term of the budget; it cannot forecast real deployment latency without observations. Decide whether additional edge nodes meaningfully improve the actual critical path.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.5</span>
+            <span>Integrated Case Study and Model Limitations</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Integrated case study</h4>
+
+<p>A modern cloud application uses leaf-spine network paths, overlay tenant separation, programmable policy, and regional edge caching. Draw three nested views: the physical underlay connecting racks, the overlay carrying tenant addresses through tunnels, and the application dependencies spanning regions. Every overlay packet still traverses a physical link, so the configuration must account for outer headers and available MTU. An underlay path can be healthy while an overlay route is absent or points to the wrong tunnel endpoint. Conversely, a correct logical tenant mapping cannot compensate for an overloaded physical egress.</p>
+
+<p>Analyze flow placement across four equal-cost lanes. If n equal and independently hashed flows choose among four lanes uniformly, the expected unused lanes is 4(3/4)^n. At n=2, that expectation is 2.25; at n=8 it is about 0.40045. The model says nothing about one huge flow among many tiny ones, so it cannot predict load balance from count alone. Run a seeded hashing experiment with explicit flow sizes and compute both active lane count and bytes per lane. Compare the results and explain why adding physical paths can improve capacity yet fail to improve a specific collision of elephant flows.</p>
+
+<p>Controller failures add time-dependent behavior. A rule set may be valid after all devices update but unsafe during a staggered rollout. Simulate installing the middle switch before edge switches and identify the possible black hole. Then use staged or versioned updates and record the difference. Define the intended behavior when a controller is unreachable: continue with existing entries, use a safe fallback, or stop forwarding for selected sensitive flows. This choice should reflect application security and resilience, not convenience alone.</p>
+
+<p>Finally decide which operations truly benefit from edge placement. A public static textbook page is a candidate for a cache near readers, provided invalidation is correct. A state-changing submission requiring a distant authoritative database may remain dominated by backend coordination. Compare cold versus warm caches and separate propagation RTT, cache lookup, application work, and origin database dependency. Under temporary region isolation, decide whether stale reads, rejected writes, or queued actions satisfy correctness. The evaluation criterion is measured user experience and consistent state under failure, not merely the number of advertised edge sites.</p>
+
+<h4>Engineering review and field notebook</h4>
+
+<p>Architecture decisions in programmable, virtualized networks involve several kinds of state at once. A controller manages forwarding policy; the physical fabric carries outer packets; tunnels map logical workloads to physical endpoints; edge services hold cached or mutable application data. These systems can become inconsistent independently. A controller update may be partially installed, a tunnel map may be stale, a physical link may fail, or an edge cache may serve obsolete data. Redundancy at one layer does not automatically correct inconsistency at another. A thorough review labels the owner and recovery mechanism of each state component.</p>
+
+<p>A four-lane fabric illustrates the distinction between structural capacity and actual traffic distribution. If several equal-sized independent flows hash uniformly to lanes, occupancy has an elementary probabilistic model. But enterprise workloads often contain a small number of large transfers mixed with many tiny requests; hash collision of two large flows can congest one lane despite idle capacity elsewhere. Assess bytes per lane and queue occupancy, not just the count of active links. Consider flowlet techniques or other traffic engineering only after stating reordering and implementation constraints.</p>
+
+<p>An overlay adds flexibility but also hides part of the network path from application tools. A host may see an inner tenant address while underlay routers see only tunnel endpoint addresses. Without a mapping from tunnel IDs and endpoint addresses to workload ownership, troubleshooting becomes guesswork. MTU budgeting must include actual encapsulation rather than a fixed assumption copied from a different product. Test large packets as well as small packets, and verify that necessary path-MTU feedback can reach its intended endpoint.</p>
+
+<p>Edge placement is a tradeoff between latency, resource duplication, and consistency. Caching a public textbook chapter near readers can improve response time if the cached version is fresh; accepting globally consistent state-changing submissions at disconnected edge sites is a different problem. Define which operations require centralized coordination. Measure how often a request actually touches the distant origin, and compare cold-cache and warm-cache latencies with correctness outcomes. A good edge deployment optimizes an observed dependency and has an explicit policy for stale data and link isolation, not merely a larger number of facilities.</p>
+
+<h4>Key technical vocabulary</h4>
+
+<p><strong>SDN.</strong> Architecture that makes forwarding behavior programmable through separately managed control logic.</p>
+
+<p><strong>underlay.</strong> Physical routed network carrying the outer packets of a virtualized deployment.</p>
+
+<p><strong>overlay.</strong> Logical connectivity mapped onto an underlying packet-carrying network.</p>
+
+<p><strong>ECMP.</strong> Use of multiple equal-cost forwarding next hops according to implementation rules.</p>
+
+<p><strong>leaf-spine.</strong> Datacenter switching design offering many relatively short paths among racks.</p>
+
+<p><strong>tunnel endpoint.</strong> Device that adds or removes a packet encapsulation for an overlay.</p>
+
+<p><strong>control-plane consistency.</strong> Agreement among installed forwarding policies and active topology state.</p>
+
+<p><strong>edge cache.</strong> Service retaining reusable content closer to some clients under freshness rules.</p>
+
+<p><strong>cold-cache request.</strong> Request for which the needed representation is not presently stored and fresh nearby.</p>
+
+<p><strong>failure domain.</strong> Shared dependency whose failure can affect several nominally redundant components.</p>
+
+<h4>Case investigation: a mobile client reports that only large responses fail</h4>
+
+<p>Suppose a student can load short course descriptions but repeatedly fails when the browser requests a larger chapter image. The pattern alone does not prove a server bug. A path MTU problem, an incorrectly configured proxy, a stalled congestion window, a partial response implementation, or a failing CDN object can all produce superficially similar symptoms. Begin by recording which origin, host name, protocol version, and response-size thresholds correlate with the failure. Capture a harmless synthetic transfer at several known sizes and compare the results on two networks. Do not infer packet loss from an application timeout without corroborating transport evidence. For HTTP, inspect status, content length or chunk framing, range semantics, caching headers, and any content-encoding transformations. If the transfer succeeds directly from origin but fails through the cache, isolate the intermediate configuration and capture the request identifiers. If it fails only on a mobile network, examine transport and MTU behavior before changing application logic. An effective diagnosis states one hypothesis at a time, predicts a discriminating observation, and records whether that observation occurred. Successful small requests are evidence about a subset of traffic, not proof that the network path is generally healthy.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Computer Networks Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 8.1: ECMP occupancy expectation</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A datacenter fabric has four equal-cost next-hop lanes. Suppose each of eight small independent flows is hashed uniformly to one lane. Calculate the expected number of lanes receiving no flow. Then explain why this is not an expected unused bandwidth percentage when flow sizes differ.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-networks-8-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-networks-8-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Define one lane as an indicator variable</div>
+              
+              <div class="step-explanation"><p>For any named lane, the probability that a single flow avoids it is 3/4. With eight independent uniformly hashed flows, the probability that this lane remains unused is (3/4)^8≈0.100113. Independence is assumed across flows, not across lane-indicator events.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Use linearity of expectation</div>
+              
+              <div class="step-explanation"><p>The number of unused lanes is the sum of four binary indicators. By linearity of expectation, its expected value is 4×(3/4)^8≈0.400452 lanes. The formula does not require the four lane-indicator variables to be independent.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Separate flow count from byte load</div>
+              
+              <div class="step-explanation"><p>A lane can contain one enormous flow while other lanes each contain several tiny flows. Occupancy counts only whether at least one flow uses a lane; it ignores bytes, peak rate, and queueing. Thus 0.400452 expected unused lanes is not 10 percent unused bandwidth.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Design a better load study</div>
+              
+              <div class="step-explanation"><p>Hash a reproducible set of flow IDs, attach actual or synthetic flow sizes, and calculate bytes per lane and p99 queue occupancy. Compare before and after additional lanes or hash-policy changes. State which simulated assumptions differ from real switch behavior.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Expected unused lanes: 4(3/4)^8≈0.400452; not a bandwidth-utilization estimate.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 8.2: Overlay overhead and MTU budgeting</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A physical IP path supports an MTU of 1,500 bytes, and a hypothetical overlay adds 50 bytes of outer encapsulation overhead to an inner packet. Estimate the largest inner IP packet that fits without fragmentation under this model. Explain which real deployment details can change the 50-byte assumption and give a falsifiable large-packet diagnostic.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-networks-8-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-networks-8-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Define the accounting boundary</div>
+              
+              <div class="step-explanation"><p>The specified physical 1,500-byte IP MTU counts an outer packet including its encapsulation but excludes unspecified local link overhead. The inner packet plus 50-byte outer overhead must be no greater than 1,500 bytes.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute the bound</div>
+              
+              <div class="step-explanation"><p>Maximum inner packet size is 1,500−50=1,450 bytes under the stated toy accounting model. If an application adds inner transport and network headers, the application payload must be smaller still. Do not equate the 1,450-byte inner packet budget with TCP application maximum segment size without more details.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">List variable dependencies</div>
+              
+              <div class="step-explanation"><p>IPv4 versus IPv6 outer headers, optional fields, security encapsulation, tunnel type, and underlay path MTU can alter the overhead. Some fabrics permit larger physical MTUs; others have stricter limits. A fixed 50-byte figure is an example, not the size of every tunnel.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Diagnose path MTU failures</div>
+              
+              <div class="step-explanation"><p>Probe increasing packet sizes between known overlay endpoints in a controlled setting, inspect ICMP Packet Too Big or fragmentation-needed handling where applicable, and capture before and after tunnel ingress. Small pings working while large transfers stall can be consistent with an MTU black hole, but other explanations should still be tested.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Maximum modeled inner IP packet is 1,450 bytes; actual overlay headers and path MTU must be measured.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 8.3: Controller update order and edge placement</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A three-switch SDN path changes its forwarding rules during a rollout, while a nearby edge cache serves some requests without reaching the central origin. Explain a plausible transient black hole from the wrong rule-installation order, how staged updates help, and why placing a state-changing application at the edge may not remove backend latency.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-networks-8-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-networks-8-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Describe an inconsistent intermediate state</div>
+              
+              <div class="step-explanation"><p>If the ingress switch begins sending traffic into a new path before an intermediate or egress switch has a matching rule, those packets can be dropped. The final configuration may be correct even though the transition loses requests. The relevant variable is rule-installation timing, not only the steady-state topology.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Coordinate the transition</div>
+              
+              <div class="step-explanation"><p>A controller can use versioned or staged updates, confirming downstream readiness before switching ingress traffic. A rollback path and bounded lifetime for old rules help prevent prolonged inconsistent state. Test the rollout with continuous low-rate probes and timestamped rule-state logs.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Evaluate the application critical path</div>
+              
+              <div class="step-explanation"><p>An edge cache can satisfy a public read using fresh local data, reducing trips to the origin. A write requiring synchronous approval from a central authority still depends on that authority and its coordination latency. Moving only a front-end process does not eliminate the remote database transaction.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State safe operation during isolation</div>
+              
+              <div class="step-explanation"><p>Define whether disconnected edge nodes may serve stale reads, reject writes, or queue actions for later reconciliation. Measure correctness as well as p95 latency under both warm-cache and region-disconnection scenarios.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Stage SDN forwarding rules to avoid transient black holes; edge placement helps only when the workload critical path becomes local.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="operating-systems">Operating Systems</a><a href="database-systems">Database Systems</a><a href="computer-networks">Computer Networks</a><a href="software-engineering">Software Engineering</a><a href="programming-languages-and-compilers">Programming Languages and Compilers</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/kurose-ross" target="_blank" rel="noopener noreferrer">Kurose, J.F., &amp; Ross, K.W. (2021). Computer Networking: A Top-Down Approach (8th ed.): Leading university textbook covering transport protocols, congestion control, and network layer architecture</a></li><li><a href="https://openstemlibrary.com/references/tanenbaum-networks" target="_blank" rel="noopener noreferrer">Tanenbaum, A.S., &amp; Wetherall, D.J. (2011). Computer Networks (5th ed.): Canonical theoretical foundation for physical transmission, framing, routing algorithms, and protocol verification</a></li><li><a href="https://openstemlibrary.com/references/stevens-tcpip" target="_blank" rel="noopener noreferrer">Stevens, W.R., &amp; Fall, K.R. (2011). TCP/IP Illustrated, Vol. 1: The Protocols (2nd ed.): Authoritative engineering reference for TCP state machine transitions, slow start, and window management</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="computer-networks-chapter-7">← Previous chapter</a><a href="computer-networks">Book contents</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="computer-networks-sims.js?v=1"></script>
+  <script src="computer-networks-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>File systems | Operating Systems | OpenSTEM Library</title>
+  <meta name="description" content="naming; directories; allocation; crash consistency">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/operating-systems-chapter-5">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/operating-systems-chapter-5">
+  <meta property="og:title" content="Operating Systems: Kernel Abstractions, Virtual Memory, Concurrency &amp; File Systems | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering operating system kernel architecture, dual-mode execution, preemptive scheduling, process control blocks, synchronization primitives, deadlock avoidance (Banker's algorithm), two-level paging, translation lookaside buffers, demand paging, inode allocation, and journaling file systems with 24 solved questions and 8 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Operating Systems: Kernel Abstractions, Virtual Memory, Concurrency &amp; File Systems | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering operating system kernel architecture, dual-mode execution, preemptive scheduling, process control blocks, synchronization primitives, deadlock avoidance (Banker's algorithm), two-level paging, translation lookaside buffers, demand paging, inode allocation, and journaling file systems with 24 solved questions and 8 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="operating-systems.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Operating Systems: File systems","description":"Comprehensive university textbook covering operating system kernel architecture, dual-mode execution, preemptive scheduling, process control blocks, synchronization primitives, deadlock avoidance (Banker's algorithm), two-level paging, translation lookaside buffers, demand paging, inode allocation, and journaling file systems with 24 solved questions and 8 interactive simulations.","url":"https://openstemlibrary.com/operating-systems-chapter-5","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Operating Systems","Kernel Architecture","Process Scheduling","Concurrency and Deadlocks","Virtual Memory and Paging","File Systems and Inodes","I/O Subsystems","Protection and Security"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Operating Systems","item":"https://openstemlibrary.com/operating-systems"}]}</script></head>
+<body data-book-path="operating-systems.html" data-chapter-index="4" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Operating Systems</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search system calls, user/kernel mode, process state transitions, context switching, scheduling policies, mutexes, semaphores, deadlock conditions, page replacement, TLB misses, virtual memory, inode file system…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="operating-systems" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">OS organization</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="operating-systems-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Processes and threads</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="operating-systems-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Concurrency</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="operating-systems-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Memory management</span></a></li><li class="unit-nav-item active" data-unit-index="4"><a href="operating-systems-chapter-5" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">File systems</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="operating-systems-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Storage and I/O</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="operating-systems-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Isolation and security</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="operating-systems-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Distributed and practical systems</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Operating systems core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 5 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">File systems</h1>
+            <p class="unit-desc-lead" id="unit-desc">naming; directories; allocation; crash consistency</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university operating systems courses. Eight units with exactly three solved questions per unit and interactive simulations illustrating scheduling algorithms, page replacement policies, and semaphore mutual exclusion. Numerical checks and an editorial review support this edition.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-5-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.1</span>
+            <span>Naming</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Naming</strong></p>
+
+<p>A file-system namespace maps names to directory entries and underlying file objects. Names and data objects need not be in one-to-one correspondence.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>Two hard links can name the same inode; removing one directory entry does not delete data if another hard link remains.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Symbolic links refer to paths and can become dangling. Permissions and mount boundaries alter resolution semantics.</p>
+
+<h4>Names, inode identity, and file lifetime</h4>
+
+<p>A pathname is a route through directory entries, not the file object itself. In a common inode-based model, each directory maps names to inode references. Two hard-link names can therefore identify the same inode and underlying bytes. Removing one directory entry decreases the name reference count; it need not immediately destroy the file. Open descriptors can also keep an object reachable under the file system's lifetime rules. A symbolic link is different: it stores a path-like target and can cross directory boundaries or become dangling if its target is removed. The distinctions matter for safe updates, cleanup code, backup tools, and access-control decisions.</p>
+
+<p>Imagine an application writing a report into a temporary file and then replacing a published report name. Readers that already opened the old object may continue reading it, while later path lookups can reach the new object after a successful atomic rename in a filesystem and operation scope that supports that guarantee. 'Atomic' means observers do not see an intermediate namespace state; it does not mean the new contents are crash durable. File data and directory-entry persistence have separate ordering requirements. Applications that need a crash-safe protocol must consult their platform's sync and rename guarantees and test under controlled fault injection.</p>
+
+<p>A directory traversal is also a security-sensitive operation. If an application receives a user-controlled path, components like '..', symbolic links, mount boundaries, and concurrent renames can defeat naive prefix checks. A string beginning with an approved directory prefix is not proof that its resolved file object is below the approved directory. Handle-relative traversal with explicit resolution restrictions can reduce ambiguity where supported. For a learning exercise, draw a tiny namespace with three inodes, four names, one symbolic link, and two open descriptors. Then perform unlink, rename, and descriptor close operations and update the reference graph. Students should compute which names remain valid and which objects remain open, separating namespace visibility from actual reclamation. This gives a more accurate model than saying deleting a name always deletes data.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.2</span>
+            <span>Directories</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Directories</strong></p>
+
+<p>Directories organize names into a hierarchy and require well-defined lookup, insertion and removal semantics. Race-free resolution matters for security.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>A relative path ./data/report traverses the current directory's data entry and then report. The same path can resolve differently after a directory rename.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>A prior permission check followed by a separate open can suffer a time-of-check/time-of-use race if another process changes the path.</p>
+
+<h4>Directories as indexed metadata and atomic namespaces</h4>
+
+<p>Directories are data structures maintained by the filesystem. Their purpose is to map component names into objects while enforcing permissions and consistency constraints. Small directories may use linear records; large implementations often adopt hashing or tree-like indices to reduce lookup cost. The choice is partly an engineering decision about update frequency, locality, sorting, and crash recovery. A directory entry is not a copy of the entire file's contents. Its recorded fields may include a name and object identifier, while size, blocks, timestamps, and link count belong to associated metadata. Exact structures differ by filesystem and should never be implied by a generic POSIX example.</p>
+
+<p>An absolute path begins at a designated root of the process's namespace; a relative path begins at a working directory or an explicitly provided directory handle. Concurrent mutation matters because each component may be resolved at a different moment. Suppose a cleanup tool checks that '/allowed/project/output' lies under '/allowed' as a string, then follows a symbolic link whose target has changed to '/private'. The supposed authorization check does not bind the subsequent operation to the same object. Safe designs rely on handle ownership, resolve-time restrictions, or a namespace with enforced immutability when the threat model demands it. This is a correctness and security issue, not just a path-formatting detail.</p>
+
+<p>Directory changes also interact with durability. Replacing a name may atomically switch visibility to other processes while leaving metadata in volatile caches until storage barriers occur. Crash testing should simulate interruption after file creation, after data writes, after rename, and after directory synchronization. The acceptable outcome is specified by the application, not by a vague claim that the filesystem is 'journaled.' Journal modes vary, and a journal protects some kinds of metadata consistency without necessarily promising complete application-level transaction semantics. In a lab, model a directory as a mapping and record a transactional rename from an old report to a new report. Show what a reader with a previously opened descriptor observes, what a new path lookup observes, and which steps a durable publication protocol requires. Distinguish process-level visibility from post-crash persistence throughout.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.3</span>
+            <span>Allocation</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Allocation</strong></p>
+
+<p>On-disk allocation structures assign data blocks to files. Extents, indirect pointers and bitmaps trade metadata cost, fragmentation and random access efficiency.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>A 9000-byte file needs ceil(9000/4096)=3 blocks if block size is 4096 bytes, wasting 3288 bytes in the final allocated block.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Real systems may store tiny files inline or use sparse holes; the ceiling formula models simple full-block allocation.</p>
+
+<h4>Block allocation, free-space records, and locality</h4>
+
+<p>File contents are commonly stored in fixed-size logical blocks, even though applications read and write byte ranges. If block size is 4096 bytes, a 9000-byte file requires three full block allocations under a simple contiguous-block model: ceiling of 9000 divided by 4096 is three. The third block has 3288 bytes of unused capacity. This accounting describes allocated data capacity, not necessarily physical space consumed on a compressed, sparse, deduplicated, or copy-on-write filesystem. An engineer must choose which measure is relevant to capacity planning and document whether indirect metadata blocks, journaling, and replication count toward the total.</p>
+
+<p>Block-mapping designs include extents, indexed pointers, linked allocation, and combinations. Extents encode a run of adjacent blocks compactly and can improve sequential I/O when sufficient contiguous free space exists. Indexed blocks allow flexible random access but can require additional metadata lookups. Sparse files represent unallocated ranges logically filled with zeros, enabling very large apparent lengths with relatively few physical blocks. Preallocation can reduce fragmentation but reserves capacity even if the application never writes all bytes. Copy-on-write can make sequential logical writes touch scattered physical locations until the allocator and maintenance tools reorganize them.</p>
+
+<p>A concrete trace starts with six free extents of lengths 4, 3, 8, 2, 5, and 6 blocks. A request for seven contiguous blocks can be satisfied by the length-eight extent, although the total count of free blocks was far larger even before selection. After several requests, the remaining free extents can be too small for a new contiguous request despite large aggregate free space. Explain why an extent-based allocator might fall back to multiple extents, and why a requirement for <em>one</em> physically contiguous region is stronger than the ordinary promise to represent a file correctly. In a practical lab, track each allocation and free event as a block map, compute slack for files of different sizes, and differentiate block fragmentation from free-space fragmentation. Include a sparse file and compare logical length against allocated block count. Avoid calling any one allocation heuristic globally optimal: media behavior, write patterns, and background maintenance change the performance stakes.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.4</span>
+            <span>Crash Consistency</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Crash Consistency</strong></p>
+
+<p>Crash consistency governs which updates survive sudden failure. Journaling, copy-on-write and ordered writes enforce different consistency targets.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>Writing new file data and then atomically replacing its directory pointer can avoid exposing half-updated content if flush and rename semantics are correctly respected.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Atomic rename does not automatically guarantee durable user data: synchronization calls and underlying device guarantees still matter.</p>
+
+<h4>Journaling, ordering barriers, and crash consistency</h4>
+
+<p>Crash consistency is the question of which application-visible states remain after power loss, process failure, or device reset. A program may issue write calls that succeed because data reached an operating-system cache rather than stable media. Metadata changes may be reordered for performance. Journaling can help a filesystem recover to a structurally consistent state after interruption, but it is not the same as guaranteeing that a particular application record survives. The application must establish the durability contract it needs: for example, whether a committed transaction must remain readable after the machine restarts, and what happens to a partially committed update.</p>
+
+<p>A classic write-replace protocol uses a temporary file in the destination filesystem. The application writes the complete new contents, validates length and checksums, requests durable persistence of the file as appropriate, atomically replaces the destination name where supported, and then requests persistence of the containing directory metadata. This sequence is still subject to platform-specific rules; exact API calls and ordering are not universal. If a crash occurs immediately after the rename but before the relevant metadata reaches stable storage, some platforms may recover the previous name state. If the temporary data were not flushed, the new name could be visible before a crash but contain missing or stale bytes afterward. An effective lesson enumerates these cases rather than promising that rename alone solves everything.</p>
+
+<p>Write-ahead logging is a related database technique: record intended changes durably before exposing a state that depends on them. During recovery, a log can guide redo or undo according to the system's transaction design. The log needs its own checksums, sequence numbers, and failure handling. For a lab, use a small simulated store with an old record A and intended replacement B. Inject a crash at six labeled points in the update protocol and record allowable states upon restart. Separate the property that the file system mounts successfully from the property that the application sees only valid complete records. Explain how checksums detect corruption but do not by themselves provide atomicity, and how ordering constraints help prevent mixed generations of metadata and data.</p>
+
+<h4>Integrative case study — publishing a durable configuration file</h4>
+
+<p>A service periodically creates a configuration snapshot that other processes read by pathname. The desired property is that readers see either the previous complete snapshot or the new complete snapshot, never a partly written file. A second possible requirement is durability: after the service reports success, the new snapshot should survive a crash under documented storage guarantees. Those two properties are related but not identical. Atomic replacement controls the namespace transition; durable persistence controls which bytes and metadata survive abrupt failure. Many incorrect implementations achieve one but silently assume the other.</p>
+
+<p>Write a candidate protocol. First open a unique temporary file in the destination directory or filesystem. Validate that the serialized content is well formed and stays under a maximum length. Write until all bytes are accepted, handling partial writes and errors. If the durability contract requires it, request a synchronization operation for the temporary file after writing. Next replace the destination name through a rename operation with the required atomicity guarantee for that filesystem and namespace relationship. Finally, synchronize relevant directory metadata as supported and required for crash persistence. Document platform assumptions rather than asserting that all filesystems implement identical durability guarantees.</p>
+
+<p>Now inject failures. If the process crashes before writing the full temporary file, the stable destination should still refer to the old snapshot; cleanup may later remove a stray temporary object. If it crashes after writing but before rename, the stable destination also remains old, even if the temporary bytes reached disk. If it crashes after a successful rename but before metadata durability, the recovered state may depend on the filesystem and its guarantees; it is wrong to claim certainty without specifying them. If the new content failed validation, the program should never proceed to replace the destination. Application-level checksums can detect corrupted bytes, but do not themselves ensure atomic replacement or flush ordering.</p>
+
+<p>Storage allocation is another concern. Suppose the snapshot is 9000 bytes and the filesystem allocates 4096-byte blocks with no compression. It needs three data blocks and has 3288 bytes of last-block slack. Rewriting the file by copy-on-write can temporarily require enough free space for both old and new block generations, plus metadata. A full disk may therefore prevent safe update even if the final visible file is no larger than the previous one. A production service must handle ENOSPC-like failures without destroying the last known good configuration. Creating a temporary file in an unrelated filesystem may also invalidate assumptions about atomic rename, so the target location matters.</p>
+
+<p>Design an acceptance suite with fault injection at every labeled step, including short writes, permission denial, out-of-space, interrupted synchronization, rename failure, and power loss. Check all recovered snapshots using schema validation and generation identifiers, not simply file existence. Add two simultaneous writers and decide whether last-writer-wins behavior is acceptable or whether serialization or compare-and-swap semantics are needed. The resulting protocol has a proof obligation: one published generation is visible at a time under the chosen name, and success means exactly the durability property that was promised. This project ties together names, inodes, descriptors, allocation, crash consistency, and application-level correctness.</p>
+
+<h4>Diagnostic exercise — durability is not visibility</h4>
+
+<p>Construct a crash-injection state table with columns for temporary file created, data write accepted, data synchronized, destination rename acknowledged, and directory metadata synchronized. Write down whether a live reader opening the stable name sees old or new bytes at each point. Separately state possible recovered outcomes after an immediate crash under the platform assumptions chosen for the exercise. A rename that is atomic for live path lookups may still require explicit directory synchronization for post-crash persistence. Next introduce two writers using the same target name. Decide whether one should win, whether version checks are needed, and whether an observer might see stale generations. Calculate the number of 4 KiB data blocks needed for lengths 0, 1, 4096, and 4097 bytes in the simplest non-sparse allocation model, then explain why copy-on-write and sparse files can invalidate a naive physical-capacity estimate.</p>
+
+<h4>Boundary cases and falsifiable design claims</h4>
+
+<p>An empty file requires zero data blocks in a simple sparse-capable model but still consumes metadata and a directory entry; a file with one byte can require one allocated data block. A file exactly equal to the block size has zero slack, whereas adding one more byte creates a new block and nearly a full block of unused capacity. Compression and delayed allocation invalidate naive physical-space estimates, so a tool's displayed logical size and blocks-allocated field must be interpreted separately. An inode can outlive its last name if open references remain, while a renamed path may identify the same inode in another directory. These are distinct mechanisms and must not be conflated.</p>
+
+<p>Crash persistence includes device behavior. A write sent to a device cache may be acknowledged before nonvolatile storage has committed it, depending on hardware configuration and protocol. Flush and barrier commands exist to establish ordering and persistence conditions, but their effectiveness depends on supported hardware guarantees. A journal may replay metadata after interruption without guaranteeing that an application's newly written file contents are complete. Consequently, a correct updater should use checksums or validation alongside the persistence protocol, and it should retain a recoverable previous generation when appropriate.</p>
+
+<p>For a more advanced lab, create two simultaneous editors of the same configuration document. Each reads version seven and prepares a different version eight. If both rename over the stable name without coordinating, one update is lost even if each rename is individually atomic. Add generation numbers or conditional synchronization and define whether the application rejects conflicting writes or merges changes. Test that conflicts are detected across process crashes and retries, not merely within one runtime's memory. The exercise demonstrates that crash consistency, atomic namespace operations, and multi-writer concurrency control are three different problems requiring separate designs.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-operating-systems-lab-5"></div>
+          </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Operating Systems Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — external editorial review pending</span>
+            <strong>Example 5.1: Naming: worked application 1</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A file of 9000 bytes uses 4096-byte blocks. Count allocated blocks and slack bytes.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-operating-systems-u5-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-operating-systems-u5-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Two blocks hold 8192 bytes and leave 808 bytes uncovered.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>A third block is necessary; allocated space 3×4096=12288.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>Slack is 12288−9000=3288 bytes.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Independent verification and failure-mode analysis</div>
+              
+              <div class="step-explanation"><h5>Extended verification and failure-mode analysis</h5>
+
+<p>Compute blocks using the ceiling function: ceil(9000/4096)=3. Multiplying yields 3×4096=12,288 allocated data bytes. Subtracting the logical file length gives 3,288 unused bytes in the last block under the simple non-sparse, noncompressed allocation model. Check that two blocks provide only 8192 bytes, insufficient for 9000; three provide enough. The result counts data-block capacity rather than inode metadata, journaling overhead, replicas, or device wear-leveling. A sparse file with the same logical size could use fewer data blocks, while a copy-on-write snapshot might require additional backing blocks. Boundary tests at 4096 and 4097 show the jump from one to two blocks. This teaches both ceiling arithmetic and the importance of specifying what 'disk usage' means.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Slack is 12288−9000=3288 bytes.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — external editorial review pending</span>
+            <strong>Example 5.2: Directories: worked application 2</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Two hard links point to one inode. One name is removed. Must the file data disappear?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-operating-systems-u5-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-operating-systems-u5-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Removing the name reduces the inode's link count by one.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>The remaining hard link still reaches the object, and open handles may also retain references.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>No; data remains until reference and filesystem lifetime rules permit reclamation.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Independent verification and failure-mode analysis</div>
+              
+              <div class="step-explanation"><h5>Extended verification and failure-mode analysis</h5>
+
+<p>Two directory entries reference the same inode. Removing one name decrements the link count from two to one, so a second pathname still resolves to the file. The data are not destroyed solely because the first name disappeared. In many Unix-like models, even unlinking the last name need not immediately free blocks if an open descriptor still references the object. Reclamation depends on both namespace references and open-object lifetime. A symbolic link behaves differently: it stores a target path instead of incrementing the target inode's hard-link count. Removing the original name can therefore leave a symbolic link dangling. Demonstrate the result by drawing inode I with arrows from names A and B, then deleting arrow A. The remaining arrow B shows why identity is separate from naming. The conclusion depends on filesystem semantics and permissions, which should be stated rather than assumed globally.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>No; data remains until reference and filesystem lifetime rules permit reclamation.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — external editorial review pending</span>
+            <strong>Example 5.3: Allocation: worked application 3</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Why is atomic rename alone not proof of durability after a crash?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-operating-systems-u5-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-operating-systems-u5-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Rename can provide atomic namespace replacement in a filesystem's supported scope.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>Crash persistence also depends on flushing file content and directory metadata to stable storage.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>Durability must be verified with sync semantics and fault tests.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Independent verification and failure-mode analysis</div>
+              
+              <div class="step-explanation"><h5>Extended verification and failure-mode analysis</h5>
+
+<p>A rename can atomically change which object a pathname designates without guaranteeing that the newly referenced file data or directory entry is durable after abrupt power loss. If an application writes bytes to a temporary file and immediately renames it, the writes may still be buffered. Under an intended crash-durable update protocol, it may need to synchronize the temporary file contents before renaming and synchronize relevant directory metadata afterward, subject to its filesystem's documented guarantees. Check two distinct properties: visibility atomicity during normal operation and persistence after restart. An observer seeing either old or new content before a crash establishes the first, not the second. A fault-injection test should interrupt after creation, write, file sync, rename, and directory sync, and report permitted recovered states. Never claim a particular platform's guarantees without qualifying them.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Durability must be verified with sync semantics and fault tests.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="operating-systems">Operating Systems</a><a href="database-systems">Database Systems</a><a href="computer-networks">Computer Networks</a><a href="software-engineering">Software Engineering</a><a href="programming-languages-and-compilers">Programming Languages and Compilers</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/silberschatz-os" target="_blank" rel="noopener noreferrer">Silberschatz, A., Galvin, P.B., &amp; Gagne, G. (2018). Operating System Concepts (10th ed.): Canonical university textbook covering kernel structures, threads, CPU scheduling, synchronization, and storage management</a></li><li><a href="https://openstemlibrary.com/references/ostep" target="_blank" rel="noopener noreferrer">Arpaci-Dusseau, R.H., &amp; Arpaci-Dusseau, A.C. (2018). Operating Systems: Three Easy Pieces: Authoritative modern treatise on virtualization (CPU, memory), concurrency, and persistence</a></li><li><a href="https://openstemlibrary.com/references/tanenbaum-mos" target="_blank" rel="noopener noreferrer">Tanenbaum, A.S., &amp; Bos, H. (2014). Modern Operating Systems (4th ed.): Definitive theoretical and design foundation for microkernels, deadlocks, memory virtualization, and file system integrity</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="operating-systems-chapter-4">← Previous chapter</a><a href="operating-systems">Book contents</a><a href="operating-systems-chapter-6">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="operating-systems-sims.js?v=1"></script>
+  <script src="operating-systems-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

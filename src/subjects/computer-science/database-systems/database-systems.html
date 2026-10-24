@@ -1,0 +1,462 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Database Systems: Relational Algebra, B+ Trees, Query Optimization &amp; ACID Transactions | OpenSTEM Library</title>
+  <meta name="description" content="Comprehensive university textbook covering relational model mathematics, relational algebra, SQL declarative semantics, heap files, slotted pages, B+ tree indexing, buffer pool replacement (LRU-K), cost-based join optimization (nested loops, hash join, sort-merge), concurrency control (2PL, snapshot isolation), and ARIES write-ahead logging recovery with 24 solved questions and 8 interactive simulations.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/database-systems">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/database-systems">
+  <meta property="og:title" content="Database Systems: Relational Algebra, B+ Trees, Query Optimization &amp; ACID Transactions | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering relational model mathematics, relational algebra, SQL declarative semantics, heap files, slotted pages, B+ tree indexing, buffer pool replacement (LRU-K), cost-based join optimization (nested loops, hash join, sort-merge), concurrency control (2PL, snapshot isolation), and ARIES write-ahead logging recovery with 24 solved questions and 8 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Database Systems: Relational Algebra, B+ Trees, Query Optimization &amp; ACID Transactions | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering relational model mathematics, relational algebra, SQL declarative semantics, heap files, slotted pages, B+ tree indexing, buffer pool replacement (LRU-K), cost-based join optimization (nested loops, hash join, sort-merge), concurrency control (2PL, snapshot isolation), and ARIES write-ahead logging recovery with 24 solved questions and 8 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="database-systems.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Database Systems","description":"Comprehensive university textbook covering relational model mathematics, relational algebra, SQL declarative semantics, heap files, slotted pages, B+ tree indexing, buffer pool replacement (LRU-K), cost-based join optimization (nested loops, hash join, sort-merge), concurrency control (2PL, snapshot isolation), and ARIES write-ahead logging recovery with 24 solved questions and 8 interactive simulations.","url":"https://openstemlibrary.com/database-systems","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Database Systems","Relational Algebra","SQL Semantics","B+ Tree Indexing","Query Optimization","ACID Transactions","Concurrency Control","ARIES Recovery"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Database Systems","item":"https://openstemlibrary.com/database-systems"}]}</script></head>
+<body data-book-path="database-systems.html" data-chapter-index="0" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Database Systems</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search relational algebra, tuple relational calculus, B+ tree leaf split, buffer pool management, external merge sort, cost-based query optimization, two-phase locking, serializability, write-ahead logging, ARIES recovery…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item active" data-unit-index="0"><a href="database-systems" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Data modeling</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="database-systems-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Relational systems</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="database-systems-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Storage engines</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="database-systems-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Query processing</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="database-systems-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Transactions</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="database-systems-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Recovery and integrity</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="database-systems-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Distributed databases</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="database-systems-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Application databases</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Database systems core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 1 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Data modeling</h1>
+            <p class="unit-desc-lead" id="unit-desc">Entities Relationships Constraints Normalization; applied transactions, test cases, counterexamples and engineering limitations.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university database systems courses. Eight units with exactly three solved questions per unit and interactive simulations illustrating B+ tree splits, join selectivity, two-phase locking schedules, and write-ahead log recovery. Numerical checks and an editorial review support this edition.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-1-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§1.1</span>
+            <span>Entities</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Entities</strong></p>
+
+<p>An entity type represents a distinguishable class of real-world objects, with attributes and keys. A sound model separates conceptual identity from current descriptive values.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>Student(student_id,name) uses a stable student_id to identify a student; name alone is not a safe key because names can repeat.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Overloaded identifiers and missing lifecycle rules cause duplicate records and difficult merges later.</p>
+
+<h4>Domain model and precise assumptions</h4>
+
+<p>A database entity is not merely a noun discovered in an interview. It is an object whose identity the application must retain while descriptive values change. Consider a university where a learner can change a legal name, preferred name, email address, program, and campus without becoming a new learner. An assigned learner identifier therefore plays a different role from every descriptive attribute. Identity should survive those changes, but identity itself needs an issuance policy: imported student numbers may collide, external systems may recycle identifiers, and accounts may be merged. A conceptual model says what persists, whereas its relational implementation says which values identify a row. Treat those as distinct design questions. In an entity–relationship diagram distinguish an entity type, its instances, the attributes recorded for each instance, and the conditions under which an instance begins or ends. Do not place a mutable name in a primary key just because humans recognize names.</p>
+
+<h4>Worked field scenario</h4>
+
+<p>Suppose a registrar has student records (s17, Amina Rahman, old@example.test) and (s18, Amin Rahman, new@example.test). Before deduplicating, staff must establish whether there are two people or two records for one person. A name similarity heuristic cannot resolve identity: two different people can share a name and one person can use several names. A safe merge procedure preserves both original identifiers in an alias or merge-audit relation, reassigns dependent enrollments transactionally, and records who approved the merge. If an application simply deletes s18 and changes the email on s17, historic references to s18 may fail. Conversely, retaining both may double-count tuition. The conceptual model therefore benefits from Person, StudentRole, and ExternalIdentifier as separate entities when one person can hold several institutional roles.</p>
+
+<h4>Counterexample and limits</h4>
+
+<p>Entity granularity matters. A CourseOffering in a particular term is not the same as a CourseCatalog entry that describes a reusable curriculum topic. The offering can have a room, schedule and lecturer, while the catalog entry carries a title and credit value. Mixing the two causes updates to a catalog title to look like changes to past offerings. Likewise a payment attempt and a successful payment are separate facts. Distinguish snapshots from current state, mutable from immutable attributes, and a durable event from the object it affects.</p>
+
+<h4>Investigation and self-check</h4>
+
+<p>Draw three candidate diagrams: one in which Student owns email, one with Person owning email, and one with a separate verified ContactPoint relation. For each, ask whether a student may have multiple emails, whether another account can use a shared family email, and whether contact history must be retained. Construct an example with a name change and a duplicate external identifier. Explain precisely which diagram can represent both facts without overwriting history.</p>
+
+<h4>Engineering verification</h4>
+
+<p>A review should inspect cardinality assumptions, not only field lists. Check that a synthetic stable key never appears before it is allocated, that imported identities are constrained by a source-specific uniqueness rule, and that deletion does not orphan dependent records. Record a legitimate retention policy before implementing physical deletion. Audit trails frequently require immutable event IDs even when account information is later corrected.</p>
+        </div>
+
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-database-systems-unit-1"></div>
+          </div>
+
+      </section><section class="textbook-section-card" id="sec-1-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§1.2</span>
+            <span>Relationships</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Relationships</strong></p>
+
+<p>A relationship associates entities with cardinality and optionality. One-to-many relations often become a foreign key on the many side; many-to-many relations require a junction table.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>Enrollments(student_id,course_id,grade) relates many students to many courses; the pair can form a composite primary key if repeat attempts are excluded.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>A foreign key alone does not encode every business rule, such as maximum concurrent enrollments or prerequisites.</p>
+
+<h4>Domain model and precise assumptions</h4>
+
+<p>Relationships express claims about possible combinations of entities rather than just drawing connecting lines. The phrase “a student enrolls in a course” leaves at least three questions unanswered: can a student enroll in many courses, can a course have many students, and can the same pair recur in another term? A naïve Student(course_id) column forces one course per student. A comma-separated course_ids field destroys relational composition. The usual many-to-many solution is a junction relation Enrollment(student_id,offering_id,attempt_number,grade), where foreign keys refer to Student and CourseOffering. If repeat attempts are permitted, the composite key must include an attempt or independent enrollment identifier. Optionality also matters: a student with no enrollments must remain a valid row even when a join produces no match.</p>
+
+<h4>Worked field scenario</h4>
+
+<p>Consider students S1 and S2, and offerings O11 and O12. The intended edges are (S1,O11), (S1,O12), and (S2,O11). Storing these edges in Enrollment produces three rows, regardless of the number of students and offerings. Joining Student to Enrollment and then Offering recovers offering details, but the join multiplies Student rows where there are multiple enrollments. That multiplication is correct for a listing of enrollments and incorrect for a raw count of unique learners. `COUNT(*)` counts joined rows; `COUNT(DISTINCT student_id)` counts distinct students under the corresponding join. If a waitlist membership is a separate relationship with a different lifecycle, do not silently coerce a waitlist row into an enrollment row.</p>
+
+<h4>Counterexample and limits</h4>
+
+<p>Relationship attributes belong to the occurrence of the relationship. A grade is not a property of a person in general or a course catalog entry in general; it is a property of a particular enrollment attempt. Assignment of a teacher to an offering can carry a workload percentage or role. Ternary relationships are not always decomposable without introducing spurious combinations: supplier, part, and project may determine a single contractual agreement that cannot be accurately represented by every pair alone.</p>
+
+<h4>Investigation and self-check</h4>
+
+<p>Model an equipment checkout system with Borrower, Item, Checkout and ReturnEvent. Decide whether simultaneous active checkouts of the same physical item are possible. Specify which relation represents the transaction and which attributes belong to that relation. Write a uniqueness rule that rejects two active checkouts for one item, while allowing many historic checkouts. A simple globally unique (borrower,item) key would incorrectly prevent legitimate repeated borrowing.</p>
+
+<h4>Engineering verification</h4>
+
+<p>Test a relationship by inserting a subject with zero related rows, one related row, multiple related rows and a deleted parent. Document whether cascading deletion is appropriate or dangerous: deleting a course catalog entry should rarely erase transcript history. Use referential integrity and transactional business logic together rather than expecting cardinality labels in a diagram to enforce every lifecycle rule.</p>
+        </div>
+
+      </section><section class="textbook-section-card" id="sec-1-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§1.3</span>
+            <span>Constraints</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Constraints</strong></p>
+
+<p>Constraints formalize allowable database states: domain rules, uniqueness, referential integrity and check predicates. They should be enforced at the strongest reliable boundary.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>A UNIQUE(email) constraint prevents two rows with the same non-null email under the database's comparison rules; a foreign key prevents references to nonexistent parent IDs.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Null handling and collation vary by engine, so apparent duplicate behavior must be tested on the actual database product.</p>
+
+<h4>Domain model and precise assumptions</h4>
+
+<p>A constraint is a statement that must hold for every committed valid database state. Domain constraints restrict values, keys restrict identifiers, foreign keys restrict cross-table references, and check predicates capture row-level requirements. Write the invariant in ordinary language before selecting syntax. For instance, a percentage grade has to be between zero and one hundred when it is present, an enrollment must reference an existing offering, and an examination attempt cannot be awarded to an absent learner. Those are different kinds of rule and may require different mechanisms. Nullable columns require special care because the SQL expression `NULL = NULL` evaluates to unknown, not true. A CHECK predicate ordinarily rejects false; unknown need not be rejected. To prohibit missing values, use NOT NULL explicitly.</p>
+
+<h4>Worked field scenario</h4>
+
+<p>Take an Order table with `quantity INTEGER NOT NULL CHECK(quantity &gt; 0)` and `customer_id` referring to Customer(id). Attempting to insert quantity zero should fail even if the application forgot validation. Attempting to insert a nonexistent customer must also fail when the engine actually enforces foreign keys. SQLite, for example, documents enabling its foreign-key pragma for each connection; do not assume the same default as another engine. An email uniqueness requirement is less straightforward: engines vary in collation rules and treatment of multiple NULLs, and an address can change. Normalization, lowercasing or domain-specific canonicalization is a policy choice, not a consequence of SQL syntax.</p>
+
+<h4>Counterexample and limits</h4>
+
+<p>Not every invariant fits a single row. “No more than 40 admitted students per offering” depends on the count of several rows and concurrent inserts. A CHECK on one Enrollment row cannot ordinarily enforce it. A capacity procedure must use an appropriate lock, serializable execution or carefully protected counter to prevent two sessions from observing one remaining seat and both committing. The application should convert an integrity error into a meaningful message, not suppress the database constraint.</p>
+
+<h4>Investigation and self-check</h4>
+
+<p>For a booking system, list four invariants: positive price, valid customer, non-overlapping use of the same room, and immutable payment-event ID. Classify each as column-local, foreign-key, cross-row or event-identity invariant. Explain which constraints can be expressed using plain standard SQL and which require an engine feature or transaction protocol. Try concurrent bookings in two connections rather than testing only sequential inserts.</p>
+
+<h4>Engineering verification</h4>
+
+<p>Build a negative-test table: invalid quantity, missing parent, duplicate key, null required field and simultaneous capacity claims. Record the expected SQLSTATE or documented error category without hardcoding a vendor-specific message. When migrating an existing table, verify old rows before enabling a new constraint; successful schema creation does not prove historical data are consistent.</p>
+        </div>
+
+      </section><section class="textbook-section-card" id="sec-1-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§1.4</span>
+            <span>Normalization</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Normalization</strong></p>
+
+<p>Normalization decomposes relations to reduce update anomalies using functional dependencies. BCNF requires every nontrivial determinant to be a superkey.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>If Course(course_id,instructor,office) has instructor-&gt;office, repeatedly storing an office for each course risks inconsistent updates; separate Instructor(instructor,office) when constraints justify it.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Not every decomposition preserves all dependencies or is lossless; prove joins reconstruct the original before migrating data.</p>
+
+<h4>Domain model and precise assumptions</h4>
+
+<p>Normalization is a method of reasoning about dependencies, not a demand that every database have the largest possible number of tables. A functional dependency X→Y means that any two valid rows agreeing on X must agree on Y. The dependence is a domain assertion, not an accident of the current sample. From Course(course_id, lecturer_id, lecturer_office), if lecturer_id→lecturer_office holds, duplicating an office over courses introduces an update anomaly. A separate Lecturer(lecturer_id,office) and Course(course_id,lecturer_id) can avoid it, assuming lecturer offices are truly fixed per lecturer and not per campus or semester. A design must not invent a functional dependency that the real world does not guarantee.</p>
+
+<h4>Worked field scenario</h4>
+
+<p>To analyze a relation, identify candidate keys, calculate closures of determinants and inspect nontrivial functional dependencies. In BCNF, every nontrivial determinant must be a superkey. For a relation R(A,B,C) with A→B and B→C, A is a key, but B→C violates BCNF if B is not a superkey. Decompose into R1(B,C) and R2(A,B). Joining on B recovers the original under the stated dependencies; proving a lossless join matters because a poor decomposition could generate combinations never present in the source. The procedure is not merely splitting a table by subjective “topic.”</p>
+
+<h4>Counterexample and limits</h4>
+
+<p>Third normal form permits certain dependencies involving prime attributes that BCNF does not, which can preserve dependencies more conveniently. Another common error is denormalizing before identifying the source of truth. A summary table may improve a reporting query but then it requires a refresh, invalidation or transaction strategy. The normalized model states the authoritative facts; materialized projections are controlled derived data. JSON documents can also be normalized conceptually even though the physical representation is not a set of relational tables.</p>
+
+<h4>Investigation and self-check</h4>
+
+<p>Derive the closure of A under {A→B,B→C} step by step. Next suppose a lecturer can have a different office on each campus. Show why `lecturer_id→office` is false while `(lecturer_id,campus_id)→office` may hold. Rewrite the decomposition accordingly and explain what evidence from administrators is needed before migration. Design a test inserting two offices on different campuses and verify the schema does not incorrectly reject it.</p>
+
+<h4>Engineering verification</h4>
+
+<p>A migration from one table to several requires backfilling and counts. Validate that every old course resolves to exactly one expected lecturer and that row multiplicities do not silently increase after joins. Verify foreign keys before dropping the source columns. Normalization can increase joins and require indexes, so benchmark representative requests without sacrificing integrity to solve an unmeasured performance problem.</p>
+
+<h4>Integrated unit case study</h4>
+
+<p><strong>Unit case study: registrar data model with durable enrollment history.</strong></p>
+
+<p>The design team is asked to maintain a catalog of courses, dated teaching offerings, student identities and attempts at enrollment. Write a relationship diagram before writing CREATE TABLE statements. `Student(student_id,display_name)` identifies the learner; `Course(course_id,title,credits)` identifies a reusable course; `Offering(offering_id,course_id,term,instructor_id,capacity)` identifies a scheduled instance; `Enrollment(enrollment_id,student_id,offering_id,attempt_no,status,grade)` records one attempt. Decide whether students can repeat the same offering or only retake the catalog course in a later term. Under the common assumption that an offering can be enrolled once by each learner, `UNIQUE(student_id,offering_id)` is appropriate; if a formal withdraw-and-reapply workflow creates separate attempts, the uniqueness rule must be revised before implementation.</p>
+
+<p>Begin by adding parent rows: student s100, course CS101, offering o500 in term T1. Insert enrollment e1 and check the foreign key path. In a separate test, try to insert enrollment e2 for nonexistent offering o999. The database should reject it. Add a second valid enrollment for another student to the same offering; that should succeed. Then test the enrollment cap by simulating two connections racing for one remaining seat. A foreign key cannot protect a count constraint. Use a serialized capacity reservation or a database isolation strategy with explicit conflict handling, and verify that the committed total never exceeds the stated capacity. Treat waitlist membership as a separately defined state; it should not consume a confirmed seat unless the policy explicitly says so.</p>
+
+<p>Next introduce a course title correction. It should modify the Course row, not overwrite historic student enrollment records. Introduce a student legal-name change, a failed email delivery and a merged duplicate identity. Account for these cases without changing primary keys. Historical reports can join current names or preserve a snapshot of the name printed on an official transcript; that choice is a product requirement rather than a universal database truth. Specify retention and access boundaries for sensitive student data before deciding which values should be deleted, pseudonymized or retained for audit.</p>
+
+<p>A model review has three deliverables. First provide the entity diagram with cardinality and optionality marked on every edge. Second supply functional dependencies and a justification for each key; do not infer dependencies solely from a tiny example. Third give a small executable set of valid and invalid inserts whose outcomes distinguish the proposed model from its plausible alternatives. Correctness is established by those explicit behavioral tests, not by the number of arrows in the diagram.</p>
+
+<p><strong>Design trade-off.</strong> An enrollment identifier is a convenient single-column primary key, but it does not replace business uniqueness constraints. Surrogate identifiers and natural domain constraints solve different problems. The former support durable references; the latter prevent logically duplicated facts. The exact balance depends on retake rules, legal retention and application access patterns.</p>
+
+<h4>Extended executable laboratory</h4>
+
+<p><strong>Extended laboratory: identifying anomalies by counterexample.</strong></p>
+
+<p>Begin with a deliberately flawed spreadsheet-shaped table `Teaching(student_name,email,course_title,term,lecturer,office,grade)`. Insert two rows for the same lecturer teaching two different courses and three rows for one student taking three courses. First identify the intended keys in the source institution. Without them, the table cannot reliably distinguish two learners with the same display name. Change the lecturer's office in only one row, leaving the other unchanged; this produces an update anomaly if an office truly depends solely on lecturer. Remove the only enrollment row for a one-course lecturer; if that row was also the only place storing the lecturer, a deletion has destroyed an unrelated person record. Explain how these observations reveal an undesirable coupling of facts.</p>
+
+<p>Refactor into Student, Lecturer, Course, Offering and Enrollment. At each step, state which functional dependency or relationship assumption justifies the separation. A student_id now identifies Student independently of enrollment history. A lecturer_id identifies Lecturer, but the office field may still need a CampusLocation child relation if an individual uses several offices. Reconstruct the former report with joins and compare row counts. All rows representing legitimate enrollments must remain; a decomposition that loses enrollment occurrences is incorrect even if it reduces duplicate columns.</p>
+
+<p>Create negative tests. Attempt an Enrollment with an unknown student ID, an unknown offering ID and a duplicate legitimate key. These should be rejected according to the chosen schema's explicit constraints. Then create a learner with no enrollments and verify the Student row still exists and appears in an appropriate left-joined report. Decide what happens if a course is retired: the catalog may be flagged as inactive while historic transcript records remain immutable.</p>
+
+<p>In the written report distinguish three notions of correctness: structural correctness of the diagram, logical correctness of its constraints and operational correctness under concurrent updates. The first two can be checked using symbols and small tables; the third requires multiple database connections and an actual transaction schedule. An ER diagram drawn neatly cannot by itself guarantee that a seat-capacity invariant survives concurrent insertions. The output of the experiment should include a diagram, CREATE TABLE definitions, inserted sample rows, a table of expected rejection results and a reconciliation query for migrated data.</p>
+
+<h4>Connections and deeper pitfalls</h4>
+
+<p><strong>Further investigation: missing identity and time.</strong> An effective database design records not just objects but when facts were true. A student's current program may differ from their program at the time a course was taken. If a report must reproduce a historic degree audit, joining a transcript to a current Program table can give the wrong result unless catalog versions and effective dates are represented. One approach assigns an immutable catalog_version identifier to each CourseOffering. Another represents program membership as intervals: Membership(student_id,program_id,valid_from,valid_to). Define whether endpoints are inclusive, and prevent overlapping intervals if a student can have only one major during any instant. The correctness test is temporal: querying at T1 should recover the version effective at T1 even after administrators publish version T2.</p>
+
+<p>Soft deletion is another form of time and identity confusion. A row with `deleted_at` may remain physically present for retention or auditing, yet should usually disappear from active-user listings. Enforce uniqueness with awareness of whether retired identifiers can be reused. Two active users sharing the same username may be forbidden, while two historic rows bearing the same old username might be allowed in a system with partial uniqueness or an explicitly staged retirement rule. A simplistic globally unique username key can block legitimate recycling; an unrestricted unique rule can let active conflicts slip in. Write the policy first and choose an engine-specific implementation afterward.</p>
+
+<p>A useful examination asks whether two databases with the same current rows can differ in behavior because their event history differs. If the business cares about the order or cause of changes, model events explicitly rather than hoping that updated timestamps reconstruct the full history. A last_modified field records only one moment and cannot answer who approved a merge or whether two separate corrections occurred. Data minimization applies here too: keeping every historic personal field forever is not automatically justified. Design retention with domain and legal review as required.</p>
+        </div>
+
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-database-systems-advanced-1"></div>
+          </div>
+
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Database Systems Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem — draft; editorial QA pending</span>
+            <strong>Example 1.1: Entities: worked verification</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Students has IDs 1,2,3 and Enrollments IDs 1,1,3. Count equijoin result rows.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-database-systems-u1-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-database-systems-u1-q1">
+
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+
+              <div class="step-explanation"><p>Student 1 matches two enrollment rows.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+
+              <div class="step-explanation"><p>Student 2 matches none; student 3 matches one.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+
+              <div class="step-explanation"><p>Inner join returns three rows under bag semantics.</p>
+
+<p><strong>Detailed reasoning and validation.</strong> Count the multiplicities by student identifier, not by distinct names. For ID 1 the enrollment multiset contains two records, so the join emits two copies of the Student 1 tuple combined with the different enrollment rows. ID 2 emits zero rows in an inner join because there is no enrollment; ID 3 emits one. Summation gives 2+0+1=3. If a projection drops every enrollment-specific attribute, the resulting displayed rows could appear repeated, but SQL does not remove them unless DISTINCT is used. Validate with a three-row Student table and a three-row Enrollment table. An exact row-count check after an unrelated column is added should still return three. If `COUNT(DISTINCT Student.id)` is requested, the result would instead be two students with enrollments, answering a different question.</p></div>
+            </div>
+
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Inner join returns three rows under bag semantics.</p></div>
+          </div>
+
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem — draft; editorial QA pending</span>
+            <strong>Example 1.2: Relationships: worked verification</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Explain why Enrollment(student_id,course_id,grade) needs a junction table.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-database-systems-u1-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-database-systems-u1-q2">
+
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+
+              <div class="step-explanation"><p>Students and courses can each participate in many enrollments.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+
+              <div class="step-explanation"><p>A junction table holds each pair and attributes like grade.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+
+              <div class="step-explanation"><p>A composite key can prevent duplicate pairs when repeats are prohibited.</p>
+
+<p><strong>Detailed reasoning and validation.</strong> Start from functional roles: neither Student nor Course alone uniquely determines an Enrollment because each student may attend several courses and each course may be attended by several students. Grade depends on the relationship instance, so putting grade inside Student repeats course-dependent attributes, while putting it in Course repeats student-dependent attributes. A junction relation makes the pair explicit and allows foreign keys to reject nonexistent participants. To permit retakes in a later term, associate an Offering or attempt identifier; do not blindly enforce uniqueness on student_id and course_id across the learner's entire history. Test S1 taking C1 and C2, S2 taking C1, and S1 retaking C1 in another term. A good schema represents exactly the legitimate occurrences and rejects only genuinely invalid duplicates.</p></div>
+            </div>
+
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>A composite key can prevent duplicate pairs when repeats are prohibited.</p></div>
+          </div>
+
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem — draft; editorial QA pending</span>
+            <strong>Example 1.3: Constraints: worked verification</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Find the anomaly when instructor→office is repeated in Course(course_id,instructor,office).</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-database-systems-u1-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-database-systems-u1-q3">
+
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+
+              <div class="step-explanation"><p>The same instructor's office appears in several course rows.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+
+              <div class="step-explanation"><p>Changing the office in only one row creates contradictory data for the same instructor.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+
+              <div class="step-explanation"><p>Separate Instructor(instructor,office) after checking the dependency and lossless join.</p>
+
+<p><strong>Detailed reasoning and validation.</strong> The update anomaly is observable with two course rows: (C1,L7,Room21) and (C2,L7,Room21). Changing only C1 to Room37 creates a relation that violates L7→office because the determinant L7 now corresponds to two values. If the office truly belongs to lecturer L7, move the office attribute to Lecturer(L7,Room37) and have courses reference L7. The join of Course with Lecturer reconstructs the office for reporting. This design presupposes lecturer identity is stable and each lecturer has one relevant office. If location depends on campus or term, the dependency must include that context; normalization based on a false assumption simply replaces one modeling problem with another.</p></div>
+            </div>
+
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Separate Instructor(instructor,office) after checking the dependency and lossless join.</p></div>
+          </div>
+
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="operating-systems">Operating Systems</a><a href="database-systems">Database Systems</a><a href="computer-networks">Computer Networks</a><a href="software-engineering">Software Engineering</a><a href="programming-languages-and-compilers">Programming Languages and Compilers</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/ramakrishnan-gehrke" target="_blank" rel="noopener noreferrer">Ramakrishnan, R., &amp; Gehrke, J. (2003). Database Management Systems (3rd ed.): Canonical textbook covering relational theory, query evaluation, transaction processing, and storage engines</a></li><li><a href="https://openstemlibrary.com/references/silberschatz-db" target="_blank" rel="noopener noreferrer">Silberschatz, A., Korth, H.F., &amp; Sudarshan, S. (2019). Database System Concepts (7th ed.): Standard theoretical reference for indexing, multi-granularity locking, and distributed commit protocols</a></li><li><a href="https://openstemlibrary.com/references/mohan-aries" target="_blank" rel="noopener noreferrer">Mohan, C., et al. (1992). ARIES: A Transaction Recovery Method Supporting Fine-Granularity Locking: Foundational research paper defining write-ahead logging, compensation log records, and physiological logging</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="database-systems-chapter-2">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="database-systems-sims.js?v=1"></script>
+  <script src="database-systems-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

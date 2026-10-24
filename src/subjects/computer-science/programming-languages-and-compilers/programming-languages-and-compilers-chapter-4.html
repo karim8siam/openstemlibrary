@@ -1,0 +1,385 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Intermediate representations | Programming Languages and Compilers | OpenSTEM Library</title>
+  <meta name="description" content="Topic foundations, carefully bounded examples, implementation reasoning, two original simulations, and three detailed worked exercises for intermediate representations.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/programming-languages-and-compilers-chapter-4">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/programming-languages-and-compilers-chapter-4">
+  <meta property="og:title" content="Programming Languages and Compilers: Lexing, Parsing, Type Systems, SSA &amp; Code Generation | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering programming language paradigms, formal grammars, deterministic finite automata for lexing, LL(k) and LR(k) shift-reduce parsing, abstract syntax tree representations, static type systems, unification and Hindley-Milner type inference, Static Single Assignment (SSA) intermediate representation, control-flow graphs, loop optimizations, graph-coloring register allocation, and code generation with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Programming Languages and Compilers: Lexing, Parsing, Type Systems, SSA &amp; Code Generation | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering programming language paradigms, formal grammars, deterministic finite automata for lexing, LL(k) and LR(k) shift-reduce parsing, abstract syntax tree representations, static type systems, unification and Hindley-Milner type inference, Static Single Assignment (SSA) intermediate representation, control-flow graphs, loop optimizations, graph-coloring register allocation, and code generation with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="programming-languages-and-compilers.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Programming Languages and Compilers: Intermediate representations","description":"Comprehensive university textbook covering programming language paradigms, formal grammars, deterministic finite automata for lexing, LL(k) and LR(k) shift-reduce parsing, abstract syntax tree representations, static type systems, unification and Hindley-Milner type inference, Static Single Assignment (SSA) intermediate representation, control-flow graphs, loop optimizations, graph-coloring register allocation, and code generation with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/programming-languages-and-compilers-chapter-4","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Compilers","Programming Language Theory","Lexical Analysis","Context-Free Grammars","LR Parsing","Static Type Systems","SSA Intermediate Representation","Register Allocation"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Programming Languages and Compilers","item":"https://openstemlibrary.com/programming-languages-and-compilers"}]}</script></head>
+<body data-book-path="programming-languages-and-compilers.html" data-chapter-index="3" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Programming Languages and Compilers</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search regular expressions, deterministic finite automata, context-free grammars, LL(1) parsing, LR(1) and LALR parser tables, abstract syntax trees, Hindley-Milner type inference, Static Single Assignment form, register allocation, garbage collection…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="programming-languages-and-compilers" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Language concepts</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="programming-languages-and-compilers-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Type systems</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="programming-languages-and-compilers-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Parsing</span></a></li><li class="unit-nav-item active" data-unit-index="3"><a href="programming-languages-and-compilers-chapter-4" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Intermediate representations</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="programming-languages-and-compilers-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Runtime systems</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="programming-languages-and-compilers-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Optimization</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="programming-languages-and-compilers-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Code generation</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="programming-languages-and-compilers-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Language implementation</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Programming languages and compilers major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 4 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Intermediate representations</h1>
+            <p class="unit-desc-lead" id="unit-desc">Topic foundations, carefully bounded examples, implementation reasoning, two original simulations, and three detailed worked exercises for intermediate representations.</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university compilers and programming language theory courses. Eight units with exactly three solved questions per unit and 16 interactive simulations illustrating grammar parsing, type checking, and optimization lowering. Numerical checks and an editorial review support this edition.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-4-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.1</span>
+            <span>Abstract Syntax Trees</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Abstract Syntax Trees: conceptual explanation</strong></p>
+
+<p>An AST represents the language’s essential operations rather than every punctuation mark. For the concrete string `x + 2 * y`, a typical AST has an Add node whose children are Identifier(x) and Multiply(Number(2),Identifier(y)). Parentheses appear through tree shape; their source spans may remain in metadata for formatting and diagnostics. Typed AST nodes can carry resolved symbols, inferred types, and explicit conversion nodes. Do not smuggle arbitrary runtime values into a source AST: the compiler should distinguish syntax, semantic annotations and runtime state.</p>
+
+<p>A concrete syntax tree may retain whitespace, comments and exact delimiters, making it preferable for formatters and code transformation tools. Some compilers keep a lossless tree for editing and derive a simplified AST for analysis. Tree traversals require stable invariants: expression nodes evaluate to values, statement nodes alter control flow, every identifier reference binds to a valid declaration or a recorded error, and spans nest or overlap in documented ways. Serialization requires a versioned schema if compiler caches persist across releases. Test tree invariants with random nested expressions, round-trip printing when appropriate, and mutation tests that delete a child or swap operator precedence. AST shape matters because later optimizers make assumptions about effect order; representing a call as a pure operator would make reordering unsound.</p>
+
+<h4>Design investigation: AST invariants under refactoring</h4>
+
+<p>Specify AST classes for literals, identifiers, binary operations, assignments, calls and conditionals. Parse `a + b*c` into an Add node with Multiply on its right branch. Give every node a source span and children with consistent ranges. Rename bound variable a to q and verify that only references resolved to the same symbol identifier change. Do not rewrite an unrelated a in a nested scope or a string literal. A lossless concrete syntax representation may be necessary if a formatter must preserve comments and whitespace exactly. Intentionally delete a child from a binary node and require an AST validator to reject the malformed structure before type checking. Run a pretty-printer and reparser, then compare structure after normalizing harmless formatting differences. Explain why this is stronger than checking that the pretty-printed source merely parses without crashing.</p>
+
+<h4>Static Single Assignment Form and Dominator Trees</h4>
+
+<p>Modern optimizing compiler backends lower abstract syntax trees into Static Single Assignment (SSA) intermediate representation. In SSA form, every variable is defined exactly once, and special phi-functions are placed at control-flow join points where multiple definition paths merge. The placement of phi-nodes relies on the dominance frontier of the control flow graph. By converting code into SSA form, complex data-flow analyses such as global value numbering, sparse conditional constant propagation, and dead code elimination run in near-linear time with provable precision.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-plc-u4-a"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.2</span>
+            <span>Control-Flow Graphs</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Control-Flow Graphs: conceptual explanation</strong></p>
+
+<p>A control-flow graph models the paths execution might take within a procedure. A basic block is a maximal straight-line sequence with entry at its first instruction and control leaving at its terminator. A conditional branch has two successors, a return none, and an unconditional jump one. Construct blocks at function entry, branch targets and positions immediately following a transfer. The CFG should preserve unreachable blocks long enough to support diagnostics, then a reachability pass can identify dead regions. Exception edges and coroutine suspension complicate the graph and should be represented rather than ignored when those language features are supported.</p>
+
+<p>Dominance formalizes path constraints. Block D dominates B when every path from entry to B passes through D. The entry block dominates all reachable blocks. A dominator tree supports SSA construction and loop analysis. Natural-loop detection typically uses a back edge from a block to one of its dominators; irreducible graphs need more general handling. Compute reachability and dominators on a small six-block example, then introduce an early return and compare the results. The CFG is not a performance graph: an edge’s existence does not specify its probability or frequency. Profile-guided compilation may add weights, but it must keep semantic correctness independent of those measurements.</p>
+
+<h4>Design investigation: dominance on a diamond CFG</h4>
+
+<p>Create entry block B0 branching to B1 and B2, both leading to B3; B3 returns. List predecessor and successor sets. Entry B0 dominates all reachable blocks; B1 does not dominate B3 because there is a route through B2. Add a block B4 following B3 and compute its dominators. Then insert an unreachable block B5 with an edge back to B3. Depending on graph conventions, do not allow unreachable predecessors to corrupt dominance of reachable execution paths without explicitly specifying treatment. Run a fixed-point dominator algorithm initialized with entry’s set and the universe for other reachable blocks. Explain why convergence produces a graph property independent of block order. Add a loop back edge B4-&gt;B3 and identify the natural loop if B3 dominates B4. A textual source line appearing earlier is not by itself evidence of a back edge.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.3</span>
+            <span>Ssa</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Ssa: conceptual explanation</strong></p>
+
+<p>Static single assignment form assigns each variable version exactly once. Suppose branches each assign `x`: the then branch writes x1 = 5, the else branch x2 = 9, and their join defines x3 = phi(x1,x2). The phi operation selects the value corresponding to the actual predecessor edge; it is not an ordinary function call that evaluates both arguments. A loop-carried value often needs a phi at the loop header, combining an initial value with a value from the back edge. Careless phi insertion either loses updates or creates operands with no incoming definition.</p>
+
+<p>SSA greatly simplifies use-definition chains and sparse analyses because each use has one known definition. Common construction algorithms insert phis using dominance frontiers and rename definitions while traversing the dominator tree. Pruned SSA avoids phis for values that are not live at a join. Memory is harder: aliases and loads from mutable objects are not captured by scalar variable SSA alone. Memory SSA or explicit effect tokens can represent ordering constraints. When lowering from SSA, phi nodes become moves on CFG edges, with special care for critical edges and parallel-copy cycles. Build a test program with two branches and a loop, and verify its result before and after SSA conversion and lowering. The runtime never executes a phi instruction in the abstract sense without choosing a predecessor.</p>
+
+<h4>Design investigation: phi placement and lowering</h4>
+
+<p>For `if test then x=11 else x=19; return x+1`, draw two branch blocks and a join block with `x3=phi(x1,x2)`. The return is twelve or twenty according to the taken branch. Show how an interpreter chooses the incoming operand by predecessor edge rather than evaluating both branch results. Extend the program to a loop updating x and introduce a loop-header phi. Verify that each phi has exactly one operand for every incoming predecessor and that its operands are defined along the relevant edges. Lower phi to copies: on the then predecessor assign x3=x1; on the else predecessor assign x3=x2. If an edge is critical, split it as needed. Construct a pair of parallel copies x1&lt;-x2 and x2&lt;-x1 and show why using a temporary is essential. A correctness checker should catch a swap regression through the returned values.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-plc-u4-b"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.4</span>
+            <span>Symbol Tables</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Symbol Tables: conceptual explanation</strong></p>
+
+<p>Symbol tables connect names, declarations, types, linkage and storage to the appropriate part of a source program. A front end may use nested hash maps or persistent scopes; the important invariant is that a lookup returns the nearest visible declaration permitted by the language. Function overloading requires a set of candidates, often filtered by arity and type compatibility rather than a single mapped declaration. Separate a source spelling `count` from a stable symbol identifier so shadowing does not cause accidental merges during optimization.</p>
+
+<p>Symbols may pass through several identities. A local source variable becomes a resolved binding, then an SSA value, then perhaps a stack slot or machine register. A linker-visible external name follows a different path and requires visibility, versioning and name-mangling rules. Incremental compilers must invalidate dependent symbol resolutions after an edit while reusing unaffected work. A source rename should not change references outside its binding scope, and a refactoring tool should detect capture when a new name shadows an existing declaration. Construct two modules that export the same short name, import one with an alias, and define a local name matching the other. Explain each lookup using namespace, module scope and local scope, then test the exact diagnostic for an ambiguous import.</p>
+
+<h4>Design investigation: symbol identity and namespace collision</h4>
+
+<p>Create a module exporting function `parse`, another module exporting function `parse`, and a client importing one as `parseText`. Add a local variable also spelled parse inside a function. Define precedence among local declarations, explicit imports and qualified module references according to the example language. Assign stable identities `ModuleA.parse`, `ModuleB.parse`, `Client.local.parse` and record every reference’s chosen identity. Change the local variable’s name and check that external imports are untouched. Now import both parse functions without qualification; the resolver should either report ambiguity or apply a documented overload rule based on types. Include tests for an unresolvable name and an illegal duplicate declaration in the same scope. Finally map source identifiers to generated internal labels and demonstrate why symbol identity must survive despite name mangling and register allocation.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.5</span>
+            <span>Integrated Case Study and Model Limitations</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Translate `if p then x=1 else x=2; print(x)` into basic blocks. The branch produces two definitions, and the merge block needs a phi value `x3 = phi(x1,x2)` under SSA notation. The phi expression selects the value associated with the actual predecessor edge; it does not evaluate both branches at runtime. Identify the control-flow edges and which definitions dominate their uses. A symbol table records whether p and x are in scope and can annotate variable types. If a pointer aliases x through memory, pure SSA for scalar values does not automatically handle writes through that pointer.</p>
+
+<h4>Laboratory: lower an imperative function through multiple IRs</h4>
+
+<p>Start with a source function that initializes a sum and loops through an array. Inside the loop, it branches on whether the current element is positive and adds positive values to the sum. Represent this in an AST with explicit statements, expressions and spans. A semantic analyzer resolves the accumulator and loop-index variables and assigns types. Lower the AST to a three-address IR containing basic blocks with a single terminator each. Verify that every block has exactly the declared successors and that each target exists. An omitted branch target is a malformed IR, not a runtime edge case.</p>
+
+<p>Construct a CFG with entry, loop header, condition, then branch, increment and exit blocks. For each block, enumerate predecessors and successors. Compute reachable blocks starting from entry; deliberately insert an unreachable block and check that the reachability pass finds it without changing the behavior of the reachable program. Compute dominators iteratively and draw a dominator tree. Identify the loop back edge from increment to header and explain why its target dominates its source. A compiler treating any edge to an earlier textual block as a back edge is relying on layout rather than graph semantics.</p>
+
+<p>Convert the accumulator and index to SSA. The loop header needs phi nodes that combine entry values with the values from the back edge. The then branch may update the accumulator while the else path leaves it unchanged, requiring a merge or appropriate phi arrangement. Label each definition uniquely, and for every use identify its reaching definition. An SSA validator should reject duplicate definitions, undefined uses, malformed phi arity and incoming operands associated with the wrong predecessor. Demonstrate the validator by intentionally swapping two phi incoming values in a diamond CFG where the two values differ; the resulting program should fail semantic comparison.</p>
+
+<p>Implement a simple constant propagation pass and dead-block elimination. One candidate optimization replaces an always-true comparison with an unconditional jump. Prove the comparison is side-effect-free and its operands fixed at that program point. Another candidate removes a multiplication whose result is unused; if the multiplication is ordinary integer arithmetic it may be safe, but an operator implemented as a call could have effects. Restrict the pass to operations whose semantics the optimizer understands. Dump IR before and after passes and run both through an independent reference interpreter on boundary inputs such as empty arrays and negative values.</p>
+
+<p>Finally lower SSA out of the program. Each phi needs predecessor-specific copies, inserted on edges or in split blocks. Multiple phi copies may need parallel assignment; naively executing copies sequentially can destroy an input value in a cycle. Describe a correct schedule using a temporary where required. Check that control-flow edges, source span mapping, and results survive the full AST -&gt; CFG -&gt; SSA -&gt; optimized CFG -&gt; low-level IR pipeline. The deliverable is not merely a graph drawing: it is a reproducible transformation with invariants, failing tests and a clear account of which statements are allowed to reorder.</p>
+
+<h4>Failure clinic: valid-looking SSA with wrong phi edges</h4>
+
+<p>An optimizer converts a branchy source function to SSA. Every variable has one definition, every use points to a defined symbol, and the visual CFG looks reasonable. Yet a join phi uses incoming values in block-name order while the runtime’s predecessor list is in edge-insertion order. The values are swapped on one branch. A simple syntactic SSA validator passes; numerical differential tests on one branch fail. Identify the missing invariant: phi operands are keyed to predecessor edges, not merely listed in an arbitrary order. A correct validator checks correspondence between operands and actual incoming edges.</p>
+
+<p>Build a discriminating source program where one branch defines x=11 and the other x=19, then returns x+1. Both branch conditions must be exercised. Make a parallel copy schedule for phi lowering, including a case where two destinations exchange values. A naive sequence `a=b; b=a` loses the original a. The correct lowering preserves both old operands, possibly using a temporary or scheduling a copy cycle carefully. Explain why critical edges may need to be split before placing predecessor-specific moves.</p>
+
+<p>The project also computes dominators using a faulty initialization that starts every nonentry reachable node with the empty set. A standard iterative must-analysis for dominators starts nonentry nodes with all reachable blocks and intersects predecessor sets. With an incorrect initial value it may converge to an underapproximation and cause missing phi placements. Test a diamond CFG, a simple loop and a graph with unreachable blocks. Compare the result against exhaustive enumeration of entry-to-block paths for small graphs. Graph test cases, not a single hand-drawn flowchart, should justify the implementation.</p>
+
+<p>Finally inspect incremental compilation. A changed source branch invalidates one CFG block but leaves a cached use-definition graph from the previous version. The validator may see internally consistent metadata with stale symbols. Record content hashes or revisions for cached IR stages, and invalidate all dependent analyses when a predecessor, definition or type changes. State precisely which analyses must be recomputed after a CFG edit: reachability, dominance, phi placement and dataflow facts can all change. A source-to-IR pipeline needs identity and lifecycle discipline as much as it needs graph algorithms.</p>
+
+<h4>Worked comparative study: IR invariants across a compiler pipeline</h4>
+
+<p>A compiler typically passes through a series of representations, each simplifying one kind of reasoning while preserving enough information for later stages. The source AST distinguishes declarations and expressions. A typed AST assigns symbols and types. A CFG exposes control-flow decisions. SSA gives scalar variables unique definitions. Lower-level IR makes memory effects, stack slots and machine constraints explicit. No single representation is ideal for all analyses. Conflating them leads to errors: a source identifier might map to several SSA versions, while a phi node in SSA has no direct source-language spelling.</p>
+
+<p>Suppose a typed AST contains a loop with a carried counter and an early return. In the CFG the return block has no ordinary successor. At the loop header the counter needs a phi combining its initial and incremented values. A dataflow analysis should consider only reachable predecessor edges under its chosen graph model. If an optimization removes an edge, phi operands must be updated accordingly; an SSA validator that checks unique definitions but ignores predecessor correspondence is incomplete.</p>
+
+<p>Introduce an effectful load from a mutable array. Ordinary scalar SSA can track the index variable but cannot conclude the loaded memory value is constant unless alias and memory-effect information supports that claim. A memory token, memory SSA or explicit ordering edges can encode that a store may invalidate a previous load. An IR design should make such dependencies visible rather than relying on an optimizer to remember unspecified side effects.</p>
+
+<p>Create stage-specific validators. The AST validator checks node arity and source spans. The type validator checks each operator's operand and result types. The CFG validator checks one terminator per block and valid successor IDs. The SSA validator checks definitions, dominance and phi predecessor mapping. The low-level verifier checks register classes, calling convention constraints and legal instruction patterns. Add one deliberately malformed example at each stage and require a localized failure. A pipeline that rejects a malformed IR immediately is easier to debug than one that crashes during code generation long after the original defect. Include content hashes or stage revisions in incremental caches to prevent stale analysis facts from being reused after source edits.</p>
+
+<h4>Unit review: preserve identities through transformation</h4>
+
+<p>Trace one source variable from a lexical declaration through its symbol-table identifier, AST use sites, CFG definitions, SSA versions and eventual machine location. These objects are related but not interchangeable: one source binding can have several SSA definitions, and a machine register can hold many unrelated values over time. For every lowering stage, state what information is lost and what metadata must be retained for diagnostics or debugging. Build a validator that catches a wrong phi predecessor and a stale cached dominance relation after a CFG update. Do not equate a well-formed serialization with correct semantics: execution tests must cover both branches of control flow. A careful IR workflow treats each representation as a contract with independently testable invariants.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Programming Languages and Compilers Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked example — original OpenSTEM editorial draft</span>
+            <strong>Example 4.1: Build a control-flow merge</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Lower `if p then x=4 else x=9; return x` to blocks and give the SSA join expression.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-programming-languages-and-compilers-u4-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-programming-languages-and-compilers-u4-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up definitions and premises</div>
+              
+              <div class="step-explanation"><p>Create an entry/condition block with a conditional branch to Then and Else. Then defines x1=4, Else defines x2=9, and both transfer to Join.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Derive the result</div>
+              
+              <div class="step-explanation"><p>At Join define x3=phi(Then:x1, Else:x2) using predecessor-tagged operands. Return x3. The phi selection is conditional on which edge actually reached the join, not a normal function call evaluating both values.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Validate limits and interpretation</div>
+              
+              <div class="step-explanation"><p>Test both p=true and p=false: the expected results are four and nine. A bug swapping phi operand order would be detected only if both paths are tested. Phi lowering must insert predecessor-specific copies.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>SSA join x3=phi(Then:x1,Else:x2); result 4 or 9.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked example — original OpenSTEM editorial draft</span>
+            <strong>Example 4.2: Compute dominators</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>For Entry branching to A or B and both feeding Join, name the dominators of Join and explain why A is not one.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-programming-languages-and-compilers-u4-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-programming-languages-and-compilers-u4-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up definitions and premises</div>
+              
+              <div class="step-explanation"><p>By definition D dominates a block X if every entry-to-X path passes through D. There are two paths to Join: Entry-&gt;A-&gt;Join and Entry-&gt;B-&gt;Join.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Derive the result</div>
+              
+              <div class="step-explanation"><p>Entry lies on both paths and therefore dominates Join. A lies on only one path, so it does not dominate Join. Join trivially dominates itself under the standard reflexive definition.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Validate limits and interpretation</div>
+              
+              <div class="step-explanation"><p>Adding a block after Join makes Join a dominator of that later block if all paths to the later block pass through Join. This computation uses graph paths, not textual position or frequency of execution.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Dominators of Join are Entry and Join; A and B do not dominate it.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked example — original OpenSTEM editorial draft</span>
+            <strong>Example 4.3: SSA parallel copies</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Explain why lowering simultaneous copies `a_new=b_old; b_new=a_old` as sequential assignments without a temporary is wrong.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-programming-languages-and-compilers-u4-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-programming-languages-and-compilers-u4-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up definitions and premises</div>
+              
+              <div class="step-explanation"><p>Suppose a_old=3 and b_old=8. Simultaneous semantics require a_new=8 and b_new=3. If sequential code first sets a=b, a becomes eight.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Derive the result</div>
+              
+              <div class="step-explanation"><p>The next statement b=a reads the already overwritten a, setting b to eight. Both registers now contain eight, losing the original three.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Validate limits and interpretation</div>
+              
+              <div class="step-explanation"><p>Use a temporary to preserve an old value: t=a; a=b; b=t. This produces eight and three. More general phi-resolution can require scheduling cycles of parallel copies and splitting critical CFG edges.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Use a temporary or correct parallel-copy scheduling; the required results are a=8,b=3.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="operating-systems">Operating Systems</a><a href="database-systems">Database Systems</a><a href="computer-networks">Computer Networks</a><a href="software-engineering">Software Engineering</a><a href="programming-languages-and-compilers">Programming Languages and Compilers</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/dragon-book" target="_blank" rel="noopener noreferrer">Aho, A.V., Lam, M.S., Sethi, R., &amp; Ullman, J.D. (2006). Compilers: Principles, Techniques, and Tools (2nd ed.): Canonical Dragon Book covering scanner generation, LR parsing, syntax-directed translation, and data-flow analysis</a></li><li><a href="https://openstemlibrary.com/references/cooper-torczon" target="_blank" rel="noopener noreferrer">Cooper, K.D., &amp; Torczon, L. (2011). Engineering a Compiler (2nd ed.): Leading modern reference on intermediate representations, SSA transformation, instruction scheduling, and register allocation</a></li><li><a href="https://openstemlibrary.com/references/pierce-tapl" target="_blank" rel="noopener noreferrer">Pierce, B.C. (2002). Types and Programming Languages: Definitive mathematical foundations for the lambda calculus, operational semantics, and formal type systems</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="programming-languages-and-compilers-chapter-3">← Previous chapter</a><a href="programming-languages-and-compilers">Book contents</a><a href="programming-languages-and-compilers-chapter-5">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="programming-languages-and-compilers-sims.js?v=1"></script>
+  <script src="programming-languages-and-compilers-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

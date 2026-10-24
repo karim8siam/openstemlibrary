@@ -1,0 +1,422 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Memory management | Operating Systems | OpenSTEM Library</title>
+  <meta name="description" content="allocation; paging; virtual memory; replacement policies">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/operating-systems-chapter-4">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/operating-systems-chapter-4">
+  <meta property="og:title" content="Operating Systems: Kernel Abstractions, Virtual Memory, Concurrency &amp; File Systems | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering operating system kernel architecture, dual-mode execution, preemptive scheduling, process control blocks, synchronization primitives, deadlock avoidance (Banker's algorithm), two-level paging, translation lookaside buffers, demand paging, inode allocation, and journaling file systems with 24 solved questions and 8 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Operating Systems: Kernel Abstractions, Virtual Memory, Concurrency &amp; File Systems | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering operating system kernel architecture, dual-mode execution, preemptive scheduling, process control blocks, synchronization primitives, deadlock avoidance (Banker's algorithm), two-level paging, translation lookaside buffers, demand paging, inode allocation, and journaling file systems with 24 solved questions and 8 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="operating-systems.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Operating Systems: Memory management","description":"Comprehensive university textbook covering operating system kernel architecture, dual-mode execution, preemptive scheduling, process control blocks, synchronization primitives, deadlock avoidance (Banker's algorithm), two-level paging, translation lookaside buffers, demand paging, inode allocation, and journaling file systems with 24 solved questions and 8 interactive simulations.","url":"https://openstemlibrary.com/operating-systems-chapter-4","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Operating Systems","Kernel Architecture","Process Scheduling","Concurrency and Deadlocks","Virtual Memory and Paging","File Systems and Inodes","I/O Subsystems","Protection and Security"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Operating Systems","item":"https://openstemlibrary.com/operating-systems"}]}</script></head>
+<body data-book-path="operating-systems.html" data-chapter-index="3" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Operating Systems</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search system calls, user/kernel mode, process state transitions, context switching, scheduling policies, mutexes, semaphores, deadlock conditions, page replacement, TLB misses, virtual memory, inode file system…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="operating-systems" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">OS organization</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="operating-systems-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Processes and threads</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="operating-systems-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Concurrency</span></a></li><li class="unit-nav-item active" data-unit-index="3"><a href="operating-systems-chapter-4" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Memory management</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="operating-systems-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">File systems</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="operating-systems-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Storage and I/O</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="operating-systems-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Isolation and security</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="operating-systems-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Distributed and practical systems</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Operating systems core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 4 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Memory management</h1>
+            <p class="unit-desc-lead" id="unit-desc">allocation; paging; virtual memory; replacement policies</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university operating systems courses. Eight units with exactly three solved questions per unit and interactive simulations illustrating scheduling algorithms, page replacement policies, and semaphore mutual exclusion. Numerical checks and an editorial review support this edition.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-4-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.1</span>
+            <span>Allocation</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Allocation</strong></p>
+
+<p>Memory allocation manages free regions and object lifetimes. Fragmentation can be internal (unused space inside allocations) or external (free space split into small pieces).</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>Allocating a 100-byte object in a 128-byte size class leaves 28 bytes of internal fragmentation before allocator metadata.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Low allocation latency does not prove low memory use; page granularity, alignment and long-lived holes change capacity planning.</p>
+
+<h4>Allocators, object lifetimes, and fragmentation</h4>
+
+<p>An allocator converts requests for memory regions into managed blocks, with constraints on alignment, sharing, and lifetime. Internal fragmentation is unused space inside an allocated region. External fragmentation is free space dispersed among blocks so that a large request cannot be satisfied despite adequate total free bytes. They are distinct from process address-space fragmentation and from physical memory pressure. A request for 100 bytes placed into a fixed 128-byte size class wastes 28 bytes of block capacity before allocator metadata; the ratio can be described relative to allocated bytes or requested bytes, but the denominator must be stated. For many small objects, metadata, alignment, and caching of free blocks can dominate apparent efficiency.</p>
+
+<p>First-fit, best-fit, segregated size classes, slab allocation, and buddy allocation have different trade-offs. First-fit selects the earliest sufficiently large free span under a chosen traversal order; it does not necessarily minimize leftover waste. A buddy allocator splits power-of-two blocks and can coalesce only when matching buddies become free. That design makes split/coalesce operations systematic but may overallocate for an awkward request size. A slab allocator maintains caches of similarly sized kernel objects, improving locality and avoiding repeated general-purpose metadata work, at the cost of reserved capacity when objects are not actively needed.</p>
+
+<p>Memory lifetime errors are correctness bugs, not merely inefficiencies. Returning a pointer to an object after its storage has been freed creates a dangling reference; freeing the same allocation twice can corrupt allocator metadata; losing every reference to an allocated object leaks memory until reclamation. Automatic memory management mitigates some failure modes but introduces collection scheduling, retained-object graphs, and runtime overhead. A lab should trace allocation and free requests as a sequence of labeled intervals, compute both internal and external fragmentation, and display an allocation failure despite sufficient <em>aggregate</em> free space. Then repeat with compaction allowed in an abstract model. Real C and C++ allocators cannot always move arbitrary live allocations, because programs may store untracked pointers; the compaction thought experiment must state its assumptions.</p>
+
+<h4>Formal Translation Lookaside Buffer Invariants</h4>
+
+<p>In multi-level page table architectures, the translation lookaside buffer acts as a content-addressable cache of recent virtual-to-physical address mappings. A TLB miss incurs high latency while walking the page directory hierarchy in main memory. To guarantee consistency during process context switches or virtual page remap events, operating system kernels execute explicit TLB shootdown routines across multicore interconnects using inter-processor interrupts, ensuring no core executes with stale address translations.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.2</span>
+            <span>Paging</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Paging</strong></p>
+
+<p>Paging maps fixed-size virtual pages to physical frames. Page tables record mappings and permission bits; TLBs cache recent translations.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>For 4 KiB pages, address 12290 is virtual page 3 and offset 2. A valid mapping to physical frame 8 produces address 32770.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>A TLB miss can be resolved from page tables without disk I/O, while a true page fault may require zero-filling or paging storage.</p>
+
+<h4>Page tables, address decomposition, and permissions</h4>
+
+<p>A page-based virtual memory system splits a virtual address into a virtual page number and a page offset. With 4 KiB pages, the offset occupies twelve bits because 4096 equals 2^12. To translate virtual address 12290, divide by 4096: the page number is three and the offset is two. A page-table entry, if present and accessible, yields a physical frame number; physical address computation combines that frame with the unchanged offset. The arithmetic is straightforward, but the operating system must also enforce the page's access attributes. A write to a read-only mapping is not authorized simply because its virtual page number is valid.</p>
+
+<p>Large virtual address spaces make a flat page table wasteful when most addresses are unused. Multi-level structures allocate lower-level pages only where needed, reducing metadata for sparse address spaces at the expense of multiple memory accesses on a miss. Translation lookaside buffers cache recently used translations, so many references can avoid repeating the walk. An effective access time model might use a TLB hit fraction h, TLB lookup cost t, memory cost m, and a page-walk cost k<em>m on misses: expected time approximately t+h</em>m+(1−h)<em>(k</em>m+m), under explicit assumptions about serialized accesses and absent faults. Real CPUs overlap work and cache page-table entries, so this is an educational estimate, not a prediction of measured latency.</p>
+
+<p>An address-space switch may change the meaning of the same virtual page number. Two processes can each map page three to different physical frames. Shared memory instead arranges for distinct or identical virtual addresses to refer to a common physical backing. Copy-on-write allows initially shared pages to diverge after a write fault, preserving private-state semantics without eager copying. A lab should implement a tiny table mapping virtual page numbers to frame numbers with read/write/execute permissions, then submit reads and writes near page boundaries. Print a translation or a specific fault reason: not-present, permission denied, or malformed address. Keep address translation separate from the question of whether a fault is ultimately recoverable, since demand paging may resolve a missing mapping.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.3</span>
+            <span>Virtual Memory</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Virtual Memory</strong></p>
+
+<p>Virtual memory provides isolation and a large sparse address space but can create faults and expensive working-set misses.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>A process can reserve many virtual pages without committing equivalent physical frames until access, subject to the OS policy.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Overcommit does not create RAM. When active pages exceed available memory, page replacement and thrashing can overwhelm useful work.</p>
+
+<h4>Demand paging, working sets, and fault cost</h4>
+
+<p>Virtual memory can present an address space larger than the immediately resident physical memory by retrieving or creating pages when referenced. A page fault is a processor-detected condition that transfers control to the operating system for resolution or termination. Not every fault implies disk I/O: a zero-fill-on-demand page may be supplied from available RAM, a copy-on-write page may be copied, and a protection violation may be fatal to the process. A major fault that requires backing-store reads generally costs orders of magnitude more than a normal memory access. A performance analysis must distinguish those pathways rather than treating 'fault count' as a single uniform time charge.</p>
+
+<p>A working set is the collection of pages a program actively references over a relevant window. If the combined active working sets exceed available frames, the system may repeatedly evict and reload pages, producing thrashing. That can drive CPU utilization low while storage activity rises, tempting an operator to add more runnable work and make the problem worse. Replacement algorithms such as FIFO, LRU approximations, and CLOCK encode different histories and practical costs. Exact LRU requires tracking recent use ordering; real systems approximate recency and account for dirty pages, file-backed pages, and memory pressure across processes.</p>
+
+<p>Trace the reference string 1,2,3,1,4 with three initially empty frames under FIFO. The first three accesses fault, the second reference to one hits, and the request for four causes a fourth fault. FIFO's oldest resident page is still one, despite its recent access, because FIFO does not update arrival order on hits. Under a true LRU policy, one becomes recently used at the fourth reference, so the fifth request evicts two instead. Both produce four faults on this short trace, but leave different resident contents; later references can separate their fault counts. A lab should therefore compare complete frame states after every reference, not only final totals. Include a known reference sequence exhibiting Belady's anomaly for FIFO if studying non-stack policies, while noting that the property is not universal for every possible string.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.4</span>
+            <span>Replacement Policies</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Replacement Policies</strong></p>
+
+<p>Replacement policies choose a victim frame when a new page must be loaded into a full memory set. FIFO, LRU and approximations make different tradeoffs.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>For reference sequence [1,2,3,1,4] with three frames, FIFO faults on 1,2,3 and 4, evicting 1 at the last step; LRU would evict 2.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>FIFO can exhibit Belady's anomaly, so adding frames does not necessarily reduce faults for all traces.</p>
+
+<h4>Replacement policy and dirty-page accounting</h4>
+
+<p>A page-replacement decision needs a policy for choosing which resident page to evict when memory is full. FIFO selects by admission time, LRU by most recent reference, and CLOCK maintains a circular hand with reference bits to approximate recency efficiently. A policy may prefer clean file-backed pages because discarding them does not require writing modified data first, but this creates further trade-offs in fairness and application performance. A replacement mechanism also must avoid evicting pinned pages needed for DMA or critical kernel operations. Treating every frame as equally evictable is a simplification appropriate only to a classroom model.</p>
+
+<p>For a toy cache of three frames, consider 1,2,3,1,4,2. FIFO misses on 1,2,3,4 and possibly 2 depending on its subsequent state: after 4 evicts one, the final 2 is a hit. LRU after accessing 1 makes page 2 least recently used; inserting 4 evicts 2, so the final reference to 2 misses. This demonstrates that 'more sophisticated' does not mean fewer faults on every possible finite trace. To judge a policy, compare distributions of workloads, not a hand-picked example. The theoretical optimal algorithm replaces the page whose next use is farthest in the future, but its required future knowledge makes it a lower-bound reference rather than a general online implementation.</p>
+
+<p>Dirty bits and writeback schedules complicate latency. If a victim page has been modified, it may need to be written before its frame is reused or before crash consistency requirements are satisfied. An asynchronous background writer can reduce foreground stalls, but it cannot promise durability without a suitable ordering and flush protocol. A useful trace displays page identifier, hit or miss, reference bit, dirty bit, chosen victim, and any required writeback. Repeat with a read-only sequence and then a mixture of reads and writes. Evaluate fault count, writeback count, and the maximum queue size as separate metrics. The learner should understand that a low fault count is not sufficient evidence of low wall-clock latency under storage constraints.</p>
+
+<h4>Integrative case study — a process under memory pressure</h4>
+
+<p>An application allocates a 300 MiB working set and repeatedly scans it while the available physical frame budget fluctuates. A simplistic model with 4 KiB pages says 300 MiB comprises 300×1024×1024/4096 = 76,800 pages. That number does not imply that the process immediately occupies 76,800 physical frames; mappings may be lazy, pages may be shared, and untouched regions may not yet be resident. The page table records translation states while the operating system decides when to back memory with physical frames. A reference to an unmapped or not-present page may cause a recoverable fault or an illegal-access condition depending on the mapping and access rights.</p>
+
+<p>First analyze address translation in isolation. For address 12290 with 4096-byte pages, the virtual page number is three and the offset is two. If page three maps to physical frame seven with read-write permission, the corresponding physical address in a simple flat model is 7×4096+2 = 28,674. If that mapping is read-only, attempting a write must not silently succeed. If the page is not present but part of a valid demand-paged region, the fault handler can acquire a frame and update the mapping; a subsequent instruction retry may then succeed. If the address falls outside the process's valid regions, a fault handler cannot infer that it should allocate arbitrary memory just because the process requested it.</p>
+
+<p>Now give the process three page frames and the reference sequence 1,2,3,1,4,2. For FIFO, the first three references fill frames, the repeated one hits, and four evicts the oldest admitted page one. Reference two then hits, giving four total faults. With LRU, the hit on one makes it recently used; on reference four, page two is least recently used and is evicted. The final reference two faults, giving five. This controlled counterexample teaches that one trace can favor FIFO despite LRU's more informative recency policy. Good policy evaluation uses representative families of traces, not a theorem inferred from six accesses.</p>
+
+<p>Add dirty pages. Suppose frame holding page one has been written after admission and must be evicted. A simple model counts one writeback before reuse if no clean replacement is available. That extra I/O may dominate the cost of choosing the victim. Actual systems can clean pages in the background, prioritize clean file-backed pages, and use more complicated reclaim heuristics. Reporting fault rate without writeback and device latency may therefore mislead. A working-set policy should also consider fairness across processes: one application's scan should not always evict another application's hot control pages if isolation and throughput objectives matter.</p>
+
+<p>A laboratory records all page references with timestamp, virtual page, access type, hit/miss, chosen frame, dirty state, and writeback event. It also computes residency over a sliding observation window to approximate the active working set. Test three, four, and five frames and explain when additional frames help; do not assume fault count is strictly monotonic for FIFO. Then switch from sequential scan to a small repeated hot loop and observe reduced faults after warm-up. Finally, introduce a CPU utilization dashboard that drops when disk paging grows. The correct diagnosis is not immediately to schedule more CPU work: first test whether memory pressure and repeated fault stalls are consuming elapsed time.</p>
+
+<h4>Diagnostic exercise — test three separate memory truths</h4>
+
+<p>For every synthetic memory access, print (a) whether the virtual address belongs to a valid region, (b) whether its virtual page is resident and accessible, and (c) which physical frame supplies the bytes if successful. These are different questions. Begin with one page mapped read-only and attempt both reads and writes; compute the address decomposition but reject unauthorized mutation. Then simulate FIFO and LRU replacement for the sequence 1,2,3,1,4,2 with three frames, recording final resident sets as well as fault totals. Add a dirty bit to one victim and count writebacks separately from faults. A learner should be able to explain why two policies that produce the same number of faults can still leave different states, and why a page fault is not always a disk read. Finally, grow the working set beyond frame capacity and observe repeated evictions. Avoid treating the toy policy as evidence of real-world CPU cache or swap performance.</p>
+
+<h4>Boundary cases and falsifiable design claims</h4>
+
+<p>At page boundaries, arithmetic errors are easy to detect. For 4096-byte pages, address 4095 belongs to page zero with offset 4095, while address 4096 belongs to page one with offset zero. An algorithm that rounds the quotient instead of taking floor division will misclassify addresses near boundaries. Virtual addresses are also context-dependent: a page number without the address-space identity does not specify its physical backing. A TLB entry must be used only in the correct translation context or under a valid shared/global mapping arrangement. Incorrect reuse can become an isolation defect as well as a performance error.</p>
+
+<p>Demand paging introduces faults with different consequences. Reading an untouched anonymous mapping might trigger zero-fill allocation; writing a copy-on-write shared page might allocate a private replacement; attempting to execute non-executable mapped memory should be denied under the applicable protection policy. These are not equivalent events, even if they all enter a fault handler. Modern kernels may use huge pages, memory compression, swapping, or file-backed mappings, which alter the relationship between page counts and physical media usage. A toy simulator should say clearly that it models fixed-size pages and a small set of frames without those features.</p>
+
+<p>A diagnostic assignment asks students to create a trace whose FIFO fault count increases when the number of frames rises. This is possible for certain reference strings because FIFO lacks the stack property; it is not a claim that every string shows the anomaly. By contrast, an idealized exact LRU stack cache cannot incur <em>more</em> misses simply by increasing capacity for the same sequence under the usual assumptions. The exercise should compute frame contents for each reference, not guess based on policy labels. Include dirty writeback cost and a page that is temporarily pinned so learners understand the limitations of replacing any arbitrary frame.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-operating-systems-lab-4"></div>
+          </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Operating Systems Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — external editorial review pending</span>
+            <strong>Example 4.1: Allocation: worked application 1</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An allocator gives a 100-byte object a 128-byte block. Compute internal fragmentation.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-operating-systems-u4-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-operating-systems-u4-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Subtract requested payload bytes from block capacity.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>128−100=28 bytes.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>There are 28 unused bytes in the assigned block, excluding metadata.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Independent verification and failure-mode analysis</div>
+              
+              <div class="step-explanation"><h5>Extended verification and failure-mode analysis</h5>
+
+<p>A 128-byte block serving a 100-byte request leaves 28 unused bytes inside that allocated block. Its internal waste fraction relative to allocated block space is 28/128≈21.875 percent; relative to payload requested it is 28/100=28 percent. Both ratios can be useful, but comparing them without identifying the denominator is misleading. The answer excludes allocator metadata, alignment outside the 128-byte block, and page-level waste. With one thousand independently allocated objects of this size class, the simple model reserves 128,000 block bytes for 100,000 payload bytes, wasting 28,000 bytes internally. That scaling assumes no compression, sharing, reuse within a block, or other allocator special cases. A stronger experiment varies size-class rounding and request-size distribution, because one example does not determine overall fragmentation.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>There are 28 unused bytes in the assigned block, excluding metadata.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — external editorial review pending</span>
+            <strong>Example 4.2: Paging: worked application 2</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>For 4 KiB pages translate virtual address 12290 to page and offset.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-operating-systems-u4-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-operating-systems-u4-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Divide by page size 4096.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>12290=3×4096+2.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>VPN=3 and offset=2; physical location requires a page-table mapping.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Independent verification and failure-mode analysis</div>
+              
+              <div class="step-explanation"><h5>Extended verification and failure-mode analysis</h5>
+
+<p>Page size is 4096 bytes, so integer division of 12290 by 4096 gives quotient three and remainder two: 12290=3×4096+2. The quotient is the virtual page number; the remainder is the page offset. The offset can also be obtained by taking the lowest twelve bits of the address. A physical address cannot be calculated without a valid mapping from virtual page three to a physical frame. For illustration only, mapping that page to frame seven would yield 7×4096+2=28,674, provided the requested access rights are granted. Boundary tests should check 4095 (page zero, offset 4095), 4096 (page one, offset zero), and 8192 (page two, offset zero). These examples catch errors where a page boundary is incorrectly assigned to the preceding page.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>VPN=3 and offset=2; physical location requires a page-table mapping.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — external editorial review pending</span>
+            <strong>Example 4.3: Virtual Memory: worked application 3</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>For FIFO page replacement with 3 empty frames, trace [1,2,3,1,4]. Count page faults.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-operating-systems-u4-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-operating-systems-u4-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>1,2,3 each fault and fill the frames.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>The fourth reference 1 is a hit; 4 faults and evicts the oldest page 1.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>Four page faults occur.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Independent verification and failure-mode analysis</div>
+              
+              <div class="step-explanation"><h5>Extended verification and failure-mode analysis</h5>
+
+<p>Initialize three empty frames. Reference one faults and occupies the first frame; two faults into the second; three faults into the third. The fourth reference to one is a hit and does not change FIFO admission order. Reference four faults because it is absent and requires eviction; FIFO chooses the oldest admitted page, one. The fault indicators are [1,1,1,0,1], summing to four. A complete answer should also report final residency [4,2,3] under a specified frame-order representation. LRU would also have four faults on this short trace but evict page two instead, leaving [1,4,3] in the corresponding conceptual state. Thus fault totals alone cannot distinguish the future behavior of the policies; a subsequent reference to one versus two would. The sequence and initial frame state are part of the problem's specification.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Four page faults occur.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="operating-systems">Operating Systems</a><a href="database-systems">Database Systems</a><a href="computer-networks">Computer Networks</a><a href="software-engineering">Software Engineering</a><a href="programming-languages-and-compilers">Programming Languages and Compilers</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/silberschatz-os" target="_blank" rel="noopener noreferrer">Silberschatz, A., Galvin, P.B., &amp; Gagne, G. (2018). Operating System Concepts (10th ed.): Canonical university textbook covering kernel structures, threads, CPU scheduling, synchronization, and storage management</a></li><li><a href="https://openstemlibrary.com/references/ostep" target="_blank" rel="noopener noreferrer">Arpaci-Dusseau, R.H., &amp; Arpaci-Dusseau, A.C. (2018). Operating Systems: Three Easy Pieces: Authoritative modern treatise on virtualization (CPU, memory), concurrency, and persistence</a></li><li><a href="https://openstemlibrary.com/references/tanenbaum-mos" target="_blank" rel="noopener noreferrer">Tanenbaum, A.S., &amp; Bos, H. (2014). Modern Operating Systems (4th ed.): Definitive theoretical and design foundation for microkernels, deadlocks, memory virtualization, and file system integrity</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="operating-systems-chapter-3">← Previous chapter</a><a href="operating-systems">Book contents</a><a href="operating-systems-chapter-5">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="operating-systems-sims.js?v=1"></script>
+  <script src="operating-systems-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>
