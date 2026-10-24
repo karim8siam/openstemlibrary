@@ -1714,6 +1714,101 @@ window.LIBRARY_CATALOG = {
             "Code generation",
             "Language implementation"
           ]
+        },
+        {
+          "id": "theory-of-computation",
+          "title": "Theory of Computation",
+          "subtitle": "Automata Theory, Formal Grammars, Computability, Turing Machines & Computational Complexity",
+          "status": "AVAILABLE",
+          "url": "theory-of-computation.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering deterministic and nondeterministic finite automata, regular languages, pumping lemma, context-free grammars, pushdown automata, Turing machines, undecidability (Halting problem, Rice's theorem), reductions, and computational complexity (P, NP, NP-completeness, Cook-Levin theorem) with 24 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Formal languages",
+            "Finite automata",
+            "Context-free languages",
+            "Computability",
+            "Undecidability",
+            "Complexity classes",
+            "Advanced complexity",
+            "Formal applications"
+          ]
+        },
+        {
+          "id": "artificial-intelligence",
+          "title": "Artificial Intelligence",
+          "subtitle": "Heuristic Search, Adversarial Games, Knowledge Representation, Probabilistic Reasoning & Reinforcement Learning",
+          "status": "AVAILABLE",
+          "url": "artificial-intelligence.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering intelligent agents, uninformed and heuristic search (A*, IDA*), adversarial game playing (alpha-beta pruning, expectimax), constraint satisfaction problems, propositional and first-order logic, probabilistic reasoning and Bayesian networks, Markov decision processes, and reinforcement learning with 24 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Intelligent agents",
+            "Search",
+            "Knowledge representation",
+            "Uncertainty",
+            "Planning",
+            "Learning foundations",
+            "Language and perception",
+            "Responsible AI systems"
+          ]
+        },
+        {
+          "id": "machine-learning",
+          "title": "Machine Learning",
+          "subtitle": "Statistical Learning Theory, Linear Models, Kernel Methods, Neural Networks, Unsupervised Learning & Generalization",
+          "status": "AVAILABLE",
+          "url": "machine-learning.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering statistical learning theory, empirical risk minimization, bias-variance tradeoff, linear and logistic regression, regularized models (Lasso, Ridge), support vector machines and reproducing kernel Hilbert spaces, multi-layer perceptrons, backpropagation, dimensionality reduction (PCA, t-SNE), clustering, and generative modeling with 24 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Learning formulation",
+            "Linear methods",
+            "Nonlinear methods",
+            "Unsupervised methods",
+            "Neural models",
+            "Sequential decision learning",
+            "Evaluation",
+            "Learning systems"
+          ]
+        },
+        {
+          "id": "computer-graphics",
+          "title": "Computer Graphics",
+          "subtitle": "Coordinate Transformations, Rasterization, Shading Models, Ray Tracing, GPU Pipelines & Physically Based Rendering",
+          "status": "AVAILABLE",
+          "url": "computer-graphics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering 2D and 3D affine transformations, homogeneous coordinates, viewing and perspective projection matrices, line and polygon rasterization (Bresenham), depth buffering (Z-buffer), Blinn-Phong illumination, texture mapping, programmable shader pipelines, recursive ray tracing, acceleration hierarchies (BVH), and physically based rendering with 24 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Geometry and transforms",
+            "Raster graphics",
+            "Shape representation",
+            "Lighting and appearance",
+            "Rendering",
+            "Animation",
+            "Interactive graphics",
+            "Graphics applications"
+          ]
+        },
+        {
+          "id": "human-computer-interaction",
+          "title": "Human-Computer Interaction",
+          "subtitle": "Human Cognition, Interaction Models, Usability Principles, Prototyping, Accessibility & Empirical Evaluation",
+          "status": "AVAILABLE",
+          "url": "human-computer-interaction.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering cognitive psychology of interaction, human sensory limits, mental models, Norman's action cycle, Fitts's law, Hick-Hyman law, Nielsen's usability heuristics, low and high fidelity prototyping, universal design, WCAG accessibility standards, empirical usability testing, qualitative think-aloud protocols, and statistical user study analysis with 24 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Human foundations",
+            "User research",
+            "Interaction design",
+            "Prototyping",
+            "Usability evaluation",
+            "Inclusive design",
+            "Interaction modalities",
+            "Socio-technical design"
+          ]
         }
       ]
     }
