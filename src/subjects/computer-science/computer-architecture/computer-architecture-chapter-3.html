@@ -1,0 +1,420 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Processor datapaths | Computer Architecture | OpenSTEM Library</title>
+  <meta name="description" content="arithmetic units; register files; control logic; instruction execution">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/computer-architecture-chapter-3">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/computer-architecture-chapter-3">
+  <meta property="og:title" content="Computer Architecture: Instruction Sets, Digital Logic, Pipelining &amp; Cache Hierarchy | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering CPU performance metrics, digital logic gates, ALU design, arithmetic circuits, RISC instruction set architecture, 5-stage classic RISC pipeline, branch hazards, cache memory organizations, virtual memory, and multicore cache coherence with 24 solved questions and 8 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Computer Architecture: Instruction Sets, Digital Logic, Pipelining &amp; Cache Hierarchy | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering CPU performance metrics, digital logic gates, ALU design, arithmetic circuits, RISC instruction set architecture, 5-stage classic RISC pipeline, branch hazards, cache memory organizations, virtual memory, and multicore cache coherence with 24 solved questions and 8 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="computer-architecture.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Computer Architecture: Processor datapaths","description":"Comprehensive university textbook covering CPU performance metrics, digital logic gates, ALU design, arithmetic circuits, RISC instruction set architecture, 5-stage classic RISC pipeline, branch hazards, cache memory organizations, virtual memory, and multicore cache coherence with 24 solved questions and 8 interactive simulations.","url":"https://openstemlibrary.com/computer-architecture-chapter-3","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Computer Architecture","Instruction Set Architecture","Digital Logic","ALU Design","Pipelining and Hazards","Cache Hierarchy","Virtual Memory","Multicore Coherence"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Computer Architecture","item":"https://openstemlibrary.com/computer-architecture"}]}</script></head>
+<body data-book-path="computer-architecture.html" data-chapter-index="2" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Computer Architecture</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search CPU execution time, CPI, clock cycles, signed two's complement, 8-bit ALU carry out, five-stage pipeline speedup, branch hazards, direct-mapped cache hits, multi-level cache AMAT, page tables, TLB…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="computer-architecture" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Representation and performance</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="computer-architecture-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Instruction sets</span></a></li><li class="unit-nav-item active" data-unit-index="2"><a href="computer-architecture-chapter-3" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Processor datapaths</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="computer-architecture-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Pipelining</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="computer-architecture-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Memory hierarchy</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="computer-architecture-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Input and output</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="computer-architecture-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Parallel architectures</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="computer-architecture-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Architecture evaluation</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Computer architecture core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 3 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Processor datapaths</h1>
+            <p class="unit-desc-lead" id="unit-desc">arithmetic units; register files; control logic; instruction execution</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university computer systems architecture and organization. Eight units with exactly three solved questions per unit and interactive simulations illustrating CPU performance equations, signed arithmetic overflow, ideal pipelining speedup, and cache hit latencies. Numerical checks and an editorial review support this edition.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-3-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.1</span>
+            <span>Arithmetic Units</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Arithmetic Units</strong></p>
+
+<p>An arithmetic logic unit computes a selected operation on bit vectors. Correct behavior distinguishes signed from unsigned comparison, carries and overflow flags.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>For unsigned 8-bit values, 250+10 produces result 4 and carry 1. For signed two's complement, the same bits represent -6+10=4 with no signed overflow.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Carry and signed overflow are different signals; testing only the output low bits misses errors in arithmetic-status reporting.</p>
+
+<h4>Extended technical chapter: Arithmetic Units</h4>
+
+<p>The arithmetic logic unit transforms operand bit patterns into a result and, in many designs, associated condition flags. At a conceptual level, one full-adder stage accepts two operand bits and an incoming carry and produces a sum bit and outgoing carry. Cascading stages yields a ripple-carry adder, but the longest path grows with word width because carry information may travel through every bit position. More advanced adders rearrange the carry logic to reduce critical-path delay at the expense of additional gates, wires, or power. This is an architectural tradeoff because increasing the speed of one component may require more silicon area or energy.</p>
+
+<p>A four-bit example makes the timing dependency visible. Compute binary 1011+0110. At bit zero, 1+0 produces sum one and carry zero. At bit one, 1+1 produces sum zero and carry one. At bit two, 0+1+carry produces sum zero and carry one. At bit three, 1+0+carry produces sum zero and carry one, so the low four-bit result is 0001 with carry-out one. The unrestricted sum is seventeen. Under unsigned four-bit interpretation the result has overflowed. Under signed four-bit interpretation, the operands are −5 and +6 and the result +1 is representable; a signed overflow flag should not fire. Flags therefore depend on meaning, not merely the internal addition network.</p>
+
+<p>Multiplication and division introduce more complex latency and resource decisions. A simple shift-and-add multiplier can reuse arithmetic hardware across cycles; a fully parallel multiplier consumes more gates but supports a different throughput target. An integer multiplier's output may be twice the operand width if the full mathematical product must be retained. Floating-point arithmetic adds rounding, exceptional values, and non-associativity under finite precision. A verification exercise should test zeros, one-hot operands, maximum positive and minimum negative signed values, and random vectors against an independent mathematical model. State exactly when the hardware truncates output, since a test oracle that silently performs unbounded arithmetic will report apparent failures that are really mismatched contracts.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-computer-architecture-unit-3"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.2</span>
+            <span>Register Files</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Register Files</strong></p>
+
+<p>A register file provides named storage locations and read/write ports. Throughput can be limited by port conflicts even when an arithmetic unit is fast.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>A simple three-operand instruction reads r2 and r3 and writes r1; a two-read-one-write register file can support the access pattern in one idealized cycle.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Architectural registers are not identical to physical renamed registers in out-of-order CPUs; bypass paths affect timing.</p>
+
+<h4>Extended technical chapter: Register Files</h4>
+
+<p>A register file provides a small, fast set of architecturally or microarchitecturally visible storage locations. The implementation must accommodate the instruction issue width and operand access pattern. A single-issue integer datapath may require two reads and one write each cycle for a common three-register operation. A wider superscalar design might require more read and write ports, and multiported storage becomes expensive in area and routing. Register renaming can map a limited set of architectural register names onto a larger pool of physical registers, removing false dependencies while retaining the programmer-visible abstraction.</p>
+
+<p>For a simple synchronous register file, write timing matters. Suppose instruction A writes register r5 on a rising edge, while instruction B reads r5 during the same cycle. A teaching simulator must say whether the read sees the old value, the new value, or forwarded data from another datapath point. These alternatives may be implemented by different circuits. A timing diagram with half-cycle assumptions often clarifies what a vague statement such as 'register updated this cycle' conceals. Zero registers in some ISAs ignore writes by specification; treating such a register like ordinary storage corrupts the architectural state model.</p>
+
+<p>A register is not equivalent to a cache line. Registers are individually named by instructions; cache capacity, association and replacement govern memory data accessed by addresses. Compiler register allocation decides which live variables can stay in architectural registers and which must spill to memory. Pressure grows when many values are simultaneously live, particularly across calls. An experiment can start with a short instruction trace containing RAW dependencies, renames, and one spilled value. Record the live range of each value, the register contents at each step, and the additional loads and stores needed under a smaller register budget. This connects physical port design, instruction scheduling, and compiler decisions without pretending that register count alone determines application performance.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.3</span>
+            <span>Control Logic</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Control Logic</strong></p>
+
+<p>Control logic interprets instruction fields into datapath control signals. Hardwired and microprogrammed controllers make different implementation tradeoffs.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>A load instruction typically selects base+offset in an address adder, requests memory read, and writes returned data to a register. A store routes source-register data to memory write instead.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Incorrect control sequencing can write a stale result even if all arithmetic blocks are individually correct.</p>
+
+<h4>Extended technical chapter: Control Logic</h4>
+
+<p>A processor's control logic maps decoded instructions and the current execution state into steering signals for the datapath. A textbook single-cycle machine may express its controller as combinational logic: opcode and function bits determine which register indices to read, whether the ALU should add or compare, whether memory is accessed, and whether a register write occurs. A multicycle design introduces states so that instruction fetch, decode, execution and writeback can reuse hardware over several clock periods. The two arrangements may implement the same ISA despite different timing and control circuits.</p>
+
+<p>A control table is more reliable than a paragraph saying an instruction 'uses the ALU.' For a register-register addition, ALU sources come from two registers, the operation is addition, register write is enabled, and memory write is disabled. For a store, the ALU computes an effective address, memory write is enabled, and the destination-register write is disabled. For a conditional branch, a comparison and branch-target selection update the program counter only when the condition holds. Every instruction should have a defined behavior for signals it does not use; leaving a dangerous memory-write signal effectively unconstrained is a correctness bug, not merely an untidy design.</p>
+
+<p>Timing and verification become important when a controller contains a finite-state machine. Enumerate each state, legal incoming transition, output control word, and condition for advancement. Test what happens following a reset, an illegal instruction encoding, a stall, and an exception. A control path that updates memory twice after a stalled store can produce a visible error even though every individual arithmetic signal is correct. Hardware descriptions should make incomplete assignments and unintended storage explicit; combinational logic typically requires outputs to be assigned on all branches. In an educational design, model control before connecting it to the datapath, then assert that forbidden simultaneous actions never occur.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.4</span>
+            <span>Instruction Execution</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Instruction Execution</strong></p>
+
+<p>Instruction execution includes fetch, decode, operand acquisition, execution, memory access and writeback as applicable. Different instruction types traverse different subsets.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>A register-only ADD need not access data memory, while a LOAD needs an effective address and read response before architectural writeback.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>A pedagogical five-stage diagram is a model, not a universal literal description of superscalar, microcoded or variable-latency processors.</p>
+
+<h4>Extended technical chapter: Instruction Execution</h4>
+
+<p>Instruction execution is a sequence of state transformations: fetch instruction bytes using the program counter, decode the operation and operands, read required state, perform computation or effective-address generation, access memory when applicable, and commit architectural results. The familiar five-stage description is one possible decomposition, not an ISA requirement. Some instructions complete in very few internal steps; others decompose into many micro-operations. The central correctness condition is that the externally visible result matches the architectural instruction sequence, including defined exception and memory behavior.</p>
+
+<p>Trace a load followed by an addition. Initially r1=0x1000 and memory at address 0x1008 contains 12. The load calculates the address r1+8, obtains 12 from memory after translation and hierarchy access, and places it into r2. The following add r3,r2,5 writes 17. In a pipelined implementation, the second instruction might decode before the first has written r2 back to the register file. Forwarding or stalling must prevent it from using the old r2. In a non-pipelined abstract interpreter, sequencing is simpler, but the architectural result should still be seventeen. Architectural equivalence does not imply identical timing.</p>
+
+<p>Precise exceptions complicate the story. If the load faults on an inaccessible page, the machine must provide the documented exception semantics, generally without allowing a younger instruction to retire a result that should not exist after the fault. Speculative execution may have performed internal work on the younger instruction, but retirement rules preserve architectural order. Draw a short trace with program counter values, operand reads, ALU outputs, memory effects and writes. Then introduce a fault and state which updates are permitted to become architectural. This prepares the ground for understanding reorder buffers, branch speculation, memory ordering, and side-channel boundaries in later units.</p>
+
+<h4>Integrated laboratory: from instruction semantics to a testable datapath</h4>
+
+<p>Build an abstract thirty-two-bit datapath with a register file, one ALU, an instruction decoder, a program counter and a small memory interface. The initial instruction subset contains ADD, XOR, LOAD, STORE and a conditional branch. The reference model is a sequential state transition that updates architectural state one instruction at a time. Begin by writing an instruction table: each row names its source registers, destination register if any, ALU function, memory action and program-counter rule. The table acts as a specification for the control logic. A signal combination that accidentally enables both a register write and a store can now be identified as an error rather than explained away as an implementation detail.</p>
+
+<p>The ALU's fixed-width behavior must be explicit. When it adds hexadecimal FFFFFFFF and 00000001, the low 32-bit result is zero and a carry-out occurs for unsigned arithmetic. Interpreting the first operand as signed gives negative one, so the signed mathematical sum is zero with no signed overflow. Feed the ALU random operand pairs and compare its low result with (a+b) modulo 2^32. Separately compute the expected signed-overflow flag from operand and result signs. This independent oracle catches a frequent flaw in student designs: using carry-out as the signed-overflow flag. Extend the test to subtraction, zero detection and comparison, documenting which flags each operation is permitted to alter.</p>
+
+<p>Now analyze register-file timing. Suppose one instruction writes r3 on the rising clock edge and the next instruction reads r3 early in its own decode stage. The result depends on the defined pipeline scheduling and whether forwarding is implemented. A single-cycle model might read all operands and write at the end of a cycle, whereas a multicycle design may have an explicit writeback state. Avoid relying on ambiguous phrases such as 'the value is ready during the cycle.' Annotate availability points at clock boundaries or at specified combinational outputs. The design should also define register zero if the ISA includes one: attempted writes may be discarded, and reads always return zero.</p>
+
+<p>Control-path testing benefits from adversarial inputs. After reset, the program counter must start at the defined location and no stale write-enable signal may perform a store. For an unrecognized opcode, the implementation may raise an illegal-instruction exception or enter a defined trap state; it must not execute a random mixture of bits as a valid instruction. A memory stall should prevent the same store from committing twice. A branch-taken decision should replace the sequential next program counter while respecting any documented alignment rule. These are behavioral properties that can be expressed as assertions over state and control outputs, not simply observed in one preferred waveform.</p>
+
+<p>Test a five-instruction program: load the value 12 from a mapped address into r2; add five into r3; store r3 into a result address; compare r3 to 17; branch to a success label. With correct initial state, the stored value is seventeen and the success path is selected. Change the loaded value to eleven: the stored result becomes sixteen and the branch should fall through. Inject a fault on the load: neither the later store nor branch should architecturally commit if the specified exception model is precise. Compare committed state after each instruction with the sequential reference interpreter. This is more meaningful than merely showing that a clock signal toggles.</p>
+
+<p>For evaluation, record coverage by instruction class, operand boundary, control state and memory condition. A design that passes ten ordinary additions but never exercises a taken branch or an invalid address has weak evidence of correctness. Include reset during a pending memory transaction and explain what the model chooses to guarantee. Finally, discuss cost: additional forwarding paths or multiple ALUs can improve throughput but alter control complexity, timing and energy. Datapath design is a negotiation among correctness, cycle time, throughput and implementation resources, all under one architectural contract.</p>
+
+<h4>Review lens: architectural state versus internal state</h4>
+
+<p>Two processor implementations can be architecturally equivalent while their internal states differ radically. One may use a single-cycle controller, another an instruction pipeline and a third a reorder buffer with speculation. A conformance test compares the committed register values, memory effects and exceptions mandated by the ISA. It should not require speculative instructions to occupy the same transient buffers or produce the same internal waveform. This distinction also imposes discipline on performance models: a fast ALU alone does not establish a fast processor if decode, cache access or retirement is the bottleneck. When a test fails, capture the first instruction whose committed outcome diverges from a reference model. Tracing the earliest divergence is typically more informative than comparing the final register dump after many incorrect operations. Only after correctness is established should cycle count become the optimization metric.</p>
+
+<h4>Additional guided investigations for state-machine hardware</h4>
+
+<p><strong>Adder verification.</strong> For a four-bit unsigned adder, test operands 15 and 1. Their mathematical sum sixteen produces low nibble zero and carry-out one. Test operands seven and one under signed four-bit interpretation: seven plus one yields bit pattern 1000, interpreted as negative eight, so signed overflow occurs despite an ordinary bit-level sum. Design separate assertions for carry and signed overflow. A correct testbench should generate expected results using wider mathematical integers instead of copying the same combinational logic used inside the circuit.</p>
+
+<p><strong>Register-file verification.</strong> Give two instructions the same destination architectural register but distinct computed values. If the first writes nine and the second writes fourteen, a third instruction must observe fourteen after both retire. In an out-of-order or forwarded design, blindly choosing the oldest bypass source could return nine. Draw a priority network that chooses the most recent valid producer. Also test write-enable false, destination zero if reserved, and simultaneous read and write behavior according to the explicitly declared register-file timing contract.</p>
+
+<p><strong>Controller verification.</strong> Define control signals RegWrite, MemRead, MemWrite, Branch and ALUOp. For a STORE, expect MemWrite enabled, register write disabled and an address-generation ALU operation. For an ADD, expect register write enabled and both memory read and write disabled. Build a truth table for each legal opcode, then test an illegal encoding. The illegal state must invoke the specified trap behavior rather than combining leftover control values from a previous instruction. This is especially important in finite-state controllers with stalled transactions.</p>
+
+<p><strong>Architectural trace verification.</strong> Initialize memory[1008]=12 and r2=1000. Execute LOAD r1,[r2+8], ADD r3,r1,5 and STORE r3,[r2+12]. Sequential architectural results are r1=12, r3=17 and memory[1012]=17. Inject an exception into the load and assert that the later store does not become architecturally visible under the chosen precise-exception model. Check the final memory independently of internal ALU waveforms, since two different microarchitectures should preserve the same visible contract.</p>
+
+<h4>Diagnostic challenge: choose the correct output flag</h4>
+
+<p>An eight-bit ALU adds 01111111 and 00000001. The mathematical unsigned sum is 128, within the range zero through 255, so there is no unsigned carry-out. But as signed operands, 127+1 overflows the signed maximum of 127, and the resulting pattern 10000000 denotes −128. Now compare 11111111+00000001. It creates carry-out one and low-byte result zero, yet as signed values −1+1=0 causes no signed overflow. A testbench that equates these two flags fails one of the cases. Build a truth table using operand sign bits and result sign bits, and verify the signed overflow rule for addition: overflow occurs when operands have the same sign but result has the opposite sign. Add subtraction cases separately because borrowing and subtraction-overflow definitions need their own logic. This exercise forces a design to specify the interpretation of output flags rather than deriving them from ambiguous English descriptions.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Computer Architecture Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — editorial review pending</span>
+            <strong>Example 3.1: Arithmetic Units: worked application 1</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Compute unsigned 8-bit sum 250+10 and carry flag.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-architecture-u3-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-architecture-u3-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Arithmetic result is 260, exceeding maximum unsigned 8-bit 255.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>Low eight bits are 260 mod 256=4; a carry out occurs.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>Stored result is 4 and carry flag is one.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Independent verification, conditions, and interpretation</div>
+              
+              <div class="step-explanation"><p>Unsigned eight-bit addition computes 250+10=260 as an unrestricted integer. Since an eight-bit output can store residues from zero through 255, divide 260 by 256: quotient one and remainder four. The low eight bits therefore contain 00000100, and unsigned carry-out is one. Check this by converting 250 to 11111010 and ten to 00001010 and performing column addition. The higher carry is not stored in the low-byte result. Signed arithmetic interprets the same bit pattern 11111010 as −6; −6+10=4 is representable, so the signed-overflow flag should be zero even though unsigned carry-out is one. This contrast catches the common error of using one flag as a universal indication of arithmetic overflow. If the program requires exact mathematical 260, it must use a wider result, detect the carry or apply appropriate saturation. If the ISA provides a narrowing conversion, its specified semantics determine whether the high bits are silently discarded. The answer is complete only when it states both the low output and the carry convention.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Stored result is 4 and carry flag is one.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — editorial review pending</span>
+            <strong>Example 3.2: Register Files: worked application 2</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A register-file design has two read ports and one write port. Can a simple three-register add read two operands and write a result in one ideal cycle?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-architecture-u3-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-architecture-u3-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>A three-register ADD needs two source values and one destination update.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>Two read ports satisfy the source accesses; one write port satisfies the result update.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>Yes, provided timing and writeback policy allow those accesses in the model.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Independent verification, conditions, and interpretation</div>
+              
+              <div class="step-explanation"><p>A conventional ADD rD,rA,rB consumes two source values and produces one destination value. A register file offering two independent read ports and one write port has the port count needed to support these three logical accesses in an ideal cycle. That fact alone does not guarantee the complete instruction finishes in one clock period. Decoder time, register read delay, ALU propagation, write setup and the architectural timing model must also fit the cycle budget. In a pipelined machine, reads might occur during decode and writes several stages later; simultaneous accesses from different instructions can increase port demand. If the program writes and reads the same register in one cycle, the design must define or resolve read-during-write behavior. Bypass paths can supply the newly computed value without waiting for writeback. The answer therefore has two layers: port counts suffice for one isolated register-register add under the assumed model, but timing and surrounding traffic can require further resources or scheduling. An adequate testbench uses two distinct sources, identical-source operands, destination equal to a source, and a suppressed write to a reserved register if the ISA defines one.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Yes, provided timing and writeback policy allow those accesses in the model.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — editorial review pending</span>
+            <strong>Example 3.3: Control Logic: worked application 3</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>For LOAD r1,[r2+8], identify address, memory and writeback stages.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-architecture-u3-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-architecture-u3-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Read base register r2 and compute effective address r2+8.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>Issue a memory read and wait for returned data under memory timing rules.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>Write the loaded value into r1; an ordinary ALU-only instruction does not need this data-memory read.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Independent verification, conditions, and interpretation</div>
+              
+              <div class="step-explanation"><p>For LOAD r1,[r2+8], the effective address is computed by an addition involving r2 and the immediate displacement eight. The memory stage reads the data found at that address after required translation and access checks. The retrieved value is written into r1 during architectural writeback. A register-register arithmetic instruction may also use the ALU, but it does not need to read data memory simply because it has an execute stage. Distinguish instruction fetch, which reads the instruction stream, from a data-memory access performed by LOAD. If r2=1000 and memory at address 1008 contains 23, a correctly executed load leaves r1=23. If that location is unmapped, the defined fault behavior replaces the normal writeback, so the example cannot assume r1 changes. With a pipelined implementation, loaded data may appear late enough that a subsequent ADD depending on r1 must stall despite bypassing. A precise explanation labels address generation, translation/protection, data access, and register commitment separately. Conflating these stages is the root of many incorrect datapath sketches.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Write the loaded value into r1; an ordinary ALU-only instruction does not need this data-memory read.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/patterson-hennessy" target="_blank" rel="noopener noreferrer">Patterson, D.A., &amp; Hennessy, J.L. (2020). Computer Organization and Design: The Hardware/Software Interface (RISC-V Edition): Canonical university textbook covering instruction sets, pipelining, hazards, memory hierarchy, and I/O</a></li><li><a href="https://openstemlibrary.com/references/hennessy-patterson-quantitative" target="_blank" rel="noopener noreferrer">Hennessy, J.L., &amp; Patterson, D.A. (2017). Computer Architecture: A Quantitative Approach (6th ed.): Authoritative reference on quantitative computer design, ILP, superscalar execution, and cache coherence protocols</a></li><li><a href="https://openstemlibrary.com/references/harris-harris-digital-design" target="_blank" rel="noopener noreferrer">Harris, S.L., &amp; Harris, D.M. (2021). Digital Design and Computer Architecture (RISC-V Edition): Foundational text connecting combinational logic gates, sequential state machines, and processor microarchitecture</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="computer-architecture-chapter-2">← Previous chapter</a><a href="computer-architecture">Book contents</a><a href="computer-architecture-chapter-4">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="computer-architecture-sims.js?v=1"></script>
+  <script src="computer-architecture-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

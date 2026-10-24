@@ -1,0 +1,415 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Priority structures | Data Structures | OpenSTEM Library</title>
+  <meta name="description" content="Heaps; Priority Queues; Heap Construction; Scheduling Applications">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/data-structures-chapter-5">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/data-structures-chapter-5">
+  <meta property="og:title" content="Data Structures: Linear Collections, Binary Search Trees, Hash Tables &amp; Heaps | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering dynamic arrays, singly and doubly linked lists, stacks, queues, circular buffers, binary search trees, separate chaining and open addressing hash tables, binary heaps, priority queues, breadth-first and depth-first search, Fenwick trees, and disjoint-set unions with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Data Structures: Linear Collections, Binary Search Trees, Hash Tables &amp; Heaps | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering dynamic arrays, singly and doubly linked lists, stacks, queues, circular buffers, binary search trees, separate chaining and open addressing hash tables, binary heaps, priority queues, breadth-first and depth-first search, Fenwick trees, and disjoint-set unions with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="data-structures.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Data Structures: Priority structures","description":"Comprehensive university textbook covering dynamic arrays, singly and doubly linked lists, stacks, queues, circular buffers, binary search trees, separate chaining and open addressing hash tables, binary heaps, priority queues, breadth-first and depth-first search, Fenwick trees, and disjoint-set unions with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/data-structures-chapter-5","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Data Structures","Dynamic Arrays","Linked Lists","Binary Search Trees","Hash Tables","Binary Heaps","Breadth-First Search","Fenwick Trees"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Data Structures","item":"https://openstemlibrary.com/data-structures"}]}</script></head>
+<body data-book-path="data-structures.html" data-chapter-index="4" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Data Structures</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search dynamic array growth, amortized doubling, linked lists, circular queue, BST height, separate chaining, linear probing, binary heaps, sift-up, BFS frontiers, connected components, trie prefixes, Fenwick tree…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="data-structures" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Foundations</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="data-structures-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Sequential structures</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="data-structures-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Search structures</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="data-structures-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Associative structures</span></a></li><li class="unit-nav-item active" data-unit-index="4"><a href="data-structures-chapter-5" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Priority structures</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="data-structures-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Graph structures</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="data-structures-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Specialized structures</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="data-structures-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Implementation analysis</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Data structures core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 5 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Priority structures</h1>
+            <p class="unit-desc-lead" id="unit-desc">Heaps; Priority Queues; Heap Construction; Scheduling Applications</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university data structures courses. Eight units with exactly three solved questions per unit and 16 interactive numerical simulations illustrating geometric array resizing, hash table probing, heap reorganization, and Fenwick tree queries. Numerical checks and an editorial review support this edition; it has not received independent academic peer review.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-5-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.1</span>
+            <span>Heaps</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Heaps</h4>
+
+<p>A binary heap stores a complete tree in an array, enforcing a parent-child priority inequality. It supports constant-time inspection of the highest-priority element and logarithmic insertion and extraction.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-ds-heap-push"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.2</span>
+            <span>Priority Queues</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Priority Queues</h4>
+
+<p>A priority queue removes entries by priority, not by arrival order. Binary heaps are a common implementation. Handling tied priorities requires an explicit stable ordering policy when reproducibility matters.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-ds-heap-min"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.3</span>
+            <span>Heap Construction</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Heap Construction</h4>
+
+<p>Bottom-up heapification sifts down internal nodes from the last parent toward the root. Because most nodes are near leaves, the total work is linear rather than n log n.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.4</span>
+            <span>Scheduling Applications</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Scheduling Applications</h4>
+
+<p>Priority queues can order tasks by urgency or deadline. Choosing an effective priority policy requires considering starvation, fairness, preemption, and how priorities change over time.</p>
+
+<h4>Extended design study: dispatching work by priority</h4>
+
+<p>Imagine a small numerical-computing service with tasks that have an estimated urgency. A FIFO queue would respect arrival order, but it would not guarantee that the most urgent waiting task is processed next. A priority queue supports insertion of a task with priority p and removal of a task with highest priority under a defined convention. In a min-heap design, smaller numerical priorities are considered more urgent. A task with priority 2 is selected before one with priority 9 regardless of which arrived first. This behavior should be documented because some libraries instead interpret larger scores as more urgent.</p>
+
+<p>A binary min-heap is represented as an array with parent index floor((i-1)/2) and children 2i+1 and 2i+2. When inserting, append the item and repeatedly swap it upward while its key is smaller than its parent's. When extracting, remove the root, move the final array entry to the root, and sift it downward by swapping with the smaller child where necessary. The heap-order invariant must hold after both operations. Array order is not sorted order: only each parent's relation to its children is guaranteed. Arbitrary exact-key search therefore does not inherit the efficient root access bound.</p>
+
+<p>The build-heap method illustrates how aggregate analysis beats a superficial multiplication of operation costs. Inserting n separate values one by one can take O(n log n) worst-case total work. Bottom-up heapification starts from the last internal node and sifts downward. Most nodes sit close to the leaves and have little work to do. The number of nodes capable of traveling h levels decreases roughly geometrically with h, so summing the work across all heights gives a linear total bound. This result should not be confused with the O(log n) worst-case cost of a single extraction after the heap has been built.</p>
+
+<p>Real schedulers introduce complications beyond the simple priority abstraction. Tasks may have equal priorities, deadlines may change after insertion, and a steady stream of urgent work may starve less urgent work forever. Stable tie-breaking can be implemented by attaching an insertion sequence number and comparing `(priority, sequence)`. Supporting a decrease-key operation efficiently may require an index map from task identifier to heap position that is updated after every swap. A scheduler should also consider fairness and aging, which can modify effective priority as a function of waiting time. A simulation based on a fixed heap does not model these policies unless they are implemented explicitly. The data structure solves a narrow ordering problem; the operational policy determines whether the service behaves acceptably.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.5</span>
+            <span>Applied investigation: Heap invariants and priority queue contracts</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Applied investigation: Heap invariants and priority queue contracts</h4>
+
+<p>A binary min-heap stored in an array places the children of zero-based index i at 2i+1 and 2i+2. The heap property says each parent priority is no larger than its children. It does not require the entire array to be sorted. Insertion appends a new item and exchanges it with its parent until the property holds. The number of exchanges is bounded by heap height.</p>
+
+<p>Remove-min returns the root and then moves the last item to the root before sifting down. To test a heap, assert both that repeated removal yields nondecreasing priorities and that the invariant holds after every mutation. Ties need a documented stability policy if items with equal priority carry distinct payloads. The displayed array is one legitimate heap representation, not the only one.</p>
+
+<p><strong>Verification exercise.</strong> Compute a small valid case by hand, compare it with both interactive models in this unit, then reset them. Write the boundary case that violates a stated assumption and explain why the implementation should reject it rather than silently returning a misleading result.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.6</span>
+            <span>Heaps, priority queues, and stable ordering</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A binary heap is a nearly complete binary tree encoded compactly in an array. A min-heap invariant requires each parent's priority to be no greater than its children's priorities. The minimum lives at the root, but the array is not globally sorted. For zero-based indexing, the parent of a node at index i greater than zero is floor((i−1)/2); children are at 2i+1 and 2i+2 where those indices exist. Those formulas depend on the array representation, not on a separately allocated linked tree.</p>
+
+<p>Insert the priorities 8, 3, 7 and 1. Beginning with an empty heap, insert 8 to get [8], insert 3 and sift up to get [3, 8], insert 7 to get [3, 8, 7], and insert 1, swapping with 8 and then 3, to obtain [1, 3, 7, 8]. Each swap repairs the local parent-child violation along a single path. A valid heap may have multiple possible array layouts for the same set of priorities, because its invariant is weaker than complete sorted order.</p>
+
+<p>Delete-min replaces the root with the last item, shrinks the array, and sifts that item downward until the invariant is restored. Each step chooses the smaller eligible child. A common bug compares only against the left child and ignores a smaller right child. A focused adversarial test can expose the error by building a root whose right child is smaller than its left child. Verify the heap invariant after every mutation as well as the final output sequence.</p>
+
+<p>Heap construction has an important distinction. Repeatedly inserting n items takes O(n log n) in the general upper bound, but Floyd's bottom-up heapification runs in O(n): most nodes are near the bottom and can move only a small distance. A proof groups nodes by height and sums their possible sift costs, yielding a convergent geometric series multiplied by n. The fact that a single sift is logarithmic does not imply that every bottom-up call incurs the maximum.</p>
+
+<p>Priority queues require an ordering policy beyond the raw data type. A hospital triage system might use urgency as its primary key and arrival time as a tie-breaker. Without a tie-breaker, a binary heap does not necessarily preserve arrival order among equal priorities. To obtain stable behavior, compare pairs (priority, insertion_sequence) instead of only the priority. Editing an existing item's priority poses another implementation problem: unless the heap can locate that item efficiently, decrease-key may require a mapping from external identifiers to heap indices.</p>
+
+<p>For a discrete-event simulator, the event queue stores future events ordered by simulation timestamp. Processing the minimum time and then scheduling new events preserves chronological order if time never moves backward. The application must also decide how to handle equal timestamps, canceled events and events scheduled during callbacks. A heap supplies an ordering mechanism; it does not by itself define the semantics of the event-driven model.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-7">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.7</span>
+            <span>An indexed priority queue with decrease-key</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Separate heap order from identity</h4>
+
+<p>A binary heap efficiently selects the smallest priority but does not automatically locate an arbitrary item whose priority changes. In a task scheduler, an item has a stable task identifier and a mutable urgency score. If the only representation is an array of priorities, the scheduler would need to scan linearly to find the task before changing it. An indexed priority queue stores both a heap array of task identifiers and a map from each identifier to its current heap position. Each swap during sift-up or sift-down updates the map for both items. With a hash-based position map, locating an item has expected constant cost and repairing heap order takes logarithmic time.</p>
+
+<p>Represent a task by (identifier, priority, insertion_sequence). If smaller numerical priorities run earlier, compare first by priority and then by sequence number so equal-priority tasks remain stable. The heap array contains identifiers and a separate dictionary stores their attributes. This avoids stale values if task metadata changes but requires the mapping and heap order to remain synchronized. In a single-threaded implementation the invariants can be checked after each completed public operation. A concurrent scheduler additionally needs atomicity around changes to both structures.</p>
+
+<h4>A precise decrease-key trace</h4>
+
+<p>Suppose the heap currently stores tasks A:4, B:7, C:6 and D:9. Reducing D's priority from nine to two should move D toward the root. Starting from D's recorded heap index, compare the new key to its parent and repeatedly swap until the order condition is satisfied. The map from identifiers to heap indices must change after every swap. The final root is D because it now has the smallest priority. A mistaken implementation that repairs only the heap array but forgets the position map may appear to work for this operation yet fail on the next update of B.</p>
+
+<p>Increase-key moves in the opposite direction. If the root's priority grows from two to ten, it should sift down, selecting the smaller child at each step. Removing an arbitrary task can be handled by moving the last entry into its slot and repairing either upward or downward depending on the new key's relation to its neighbors. That dual possibility is a common source of latent bugs.</p>
+
+<h4>Complexity and construction</h4>
+
+<p>An ordinary binary heap supports peek-min in constant time, insertion and extract-min in logarithmic time, and bottom-up construction in linear time. The indexed version adds a position map but must maintain it during every swap. It does not improve worst-case heap depth; it changes how quickly a non-root item can be found for update. The map itself has cost and may need rehashing. A system that rarely changes priorities may not benefit enough to justify the extra complexity.</p>
+
+<h4>Canceled and delayed events</h4>
+
+<p>A discrete-event engine may schedule a future event, cancel it, and schedule a replacement. One approach removes the canceled item from the heap using its index map. Another marks it canceled and lazily discards it if it later reaches the root. Lazy cancellation is simpler but can retain many useless entries until cleanup, increasing memory use. The API should state whether canceled handles can be reused and how generation identifiers prevent a stale handle from canceling an unrelated new event.</p>
+
+<h4>Independent test oracle</h4>
+
+<p>Maintain an independent sorted list of active tasks ordered by (priority, insertion_sequence). Generate inserts, updates, cancels and extract-min operations. After every step, compare the heap root with the reference minimum, check that all recorded heap indices match the actual array positions, verify parent-child priority ordering, and ensure no task identifier appears twice. Include equal priorities, empty extraction, update of the root, update of the final leaf and canceled events. These checks are stronger than observing a smooth animation of heap insertions.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-8">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.8</span>
+            <span>Priority queues in scheduling, routing, and streaming systems</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A priority queue returns an item with minimum or maximum priority according to a comparator. It is not the same as a sorted list: the abstract interface normally promises efficient insertion and access to the current extreme, not a complete sorted enumeration at every moment. A binary heap supports these operations using the shape of a complete binary tree stored in an array. For zero-based indexing, the children of index i are at indices 2i+1 and 2i+2, and its parent is at floor((i-1)/2). The array layout avoids one node allocation per element, but the heap-order property is weaker than total sorting. In a min-heap, each parent key is no larger than its children; two elements in unrelated subtrees may appear in either order.</p>
+
+<p>Insertion appends the item at the next available array position and restores heap order by repeatedly exchanging it with its parent while necessary. The number of upward exchanges is at most the tree height, logarithmic in the number of entries. Removing the minimum returns the root, moves the last element to the root, reduces the occupied length, and shifts that element downward by exchanging it with the smaller child when needed. The common error is to choose the left child unconditionally; if the right child has a smaller key, heap order remains broken after the exchange. Test the two-child comparison explicitly and cover equal priorities, one-item heaps, and removal until empty.</p>
+
+<p>A heap is not uniquely determined by its set of keys. Several array layouts can satisfy heap order for the same set. Therefore, validating an implementation by demanding one exact internal array is too strict unless insertion order and tie-breaking rules are also fixed. A better oracle asserts the parent–child heap property after every mutation and checks that successive removals form a nondecreasing sequence. Equal-priority items require a policy if stable order matters. A scheduler can store a tuple `(priority, sequence_number)` so that earlier enqueued jobs come first when priorities match. This explicit tie-breaker turns potentially unstable scheduling into predictable scheduling.</p>
+
+<p>Bottom-up heap construction starts from the final internal node and applies downward heapification toward the root. Although one downward heapify can take logarithmic time, the total construction cost is linear in the number of items: most nodes are near the leaves and require very few exchanges. Treating n heapify calls as n independent worst-case logarithmic operations gives a valid loose bound but misses the stronger aggregate result. This distinction matters when a system receives a large batch of initial jobs. Building one heap from the batch can be more efficient than inserting every job separately with individual upward traversals.</p>
+
+<p>Priority queues often need more than push and pop. Dijkstra's shortest-path algorithm may discover a shorter tentative distance for a vertex already in the queue. An indexed heap maintains a mapping from vertex identifier to heap position so that decrease-key can locate the element and restore order in logarithmic time. Without the mapping, searching for the element inside the heap is linear in the worst case. A simpler implementation can push multiple entries for the same vertex and ignore stale entries when popped, trading extra queue work and storage for simpler code. Both variants can be correct, but their complexity analysis and memory usage differ.</p>
+
+<p>A task scheduler illustrates operational policy. Suppose tasks A, B, and C have priorities five, two, and five. Under a min-priority policy, B runs first; among A and C, an implementation may choose either unless a stable tie-breaker is included. When priority changes while a task is queued, simply mutating its priority field can invalidate heap order because no sift operation is triggered. An indexed queue should perform an explicit update and choose upward or downward repair according to whether the key decreased or increased. The correct priority semantics belong in the API rather than being left to incidental array order.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-9">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.9</span>
+            <span>Streaming top-k, median maintenance, and worst-case behavior</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A large stream may require its five highest observations without storing every reading. Maintain a min-heap containing at most k values. For each new value, insert it if fewer than k values are stored. Otherwise compare it with the heap minimum, which is the smallest of the current top k; replace that minimum only if the new value is larger. Each accepted replacement costs logarithmic time in k, while rejecting a small observation needs constant comparison work. For a stream of n entries, the space requirement is proportional to k, not n. This is an algorithmic consequence of choosing the right maintained summary.</p>
+
+<p>Take k equal to three and observations 7, 2, 9, 1, 8, 5. The first three values produce a heap containing 2, 7, and 9 in some valid heap order. Value one is rejected because it does not exceed the current minimum two. Value eight replaces two; the retained values become 7, 8, and 9. Value five is then rejected. The result is the correct set of top three values, but the heap array itself need not be sorted. If the application requires descending display order, it must copy and sort the summary or remove values from a separate heap.</p>
+
+<p>Online median maintenance can use two heaps: a max-heap for the lower half of observations and a min-heap for the upper half. Maintain two invariants: every item in the lower heap is no larger than every item in the upper heap, and their sizes differ by at most one. When a new observation arrives, insert it into the appropriate half, then rebalance if necessary. For an odd number of values, the median is the top of the larger heap. For an even number, a numerical application may define the median as the average of the two tops, but a discrete or categorical ordering may use a lower or upper median instead. State which definition the interface implements.</p>
+
+<p>This two-heap scheme raises numerical corner cases. Computing the average `(a+b)/2` can overflow a fixed-width integer even when the mathematical average is representable; a carefully chosen formula or larger numeric type may be needed. Floating-point observations may include NaN values whose comparison semantics do not define a normal total order. If the comparator is inconsistent, a heap cannot maintain a meaningful ordering invariant. Input validation must exclude unsupported values or specify a deterministic ordering policy. Correctness requires a comparator that behaves coherently under every comparison the heap performs.</p>
+
+<p>A scheduler's performance also depends on update frequency and priority distributions. If jobs frequently change priority, an indexed heap can outperform a lazy approach that accumulates stale entries. If priorities come from a tiny integer range, a bucketed priority queue may offer simpler operations than a comparison heap. If nearly all work is processed in FIFO order at each priority, an array of queues indexed by priority is a sensible hybrid. The complexity of a priority queue therefore depends on permitted operations and key domain. Do not import logarithmic bounds as a universal statement about every conceivable queue design.</p>
+
+<p>A meaningful simulator can show the heap array and the logical binary tree simultaneously, animate comparisons, and expose the parent–child inequality after each operation. Include a deterministic input trace and a reset mechanism so two variants can be compared fairly. For the top-k exercise, render the retained set and separately render its sorted presentation, making the distinction between heap order and total order visible. Tests should evaluate output values against an independently sorted reference, verify all parent–child inequalities, and cover duplicate priorities and empty or singleton cases. An animation that looks plausible but does not check these invariants is a visualization, not a validated model.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Data Structures Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked Problem</span>
+            <strong>Example 5.1: Worked problem 5.1</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Is array [2,5,3,9,8,7] a valid min-heap, and is it sorted?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--data-structures-u5-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--data-structures-u5-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Define the data and method</div>
+              
+              <div class="step-explanation"><p>For indices 0,1,2, compare each parent to existing children: 2&lt;=5,3; 5&lt;=9,8; 3&lt;=7. Thus all required parent-child inequalities hold.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Derive and interpret the result</div>
+              
+              <div class="step-explanation"><p>It is a valid min-heap, but not sorted (5 precedes 3). Heap order supports constant-time peek-min, not binary search over the raw array.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>It is a valid min-heap, but not sorted (5 precedes 3). Heap order supports constant-time peek-min, not binary search over the raw array.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked Problem</span>
+            <strong>Example 5.2: Worked problem 5.2</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Using a min-priority queue, insert jobs with priorities (A,4),(B,2),(C,5),(D,1). In what priority order will they be removed?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--data-structures-u5-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--data-structures-u5-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Define the data and method</div>
+              
+              <div class="step-explanation"><p>Removing the minimum repeatedly selects priority 1 then 2 then 4 then 5. Associate these priorities with D,B,A,C, respectively.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Derive and interpret the result</div>
+              
+              <div class="step-explanation"><p>The removal order is D,B,A,C. If priorities tie, a stability rule or a secondary insertion counter must be specified separately.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>The removal order is D,B,A,C. If priorities tie, a stability rule or a secondary insertion counter must be specified separately.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked Problem</span>
+            <strong>Example 5.3: Worked problem 5.3</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A heap of n elements is built bottom-up. Why is this O(n) rather than O(n log n)?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--data-structures-u5-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--data-structures-u5-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Define the data and method</div>
+              
+              <div class="step-explanation"><p>Most nodes are near the leaves and require at most one or two levels of sift-down. Bound the total by summing the number of nodes at height h times O(h), approximately n*sum(h/2^(h+1)).</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Derive and interpret the result</div>
+              
+              <div class="step-explanation"><p>The geometric weighted series converges, giving O(n) comparisons in the standard heapify analysis. This does not imply that each individual sift-down is O(1).</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>The geometric weighted series converges, giving O(n) comparisons in the standard heapify analysis. This does not imply that each individual sift-down is O(1).</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/clrs" target="_blank" rel="noopener noreferrer">Cormen, T.H., Leiserson, C.E., Rivest, R.L., &amp; Stein, C. (2022). Introduction to Algorithms (4th ed.): Definitive mathematical foundations for dynamic arrays, hash tables, binary search trees, and heaps</a></li><li><a href="https://openstemlibrary.com/references/sedgewick-wayne" target="_blank" rel="noopener noreferrer">Sedgewick, R., &amp; Wayne, K. (2011). Algorithms (4th ed.): Standard textbook for balanced search trees, priority queues, disjoint-set union, and graph structures</a></li><li><a href="https://openstemlibrary.com/references/knuth-taocp-1" target="_blank" rel="noopener noreferrer">Knuth, D.E. (1997). The Art of Computer Programming, Vol. 1: Fundamental Algorithms: Canonical historical and mathematical analysis of linear lists, trees, and dynamic storage allocation</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="data-structures-chapter-4">← Previous chapter</a><a href="data-structures">Book contents</a><a href="data-structures-chapter-6">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="data-structures-sims.js?v=1"></script>
+  <script src="data-structures-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

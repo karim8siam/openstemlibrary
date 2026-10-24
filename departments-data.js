@@ -1517,6 +1517,110 @@ window.LIBRARY_CATALOG = {
           ]
         }
       ]
+    },
+    {
+      "id": "computer-science",
+      "name": "Computer Science",
+      "code": "CS",
+      "icon": "💻",
+      "description": "Foundational computing theory, algorithms, computer architecture, systems software, networks, artificial intelligence, and software engineering.",
+      "courses": [
+        {
+          "id": "programming-fundamentals",
+          "title": "Programming Fundamentals",
+          "subtitle": "Problem Decomposition, Types, Control Flow, Functions, Scope, Testing & Numerical Practice",
+          "status": "AVAILABLE",
+          "url": "programming-fundamentals.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering problem decomposition, numeric representation, control flow invariants, functions and scope, basic collections, exception handling, boundary unit testing, and numerical integration with 24 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Computational thinking",
+            "Variables and expressions",
+            "Control flow",
+            "Functions and scope",
+            "Data collections",
+            "Program organization",
+            "Program reliability",
+            "Applied programming"
+          ]
+        },
+        {
+          "id": "data-structures",
+          "title": "Data Structures",
+          "subtitle": "Linear Collections, Binary Search Trees, Balanced Trees, Hash Tables, Heaps & Graph Traversals",
+          "status": "AVAILABLE",
+          "url": "data-structures.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering dynamic arrays, singly and doubly linked lists, stacks, queues, circular buffers, binary search trees, separate chaining and open addressing hash tables, binary heaps, priority queues, breadth-first and depth-first search, Fenwick trees, and disjoint-set unions with 24 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Foundations",
+            "Sequential structures",
+            "Search structures",
+            "Associative structures",
+            "Priority structures",
+            "Graph structures",
+            "Specialized structures",
+            "Implementation analysis"
+          ]
+        },
+        {
+          "id": "algorithms",
+          "title": "Algorithms",
+          "subtitle": "Asymptotic Complexity, Divide-and-Conquer, Greedy Optimization, Dynamic Programming & Network Flow",
+          "status": "AVAILABLE",
+          "url": "algorithms.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering asymptotic notation, recurrence relations, Master theorem, divide-and-conquer recurrences, greedy interval scheduling, dynamic programming memoization, shortest path algorithms (Dijkstra, Bellman-Ford), minimum spanning trees, NP-completeness, and approximation algorithms with 24 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Algorithm analysis",
+            "Searching and sorting",
+            "Divide and conquer",
+            "Greedy methods",
+            "Dynamic programming",
+            "Graph algorithms",
+            "Complexity and approximation",
+            "Randomized algorithms"
+          ]
+        },
+        {
+          "id": "discrete-structures-for-computer-science",
+          "title": "Discrete Structures for Computer Science",
+          "subtitle": "Propositional Logic, Proof Systems, Set Theory, Combinatorics, Recurrences, Number Theory & Graph Theory",
+          "status": "AVAILABLE",
+          "url": "discrete-structures-for-computer-science.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering propositional logic, predicate calculus, formal proof techniques, induction, set theory and relations, combinatorics, generating functions, modular arithmetic, RSA cryptography foundations, and finite automata with 24 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Logic and proof",
+            "Sets and functions",
+            "Counting",
+            "Discrete probability",
+            "Graphs",
+            "Recurrences",
+            "Algebraic structures",
+            "Formal structures"
+          ]
+        },
+        {
+          "id": "computer-architecture",
+          "title": "Computer Architecture",
+          "subtitle": "Instruction Set Architecture, Digital Logic, Pipelining, Memory Hierarchy & Parallel Interconnects",
+          "status": "AVAILABLE",
+          "url": "computer-architecture.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering CPU performance metrics, digital logic gates, ALU design, arithmetic circuits, RISC instruction set architecture, 5-stage classic RISC pipeline, branch hazards, cache memory organizations, virtual memory, and multicore cache coherence with 24 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Representation and performance",
+            "Instruction sets",
+            "Processor datapaths",
+            "Pipelining",
+            "Memory hierarchy",
+            "Input and output",
+            "Parallel architectures",
+            "Architecture evaluation"
+          ]
+        }
+      ]
     }
   ]
 };

@@ -1,0 +1,420 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Input and output | Computer Architecture | OpenSTEM Library</title>
+  <meta name="description" content="interrupts; DMA; buses; peripheral interfaces">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/computer-architecture-chapter-6">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/computer-architecture-chapter-6">
+  <meta property="og:title" content="Computer Architecture: Instruction Sets, Digital Logic, Pipelining &amp; Cache Hierarchy | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering CPU performance metrics, digital logic gates, ALU design, arithmetic circuits, RISC instruction set architecture, 5-stage classic RISC pipeline, branch hazards, cache memory organizations, virtual memory, and multicore cache coherence with 24 solved questions and 8 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Computer Architecture: Instruction Sets, Digital Logic, Pipelining &amp; Cache Hierarchy | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering CPU performance metrics, digital logic gates, ALU design, arithmetic circuits, RISC instruction set architecture, 5-stage classic RISC pipeline, branch hazards, cache memory organizations, virtual memory, and multicore cache coherence with 24 solved questions and 8 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="computer-architecture.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Computer Architecture: Input and output","description":"Comprehensive university textbook covering CPU performance metrics, digital logic gates, ALU design, arithmetic circuits, RISC instruction set architecture, 5-stage classic RISC pipeline, branch hazards, cache memory organizations, virtual memory, and multicore cache coherence with 24 solved questions and 8 interactive simulations.","url":"https://openstemlibrary.com/computer-architecture-chapter-6","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Computer Architecture","Instruction Set Architecture","Digital Logic","ALU Design","Pipelining and Hazards","Cache Hierarchy","Virtual Memory","Multicore Coherence"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Computer Architecture","item":"https://openstemlibrary.com/computer-architecture"}]}</script></head>
+<body data-book-path="computer-architecture.html" data-chapter-index="5" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Computer Architecture</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search CPU execution time, CPI, clock cycles, signed two's complement, 8-bit ALU carry out, five-stage pipeline speedup, branch hazards, direct-mapped cache hits, multi-level cache AMAT, page tables, TLB…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="computer-architecture" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Representation and performance</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="computer-architecture-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Instruction sets</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="computer-architecture-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Processor datapaths</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="computer-architecture-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Pipelining</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="computer-architecture-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Memory hierarchy</span></a></li><li class="unit-nav-item active" data-unit-index="5"><a href="computer-architecture-chapter-6" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Input and output</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="computer-architecture-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Parallel architectures</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="computer-architecture-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Architecture evaluation</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Computer architecture core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 6 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Input and output</h1>
+            <p class="unit-desc-lead" id="unit-desc">interrupts; DMA; buses; peripheral interfaces</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university computer systems architecture and organization. Eight units with exactly three solved questions per unit and interactive simulations illustrating CPU performance equations, signed arithmetic overflow, ideal pipelining speedup, and cache hit latencies. Numerical checks and an editorial review support this edition.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-6-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.1</span>
+            <span>Interrupts</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Interrupts</strong></p>
+
+<p>An interrupt transfers control to an exception or interrupt handler, saving enough machine state to resume or schedule other work. Masking and priority rules affect latency.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>A device raising 100 interrupts per second with 20 microseconds of handler work consumes 2 ms per second of CPU service, ignoring context costs.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Not every exception is asynchronous: divide-by-zero faults originate from the current instruction and have different return semantics.</p>
+
+<h4>Extended technical chapter: Interrupts</h4>
+
+<p>An interrupt lets a processor respond to an event without continuously executing software that polls the event source. The hardware and operating system cooperate to preserve sufficient state, select a handler and eventually resume interrupted work. An interrupt is not equivalent to a normal function call: privilege levels, automatic state saves, nesting rules and controller priorities may apply. Device interrupts typically indicate that an event needs attention, whereas synchronous exceptions arise from executing an instruction, such as an illegal opcode or a page fault. Distinguishing the two is critical when reasoning about restartability and the source of control transfer.</p>
+
+<p>Latency and throughput trade off in interrupt-driven I/O. If a handler consumes 20 microseconds of CPU time and an event source generates ten thousand interrupts per second, the simplified handler cost is 0.2 CPU seconds per wall-clock second, equivalent to twenty percent of one core's time. That says nothing about cache disruption, kernel scheduling or deferred work. If every event triggers a separate interrupt, very high event rates can dominate CPU budgets. Interrupt coalescing can reduce per-event overhead by grouping notifications but may add waiting latency. A real-time device may prefer lower latency over maximum throughput.</p>
+
+<p>For a lab, construct a timeline involving user instruction execution, an interrupt arrival, priority arbitration, context saving, handler dispatch, device acknowledgment and return. Trace which data is architectural state and which is controller state. Then simulate simultaneous higher- and lower-priority events, specifying whether nesting is enabled. The number of instructions in a handler is not a substitute for measured latency, because a cache miss or disabled-interrupt region can dominate response time. Correct software must also handle the race between an event becoming pending and software checking or clearing its status; incorrect acknowledgment ordering can lose events. These are protocol bugs rather than mere optimization issues.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-computer-architecture-unit-6"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.2</span>
+            <span>Dma</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Dma</strong></p>
+
+<p>Direct memory access allows a controller to move buffers between a device and memory without CPU copying each word, although setup and completion still consume CPU work.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>For 4096 bytes copied by a controller after a single setup operation, CPU per-byte transfer instructions can be avoided; memory bandwidth is still consumed.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>DMA does not eliminate coherence, pinning, address translation or security concerns; untrusted devices must not freely access arbitrary RAM.</p>
+
+<h4>Extended technical chapter: Dma</h4>
+
+<p>Direct memory access permits a device or DMA engine to transfer data to or from memory without requiring the CPU to explicitly move every payload word. The CPU usually still configures descriptors, performs setup and handles completion or errors. DMA is not automatically faster for all transfers: short messages may spend more time in setup than would have been required for programmed I/O. Nor is DMA automatically free of CPU involvement or memory traffic. The intended benefit often concerns CPU overhead and efficient bulk transfer, with bus bandwidth and memory arbitration remaining finite resources.</p>
+
+<p>A simple cost model illustrates the crossover. Suppose programmed I/O consumes ten nanoseconds of CPU activity per transferred word, while DMA setup costs one hundred nanoseconds plus one nanosecond of CPU work per word. For ten words, programmed I/O costs 100 nanoseconds and DMA costs 110; for one thousand words the costs are 10,000 versus 1,100. These are deliberately fictional CPU-cost assumptions, not device timing benchmarks. Solve 10N=100+N to find a crossover slightly above eleven words. In reality a descriptor-ring controller, cache maintenance, interrupt handling and transfer-completion latency can shift the crossover substantially.</p>
+
+<p>Correct DMA requires attention to ownership, alignment, permissions and coherency. A CPU can write a buffer, issue DMA, then inspect completion only after the device has finished. If the CPU and device have incoherent caches or weak memory ordering, additional synchronization may be needed before consuming data. An IOMMU constrains which memory regions a device can access and can translate device-visible addresses. A laboratory diagram should track buffer ownership through CPU fill, device read or write, completion signal and CPU consumption. Inject a device error and show what prevents stale or partially transferred data from being interpreted as complete. The difference between bytes transferred and application-visible progress should be explicit.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.3</span>
+            <span>Buses</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Buses</strong></p>
+
+<p>A bus interconnect carries addresses, data and control transactions among agents. Arbitration governs which requester can use shared resources.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>Two devices both demanding 100 MB/s cannot each receive that bandwidth indefinitely on a 150 MB/s shared bottleneck; queueing or throttling results.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Nominal bus width times clock frequency is an upper bound that ignores protocol overhead and contention.</p>
+
+<h4>Extended technical chapter: Buses</h4>
+
+<p>A bus or interconnect carries transactions among processing cores, memory controllers and peripherals. The architectural discussion involves address selection, transaction type, payload, ordering, arbitration and error handling. A narrow legacy shared bus and a modern switched point-to-point fabric may satisfy similar communication needs while having very different contention characteristics. Nominal signaling rate is not the same as delivered useful bandwidth: protocol overhead, encoding, directionality, packet headers, arbitration and competing traffic all affect throughput.</p>
+
+<p>For an idealized sixty-four-bit data path transferring one word per clock at 200 MHz, raw data capacity is 8 bytes × 200 million cycles per second, or 1.6 GB/s in decimal units. If only 70 percent of cycles carry useful payload, effective throughput is 1.12 GB/s before counting software and memory-system constraints. A burst protocol amortizes address-phase overhead over multiple data beats. For an eight-beat burst preceded by two overhead cycles, payload efficiency on that link is 8/(8+2)=80 percent. The result is model-specific; it cannot simply be multiplied into every real interconnect without inspecting its actual protocol.</p>
+
+<p>Ordering and isolation matter as much as bandwidth. A device might post writes and later issue a read requiring completion ordering, while another endpoint may observe reordering unless protocol guarantees forbid it. Multiple masters contending for a shared channel raise fairness and starvation questions. In a teaching exercise, schedule transactions from three requesters under round-robin and fixed-priority arbitration, count wait cycles, and show how a long burst blocks another requester. Then add a time-critical interrupt-related transaction and discuss how service guarantees can be enforced. The exercise should not mistake an ideal arbitration schedule for a physical design closure or electromagnetic signal-integrity verification.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.4</span>
+            <span>Peripheral Interfaces</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Peripheral Interfaces</strong></p>
+
+<p>Device interfaces expose registers, queues, descriptors and interrupts or polling. Drivers must observe specified ordering guarantees.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>A ring of eight completion entries wraps index 7 to index 0. Producer and consumer indices disambiguate which descriptors remain outstanding.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>A bare status-register read may race with an interrupt or completion update; some devices require memory barriers and exact acknowledgement order.</p>
+
+<h4>Extended technical chapter: Peripheral Interfaces</h4>
+
+<p>A peripheral interface is both a hardware protocol and a software contract. Register-mapped devices expose control, status and data registers whose reads and writes can have side effects. A status bit might clear on read, while a command bit triggers work when written. Treating these registers as ordinary cached memory can break interaction with the device. Drivers use appropriately ordered and width-controlled accesses, often alongside interrupts or DMA, to implement a reliable higher-level operation. A producer–consumer queue or descriptor ring commonly bridges asynchronous hardware and software timing.</p>
+
+<p>Consider a transmit descriptor containing a buffer address, length and ownership flag. The CPU first fills the buffer, then writes descriptor fields, and finally transfers ownership to the device. Once ownership changes, the driver must not reuse or modify the buffer until completion is confirmed. If it changes the buffer too early, a transfer might contain mixed old and new data. If it sets the ownership flag before descriptor writes become visible to the device, the device can fetch an incomplete descriptor. The precise ordering primitive depends on the machine's coherence and memory model, which must be documented by the platform interface.</p>
+
+<p>Interface documentation should specify reset defaults, legal ranges, error flags, maximum transfer sizes, alignment requirements and how errors are cleared. A state diagram can cover idle, configured, active, completed and failed states. Validate transitions such as a second start command while already active or a completion interrupt after software cancellation. A mock device simulator should deliberately return malformed status combinations to test defensive driver code. The purpose is not to imitate every transistor of an actual peripheral; it is to test the control protocol and expose assumptions that fail when the device is slower, faster, unavailable or adversarially misbehaving.</p>
+
+<h4>Integrated laboratory: receive a data block without losing it</h4>
+
+<p>A fictional device transfers a block of four thousand 32-bit words to host memory. Three software designs are considered: polling for each word, interrupt-driven service for each word, and DMA. Each design must deliver the same four thousand words in order or report an error; it is not sufficient to move quickly if the payload is corrupted. Start by writing a data-integrity invariant: the receiver must not expose a buffer as complete until all required words are present and validation has succeeded. The buffer must not be reused while the device still owns it. This invariant can be checked under long delays, timeout and cancellation, not just a happy path.</p>
+
+<p>Suppose programmed I/O consumes ten nanoseconds of CPU work per word. The simple CPU overhead is 40,000 nanoseconds. Suppose DMA setup costs one hundred nanoseconds, and per-word DMA bookkeeping costs one nanosecond of CPU time. Its modeled CPU overhead is 4100 nanoseconds. These numbers are fictional and deliberately omit elapsed bus transfer, memory contention and completion-handling cost. A claim of nearly tenfold reduction in CPU bookkeeping cannot legitimately become a claim of tenfold faster file download. A real device may be limited by throughput and still complete at the same wall-clock speed under either design.</p>
+
+<p>An interrupt-based implementation should choose a notification strategy. If every word generates one interrupt and the handler costs five microseconds, processing four thousand words consumes twenty milliseconds of handler time, much more than the simplified raw movement overhead. Grouping notifications into batches could reduce interruptions, but waiting for a batch introduces additional response latency. Specify event rate and handler cost before selecting an approach. A bounded device ring adds another constraint: if software cannot process descriptors fast enough, ring entries may be overwritten or packets dropped under a specified policy. The architecture must expose status and error information sufficient for recovery.</p>
+
+<p>DMA buffers require careful lifetime and memory-ordering rules. A producer-side CPU fills descriptor fields with buffer address and size, ensures those fields are visible, and only then sets ownership for the device. A device reads the descriptor, performs its transfer and signals completion after the relevant writes are visible. A consumer-side CPU checks completion, performs any required synchronization, and then reads the payload. A weakly ordered platform may need fences, cache maintenance or a coherent DMA allocation. Writing 'DMA completed' in a log before the buffer is safe to consume is a protocol defect. An IOMMU can limit device access to mapped regions, but a misconfigured mapping can still fail or permit an unintended region.</p>
+
+<p>Bus bandwidth provides a separate lower bound. If the four-thousand-word payload is sixteen thousand bytes and the ideal payload bandwidth is 1.6 GB/s, its minimum raw transfer time is ten microseconds under the decimal-byte simplification. If protocol efficiency is fifty percent, the modeled transfer time is twenty microseconds. These times cannot be lower than physical link capabilities; they also exclude fixed command latency and the possibility that competing devices consume available bandwidth. A protocol trace should label address, data and completion phases so students do not silently merge setup cost with payload throughput.</p>
+
+<p>The failure-injection notebook should test a DMA descriptor pointing to an unmapped address, a truncated transfer, a device reset halfway through delivery, an interrupt lost or delayed, and repeated completion signals. For each case, record what state is safe to expose to the application and how buffers return to the reusable pool. The correct solution prioritizes ownership and integrity before raw throughput. Hardware–software boundaries are most revealing when the device is not cooperating with the code's ideal timing assumptions.</p>
+
+<h4>Review lens: protocol-level correctness before device throughput</h4>
+
+<p>I/O is a conversation between independently progressing components, so local arithmetic correctness is not enough. A descriptor may be numerically valid while the device reads it before the payload is ready. An interrupt handler may acknowledge an event correctly in one ordering but accidentally discard a newly arriving event in another. A fast DMA implementation may return a buffer to the free pool too early. Good tests therefore model ownership and completion explicitly, pause devices at sensitive steps, and inject timeouts or duplicated notifications. Timestamping transactions can diagnose latency, but passing a short timing benchmark cannot prove the protocol correct. The essential invariants concern not overwriting unread data, not exposing incomplete transfers, and eventually releasing resources under the specified recovery policy. Measure throughput only after those invariants hold under adversarial schedules.</p>
+
+<h4>Additional guided investigations for asynchronous I/O</h4>
+
+<p><strong>Interrupt budget.</strong> An input controller produces five thousand interrupts each second. If an average handler consumes ten microseconds, the directly modeled service cost is 50,000 microseconds per wall-clock second, or five percent of one core. At the same rate, increasing handler time to fifty microseconds raises modeled utilization to twenty-five percent. This comparison illustrates the sensitivity to handler work but cannot establish deadline satisfaction without arrival bursts, priority and maximum interrupt latency.</p>
+
+<p><strong>DMA threshold.</strong> Suppose a programmed transfer consumes eight CPU nanoseconds per word while DMA requires 160 nanoseconds setup plus two per word. Solve 8N=160+2N, giving crossover N=160/6≈26.67. For an integer payload of 26 words, programmed work is 208 nanoseconds while DMA work is 212, so programmed transfer is cheaper in this fictional model. For 27 words, programmed work is 216 and DMA work 214, reversing the ranking. Do not apply these imaginary numbers to a commercial device.</p>
+
+<p><strong>Bus protocol.</strong> A four-byte-wide interface operates at 100 million payload-capable cycles per second; raw maximum payload rate is 400 MB/s. If one out of five cycles is unavailable for payload due to overhead, modeled effective rate is 320 MB/s. If each transaction also requires a fixed startup delay, large batches improve efficiency by amortizing that cost. Compute for a 4096-byte payload before and after reducing utilization to fifty percent. Distinguish byte rate from CPU overhead and end-to-end service time.</p>
+
+<p><strong>Device-state investigation.</strong> Model peripheral states IDLE, CONFIGURED, ACTIVE, DONE and ERROR. A start command in CONFIGURED moves to ACTIVE, while a start in ACTIVE is rejected or queued according to the documented policy. A completion event becomes DONE only after all buffer writes are visible. Inject a device reset during ACTIVE and choose an explicit strategy for identifying incomplete data. A robust driver cannot silently mark the buffer complete because the completion interrupt may have been lost or delayed.</p>
+
+<h4>Diagnostic challenge: avoid a lost completion notification</h4>
+
+<p>A driver submits a DMA descriptor, checks a device-completion flag and goes to sleep awaiting an interrupt. If the device completes and generates the notification between the flag check and the sleep operation, an incorrectly designed driver can miss the event and wait indefinitely. Safe designs combine state checks and waiting under synchronization primitives or use event mechanisms whose semantics prevent the race. Model the sequence as CPU_CHECK, DEVICE_COMPLETE, CPU_SLEEP and ask why this interleaving is dangerous. Then design a recovery strategy with a bounded timeout and a subsequent status recheck; a timeout mitigates indefinite waiting but is not a substitute for a correct event protocol. Distinguish delivery of an interrupt from completion of the data transfer, because device memory writes may need explicit ordering and synchronization before buffers are consumed. The exercise demonstrates that performance features require protocol-level correctness across asynchronous agents and that a passing transfer-speed test does not validate all scheduling interleavings.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Computer Architecture Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — editorial review pending</span>
+            <strong>Example 6.1: Interrupts: worked application 1</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Given 100 interrupts per second and 20 microseconds service each, find CPU service time per second.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-architecture-u6-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-architecture-u6-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Multiply event rate by handler cost: 100×20 μs.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>Result is 2000 μs=2 ms.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>The direct service share is 0.2% of one second, excluding other overhead.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Independent verification, conditions, and interpretation</div>
+              
+              <div class="step-explanation"><p>One hundred interrupts per second times twenty microseconds of direct service per interrupt gives 2000 microseconds of service activity each second. Since one second contains one million microseconds, the CPU-service fraction is 2000/1,000,000=0.002, or 0.2 percent of one core's time. The dimensional check is interrupts/second × microseconds/interrupt = microseconds/second. This figure assumes every event arrives and is serviced and that the handler cost is fixed. It excludes context-switch effects, caches, controller arbitration and deferred work. If the event rate rises to ten thousand per second under the same cost model, service rises to 200,000 microseconds per second, or twenty percent of a core. That tenfold rate comparison helps expose why high-frequency events are often batched or coalesced. But coalescing can delay notification and change latency, so the optimization objective should be specified. The question does not measure maximum interrupt latency, which depends on the longest delay before a handler can start as well as handler duration. A utilization calculation alone cannot establish a real-time deadline guarantee.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>The direct service share is 0.2% of one second, excluding other overhead.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — editorial review pending</span>
+            <strong>Example 6.2: Dma: worked application 2</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>For ring queue capacity eight and initial producer index seven, advance by three writes.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-architecture-u6-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-architecture-u6-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Update position as (7+3) mod 8.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>10 mod 8 is 2.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>The producer index becomes 2, assuming capacity/space constraints are separately satisfied.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Independent verification, conditions, and interpretation</div>
+              
+              <div class="step-explanation"><p>A circular ring of capacity eight uses indices from zero through seven. Starting at producer index seven and advancing three logical writes yields (7+3) mod 8 = 10 mod 8 = 2. The path crosses slots seven, zero and one, leaving the next available producer position at two under a convention in which the index points to the next slot to write. This is index arithmetic only. Whether all three writes are legal depends on the consumer position and the ring's full/empty convention. Some designs reserve one slot to distinguish full from empty, while others maintain a separate count or phase bit. A real descriptor ring must also define ownership and memory ordering so the consumer never processes a partially initialized slot. If the producer wraps but the consumer has not advanced, the correct action may be to block, return an error or drop data rather than overwrite unread descriptors. Verify separately the zero-write case, a full eight-slot advance, and two complete wraps. The modulo result is necessary for correctness but insufficient for an entire concurrent queue implementation.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>The producer index becomes 2, assuming capacity/space constraints are separately satisfied.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — editorial review pending</span>
+            <strong>Example 6.3: Buses: worked application 3</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A DMA controller copies 4096 bytes after a CPU setup operation. What work remains for the CPU?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-architecture-u6-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-architecture-u6-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>The CPU prepares descriptors and validates buffer ownership/mapping.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>The controller performs the transfer while the CPU may execute other tasks and later handles completion.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>DMA avoids per-byte CPU copy instructions, but setup, synchronization and memory bandwidth remain.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Independent verification, conditions, and interpretation</div>
+              
+              <div class="step-explanation"><p>DMA means a controller transfers the four-thousand-ninety-six-byte payload using bus and memory transactions after being configured; the CPU generally avoids executing one explicit copy instruction per byte or word. The CPU still typically prepares a descriptor, supplies buffer addresses and lengths, starts the transaction, synchronizes relevant memory, and handles completion or errors. The DMA engine still consumes memory-system bandwidth, which can contend with processor requests. A raw lower bound for transferring 4096 bytes over an ideal 1 GB/s link is 4096 nanoseconds, about 4.096 microseconds, before protocol overhead. That quantity is elapsed-transfer capacity, not CPU overhead saved. A correct response must also discuss the device's permissions: an IOMMU can restrict DMA access to intended memory regions. The buffer cannot be reused until completion is certain and any necessary visibility rules have been satisfied. If the transfer is interrupted, the program must not expose partially filled data as complete. DMA improves the architecture of data movement, but its effectiveness depends on transfer size, setup overhead and the surrounding protocol. Comparing DMA and programmed I/O without these variables is incomplete.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>DMA avoids per-byte CPU copy instructions, but setup, synchronization and memory bandwidth remain.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/patterson-hennessy" target="_blank" rel="noopener noreferrer">Patterson, D.A., &amp; Hennessy, J.L. (2020). Computer Organization and Design: The Hardware/Software Interface (RISC-V Edition): Canonical university textbook covering instruction sets, pipelining, hazards, memory hierarchy, and I/O</a></li><li><a href="https://openstemlibrary.com/references/hennessy-patterson-quantitative" target="_blank" rel="noopener noreferrer">Hennessy, J.L., &amp; Patterson, D.A. (2017). Computer Architecture: A Quantitative Approach (6th ed.): Authoritative reference on quantitative computer design, ILP, superscalar execution, and cache coherence protocols</a></li><li><a href="https://openstemlibrary.com/references/harris-harris-digital-design" target="_blank" rel="noopener noreferrer">Harris, S.L., &amp; Harris, D.M. (2021). Digital Design and Computer Architecture (RISC-V Edition): Foundational text connecting combinational logic gates, sequential state machines, and processor microarchitecture</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="computer-architecture-chapter-5">← Previous chapter</a><a href="computer-architecture">Book contents</a><a href="computer-architecture-chapter-7">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="computer-architecture-sims.js?v=1"></script>
+  <script src="computer-architecture-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

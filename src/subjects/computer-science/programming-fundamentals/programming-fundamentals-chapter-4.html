@@ -1,0 +1,471 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Functions and scope | Programming Fundamentals | OpenSTEM Library</title>
+  <meta name="description" content="parameters; return values; recursion; modular interfaces">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/programming-fundamentals-chapter-4">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/programming-fundamentals-chapter-4">
+  <meta property="og:title" content="Programming Fundamentals: Decomposition, Types, Control Flow &amp; Testing | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering problem decomposition, numeric representation, control flow invariants, functions and scope, basic collections, exception handling, boundary unit testing, and numerical integration with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Programming Fundamentals: Decomposition, Types, Control Flow &amp; Testing | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering problem decomposition, numeric representation, control flow invariants, functions and scope, basic collections, exception handling, boundary unit testing, and numerical integration with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="programming-fundamentals.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Programming Fundamentals: Functions and scope","description":"Comprehensive university textbook covering problem decomposition, numeric representation, control flow invariants, functions and scope, basic collections, exception handling, boundary unit testing, and numerical integration with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/programming-fundamentals-chapter-4","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Programming Fundamentals","Problem Decomposition","Control Flow Invariants","Two's Complement Representation","Modular Architecture","Unit Testing","Binary Search","Numerical Integration"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Programming Fundamentals","item":"https://openstemlibrary.com/programming-fundamentals"}]}</script></head>
+<body data-book-path="programming-fundamentals.html" data-chapter-index="3" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Programming Fundamentals</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search problem decomposition, linear search, floating point precision, two's complement overflow, loop invariants, recursion, stack frames, hash tables, unit test boundaries, binary search, trapezoidal rule…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="programming-fundamentals" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Computational thinking</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="programming-fundamentals-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Variables and expressions</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="programming-fundamentals-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Control flow</span></a></li><li class="unit-nav-item active" data-unit-index="3"><a href="programming-fundamentals-chapter-4" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Functions and scope</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="programming-fundamentals-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Data collections</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="programming-fundamentals-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Program organization</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="programming-fundamentals-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Program reliability</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="programming-fundamentals-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Applied programming</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Programming fundamentals core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 4 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Functions and scope</h1>
+            <p class="unit-desc-lead" id="unit-desc">parameters; return values; recursion; modular interfaces</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for introductory computer science and software construction. Eight units with exactly three solved questions per unit and 16 interactive numerical simulations illustrating problem decomposition, overflow boundaries, hash collisions, and test coverage. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-4-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.1</span>
+            <span>Parameters</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>## Parameters: the computational contract</p>
+
+<p><strong>Core idea.</strong> Parameters are local names bound when the function is called; document the allowed domain and dimensional meaning. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
+
+<p><strong>Executable Python example:</strong></p>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>def area(width, height):
+    return width * height
+print(area(3, 5))</code></pre>
+
+<p><strong>Expected result:</strong> `15`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
+
+<p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For parameters, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
+
+<hr class="section-divider-hr">
+
+<h4>Extended case study, part 1</h4>
+
+<p># Extended laboratory: functions as contracts, composition, and controlled state</p>
+
+<p>A function gives a name to a reusable operation, but reuse alone is not its most important property. A well-designed function creates a boundary around assumptions: it receives inputs with defined meanings, performs an operation under those assumptions, and returns a result whose meaning the caller can understand. Once that boundary is stable, other parts of a program can rely on the contract without duplicating internal logic. This is why function design affects correctness, testability, collaboration, and maintainability even in a program with only a few hundred lines.</p>
+
+<p>## Parameters separate a general rule from one particular calculation</p>
+
+<p>Consider the area of a rectangle. A function that returns `width * height` is reusable because the dimensions are parameters rather than fixed literals. Yet the formula is meaningful only for appropriate inputs. If the caller provides width in metres and height in centimetres, the numerical product is not an area in square metres without conversion. If one dimension is negative, ordinary geometric area is not defined as a negative number under the intended model. The function contract must therefore say more than that it accepts two numeric inputs. It should define permissible values, units, and output semantics.</p>
+
+<p>Positional parameters work well when argument order is obvious, but they can introduce silent mistakes when two values share a type. A call such as `apply_discount(10, 100)` may confuse a percentage with an amount. Keyword arguments can improve readability: `apply_discount(price=100, percent=10)`. A simple data structure may be more appropriate when many parameters always travel together. Adding a class solely to replace a two-parameter function is not automatically an improvement; every abstraction carries a maintenance cost. Design the interface according to actual data relationships and likely changes.</p>
+
+<p>Default arguments are convenient but require careful thought about meaning and evaluation time. A default tax rate hardcoded into a function may become wrong when policy changes. In Python, a mutable default such as an empty list is created when the function is defined, not afresh on every call. If a function appends to that shared default, calls can affect each other unexpectedly. Use an immutable sentinel such as `None` when a new collection is intended for each call, then construct that collection inside the function. This detail matters because a parameter declaration can accidentally introduce persistent shared state.</p>
+
+<p>## Returning information is different from displaying it</p>
+
+<p>A function that prints a result writes to an output stream. A function that returns a result makes the value available for subsequent calculations, comparisons, storage, or display. Suppose a function computes the mean of a measurement series. If it prints the number and returns `None`, another function cannot directly compute the difference between that mean and a target value. An implementation that returns the mean can still be printed by its caller; it is useful in a spreadsheet export, a simulation, and an automated test without changing its core logic.</p>
+
+<p>Return values also communicate failure, but failure conventions need care. Returning zero for both a legitimate zero calculation and a missing result makes the two situations indistinguishable. Returning `None`, a tagged result object, or raising a documented exception may be more appropriate. The choice should reflect whether absence is an expected outcome or an exceptional violation of the contract. For example, searching a list may legitimately find no match; dividing by zero may be an invalid operation. An explicit interface makes the caller responsible for handling the right cases.</p>
+
+<p>Multiple return values are often expressed as tuples. A function calculating the smallest and largest readings can return `(minimum, maximum)` instead of forcing the caller to repeat a scan. That is useful when the outputs share an expensive computation, but it does not justify returning a long tuple whose positions are easy to confuse. Named structures improve clarity when several related values are returned. The guiding question is what the caller needs to know and how to make misuse difficult.</p>
+
+<p>## Pure computation versus side effects</p>
+
+<p>A pure function returns the same result for the same inputs and does not modify external state. A Celsius-to-Fahrenheit conversion can be pure; a function that reads the current time or writes a file is not. Pure functions are easier to test because their result depends only on values supplied explicitly. Side effects are still necessary in real applications, but isolating them makes behavior easier to predict. A registration system must save a record and send a message; placing those effects in explicit boundary functions helps keep validation and business-rule calculations deterministic.</p>
+
+<p>Suppose a function that computes a bill also writes the result to disk. A unit test for the arithmetic now depends on filesystem permissions and cleanup. A better design can return a validated bill object, while a separate persistence operation stores it. An integration test checks that persistence works. The separation lets you test mathematical correctness and external effects independently. It also makes it possible to retry a failed write without recomputing the bill under a changed policy, provided the transaction semantics are designed correctly.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-pf-factorial"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.2</span>
+            <span>Return Values</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>## Return Values: the computational contract</p>
+
+<p><strong>Core idea.</strong> Returning data rather than printing it makes the function composable, testable and usable by other functions. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
+
+<p><strong>Executable Python example:</strong></p>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>def extrema(values):
+    return min(values), max(values)
+print(extrema([4, 9, -1]))</code></pre>
+
+<p><strong>Expected result:</strong> `(-1, 9)`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
+
+<p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For return values, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
+
+<hr class="section-divider-hr">
+
+<h4>Extended case study, part 2</h4>
+
+<p>## Scope and name binding</p>
+
+<p>Scope determines where a name is visible and which binding an expression refers to. A local name assigned inside a Python function normally does not rebind a similarly named global variable. If a global variable `rate` equals 0.1 and a function assigns local `rate = 0.2`, the two bindings can coexist. Reading the global value after calling the function still yields 0.1. A common beginner error occurs when a function attempts to read and assign a global name without declaring the intended scope; Python may treat the name as local and raise an error before the local assignment has completed.</p>
+
+<p>Using global declarations to make every function access shared mutable state is usually a warning sign. The function's behavior then depends on context not visible in its argument list. That complicates tests and makes reusing the function in another project harder. Pass required configuration as an argument or through a clearly controlled object. Global constants that genuinely never change are less problematic than global counters, caches, or policy settings that several functions mutate. The key distinction is whether the function's external dependencies and effects remain comprehensible.</p>
+
+<p>Closures provide a different form of scope. A function defined inside another function can retain access to names from its enclosing environment. This is useful for creating small configured operations, such as a converter with a chosen scale factor. If the captured values are mutable, later changes can affect the function. A closure is therefore not a guarantee of immutability or purity. Explain what is captured and whether the function is intended to observe future changes.</p>
+
+<p>## Recursion is a structural claim about subproblems</p>
+
+<p>A recursive function solves a problem by expressing it in terms of smaller instances of the same problem. For factorial, the mathematical recurrence is `0! = 1` and `n! = n*(n-1)!` for positive integers. A correct recursive implementation requires a base case, a valid input domain, and a strictly decreasing measure such as n. Calling the function with a negative integer without validation can cause unbounded recursion because repeatedly subtracting one never reaches zero. The base case does not help if the allowed inputs do not guarantee reaching it.</p>
+
+<p>A recursion proof normally has two parts. The base case establishes that the function produces the right result for the smallest admissible input. The inductive step assumes correctness for a smaller instance and shows that the current computation produces the desired result. For factorial, assume the recursive call returns `(n-1)!`; multiplying by n yields `n!`. This argument establishes mathematical correctness under the recurrence. It says nothing about a language's recursion-depth limit or memory consumption. A theoretically correct recursion can still fail operationally for inputs that are too large.</p>
+
+<p>The factorial problem is also easily expressed with a loop. An iterative implementation can maintain an accumulator equal to the product of integers already processed. It avoids building a deep call stack and may be preferable for large n. Recursion is compelling for naturally recursive structures such as trees, divide-and-conquer algorithms, and nested expressions, but not automatically best for every repetition. Compare the clarity of the recurrence, maximum depth, error handling, and available memory before selecting an implementation.</p>
+
+<p>## A trace of recursive execution</p>
+
+<p>To compute factorial of four, the initial call requires four times factorial of three. That call requires three times factorial of two, which requires two times factorial of one. Factorial of one can return one under a chosen base convention. On return, factorial of two becomes two, factorial of three becomes six, and factorial of four becomes twenty-four. The recursive descent postpones multiplication while subproblems are created; the return phase resolves the deferred operations. A drawing of the call stack makes this control flow visible.</p>
+
+<p>If the recurrence branches into two recursive calls, as in a naive Fibonacci implementation, the number of calls may grow rapidly because identical subproblems are recomputed. Memoization or an iterative dynamic-programming formulation can avoid much of that duplication. The appropriate optimization depends on the recurrence and input range. Storing every subproblem may save computation while consuming memory. A function design review should make these trade-offs explicit rather than assuming that shorter recursive code is always more efficient.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-pf-scope"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.3</span>
+            <span>Recursion</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>## Recursion: the computational contract</p>
+
+<p><strong>Core idea.</strong> A recursive function needs a base case and a strictly smaller subproblem. A mathematical recurrence is not proof that an implementation terminates. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
+
+<p><strong>Executable Python example:</strong></p>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>def factorial(n):
+    if n &lt;= 1: return 1
+    return n * factorial(n - 1)
+print(factorial(5))</code></pre>
+
+<p><strong>Expected result:</strong> `120`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
+
+<p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For recursion, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
+
+<hr class="section-divider-hr">
+
+<h4>Extended case study, part 3</h4>
+
+<p>## Modules are dependency boundaries</p>
+
+<p>As programs grow, related functions can be grouped into modules. The purpose is not merely to shorten individual files. Modules define responsibilities, import relationships, and reusable interfaces. Suppose a grade-reporting application contains code for validating scores, computing statistics, formatting reports, and reading files. Grouping these responsibilities can make the dependency direction clearer: the reporting layer may call calculation functions, while the calculation layer should not depend on the reporting interface. Such a design allows the same calculations to be used in a command-line program or a web application.</p>
+
+<p>Circular imports appear when module A imports B while B imports A during initialization. The issue may be hidden in a small prototype but surface as a partially initialized object. One repair is to extract shared types or functions into a lower-level module C that both A and B can import. Another is to redesign responsibilities so dependencies flow in a single direction. Drawing the import graph before reorganizing files helps reveal whether the circular dependency represents genuine coupling or merely a misplaced helper function.</p>
+
+<p>A module's import-time behavior also matters. A module that immediately reads a large dataset, opens a connection, or launches an application when imported is harder to test and reuse. Put executable entry-point behavior behind an explicit main function or conventional guard, while exposing importable computations separately. This makes the module useful both as a program and as a library without surprising side effects.</p>
+
+<p>## A worked design: statistics from a classroom roster</p>
+
+<p>Suppose a roster contains student identifiers and scores. The application should compute a class mean, classify individual scores, and create a text report. Start with independent contracts. The parser accepts structured records and rejects missing identifiers or invalid score types. The mean function takes a nonempty numeric list and returns a numeric mean. The classifier accepts a score and a policy and returns a category. The formatter accepts results and returns a string; it does not modify scores. The save operation writes that string to a chosen destination and reports filesystem errors.</p>
+
+<p>For scores 70, 80, and 90, the mean is `(70 + 80 + 90)/3 = 80`. Write one test for this example, but do not stop there. Test a single score, a repeated score, an empty list, and a list containing an invalid value. Decide whether the parser or calculation function rejects non-finite floats. Test classification exactly at grade thresholds. Confirm that formatting the report does not change the input data. Finally, run an integration test that writes the report and verifies the stored contents, while keeping filesystem effects out of arithmetic tests.</p>
+
+<p>If a new requirement adds a median, the program should need one new calculation and an update to report assembly, not a rewrite of the parser or grade classifier. If a different output format is requested, the calculations should remain untouched. These change scenarios demonstrate whether the decomposition corresponds to independent responsibilities. A design is not validated merely because its initial output is correct; it should also localize likely changes.</p>
+
+<p>## Test doubles and dependency injection</p>
+
+<p>External dependencies such as storage and email services can be supplied through parameters or small interfaces. During a test, a fake storage object can record what the program attempted to save without writing to production. This is often called dependency injection. It is useful when a function's responsibility includes coordinating external effects. The fake must reproduce the behavior relevant to the test, including possible failures; a fake that always succeeds cannot establish correct behavior under network outages or storage conflicts.</p>
+
+<p>Tests should distinguish a function's contract from a particular implementation. If a sorting helper promises sorted output while preserving duplicates, test the order and multiplicities rather than the number of swap operations used internally. If a function promises not to mutate input, preserve a copy of the input and compare after the call. Such tests permit legitimate refactoring while detecting behavior that matters to callers.</p>
+
+<h4>Capstone: separating a calculation into stable interfaces</h4>
+
+<p>Imagine a program that computes the total price of a customer's order, including a discount and tax. A monolithic function might read a file, decide the discount percentage, calculate subtotals, round monetary values, and print an invoice. This mixes independent concerns. A more testable design separates pure calculations from I/O: `subtotal(items)`, `discount(subtotal, policy)`, `taxable_amount(...)`, `tax(...)`, and `format_invoice(...)`. The function boundaries are not arbitrary. Each represents a defined transformation whose inputs, output, and failure modes can be tested separately. A pure calculation is deterministic when its parameters are fixed and it does not read hidden mutable state.</p>
+
+<p>Scope is central to this design. A function argument such as `tax_rate` should ordinarily determine its behavior rather than a hidden global variable. If a function silently reads a global default, the same invocation may produce a different output after an unrelated part of the program changes that default. Passing the rate makes the dependency explicit. This is not a claim that globals are always forbidden: immutable configuration constants can be reasonable. But mutable global policy should not contaminate a function that is supposed to be a reusable mathematical operation. The caller can provide different rates for different jurisdictions and can exercise boundary tests without replacing the function.</p>
+
+<p>Recursion provides another way to organize behavior, but it is not appropriate for every task. A recursive function must define a base case, show progress toward it, and preserve the desired result. Computing factorial with `factorial(0)=1` and `factorial(n)=n*factorial(n-1)` is a clean mathematical example for nonnegative integers, yet ordinary languages impose recursion-depth limits and each call consumes resources. For a list of a million items, an iterative aggregation may be safer and clearer. Recursive tree traversal is often natural because subtrees share the same structure as the parent, whereas recursive summation of a flat array is usually optional rather than essential.</p>
+
+<p>Interface design also includes errors. If an item quantity is negative or a rate falls outside an allowed range, one layer should identify which component validates it and how the failure reaches the caller. Silently converting bad input to zero can mask fraud, missing data, or accidental corruption. Returning a structured error is often preferable to printing a warning deep inside a math function. Exception handling should be placed where recovery is meaningful: an interactive user interface can prompt for correction, while a pure subtotal function typically should not catch every exception and continue with an arbitrary fallback value.</p>
+
+<p>A regression test for the price example should use small items whose subtotals can be recomputed by hand, then test zero items, zero discount, large quantities, malformed price strings, and rounding at a halfway case. Tax and discount order changes the result under many policies; the code must follow the stated convention instead of relying on whichever sequence was easiest to write. Once this discipline is learned, modules can evolve: a new invoice renderer or a different discount policy can be introduced without rewriting the core arithmetic. Modular programming is valuable precisely because explicit contracts limit the effects of change.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.4</span>
+            <span>Modular Interfaces</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>## Modular Interfaces: the computational contract</p>
+
+<p><strong>Core idea.</strong> Local rebinding does not alter the module binding. Mutable objects introduce a distinct issue: mutation through an alias. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
+
+<p><strong>Executable Python example:</strong></p>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>rate = 0.1
+def calculate(amount):
+    rate = 0.2
+    return amount * rate
+print(calculate(10), rate)</code></pre>
+
+<p><strong>Expected result:</strong> `2.0 0.1`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
+
+<p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For modular interfaces, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
+
+<hr class="section-divider-hr">
+
+<h4>Extended case study, part 4</h4>
+
+<p>## API design and error communication</p>
+
+<p>A public function should have a name that communicates its purpose, not merely the fact that it does something. `validate_temperature` is clearer than `process`, and `mean_nonempty` signals a requirement that should appear in documentation. Arguments should have stable meanings; changing an argument from metres to centimetres without changing the contract breaks callers even if the function still accepts floats. Error messages should be actionable and avoid leaking irrelevant implementation details to end users, while logs may retain deeper diagnostic information for developers.</p>
+
+<p>Versioning matters when a function or module becomes widely used. Adding an optional parameter with a safe default may be compatible with existing calls; reordering positional parameters may not be. Changing a returned tuple to a dictionary may be beneficial but break code that unpacks the original result. Explicit interfaces permit controlled evolution. In a small academic exercise, write a short contract and revisit it when changing requirements so that compatibility becomes a deliberate decision.</p>
+
+<p>## A failure-first exercise: hidden shared state</p>
+
+<p>Imagine a function that records the names of students who received an alert. It declares a default parameter `recipients=[]` and appends to it on every call. The author intended a fresh list when no recipients were supplied, but the list object is created only once when the function is defined. The second call may see names from the first. This can result in duplicate notifications or disclosure of unrelated recipient information. The function might pass a single-call demonstration, making the bug easy to miss.</p>
+
+<p>The repair is to use `None` as the default and allocate a new list inside the function when no collection was supplied. Test two independent calls and verify that the second does not inherit the first call's state. If callers intentionally provide a mutable list, decide whether the function may modify that supplied object or should copy it. There is no universally correct choice, but the contract must state it. The exercise illustrates how function parameters, object identity, and scope combine to determine program behavior.</p>
+
+<p>## Final synthesis</p>
+
+<p>Functions bring together three forms of reasoning. Parameter and return contracts explain what computation means at the boundary. Scope and purity explain what can change inside and outside that boundary. Recursion and modular organization explain how larger problems are decomposed into reusable operations. An effective function is not judged only by its length or reusability; it is judged by whether a caller can use it correctly, test its guarantees, and understand its side effects.</p>
+
+<p>As a final exercise, split a small existing script into three functions: parsing, calculation, and presentation. For each, specify valid inputs, returned outputs, and exceptions or error results. Replace hidden global state with explicit dependencies. Test each function independently and then test the composed application. If a change to presentation forces a change to calculation, revisit the boundary. That is a concrete way to evaluate modular design rather than merely adding more function definitions.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.5</span>
+            <span>Applied investigation: Pure functions, call boundaries and recursion</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Applied investigation: Pure functions, call boundaries and recursion</h4>
+
+<p>A pure function maps its explicit arguments to an output without depending on mutable global state. If a function computes factorial(n), its precondition should require a nonnegative integer and its postcondition should return the product of integers from one through n. For n=0, the empty product is one. Recursive calls must reduce n until they reach the base case; otherwise the program is not guaranteed to terminate. Tail calls, stack frames and memoization affect execution properties without changing the mathematical factorial.</p>
+
+<p>A local variable with the same name as a global should not silently mutate the global in languages with lexical scope. Try an example in which a function declares counter=3 while the enclosing scope has counter=10: reading the local is well-defined, but assigning to the outer binding may require explicit declaration depending on the language. The scope visualization is a teaching model and not a full interpreter; nested closures, reference capture and thread visibility require additional rules.</p>
+
+<p><strong>Verification exercise.</strong> Compute a small valid case by hand, compare it with both interactive models in this unit, then reset them. Write the boundary case that violates a stated assumption and explain why the implementation should reject it rather than silently returning a misleading result.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Programming Fundamentals Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 4.1: Worked exercise 4.1</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Compute factorial(5) recursively and explain the base case.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-pf-4-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-pf-4-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Definition</div>
+              
+              <div class="step-explanation"><p>Factorial obeys 0!=1 and n!=n(n-1)! for n&gt;=1.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Expansion</div>
+              
+              <div class="step-explanation"><p>5! = 5·4·3·2·1 = 120.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Correctness</div>
+              
+              <div class="step-explanation"><p>The base case returns 1 at zero. For n&gt;0 a smaller positive integer is passed, so recursion reaches the base case.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 4.2: Worked exercise 4.2</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Explain why returning a value differs from printing it.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-pf-4-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-pf-4-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Return</div>
+              
+              <div class="step-explanation"><p>A function returning 4 supplies a value that can be multiplied or passed to another function.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Print</div>
+              
+              <div class="step-explanation"><p>Printing 4 writes to an output stream, typically returning None as the function result.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Design</div>
+              
+              <div class="step-explanation"><p>Use return for reusable computation and print at the user-interface boundary; test returned data without intercepting console output.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 4.3: Worked exercise 4.3</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Predict names after local rebinding of a variable named rate.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-pf-4-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-pf-4-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Scope</div>
+              
+              <div class="step-explanation"><p>A function-local assignment to rate binds a new local name unless global/nonlocal declarations change the rule.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Evaluate</div>
+              
+              <div class="step-explanation"><p>With global rate=0.1 and local rate=0.2, calculating 10·rate in the function gives 2.0.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Check</div>
+              
+              <div class="step-explanation"><p>After calling the function the global name still denotes 0.1. Mutation of an object through an alias is a separate case.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/kernighan-ritchie-c" target="_blank" rel="noopener noreferrer">Kernighan, B.W., &amp; Ritchie, D.M. (1988). The C Programming Language (2nd ed.): Foundational text on structural decomposition, control flow, functions, pointers, and memory layout</a></li><li><a href="https://openstemlibrary.com/references/sicp" target="_blank" rel="noopener noreferrer">Abelson, H., &amp; Sussman, G.J. (1996). Structure and Interpretation of Computer Programs: Canonical treatise on abstraction, procedural decomposition, state, and evaluation models</a></li><li><a href="https://openstemlibrary.com/references/goldberg-floating-point" target="_blank" rel="noopener noreferrer">Goldberg, D. (1991). What Every Computer Scientist Should Know About Floating-Point Arithmetic: Definitive reference on IEEE 754 precision, rounding, and representation error</a></li><li><a href="https://openstemlibrary.com/references/beck-tdd" target="_blank" rel="noopener noreferrer">Beck, K. (2002). Test-Driven Development: By Example: Primary reference for unit test boundaries, assertions, and invariant verification</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="programming-fundamentals-chapter-3">← Previous chapter</a><a href="programming-fundamentals">Book contents</a><a href="programming-fundamentals-chapter-5">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="programming-fundamentals-sims.js?v=1"></script>
+  <script src="programming-fundamentals-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

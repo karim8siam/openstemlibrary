@@ -1,0 +1,233 @@
+# Algorithms — Unit 4: Greedy methods
+
+
+## Exchange Arguments
+
+**Core model — Exchange Arguments**
+
+A greedy algorithm commits to a locally preferred feasible step. Optimality follows only from a structural theorem, commonly an exchange argument showing an optimal solution can be transformed to include the chosen item.
+
+**Original worked illustration**
+
+For unit-duration interval requests [1,2), [2,3), [1,4), earliest finishing time selects the first two and attains cardinality two. A proof replaces the first item of any optimal schedule by the earliest finisher without reducing the remaining options.
+
+**Boundary conditions and checks**
+
+A greedy rule that seems intuitive may fail on weighted intervals, where one longer high-value job can dominate several short low-value jobs.
+
+**Connections in this unit**
+
+The adjacent subjects are Spanning Trees, Scheduling, Matroid Introduction. They are studied alongside Exchange Arguments because a complete solution must distinguish the mathematical model, the algorithm or mechanism, and what the example actually establishes. Use the named assumptions above, rather than silently transferring a guarantee from one setting to another.
+
+**Study task**
+
+Reconstruct the example without looking at its conclusion. Identify the input quantities, the rule that transforms those inputs, and the final conclusion. Then challenge one stated assumption using the boundary condition. This gives a falsifiable check rather than a memorized slogan.
+
+## Extended technical treatment
+
+### Conceptual foundations and exact assumptions
+
+A greedy algorithm makes an irrevocable locally attractive choice and relies on a theorem connecting that choice to a globally optimal solution. An exchange argument begins with an arbitrary optimal solution, substitutes the greedy choice while preserving feasibility and objective value, and then proceeds inductively. This is much stronger than saying that greedy feels reasonable. The objective, feasibility constraints and tie-breaking convention must all be explicit. Greedy reasoning may fail when local choices consume a resource that would enable a more valuable combination later. A failed greedy rule is not proof that all greedy algorithms for the problem are impossible.
+
+### Derivation and worked trace
+
+In unweighted interval scheduling, choose the job with earliest finishing time, then discard all jobs overlapping it. Suppose the half-open jobs are A=[0,2), B=[1,5), C=[2,4), D=[3,7), E=[4,6). Earliest finish picks A, then C, then E, obtaining three compatible jobs. A rule that instead chooses the longest job could begin with D and leave room for fewer total jobs. The exchange proof says that if an optimal schedule begins with some job J ending no earlier than A, replace J with A. Since A finishes no later, every job that followed J can still follow A; feasibility and schedule length remain unchanged.
+
+### Counterexample and failure diagnosis
+
+Change the objective from maximizing the number of intervals to maximizing total profit. Earliest finish alone is no longer necessarily optimal: a single high-value interval may be worth more than several short ones. Weighted interval scheduling typically uses dynamic programming after sorting and predecessor calculation. Likewise arbitrary coin systems do not always admit a greedy minimum-coin solution. Test candidate greedy methods with exhaustive enumeration on small instances; a counterexample identifies precisely which exchange property fails.
+
+### Applications, engineering constraints and validation
+
+Greedy scheduling is useful in classroom booking, some resource allocation tasks and certain networking algorithms, but domain constraints must match the proof. If activities need setup time between jobs, compatibility is not simply end<=start. If there are multiple independent rooms, selecting one schedule no longer solves the full allocation problem. An engineering analysis should include the time needed to sort activities, not only the linear selection scan. Stable tie-handling matters when equal finishing times are common and secondary objectives exist.
+
+## Spanning Trees
+
+**Core model — Spanning Trees**
+
+A minimum spanning tree spans all vertices using n-1 edges and minimum total weight. The cut property justifies adding a minimum-weight edge crossing an appropriate cut; Kruskal and Prim exploit this fact.
+
+**Original worked illustration**
+
+For the triangle with AB=2, BC=3, AC=7, the minimum spanning tree contains AB and BC for total weight 5. A cycle would only add unnecessary cost.
+
+**Boundary conditions and checks**
+
+A shortest-path tree answers a different question: it minimizes root-to-vertex distances, not necessarily total weight. Disconnected graphs have minimum spanning forests.
+
+**Connections in this unit**
+
+The adjacent subjects are Exchange Arguments, Scheduling, Matroid Introduction. They are studied alongside Spanning Trees because a complete solution must distinguish the mathematical model, the algorithm or mechanism, and what the example actually establishes. Use the named assumptions above, rather than silently transferring a guarantee from one setting to another.
+
+**Study task**
+
+Reconstruct the example without looking at its conclusion. Identify the input quantities, the rule that transforms those inputs, and the final conclusion. Then challenge one stated assumption using the boundary condition. This gives a falsifiable check rather than a memorized slogan.
+
+## Extended technical treatment
+
+### Conceptual foundations and exact assumptions
+
+A minimum spanning tree connects all vertices of a connected undirected weighted graph at minimum total edge weight and contains exactly n-1 edges. Kruskal's algorithm sorts edges by weight and accepts each edge that joins two previously disconnected components, usually tracked with disjoint-set union. Prim's algorithm grows one connected tree by repeatedly choosing the cheapest edge crossing the boundary. Both follow a cut property: an appropriate minimum-weight crossing edge is safe to add to a partial optimal forest. A shortest-path tree answers a different optimization problem and need not have minimum total weight.
+
+### Derivation and worked trace
+
+Consider an undirected graph with vertices A,B,C,D and edges AB=1, AC=4, BC=2, BD=5, CD=3, AD=8. Kruskal takes AB of weight one, then BC of weight two, then CD of weight three. The resulting tree uses three edges and has total weight six. Adding AC afterward would create a cycle, so it is excluded. A spanning-tree solver can be checked on this small graph by enumerating each three-edge connected acyclic subset and comparing total weights. Connectivity should be verified separately: merely choosing n-1 cheap edges does not ensure a spanning tree.
+
+### Counterexample and failure diagnosis
+
+For equal edge weights the MST may not be unique, even though every MST has the same minimum total cost. A deterministic implementation can break ties by edge identifiers for reproducibility without changing optimal cost. For disconnected input, the appropriate output is a minimum spanning forest rather than one impossible tree. Negative edges do not break MST theory; the objective is the sum of tree edges, not path distances from a source. When presenting a proof, distinguish a cut crossing edge from an edge on a cycle; confusing those properties can invalidate the exchange step.
+
+### Applications, engineering constraints and validation
+
+Network-design applications require care when translating costs. Physical links may carry reliability, capacity or geographic constraints that are not captured by one scalar weight. A tree minimizes certain installation costs but has no redundant route if one edge fails. A robust network may intentionally include cycles. For dense graphs Prim with a matrix can be useful; for sparse graphs sorted-edge Kruskal or heap-based Prim may be preferable. Measure edges, vertices and representation overhead, and test graphs with isolated vertices and parallel edges.
+
+## Scheduling
+
+**Core model — Scheduling**
+
+Scheduling problems change substantially with constraints and objective. Earliest finish time optimizes the number of nonoverlapping unweighted intervals, while lateness and weighted profit require different methods.
+
+**Original worked illustration**
+
+For intervals A=[0,3), B=[1,2), C=[2,4), the greedy choice B then C schedules two jobs; starting with A admits only one.
+
+**Boundary conditions and checks**
+
+Without the unweighted and independent-interval assumptions, this exchange proof does not apply. Write down inclusive versus exclusive endpoint conventions.
+
+**Connections in this unit**
+
+The adjacent subjects are Exchange Arguments, Spanning Trees, Matroid Introduction. They are studied alongside Scheduling because a complete solution must distinguish the mathematical model, the algorithm or mechanism, and what the example actually establishes. Use the named assumptions above, rather than silently transferring a guarantee from one setting to another.
+
+**Study task**
+
+Reconstruct the example without looking at its conclusion. Identify the input quantities, the rule that transforms those inputs, and the final conclusion. Then challenge one stated assumption using the boundary condition. This gives a falsifiable check rather than a memorized slogan.
+
+## Extended technical treatment
+
+### Conceptual foundations and exact assumptions
+
+Scheduling algorithms depend sensitively on the objective being optimized. Earliest deadline first, shortest processing time and earliest finish time solve different problems under different assumptions. For single-machine independent jobs available at time zero, scheduling by shortest processing time minimizes the sum of completion times. In an interval-selection problem, earliest finish maximizes the number of mutually compatible fixed activities. Confusing these settings can lead to plausible schedules that optimize the wrong quantity. Release times, due dates, preemption, machine counts and setup costs must be part of the formal problem instance.
+
+### Derivation and worked trace
+
+Suppose three available jobs have processing times 6,2,4. In shortest-processing-time order they finish at times 2,6,12, with total completion time 20 and mean completion time 20/3. In the order 6,2,4 they finish at times 6,8,12, totaling 26. An adjacent-swap proof explains the improvement: if adjacent jobs of durations a>b appear in the order a then b, swapping them reduces the sum of their two completion times by a-b while leaving later completion times unchanged. Repeating swaps removes all inversions and yields a shortest-first order.
+
+### Counterexample and failure diagnosis
+
+The proof fails when jobs have unequal release times, precedence constraints or nonuniform priorities, because swapping may make a job unavailable or violate feasibility. Weighted completion-time variants require a ratio rule under specific assumptions; a shortest-job heuristic is no longer universally correct. For preemptive scheduling, a scheduler may interrupt work in progress and must account for context costs. If deadlines carry penalties, minimizing average completion time may conflict with meeting important commitments. Construct an objective equation before selecting a heuristic.
+
+### Applications, engineering constraints and validation
+
+In operating systems a scheduling policy affects fairness and tail latency, not just total completion time. An optimal theoretical objective can be unacceptable if it starves long jobs. Aging, admission control and priority inheritance address properties absent from simple independent-job models. An educational scheduler should show each start and finish event on a timeline, include idle intervals and distinguish waiting time from turnaround time. Compare answers to a small exhaustive permutation oracle when there are only four or five jobs.
+
+## Matroid Introduction
+
+**Core model — Matroid Introduction**
+
+A matroid is a family of independent subsets closed under taking subsets and satisfying the augmentation property. These axioms characterize settings in which sorting items by weight and greedily adding feasible elements finds a maximum-weight independent set.
+
+**Original worked illustration**
+
+The subsets of edges that contain no cycles form the independent sets of a graphic matroid. Building a maximum-weight acyclic set under the graphic matroid mirrors a spanning-forest selection rule.
+
+**Boundary conditions and checks**
+
+Ordinary knapsack feasibility is not a matroid: the augmentation condition can fail, explaining why density-based greedy selection may be suboptimal.
+
+**Connections in this unit**
+
+The adjacent subjects are Exchange Arguments, Spanning Trees, Scheduling. They are studied alongside Matroid Introduction because a complete solution must distinguish the mathematical model, the algorithm or mechanism, and what the example actually establishes. Use the named assumptions above, rather than silently transferring a guarantee from one setting to another.
+
+**Study task**
+
+Reconstruct the example without looking at its conclusion. Identify the input quantities, the rule that transforms those inputs, and the final conclusion. Then challenge one stated assumption using the boundary condition. This gives a falsifiable check rather than a memorized slogan.
+
+## Extended technical treatment
+
+### Conceptual foundations and exact assumptions
+
+A matroid is a pair consisting of a finite ground set and a family of independent subsets satisfying heredity and augmentation. Heredity says every subset of an independent set is independent. Augmentation says that when one independent set has more elements than another, some element of the larger can be added to the smaller without losing independence. These axioms give a structural explanation for why sorting elements by decreasing weight and accepting feasible additions produces a maximum-weight independent set under the standard matroid setting with appropriate weight assumptions. The theorem is about a precise independence system, not about every constraint that happens to look combinatorial.
+
+### Derivation and worked trace
+
+In a graphic matroid, the ground set is a graph's edges and independent sets are edge sets containing no cycle. Kruskal's accepted edges form an independent set throughout its execution. A partition matroid can divide items into classes and permit at most one selected element from each class. If classes are {red1,red2} and {blue1,blue2}, selecting the highest nonnegative-weight element of each color is optimal for a maximum-weight independent set. But combining several unrelated restrictions can destroy the matroid augmentation property; greedy may then fail even if each individual restriction looks benign.
+
+### Counterexample and failure diagnosis
+
+For example, suppose feasible sets are matchings in a general graph: no two selected edges share an endpoint. The set system is hereditary but not generally a matroid. On a path of three edges, the single middle edge is independent while the two outer edges form a larger independent matching. Neither outer edge can be added to the middle edge without violating feasibility, contradicting augmentation. Therefore a weight-sorted greedy rule need not maximize total matching weight. This counterexample illustrates why checking the axioms matters more than labeling a problem greedy-friendly.
+
+### Applications, engineering constraints and validation
+
+Matroids occur in independent-vector selection, spanning forests and certain allocation problems. The abstract viewpoint can replace many separate exchange proofs with one theorem, but it does not eliminate the need to implement an efficient independence test. Testing cycle freedom for edge additions can use disjoint-set union; testing linear independence may use rank-revealing algebra. State whether weights may be negative and whether the optimization permits the empty set, since blindly adding negative-weight elements can reduce objective value.
+
+## Unit 4 integrated computational laboratory
+
+## Integrated laboratory: greedy proofs and counterexamples
+
+A responsible greedy design begins with a feasible set and a target objective. Suppose a student society wants to book one laboratory for the largest possible number of non-overlapping demonstrations. With half-open time intervals, equality between one finish and another start is allowed. Sorting by finish time and repeatedly accepting the next compatible demonstration has an exchange proof. If an optimal schedule chooses some first activity ending later than the greedy first activity, replacing that activity with the greedy one cannot overlap a later activity that was previously compatible. Repeating this exchange yields a schedule no smaller than the optimum. That replacement argument fails when activities have different profits or setup costs.
+
+Analyze intervals [0,4),[1,2),[2,3),[3,6),[4,5),[5,7). The earliest-finish rule chooses [1,2), then [2,3), then [4,5), then [5,7), obtaining four compatible activities. A rule that chooses the earliest-starting interval chooses [0,4) first and cannot pick the two shorter early activities; depending on the remaining ties it may obtain a strictly smaller count. The example illustrates why different attractive local criteria can have different global consequences. The proof must justify the particular selection criterion actually implemented.
+
+Next build a minimum spanning tree for vertices A,B,C,D with undirected weights AB=2, AC=5, BC=1, BD=4, CD=3, AD=9. Sorted edges are BC=1, AB=2, CD=3, BD=4, AC=5, AD=9. Kruskal accepts BC, AB and CD, connecting all vertices with weight six. The remaining edges would create cycles and are irrelevant to completion. Replacing an accepted edge must preserve connectivity; this is why arbitrary replacement reasoning is inadequate. A disjoint-set union data structure makes component testing efficient but does not by itself prove the greedy criterion safe.
+
+The library's teaching workflow should distinguish a cut from a path. On a cut dividing the vertices into two groups, a light crossing edge is safe under the cut property when the existing chosen edges respect that cut. A shortest path from A may prefer different edges from the minimum spanning tree. Thus the application question drives the algorithm: inexpensive network construction and low-latency routes are not synonyms. A graph can have a cheap total spanning tree with a very long route between two particular endpoints.
+
+Now inspect job scheduling. Jobs with durations 9,3,5,2 all available at time zero are optimally ordered by nondecreasing duration to minimize total completion time. The order 2,3,5,9 yields completion times 2,5,10,19 and total 36. Sorting longest-first gives completion times 9,14,17,19 and total 59. An adjacent exchange changes the completion-time sum by the difference between two neighboring job lengths, providing a direct proof. Change the objective to meeting due dates and that proof no longer applies automatically.
+
+For each greedy rule, design one perturbation that breaks a hidden assumption. Add an availability time to one job; give one interval a high reward; introduce a spanning-tree reliability requirement that obliges redundant edges. A simulation can keep showing an internally correct value under its original assumptions, but its interface should display those assumptions prominently. Users should understand why changing the problem specification changes which mathematical theorem is appropriate.
+
+Finally study matchings as a cautionary tale. The family of edge sets without shared endpoints is not a matroid in general. On a three-edge path, the middle edge forms an independent matching of size one, and the two outer edges form an independent matching of size two, but neither outer edge can be added to the selected middle edge. This violates the augmentation axiom. A sorting-and-accepting rule that works for spanning forests therefore does not automatically work for arbitrary matching. Before recommending a general greedy framework, verify its structural prerequisites.
+
+The graded capstone is a certificate: present a feasible solution, a proof-backed lower or upper bound on any optimum, and an explanation that the solution meets the bound. For the four-vertex spanning-tree example, the cut property and the accepted-edge sequence support optimality. For the interval example, the exchange proof does. A pretty diagram without these arguments illustrates a result but does not establish it.
+
+### Independent audit exercise: test the theorem's boundary
+
+Greedy scheduling can be extended with a minimum turnaround time between bookings. Suppose the room requires twenty minutes of cleaning after a session. An activity ending at 10:00 cannot be followed by one starting at 10:10, even though the half-open intervals do not overlap. The new compatibility condition is end(previous)+20 minutes ≤ start(next). Earliest-finish selection still has a natural exchange argument under uniform fixed cleaning time, but the implementation must compare against the updated effective finish threshold. This is a model change, not a minor interface decoration.
+
+Now make setup time depend on the pair of consecutive sessions. Switching from a chemistry class to a biology class requires forty minutes, but switching between two biology classes requires ten. Choosing an earliest-finishing first session may preclude later valuable choices through sequence-dependent setup. A proof that ignored such transition-specific constraints cannot be applied. The problem can require a different dynamic program or combinatorial search. To expose the problem, create a small counterexample in which the locally earliest finish has a large outgoing setup penalty, while a slightly later same-subject session permits two additional activities.
+
+A similar boundary exists in network design. The cut property of minimum spanning trees assumes a standard undirected scalar-weight objective; adding a requirement for two edge-disjoint routes changes feasibility. A tree has exactly one simple path between any two vertices and therefore cannot provide redundant connectivity. The greedy MST algorithm may be perfectly implemented and still produce an unacceptable reliability plan. Verify the changed requirement before asking why the program's reported total cost looks optimal.
+
+For every greedy example, distinguish three levels of evidence. Feasibility can be checked directly against the stated constraints. Optimality needs a proof, a tight bound or a trusted exact oracle for the tested instance. Universality needs a theorem connecting the algorithm's rule to all legal inputs in the problem class. A successful demo does not establish the third level. Test the smallest violation of each assumption to teach precisely where the guarantee ends.
+
+## Worked questions and solutions
+
+### Question 1: Exchange Arguments: worked application 1
+
+For graph AB=2, BC=3, AC=7, find an MST and explain why the third edge is excluded.
+
+1. **Set up the model and conditions:** Sort the edges 2,3,7 and add AB, then BC, joining all three vertices.
+
+2. **Carry out the calculation or proof:** The edge AC closes a cycle and has no connectivity benefit.
+
+3. **State the result and its scope:** An MST has weight 5 and consists of AB and BC.
+
+**Answer:** An MST has weight 5 and consists of AB and BC.
+
+
+### Question 2: Spanning Trees: worked application 2
+
+Schedule intervals A=[0,3), B=[1,2), C=[2,4) to maximize the number selected.
+
+1. **Set up the model and conditions:** Sort by finish time: B ends at 2, A at 3, C at 4.
+
+2. **Carry out the calculation or proof:** Choose B, reject A due to overlap, then choose C starting at 2.
+
+3. **State the result and its scope:** The optimal unweighted schedule has two intervals, B and C.
+
+**Answer:** The optimal unweighted schedule has two intervals, B and C.
+
+
+### Question 3: Scheduling: worked application 3
+
+Explain with a counterexample why value density need not solve 0/1 knapsack.
+
+1. **Set up the model and conditions:** Use capacity 50 with items A=(weight 10,value 60), B=(20,100), C=(30,120).
+
+2. **Carry out the calculation or proof:** Greedy by density picks A then B, value 160, and cannot fit C.
+
+3. **State the result and its scope:** The optimum is B+C, weight 50 and value 220; greedy is suboptimal.
+
+**Answer:** The optimum is B+C, weight 50 and value 220; greedy is suboptimal.
+

@@ -1,0 +1,460 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Program reliability | Programming Fundamentals | OpenSTEM Library</title>
+  <meta name="description" content="debugging; assertions; unit tests; input validation">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/programming-fundamentals-chapter-7">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/programming-fundamentals-chapter-7">
+  <meta property="og:title" content="Programming Fundamentals: Decomposition, Types, Control Flow &amp; Testing | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering problem decomposition, numeric representation, control flow invariants, functions and scope, basic collections, exception handling, boundary unit testing, and numerical integration with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Programming Fundamentals: Decomposition, Types, Control Flow &amp; Testing | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering problem decomposition, numeric representation, control flow invariants, functions and scope, basic collections, exception handling, boundary unit testing, and numerical integration with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="programming-fundamentals.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Programming Fundamentals: Program reliability","description":"Comprehensive university textbook covering problem decomposition, numeric representation, control flow invariants, functions and scope, basic collections, exception handling, boundary unit testing, and numerical integration with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/programming-fundamentals-chapter-7","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Programming Fundamentals","Problem Decomposition","Control Flow Invariants","Two's Complement Representation","Modular Architecture","Unit Testing","Binary Search","Numerical Integration"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Programming Fundamentals","item":"https://openstemlibrary.com/programming-fundamentals"}]}</script></head>
+<body data-book-path="programming-fundamentals.html" data-chapter-index="6" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Programming Fundamentals</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search problem decomposition, linear search, floating point precision, two's complement overflow, loop invariants, recursion, stack frames, hash tables, unit test boundaries, binary search, trapezoidal rule…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="programming-fundamentals" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Computational thinking</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="programming-fundamentals-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Variables and expressions</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="programming-fundamentals-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Control flow</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="programming-fundamentals-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Functions and scope</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="programming-fundamentals-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Data collections</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="programming-fundamentals-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Program organization</span></a></li><li class="unit-nav-item active" data-unit-index="6"><a href="programming-fundamentals-chapter-7" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Program reliability</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="programming-fundamentals-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Applied programming</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Programming fundamentals core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 7 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Program reliability</h1>
+            <p class="unit-desc-lead" id="unit-desc">debugging; assertions; unit tests; input validation</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for introductory computer science and software construction. Eight units with exactly three solved questions per unit and 16 interactive numerical simulations illustrating problem decomposition, overflow boundaries, hash collisions, and test coverage. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-7-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.1</span>
+            <span>Debugging</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>## Debugging: the computational contract</p>
+
+<p><strong>Core idea.</strong> Write down the interval convention before patching an off-by-one bug. Here [lo, hi) is half-open. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
+
+<p><strong>Executable Python example:</strong></p>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>def binary_search(a, x):
+    lo, hi = 0, len(a)
+    while lo &lt; hi:
+        mid = (lo + hi) // 2
+        if a[mid] &lt; x: lo = mid + 1
+        else: hi = mid
+    return lo if lo &lt; len(a) and a[lo] == x else -1
+print(binary_search([2,4,8], 4))</code></pre>
+
+<p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For debugging, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
+
+<hr class="section-divider-hr">
+
+<h4>Extended case study, part 1</h4>
+
+<p># Extended laboratory: debugging and testing as independent evidence</p>
+
+<p>Debugging begins when observed behavior conflicts with the behavior a program is supposed to provide. The fastest-looking response is to change a line that appears suspicious and run the program again. That approach sometimes works for a trivial typo, but it scales poorly because it does not establish why the failure happened. A systematic approach starts with a reproducible example, a statement of expected behavior, and evidence about the program state at the first point where expectation and observation diverge. The objective is to locate the violated assumption, not merely to make one test stop failing.</p>
+
+<p>## Errors have different causes</p>
+
+<p>Syntax errors prevent source code from being interpreted according to the language's grammar. Runtime errors arise when a statement executes but an operation fails, such as accessing an absent dictionary key or dividing by zero. Logical errors can be more dangerous because the program finishes normally and returns an incorrect result. A statistical program that calculates an unweighted mean when the model requires weights may print a plausible number without raising any exception. Effective debugging recognizes which category of failure is present and chooses evidence accordingly.</p>
+
+<p>A stack trace shows where an exception propagated through calls. It does not always identify the conceptual origin. A division-by-zero error may occur in a reporting function because upstream validation allowed an empty group. Fixing the report by substituting zero conceals the missing-data policy rather than solving it. Trace the data backward through the function contracts and determine where the invalid state first became possible. The best fix often occurs at a boundary where an assumption should have been checked.</p>
+
+<p>## Reproduce before repairing</p>
+
+<p>A minimal reproducing example includes only the inputs and operations needed to trigger the defect. For a binary-search implementation that hangs, reduce the data to a sequence of two items and a target that causes the interval to stop shrinking. With such a small case, write the values of `lo`, `hi`, and `mid` at each iteration. If the same state repeats without progress, the termination measure has failed. Repairing the update rule becomes a consequence of the diagnosis rather than a guess.</p>
+
+<p>Reducing a problem is different from changing it. If a bug occurs only with non-ASCII filenames, removing the filename from the reproduction destroys the relevant condition. If it occurs only under concurrent requests, running requests sequentially may hide the race. Keep the smallest environment that still exhibits the failure, and record the version of the runtime, input data, and relevant settings. Reproducibility makes a report useful to someone other than the original observer.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-pf-tests"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.2</span>
+            <span>Assertions</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>## Assertions: the computational contract</p>
+
+<p><strong>Core idea.</strong> Assertions document developer invariants; they are not sufficient for validating untrusted user input and may be disabled in optimized Python. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
+
+<p><strong>Executable Python example:</strong></p>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>def normalize(values):
+    assert len(values) &gt; 0
+    total = sum(values)
+    assert total != 0
+    return [v/total for v in values]
+print(normalize([1,3]))</code></pre>
+
+<p><strong>Expected result:</strong> `[0.25, 0.75]`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
+
+<p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For assertions, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
+
+<hr class="section-divider-hr">
+
+<h4>Extended case study, part 2</h4>
+
+<p>## Assertions document internal expectations</p>
+
+<p>An assertion is an executable statement that a condition should hold at a particular point. It can help detect violations of an invariant during development. For example, after normalizing a nonnegative weight vector with positive total, an assertion may check that its values sum approximately to one. If the property fails, the program has encountered an unexpected internal state. Assertions are not substitutes for validating data supplied by users because Python assertions can be disabled under optimized execution. Input validation should remain active whenever untrusted values are accepted.</p>
+
+<p>Assertions also need appropriate scope. An assertion that a floating-point sum is exactly equal to one may fail because of representation error even when the numeric result is valid under the model. Conversely, an overly generous tolerance can allow genuinely invalid values to pass. A useful assertion reflects a mathematical or program invariant whose acceptable error is understood. Avoid writing assertions simply because a value happened to appear in one successful run.</p>
+
+<p>## A test is a claim with an observable oracle</p>
+
+<p>A unit test needs a setup, an action, and a way to decide whether the result is correct. The oracle may be a known numerical answer, an algebraic invariant, a reference implementation, a failure expectation, or a metamorphic relationship between inputs and outputs. A test that merely executes a function without checking its result does not establish correctness. A test that checks only whether an exception was avoided may miss a silent arithmetic error.</p>
+
+<p>For a temperature converter, known reference points are useful: zero degrees Celsius corresponds to thirty-two degrees Fahrenheit, and negative forty is the same numerical value on both scales. These are independently checkable facts. For a weighted mean, multiplying all weights by a positive constant should leave the result unchanged, assuming the calculation is defined. This metamorphic property supports tests over many generated datasets. It does not replace boundary checks for empty data, zero total weight, or invalid numeric values.</p>
+
+<p>## Boundary analysis catches many realistic defects</p>
+
+<p>For a function that accepts integers from one through ten, inputs one and ten are more informative than several arbitrary middle values. Test zero and eleven as rejected inputs if the contract excludes them. For a sequence algorithm, test empty, singleton, and repeated-element collections when appropriate. For file parsing, test empty files, missing columns, and malformed rows. Each boundary probes a transition where implementation behavior is likely to change. A test suite that uses one large, ordinary dataset can overlook basic faults because only a narrow behavior pattern is exercised.</p>
+
+<p>Equivalence classes organize input spaces according to expected behavior. A sign classifier has negative, zero, and positive classes. A grade classifier has score ranges separated by thresholds. A parser may distinguish valid integers, valid decimals, empty strings, and malformed text. Test at least one representative of each class and especially the boundaries. When continuous numeric values are accepted, also consider non-finite values such as NaN or infinity if the underlying type can represent them. Scientific calculations should decide whether such values are permitted, rejected, or propagated.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-pf-binary"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.3</span>
+            <span>Unit Tests</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>## Unit Tests: the computational contract</p>
+
+<p><strong>Core idea.</strong> A test should have a controlled setup, action and observable oracle. Test boundaries and failure paths as well as happy paths. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
+
+<p><strong>Executable Python example:</strong></p>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>def add(a,b): return a+b
+def test_add_zero():
+    assert add(7,0) == 7
+test_add_zero()
+print('passed')</code></pre>
+
+<p><strong>Expected result:</strong> `passed`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
+
+<p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For unit tests, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
+
+<hr class="section-divider-hr">
+
+<h4>Extended case study, part 3</h4>
+
+<p>## Property-based testing and its limits</p>
+
+<p>Property-based tests generate many inputs and verify invariants. For a sorting function, a property is that the output is nondecreasing and contains the same multiset of elements as the input. Checking only order is insufficient: returning an empty list is trivially sorted but discards data. For a reversible conversion, a round trip may approximately recover the input within justified tolerance. Random generation is useful for exploration, but it does not guarantee that rare failure cases will be sampled. Combine generated data with carefully chosen boundaries and fixed regression cases.</p>
+
+<p>A property must itself be correct. For example, assuming that adding a constant to every probability leaves a distribution valid is false without normalization and nonnegativity constraints. If a test encodes an incorrect mathematical law, a correct program may fail the test or a wrong program may pass. The specification and the oracle need critical review independent of implementation. In research code, compare selected calculations against known analytical cases or independent numerical methods where possible.</p>
+
+<p>## Debugging by controlled experiments</p>
+
+<p>When an output is wrong, change one relevant factor at a time and observe whether the failure persists. If a simulation gives unstable results, vary the time step while holding initial conditions fixed. If the result changes dramatically under step refinement, the numerical method or stability range may be responsible. If the result is wrong even for an analytically solvable case, inspect the model or boundary conditions. If only the display is wrong, inspect the transformation from computed data to visual coordinates. This experimental style separates model, algorithm, and presentation defects.</p>
+
+<p>Logging can help reveal state transitions, but uncontrolled print statements are not a substitute for a hypothesis. Log values that distinguish candidate causes and remove or reduce diagnostic logging after the issue is resolved. Never record passwords, private records, or unnecessary sensitive information in debugging output. Repeated logging inside a large loop can also distort performance measurements. A carefully chosen trace for a small case is often more effective than an enormous, unsorted stream of messages.</p>
+
+<p>## Regression tests protect repairs</p>
+
+<p>A regression test encodes a previously failing case so that the defect is less likely to return. If a binary-search implementation once hung on a two-element interval, preserve that input as a test after fixing the update rule. If a parser once accepted an invalid negative count, test that rejection explicitly. The regression should explain the behavior being protected, not merely freeze the internal line of code that happened to change. Good tests allow refactoring while maintaining the intended contract.</p>
+
+<p>A test suite may be green while the program is still incorrect outside the covered cases. Coverage metrics report which statements or branches were executed, but execution is not validation. A test that reaches a branch without asserting the resulting behavior still counts toward coverage. Treat coverage as a map of unvisited areas and an aid to test design, not a certificate of correctness. Independent code review, mathematical reasoning, and integration tests answer questions that coverage alone cannot.</p>
+
+<h4>Capstone: test a search function against an independent oracle</h4>
+
+<p>Consider a function `binary_search(values, target)` that returns the index of a target in a sorted list, or a missing value if the target is absent. A strong test suite begins by formalizing its precondition: the input must be sorted under the same comparison relation used by the algorithm. When duplicates are present, the specification must state whether any matching index is acceptable or whether the first occurrence is required. These are distinct contracts. A test that assumes first occurrence while an implementation promises any occurrence will report false failures; a test that never checks duplicates will miss a genuine contract mismatch.</p>
+
+<p>An independent oracle can perform a linear scan. For small randomly generated sorted arrays, compute the expected result using the simple reference function, then compare it with the optimized algorithm. When the contract permits any matching index, verify that the returned index lies within bounds and its element equals the target, rather than requiring equality to the oracle's first index. When the result is missing, verify that the target is absent. This differential method does not prove the optimized algorithm for every input, but it covers a wide variety of concrete states and often catches off-by-one errors that hand-picked positive examples overlook.</p>
+
+<p>An invariant-based proof strengthens the tests. In a lower-bound implementation with half-open interval `[lo, hi)`, maintain `0 ≤ lo ≤ hi ≤ n` and the assertion that every index strictly before `lo` holds a value less than the target, while indices at or after `hi` hold values greater than or equal to the target under the chosen relation. The interval decreases on each iteration, so termination follows from a nonnegative integer variant. At termination `lo=hi`, and the returned insertion point has the desired lower-bound property. This statement is stronger and more precise than saying that binary search 'checks the middle' until done.</p>
+
+<p>Assertions inside the algorithm can expose violated assumptions during development, but their role must be clear. An assertion represents a property the programmer expects to be true under stated preconditions, not ordinary input validation. If a public API receives data from an untrusted source, validating input and returning an appropriate error is generally more suitable than hoping that a development-only assertion remains enabled. Some languages and runtimes can disable assertions, making them inappropriate for essential security or business rules. Tests themselves should also be verified: deliberately introduce a faulty comparison or boundary update and confirm that an appropriate test fails.</p>
+
+<p>Finally, distinguish line coverage, branch coverage, property checks, and correctness. One hundred percent line coverage does not prove that numerical boundaries and semantics were tested. A sound test plan combines carefully chosen partitions such as empty, singleton, two-item, many-item, target below all items, above all items, between values, and duplicate-heavy arrays. It can add adversarial tests where the target is consistently rejected from the lower or upper half. Performance checks come after correctness and should compare operation counts against logarithmic growth, rather than substituting speed measurements for evidence that the function returns the right answer.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.4</span>
+            <span>Input Validation</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>## Input Validation: the computational contract</p>
+
+<p><strong>Core idea.</strong> Input validation must be applied at trust boundaries. Reject malformed inputs clearly instead of guessing a correction. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
+
+<p><strong>Executable Python example:</strong></p>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>def parse_age(text):
+    age = int(text)
+    if not 0 &lt;= age &lt;= 120: raise ValueError('age out of range')
+    return age
+print(parse_age('24'))</code></pre>
+
+<p><strong>Expected result:</strong> `24`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
+
+<p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For input validation, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
+
+<hr class="section-divider-hr">
+
+<h4>Extended case study, part 4</h4>
+
+<p>## Case study: repairing a faulty mean function</p>
+
+<p>Suppose a function sums values and divides by their count. It passes a test with `[2, 4, 6]`, returning four. Then a production dataset contains an empty group and the function raises division by zero. There are several possible repairs, and the domain decides which is valid. Reject an empty group with a clear exception, return an explicit missing result, or define a special value if the mathematical application supplies one. Returning zero is not generally a correct mean for empty data. A repair that hides the failure can bias a downstream average of group means.</p>
+
+<p>Now consider floating-point inputs with NaN. The ordinary sum may become NaN even when most measurements are valid. Should the function exclude missing observations, propagate an invalid result, or reject the dataset? Each choice changes the estimand being computed. If missing values are excluded, the denominator should count retained observations rather than original positions. Add a test where one value is missing and state the expected behavior explicitly. Debugging statistical code therefore often requires clarifying the model rather than editing arithmetic syntax.</p>
+
+<p>## Independent checking</p>
+
+<p>A powerful practice is to calculate at least some expected results without using the implementation under test. If the program computes a standard deviation, derive a small example by hand or compare it to a separately implemented formula with the correct sample or population denominator. If a simulator generates random observations, test deterministic parts against known formulas and test statistical properties with appropriate tolerance and sample size. Using the same flawed helper function to compute both the result and the expected answer makes the test circular.</p>
+
+<p>For a sum, an independent implementation is easy. For complex calculations, verification may require a high-precision numerical library, a symbolic derivation, or a trusted reference dataset. Document the source and limitations of the check. If only a few examples are verified, describe that evidence accurately. Do not call a model fully validated because a test script emitted the word PASS without meaningful oracles.</p>
+
+<p>## Final synthesis</p>
+
+<p>Debugging and testing turn assumptions into evidence. Reproduction identifies the failure, contracts define the expected result, controlled experiments isolate causes, and regression tests preserve repairs. Assertions monitor internal invariants, while input validation guards the boundary between trusted computation and external data. Boundary tests and properties reveal different classes of mistakes; neither replaces independent mathematical review. The goal is to know what has been established, what remains uncertain, and which failure modes still matter.</p>
+
+<p>As a final exercise, deliberately introduce an off-by-one error into a binary search or a list traversal. Record the smallest input that exposes it. Explain the violated invariant, change the smallest possible part of the update, and add a regression test. Then write a second test for a distinct boundary condition and state why the two checks are independent. That process develops the habit of diagnosing causes rather than chasing symptoms.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.5</span>
+            <span>Applied investigation: Testing strategy and binary-search boundaries</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Applied investigation: Testing strategy and binary-search boundaries</h4>
+
+<p>A strong test suite includes ordinary cases, boundaries, malformed input, and cases chosen from the algorithm’s stated assumptions. Distinguish unit tests for a pure function from integration tests that exercise several components together. Property tests can assert that sorting preserves element multiset and produces a nondecreasing list. Those properties cover many inputs but do not by themselves prove that every possible language/runtime execution is correct.</p>
+
+<p>Binary search is particularly sensitive to off-by-one errors. With a closed interval [low, high], replacing it after each comparison must exclude the tested midpoint; otherwise low and high may stop changing. For an empty array set high to −1 so the loop never enters. Test search for first, last, absent, and repeated values with a defined match policy. The number of comparisons depends on the interval convention and when equality is checked.</p>
+
+<p><strong>Verification exercise.</strong> Compute a small valid case by hand, compare it with both interactive models in this unit, then reset them. Write the boundary case that violates a stated assumption and explain why the implementation should reject it rather than silently returning a misleading result.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Programming Fundamentals Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.1: Worked exercise 7.1</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Create unit tests for a function that divides two integers.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-pf-7-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-pf-7-1">
+          
+            <div class="solution-step">
+              <div class="step-title">Normal</div>
+              
+              <div class="step-explanation"><p>Check 10/2=5, including numeric type and precision expectations.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Boundary</div>
+              
+              <div class="step-explanation"><p>Check a negative numerator and divisor sign rules.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Failure</div>
+              
+              <div class="step-explanation"><p>Check divisor zero raises ZeroDivisionError (or a documented custom error), rather than silently producing nonsense.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.2: Worked exercise 7.2</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Locate a bug in binary search when the upper bound is exclusive.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-pf-7-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-pf-7-2">
+          
+            <div class="solution-step">
+              <div class="step-title">Invariant</div>
+              
+              <div class="step-explanation"><p>Use search interval [lo,hi), initially [0,len(a)).</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step</div>
+              
+              <div class="step-explanation"><p>Choose mid=(lo+hi)//2; for a[mid]<x set="" lo="mid+1," else="" hi="mid.</p"></x></p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Check</div>
+              
+              <div class="step-explanation"><p>Loop until lo==hi and then check membership; test empty list, first item, last item and absent targets.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.3: Worked exercise 7.3</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Distinguish an assertion from untrusted-input validation.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-pf-7-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-pf-7-3">
+          
+            <div class="solution-step">
+              <div class="step-title">Assertion</div>
+              
+              <div class="step-explanation"><p>assert expresses an internal development assumption and may be disabled under optimized execution.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Validation</div>
+              
+              <div class="step-explanation"><p>Input checks must execute in production and generate predictable diagnostics for invalid user data.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Design</div>
+              
+              <div class="step-explanation"><p>Use if/raise ValueError at input boundaries, reserving assertions for invariants that should never fail when code is correct.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/kernighan-ritchie-c" target="_blank" rel="noopener noreferrer">Kernighan, B.W., &amp; Ritchie, D.M. (1988). The C Programming Language (2nd ed.): Foundational text on structural decomposition, control flow, functions, pointers, and memory layout</a></li><li><a href="https://openstemlibrary.com/references/sicp" target="_blank" rel="noopener noreferrer">Abelson, H., &amp; Sussman, G.J. (1996). Structure and Interpretation of Computer Programs: Canonical treatise on abstraction, procedural decomposition, state, and evaluation models</a></li><li><a href="https://openstemlibrary.com/references/goldberg-floating-point" target="_blank" rel="noopener noreferrer">Goldberg, D. (1991). What Every Computer Scientist Should Know About Floating-Point Arithmetic: Definitive reference on IEEE 754 precision, rounding, and representation error</a></li><li><a href="https://openstemlibrary.com/references/beck-tdd" target="_blank" rel="noopener noreferrer">Beck, K. (2002). Test-Driven Development: By Example: Primary reference for unit test boundaries, assertions, and invariant verification</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="programming-fundamentals-chapter-6">← Previous chapter</a><a href="programming-fundamentals">Book contents</a><a href="programming-fundamentals-chapter-8">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="programming-fundamentals-sims.js?v=1"></script>
+  <script src="programming-fundamentals-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

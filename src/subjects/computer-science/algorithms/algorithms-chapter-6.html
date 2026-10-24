@@ -1,0 +1,483 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Graph algorithms | Algorithms | OpenSTEM Library</title>
+  <meta name="description" content="shortest paths; flows; matching; graph decomposition">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/algorithms-chapter-6">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/algorithms-chapter-6">
+  <meta property="og:title" content="Algorithms: Asymptotic Bounds, Divide-and-Conquer, Dynamic Programming &amp; Graph Theory | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering asymptotic notation, recurrence relations, Master theorem, divide-and-conquer recurrences, greedy interval scheduling, dynamic programming memoization, shortest path algorithms (Dijkstra, Bellman-Ford), minimum spanning trees, NP-completeness, and approximation algorithms with 24 solved questions and 8 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Algorithms: Asymptotic Bounds, Divide-and-Conquer, Dynamic Programming &amp; Graph Theory | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering asymptotic notation, recurrence relations, Master theorem, divide-and-conquer recurrences, greedy interval scheduling, dynamic programming memoization, shortest path algorithms (Dijkstra, Bellman-Ford), minimum spanning trees, NP-completeness, and approximation algorithms with 24 solved questions and 8 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="algorithms.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Algorithms: Graph algorithms","description":"Comprehensive university textbook covering asymptotic notation, recurrence relations, Master theorem, divide-and-conquer recurrences, greedy interval scheduling, dynamic programming memoization, shortest path algorithms (Dijkstra, Bellman-Ford), minimum spanning trees, NP-completeness, and approximation algorithms with 24 solved questions and 8 interactive simulations.","url":"https://openstemlibrary.com/algorithms-chapter-6","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Algorithms","Asymptotic Analysis","Divide-and-Conquer","Greedy Scheduling","Dynamic Programming","Dijkstra Algorithm","NP-Completeness","Approximation Algorithms"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Algorithms","item":"https://openstemlibrary.com/algorithms"}]}</script></head>
+<body data-book-path="algorithms.html" data-chapter-index="5" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Algorithms</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search big-O notation, master theorem, recurrence relations, mergesort, quicksort pivot degeneration, greedy interval scheduling, 0/1 knapsack dynamic program, Dijkstra shortest path, vertex cover approximation, Monte Carlo disk estimator…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="algorithms" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Algorithm analysis</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="algorithms-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Searching and sorting</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="algorithms-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Divide and conquer</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="algorithms-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Greedy methods</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="algorithms-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Dynamic programming</span></a></li><li class="unit-nav-item active" data-unit-index="5"><a href="algorithms-chapter-6" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Graph algorithms</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="algorithms-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Complexity and approximation</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="algorithms-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Randomized algorithms</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Algorithms core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 6 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Graph algorithms</h1>
+            <p class="unit-desc-lead" id="unit-desc">shortest paths; flows; matching; graph decomposition</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for undergraduate analysis and design of algorithms. Eight units with exactly three solved questions per unit and interactive simulations illustrating asymptotic comparisons, recursive branching, dynamic programming tables, and greedy exchange properties. Numerical checks and an editorial review support this edition.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-6-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.1</span>
+            <span>Shortest Paths</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Shortest Paths</strong></p>
+
+<p>A shortest-path algorithm must match edge-weight conditions. BFS handles unweighted edges, Dijkstra requires nonnegative weights, and Bellman–Ford handles negative edges when no reachable negative cycle defeats finite distances.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>On edges A-&gt;B=2, A-&gt;C=10, B-&gt;C=3, the shortest distance from A to C is 5 through B. Dijkstra settles A, then B, then C.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>A negative edge can make an already settled Dijkstra distance wrong; always state the weight-domain assumption.</p>
+
+<p><strong>Connections in this unit</strong></p>
+
+<p>The adjacent subjects are Flows, Matching, Graph Decomposition. They are studied alongside Shortest Paths because a complete solution must distinguish the mathematical model, the algorithm or mechanism, and what the example actually establishes. Use the named assumptions above, rather than silently transferring a guarantee from one setting to another.</p>
+
+<p><strong>Study task</strong></p>
+
+<p>Reconstruct the example without looking at its conclusion. Identify the input quantities, the rule that transforms those inputs, and the final conclusion. Then challenge one stated assumption using the boundary condition. This gives a falsifiable check rather than a memorized slogan.</p>
+
+<p>## Extended technical treatment</p>
+
+<h4>Conceptual foundations and exact assumptions</h4>
+
+<p>A shortest-path algorithm solves a precisely specified graph problem: find a minimum-total-weight route under the chosen directedness and edge-weight assumptions. Breadth-first search finds minimum-edge-count paths in unweighted graphs, while Dijkstra's algorithm handles nonnegative weighted edges. Bellman–Ford permits negative edge weights and can detect negative cycles reachable from the source. A path tree computed from one source is not a minimum spanning tree. The former optimizes distances from a root; the latter optimizes the sum of installed undirected edges across a connected graph. Mixing the two objectives leads to incorrect network-design decisions.</p>
+
+<h4>Derivation and worked trace</h4>
+
+<p>Let directed edges be A→B with cost 2, A→C with cost 9, B→C with cost 3, B→D with cost 8, and C→D with cost 1. Dijkstra begins with distance A=0 and other distances infinite. Relaxing A gives B=2 and C=9. Settling B improves C to 5 and sets D to 10. Settling C improves D to 6. The best A-to-D path is A-B-C-D with weight 2+3+1=6. Trace both tentative and settled states to distinguish a candidate bound from a final optimal distance; the nonnegative-edge assumption ensures settled distances cannot later decrease.</p>
+
+<h4>Counterexample and failure diagnosis</h4>
+
+<p>Negative edges can invalidate Dijkstra's finalization rule. Consider A→B of cost 2, A→C of cost 5, and C→B of cost -10. Dijkstra may finalize B at distance two before visiting C, even though the true shortest path to B has cost -5 through C. Bellman–Ford's repeated relaxations can find that improvement if there is no relevant negative cycle. When a reachable negative cycle can be traversed arbitrarily many times before reaching the target, a finite shortest-route optimum may not exist at all. Your algorithm should report that limitation, not a fabricated finite path.</p>
+
+<h4>Applications, engineering constraints and validation</h4>
+
+<p>In real routing, weights can represent travel time, monetary cost or reliability transformations. Time-dependent road conditions may violate a static-weight model. Multiple objectives such as minimizing both latency and toll create Pareto frontiers rather than one scalar shortest path. For testing, independently enumerate simple paths on a tiny directed graph when no negative cycles exist, then compare computed distances and parent pointers. Confirm that the parent chain actually reconstructs a valid route and handles unreachable vertices explicitly.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-algorithms-unit-6"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.2</span>
+            <span>Flows</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Flows</strong></p>
+
+<p>A flow network has directed capacities, flow conservation at internal vertices, and a source and sink. Augmenting paths improve feasible flow; the max-flow/min-cut theorem certifies optimality.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>If s-&gt;a has capacity 3, a-&gt;t has 2, s-&gt;b has 2 and b-&gt;t has 2, then total flow 4 is feasible and the t-side cut has capacity 4.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Residual reverse edges are not decorative: without them an algorithm may be unable to undo an earlier routing choice to reach the maximum.</p>
+
+<p><strong>Connections in this unit</strong></p>
+
+<p>The adjacent subjects are Shortest Paths, Matching, Graph Decomposition. They are studied alongside Flows because a complete solution must distinguish the mathematical model, the algorithm or mechanism, and what the example actually establishes. Use the named assumptions above, rather than silently transferring a guarantee from one setting to another.</p>
+
+<p><strong>Study task</strong></p>
+
+<p>Reconstruct the example without looking at its conclusion. Identify the input quantities, the rule that transforms those inputs, and the final conclusion. Then challenge one stated assumption using the boundary condition. This gives a falsifiable check rather than a memorized slogan.</p>
+
+<p>## Extended technical treatment</p>
+
+<h4>Conceptual foundations and exact assumptions</h4>
+
+<p>A flow network assigns nonnegative capacities to directed edges, fixes a source and sink, and asks for the largest feasible rate transported through the network. Every internal vertex conserves flow: the sum entering equals the sum leaving. The max-flow/min-cut theorem states that the maximum achievable source-sink flow equals the capacity of a minimum source-sink cut. An augmenting-path algorithm maintains a residual network whose edges record where flow can increase and where previously sent flow may be canceled. Reverse residual edges are essential; omitting them can trap an algorithm in a nonoptimal routing choice.</p>
+
+<h4>Derivation and worked trace</h4>
+
+<p>Consider edges s→a capacity 3, s→b capacity 2, a→t capacity 2, a→b capacity 1, and b→t capacity 3. Sending two units s-a-t and two units s-b-t achieves four. One additional unit can use s-a-b-t, yielding total five. The outgoing capacity of the source is 3+2=5, so no flow can exceed five; this constructive feasible flow meets the cut bound and is optimal. Verify conservation at a: three units enter, two leave to t and one to b. At b, two enter from s and one from a; three leave to t.</p>
+
+<h4>Counterexample and failure diagnosis</h4>
+
+<p>Do not infer maximum flow from the sum of capacities on arbitrary paths, because paths may share bottleneck edges. Likewise, a saturated edge does not prove the whole network is optimally saturated. For Ford–Fulkerson with real irrational capacities, arbitrary augmenting-path choices require care; Edmonds–Karp's breadth-first residual paths give a polynomial bound when capacities are represented suitably. A reverse residual edge is not an extra original pipeline. It encodes permission to undo part of an earlier flow assignment while maintaining feasibility.</p>
+
+<h4>Applications, engineering constraints and validation</h4>
+
+<p>Flow models serve bandwidth allocation, bipartite matching, transportation and image segmentation, but capacity interpretation is central. If edges have costs as well as capacities, a min-cost flow formulation may be necessary. If indivisible units are required, integrality of solutions follows for integer-capacity standard networks under appropriate algorithms, but this property may fail in generalized multicommodity problems. Test conservation, capacity bounds and cut equality on tiny graphs rather than trusting only the final numeric value returned by an implementation.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.3</span>
+            <span>Matching</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Matching</strong></p>
+
+<p>A matching is a set of edges with no shared endpoints. In bipartite graphs, augmenting-path search grows the matching by alternating between unused and used edges.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>With left vertices L1,L2 and right R1,R2, edges L1-R1, L1-R2, L2-R1 admit matching {L1-R2,L2-R1} of size two.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Selecting each left vertex's first available neighbor without revisiting earlier choices may stop at size one; augmenting paths correct that failure.</p>
+
+<p><strong>Connections in this unit</strong></p>
+
+<p>The adjacent subjects are Shortest Paths, Flows, Graph Decomposition. They are studied alongside Matching because a complete solution must distinguish the mathematical model, the algorithm or mechanism, and what the example actually establishes. Use the named assumptions above, rather than silently transferring a guarantee from one setting to another.</p>
+
+<p><strong>Study task</strong></p>
+
+<p>Reconstruct the example without looking at its conclusion. Identify the input quantities, the rule that transforms those inputs, and the final conclusion. Then challenge one stated assumption using the boundary condition. This gives a falsifiable check rather than a memorized slogan.</p>
+
+<p>## Extended technical treatment</p>
+
+<h4>Conceptual foundations and exact assumptions</h4>
+
+<p>A matching is a set of graph edges with no shared endpoint. In a bipartite graph it can represent assignments between applicants and positions, machines and tasks, or students and projects. An augmenting path alternates unmatched and matched edges and begins and ends at unmatched vertices. Flipping the membership of its edges increases matching cardinality by one. Berge's characterization says a matching is maximum if and only if there is no augmenting path. Greedily accepting an available edge gives a maximal matching but not necessarily a maximum matching.</p>
+
+<h4>Derivation and worked trace</h4>
+
+<p>Let left vertices be L1,L2 and right vertices R1,R2. Available edges are L1-R1, L1-R2, L2-R1. A naive greedy rule choosing L1-R1 first leaves L2 unmatched if it does not revisit choices, producing size one. An augmenting path L2-R1-L1-R2 switches the first assignment to L1-R2 and assigns L2-R1, producing a matching of size two. All vertices are now matched, so two is clearly optimal. This small example shows why alternating paths are not just implementation machinery: they supply the essential global correction to local decisions.</p>
+
+<h4>Counterexample and failure diagnosis</h4>
+
+<p>Hall's theorem gives another structural view of perfect matching on the left: every subset S of left vertices must collectively have at least |S| neighboring right vertices. If three students can only choose the same two projects, no perfect assignment exists for those three, regardless of how clever the search is. When capacities allow a position to serve multiple people, the model becomes a b-matching or flow network. When preferences carry costs, maximum cardinality alone may fail to express the objective; maximum-weight bipartite matching is different.</p>
+
+<h4>Applications, engineering constraints and validation</h4>
+
+<p>A matching implementation should maintain symmetry between mate pointers, never assign one endpoint twice, and verify every selected edge is present in the input graph. Test empty sides, isolated vertices, complete bipartite graphs, multiple possible maximum matchings and a graph requiring a nontrivial augmenting path. Enumeration over all edge subsets is feasible for tiny graphs and provides an independent optimal-cardinality oracle. Document whether duplicate edges are permitted and whether the graph is directed or undirected in storage.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-algorithms-lab-6"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.4</span>
+            <span>Graph Decomposition</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Graph Decomposition</strong></p>
+
+<p>Graph decomposition separates a large problem into structural pieces such as connected components, strongly connected components or biconnected blocks. The definition of connectivity depends on directedness.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>Edges 1-&gt;2,2-&gt;1,2-&gt;3 produce SCCs {1,2} and {3}; the condensation graph has one arrow from the first component to the second.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>A DFS traversal forest alone does not identify strongly connected components unless finishing order or low-link invariants are used correctly.</p>
+
+<p><strong>Connections in this unit</strong></p>
+
+<p>The adjacent subjects are Shortest Paths, Flows, Matching. They are studied alongside Graph Decomposition because a complete solution must distinguish the mathematical model, the algorithm or mechanism, and what the example actually establishes. Use the named assumptions above, rather than silently transferring a guarantee from one setting to another.</p>
+
+<p><strong>Study task</strong></p>
+
+<p>Reconstruct the example without looking at its conclusion. Identify the input quantities, the rule that transforms those inputs, and the final conclusion. Then challenge one stated assumption using the boundary condition. This gives a falsifiable check rather than a memorized slogan.</p>
+
+<p>## Extended technical treatment</p>
+
+<h4>Conceptual foundations and exact assumptions</h4>
+
+<p>Graph decomposition reveals reusable structure in a large network. Connected components partition an undirected graph into maximal mutually reachable vertex groups. Strongly connected components partition a directed graph so that every pair of vertices in a component can reach each other in both directions. Contracting each strongly connected component produces a directed acyclic condensation graph. Depth-first discovery and finishing times support Kosaraju's and Tarjan's algorithms with linear O(V+E) traversal work under adjacency-list representation.</p>
+
+<h4>Derivation and worked trace</h4>
+
+<p>Consider directed edges A→B, B→A, B→C, C→D, D→C, and D→E. Vertices A and B form one strongly connected component, C and D another, and E a singleton. After contraction the condensation graph is {A,B}→{C,D}→{E}, which is acyclic. There is a path from A to E, but no return path from E to A. If one carelessly ignores edge directions and computes ordinary connected components, all five vertices appear connected and the strongly connected structure is lost.</p>
+
+<h4>Counterexample and failure diagnosis</h4>
+
+<p>Articulation points and bridges describe a different kind of decomposition in undirected graphs: removing such a vertex or edge increases the number of connected components. On a path of four vertices, both internal vertices are articulation points and every edge is a bridge. In a triangle no single edge is a bridge. Algorithms use DFS discovery indices and low-link values, but parent edges and back edges must be distinguished carefully. Applying undirected low-link rules without adaptation to directed graphs gives incorrect results.</p>
+
+<h4>Applications, engineering constraints and validation</h4>
+
+<p>Applications include compiler dependency analysis, web graph clustering, fault localization and network reachability. A component label is not sufficient to claim causal dependence or reliability; it reports a particular graph property under explicit edge semantics. Test with self-loops, parallel edges, disconnected graphs and isolated vertices. For SCC algorithms, verify that the quotient graph is acyclic and that any pair placed in one component is mutually reachable; use BFS from each vertex on a tiny input as an independent oracle.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.5</span>
+            <span>Unit 6 integrated computational laboratory</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>## Integrated laboratory: four graph objectives on one network</p>
+
+<p>Graph data structures encode many incompatible mathematical questions. Given a road network, minimum spanning tree construction asks for low total installation cost; shortest paths ask for minimum route cost from one starting point; maximum flow asks for feasible throughput; connectivity decomposition asks which places can reach which others. Applying the wrong solver can return a mathematically meaningful value that is irrelevant to the decision. A textbook should state whether edges are directed, whether weights may be negative, whether capacities are integral and whether parallel edges are allowed before illustrating the chosen algorithm.</p>
+
+<p>Create a directed transit graph with stops A,B,C,D,E and edges A→B weight 2, A→C weight 9, B→C weight 3, B→D weight 8, C→D weight 1 and D→E weight 4. A shortest route from A to E follows A,B,C,D,E and costs ten. Directly using A→C then C→D then D→E costs fourteen. A Dijkstra trace begins by settling A at zero, then B at two, then C at five, then D at six, then E at ten. The parent pointers B←A, C←B, D←C, E←D reconstruct the route. Verify that the cost stored at each vertex matches the parent-edge sum; a table of correct distances with corrupted parents would still fail the requested route-output contract.</p>
+
+<p>Now add a negative edge D→B weight -10, and analyze why ordinary Dijkstra cannot be trusted. Cycling B→C→D→B has cost 3+1-10=-6, a reachable negative cycle. There is no finite lower bound on the cost of routes that may repeat that cycle before continuing to E. Reporting a finite shortest route in this modified graph would be misleading. Bellman–Ford can detect a reachable negative cycle through an extra relaxation pass, but the meaning of a shortest simple path is a separate problem. The example forces students to distinguish an input violating an algorithm's assumptions from a mere slow implementation.</p>
+
+<p>For flow, use a different graph with source s, sink t and intermediate vertices x,y. Capacities are s→x 4, s→y 3, x→t 2, x→y 2 and y→t 5. A feasible flow of seven sends two through s-x-t, two through s-x-y-t and three through s-y-t. Conservation holds at x: four enter and four leave. Conservation holds at y: five enter and five leave. The cut leaving s has capacity seven, so no feasible flow can exceed seven. A feasible flow matching a cut upper bound is a concise optimality certificate. Make the learner construct both sides of this certificate rather than relying on an algorithm's printed result.</p>
+
+<p>Inspect residual edges. Suppose an augmenting-path method sends traffic along a path that later prevents use of a better routing unless some traffic is canceled. The residual network includes a reverse edge with capacity equal to current flow, allowing reallocation without violating conservation. This is not a literal pipeline operating backwards; it is a bookkeeping device for changes to the tentative solution. A test that verifies only the total flow value can miss local capacity violations. Check every directed edge and every internal node separately, then compare final flow with a minimum cut.</p>
+
+<p>For matching, form left vertices L1,L2,L3 and right vertices R1,R2,R3. Available pairs are L1-R1, L1-R2, L2-R1, L2-R3, L3-R2. Choosing L1-R1, L2-R3 and L3-R2 creates a matching of size three. A greedy routine could instead choose L1-R2 and L2-R1, leaving L3 unmatched unless it rearranges assignments. An augmenting-path search may find a correction depending on the chosen intermediate matching. State the matching invariant explicitly: no vertex is incident to two accepted edges. Use exhaustive enumeration of subsets for at most six edges to verify maximum cardinality.</p>
+
+<p>Strongly connected components answer yet another question. Suppose one-way links are P→Q, Q→P, Q→R, R→S, S→R and S→T. The SCC partition is {P,Q}, {R,S}, {T}. After contraction the resulting graph is a chain of three components, even though the underlying undirected graph is connected. Reachability in one direction does not imply mutual reachability. A graph user interface should visually distinguish the edge orientation; otherwise a correct SCC result can appear unintuitive to a learner.</p>
+
+<p>The final project asks students to build a small test harness that accepts a graph definition and reports four results only when the required assumptions are met. It must reject or specially handle negative weights for Dijkstra, distinguish capacities from distances, preserve directedness and show witness structures. Use a tiny exhaustive oracle where possible: enumerate simple routes, all small edge subsets for matching, and all cuts for flow. No single large randomly generated graph can replace these directed, independently interpretable checks.</p>
+
+<h4>Independent audit exercise: graph invariants and invalid inputs</h4>
+
+<p>Build an unweighted graph BFS routine and compare its shortest-path results against Dijkstra with all edge weights set to one. In an unweighted graph a shortest path minimizes the number of edges; with unit positive costs, Dijkstra minimizes the identical objective. The two routines should agree on distance for every reachable vertex. They may produce different equally short routes depending on adjacency-list iteration order, so the oracle should compare route length and validity rather than exact parent pointers when multiple optimum routes exist.</p>
+
+<p>On directed edges A→B, A→C, B→D, C→D, D→E, BFS from A obtains distance zero to A, one to B and C, two to D, and three to E. The algorithm processes vertices in nondecreasing distance layers. Its loop invariant says that when a vertex is first discovered, its recorded distance equals the length of a shortest path from the source, because all shorter candidates would have been explored in previous layers. This claim requires the ordinary FIFO queue and unit-edge interpretation; replacing the queue with a stack yields DFS and destroys the same distance guarantee.</p>
+
+<p>Run tests on a disconnected graph. An unreachable vertex should remain unreachable, not receive distance zero or inherit a stale parent from a prior invocation. Test zero vertices, one isolated vertex, parallel edges, a self-loop and a dense directed graph. Clear mutable state between runs. A route reconstruction procedure should stop at the source, detect missing parent pointers and avoid cycling forever if state was corrupted.</p>
+
+<p>Finally examine weighted and negative edges. BFS is not a shortest-weighted-path method when edge weights vary; choosing fewer hops can cost more than choosing more hops. Dijkstra is valid for nonnegative weights, but a negative edge may undermine the finalized-distance invariant. Bellman–Ford can handle negatives without reachable negative cycles. The appropriate error behavior for unsupported input is not to run the wrong solver and present an unexplained number. Validate edge types and show a meaningful message about the failed assumption.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Algorithms Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem — draft; editorial QA pending</span>
+            <strong>Example 6.1: Shortest Paths: worked application 1</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Compute a shortest A-to-C path from directed edges A→B=2, B→C=3, A→C=10.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-algorithms-u6-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-algorithms-u6-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Direct A→C costs 10; the path through B costs 2+3=5.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>Both paths are valid and all weights are nonnegative.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>The shortest distance is 5 via B.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>The shortest distance is 5 via B.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem — draft; editorial QA pending</span>
+            <strong>Example 6.2: Flows: worked application 2</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Find the maximum flow if s→a=3, a→t=2, s→b=2 and b→t=2, with no other edges.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-algorithms-u6-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-algorithms-u6-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Route two units along s-a-t, limited by a→t.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>Route two along s-b-t, limited by s→b and b→t.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>Total flow 4 matches the cut into t of capacity 4, proving optimality.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Total flow 4 matches the cut into t of capacity 4, proving optimality.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem — draft; editorial QA pending</span>
+            <strong>Example 6.3: Matching: worked application 3</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Find a maximum matching for bipartite graph L1-R1, L1-R2, L2-R1.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-algorithms-u6-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-algorithms-u6-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Assign L2 to R1, which leaves R2 for L1.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>Both chosen edges are disjoint in endpoints.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>Matching {(L2,R1),(L1,R2)} has size 2, which is maximum with only two left vertices.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Matching {(L2,R1),(L1,R2)} has size 2, which is maximum with only two left vertices.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/kleinberg-tardos" target="_blank" rel="noopener noreferrer">Kleinberg, J., &amp; Tardos, É. (2006). Algorithm Design: Authoritative reference on greedy exchange arguments, dynamic programming recurrences, network flow, and NP-completeness</a></li><li><a href="https://openstemlibrary.com/references/clrs" target="_blank" rel="noopener noreferrer">Cormen, T.H., Leiserson, C.E., Rivest, R.L., &amp; Stein, C. (2022). Introduction to Algorithms (4th ed.): Standard theoretical basis for asymptotic proofs, divide-and-conquer recurrences, and amortized analysis</a></li><li><a href="https://openstemlibrary.com/references/aho-hopcroft-ullman" target="_blank" rel="noopener noreferrer">Aho, A.V., Hopcroft, J.E., &amp; Ullman, J.D. (1974). The Design and Analysis of Computer Algorithms: Foundational text establishing formal computational complexity and computational paradigms</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="algorithms-chapter-5">← Previous chapter</a><a href="algorithms">Book contents</a><a href="algorithms-chapter-7">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="algorithms-sims.js?v=1"></script>
+  <script src="algorithms-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

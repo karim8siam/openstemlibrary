@@ -1,0 +1,421 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Associative structures | Data Structures | OpenSTEM Library</title>
+  <meta name="description" content="Hashing; Collision Resolution; Load Factors; Resizing">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/data-structures-chapter-4">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/data-structures-chapter-4">
+  <meta property="og:title" content="Data Structures: Linear Collections, Binary Search Trees, Hash Tables &amp; Heaps | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering dynamic arrays, singly and doubly linked lists, stacks, queues, circular buffers, binary search trees, separate chaining and open addressing hash tables, binary heaps, priority queues, breadth-first and depth-first search, Fenwick trees, and disjoint-set unions with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Data Structures: Linear Collections, Binary Search Trees, Hash Tables &amp; Heaps | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering dynamic arrays, singly and doubly linked lists, stacks, queues, circular buffers, binary search trees, separate chaining and open addressing hash tables, binary heaps, priority queues, breadth-first and depth-first search, Fenwick trees, and disjoint-set unions with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="data-structures.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Data Structures: Associative structures","description":"Comprehensive university textbook covering dynamic arrays, singly and doubly linked lists, stacks, queues, circular buffers, binary search trees, separate chaining and open addressing hash tables, binary heaps, priority queues, breadth-first and depth-first search, Fenwick trees, and disjoint-set unions with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/data-structures-chapter-4","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Data Structures","Dynamic Arrays","Linked Lists","Binary Search Trees","Hash Tables","Binary Heaps","Breadth-First Search","Fenwick Trees"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Data Structures","item":"https://openstemlibrary.com/data-structures"}]}</script></head>
+<body data-book-path="data-structures.html" data-chapter-index="3" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Data Structures</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search dynamic array growth, amortized doubling, linked lists, circular queue, BST height, separate chaining, linear probing, binary heaps, sift-up, BFS frontiers, connected components, trie prefixes, Fenwick tree…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="data-structures" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Foundations</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="data-structures-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Sequential structures</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="data-structures-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Search structures</span></a></li><li class="unit-nav-item active" data-unit-index="3"><a href="data-structures-chapter-4" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Associative structures</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="data-structures-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Priority structures</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="data-structures-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Graph structures</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="data-structures-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Specialized structures</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="data-structures-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Implementation analysis</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Data structures core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 4 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Associative structures</h1>
+            <p class="unit-desc-lead" id="unit-desc">Hashing; Collision Resolution; Load Factors; Resizing</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university data structures courses. Eight units with exactly three solved questions per unit and 16 interactive numerical simulations illustrating geometric array resizing, hash table probing, heap reorganization, and Fenwick tree queries. Numerical checks and an editorial review support this edition; it has not received independent academic peer review.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-4-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.1</span>
+            <span>Hashing</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Hashing</h4>
+
+<p>A hash maps a key into a bucket-selection code. Collisions occur when different keys share a bucket; correct tables still use equality to distinguish them. Hash stability and key immutability matter.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-ds-hash-chains"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.2</span>
+            <span>Collision Resolution</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Collision Resolution</h4>
+
+<p>Separate chaining holds colliding entries together. Open addressing probes alternative slots; deletion must preserve search chains, often through tombstones. Probing behavior depends on capacity and key distribution.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-ds-probing"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.3</span>
+            <span>Load Factors</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Load Factors</h4>
+
+<p>The load factor is occupied element count divided by bucket capacity. It influences expected lookup cost but does not rule out pathological collisions. Chaining may have load above one, while open addressing cannot.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.4</span>
+            <span>Resizing</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Resizing</h4>
+
+<p>Rehashing rebuilds a table at a new capacity and recomputes bucket placement. Geometric growth can make resize costs amortized manageable. All key–value pairs must survive a rebuild unchanged.</p>
+
+<h4>Extended design study: a keyed measurement registry</h4>
+
+<p>A measurement application associates sensor identifiers with the latest observed reading. Operations include storing a reading, retrieving it by identifier, replacing an existing value, and removing a sensor. A hash table is a natural candidate, but its interface contract must distinguish absence from a present reading of zero. Returning zero for every missing identifier would make valid measurements indistinguishable from missing data. A tagged option value or a separate membership test makes the state observable. This example also shows why key equality and hash compatibility matter: two identifiers that compare equal must select compatible hash paths.</p>
+
+<p>A collision is not evidence of an error. If integer identifiers 8, 15, and 22 are placed in a seven-bucket table by modulo arithmetic, they share one bucket. Separate chaining can retain all three entries and compare keys inside the chain. Linear probing instead walks subsequent slots until it reaches an unused location. Both approaches may have fast expected behavior for a suitable distribution but can perform poorly if many keys systematically collide. For open addressing, deletion must not confuse a previously occupied slot with one that has never been used, because a lookup may need to pass a deleted location to find a later element in the same probe sequence.</p>
+
+<p>Resizing changes the mapping from hash codes to physical buckets. At capacity eight, a key assigned by `key mod 8` may move to a different bucket when the capacity becomes sixteen. Merely copying physical slots into the same positions in a larger array does not constitute a correct rehash, even if every item is still present somewhere. The rebuilding operation must preserve semantic pairs, recompute placements, and respect the collision-resolution strategy. For systems allowing concurrent readers and writers, a resize also raises synchronization questions; the single-threaded introductory model does not automatically transfer to a concurrent implementation.</p>
+
+<p>A productive experiment constructs three key distributions: uniform-looking integers, sequential integers, and deliberately colliding integers. For each, collect average and maximum probe counts at a sequence of load factors. Verify every returned value using a simple reference dictionary. Do not infer that a nominal threshold such as 0.75 is universally optimal; its effect depends on probing method, cache locality, memory budget, hash cost, and the application's mix of successful and unsuccessful lookups. A practical engineering decision should document both the stated average-case assumptions and the failure mode under adversarial inputs.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.5</span>
+            <span>Applied investigation: Hash collisions and open addressing</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Applied investigation: Hash collisions and open addressing</h4>
+
+<p>A hash function maps a key to an integer bucket index, but two different keys can map to the same bucket. Separate chaining stores colliding entries in a per-bucket collection. In the deliberately adversarial model, keys 1, 8, 15 and 22 all map to bucket one modulo seven. Looking up one key requires comparing stored keys, not merely finding its bucket.</p>
+
+<p>Linear probing uses open addressing: on collision it checks successive slots modulo capacity until it finds an empty slot or the key. Deleted entries normally require a tombstone marker so search does not stop early. Performance depends strongly on load factor and clustered occupancy. Testing insertion into almost-full tables and search for a missing key exposes behavior that a simple collision trace omits. Rehashing changes both bucket count and placement, so a single static visualization is only a local experiment.</p>
+
+<p><strong>Verification exercise.</strong> Compute a small valid case by hand, compare it with both interactive models in this unit, then reset them. Write the boundary case that violates a stated assumption and explain why the implementation should reject it rather than silently returning a misleading result.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.6</span>
+            <span>Hash maps and adversarial workload analysis</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A hash map couples a hash function to an equality relation. A valid hash scheme requires equal keys to have equal hash codes, but unequal keys are allowed to collide. A classroom example that takes each integer modulo seven intentionally maps keys 1, 8, 15 and 22 to the same bucket. A chained hash table can store them all, preserving full keys and using equality checks within the chain. The simulation is designed to make that worst-case pattern visible. It does not demonstrate that all hash functions or workloads suffer the same concentration.</p>
+
+<p>In separate chaining, insertion may place a new entry at the head of a bucket list or search for an equal key first. If the collection is a map rather than a multimap, blindly inserting duplicate keys breaks the map contract. In open addressing, every entry lives in the table itself and probing finds an available slot. Deleting an entry by making its slot completely empty can break lookup paths for keys placed after a collision. A tombstone or a carefully designed relocation procedure is needed, depending on the probing scheme.</p>
+
+<p>Let a linear-probing table have capacity seventeen and hash h(k) = k mod 17. Insert keys 1, 18 and 35. They initially target slot one, so the final occupied run begins at slots one, two and three. A lookup for 35 must probe all three positions. If key 18 is removed and slot two is simply marked empty, a naive search for 35 will stop prematurely. A test that inserts three colliding keys, deletes the middle one, then searches for the last one is therefore much more diagnostic than independent successful insertions.</p>
+
+<p>Load factor is the ratio of occupied entries to bucket or slot capacity, with a slightly different operational meaning for chaining and open addressing. As load factor rises, open-addressing probe clusters generally worsen; the amount depends on the probing strategy and key distribution. Resizing and rehashing can restore useful capacity, but resizing must account for all still-live keys and maintain equality semantics. A key with a mutable hash-relevant field can become effectively unreachable if its hash changes while it is in the map. This is why immutable keys or stable hash attributes are common requirements.</p>
+
+<p>There are two distinct claims about hash-table complexity. Expected constant-time performance assumes a reasonable input distribution, a suitable hash family or randomization, and controlled load. A deterministic collision pattern can create linear probes or a long chain. Security-sensitive systems exposed to attacker-chosen keys may need collision-resistant hashing, randomized seeds or alternative worst-case structures. Even when denial-of-service is not a concern, latency percentiles can matter more than the mean.</p>
+
+<p>An experiment should vary the hash function independently of the keys. Hold the inserted keys fixed and compare modulo seven, modulo eleven, and a mixing function whose behavior is clearly specified. Record bucket counts, maximum chain length and search comparisons. Do not interpret an arbitrary graphic labeled “collisions” as evidence about a real production language runtime, because different languages can use different resizing thresholds, hash mixing, bucket structures and ordering guarantees.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-7">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.7</span>
+            <span>A collision-focused hash-table laboratory</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>An implementation with explicit tombstones</h4>
+
+<p>Build a linear-probing map with an array of slots, each in state EMPTY, OCCUPIED or DELETED. To find a key, start at hash(key) modulo capacity and inspect a sequence of slots. If an occupied slot has an equal key, return its value. If a slot is DELETED, continue because keys may have been displaced past it. If an EMPTY slot is reached, the lookup can stop under standard linear probing because insertion would not have passed an empty slot on that probe path. This distinction is the reason deletion cannot simply reset every removed slot to EMPTY.</p>
+
+<p>Insertion scans the same probe path, remembers the first deleted slot and checks whether a matching occupied key already exists. If so, update the value and preserve map cardinality. Otherwise place the new entry into a suitable deleted or empty position. The algorithm must still search through deleted positions to avoid creating duplicate keys. Rehashing into a larger table clears tombstones and redistributes entries. Counting occupied slots alone understates the cost of an overloaded table with many tombstones; an implementation may need to track both live entries and ever-used slots to decide when to rebuild.</p>
+
+<h4>An exact adversarial trace</h4>
+
+<p>Let capacity be seventeen and h(k)=k mod 17. Insert 1,18,35,52. Their initial bucket is one, so linear probing places them into slots one through four. Remove 18: slot two becomes a tombstone. Searching for 52 must visit slots one, two, three and four. Inserting 69 may reuse slot two but must first verify no occupied 69 is later in the cluster. This example contains a deletion correctness issue and a performance issue: a sequence of colliding keys creates a long cluster even when the overall table is far from full.</p>
+
+<p>Double hashing changes the probe step, typically using a second hash value that is relatively prime to table capacity so the sequence can visit all slots. Quadratic probing uses a nonlinear displacement sequence, but not every arbitrary table capacity and formula guarantees that every slot is reached. These are algorithm design choices, not cosmetic variations. A correct implementation specifies which table sizes are allowed, how a full-cycle search terminates, and how replacement or deletion works under its chosen probe strategy.</p>
+
+<h4>Semantic consistency for real keys</h4>
+
+<p>Hashing a string creates a representation of its bytes, characters or normalized form. If equality treats canonically equivalent Unicode strings as equal but hashing uses different byte representations, the equal-hash requirement is violated. Floating-point keys present other corner cases: positive and negative zero typically compare equal in standard numerical equality and should receive compatible hashes, while not-a-number values require an explicit library policy. Composite objects need stable equality and stable hash fields while stored. Mutating a key after insertion can make the map unable to find its own entry.</p>
+
+<h4>Load factor and resizing decisions</h4>
+
+<p>For separate chaining with n entries and m buckets, expected chain length depends on n/m under distribution assumptions; for open addressing, performance often deteriorates steeply as occupancy approaches capacity. A measured average under uniformly random keys is not a guarantee against adversarial collisions. Resizing by a factor near two permits amortized reasoning similar to dynamic arrays, but each resize recomputes bucket placements, and the threshold for resizing should be chosen by empirical workload and latency goals.</p>
+
+<h4>Comparison to ordered maps and probabilistic filters</h4>
+
+<p>A balanced search tree map offers ordered iteration and worst-case logarithmic operations under its balancing contract. A hash map offers expected near-constant-time exact lookup but no intrinsic sorted order. A Bloom filter adds an orthogonal idea: it represents approximate set membership compactly, allowing false positives but—under ordinary non-deleting operation and correct hashing—no false negatives for inserted keys. A Bloom filter is not a replacement for a map that must retrieve associated values. The decision depends on what a query actually needs.</p>
+
+<h4>Verification workbook</h4>
+
+<p>Use a reference dictionary to evaluate one thousand generated operations, including repeated insertion, deletion of absent keys and deliberate collisions. Record a small trace when a mismatch occurs. Assert that every occupied key is reachable by its own lookup; that deleting one colliding key leaves the others reachable; and that rehashing preserves all values. Analyze collision histograms separately from operation counts. The provided collision simulator deliberately maps many keys to one bucket; it illustrates a mathematical worst case and should never be described as measured production performance.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-8">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.8</span>
+            <span>Hash tables under unusual keys and adversarial access</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A hash table has two relationships to preserve. First, equivalent keys must map to equivalent hash outcomes under the chosen equality policy. Second, a stored key must remain discoverable after collisions and updates. The first is a semantic rule, whereas the second is a representation invariant. A collision means different keys produce the same initial bucket or probe path. It is not itself a correctness failure. Correctness fails when insertion, lookup, and deletion do not agree about how to search the affected bucket group.</p>
+
+<p>For separate chaining, each bucket contains a collection of entries that share an initial hash index. Lookup scans entries in the selected bucket and compares complete keys using the equality relation. A common cost model assumes a sufficiently well-distributed hash function; then expected chain length is linked to the load factor, the number of entries divided by the number of buckets. If inputs are chosen to collide intentionally, one chain may contain most of the entries, making lookups linear in the chain length. A performance statement must say whether it assumes random keys, random hashing, a known input distribution, or a defense against adversarial keys.</p>
+
+<p>Open addressing places entries directly in table slots. Linear probing checks consecutive positions after the initial bucket, wrapping around as needed. The table must maintain a termination condition even when nearly full, and deletion requires careful handling of probe continuity. Consider capacity eleven and a hash of `key mod 11`. Inserting 3, 14, and 25 occupies positions three, four, and five. If the key fourteen is removed by marking its slot empty, a subsequent search for twenty-five may stop at position four and incorrectly conclude that the key is absent. A tombstone records that the slot can be reused but cannot terminate an existing probe sequence. Rebuilding the table clears accumulated tombstones and restores efficient probing.</p>
+
+<p>Linear probing has good locality because nearby slots tend to occupy nearby memory, yet it can suffer primary clustering. Quadratic probing and double hashing alter the probe pattern, but the chosen arithmetic must still guarantee a suitable search path. A nonzero second-hash step that shares a factor with table capacity may visit only a subset of slots. For instance, stepping by four in a table of capacity twelve visits only three distinct positions before repeating. If the table's implementation assumes that one probe sequence reaches every slot, it can report 'full' while free slots exist. A robust implementation chooses compatible table sizes and steps and tests full-cycle behavior.</p>
+
+<p>Key mutability is an underappreciated source of bugs. Suppose a dictionary uses an employee object as a key and computes the hash from the employee's display name. If the display name is edited after insertion, lookup can visit a different bucket and fail to find the same object. The correct choice is often an immutable internal identifier. For composite keys, define stable field equality and field hashing consistently. If a coordinate pair is used as a key, decide whether two floating-point values that differ by a tiny tolerance count as equal; approximate equality is difficult to combine safely with conventional hashing because it may not define a true equivalence relation.</p>
+
+<p>Text keys introduce normalization questions. Two strings may display identically while differing in Unicode representation. If the application treats canonically equivalent strings as equal, normalize them consistently before both hashing and equality comparison. Case-insensitive email handling, locale-specific case folding, and path canonicalization are domain-specific decisions; a hash table must not silently invent those semantics. Hash values are implementation aids, not meaningful permanent identifiers. Storing a raw runtime hash code as a stable database key can fail after a language-version change, random-seed change, or platform migration.</p>
+
+<p>Hash-flooding attacks exploit predictable collisions to consume CPU. A public-facing application that accepts untrusted keys should evaluate whether a keyed hash function, bucket treeification, or another collision-resistant strategy is necessary. Cryptographic collision resistance and table distribution are not synonymous, but predictable weak hashes can create exploitable worst cases. The implementation should also cap resource consumption, validate request sizes, and avoid leaking raw internal hash seeds. An algorithm that is usually fast on trusted demo inputs may behave differently under adversarial traffic.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-9">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.9</span>
+            <span>Rehashing, concurrency, and an independently checkable experiment</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Growing a hash table means building a new representation with a new capacity and relocating each live entry according to the new bucket rule. Merely copying entries into the same array positions is usually wrong because the bucket index depends on capacity. The operation has linear work in the number of live entries in a simple sequential implementation. With geometric growth, the total copying across many inserts can have favorable amortized bounds, but one growth step may be expensive enough to affect application latency. An implementation can spread relocation across multiple operations, yet incremental rehashing has additional invariants: while the transition is underway, lookups may need to search the old table, the new table, or both.</p>
+
+<p>A resize example reveals this dependency. Suppose a map with five buckets contains keys 2, 7, and 12, all colliding under modulo five. Expanding to eleven buckets sends the keys to buckets two, seven, and one respectively. If the existing chain is copied into bucket two without recomputing hashes, lookup for key twelve under modulo eleven searches bucket one and fails. Every entry must be reinserted or otherwise relocated according to the new policy. This is not an optimization detail; it is a correctness condition.</p>
+
+<p>Concurrent access creates a separate challenge. Two threads inserting into the same bucket without synchronization may overwrite each other's links or lose an increment to the entry count. A reader that observes a partially updated probe array can return an incorrect result. Locks, carefully designed atomic operations, or immutable snapshots can establish consistency, but their performance must be measured under contention. A concurrency claim needs a precise semantic target: linearizability means each public operation appears to take effect at one instant between its call and return, while weaker consistency models offer different guarantees. A sequential data structure's proof does not automatically prove its concurrent version.</p>
+
+<p>To test a sequential map, generate random operations: insert or replace a key, remove a key, lookup an existing key, and lookup a missing key. Apply every operation to a simple reference dictionary and compare return values and final contents. Force collisions by choosing keys with the same residue modulo capacity. Trigger resizes at exactly the load-factor threshold, not only far before and after it. Delete from the middle of a probe cluster and check that later keys remain reachable. Repeat after inserting into tombstones. Track the number of live entries and assert that a replacement does not increase that count.</p>
+
+<p>For a multi-threaded map, tests must go beyond running the same sequential oracle in different threads. Construct schedules where two writers target the same key, one reader races with a resize, and deletion occurs during a chain traversal. Record operation invocation and completion times and compare short histories to a reference specification when checking linearizability. Some races are rare, so randomized stress tests should be supplemented by deterministic schedule control or instrumentation. A test suite that passes one thousand sequential operations cannot certify freedom from concurrent lost updates.</p>
+
+<p>Finally measure collision frequency, probe length distribution, resize count, memory overhead, and high-percentile latency. Under uniform keys, report the distribution of observed probes rather than just one average. Under adversarial keys, report how gracefully performance degrades. Under delete-heavy workloads, report the tombstone fraction and rebuild behavior. These diagnostics explain why a map performs as it does; they also provide a reproducible basis for comparing chaining, linear probing, double hashing, and ordered-tree alternatives. A meaningful teaching simulation should expose these state variables instead of displaying only an attractive collection of buckets.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Data Structures Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked Problem</span>
+            <strong>Example 4.1: Worked problem 4.1</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>With a size-7 hash table and h(k)=k mod 7, where do keys 8,15,22 go under separate chaining?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--data-structures-u4-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--data-structures-u4-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Define the data and method</div>
+              
+              <div class="step-explanation"><p>8 mod 7=1, 15 mod 7=1, 22 mod 7=1. All keys share bucket 1, which must store distinct key-value pairs and resolve equality within its chain.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Derive and interpret the result</div>
+              
+              <div class="step-explanation"><p>Occupancy is 3 keys in bucket 1 and zero elsewhere. Hash collisions are legal and do not imply that keys are equal.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Occupancy is 3 keys in bucket 1 and zero elsewhere. Hash collisions are legal and do not imply that keys are equal.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked Problem</span>
+            <strong>Example 4.2: Worked problem 4.2</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Using linear probing in capacity 7, insert 8,15,22, then remove 15. Explain why slot 2 cannot be marked never-used.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--data-structures-u4-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--data-structures-u4-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Define the data and method</div>
+              
+              <div class="step-explanation"><p>The keys probe to slots 1,2,3. Searching for key 22 probes 1,2,3. If slot 2 is treated as a never-used empty slot, the search would stop there and incorrectly report absence.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Derive and interpret the result</div>
+              
+              <div class="step-explanation"><p>Use a tombstone or a carefully specified relocation algorithm. The proof of lookup correctness relies on distinguishing deleted and never-occupied slots.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Use a tombstone or a carefully specified relocation algorithm. The proof of lookup correctness relies on distinguishing deleted and never-occupied slots.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked Problem</span>
+            <strong>Example 4.3: Worked problem 4.3</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A hash table doubles capacity from 4 to 8 when adding the fourth key. Compute its load factor after inserting five keys.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--data-structures-u4-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--data-structures-u4-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Define the data and method</div>
+              
+              <div class="step-explanation"><p>At five occupied entries and eight slots, alpha=n/capacity=5/8=0.625. Every existing key must be assigned a new bucket using the capacity-8 hash mapping.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Derive and interpret the result</div>
+              
+              <div class="step-explanation"><p>The post-resize load factor is 62.5%. Reusing old bucket indices is unsafe because the modulus and collision pattern can change.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>The post-resize load factor is 62.5%. Reusing old bucket indices is unsafe because the modulus and collision pattern can change.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/clrs" target="_blank" rel="noopener noreferrer">Cormen, T.H., Leiserson, C.E., Rivest, R.L., &amp; Stein, C. (2022). Introduction to Algorithms (4th ed.): Definitive mathematical foundations for dynamic arrays, hash tables, binary search trees, and heaps</a></li><li><a href="https://openstemlibrary.com/references/sedgewick-wayne" target="_blank" rel="noopener noreferrer">Sedgewick, R., &amp; Wayne, K. (2011). Algorithms (4th ed.): Standard textbook for balanced search trees, priority queues, disjoint-set union, and graph structures</a></li><li><a href="https://openstemlibrary.com/references/knuth-taocp-1" target="_blank" rel="noopener noreferrer">Knuth, D.E. (1997). The Art of Computer Programming, Vol. 1: Fundamental Algorithms: Canonical historical and mathematical analysis of linear lists, trees, and dynamic storage allocation</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="data-structures-chapter-3">← Previous chapter</a><a href="data-structures">Book contents</a><a href="data-structures-chapter-5">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="data-structures-sims.js?v=1"></script>
+  <script src="data-structures-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

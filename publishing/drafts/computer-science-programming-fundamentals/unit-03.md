@@ -1,0 +1,239 @@
+# Unit 3: Control flow
+
+## Conditionals
+
+## Conditionals: the computational contract
+
+**Core idea.** Branch order encodes priority. Testing boundary values such as 59, 60, 79, and 80 exposes wrong inequalities. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.
+
+**Executable Python example:**
+
+```python
+def grade(score):
+    if score >= 80: return 'A'
+    if score >= 60: return 'B'
+    return 'C'
+print(grade(80))
+```
+
+**Expected result:** `A`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.
+
+**Underlying reasoning.** Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For conditionals, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.
+
+**Practical lab.** Before implementation, identify which facts are input data and which are policy. A function that hardcodes mutable policy is fragile even when its first output is correct. Try a case where the given value is missing or physically impossible; decide whether to reject, default or request clarification. Ask a classmate to describe the result using only the contract rather than the implementation. If that description is ambiguous, improve the naming, parameter definitions or documentation. Treat performance as a measurable claim: count iterations, allocations or calls before speculating about speed.
+
+**Reflection.** How would you adapt this example to values supplied through a browser or a file rather than literals in source code? Separate parsing from computation so the central function can be unit tested. Identify a condition under which the present example is intentionally incomplete and what evidence would justify extending it. Understand these limitations before using the same technique in scientific calculations or production applications.
+
+---
+
+### Extended case study, part 1
+
+# Extended laboratory: control flow as a proof about changing state
+
+A conditional chooses a path; a loop repeats a path while a condition holds. Those definitions are easy to memorize, but the deeper skill is connecting branching and repetition to claims about program behavior. Control flow determines which operations can execute, in what order, and under which assumptions. A program may contain only a few statements and still have hundreds of meaningful execution paths when input validation, errors, and nested decisions interact. Understanding control flow therefore requires tracing state, making branch coverage deliberate, and explaining why loops both compute the intended result and eventually stop.
+
+## Boundaries reveal conditional mistakes
+
+Consider a function classifying numeric scores. Suppose scores at least eighty receive grade A, scores at least sixty but below eighty receive B, and lower scores receive C. An implementation that checks `score >= 60` before `score >= 80` and immediately returns B makes the A branch unreachable. The conditions individually look reasonable; their order changes their meaning. The rule is a partition of the valid input domain. A correctly ordered branch chain first distinguishes the upper interval and then the middle interval. Testing eighty and ninety alone is insufficient if tests do not include the boundary at sixty and the value immediately below eighty.
+
+Conditional correctness begins with a complete set of cases. For discrete integer scores from zero through one hundred, check the endpoints zero and one hundred, the transition at sixty, and the transition at eighty. Consider what happens for a floating-point score of 79.5 if such values are accepted. A rule written only for integers may need a stated rounding policy before classification. Also consider an out-of-range score such as 140. If an implementation returns A without rejecting it, the branch logic is consistent with its inequalities but may violate the domain contract. Validation and classification are distinct responsibilities.
+
+Boolean conditions can be composed using `and`, `or`, and `not`, but operator precedence and short-circuit evaluation matter. In a predicate like `record is not None and record['active']`, the second expression is evaluated only after the first succeeds. This can safely avoid indexing a missing record. Reversing the operands may raise an exception. When conditions are complex, extract named boolean expressions such as `has_seat`, `is_eligible`, and `payment_confirmed`; the final predicate then reads like a policy rather than a puzzle. Each named expression still needs tests, particularly when input data may be incomplete.
+
+
+## Write conditions that cover rather than overlap
+
+For an access-control example, assume a user may view a document when either the document is public or the user is an authenticated member of the associated group. A reliable condition must reflect the full authorization rule. Checking only membership excludes public documents; checking `public or authenticated` might expose private group documents to any authenticated person. The distinction is not syntax but missing relationships among variables. A truth table can list all combinations of public status, authentication, and membership, then provide an expected allow-or-deny result for each. Comparing the implementation against that table exposes both overly restrictive and overly permissive behavior.
+
+Truth tables are especially useful when one branch must dominate another. A suspended account may be denied access regardless of membership or document visibility. The policy then needs an explicit precedence: deny suspended accounts first, otherwise evaluate the ordinary viewing rule. Writing conditions as independent `if` statements without `elif` or early returns may accidentally overwrite an earlier decision. Branch structure should mirror the decision hierarchy, and the tests should deliberately exercise conflicting conditions.
+
+
+
+## Loops
+
+## Loops: the computational contract
+
+**Core idea.** A loop processes a sequence of states. The accumulator after each iteration should have a precise meaning. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.
+
+**Executable Python example:**
+
+```python
+total = 0
+for n in [2, 4, 6]:
+    total += n
+print(total)
+```
+
+**Expected result:** `12`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.
+
+**Underlying reasoning.** Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For loops, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.
+
+**Practical lab.** Make a trace table with at least four rows: the initial state, two transitions and the final state. If a proposed shortcut skips a state, show why the output remains equivalent. The trace is a method of reasoning, not a substitute for full testing. Ask a classmate to describe the result using only the contract rather than the implementation. If that description is ambiguous, improve the naming, parameter definitions or documentation. Treat performance as a measurable claim: count iterations, allocations or calls before speculating about speed.
+
+**Reflection.** How would you adapt this example to values supplied through a browser or a file rather than literals in source code? Separate parsing from computation so the central function can be unit tested. Identify a condition under which the present example is intentionally incomplete and what evidence would justify extending it. Understand these limitations before using the same technique in scientific calculations or production applications.
+
+---
+
+### Extended case study, part 2
+
+## Loop invariants as continuously maintained promises
+
+A loop invariant is a statement that holds before the first iteration, remains true after each iteration, and supports the desired result when the loop ends. For summing `[3, 5, 7]`, initialize `total = 0`. The invariant is that `total` equals the sum of already processed values. After processing three, it equals three. After processing five, it equals eight. After processing seven, it equals fifteen. The invariant alone does not say the loop stops; it describes what is true at every point where the next iteration may begin. Combined with traversal of every element and termination, it proves the final total is the sum of the list.
+
+For finding a minimum in a nonempty list, initialize the candidate from the first element. At each step, replace it when a smaller value is encountered. The invariant states that the candidate is the minimum of the examined prefix. A clear initialization is essential: using zero as an initial candidate invalidates the invariant for all-positive inputs. Likewise, starting from infinity may be mathematically legitimate for some domains but requires a representation and a convention for empty inputs. An invariant is not a decorative sentence; it constrains initialization and the update rule.
+
+A more interesting invariant appears in binary search. Suppose a sorted sequence is searched for a target using a half-open interval `[lo, hi)`. Maintain the property that any position containing the target, under the chosen search convention, lies inside the current interval. At each step, compare the target with the middle element and eliminate a region that cannot contain the desired position. The interval decreases until no positions remain, or until the first qualifying position is located. An implementation that inconsistently treats `hi` as inclusive in one branch and exclusive in another may skip or repeat an element. State the interval convention before debugging indices.
+
+
+## Termination requires a decreasing measure
+
+A loop can preserve a correctness invariant forever and still fail to finish. Consider `while n > 0: n -= 1` for a nonnegative integer n. The variant is n itself, a value that never becomes negative during execution and decreases strictly whenever the loop repeats. There cannot be infinitely many strictly decreasing nonnegative integers, so the loop terminates after at most the initial number of iterations. This argument depends on n being an integer and on the body actually decreasing it. If the body accidentally increases n, the proof collapses even if a test with n equal to zero returns immediately.
+
+For a binary search, the interval length `hi - lo` is a natural variant. Each iteration must strictly reduce this nonnegative integer. A bug such as setting `lo = mid` when `mid` already equals `lo` can cause an infinite loop on a two-element or one-element interval. The invariant about where the target may be located might still appear plausible; the failure is lack of progress. For every iterative algorithm, ask two separate questions: what property is preserved, and what measurable quantity forces eventual completion?
+
+Termination analysis also informs resource limits. An algorithm that performs exactly one iteration per input item terminates when the input is finite, but that may still be too slow for billions of items. A nested scan can require work proportional to the square of the input length. A retry loop that repeatedly calls an external service may have no natural finite bound if the service never responds successfully. Such loops should define a retry count, deadline, or cancellation behavior and expose failure when the allowed attempts are exhausted. Infinite retry is a policy choice with real operational consequences, not a safe default.
+
+
+## A case study: searching a sorted catalogue
+
+Suppose a library stores course identifiers in ascending order and needs to determine whether a requested identifier exists. A linear scan is correct without sorting but may examine every item. A binary search can be faster for repeated queries if the sequence remains sorted. State the precondition explicitly: the identifiers must be sorted according to the same comparison convention used by the search. If a new course is appended without restoring order, binary search may report a false absence. The input's structural invariant is as important as the loop's internal invariant.
+
+For a small example `[3, 7, 11, 18, 24]`, search for eighteen using a half-open interval. Initially `lo = 0` and `hi = 5`. The middle index is two, with value eleven, so a search for the first position at least eighteen can discard indices zero through two by setting `lo = 3`. The remaining interval contains indices three and four. The middle index becomes four with value twenty-four, so `hi = 4`. The final comparison narrows the interval to index three, yielding eighteen. The step sequence is useful because it shows the interval convention and explains why the search does not simply guess a midpoint until lucky.
+
+Now search for a missing value, such as thirteen. The algorithm may return the insertion position between eleven and eighteen. If the public interface promises only a boolean existence result, convert that insertion position to a comparison with the actual list element and return false. If it promises an index, decide whether absence is represented by negative one, an optional result, or a separate status value. The underlying loop can support several interfaces, but each must have a coherent absence convention.
+
+
+
+## Invariants
+
+## Invariants: the computational contract
+
+**Core idea.** The invariant is that best equals the smallest element of the processed prefix. Explain initialization, maintenance and termination. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.
+
+**Executable Python example:**
+
+```python
+numbers = [3, 1, 4]
+best = numbers[0]
+for n in numbers[1:]:
+    best = min(best, n)
+print(best)
+```
+
+**Expected result:** `1`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.
+
+**Underlying reasoning.** Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For invariants, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.
+
+**Practical lab.** Test a normal input, an empty input where meaningful, a boundary input and a malformed input. Explain whether the program should return a result, raise an exception or ask for a new value. This separates mathematical domain assumptions from interface behavior. Ask a classmate to describe the result using only the contract rather than the implementation. If that description is ambiguous, improve the naming, parameter definitions or documentation. Treat performance as a measurable claim: count iterations, allocations or calls before speculating about speed.
+
+**Reflection.** How would you adapt this example to values supplied through a browser or a file rather than literals in source code? Separate parsing from computation so the central function can be unit tested. Identify a condition under which the present example is intentionally incomplete and what evidence would justify extending it. Understand these limitations before using the same technique in scientific calculations or production applications.
+
+---
+
+### Extended case study, part 3
+
+## Avoid confusing exhaustive testing with representative testing
+
+The number of paths through a program can grow rapidly. Four independent boolean conditions produce sixteen combinations before considering loops, failures, and numeric boundaries. It may be practical to enumerate all combinations for a small authorization predicate, but not every possible state of a large program. Testing should therefore combine equivalence classes, boundary cases, path coverage, and properties. A condition handling positive integers may be tested with one ordinary positive value, zero, and negative inputs when the domain permits them. Loop tests should include zero iterations, one iteration, several iterations, and cases where the loop body changes the decision near a boundary.
+
+For a grade classifier, simply executing every branch once does not guarantee that the inequalities are correct. A mistaken `>` instead of `>=` may still execute all branches for ordinary examples. Testing exactly at the threshold is more informative. For a search algorithm, testing one successful target and one missing target is also insufficient; first-element, last-element, duplicate-element, empty-list, and insertion-at-end cases expose different indexing errors. The goal is not to maximize the number of tests mechanically, but to connect each test to a plausible failure.
+
+
+## Defensive iteration over changing collections
+
+Iterating over a list while deleting elements from it can skip values because indices shift as the list changes. If the objective is to remove all invalid records, building a new list of retained records is often clearer than mutating the original list during traversal. For instance, a comprehension that keeps all records satisfying a validation predicate expresses filtering as a transformation rather than a sequence of destructive updates. If in-place mutation is required for performance or identity reasons, design it deliberately with careful indexing and test consecutive invalid elements.
+
+Similarly, modifying a dictionary's size while iterating over its keys can raise an error. A snapshot of keys or a separate result mapping may be appropriate. These are examples of how control flow interacts with data structures: the loop's invariant depends not only on the body but also on whether the collection being traversed remains stable. When objects are shared with other tasks or threads, the problem may extend to synchronization and atomic updates.
+
+
+
+## Termination
+
+## Termination: the computational contract
+
+**Core idea.** The nonnegative integer n decreases strictly when the loop runs. This ranking function proves termination for valid input. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.
+
+**Executable Python example:**
+
+```python
+def countdown(n):
+    while n > 0:
+        n -= 1
+    return n
+print(countdown(5))
+```
+
+**Expected result:** `0`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.
+
+**Underlying reasoning.** Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For termination, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.
+
+**Practical lab.** Compare readability, asymptotic work and memory use with a plausible alternative. For small datasets, clarity may dominate micro-optimization. For huge datasets, count the operations rather than relying on a vague claim that one language construct is faster. Ask a classmate to describe the result using only the contract rather than the implementation. If that description is ambiguous, improve the naming, parameter definitions or documentation. Treat performance as a measurable claim: count iterations, allocations or calls before speculating about speed.
+
+**Reflection.** How would you adapt this example to values supplied through a browser or a file rather than literals in source code? Separate parsing from computation so the central function can be unit tested. Identify a condition under which the present example is intentionally incomplete and what evidence would justify extending it. Understand these limitations before using the same technique in scientific calculations or production applications.
+
+---
+
+### Extended case study, part 4
+
+## Input-dependent loops and progress reporting
+
+A numerical algorithm such as Newton's method repeats updates until an estimated root converges. Unlike counting down an integer, the measure of progress may be a residual or step size that does not decrease monotonically on every iteration. An algorithm should have an iteration cap, recognize invalid numeric states, and distinguish successful convergence from exhaustion of the budget. A small change between successive estimates is not always proof of an accurate solution; a method can stagnate far from a root. Check a residual or other problem-specific criterion and report the reason for stopping.
+
+An interactive program should also remain responsive during heavy iterations. A loop that blocks the browser's main thread for several seconds may produce a correct answer while delivering a poor user experience. For longer computations, consider chunked execution or a worker, with clear progress and cancellation controls. In a simple teaching simulation, reduce the amount of work per frame and use capped input ranges. Performance limits are part of control-flow design because they define when operations may execute and what happens when the work is interrupted.
+
+
+## Integrated debugging example: a defective accumulation loop
+
+Suppose the intended task is to sum positive values until a zero sentinel is encountered. A defect-prone implementation might read the first value, add it, and then check whether it is zero, or might forget to read the next value inside the loop. The first error processes the sentinel; the second may repeat forever. The correct design begins with a contract: zero ends the stream and is not included; the sum includes earlier values; invalid text produces a documented failure; end-of-file is an acceptable termination condition if specified. Now the loop should read, check whether input is available and whether it is the sentinel, validate, update the accumulator, and repeat. The ordering implements the contract.
+
+Build a trace for inputs `4, 6, 0`. Initially the accumulator is zero. After four it is four; after six it is ten; zero causes termination without changing the accumulator. The result is ten. For input `0`, the loop should perform no accumulation and return zero. For an empty stream, behavior depends on the contract and should be specified separately. For invalid text, the result should not be silently reported as if every entry were valid. Such small traces turn vague debugging into a comparison between expected and observed state transitions.
+
+
+## Final synthesis
+
+Control flow turns a static description of a computation into a sequence of states. Conditionals must implement an exhaustive and correctly prioritized partition of permitted inputs. Loops need both invariants that explain correctness and progress measures that explain termination. Their behavior depends on data structure semantics, numeric boundaries, and interactions with external systems. Good testing checks those assumptions explicitly rather than trusting a handful of successful examples.
+
+Before progressing to functions, review a loop you have already written. State the precondition, the invariant, the termination argument, and the postcondition as separate sentences. Find one input that would make the program fail if the precondition were violated. Then decide whether that input should be rejected, repaired under a documented policy, or supported by changing the algorithm. That exercise makes control flow something you can reason about rather than merely something you can type.
+
+
+### Trace a loop that sums [3, 5, 7] and state an invariant.
+
+**Initialize**
+Set total=0. No elements have been processed; their sum is zero.
+
+**Maintain**
+After reading 3, 5, 7 the accumulator is 3, 8, 15 respectively, equal to the processed-prefix sum.
+
+**Conclude**
+When all elements are processed the invariant gives total=15, the desired sum.
+
+### Prove termination of while n > 0: n -= 1 for nonnegative integer n.
+
+**Choose a variant**
+Use the nonnegative integer value n as a decreasing measure.
+
+**Progress**
+Each iteration decreases n by one while it is strictly positive. No execution step increases it.
+
+**Termination**
+An integer cannot decrease strictly through infinitely many nonnegative values, so the loop reaches zero after the initial n iterations.
+
+### Correct an if/elif grade classifier at thresholds 60 and 80.
+
+**Contract**
+Return A for scores >=80, B for 60<=score<80, C for <60.
+
+**Implement**
+Check >=80 first, >=60 second, otherwise C. Checking >=60 first would swallow all A cases.
+
+**Test**
+59→C, 60→B, 79→B, 80→A. Boundary testing exposes the branch-order error.
+
+
+### Applied investigation: Branch coverage and loop invariants
+
+A decision program should be tested immediately below, exactly at and immediately above each threshold. Consider a pass rule score>=50: scores 49, 50 and 51 are more informative about the comparison operator than three randomly chosen high scores. Write the rule before coding the conditional so that the boundary is not guessed from a test. For nested conditions, test not only each branch separately but meaningful interactions between branches.
+
+For a loop that accumulates the first n positive integers, the invariant after processing k numbers is accumulator=k(k+1)/2. Initially k=0 and accumulator=0 satisfy it. Adding k+1 gives (k+1)(k+2)/2, so induction proves the invariant for the next iteration. Termination depends on the progress of k and a finite upper bound n. The final total equals n(n+1)/2. A test with n=1 does not substitute for the invariant argument; instead use it to check an implementation.
+
+**Verification exercise.** Compute a small valid case by hand, compare it with both interactive models in this unit, then reset them. Write the boundary case that violates a stated assumption and explain why the implementation should reject it rather than silently returning a misleading result.

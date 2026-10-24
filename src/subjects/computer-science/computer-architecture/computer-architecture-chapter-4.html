@@ -1,0 +1,420 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Pipelining | Computer Architecture | OpenSTEM Library</title>
+  <meta name="description" content="stage design; hazards; forwarding; branch prediction">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/computer-architecture-chapter-4">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/computer-architecture-chapter-4">
+  <meta property="og:title" content="Computer Architecture: Instruction Sets, Digital Logic, Pipelining &amp; Cache Hierarchy | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering CPU performance metrics, digital logic gates, ALU design, arithmetic circuits, RISC instruction set architecture, 5-stage classic RISC pipeline, branch hazards, cache memory organizations, virtual memory, and multicore cache coherence with 24 solved questions and 8 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Computer Architecture: Instruction Sets, Digital Logic, Pipelining &amp; Cache Hierarchy | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering CPU performance metrics, digital logic gates, ALU design, arithmetic circuits, RISC instruction set architecture, 5-stage classic RISC pipeline, branch hazards, cache memory organizations, virtual memory, and multicore cache coherence with 24 solved questions and 8 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="computer-architecture.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Computer Architecture: Pipelining","description":"Comprehensive university textbook covering CPU performance metrics, digital logic gates, ALU design, arithmetic circuits, RISC instruction set architecture, 5-stage classic RISC pipeline, branch hazards, cache memory organizations, virtual memory, and multicore cache coherence with 24 solved questions and 8 interactive simulations.","url":"https://openstemlibrary.com/computer-architecture-chapter-4","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Computer Architecture","Instruction Set Architecture","Digital Logic","ALU Design","Pipelining and Hazards","Cache Hierarchy","Virtual Memory","Multicore Coherence"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#dept-computer-science"},{"@type":"ListItem","position":3,"name":"Computer Architecture","item":"https://openstemlibrary.com/computer-architecture"}]}</script></head>
+<body data-book-path="computer-architecture.html" data-chapter-index="3" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Computer Architecture</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search CPU execution time, CPI, clock cycles, signed two's complement, 8-bit ALU carry out, five-stage pipeline speedup, branch hazards, direct-mapped cache hits, multi-level cache AMAT, page tables, TLB…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="computer-architecture" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Representation and performance</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="computer-architecture-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Instruction sets</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="computer-architecture-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Processor datapaths</span></a></li><li class="unit-nav-item active" data-unit-index="3"><a href="computer-architecture-chapter-4" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Pipelining</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="computer-architecture-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Memory hierarchy</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="computer-architecture-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Input and output</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="computer-architecture-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Parallel architectures</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="computer-architecture-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Architecture evaluation</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Computer architecture core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 4 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Pipelining</h1>
+            <p class="unit-desc-lead" id="unit-desc">stage design; hazards; forwarding; branch prediction</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university computer systems architecture and organization. Eight units with exactly three solved questions per unit and interactive simulations illustrating CPU performance equations, signed arithmetic overflow, ideal pipelining speedup, and cache hit latencies. Numerical checks and an editorial review support this edition.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-4-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.1</span>
+            <span>Stage Design</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Stage Design</strong></p>
+
+<p>Pipeline stages partition work to allow several instructions in flight. The ideal throughput approaches one completed instruction per cycle after fill, but latency need not shrink.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>For a 5-stage pipeline processing 10 independent instructions with one-cycle stages, the ideal duration is 5+10-1=14 cycles rather than 50 unpipelined stage cycles.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Unequal stage times, register overhead and memory stalls limit ideal speedup; never compare unequal clock periods without adjustment.</p>
+
+<h4>Extended technical chapter: Stage Design</h4>
+
+<p>Pipeline partitioning attempts to overlap different instructions in different phases of their execution. A five-stage instruction pipeline often uses fetch, decode, execute, memory access, and writeback. If each stage requires one clock interval and there are no stalls, processing n instructions takes n+4 cycles once the pipeline begins empty; a non-pipelined design requiring five cycles per instruction takes 5n cycles. For twenty instructions this simplified comparison is 24 versus 100 cycles, a speedup of about 4.17, not exactly five. The startup and drain overhead make the difference particularly large for short traces.</p>
+
+<p>Pipelining improves potential throughput but need not reduce the latency of a single instruction. A pipeline register contributes setup, hold and clock overhead, and the slowest stage limits the clock period. Splitting a combinational path into more stages can raise clock frequency, but it also creates more pipeline-register power, more instructions in flight, and greater penalties when control flow is mispredicted. If five stage delays are 200, 350, 250, 300 and 250 picoseconds, the clock cannot be shorter than the 350-picosecond stage plus register overhead under the simple synchronous model. Repartitioning work so the longest stage is nearer the average may help, but data dependencies and physical routing limit arbitrary splitting.</p>
+
+<p>A robust pipeline experiment separates latency, cycle count and throughput. Start with an ideal instruction stream, then insert dependencies, branch redirections, or variable-latency memory accesses. Explain where bubbles enter the stage diagram and what work is actually wasted. For a pipeline with stages of unequal delay, compare throughput before and after balancing them, including the cost of additional registers. Avoid promising that 'more stages equals more speed': the optimum depends on branch behavior, clock overhead, energy limits and workload characteristics. The useful output is a labeled timing diagram plus a numerical accounting of active cycles, fill, stalls, and drain.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-computer-architecture-unit-4"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.2</span>
+            <span>Hazards</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Hazards</strong></p>
+
+<p>Data, structural and control hazards prevent the next operation from using required resources or values. A RAW dependency is a true data hazard.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>Instruction I1 writes r3 and I2 immediately reads r3. Without forwarding, I2 may have to wait for I1's writeback.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>WAR and WAW hazards require attention in out-of-order execution but are not the same as a simple in-order RAW stall.</p>
+
+<h4>Extended technical chapter: Hazards</h4>
+
+<p>A pipeline hazard is a situation in which overlapping instruction execution would violate a dependency or a shared-resource limit unless the implementation takes corrective action. Structural hazards arise when multiple operations need the same hardware resource in a cycle. Data hazards concern dependencies between instructions, especially a later read of a value produced by an earlier instruction. Control hazards arise when the next instruction address is uncertain because of a branch or other redirection. The remedy may be stalling, forwarding, resource duplication, renaming, speculation or a combination.</p>
+
+<p>Consider ADD r1,r2,r3 followed immediately by SUB r4,r1,r5. The second instruction has a true read-after-write dependency on r1. If the ADD result is not yet available to the SUB at its execute stage, using an old register value would be incorrect. The number of required stall cycles depends on the stage timing and bypass paths; there is no universal stall penalty for such a pair. A load-use pair is different: a load may not produce its data until after a memory stage, so forwarding available for ALU-to-ALU dependencies may not remove every load-use stall. Draw the cycles, do not guess.</p>
+
+<p>False name dependencies matter in out-of-order machines. A write-after-read or write-after-write relationship involving the same architectural register name can restrict scheduling even when the underlying computed values are independent. Register renaming removes those name constraints by assigning different physical destinations, while preserving true data dependencies. When analyzing a trace, list each dependency with producer instruction, consumer instruction, register or memory location, dependency class, and earliest permissible execution cycle. For memory operations, aliasing uncertainty complicates dependence analysis. A load and store using unknown addresses may require ordering or speculation with recovery. A correctness argument must account for both precise results and the machine's memory consistency contract.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.3</span>
+            <span>Forwarding</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Forwarding</strong></p>
+
+<p>Forwarding bypasses a just-produced result to a dependent instruction rather than waiting for its register-file writeback. Some dependencies remain inherently delayed.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>An ALU result may be forwarded from an execute stage to the next instruction's execute input. A load-use dependency may still stall because memory data arrives later.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>Forwarding must select the most recent producer; otherwise two writes to the same register can route an outdated value.</p>
+
+<h4>Extended technical chapter: Forwarding</h4>
+
+<p>Forwarding, or bypassing, routes a newly computed result from a pipeline stage directly to a dependent instruction instead of waiting for architectural register writeback. In a classic five-stage integer pipeline, an ALU operation may have its result available at the end of the execute stage. A following ALU instruction can often receive that value through an EX-to-EX bypass network. The control logic must compare source register indices to destination indices of older operations while checking whether those operations really produce register values. A bypass based only on matching register numbers may feed garbage from a store or a suppressed write.</p>
+
+<p>A forwarding network is often explained with a short precedence rule: if the nearest older instruction is writing the required operand, select its result; otherwise test a more distant pipeline stage; otherwise read the register file. The 'nearest' qualification matters when two older instructions write the same register. Suppose ADD r1,... is followed by XOR r1,... and then OR r4,r1,r5. The OR must consume the XOR result, not the older ADD result. Forwarding selection is therefore a dataflow decision with priority, not merely a collection of available wires. The forwarding muxes themselves add delay, area and power to the processor datapath.</p>
+
+<p>Bypassing cannot make unavailable data arrive early. A load whose cache result appears at the end of the memory stage may still force a dependent execute stage to wait. Long-latency multiplication, division or cache miss events require an interlock, reservation stations, or other scheduling machinery. A laboratory timing diagram should include a chain of ALU operations, a load-use dependency, and two consecutive writes to one destination register. Mark for each consumer whether its operand comes from the register file, a bypass, or a later cycle after a stall. Confirm final architectural results against a sequential reference interpreter so that an apparently fast schedule is not accepted when it computes the wrong program.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.4</span>
+            <span>Branch Prediction</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Core model — Branch Prediction</strong></p>
+
+<p>Branch prediction guesses control direction so instruction fetch can continue. Accuracy matters alongside penalty and branch frequency.</p>
+
+<p><strong>Original worked illustration</strong></p>
+
+<p>If 20% of instructions are branches, 5% of branches are mispredicted, and each miss costs 10 cycles, the expected penalty is 0.2<em>0.05</em>10=0.1 cycles per instruction.</p>
+
+<p><strong>Boundary conditions and checks</strong></p>
+
+<p>A predictor's reported accuracy on one trace does not establish robustness on changed workloads or security isolation across processes.</p>
+
+<h4>Extended technical chapter: Branch Prediction</h4>
+
+<p>Branch prediction allows an instruction pipeline to fetch and often execute instructions along a guessed control-flow path before the branch outcome is known. A simple static predictor might predict that every branch is not taken. A one-bit dynamic predictor remembers the last observed outcome, while a two-bit saturating counter requires stronger evidence before reversing its preferred direction. These small mechanisms illustrate a fundamental tradeoff: better predictions reduce wasted work but prediction logic consumes hardware resources and can introduce new performance and security considerations.</p>
+
+<p>For a repeated loop branch with outcomes T,T,T,T,N, a one-bit last-outcome predictor initially set to N is wrong on the first T and last N. A two-bit predictor can behave differently depending on its initial state and update policy, so a simulation must specify both. If 20 percent of executed instructions are branches, 10 percent of those are mispredicted, and each miss wastes four cycles, a simple additive model predicts 0.2×0.1×4=0.08 extra cycles per instruction. With an ideal base CPI of one, the estimated CPI is 1.08. This is only the isolated branch contribution; cache stalls and overlap can alter real measurements.</p>
+
+<p>Prediction accuracy is not the only useful metric. An indirect branch target predictor must identify the destination; return-address stacks help predict returns; a branch target buffer can provide likely target addresses without waiting for execution. Deep speculative pipelines face larger recovery costs, while sophisticated predictors can leak information through microarchitectural state. Use a fixed sequence of outcomes to compare static, one-bit and two-bit predictors. Show every state transition and count mistakes. Then alter the pattern to demonstrate why a predictor that excels on stable loops might perform poorly on alternating data-dependent branches. Distinguish an educational predictor model from production processors' complex proprietary mechanisms.</p>
+
+<h4>Integrated laboratory: cycle-by-cycle trace of a five-stage pipeline</h4>
+
+<p>Use a simplified five-stage pipeline with IF, ID, EX, MEM and WB, one instruction entering the pipeline per cycle when no stall occurs. For n=12 independent instructions, the ideal completion count is n+4=16 cycles if a single cycle has equal stage periods and no other penalties. A corresponding non-overlapped execution taking five cycles per instruction would use sixty cycles. Both numbers are for the constructed model; a production CPU may execute multiple instructions per cycle, have different stage costs, or have out-of-order scheduling. The exercise's advantage is not realism at every detail but a precise baseline that makes each additional stall visible.</p>
+
+<p>Begin with ADD r1,r2,r3 followed by XOR r4,r1,r5. If a bypass from the first instruction's execute result to the second instruction's execute input exists, the dependency can often be resolved without an extra bubble in this teaching pipeline. Remove that bypass: the second instruction must wait until the register write is available under the specified timing convention. Mark occupied and empty slots in a stage diagram for cycles one through eight, then count the difference. The diagram should identify the actual value forwarded, not merely an arrow labeled 'data.' A bypassing implementation that forwards an older overwritten value fails even when it avoids a stall.</p>
+
+<p>Replace the first ADD with LOAD r1,[r2]. In a common five-stage organization, loaded data appears after the memory stage, later than an ALU result. A directly dependent operation may require one bubble despite EX-to-EX forwarding. The exact number of bubbles depends on whether memory is one cycle, where the data is sampled, and what bypasses exist. Add a cache miss of ten extra cycles: now several younger instructions may be blocked or held, and the trace must specify whether independent instructions can proceed elsewhere. The correct performance interpretation depends on the implementation's scheduling policy, not just the mnemonic LOAD.</p>
+
+<p>Introduce a conditional branch resolved during EX. Let a predictor assume not taken, and suppose the branch is actually taken. Instructions already fetched along the wrong path must be discarded or prevented from retiring. If two wrong-path instructions occupy earlier stages, a simple model may charge two cycles of recovery; a different branch-resolution stage produces a different penalty. Build a second trace in which prediction is correct, and distinguish predictor accuracy from total cycle cost. Repeated loop outcomes T,T,T,T,N can produce different misprediction counts for static and two-bit predictors. Write out predictor state transitions before assuming a particular figure.</p>
+
+<p>Pipeline balancing affects clock time separately from cycle count. Suppose nominal stage logic delays are [240, 350, 250, 270, 260] picoseconds and pipeline-register overhead is thirty picoseconds. Under a simplified single-clock design, the clock must be at least 380 picoseconds. Redistributing logic to reduce the longest stage to 300 picoseconds might permit a 330-picosecond clock, but the number of stalls may not change. For an instruction stream completing in one thousand cycles, the cycle time adjustment reduces modeled elapsed time from 380 to 330 nanoseconds. Additional register and routing cost could make the redesign unattractive for a small device.</p>
+
+<p>Finally assemble a cycle-accounting sheet. Begin with n+4 ideal cycles, add data-hazard bubbles, branch recovery cycles and any non-overlapped memory penalties, and subtract nothing without justification. Some penalties may overlap, so blind summation can overestimate real cost. Specify a simple no-overlap assumption if using additive arithmetic. Compare against a sequential architectural reference to ensure all committed register values and memory writes are correct. A faster incorrect pipeline is not a successful implementation. Include one deliberately wrong forwarded-register priority rule and show the exact counterexample that detects it.</p>
+
+<h4>Review lens: bubbles as a symptom, not a diagnosis</h4>
+
+<p>Counting pipeline stalls is useful only after labeling their causes. A one-cycle bubble after a load-use dependency has a different remedy from a branch misprediction, structural port conflict or cache miss. Forwarding helps with available computed operands, not with data still in memory. Deeper prediction helps some control hazards, not a saturated memory interface. A performance report should partition cycles into useful work, fill/drain, dependency stalls, branch recovery, resource conflicts and memory delays where mutually exclusive categories can be defined. On sophisticated cores, categories can overlap; simplistic summation may overcount. Carefully state whether measurements came from a deterministic teaching simulator or from hardware event counters with documented limitations. The goal is to select an intervention aligned with the dominant measured cause, rather than treating all wasted cycles as interchangeable.</p>
+
+<h4>Additional guided investigations for pipeline correctness</h4>
+
+<p><strong>Pipeline timing.</strong> Create a five-stage diagram for four independent instructions. The first enters IF in cycle one and completes WB in cycle five; the fourth enters IF in cycle four and completes WB in cycle eight. Thus four instructions finish in 4+4=8 ideal cycles. Add a single one-cycle bubble before the third instruction, and under the simple non-overlap model total completion becomes nine cycles. Annotate where that bubble travels; a bare 'extra cycle' claim lacks the causal information needed to design forwarding.</p>
+
+<p><strong>Dependency testing.</strong> Set initial r1=99, r2=6, r3=7 and r5=2. The sequence ADD r1,r2,r3 then SUB r4,r1,r5 must finish with r1=13 and r4=11. A pipeline that reads the old r1 computes 97 for r4 and is incorrect. Test the implementation with bypass enabled, bypass disabled with stalling, and bypass miswired to another register. Inspect the first cycle when the source operand is consumed, not only the final counter values.</p>
+
+<p><strong>Forwarding priority.</strong> Place two consecutive writers to r1 before a consumer. The older writes three, the younger writes nine; a following OR r4,r1,r5 must use nine. Two available bypass paths cannot simply be ORed or selected arbitrarily. The priority logic should use the nearest older architecturally valid producer. Test a load producer where the data is not yet ready, demonstrating why forwarding must defer or stall instead of fabricating an operand.</p>
+
+<p><strong>Prediction accounting.</strong> A trace of one thousand instructions contains two hundred branches. If ten are mispredicted and each adds five non-overlapped recovery cycles, branch recovery costs fifty cycles and contributes 0.05 extra CPI. Compare this with a case where the same predictor accuracy produces ten-cycle recovery, doubling the contribution. Then explicitly distinguish those model parameters from the sequence of actual taken and not-taken outcomes, which determines whether one-bit or two-bit state machines produce ten mispredictions.</p>
+
+<h4>Diagnostic challenge: separate stage time and stall count</h4>
+
+<p>Processor A completes a pipeline trace in 1200 cycles at a 400-picosecond clock, giving 480 nanoseconds. Processor B uses additional pipeline stages and completes the same architectural program in 1450 cycles at 300 picoseconds, giving 435 nanoseconds. B wins despite requiring more cycles. If B suffers an additional 200 cycles of branch recovery on a harder input, its time becomes 495 nanoseconds and A would win if its own cycle count remains unchanged. The comparison proves that shorter clock period and fewer stalls cannot be considered independently. A fair experiment varies branch outcome distributions and dependency patterns while preserving program correctness, calculates time from cycles × cycle period, and reports both stage design assumptions and hazard behavior. The same stage split can be attractive for long streaming loops yet disappointing for short control-heavy routines. Students should distinguish static pipeline depth from the dynamic number of bubbles observed for a particular workload.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Computer Architecture Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — editorial review pending</span>
+            <strong>Example 4.1: Stage Design: worked application 1</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>For a five-stage ideal pipeline and ten instructions, calculate cycles to completion.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-architecture-u4-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-architecture-u4-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>The first instruction finishes after five cycles.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>Each subsequent independent instruction finishes one cycle later.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>Total is 5+(10−1)=14 cycles, assuming equal one-cycle stages and no hazards.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Independent verification, conditions, and interpretation</div>
+              
+              <div class="step-explanation"><p>An ideal five-stage pipeline enters one independent instruction in each cycle, provided all stages have the same cycle duration and no hazards or stalls occur. The first instruction takes five cycles from initial fetch to completion. The next nine instructions enter on successive cycles, so the tenth finishes four stages after its fetch in cycle ten, at cycle fourteen. Algebraically, cycle count = k+(n−1) = 5+9 = 14. Another route counts pipeline fill overhead k−1=4 and one completed instruction per cycle for n=10, giving n+4=14. By comparison, a non-overlapping implementation requiring five cycles per instruction uses fifty cycles, so the idealized cycle speedup is 50/14 ≈ 3.57. The result is less than five because pipeline filling and draining matter when n is small. The model says nothing about actual clock period. If pipeline registers increase cycle time, the runtime ratio differs from the cycle-count ratio. Add a stall of two cycles after a dependency, and the completion count becomes sixteen under the simple additive non-overlap model. The student's timing diagram should show fetch, decode, execute, memory and writeback occupancy rather than assuming every mnemonic has equal work.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Total is 5+(10−1)=14 cycles, assuming equal one-cycle stages and no hazards.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — editorial review pending</span>
+            <strong>Example 4.2: Hazards: worked application 2</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Explain the hazard for ADD r1,r2,r3 followed immediately by SUB r4,r1,r5.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-architecture-u4-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-architecture-u4-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>The first instruction produces r1; the second consumes it.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>This is a true read-after-write dependency on r1.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>Forwarding or a stall is needed if the produced value is not yet visible.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Independent verification, conditions, and interpretation</div>
+              
+              <div class="step-explanation"><p>The ADD produces a new value for architectural register r1, and the immediately following SUB needs that value as one of its source operands. This is a true read-after-write dependency. A sequential interpreter naturally executes ADD before SUB, but in a pipeline the SUB might reach operand consumption before ADD has completed register writeback. Using the old r1 would violate program semantics. A forwarding path may carry ADD's ALU result directly into SUB's execute input when the timing aligns, avoiding a bubble. Without a suitable bypass, the interlock must stall SUB until the correct value is available. The required stall count cannot be determined from the instruction names alone; it depends on stage boundaries, read/write timing and existing bypass networks. A correct hazard detector checks producer write-enable and destination index alongside consumer source indices. It must also handle destination zero registers appropriately where specified. Build a counterexample by setting old r1=100, r2=7, r3=8, r5=2: correct ADD yields fifteen and SUB yields thirteen, whereas an unprotected early read of old r1 would yield ninety-eight. The final state provides a concrete correctness oracle.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Forwarding or a stall is needed if the produced value is not yet visible.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved problem — editorial review pending</span>
+            <strong>Example 4.3: Forwarding: worked application 3</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A branch frequency of 20%, misprediction rate 5%, and penalty 10 cycles: find extra CPI.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-architecture-u4-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-architecture-u4-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Set up the model and conditions</div>
+              
+              <div class="step-explanation"><p>Probability of a mispredicted branch per instruction is 0.2×0.05=0.01.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Carry out the calculation or proof</div>
+              
+              <div class="step-explanation"><p>Multiply by ten cycles per miss.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the result and its scope</div>
+              
+              <div class="step-explanation"><p>Extra CPI is 0.1 under the simplified additive model.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Independent verification, conditions, and interpretation</div>
+              
+              <div class="step-explanation"><p>Branch contribution to CPI is approximated as branches per instruction × wrong predictions per branch × wasted cycles per wrong prediction. Substituting 0.20 × 0.05 × 10 gives 0.10 cycles per instruction. If ideal base CPI is one and penalties do not overlap, predicted CPI is 1.10. For one million instructions, the simple model expects 200,000 branches, 10,000 mispredictions and 100,000 wasted cycles. Each route independently recovers the same extra CPI. This does not mean every branch incurs ten cycles; only the mispredicted five percent do under the assumptions. The predictor's initial state and actual outcome sequence may cause variation for a short program. Also, ten-cycle recovery is architecture-specific, and actual overlap with cache misses or other stalls can make simple penalty addition inaccurate. Changing the misprediction rate to two percent while holding other assumptions fixed reduces the contribution to 0.04 CPI. That sensitivity analysis indicates which measurement would be most valuable for evaluating a proposed predictor change.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Extra CPI is 0.1 under the simplified additive model.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/patterson-hennessy" target="_blank" rel="noopener noreferrer">Patterson, D.A., &amp; Hennessy, J.L. (2020). Computer Organization and Design: The Hardware/Software Interface (RISC-V Edition): Canonical university textbook covering instruction sets, pipelining, hazards, memory hierarchy, and I/O</a></li><li><a href="https://openstemlibrary.com/references/hennessy-patterson-quantitative" target="_blank" rel="noopener noreferrer">Hennessy, J.L., &amp; Patterson, D.A. (2017). Computer Architecture: A Quantitative Approach (6th ed.): Authoritative reference on quantitative computer design, ILP, superscalar execution, and cache coherence protocols</a></li><li><a href="https://openstemlibrary.com/references/harris-harris-digital-design" target="_blank" rel="noopener noreferrer">Harris, S.L., &amp; Harris, D.M. (2021). Digital Design and Computer Architecture (RISC-V Edition): Foundational text connecting combinational logic gates, sequential state machines, and processor microarchitecture</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="computer-architecture-chapter-3">← Previous chapter</a><a href="computer-architecture">Book contents</a><a href="computer-architecture-chapter-5">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="computer-architecture-sims.js?v=1"></script>
+  <script src="computer-architecture-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>
