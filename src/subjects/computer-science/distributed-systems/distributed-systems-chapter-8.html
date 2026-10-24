@@ -1,0 +1,353 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>System design | Distributed Systems | OpenSTEM Library</title>
+  <meta name="description" content="Service boundaries and dependency graphs, Load balancing and admission control, Scalability, measurement and capacity planning, Distributed security and trust boundaries, Capstone: choose an architecture for a global STEM platform">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/distributed-systems-chapter-8">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/distributed-systems-chapter-8">
+  <meta property="og:title" content="Distributed Systems: Logical Clocks, Paxos, Raft Consensus &amp; Fault Tolerance | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Distributed Systems: Logical Clocks, Paxos, Raft Consensus &amp; Fault Tolerance | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="distributed-systems.css?v=20261024_academic"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Distributed Systems: System design","description":"Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/distributed-systems-chapter-8","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Programming Fundamentals","Problem Decomposition","Control Flow Invariants","Two's Complement Representation","Modular Architecture","Unit Testing","Binary Search","Numerical Integration"],"keywords":"Distributed Systems, Logical Clocks and Causality, Paxos and Raft Consensus, Fault Tolerance, Quorum Systems, CAP Theorem, Replication and Consistency, Distributed Transactions"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#computer-science"},{"@type":"ListItem","position":3,"name":"Distributed Systems","item":"https://openstemlibrary.com/distributed-systems"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Distributed Systems","description":"Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Library","url":"https://openstemlibrary.com"},"courseCode":"CS 417, CS 451","educationalLevel":"Undergraduate","hasCourseInstance":{"@type":"CourseInstance","courseMode":"online","courseWorkload":"PT80H"}}</script></head>
+<body data-book-path="distributed-systems.html" data-chapter-index="7" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Programming Fundamentals</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search problem decomposition, linear search, floating point precision, two's complement overflow, loop invariants, recursion, stack frames, hash tables, unit test boundaries, binary search, trapezoidal rule…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="distributed-systems" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Distributed foundations</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="distributed-systems-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Coordination</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="distributed-systems-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Replication</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="distributed-systems-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Consensus</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="distributed-systems-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Distributed storage</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="distributed-systems-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Distributed computation</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="distributed-systems-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Reliability and operations</span></a></li><li class="unit-nav-item active" data-unit-index="7"><a href="distributed-systems-chapter-8" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">System design</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Programming fundamentals core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 8 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">System design</h1>
+            <p class="unit-desc-lead" id="unit-desc">Service boundaries and dependency graphs, Load balancing and admission control, Scalability, measurement and capacity planning, Distributed security and trust boundaries, Capstone: choose an architecture for a global STEM platform</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for introductory computer science and software construction. Eight units with exactly three solved questions per unit and 16 interactive numerical simulations illustrating problem decomposition, overflow boundaries, hash collisions, and test coverage. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-8-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.1</span>
+            <span>Service boundaries and dependency graphs</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Service boundaries should follow meaningful ownership and change patterns, not only a desire to draw many boxes. A monolith can be distributed in deployment while still preserving coherent transactions; a microservice architecture introduces remote calls and independent data ownership. Extracting a service makes sense when it has a distinct domain contract, workload, team responsibility, or lifecycle that justifies operational overhead. Every new synchronous dependency can reduce the availability of the caller's critical path. A system that needs identity, catalog, payment, inventory, and notification services to respond synchronously for every page load may have more failure modes than a simpler integrated design. Draw the dependency graph and mark which edges are mandatory for completing a user action. Optional recommendations and analytics should usually not prevent core purchase or registration functionality.</p>
+
+<p>A domain boundary determines who may authoritatively change a piece of state. If both Orders and Inventory services independently modify the same stock counter, conflicting ownership can defeat consistency guarantees. One service can own the invariant, while others request changes through versioned APIs or events. Shared database access across supposed microservices undermines isolation if one service can silently bypass another's business rules. On the other hand, splitting a tightly coupled transactional workflow across services adds coordination, monitoring, and recovery cost. A modular monolith with clear internal interfaces can preserve separation of concerns without remote network failure on every method call. Evaluate the number of teams, rate of change, scaling requirements, and operational staffing before accepting that cost.</p>
+
+<p>Consider a public library portal. Searching the catalog, viewing book descriptions, and displaying recently read items have different failure consequences from reserving the final physical copy of a book. Search indexes and recommendation caches can tolerate stale data; reservation authorization cannot claim a confirmed allocation based only on an outdated cache. A strong boundary gives the reservation service authority over the unique-copy invariant and publishes events for secondary views. If notifications fail, the reservation may still be confirmed with an in-app status page. The API should distinguish a tentative reservation from a final one. This reduces the number of synchronous critical-path dependencies, while making eventual updates and operational reconciliation explicit. Service design is a sequence of contract decisions, not a diagramming fashion.</p>
+
+<p>Dependency reviews must include control planes and shared infrastructure. Several independent services may all depend on the same DNS resolver, network egress, secret manager, or database connection pool. A seemingly resilient multi-zone deployment can still fail together when a shared control service is unavailable. Model resource budgets for each call chain: deadlines, concurrency, queue capacity, and retries. Version APIs to allow old and new clients to coexist through deployment transitions. Apply authentication at meaningful trust boundaries; a perimeter gateway is not a substitute for service-to-service authorization when networks are segmented or credentials are compromised. Observe user journeys rather than only individual container-health metrics, since the user cares whether the whole transaction succeeds.</p>
+
+<p>Build a service dependency graph for a university admissions workflow. Learners mark edges as mandatory synchronous calls, asynchronous effects, or optional reads. Introduce one dependency outage and compute which user actions are unavailable under their chosen design. Move email notification from the synchronous path to an outbox-backed queue and re-evaluate, while preserving an honest 'notification pending' state. Add a shared identity provider dependency and ask how cached credentials, session lifetimes, and security policy affect degraded service; do not suggest bypassing authentication. The lab illustrates architectural tradeoffs and cannot guarantee numerical reliability without measured failure correlation and request traffic.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-amdahl-speedup"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.2</span>
+            <span>Load balancing and admission control</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Load balancing routes requests among eligible instances, aiming to improve latency, capacity use, and failure isolation. Round-robin balances request counts, not necessarily work, because requests can have different costs. Least-connections may favor workers with fewer active requests but can fail when long-lived connections are cheap and short calls are expensive. Consistent hashing stabilizes ownership for stateful workloads but may amplify hot-key imbalance. A load balancer also needs accurate health information and safe handling of stale endpoints. A host returning a liveness probe can still be unable to serve a write because it has lost quorum or a critical dependency. Use readiness criteria that match the actual operation being routed, and distinguish draining from crashing an instance during deployment.</p>
+
+<p>Admission control decides whether to accept more work. If offered load exceeds sustainable service capacity, no routing algorithm can make the queue disappear indefinitely. Little's Law relates stable average in-flight work L, arrival rate λ and response time W by L=λW. Under stable assumptions, increasing wait time raises the number of requests concurrently present even when arrival rate stays fixed. Thread pools, connection limits, and queues need explicit bounds; unbounded queues can consume memory and make future requests wait beyond their deadlines. When overloaded, failing quickly with a retryable response and clear backoff guidance may be kinder than accepting work that cannot finish. Rate limits should consider authenticated users and fairness, not merely IP addresses that could represent whole campuses.</p>
+
+<p>Imagine an online testing platform with four instances, each sustainably serving 50 requests per second. At a stable 180 requests per second, total nominal capacity 200/s exceeds arrival rate, but skew and synchronized peaks may still harm p99 latency. At 260 requests per second, no distribution across the four instances can sustain the load forever. The approximate short-term queue growth is at least 60 requests per second if service remains capped at 200 and there is no shedding. Adding an instance may help, but provisioning delay and a shared database bottleneck limit improvement. A rational system caps admitted concurrency, sheds low-priority optional requests, and preserves critical exam submission with durable status. Retry storms must be included in the <em>attempted</em> arrival rate; original user demand alone is insufficient.</p>
+
+<p>Load balancing under node failure requires carefully designed draining and request replay. A node marked unhealthy may have already committed a user operation before its response was lost. Redistributing the same request to a fresh node can cause duplicate effects unless the operation ID follows the retry. Sticky sessions can preserve locality but create uneven load and complicate failover if state lives only in one process. Prefer stateless frontends where practical, or explicitly replicate session state with appropriate consistency. Global load balancing across regions should account for healthy quorum, user latency, and residency constraints, not simply choose the geographically nearest IP. Measuring success includes correctness, tail latency, queue overflow, and fairness across clients during degradation.</p>
+
+<p>Create a load-balancing simulator with four workers, heterogeneous service capacities, request costs, and choices of round-robin or least-outstanding dispatch. Show queue depth and completed request count over a deterministic workload. Raise arrival rate above aggregate service capacity and ask why queues grow even if requests are evenly distributed. Add bounded admission with rejection counters and compare latency for admitted jobs. Then fail one worker mid-run and show which in-flight requests are ambiguous and must use stable identifiers. The learner should not interpret the toy throughput numbers as production benchmarks: real workloads include cache locality, network overhead, shared storage, and variable task durations.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.3</span>
+            <span>Scalability, measurement and capacity planning</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Scalability asks how a system's resource requirements and service quality change as demand grows; it is not synonymous with adding more servers. Scale-up gives an instance more resources, while scale-out distributes work across instances. Some workloads parallelize readily, but coordination, shared state, and contention impose limits. Amdahl's Law states that if fraction s of execution is inherently serial, ideal speedup using p processors is bounded by 1/[s+(1−s)/p] for the fixed workload. If s=0.1 and p=10, the ideal limit is about 5.26, not 10. The law is a useful warning about serial bottlenecks, not a universal predictor of web-service throughput. Real capacity planning must include queueing, caching, storage I/O, network, replicas, and failover headroom.</p>
+
+<p>Benchmark the entire critical path before scaling one component. A stateless HTTP layer may handle thousands of extra requests after scale-out while a single database writer still serializes updates. A cache may accelerate popular reads until a hot entry expires and all clients stampede onto the origin. A hash-partitioned backend may distribute ordinary keys but remain limited by one heavily contended account. Latency objectives matter: 10,000 requests per second is not useful if 20 percent finish after clients time out. A performance report should identify workload mix, arrival pattern, request size, consistency mode, cache hit rate, hardware, and percentile distributions. Comparing two systems without these conditions risks making meaningless numerical claims.</p>
+
+<p>Capacity planning should allow failures rather than use every resource at 100 percent. If a cluster needs six workers to satisfy normal peak demand and is expected to survive loss of one availability zone containing a third of workers, six total workers may be insufficient when two disappear. Provisioning and autoscaling delays mean spare capacity or temporary admission control may be necessary. Headroom is not wasted by definition; it buys response-time stability and fault survival. But overprovisioning also consumes budget and energy. Forecast demand from observed traffic, test realistic bursts, model shared dependencies, and state the acceptable degraded mode. Before adding replicas, determine whether replication traffic itself increases write cost or whether a smarter data partition reduces contention.</p>
+
+<p>Scaling experiments often reveal non-linear behavior. At low load, extra workers increase throughput. Near saturation, queueing delays explode even when CPU utilization rises only slightly, because service-time variation and contention create tail effects. Autoscaling based solely on average CPU may react too slowly to a queue spike or may scale useless frontends while the database is blocked. Queue length per active worker and deadline miss rate can be better signals for specific job systems. A meaningful cost model includes compute, storage, replication bandwidth, cross-region egress, observability, on-call effort, and recovery drills. A system that saves milliseconds at an unsustainable operational cost is not automatically better for the library or its users.</p>
+
+<p>Build a scaling exercise with configurable serial fraction, processor count, worker throughput, and failure reserve. Plot Amdahl's ideal speedup alongside a simple throughput ceiling determined by a database bottleneck. Students can increase workers until the shared writer caps progress, then experiment with sharding the writer or reducing mandatory synchronous calls. Calculate whether the remaining workers after a zone loss can serve a specified peak without queue growth. Label all model outputs as illustrative; do not infer cloud prices or real-world throughput from the algebra. The final exercise requires a written decision that weighs measured workload, user latency, failure budget, and ongoing operational cost.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-worker-capacity"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.4</span>
+            <span>Distributed security and trust boundaries</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A distributed system stretches trust boundaries across processes, service accounts, networks, queues, storage replicas, and control planes. Encryption in transit protects confidentiality and integrity on a communication channel when endpoints and keys are correctly authenticated, but it does not determine whether a calling service is authorized to perform a domain action. Mutual TLS can authenticate both peers at a transport layer; application authorization must still check the caller's permissions for the requested object and operation. Credentials distributed to many services enlarge the attack surface, and overly broad permissions can turn one compromised worker into a system-wide incident. Favor narrowly scoped service identities, bounded credential lifetimes, rotation procedures, and audit logs that preserve operation provenance without leaking secrets.</p>
+
+<p>A message consumer should not trust a queued event solely because it came from an internal broker. Producers may be compromised, schemas can be malformed, and replayed messages may trigger duplicate effects. Validate message shape, authorization context, provenance, and idempotency before taking action. If an event asks a payment worker to transfer funds, the event should represent a validated, authorized operation rather than a free-form amount any service can publish. Integrity protection does not repair faulty business authorization: a correctly signed request from an overprivileged service can still perform an inappropriate action. Secure design should identify who can create, modify, replay, and revoke authority for each class of command.</p>
+
+<p>Consider a research collaboration platform with a public upload API, processing workers, a distributed object store, and an export service. A malicious file may contain path traversal sequences, extreme decompression ratios, or content intended to exploit downstream parsers. Network segmentation helps but does not replace careful file handling. The upload service should create an opaque object ID, store content with minimal permissions, and pass a constrained processing job to the worker. The worker should run with restricted resource limits and write derived outputs to separate authorized locations. The export service must check the requesting researcher's access at export time, not assume that a valid internal object ID implies authorization. Cross-service tracing should record the verified principal and operation while avoiding sensitive document content.</p>
+
+<p>Security and availability can conflict during an incident, but silent bypasses are dangerous. If the identity authority becomes unavailable, a service might continue honoring already validated short-lived tokens within a documented policy, or it may reject privileged actions until authority returns. It should not disable authentication simply to keep success metrics green. Key-management services themselves need backups and disaster-recovery procedures consistent with cryptographic policy. Secrets should never be embedded in a cumulative book source archive or client-side simulation. An architecture review should inspect certificate rotation, clock skew tolerance, service account revocation, broker ACLs, encryption at rest, and audit-log durability. Threat models should include insider mistakes and supply-chain failures as well as external attackers.</p>
+
+<p>Build a capability-tracing exercise for a fictional library export operation. A request travels through API, queue, worker, and object store. The student assigns an authenticated service principal and minimum authorization at each hop, then injects a forged event or expired credential. Show the denial point, while separating authentication failure from business authorization failure. Add a replayed event with a valid signature but an already-consumed operation key, and explain why replay protection is distinct from cryptographic authenticity. The simulator uses synthetic credentials only; it is educational and does not verify actual TLS stacks, certificate chains, provider IAM policies, or vulnerability resistance.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.5</span>
+            <span>Capstone: choose an architecture for a global STEM platform</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A global STEM platform serves static textbooks, interactive simulations, discussion activity, library search, and a limited number of authenticated contribution workflows. These functions have sharply different consistency and availability needs. Public textbook pages are immutable between releases and benefit from static hosting and caching. Simulation code runs locally in the reader and should not require a live network for every slider change. Discussions and author submissions involve mutable state, moderation, authentication and notifications. Before dividing this product into microservices, write a traffic and risk profile for each feature. A small team may operate a static frontend and one well-structured backend more reliably than a fleet of loosely coordinated services. Distribution should solve measured constraints, not create the appearance of sophistication.</p>
+
+<p>Begin with the reader experience. Chapter routes should have stable canonical URLs and server-visible content so users can access them under limited connectivity and search engines can find substantive teaching material. Client simulations need bounded input controls and should distinguish pedagogical models from physically complete experiments. The content deployment process is an atomic release problem: a navigation index, chapter pages, and assets need compatible versions. Publishing an updated index before its referenced chapter pages are available creates broken links even though every individual file is syntactically valid. A release manifest with content hashes and verified staging routes improves confidence. Keep drafts out of public sitemaps, and preserve previous approved material when adding a new subject.</p>
+
+<p>For authenticated contributions, one durable state store can hold submission status and idempotency keys. A contributor uploads an article, a validation worker checks metadata and file safety, and a moderator decides whether to publish. These stages need not share one synchronous HTTP request. Store the initial submission transaction with a stable operation ID, then use an outbox or equivalent mechanism to schedule asynchronous validation. The site can display RECEIVED, CHECKING, NEEDS_REVISION, APPROVED, or REJECTED states. A failed notification service should not erase a submitted manuscript. The moderation decision needs authorization and an audit record; a worker that merely processed a file should not have the right to publish it to all readers. This boundary reflects the actual domain more clearly than a generic 'content microservice'.</p>
+
+<p>Now consider worldwide deployment. A CDN can serve most public reading traffic from nearby points of presence, reducing origin load. A central authoritative write region may suffice for low-volume submissions; replication and disaster recovery protect against major outages. Introducing globally writable databases and cross-region consensus for a handful of daily submissions would add cost and complexity without much benefit. If future demand justifies regional authoring, redesign with explicit conflict and ownership semantics. Keep data residency, backup retention, account deletion, and trace privacy in the risk assessment. Availability objectives should distinguish browsing a cached textbook from accepting a new research submission. The platform can honestly degrade to read-only mode during a write-service outage rather than show false success.</p>
+
+<p>The final architecture review weighs alternatives. Option A is a static reader plus a modular backend with a transactional database and managed job queue. Option B splits discussion, contribution, search indexing, and moderation into separately deployable services. Compare each option's critical dependencies, expected traffic, operational burden, recovery time, and risk of duplicate or lost events. Stress-test a simulated contribution when the worker crashes after validation but before acknowledgement; confirm that retry uses the same operation key. Test a release with one missing chapter asset and require the deployment gate to fail before exposure. The best design is the smallest one that meets documented user and correctness requirements while remaining operable by the actual team. Architectural complexity should be earned by evidence from workload and incidents.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Programming Fundamentals Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked</span>
+            <strong>Example 8.1: Calculate capacity after a zone failure</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A service has nine identical workers distributed equally over three zones, each worker supporting a stable 40 requests/s. Normal incoming load is 250 requests/s. Can the system sustain that load after complete loss of one zone under the simplified model?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--distributed-systems-u8-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--distributed-systems-u8-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1: reasoning</div>
+              
+              <div class="step-explanation"><p>Initial aggregate nominal capacity is 9×40=360 requests/s. Each zone contains three workers.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2: reasoning</div>
+              
+              <div class="step-explanation"><p>After losing one zone six workers remain, with aggregate capacity 6×40=240 requests/s.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3: reasoning</div>
+              
+              <div class="step-explanation"><p>The offered 250 requests/s exceeds 240 by 10 requests/s. Backlog grows unless demand is shed, capacity increased, or workload changes.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>No. After the zone loss the simplified capacity is 240/s, below the 250/s incoming rate.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked</span>
+            <strong>Example 8.2: Evaluate Amdahl speedup</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A fixed workload has serial fraction s=0.1 and parallel fraction 0.9. What is Amdahl’s ideal speedup on 10 processors, ignoring communication overhead?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--distributed-systems-u8-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--distributed-systems-u8-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1: reasoning</div>
+              
+              <div class="step-explanation"><p>Amdahl’s ideal fixed-size speedup is S(p)=1/[s+(1−s)/p].</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2: reasoning</div>
+              
+              <div class="step-explanation"><p>Substitute p=10 and s=0.1: denominator 0.1+0.9/10=0.19.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3: reasoning</div>
+              
+              <div class="step-explanation"><p>Therefore S=1/0.19≈5.263. Extra coordination overhead would reduce measured speedup further.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Approximately 5.26 times ideal speedup, not 10 times.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked</span>
+            <strong>Example 8.3: Separate authentication from authorization</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A worker establishes mutual TLS with an export service using a valid certificate, then requests another research group’s confidential dataset. Does successful mutual TLS automatically justify granting the export?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--distributed-systems-u8-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--distributed-systems-u8-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1: reasoning</div>
+              
+              <div class="step-explanation"><p>Mutual TLS establishes authenticated peer identities for the channel when configured and validated correctly.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2: reasoning</div>
+              
+              <div class="step-explanation"><p>Authorization is a separate question: the export service must check whether that identity or its delegated end-user context has rights to this dataset and operation.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3: reasoning</div>
+              
+              <div class="step-explanation"><p>A valid identity with overly broad or missing object-level permission must be denied; cryptographic authenticity is not blanket domain authority.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>No. The export requires a separate object- and action-level authorization decision.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/kernighan-ritchie-c" target="_blank" rel="noopener noreferrer">Kernighan, B.W., &amp; Ritchie, D.M. (1988). The C Programming Language (2nd ed.): Foundational text on structural decomposition, control flow, functions, pointers, and memory layout</a></li><li><a href="https://openstemlibrary.com/references/sicp" target="_blank" rel="noopener noreferrer">Abelson, H., &amp; Sussman, G.J. (1996). Structure and Interpretation of Computer Programs: Canonical treatise on abstraction, procedural decomposition, state, and evaluation models</a></li><li><a href="https://openstemlibrary.com/references/goldberg-floating-point" target="_blank" rel="noopener noreferrer">Goldberg, D. (1991). What Every Computer Scientist Should Know About Floating-Point Arithmetic: Definitive reference on IEEE 754 precision, rounding, and representation error</a></li><li><a href="https://openstemlibrary.com/references/beck-tdd" target="_blank" rel="noopener noreferrer">Beck, K. (2002). Test-Driven Development: By Example: Primary reference for unit test boundaries, assertions, and invariant verification</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="distributed-systems-chapter-7">← Previous chapter</a><a href="distributed-systems">Book contents</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="distributed-systems-sims.js"></script>
+  <script src="distributed-systems-data.js"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

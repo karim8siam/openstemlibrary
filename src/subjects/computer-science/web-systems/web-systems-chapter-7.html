@@ -1,0 +1,353 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Distributed web architecture | Web Systems | OpenSTEM Library</title>
+  <meta name="description" content="background jobs; messaging; realtime updates; scaling">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/web-systems-chapter-7">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/web-systems-chapter-7">
+  <meta property="og:title" content="Web Systems: HTTP Protocols, RESTful APIs, Browser Rendering &amp; Distributed Web Architecture | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering the architectural evolution of the World Wide Web, HTTP/1.1, HTTP/2 multiplexing, HTTP/3 (QUIC), RESTful API design, browser rendering engines (DOM tree, CSSOM, layout, paint), client-side state management, CDN edge caching, web security (CORS, CSP, same-origin policy), and high-concurrency server architectures with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Web Systems: HTTP Protocols, RESTful APIs, Browser Rendering &amp; Distributed Web Architecture | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering the architectural evolution of the World Wide Web, HTTP/1.1, HTTP/2 multiplexing, HTTP/3 (QUIC), RESTful API design, browser rendering engines (DOM tree, CSSOM, layout, paint), client-side state management, CDN edge caching, web security (CORS, CSP, same-origin policy), and high-concurrency server architectures with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="web-systems.css?v=20261024_academic"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Web Systems: Distributed web architecture","description":"Comprehensive university textbook covering the architectural evolution of the World Wide Web, HTTP/1.1, HTTP/2 multiplexing, HTTP/3 (QUIC), RESTful API design, browser rendering engines (DOM tree, CSSOM, layout, paint), client-side state management, CDN edge caching, web security (CORS, CSP, same-origin policy), and high-concurrency server architectures with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/web-systems-chapter-7","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Programming Fundamentals","Problem Decomposition","Control Flow Invariants","Two's Complement Representation","Modular Architecture","Unit Testing","Binary Search","Numerical Integration"],"keywords":"Web Systems, HTTP/2 and HTTP/3 Protocols, RESTful API Architecture, Browser Rendering Engine, Critical Rendering Path, CDN and Edge Caching, Web Security Standards, High-Concurrency Servers"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#computer-science"},{"@type":"ListItem","position":3,"name":"Web Systems","item":"https://openstemlibrary.com/web-systems"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Web Systems","description":"Comprehensive university textbook covering the architectural evolution of the World Wide Web, HTTP/1.1, HTTP/2 multiplexing, HTTP/3 (QUIC), RESTful API design, browser rendering engines (DOM tree, CSSOM, layout, paint), client-side state management, CDN edge caching, web security (CORS, CSP, same-origin policy), and high-concurrency server architectures with 24 solved questions and 16 interactive simulations.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Library","url":"https://openstemlibrary.com"},"courseCode":"CS 330, CS 430","educationalLevel":"Undergraduate","hasCourseInstance":{"@type":"CourseInstance","courseMode":"online","courseWorkload":"PT80H"}}</script></head>
+<body data-book-path="web-systems.html" data-chapter-index="6" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Programming Fundamentals</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search problem decomposition, linear search, floating point precision, two's complement overflow, loop invariants, recursion, stack frames, hash tables, unit test boundaries, binary search, trapezoidal rule…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="web-systems" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Web foundations</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="web-systems-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Frontend systems</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="web-systems-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Backend systems</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="web-systems-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Data and sessions</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="web-systems-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Web performance</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="web-systems-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Reliability and security</span></a></li><li class="unit-nav-item active" data-unit-index="6"><a href="web-systems-chapter-7" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Distributed web architecture</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="web-systems-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Delivery and observability</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Programming fundamentals core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 7 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Distributed web architecture</h1>
+            <p class="unit-desc-lead" id="unit-desc">background jobs; messaging; realtime updates; scaling</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for introductory computer science and software construction. Eight units with exactly three solved questions per unit and 16 interactive numerical simulations illustrating problem decomposition, overflow boundaries, hash collisions, and test coverage. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-7-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.1</span>
+            <span>Background Jobs</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Background jobs separate work that must happen later from the immediate response path. Sending a certificate email, generating a PDF report, or recomputing a recommendation index may not need to block the student who triggered it. A web handler can validate the request, commit durable intent, and return a job identifier or status resource. A worker then performs the task, possibly after retries. This improves perceived responsiveness, but it introduces new states: queued, running, succeeded, failed, cancelled, and potentially unknown after a crash. The UI needs to communicate those states accurately.</p>
+
+<p>A queue is not a guarantee that work executes exactly once. A worker might complete an external effect, crash before acknowledging the message, and receive the same job again. Idempotent job design associates a stable operation identifier with a durable outcome, so retrying does not create a duplicate invoice or certificate. Some effects cannot be undone easily, such as an email already delivered; for these, distinguish at-least-once attempt semantics from business-level deduplication and communicate uncertainty when necessary. Poison jobs require dead-letter handling or manual inspection instead of infinite hot-loop retries.</p>
+
+<p>Job payload design influences security and reliability. Pass immutable identifiers and necessary version information instead of copying full sensitive database records into a queue without retention controls. Revalidate permissions and current resource state where the effect requires current authority. A staff member could lose export rights between scheduling and execution. Timeouts and leases prevent stuck workers from holding work indefinitely, but a lease expiration can allow overlapping attempts. Operations must tolerate that overlap or use effective coordination. Job cancellation may be best effort once an external side effect has begun.</p>
+
+<p>Capacity planning starts with arrival rate, service time, worker concurrency, and backlog. If 30 reports arrive per minute and each worker completes one every ten seconds, one worker handles roughly six per minute; five workers only match average arrival, leaving little safety margin for bursts or retries. Monitoring queue age often reveals user pain more directly than queue length alone. Background processing improves scalability only when it is designed with persistence, operational visibility, and explicit failure semantics.</p>
+
+<h4>Applied design, experiment, and interpretation</h4>
+
+<p><strong>Case analysis: transcript export queue.</strong> Exporting five years of academic records can take several minutes. The request handler validates authority, writes a durable job record, and returns a job URL instead of blocking until completion. A worker processes the request under a constrained service account, storing the result in a private object with a short-lived access mechanism. When the requester loses permission before execution, the job should be cancelled or denied according to documented policy. A retry must not generate conflicting duplicate exports with unnecessarily long retention.</p>
+
+<p><strong>Research exercise.</strong> Measure queue arrival and service rates, then simulate a burst of one hundred exports. Record maximum queue age and worker utilization under failure retries. Kill a worker after writing the output but before acknowledgement; verify idempotent completion or safe artifact replacement. Ensure that logs and job payloads do not expose the exported records.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-queue-backlog"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.2</span>
+            <span>Messaging</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Messaging lets services communicate through events or commands without requiring a synchronous HTTP call for every consequence. A message broker can buffer work, provide routing, and decouple producers from consumers. An event describes something that has happened, such as AssignmentSubmitted; a command requests an action, such as GenerateCertificate. Mixing those meanings makes ownership confusing. Events can have multiple interested consumers, while commands usually have a designated handler. The distinction is conceptual; the delivery guarantees depend on the broker and the application protocol.</p>
+
+<p>At-least-once delivery is common, so duplicate handling is essential. A message needs a stable identifier, versioned schema, creation time, and sufficient context to process it safely. A consumer should make state changes conditional on whether the event has already been applied, ideally atomically with its own records. A producer writing to a database and a broker in two unrelated calls can create a gap: it may commit the data but fail to publish the event. The transactional outbox pattern records pending publication in the same database transaction as the domain change, then relays it asynchronously. This reduces loss but still requires duplicate-safe consumers.</p>
+
+<p>Ordering is often partial, not global. Messages about the same student may need sequential processing, but achieving a single total order across all activity can impose heavy constraints. Partition keys, per-aggregate sequence numbers, and conflict-aware consumers can maintain necessary order without assuming a universal timeline. Schema evolution adds another concern: older consumers may still process messages after a producer adds new fields. Prefer additive changes and compatibility tests; changing the meaning of an existing field is usually more dangerous than adding a new optional one.</p>
+
+<p>Operationally, monitor consumer lag, retry rates, poison-message counts, and effects on downstream services. A burst of enrollment events can overload a slow email provider even when the broker is healthy. Bounded concurrency and backoff prevent runaway retries. Sensitive payloads need access controls and retention limits because queues and dead-letter stores can become secondary copies of private information. Messaging is most useful when it clarifies ownership of domain effects and makes asynchronous failures manageable, not when it is adopted simply because a 'microservices architecture' sounds modern.</p>
+
+<h4>Applied design, experiment, and interpretation</h4>
+
+<p><strong>Case analysis: attendance events and notifications.</strong> A course application emits AttendanceMarked events consumed by analytics and notification services. The producer cannot assume that the two consumers run at the same speed. Store a stable event identifier and aggregate version, keep an outbox associated with the attendance transaction, and make each consumer duplicate tolerant. A late event should not overwrite a more recent attendance correction unless the consumer understands ordering. Notifications that have already been sent cannot be unsent, so a correction may require an additional event rather than a destructive rewrite of history.</p>
+
+<p><strong>Research exercise.</strong> Deliver the same event twice, reorder two updates, and drop an acknowledgement. Verify final analytical totals and notification behavior against an explicit policy. Check schema compatibility when a new optional attendance reason is added. Simulate a dead-letter queue and document what human intervention would resolve rather than infinitely retrying a permanently invalid event.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.3</span>
+            <span>Realtime Updates</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Realtime updates communicate server-side changes to an already open browser without requiring users to reload the page repeatedly. Polling makes periodic HTTP requests; long polling holds a request until an event or timeout; Server-Sent Events stream server-to-client updates over HTTP; WebSockets establish a bidirectional channel. The right choice depends on who needs to send information, expected message frequency, intermediary support, and recovery behavior. A course notification feed may work well with Server-Sent Events, while a collaborative whiteboard may need bidirectional low-latency messaging.</p>
+
+<p>A realtime stream is not automatically a durable log. If a student loses connectivity on a bus, events may be missed unless the protocol supports replay or the client can fetch an authoritative snapshot. Design an event cursor or revision number and a reconnection strategy. The browser should reconcile streamed hints with server state rather than assuming that every event is exactly once and in perfect order. If a grade changes, the stream might tell the client to fetch the updated grade; the server still enforces authorization on that read. Never broadcast private data to everyone on the same connection channel merely because subscriptions are convenient.</p>
+
+<p>Backpressure matters when producers outpace consumers. A fast simulation might emit hundreds of updates per second while a low-powered phone can render only a fraction. Coalesce intermediate states, bound buffers, and prioritize the latest useful snapshot where history is not essential. For an exam countdown, broadcasting every second from the server can be wasteful; sending a trusted deadline and reconciling against server time at key moments may be more efficient. Clock skew must still be handled, and the server remains the authority for submission deadlines.</p>
+
+<p>Test reconnection, duplicated messages, out-of-order arrival, stale authorization, and page visibility transitions. Mobile browsers suspend background tabs and may close network connections unexpectedly. A design that succeeds only on an uninterrupted desktop connection is not reliable realtime software. Realtime features should degrade gracefully to refreshable state when the transport is blocked. Document whether the UI represents a confirmed authoritative update or merely an optimistic local estimate.</p>
+
+<h4>Applied design, experiment, and interpretation</h4>
+
+<p><strong>Case analysis: live laboratory measurements.</strong> Sensors stream temperature readings at twenty updates per second into a dashboard. If each browser renders every event while backgrounded, a slow device may accumulate a large queue and freeze after returning. The client can coalesce readings for display, while keeping authoritative historical samples on the server. A reconnect should request a snapshot or resume from a validated cursor. Alerts for dangerous values require clear delivery guarantees and should not rely only on an ephemeral browser WebSocket.</p>
+
+<p><strong>Research exercise.</strong> Disconnect the network for thirty seconds, reconnect, and compare the recovered plot with the server's recorded history. Inject out-of-order sequence numbers. Measure queue and memory growth under a producer rate higher than rendering capacity. Confirm that one student's private experiment data cannot appear in another student's subscription even if channel identifiers are guessable.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-realtime-draw"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.4</span>
+            <span>Scaling</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Scaling a web service means maintaining desired latency and correctness as demand and data grow. Vertical scaling gives a process more resources; horizontal scaling adds instances and distributes work. A load balancer can spread requests, but stateless service instances only remain interchangeable if user state is held in a suitable shared system or encoded under an appropriate security design. In-memory sessions tied to one process can fail when subsequent requests reach another instance. Sticky sessions may temporarily mask that design, but they complicate failover and uneven load.</p>
+
+<p>The bottleneck is often not the web server. Increasing application replicas can multiply database connections and overwhelm a shared database. A pool has a finite capacity; if every instance maintains fifty connections and twenty instances start, a small database may receive a thousand connections before doing useful work. Queueing and bounded concurrency can protect the database. Read replicas can offload suitable queries, but replication lag affects the freshness of results. Sharding distributes data across stores at the cost of cross-shard operations and more complex resharding. These costs should be justified by measured need.</p>
+
+<p>A practical growth scenario is a university exam platform receiving fifty times normal traffic in the minute before a deadline. Caching stable question text can reduce read pressure, while submissions need durable authenticated writes. Pre-warming capacity, load testing, and isolating expensive analytics from the submission path can matter more than an elaborate distributed architecture. A queue may absorb post-submission processing, but it cannot replace acknowledgement of a durable answer when deadlines are strict. Define what counts as accepted before claiming that the system scaled correctly.</p>
+
+<p>Evaluate scaling with throughput, p95 latency, errors, resource saturation, and cost per successful operation. Run controlled tests with realistic traffic mix and data sizes; a trivial health endpoint can scale differently from a transaction requiring indexes and locks. A cache hit rate under a warm synthetic test may not represent a deployment with cold keys. Scale only the bottleneck that evidence identifies, and preserve failure isolation and observability during the change. Scalability is the ability to maintain service quality under growth, not simply the number of containers visible in a dashboard.</p>
+
+<h4>Applied design, experiment, and interpretation</h4>
+
+<p><strong>Case analysis: exam traffic at the deadline.</strong> A university exam normally sees 100 requests per second but peaks at 5,000 near submission time. Adding fifty frontend instances may overwhelm a database that supports only a few hundred active connections. Use bounded connection pools and load-test actual submission transactions. Serve static instructions and assets from caches, but acknowledge a submitted answer only after durable acceptance. Expensive grading jobs can be queued after submission while preserving the deadline record. Emergency overload behavior must be defined before an exam begins.</p>
+
+<p><strong>Research exercise.</strong> Use a representative traffic mix of reads, autosaves, and final submissions. Report accepted writes, p95 response time, lock waits, errors, and recovery time after the burst. Compare scaling the frontend alone with reducing database work per submission. Verify that clients retrying after timeout do not create duplicate finalized attempts.</p>
+
+<h4>Integrated laboratory: reliable asynchronous certificate generation</h4>
+
+<p>A university issues completion certificates after grading. The synchronous user action should record successful course completion and return an acknowledgement; generating a PDF, signing it, storing the artifact, and emailing a link can happen asynchronously. Define a durable status model that includes pending, processing, succeeded, and failed. The user-facing dashboard must not say 'certificate issued' until the durable artifact exists and is accessible under the intended authorization policy. A background worker should be able to resume work after a crash without silently losing requests.</p>
+
+<p>Construct an outbox sequence. In one database transaction, save completion and a pending CertificateRequested event. A relay publishes the event, and a consumer generates the artifact. Because messages can be delivered more than once, use an idempotency key derived from the completion attempt and certificate version. A second attempt should return or verify the same outcome rather than creating two independently valid certificates. Define how a corrected grade produces a new certificate version and what happens to older public verification links. Distinguish an attempted email from a confirmed artifact creation.</p>
+
+<p>Model capacity. Suppose 180 certificates arrive over one minute, while one worker can create three per second. One worker matches average arrival only under ideal conditions, without retry cost or bursts. Estimate the backlog under a worker outage and choose a concurrency limit that respects the PDF service and storage. Queue age is a particularly useful user-facing health measure. Add a dead-letter path for malformed certificate requests and provide an operator workflow that does not bypass authorization. Retrying forever at high speed merely amplifies a broken dependency.</p>
+
+<p>Introduce real-time progress carefully. A browser may subscribe to Server-Sent Events for status changes, but loss of connectivity must not imply loss of the job. On reconnection, it should fetch the authoritative state, possibly using a revision cursor. Coalesce noisy progress events rather than flooding the client. Ensure subscriptions are authorized for the relevant student. A realtime stream is a delivery convenience; the database record is the persistent truth for completed certificates.</p>
+
+<p>Finish with failure injection. Crash a worker before generation, after writing the artifact but before acknowledgement, and after publishing a success event but before marking the local record. Check idempotency and eventual convergence in each case. Measure duplicate delivery and out-of-order event handling. Write a short operations plan for monitoring backlog, failures, privacy, and storage retention. The result should be a dependable workflow justified by tests rather than by a claim that adding a message queue automatically makes software scalable.</p>
+
+<h4>Synthesis: asynchronous work requires a durable definition of success</h4>
+
+<p>A queue, event stream, or realtime channel changes the timing of a workflow but does not erase its responsibilities. Jobs may retry; messages may duplicate or reorder; browser connections may drop; new web replicas may contend for the same database. The application must identify what is committed, what is merely requested, and what information can be reconstructed after failure. A student's certificate should not disappear because an email provider was unavailable, and duplicate completion events should not create multiple conflicting certificates. These are domain guarantees implemented through storage, idempotency, and carefully chosen communication patterns.</p>
+
+<p>Compare three forms of state. An authoritative database record persists the outcome of a course completion. A message tells a worker that some consequence needs attention, possibly more than once. A realtime UI event informs the student's open tab that it may refresh its view. Treating all three as interchangeable causes lost effects and misleading displays. In a load test, watch both response latency and queue age; moving expensive work behind a broker can make requests faster while letting a backlog grow unnoticed. Scaling the web tier alone may increase pressure on a shared database. Reliability comes from measured capacity, failure isolation, and recoverable state transitions, not from the number of technologies in the architecture.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Programming Fundamentals Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.1: Calculate certificate queue capacity</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A university receives 180 certificate generation jobs in one minute. One worker completes 3 jobs per second under an ideal fixed-time model. What is the average service capacity and what happens after a 20-second worker outage?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-web-systems-u7-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-web-systems-u7-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Convert the rates</div>
+              
+              <div class="step-explanation"><p>Three jobs per second equals 180 per minute. Therefore, one worker exactly matches the stated average arrival rate when it runs continuously without retries, setup delays, or variance. Equality of average rates gives no capacity headroom for bursts or outages.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute lost capacity</div>
+              
+              <div class="step-explanation"><p>A twenty-second outage removes capacity for 20 × 3 = 60 jobs. If arrivals continue at the same average rate, roughly sixty jobs accumulate. When the worker resumes at exactly the arrival rate, it cannot reduce the backlog, because new arrivals consume all of its nominal service capacity.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Propose a recovery strategy</div>
+              
+              <div class="step-explanation"><p>To clear the backlog, the system needs temporary additional service capacity, reduced arrivals, or a longer completion horizon. Monitor queue age and failure retries, not merely the worker process's health. Make the generator idempotent and persist job state so a crash cannot permanently lose the certificates.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.2: Explain messaging duplicates</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A database commits CourseCompleted, publishes an event, and a worker generates a certificate. The worker crashes after generation but before acknowledging the event. How can the system avoid generating duplicates on retry?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-web-systems-u7-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-web-systems-u7-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Locate the uncertainty</div>
+              
+              <div class="step-explanation"><p>The broker may redeliver an unacknowledged message because it cannot know whether the external effect completed. The worker may already have written a certificate artifact. This is a normal consequence of at-least-once processing and cannot be fixed by assuming that each message arrives exactly once.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Choose idempotency identity</div>
+              
+              <div class="step-explanation"><p>Associate a stable operation key with the course completion attempt and certificate version. On retry, the generator checks durable evidence of an existing successful result and returns or verifies it rather than creating a conflicting second certificate. This check and write must be coordinated under a concurrency-safe storage policy.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Complete the failure path</div>
+              
+              <div class="step-explanation"><p>Use an outbox to reduce the risk of committing completion but losing the publication request. Track processing outcomes, retry bounded transient errors, and dead-letter permanent failures. An email may already have been sent even if acknowledgement fails, so distinguish notification attempts from the durable certificate record.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.3: Recover a realtime dashboard</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A browser loses its live laboratory stream for 30 seconds while the server continues receiving readings. Explain why reconnecting to a WebSocket alone may not restore the full history.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-web-systems-u7-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-web-systems-u7-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Distinguish live from durable data</div>
+              
+              <div class="step-explanation"><p>A WebSocket transports messages over an active connection. Once disconnected, an ordinary ephemeral stream does not necessarily retain the missing updates. Even if the connection reopens, previously emitted events may be gone or out of order. The browser needs a contract for authoritative state restoration.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Specify resynchronization</div>
+              
+              <div class="step-explanation"><p>Maintain sequence identifiers or timestamps suitable for a durable cursor, and after reconnection fetch a current snapshot or replay missing history from a server-side store. Authenticate access to the stream and the history endpoint. Deduplicate by event identity and resolve ordering according to the model's documented guarantees.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Handle rendering capacity</div>
+              
+              <div class="step-explanation"><p>If sensors send twenty updates per second and the browser can render five, coalesce intermediate visual updates while retaining necessary historical information on the server. Test background-tab suspension, connectivity loss, stale permissions, and rapid reconnections. Realtime communication is useful only when its recovery semantics match the educational task.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/kernighan-ritchie-c" target="_blank" rel="noopener noreferrer">Kernighan, B.W., &amp; Ritchie, D.M. (1988). The C Programming Language (2nd ed.): Foundational text on structural decomposition, control flow, functions, pointers, and memory layout</a></li><li><a href="https://openstemlibrary.com/references/sicp" target="_blank" rel="noopener noreferrer">Abelson, H., &amp; Sussman, G.J. (1996). Structure and Interpretation of Computer Programs: Canonical treatise on abstraction, procedural decomposition, state, and evaluation models</a></li><li><a href="https://openstemlibrary.com/references/goldberg-floating-point" target="_blank" rel="noopener noreferrer">Goldberg, D. (1991). What Every Computer Scientist Should Know About Floating-Point Arithmetic: Definitive reference on IEEE 754 precision, rounding, and representation error</a></li><li><a href="https://openstemlibrary.com/references/beck-tdd" target="_blank" rel="noopener noreferrer">Beck, K. (2002). Test-Driven Development: By Example: Primary reference for unit test boundaries, assertions, and invariant verification</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="web-systems-chapter-6">← Previous chapter</a><a href="web-systems">Book contents</a><a href="web-systems-chapter-8">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="web-systems-sims.js"></script>
+  <script src="web-systems-data.js"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

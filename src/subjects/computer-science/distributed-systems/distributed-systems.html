@@ -1,0 +1,537 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Distributed Systems: Logical Clocks, Paxos, Raft Consensus &amp; Fault Tolerance | OpenSTEM Library</title>
+  <meta name="description" content="Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/distributed-systems">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/distributed-systems">
+  <meta property="og:title" content="Distributed Systems: Logical Clocks, Paxos, Raft Consensus &amp; Fault Tolerance | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Distributed Systems: Logical Clocks, Paxos, Raft Consensus &amp; Fault Tolerance | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="distributed-systems.css?v=20261024_academic"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Book",
+  "name": "Distributed Systems",
+  "description": "Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.",
+  "url": "https://openstemlibrary.com/distributed-systems",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "educationalLevel": "Undergraduate",
+  "author": {
+    "@type": "Organization",
+    "name": "OpenSTEM Library"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "OpenSTEM Library",
+    "url": "https://openstemlibrary.com/"
+  },
+  "learningResourceType": "Textbook",
+  "about": [
+    "Programming Fundamentals",
+    "Problem Decomposition",
+    "Control Flow Invariants",
+    "Two's Complement Representation",
+    "Modular Architecture",
+    "Unit Testing",
+    "Binary Search",
+    "Numerical Integration"
+  ],
+  "keywords": "Distributed Systems, Logical Clocks and Causality, Paxos and Raft Consensus, Fault Tolerance, Quorum Systems, CAP Theorem, Replication and Consistency, Distributed Transactions"
+}</script><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "OpenSTEM Library",
+      "item": "https://openstemlibrary.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Computer Science",
+      "item": "https://openstemlibrary.com/#computer-science"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Distributed Systems",
+      "item": "https://openstemlibrary.com/distributed-systems"
+    }
+  ]
+}</script><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Distributed Systems",
+  "description": "Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.",
+  "provider": {
+    "@type": "EducationalOrganization",
+    "name": "OpenSTEM Library",
+    "url": "https://openstemlibrary.com"
+  },
+  "courseCode": "CS 417, CS 451",
+  "educationalLevel": "Undergraduate",
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "online",
+    "courseWorkload": "PT80H"
+  }
+}</script></head>
+<body data-book-path="distributed-systems.html" data-chapter-index="0" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Programming Fundamentals</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search problem decomposition, linear search, floating point precision, two's complement overflow, loop invariants, recursion, stack frames, hash tables, unit test boundaries, binary search, trapezoidal rule…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item active" data-unit-index="0"><a href="distributed-systems" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Distributed foundations</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="distributed-systems-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Coordination</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="distributed-systems-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Replication</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="distributed-systems-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Consensus</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="distributed-systems-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Distributed storage</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="distributed-systems-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Distributed computation</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="distributed-systems-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Reliability and operations</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="distributed-systems-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">System design</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Programming fundamentals core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 1 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Distributed foundations</h1>
+            <p class="unit-desc-lead" id="unit-desc">Failures and fault models, Timing models and timeouts, Message passing and communication contracts, Consistency and observable histories, Capstone: a partitioned campus reservation service</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for introductory computer science and software construction. Eight units with exactly three solved questions per unit and 16 interactive numerical simulations illustrating problem decomposition, overflow boundaries, hash collisions, and test coverage. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-1-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§1.1</span>
+            <span>Problem Decomposition</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>## Problem Decomposition: the computational contract</p>
+
+<p><strong>Core idea.</strong> Separate the pricing operation into named responsibilities. A requirement change, such as discount-before-tax, alters the algorithm; changing the output label does not. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
+
+<p><strong>Executable Python example:</strong></p>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>def final_price(subtotal, tax_rate, shipping):
+    tax = round(subtotal * tax_rate, 2)
+    return round(subtotal + tax + shipping, 2)
+print(final_price(100, 0.05, 10))</code></pre>
+
+<p><strong>Expected result:</strong> `115.0`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
+
+<p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For problem decomposition, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
+
+<p><strong>Practical lab.</strong> Before implementation, identify which facts are input data and which are policy. A function that hardcodes mutable policy is fragile even when its first output is correct. Try a case where the given value is missing or physically impossible; decide whether to reject, default or request clarification. Ask a classmate to describe the result using only the contract rather than the implementation. If that description is ambiguous, improve the naming, parameter definitions or documentation. Treat performance as a measurable claim: count iterations, allocations or calls before speculating about speed.</p>
+
+<p><strong>Reflection.</strong> How would you adapt this example to values supplied through a browser or a file rather than literals in source code? Separate parsing from computation so the central function can be unit tested. Identify a condition under which the present example is intentionally incomplete and what evidence would justify extending it. Understand these limitations before using the same technique in scientific calculations or production applications.</p>
+
+<hr class="section-divider-hr">
+
+<h4>Extended case study, part 1</h4>
+
+<p># Extended laboratory: computational thinking from a vague request to a testable solution</p>
+
+<p>A useful first lesson in programming is that a plausible answer is not necessarily the answer to the problem that was asked. Consider a small academic club that collects registrations for workshops. Students select a session, some students receive a fee waiver, a limited number of seats are available, and the organizer wants to know who should receive confirmation emails. A beginner may immediately write a list, loop through applicants, and print their names. Yet the most consequential decisions are not syntax decisions. They are questions about what the registration system promises, which facts are known, and what events might invalidate an earlier decision. A system that accepts a hundred registrations into a room with forty seats is not correct merely because each line of its Python code executes successfully.</p>
+
+<p>Start by describing the participants and the state. There is an applicant with an identifier, an event with a capacity, a registration request with an arrival time, a waiver rule, a payment state, and an observable registration result. Define whether the same applicant may register twice; whether an unpaid registration reserves a seat; whether an organizer may adjust the capacity; and what happens if a request arrives after registration closes. Two developers who disagree on one of those points may write two internally consistent algorithms that nevertheless produce incompatible results. The difference is a missing requirement, not a disagreement about Python style. A written contract converts such questions into decisions that can be reviewed before implementation.</p>
+
+<p>## Decomposing the work without hiding the difficult part</p>
+
+<p>Break the task into functions along meaningful boundaries. One function validates a request; one checks eligibility; one evaluates current capacity; one records an accepted registration; one assembles the notification. This decomposition does not imply that every function requires a separate file or class. It does imply that input parsing, domain rules, storage, and presentation are not silently mixed. Suppose a waiver rule changes from giving discounts to first-year students to giving discounts to financial-aid recipients. If the rule is concentrated in an eligibility function, it can change without rewriting the notification format or sorting algorithm. A good decomposition identifies which decisions tend to change together and which should remain independent.</p>
+
+<p>There is an important trap in splitting a problem into many tiny functions: decomposing the code is not automatically decomposing the reasoning. If `process_registration()` delegates to `check()` and `handle()` without specifying what either function guarantees, complexity has merely been renamed. Each component needs a contract. A validator might promise that the returned record contains a nonempty identifier and a recognized session code. A capacity checker might promise only to read availability, not to reserve a seat. A persistence operation might promise an atomic transition from pending to confirmed; that last promise is stronger than a simple dictionary update when several users can register concurrently. The component boundaries should expose such differences explicitly.</p>
+
+<p>Use a data-flow diagram before writing a full program. A request arrives as text, is parsed into typed values, checked against the event catalogue, evaluated under business rules, and either rejected with a reason or committed as a registration. Only after the state has been committed should the application announce an irreversible confirmation. This ordering illustrates why outputs are not merely printed strings. Sending a confirmation is an observable side effect that can become inconsistent with stored records. Even a single-user prototype benefits from stating which steps are calculations and which steps cause external effects.</p>
+
+<p>## Algorithms are sequences of justified decisions</p>
+
+<p>An algorithm is not just any procedure that appears to produce the desired output on one example. It must have a clearly stated input domain, a finite set of instructions, a defined result, and a correctness argument relative to that domain. Consider selecting the first available applicant from a queue of registrations. If the rule is first-come-first-served, sorting by applicant name is incorrect even if the resulting list is perfectly sorted. If the rule prioritizes accessibility accommodations, strict arrival order may also be incorrect. Algorithm design starts after the rule has been chosen, not before.</p>
+
+<p>For a list of arrival times and corresponding requests, suppose the policy is to accept at most the first `capacity` eligible requests in arrival order. A simple algorithm scans the sequence once, maintains a counter of accepted registrations, and appends an eligible applicant while the counter is below capacity. Its loop invariant can be stated precisely: after processing the first `k` requests, the accepted list contains exactly those accepted by the stated policy among those first `k` requests, in arrival order, and its length is no greater than capacity. Initialization holds for an empty prefix. The next request either fails eligibility or finds capacity full and leaves the list unchanged, or succeeds and appends one eligible request. Under the policy, the invariant is maintained. At termination, all requests have been processed, so the output satisfies the rule for the complete input.</p>
+
+<p>This proof is conditional. It assumes the input sequence is already in arrival order, each eligibility decision is stable during the run, and registrations are processed serially. If requests arrive concurrently and capacity is checked independently by two workers, both may observe one remaining seat and both may confirm it. No local loop invariant prevents that race condition. The system needs a transaction, a lock, a single queue consumer, or another concurrency mechanism enforcing the capacity invariant across independent executions. Identifying an assumption that invalidates a proof is part of understanding the proof, not an embarrassment to be concealed.</p>
+        </div>
+
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-pf-decomposition"></div>
+          </div>
+
+      </section><section class="textbook-section-card" id="sec-1-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§1.2</span>
+            <span>Algorithms</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>## Algorithms: the computational contract</p>
+
+<p><strong>Core idea.</strong> The candidate is initialized from actual data, not an invented sentinel. The loop maintains that best is the smallest examined element. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
+
+<p><strong>Executable Python example:</strong></p>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>def smallest(values):
+    best = values[0]
+    for item in values[1:]:
+        if item &lt; best:
+            best = item
+    return best
+print(smallest([9, 4, 12, 2]))</code></pre>
+
+<p><strong>Expected result:</strong> `2`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
+
+<p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For algorithms, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
+
+<p><strong>Practical lab.</strong> Make a trace table with at least four rows: the initial state, two transitions and the final state. If a proposed shortcut skips a state, show why the output remains equivalent. The trace is a method of reasoning, not a substitute for full testing. Ask a classmate to describe the result using only the contract rather than the implementation. If that description is ambiguous, improve the naming, parameter definitions or documentation. Treat performance as a measurable claim: count iterations, allocations or calls before speculating about speed.</p>
+
+<hr class="section-divider-hr">
+
+<h4>Extended case study, part 2</h4>
+
+<p>## Correctness before cleverness</p>
+
+<p>Imagine two algorithms for finding the minimum of a nonempty list. The first examines every value and maintains a running minimum. The second sorts the entire list and reads the first element. Both give the same minimum if the comparison relation is defined consistently. Their computational costs differ. A direct scan requires a number of comparisons proportional to the list length and needs constant extra space if the result is a single scalar. A comparison sort generally requires time proportional to `n log n` and may allocate additional storage, depending on the implementation. The scan is preferable if only the minimum is needed. Sorting may be sensible if an ordering is required for several later operations. The objective should be specified before describing one approach as faster.</p>
+
+<p>A second comparison reveals a more subtle concern: what happens when the list is empty? Initializing a candidate minimum from the first element raises an index error. Initializing it to zero silently gives the wrong answer for a list of positive values. Returning infinity may be mathematically convenient in an optimization routine but surprising in a user-facing application. There is no universal best answer. The function should either reject an empty input with a documented error, return an optional value indicating absence, or accept a caller-supplied default. These represent distinct contracts. A test suite should make the choice visible rather than accidentally accepting whichever behavior a loop happens to produce.</p>
+
+<p>## Abstraction as an engineering decision</p>
+
+<p>Abstraction removes details that are irrelevant to a particular operation while preserving the details needed for correctness. In a seat allocator, the caller may need only `can_register(request, event_state)`. The caller should not have to know how payment is represented or how the waiver rule is stored. Yet the abstraction must not conceal information that a correct decision requires. If capacity checks may be stale, returning a boolean `True` without any reservation guarantee invites misuse. A better interface might return a reservation token that represents a committed allocation, or distinguish `eligible` from `seat_reserved`. Good abstractions simplify use without making false promises.</p>
+
+<p>Compare a function that converts Celsius to Fahrenheit with a function that estimates thermal energy. Both accept numbers, yet their contracts are very different. The conversion `F = 9C/5 + 32` is affine: differences between temperatures scale by `9/5`, but the zero point shifts by 32. Thermal energy calculations typically require material properties, masses, and assumptions about processes. Reusing a generic function named `convert()` for both can hide those distinctions. A type or unit annotation, descriptive function name, and parameter documentation make the model clearer. Abstraction should preserve physical and semantic dimensions that are essential for reliable computation.</p>
+
+<p>## Inputs are not assumptions</p>
+
+<p>A program that receives `"42"` receives a string, not an integer. Converting it with `int()` performs parsing under language-specific rules. Converting `"4.2"` to an integer raises an exception rather than rounding to four. An application might permit whitespace, a plus sign, or localized digits, but these should be explicit choices. Once parsing succeeds, validation is still needed: a syntactically valid integer may be negative when a seat count must be nonnegative. Parsing answers whether the input can be represented as a value of a given type; validation answers whether that value is permitted by the application contract.</p>
+
+<p>For a robust input pipeline, separate four stages. First acquire raw data without treating it as trusted. Second parse that data into an intentional representation. Third validate ranges, relationships, and uniqueness. Fourth apply the domain operation. When a stage fails, return information the caller can act upon. For example, `"capacity must be a whole number between 1 and 500"` is more useful than a generic `"invalid input"` message. It is also more honest than replacing a malformed value with a default that may allocate the wrong number of seats. Defaults are appropriate only when the domain has specified a meaningful default.</p>
+        </div>
+
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-pf-minscan"></div>
+          </div>
+
+      </section><section class="textbook-section-card" id="sec-1-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§1.3</span>
+            <span>Abstraction</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>## Abstraction: the computational contract</p>
+
+<p><strong>Core idea.</strong> The caller sees a clear predicate rather than the internal boolean expression, helping isolate business rules. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
+
+<p><strong>Executable Python example:</strong></p>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>def is_eligible(age, enrolled):
+    return age &gt;= 18 and enrolled
+print(is_eligible(20, True))</code></pre>
+
+<p><strong>Expected result:</strong> `True`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
+
+<p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For abstraction, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
+
+<p><strong>Practical lab.</strong> Test a normal input, an empty input where meaningful, a boundary input and a malformed input. Explain whether the program should return a result, raise an exception or ask for a new value. This separates mathematical domain assumptions from interface behavior. Ask a classmate to describe the result using only the contract rather than the implementation. If that description is ambiguous, improve the naming, parameter definitions or documentation. Treat performance as a measurable claim: count iterations, allocations or calls before speculating about speed.</p>
+
+<hr class="section-divider-hr">
+
+<h4>Extended case study, part 3</h4>
+
+<p>## A running example: weighted assessment</p>
+
+<p>Build a small function to compute an assessment mark from homework, laboratory work, and a final examination. Suppose the policy is twenty percent homework, thirty percent laboratory work, and fifty percent final examination. Represent the weights as numbers that sum to one and restrict all scores to a documented interval such as zero through one hundred. The calculation is a weighted sum: `0.2 <em> homework + 0.3 </em> lab + 0.5 * exam`. For scores of eighty, ninety, and seventy respectively, the result is sixteen plus twenty-seven plus thirty-five, or seventy-eight. That arithmetic is the easy part. The more interesting choices are whether missing homework counts as zero, whether bonus points can exceed one hundred, how rounding should work, and whether a changed weight policy should retroactively alter published results.</p>
+
+<p>A good interface takes both the scores and the policy as explicit inputs. The policy should be validated before calculating. A weight vector that sums to one point two is not valid under the stated weighted-average interpretation. Floating-point addition may yield a value very close to one without being exactly equal, so choose an appropriate tolerance for checking the sum. If exact decimal accounting matters, a decimal representation or integer basis-point weights may be preferable. A function that prints the final result rather than returning it is harder to reuse in a class statistics report or a test. Return the calculation; display it in a separate step.</p>
+
+<p>The case also illustrates controlled change. If the exam weight decreases from one half to two fifths, decide which of the other components gains the remaining tenth before editing the code. Changing one number without restoring the sum-to-one invariant makes the weighting policy inconsistent. After updating the policy, rerun tests that use hand-calculated examples, including the all-zero vector, the all-maximum vector, and a case where only one component is nonzero. Those tests establish useful boundary behavior and help detect accidental swaps of component positions.</p>
+
+<p>## Trace tables and counterexamples</p>
+
+<p>A trace table records how an algorithm changes state. For the simple minimum-finding scan over `[9, 4, 12, 2]`, the candidate begins at nine, changes to four, remains four after twelve, and becomes two after the final element. The invariant says that the candidate is the minimum among all values examined so far. This is stronger than simply observing that the final answer is two. It describes why every intermediate update is justified and permits a correctness argument independent of this one list. Write a second trace for a list containing equal values and a third for negative values; the invariant should survive both.</p>
+
+<p>Counterexamples are especially useful when an assumption is unspoken. If a function chooses the first element as the minimum and never updates on equality, that is correct for finding a minimum value but not sufficient for finding the last index of the minimum. A function designed to return an index requires a tie-breaking rule. Suppose the input is `[3, 1, 1, 4]`. A strict less-than comparison returns the position of the first one; a less-than-or-equal comparison can return the last. Neither is inherently wrong without an index contract. The failure occurs when the implementation and the intended tie policy differ.</p>
+
+<h4>Capstone: turning a vague request into a testable specification</h4>
+
+<p>A neighborhood library asks for a program that reports which borrowed titles are overdue. The first challenge is not choosing a programming language. It is choosing the information and the policy the program must represent. The initial sentence leaves unresolved whether a loan due at midnight counts as late, how time zones work, whether a loan can be renewed, and what should happen when a borrower record lacks a due date. A reliable decomposition therefore separates reading the records, checking structural validity, interpreting the due-date policy, computing the overdue condition, sorting results, and presenting output. Each component has an observable responsibility. The input reader should not silently decide an overdue policy; the policy module should not perform network I/O; the formatter should not change loan status.</p>
+
+<p>Define an input record with a stable identifier, a title, a due date in ISO form, and a state such as borrowed or returned. A program may choose a controlled input format such as JSON, then validate that each record has the required fields with the specified types. Separate the clock from the business rule by passing the current date as an explicit argument. This small design decision makes tests deterministic: testing a deadline near midnight no longer depends on when the developer executes the program. It also makes unusual days testable without changing the system clock. A record with a missing date should be rejected or reported as invalid according to a documented policy rather than assigned a guessed due date.</p>
+
+<p>One possible predicate is `is_overdue(loan, today) = (loan.status == 'borrowed') and (loan.due_date &lt; today)`, where the comparison is defined on parsed dates and assumes a loan is overdue only after the due day. Given loans due on 4 May, 5 May, and 6 May, and evaluation date 5 May, only the 4 May loan is overdue. This sounds obvious, but code that uses `&lt;=` instead of `&lt;` would classify the 5 May loan as overdue. The examples therefore constitute a boundary test for the chosen policy. The return value might be a list of records ordered by due date, not a list of messages printed deep inside the predicate. Returning data keeps computation separate from presentation and allows different interfaces to reuse the same logic.</p>
+
+<p>The program can be designed as a pipeline: load → parse → validate → filter → sort → render. Each arrow represents a contract about the data shape and permissible failures. Parsing produces either records or a specific parse error. Validation produces trusted records or an explanation of invalid fields. Filtering accepts only trusted records. Sorting preserves identity and determines deterministic order for ties. Rendering may output a table or a file without changing the calculation. This organization is more robust than a single long loop that simultaneously opens files, catches every exception, changes dates, and prints responses. It also makes future features, such as reminders or multiple libraries, easier to isolate.</p>
+
+<p>An algorithm is not a magical solution to an ambiguous specification. If a librarian changes the rule so overdue time begins one hour after closing, a date-only comparison is inadequate. A clearer time model is required; adding conditional patches to an ill-defined policy hides the defect rather than resolving it. The most useful abstraction is therefore one that exposes the decision boundary and leaves room for explicit policy changes. A concise pseudocode contract names the preconditions, the returned value, and failures. Tests then exercise empty lists, all returned books, exact deadline equality, invalid dates, and duplicated identifiers. The final deliverable is not merely code that prints plausible results: it is an implementation whose output a second reader can predict from the specification.</p>
+        </div>
+
+      </section><section class="textbook-section-card" id="sec-1-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§1.4</span>
+            <span>Input–Output Models</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>## Input–Output Models: the computational contract</p>
+
+<p><strong>Core idea.</strong> Define input units and output units explicitly. A numeric function without a documented unit convention can be mathematically correct yet scientifically unusable. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
+
+<p><strong>Executable Python example:</strong></p>
+
+<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>def celsius_to_fahrenheit(c):
+    return c * 9 / 5 + 32
+print(celsius_to_fahrenheit(0))</code></pre>
+
+<p><strong>Expected result:</strong> `32.0`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
+
+<p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For input–output models, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
+
+<p><strong>Practical lab.</strong> Compare readability, asymptotic work and memory use with a plausible alternative. For small datasets, clarity may dominate micro-optimization. For huge datasets, count the operations rather than relying on a vague claim that one language construct is faster. Ask a classmate to describe the result using only the contract rather than the implementation. If that description is ambiguous, improve the naming, parameter definitions or documentation. Treat performance as a measurable claim: count iterations, allocations or calls before speculating about speed.</p>
+
+<hr class="section-divider-hr">
+
+<h4>Extended case study, part 4</h4>
+
+<p>## Design the evidence before implementation</p>
+
+<p>The most useful tests arise from the claims made in a contract. For a grade converter, test the endpoints and just below or above each threshold. For a registration system, test zero remaining seats, one remaining seat, duplicate identities, invalid identifiers, events with different capacities, and concurrent requests if concurrency is supported. For a conversion function, test known reference points and a negative temperature. These are not merely random cases; each probes a specific boundary, invariant, or model assumption. Give a test a name that describes the behavior it checks, such as `reject_duplicate_registration`, instead of `test_two`.</p>
+
+<p>During review, distinguish an example from a proof and a proof from an integration test. An example demonstrates one execution. A proof establishes a property for a specified set of inputs under stated assumptions. An integration test checks whether components actually interact as promised in a concrete environment. For instance, a correct seat-allocation function may still be wired to a web form that uses the wrong event identifier. Conversely, passing a few end-to-end tests does not prove that all capacity races are impossible. Reliable software uses several forms of evidence because they answer different questions.</p>
+
+<p>## Failure-first exercise: the double-confirmation incident</p>
+
+<p>Two registration requests arrive almost simultaneously with one seat remaining. The service checks capacity in a first step and writes a confirmation in a second step. Each request sees capacity equal to one; each then confirms the applicant. The system reports two confirmations for a single seat. Explain the failure using a timeline: worker A reads available seats, worker B reads the same state, worker A commits, and worker B commits based on an obsolete observation. The defect is not primarily a slow loop or a weak name. It is a missing atomicity guarantee between the check and the reservation.</p>
+
+<p>A repair must change the state transition. In a single-process teaching example, place both the capacity check and the mutation behind one lock. In a database-backed system, use a transaction with suitable isolation or an atomic conditional update that succeeds only if capacity is still available. The output should distinguish an accepted request from a rejected request after the atomic operation. Retest with many concurrent attempts and verify that the number of confirmed places never exceeds the capacity. Even then, examine whether the test environment exercises the actual storage semantics used in deployment. A mock lock is not evidence that a remote database behaves identically.</p>
+
+<p>## Final synthesis</p>
+
+<p>Computational thinking is an approach to reducing ambiguity. Problem decomposition isolates responsibilities and policies. Algorithms provide steps whose correctness can be argued. Abstraction separates interfaces from internal machinery while preserving essential guarantees. Input–output models make representations, units, errors, and observable effects explicit. All four are needed even for short scripts, because complexity is not measured only by the number of lines written. A five-line program can produce an irreversible incorrect payment; a larger implementation with explicit contracts and checks can be easier to understand and maintain.</p>
+
+<p>Before moving to variables and expressions, produce three artifacts for the registration case. Write a one-paragraph contract listing valid and invalid inputs. Draw the data flow from raw request to committed registration and notification. Finally, give an invariant and a set of tests that would expose a capacity violation. Those artifacts define what success means and make the implementation reviewable by someone who did not write the code. They are the bridge between an informal request and an engineering result.</p>
+        </div>
+
+      </section><section class="textbook-section-card" id="sec-1-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§1.5</span>
+            <span>Applied investigation: Specification-driven decomposition and minimum scanning</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Applied investigation: Specification-driven decomposition and minimum scanning</h4>
+
+<p>Break a text-file statistics utility into a parser, a validator, a numerical accumulator and an output formatter. These are distinct responsibilities because each has a different contract. The parser converts bytes to tokens; the validator rejects malformed numbers; the accumulator applies a numeric operation; the formatter handles user-visible presentation. Merging validation and accumulation would allow a malformed token to corrupt state before an error is reported. If a design uses n separate responsibilities, neither the simulator nor the count alone proves the program is modular: cohesion, coupling, input contracts and error propagation matter.</p>
+
+<p>A linear minimum scan of eight values must compare seven values with the running minimum after initializing it from the first element. Consider [8, 2, 5, 2, 9, 1, 4, 6]. After the seventh comparison the result is one. Replacing that list with a sorted list does not change the seven-comparison count if the implementation always scans the entire input. A truly empty list needs an explicit policy such as returning None or throwing a documented exception; initializing from element zero would otherwise be invalid.</p>
+
+<p><strong>Verification exercise.</strong> Compute a small valid case by hand, compare it with both interactive models in this unit, then reset them. Write the boundary case that violates a stated assumption and explain why the implementation should reject it rather than silently returning a misleading result.</p>
+        </div>
+
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Programming Fundamentals Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 1.1: Worked exercise 1.1</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Specify an algorithm that accepts three test scores, drops the lowest and returns the average of the remaining two. Explain behavior on ties.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-pf-1-1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-pf-1-1">
+
+            <div class="solution-step">
+              <div class="step-title">Define the input contract</div>
+
+              <div class="step-explanation"><p>Scores are three finite numbers on a documented scale. Ties are permitted, and exactly one occurrence of the minimum is dropped.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">Derive the computation</div>
+
+              <div class="step-explanation"><p>Sort the three scores or compute (sum(scores) - min(scores))/2. The subtraction removes exactly one lowest occurrence.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">Verify</div>
+
+              <div class="step-explanation"><p>For [80,80,100], (260-80)/2 = 90. For [0,10,20] result is 15. The algorithm requires exactly three inputs.</p></div>
+            </div>
+
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 1.2: Worked exercise 1.2</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Compare a sequential scan and a full sort for finding a minimum of n items.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-pf-1-2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-pf-1-2">
+
+            <div class="solution-step">
+              <div class="step-title">Scan</div>
+
+              <div class="step-explanation"><p>Initialize current minimum with first element; compare each remaining element once. There are n-1 comparisons.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">Sort</div>
+
+              <div class="step-explanation"><p>Comparison sorting takes O(n log n) comparisons in the general case and changes order or creates an auxiliary collection.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">Decide</div>
+
+              <div class="step-explanation"><p>If only the minimum is needed, an O(n) scan is simpler; sorting may be justified if an ordered list is needed later.</p></div>
+            </div>
+
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 1.3: Worked exercise 1.3</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Give a precise input-output contract for Celsius-to-Fahrenheit conversion.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-pf-1-3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-pf-1-3">
+
+            <div class="solution-step">
+              <div class="step-title">Define</div>
+
+              <div class="step-explanation"><p>Input is a finite numeric temperature in degrees Celsius. Output is F = 9C/5 + 32, in degrees Fahrenheit.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">Compute</div>
+
+              <div class="step-explanation"><p>For 25°C, F = 9·25/5 + 32 = 77°F.</p></div>
+            </div>
+
+            <div class="solution-step">
+              <div class="step-title">Validate</div>
+
+              <div class="step-explanation"><p>At 0°C output is 32°F and at -40°C output is -40°F. Make the unit conversion explicit in the interface.</p></div>
+            </div>
+
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/kernighan-ritchie-c" target="_blank" rel="noopener noreferrer">Kernighan, B.W., &amp; Ritchie, D.M. (1988). The C Programming Language (2nd ed.): Foundational text on structural decomposition, control flow, functions, pointers, and memory layout</a></li><li><a href="https://openstemlibrary.com/references/sicp" target="_blank" rel="noopener noreferrer">Abelson, H., &amp; Sussman, G.J. (1996). Structure and Interpretation of Computer Programs: Canonical treatise on abstraction, procedural decomposition, state, and evaluation models</a></li><li><a href="https://openstemlibrary.com/references/goldberg-floating-point" target="_blank" rel="noopener noreferrer">Goldberg, D. (1991). What Every Computer Scientist Should Know About Floating-Point Arithmetic: Definitive reference on IEEE 754 precision, rounding, and representation error</a></li><li><a href="https://openstemlibrary.com/references/beck-tdd" target="_blank" rel="noopener noreferrer">Beck, K. (2002). Test-Driven Development: By Example: Primary reference for unit test boundaries, assertions, and invariant verification</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="distributed-systems-chapter-2">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="distributed-systems-sims.js"></script>
+  <script src="distributed-systems-data.js"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

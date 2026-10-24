@@ -1,0 +1,343 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Performance analysis | Parallel Computing | OpenSTEM Library</title>
+  <meta name="description" content="Speedup; Efficiency; Amdahl Limits; Communication Costs">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/parallel-computing-chapter-2">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/parallel-computing-chapter-2">
+  <meta property="og:title" content="Parallel Computing: Shared Memory, MPI, GPU CUDA Architecture &amp; Amdahl's Law | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Parallel Computing: Shared Memory, MPI, GPU CUDA Architecture &amp; Amdahl's Law | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="parallel-computing.css?v=20261024_academic"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Parallel Computing: Performance analysis","description":"Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/parallel-computing-chapter-2","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Programming Fundamentals","Problem Decomposition","Control Flow Invariants","Two's Complement Representation","Modular Architecture","Unit Testing","Binary Search","Numerical Integration"],"keywords":"Parallel Computing, Amdahl and Gustafson Laws, Roofline Model, Shared-Memory Threading, Message Passing Interface (MPI), GPU Architecture and CUDA, Cache Coherence Protocols, Lock-Free Synchronization"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#computer-science"},{"@type":"ListItem","position":3,"name":"Parallel Computing","item":"https://openstemlibrary.com/parallel-computing"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Parallel Computing","description":"Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Library","url":"https://openstemlibrary.com"},"courseCode":"CS 420, CS 452","educationalLevel":"Undergraduate","hasCourseInstance":{"@type":"CourseInstance","courseMode":"online","courseWorkload":"PT80H"}}</script></head>
+<body data-book-path="parallel-computing.html" data-chapter-index="1" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Programming Fundamentals</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search problem decomposition, linear search, floating point precision, two's complement overflow, loop invariants, recursion, stack frames, hash tables, unit test boundaries, binary search, trapezoidal rule…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="parallel-computing" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Parallel models</span></a></li><li class="unit-nav-item active" data-unit-index="1"><a href="parallel-computing-chapter-2" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Performance analysis</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="parallel-computing-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Shared-memory programming</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="parallel-computing-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Distributed-memory programming</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="parallel-computing-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">GPU computing</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="parallel-computing-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Parallel algorithms</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="parallel-computing-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Numerical and data workloads</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="parallel-computing-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Optimization and reliability</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Programming fundamentals core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 2 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Performance analysis</h1>
+            <p class="unit-desc-lead" id="unit-desc">Speedup; Efficiency; Amdahl Limits; Communication Costs</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for introductory computer science and software construction. Eight units with exactly three solved questions per unit and 16 interactive numerical simulations illustrating problem decomposition, overflow boundaries, hash collisions, and test coverage. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-2-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.1</span>
+            <span>Speedup</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Speedup is a comparison, not an intrinsic property of a piece of code. Let T1 denote the elapsed time of an appropriate one-worker implementation and Tp the elapsed time of the parallel implementation on p processing resources for the same input and output requirements. The observed speedup is S(p)=T1/Tp. If one worker needs 80 seconds and eight workers need 14 seconds, the measured speedup is about 5.71. This is useful only after specifying what was held constant. If the parallel program uses a less accurate numerical method, skips verification, writes fewer files or measures cached input while the baseline includes disk loading, the ratio does not measure equivalent work. A trustworthy speedup experiment makes correctness and workload comparability explicit before discussing performance.</p>
+
+<p>Wall-clock timing is usually preferable to summing worker CPU times because users care about completion latency. In an MPI job, the program's elapsed time is generally bounded by its slowest participating rank and any startup or teardown work inside the timed interval. In a multithreaded program, a thread may spend time blocked at a barrier without consuming much CPU. Summed CPU time can therefore increase as p increases even while wall-clock time decreases. Record both where possible, but do not confuse resource consumption with elapsed latency. A single stopwatch call around a parallel region may also include runtime initialization and first-use memory allocation; warm-up runs or carefully labeled cold-start measurements reveal whether that overhead matters for the target application.</p>
+
+<p>Speedup curves should be read alongside absolute time. Consider two algorithms for a large graph: algorithm A takes 100 seconds on one worker and 20 seconds on eight; algorithm B takes 30 seconds on one and 12 seconds on eight. A has speedup 5, whereas B has speedup 2.5, yet B is substantially faster on eight workers. Choosing the largest speedup rather than the shortest valid elapsed time is a common reporting mistake. A poorly optimized serial baseline can artificially inflate a parallel speedup figure, and a hand-tuned single-thread baseline can reveal the real value of adding concurrency. Parallelism is not a substitute for algorithmic efficiency.</p>
+
+<p>Distinguish <em>strong scaling</em> from <em>weak scaling</em>. Strong scaling holds the problem size fixed while increasing p; every worker ideally handles less work. Weak scaling increases the total problem size so that work per worker remains roughly constant. For a simulation with n grid cells per worker, a weak-scaling experiment might use n, 2n, 4n and 8n total cells at p equal to 1, 2, 4 and 8. In a perfectly weak-scalable application, time remains nearly constant. Strong scaling often deteriorates first because communication, synchronization and startup become a larger fraction of the shrinking local workload. Neither metric is better universally. Strong scaling matters when a fixed analysis must finish sooner; weak scaling matters when more hardware permits a larger experiment in the same elapsed time.</p>
+
+<p>Some authors report <em>superlinear speedup</em>, where S(p)&gt;p. Such a result is possible without violating physics. Splitting a dataset across workers may allow each partition to fit into faster cache, reducing memory misses enough that total work completes faster than the naive p-fold expectation. Parallel search may terminate early when a worker discovers a result that lets the algorithm prune remaining work. These effects depend on the model of equivalent work and should be described rather than concealed. Superlinear speedup is not evidence that computational laws were suspended; it signals that the single-worker and parallel memory or search behaviors differ.</p>
+
+<p>Design a timing procedure that resists noise. Use a representative workload, validate a numerical checksum or output invariant, record hardware and thread placement, and repeat measurements. Report distributions rather than only the best result. For workloads with highly variable execution time, medians and quantiles may be more informative than the mean. If parallel speedup fluctuates greatly, inspect background processes, power management, NUMA placement, input cache state and scheduler contention. State whether thread pinning is enabled and whether simultaneous multithreading shares physical execution units. A requested worker count is not the same as an equal number of independent cores.</p>
+
+<p>Measurement must also avoid hiding work. A GPU kernel launched from a CPU may be asynchronous: the launch call can return long before execution completes. Timing only the launch call measures enqueue latency, not device execution. A correct end-to-end timing includes an appropriate completion synchronization, whereas device events may measure an isolated kernel. Both perspectives are useful if labeled. Network collectives may overlap with computation, so adding independently measured component times can overstate total elapsed time. A profiler's timeline can show these overlaps more faithfully than a spreadsheet of individual durations.</p>
+
+<p>A practical speedup report includes T1, every Tp, p, problem dimensions, correctness criteria, hardware characteristics, and the measured setup cost. Plot time and speedup together. Interpret unusual points in terms of cache, bandwidth and synchronization instead of smoothing them away. Most importantly, explain what decision the metric supports: whether to buy more cores, repartition a job, change an algorithm, or accept existing performance.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-amdahl"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.2</span>
+            <span>Efficiency</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Parallel efficiency describes how productively additional resources contribute to speedup. Under the conventional strong-scaling definition, E(p)=S(p)/p=T1/(p Tp). If the previous eight-worker job has S(8)=5.71, its efficiency is approximately 0.714, or 71.4 percent. This ratio compares observed performance to ideal linear scaling. It does not mean 71.4 percent of the CPU transistors are busy, nor does it uniquely identify where time was wasted. A worker can execute useful instructions at full occupancy while moving so much redundant data that total efficiency remains low. Conversely, a pipeline can retain high user throughput while particular stages have low CPU utilization.</p>
+
+<p>The idea of <em>parallel overhead</em> makes the ratio concrete. A common definition is To=p Tp-T1, the total extra processor-time relative to the baseline. For T1=80 seconds, p=8 and Tp=14 seconds, To=112-80=32 processor-seconds. This overhead may include idle time, communication, synchronization, scheduler management, redundant calculations and differences in algorithm behavior. The definition assumes comparable useful work and is not an additive decomposition into directly measured subcategories. To assign causes, instrument those categories separately. Multiplying elapsed time by processor count also assumes those resources were allocated for the entire measured interval, which may not hold for elastic cloud jobs.</p>
+
+<p>Efficiency typically falls during strong scaling because fixed or slowly shrinking costs occupy a growing portion of runtime. Suppose 12 seconds of work cannot be parallelized while 108 seconds can. On one worker the job takes 120 seconds. With six ideal workers on the parallel portion, the time becomes 12+108/6=30 seconds. Speedup is four and efficiency is 4/6, or two-thirds. Increasing to twelve workers gives 12+9=21 seconds; speedup rises to about 5.71, but efficiency falls to 47.6 percent. Both observations can be true simultaneously. A decision maker who only sees speedup may overbuy hardware; one who only sees efficiency may underestimate the value of faster completion for a time-critical task.</p>
+
+<p>The <em>cost of computing</em> provides another perspective. If an allocation costs c currency units per worker-hour, a run with p workers and elapsed time Tp hours costs approximately cpTp, excluding storage, networking and minimum billing periods. Eight workers completing in one hour cost eight worker-hours. Four workers taking 1.6 hours consume 6.4 worker-hours. The eight-worker configuration finishes sooner but uses 25 percent more billed compute. An urgent weather warning might justify the extra expenditure; a nightly batch with a comfortable deadline might not. Efficiency is therefore related to economic cost, but cloud pricing tiers and reserved hardware complicate simple linear comparisons.</p>
+
+<p>Weak-scaling efficiency is defined differently in many texts. A commonly used ratio compares baseline per-worker time to the time of a scaled workload: Ew(p)=T1(n)/Tp(pn), where n is per-worker problem size. If the baseline with n items takes 10 seconds and p workers on pn items take 13 seconds, weak-scaling efficiency is about 76.9 percent. It is misleading to apply the strong-scaling expression T1(pn)/(p Tp(pn)) without explaining the difference, because the serial time for pn items may itself exhibit nonlinear cache behavior. Report the definition alongside the numbers.</p>
+
+<p>Isoefficiency asks how quickly the problem must grow to retain a chosen efficiency as the processor count increases. In an idealized overhead model, E=W/(W+To(W,p)) where W is useful serial work and To is total parallel overhead. To hold E at a fixed target, W must grow proportionally to To. For a simple tree reduction with logarithmic coordination overhead, increasing p can require the useful workload to rise to offset that coordination. Exact isoefficiency functions depend on the parallel algorithm and communication topology, not on a machine's processor count alone. A small, permanently fixed workload may have no economically sensible path to high efficiency on thousands of devices.</p>
+
+<p>Useful efficiency diagnosis separates <em>balance efficiency</em> from communication and computation efficiency. If worker times to finish their assigned local tasks are 8, 8, 8 and 16 seconds, the average active-computation time is 10 seconds, while the slowest takes 16. A simple balance metric is 10/16=62.5 percent. This does not by itself account for waits, network transfers or overlap, but it points toward a skewed partition. Another metric might use the ratio of useful time to worker occupancy time. Different profilers use different definitions, so compare named formulas rather than superficially similar percentages.</p>
+
+<p>Before recommending more hardware, ask whether the application has a deadline, a spending ceiling, an energy limit, or a throughput service-level goal. The best configuration is often the smallest p that meets the deadline with acceptable reliability. Parallel efficiency remains a valuable diagnostic, but it becomes actionable only when paired with absolute runtime, resource cost and a plausible performance model.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.3</span>
+            <span>Amdahl Limits</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Amdahl's law gives a mathematical upper bound on strong-scaling speedup under a deliberately simplified model. Suppose fraction f of the one-processor runtime is inherently serial and the remainder 1-f is perfectly divisible among p workers with no additional overhead. Then S(p)=1/[f+(1-f)/p]. As p grows without bound, the speedup approaches 1/f when f is positive. For f=0.05, no number of workers can reduce ideal runtime below five percent of its original value, so the asymptotic speedup limit is twenty. This bound follows directly from the serial portion: even infinitely fast parallel work cannot remove the time required by truly serial dependencies.</p>
+
+<p>The strength of the model is its clarity; its weakness is the rigidity of its assumptions. Fraction f is measured relative to one particular input, algorithm and baseline. If a new implementation replaces a serial stage with a parallel algorithm, changes a data structure or moves expensive preprocessing outside the measured region, f can change. The law does not decree that five percent of every program must forever remain serial. It says that a fixed irreducibly serial portion bounds speedup for the specified computation. Communication and scheduling overhead normally make achieved speedup lower than the ideal Amdahl prediction. Cache effects can occasionally create superlinear behavior, showing why the simple denominator is not a full runtime model.</p>
+
+<p>Compute an example carefully. A pipeline spends 30 seconds parsing an input file, 270 seconds in a parallelizable analysis and no other significant time. On one worker it needs 300 seconds, so f=0.1. On ten workers, ideal time is 30+270/10=57 seconds. Speedup is 300/57≈5.263, not ten. On one hundred workers, ideal time is 30+2.7=32.7 seconds, speedup≈9.174. Increasing hardware tenfold from ten to one hundred workers saves only 24.3 seconds. Before ordering more resources, it may be better to reduce the parsing stage or overlap it with processing, if dependencies permit.</p>
+
+<p>An extended model adds overhead explicitly: Tp=Tserial+Tparallel/p+Tcommunication(p)+Tscheduling(p)+Timbalance(p). The extra terms need not be monotone or independent. Increasing p can reduce local arithmetic while creating more messages or barriers. For tiny task sizes, scheduling cost may dominate. For collective communication, startup time can grow with the depth of the communication tree. Load imbalance can worsen if work is uneven or if one shared resource becomes congested. Treat the expression as an accounting guide: it prompts measurements rather than magically predicting behavior from a single parameter.</p>
+
+<p>Amdahl and Gustafson address different questions. Gustafson's scaled-speedup argument considers a workload that grows with processor count while keeping observed parallel runtime roughly constant. If a fixed fraction of a parallel run is serial, the amount of parallelizable work completed can grow with p. This does not contradict Amdahl; it changes the problem-size assumption. Amdahl answers, 'How much faster can I finish this fixed job?' Gustafson asks, 'How much larger a job can I complete with more hardware in a comparable time?' A research team deciding whether to solve a finer grid may care more about the second question, while a production API with fixed-sized requests may care more about the first.</p>
+
+<p>The serial fraction also arises from algorithmic dependency depth. In a DAG with total work W and span S, the maximum ideal parallelism is W/S. A task graph with W=2,000 arbitrary time units and S=100 has inherent parallelism of twenty; no scheduler can gain an unlimited improvement from hundreds of processors. The span bound differs from Amdahl's two-class partition because the dependency chain need not correspond to a single designated serial stage. Reducing span by restructuring dependencies can be more valuable than simply increasing p. Parallel prefix methods are an instructive example: they trade additional total operations for a shorter dependency chain, potentially accelerating large workloads.</p>
+
+<p>A useful reverse calculation estimates the serial fraction implied by measured speedup if the ideal law were exactly applicable. Given p and S, the expression f=[1/S-1/p]/[1-1/p]. For p=8 and S=4, f=(0.25-0.125)/(0.875)≈0.142857. Do not present this inferred f as a direct measurement of code that is structurally serial. It absorbs the real application's communication and other overhead, so it is better described as an <em>effective serial fraction</em>. Comparing the effective fraction across problem sizes can reveal whether coordination dominates small jobs or memory traffic grows for large jobs.</p>
+
+<p>Amdahl's law is most useful early in a design discussion. It demands a believable accounting of serial and parallel work, helps set realistic expectations, and exposes diminishing returns. Its least useful application is to report a single universal maximum speedup without stating workload, baseline or overhead. The engineering response to an Amdahl limit is not necessarily more threads; it may be a better algorithm, batched I/O, pipeline restructuring, asynchronous coordination, or a different performance target.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-alpha-beta"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.4</span>
+            <span>Communication Costs</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Parallel algorithms move data as well as execute instructions. On a modern machine, moving a byte between distant memory domains can be more expensive than performing several arithmetic operations on a cached value. Communication therefore belongs inside the algorithm's cost model. For a message of n bytes, the alpha-beta approximation T=alpha+beta n separates fixed startup from variable transfer cost. In a collective operation, the number of communication steps also matters. A tree-shaped reduction on p participants may require roughly ceil(log2 p) dependent stages, each with startup and payload costs, while a naive gather to one root may introduce a bottleneck. Implementations optimize differently for small and large payloads; no single formula describes every collective on every network.</p>
+
+<p>Distinguish <em>latency</em>, <em>bandwidth</em> and <em>injection rate</em>. Latency measures time before data can be observed at its destination. Bandwidth describes sustained transfer rate for sufficiently large payloads. Injection rate limits how quickly a node can introduce data into the network, even if link capacity is high. If an application sends thousands of 64-byte updates to distinct peers, it can saturate message processing long before reaching the network's advertised gigabytes-per-second bandwidth. Combining updates into larger batches may help, provided batching does not introduce unacceptable application latency. An experiment should sweep payload sizes, destinations and concurrency to distinguish these limits.</p>
+
+<p>A three-dimensional stencil illustrates geometry-driven communication. Partition an N-by-N-by-N grid among p workers in roughly cubic subdomains. Local volume is approximately N^3/p and surface area scales roughly as (N/p^(1/3))^2. For a fixed global N, local computational work falls as 1/p but boundary data per worker falls more slowly, approximately as p^(-2/3). Thus the ratio of communication to computation worsens as p grows. Strong scaling eventually reaches a point where border exchange dominates local updates. The precise threshold depends on bandwidth, latency, halo thickness, overlapping communication and machine topology. This scaling argument is more informative than assuming that parallel time is simply serial time divided by p.</p>
+
+<p>Topology changes cost. Two GPUs within one node may communicate through a high-speed interconnect, while GPUs across nodes communicate through the network and host or device adapters. A process may be physically near some peers and far from others. Placing highly communicating subdomains on nearby devices can reduce hops, but mapping decisions have to respect memory capacity and balance. A ring exchange, for example, sends between neighbors; a dense all-to-all transpose places pressure on many paths. A communication graph constructed from expected data transfers can guide process placement more effectively than arbitrary rank numbering.</p>
+
+<p>Overlap between communication and computation is desirable only when independent work exists. In a stencil solver, interior cells do not depend on the newly exchanged halo, so they can potentially be computed while the halo is in flight. Boundary cells must wait. Let C be interior computation time and M communication time. If they execute completely separately, their combined contribution is C+M. If they overlap perfectly, it is max(C,M), saving min(C,M). Real overlap can be incomplete because progression needs CPU time, memory controllers are shared, or the communication library does not make independent progress. Record a timeline; subtracting measured C and M from a total runtime without checking concurrency can yield misleading conclusions.</p>
+
+<p>Communication avoidance often changes algorithms. A blocked matrix multiplication loads tiles into faster memory and performs many arithmetic operations per loaded byte. A stencil code can perform multiple local time steps before communicating again, but wider halos and redundant computations may be required to maintain correctness. A reduction can use hierarchical aggregation to lower network message count. These methods trade compute, memory and implementation complexity against data movement. Choose based on the bottleneck being measured. If the code already saturates arithmetic units with data resident in cache, extra blocking logic may not help.</p>
+
+<p>Communication cost has a correctness dimension as well. A message must have the expected type, count and iteration tag. Receiving a late update into the wrong buffer can silently create a plausible but incorrect numerical field. Buffer lifetime for nonblocking operations is part of the program's synchronization contract. Collective operations require compatible participation and communicator membership. Sending more data than a receiver has allocated must be prevented or handled safely. A performance optimization that reduces synchronization points without establishing the resulting happens-before relationships may speed up a program while making its output nondeterministic or wrong.</p>
+
+<p>A sound communication study records payload distribution, number of messages, collective frequency, time in waits, topology, data packing cost and overlap. Compare the measured profile against a simple alpha-beta hypothesis and investigate deviations. The best parallel design minimizes communication on the critical path, not blindly the total byte count: sometimes transferring extra data early enables the later computation to proceed without a costly wait.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Programming Fundamentals Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.1: Compare speedup and expense</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An analysis takes 80 seconds with one worker and 14 seconds with eight. Calculate speedup, efficiency and the extra processor-time overhead according to a standard definition.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u2-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u2-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Speedup</div>
+              
+              <div class="step-explanation"><p>S=80/14≈5.714. The reference and parallel runs must solve the same problem and use comparable timing boundaries.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Efficiency</div>
+              
+              <div class="step-explanation"><p>E=S/8≈0.7143, or 71.43 percent. This expresses speedup relative to the ideal eightfold case; it does not directly measure the fraction of active CPU instructions.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Overhead</div>
+              
+              <div class="step-explanation"><p>To=8×14−80=32 processor-seconds. This quantity can include idle time, coordination and duplicated work; profiling is required to separate causes.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.2: Assess resource economics</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A cloud job uses four workers for 1.6 hours or eight workers for one hour. Each worker-hour costs 0.12 currency units. Which is cheaper and which is faster?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u2-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u2-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Compute four-worker cost</div>
+              
+              <div class="step-explanation"><p>Four workers for 1.6 hours consume 6.4 worker-hours. At 0.12 each, cost is 0.768 currency units, excluding other charges.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute eight-worker cost</div>
+              
+              <div class="step-explanation"><p>Eight workers for one hour consume eight worker-hours. Cost is 0.96 currency units. The eight-worker configuration finishes 0.6 hours sooner.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Make the tradeoff explicit</div>
+              
+              <div class="step-explanation"><p>The faster run costs 0.192 more, or 25 percent above 0.768. Select based on deadline and cost objective, not merely the larger observed speedup.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.3: Calculate Amdahl limit</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A program has a fixed serial fraction of 0.1 and an ideally parallelizable fraction of 0.9. Calculate predicted speedup on ten workers and the upper limit as worker count grows.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u2-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u2-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Apply Amdahl</div>
+              
+              <div class="step-explanation"><p>S(10)=1/(0.1+0.9/10)=1/0.19≈5.263. This assumes parallel work divides perfectly and introduces no overhead.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute the limit</div>
+              
+              <div class="step-explanation"><p>As worker count tends to infinity, the parallel contribution approaches zero. The remaining serial time fraction is 0.1, giving a maximum speedup of ten.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Evaluate the assumption</div>
+              
+              <div class="step-explanation"><p>Real communication and imbalance may lower achieved speedup, while algorithm restructuring can change the serial fraction. The formula is a bound for the stipulated workload, not an immutable fact about all versions of the software.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/kernighan-ritchie-c" target="_blank" rel="noopener noreferrer">Kernighan, B.W., &amp; Ritchie, D.M. (1988). The C Programming Language (2nd ed.): Foundational text on structural decomposition, control flow, functions, pointers, and memory layout</a></li><li><a href="https://openstemlibrary.com/references/sicp" target="_blank" rel="noopener noreferrer">Abelson, H., &amp; Sussman, G.J. (1996). Structure and Interpretation of Computer Programs: Canonical treatise on abstraction, procedural decomposition, state, and evaluation models</a></li><li><a href="https://openstemlibrary.com/references/goldberg-floating-point" target="_blank" rel="noopener noreferrer">Goldberg, D. (1991). What Every Computer Scientist Should Know About Floating-Point Arithmetic: Definitive reference on IEEE 754 precision, rounding, and representation error</a></li><li><a href="https://openstemlibrary.com/references/beck-tdd" target="_blank" rel="noopener noreferrer">Beck, K. (2002). Test-Driven Development: By Example: Primary reference for unit test boundaries, assertions, and invariant verification</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="parallel-computing">← Previous chapter</a><a href="parallel-computing">Book contents</a><a href="parallel-computing-chapter-3">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="parallel-computing-sims.js"></script>
+  <script src="parallel-computing-data.js"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

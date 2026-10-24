@@ -1,0 +1,353 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Consensus | Distributed Systems | OpenSTEM Library</title>
+  <meta name="description" content="Consensus safety and liveness properties, Crash-fault consensus through Raft and Paxos ideas, Failure detectors and eventual leadership, Impossibility boundaries and what they actually say, Capstone: consensus under a regional network split">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/distributed-systems-chapter-4">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/distributed-systems-chapter-4">
+  <meta property="og:title" content="Distributed Systems: Logical Clocks, Paxos, Raft Consensus &amp; Fault Tolerance | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Distributed Systems: Logical Clocks, Paxos, Raft Consensus &amp; Fault Tolerance | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="distributed-systems.css?v=20261024_academic"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Distributed Systems: Consensus","description":"Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/distributed-systems-chapter-4","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Programming Fundamentals","Problem Decomposition","Control Flow Invariants","Two's Complement Representation","Modular Architecture","Unit Testing","Binary Search","Numerical Integration"],"keywords":"Distributed Systems, Logical Clocks and Causality, Paxos and Raft Consensus, Fault Tolerance, Quorum Systems, CAP Theorem, Replication and Consistency, Distributed Transactions"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#computer-science"},{"@type":"ListItem","position":3,"name":"Distributed Systems","item":"https://openstemlibrary.com/distributed-systems"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Distributed Systems","description":"Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Library","url":"https://openstemlibrary.com"},"courseCode":"CS 417, CS 451","educationalLevel":"Undergraduate","hasCourseInstance":{"@type":"CourseInstance","courseMode":"online","courseWorkload":"PT80H"}}</script></head>
+<body data-book-path="distributed-systems.html" data-chapter-index="3" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Programming Fundamentals</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search problem decomposition, linear search, floating point precision, two's complement overflow, loop invariants, recursion, stack frames, hash tables, unit test boundaries, binary search, trapezoidal rule…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="distributed-systems" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Distributed foundations</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="distributed-systems-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Coordination</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="distributed-systems-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Replication</span></a></li><li class="unit-nav-item active" data-unit-index="3"><a href="distributed-systems-chapter-4" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Consensus</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="distributed-systems-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Distributed storage</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="distributed-systems-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Distributed computation</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="distributed-systems-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Reliability and operations</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="distributed-systems-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">System design</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Programming fundamentals core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 4 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Consensus</h1>
+            <p class="unit-desc-lead" id="unit-desc">Consensus safety and liveness properties, Crash-fault consensus through Raft and Paxos ideas, Failure detectors and eventual leadership, Impossibility boundaries and what they actually say, Capstone: consensus under a regional network split</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for introductory computer science and software construction. Eight units with exactly three solved questions per unit and 16 interactive numerical simulations illustrating problem decomposition, overflow boundaries, hash collisions, and test coverage. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-4-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.1</span>
+            <span>Consensus safety and liveness properties</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Consensus is a problem of agreeing on a value among participants that may fail or communicate slowly. Agreement means correct processes do not decide conflicting values; validity constrains decided values according to the proposal model; termination asks that correct processes eventually decide under the specified assumptions. Different formalizations refine these properties, and not every consensus use case can be reduced to choosing an arbitrary string. In a replicated log, each position carries an agreed command and the protocol must preserve the order of committed entries. Safety is usually required at every moment, including severe partition. Liveness is conditional: protocols may make progress only when a sufficiently connected quorum and favorable timing conditions exist. Distinguish a process deciding from sending a proposal, accepting a tentative entry, or receiving a leadership heartbeat. These stages need separate state variables and logs in a serious test.</p>
+
+<p>A safety proof commonly depends on intersecting quorums plus durable promises. Consider a majority voting protocol with five participants. Every pair of three-member majorities intersects, but the intersection helps only if a member remembers relevant promises or accepted values across failures. A process that grants incompatible acknowledgements after forgetting its previous vote can invalidate the reasoning. Some consensus protocols rely on ballot numbers, phases, and rules for carrying forward previously accepted values; others present equivalent restrictions through term and log matching. A proof must explain <em>why</em> a newly elected leader cannot replace an entry already committed. Assuming that 'a majority exists' without following the actual protocol transitions is not enough.</p>
+
+<p>Imagine a seat-allocation service with a three-voter log. Leader A proposes allocation of seat 9 to client X, and a majority durably replicates it, making the entry committed under the protocol. A crashes before informing the client, so client X times out and retries. New leader B must preserve the committed allocation; it cannot issue another conflicting sale merely because X never received the response. The application must identify retries by operation key and be able to return the already-decided outcome. Consensus protects committed log history, while application-level idempotency protects the client-visible effect of ambiguous requests. They are complementary. The opposite case, a proposal appended only at A before its crash, may be discarded by the new leader; describing it as confirmed would have been premature.</p>
+
+<p>Consensus imposes costs in network communication, persistent writes, leadership management, and membership configuration. A read-only static dataset may not need a consensus group for every request. A shard can keep its own consensus group so independent keys do not serialize through a global coordinator. However a transaction affecting several shards requires another atomicity mechanism if the application promises all-or-nothing behavior. Do not confuse consensus among replicas about one log with database serializability across independent logs. If the consensus group loses its required quorum, a safe implementation may stop accepting authoritative writes; this is expected protocol behavior rather than evidence that fault tolerance failed. Availability claims should state the number and placement of tolerable failures and any network assumptions.</p>
+
+<p>Construct a bounded consensus value chooser where five voters track durable ballot promises and accepted proposals. Learners inject two competing proposers and delay selected messages. The tool distinguishes proposed, accepted, chosen, and learned states, and refuses to advertise a value as chosen until the required voters accept it under coherent ballot rules. Include a deliberate bug mode in which voters erase promises on restart; use the resulting trace to challenge an incorrect safety claim. A second trace isolates two voters and shows how a three-member majority can continue. Students must identify the exact assumption supporting termination after connectivity recovers. This teaching model is not a full Paxos proof and omits reconfiguration, Byzantine faults, and real storage failures.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-consensus-majority"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.2</span>
+            <span>Crash-fault consensus through Raft and Paxos ideas</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Raft is a consensus algorithm designed around leader election, log replication, and safety constraints. Each node is commonly a follower, candidate, or leader for a given term. A candidate solicits votes; a leader appends log entries and sends append requests; followers enforce prefix matching and term rules. A client command becomes committed only under the algorithm’s commitment conditions, not merely because the leader appended it locally. A leader must observe the special Raft rule that prevents it from deciding earlier-term entries solely by counting replicas; it commits an entry from its current term using an appropriate majority before relying on commitment of preceding entries. This subtle condition is often omitted from educational shortcuts. Correctness arguments also rely on the voter restriction that a candidate's log is sufficiently up to date relative to voters.</p>
+
+<p>Take three nodes A, B, C. A is leader in term 5 and has appended an entry at index 10 on A and B. The implementation may commit when the defined conditions hold. Now imagine A loses communication before confirming a different entry at index 11. C becomes a candidate in term 6 and requests votes. Voters compare terms and log freshness before granting them; a new leader is not permitted to discard a previously committed entry. During reconciliation, conflicting uncommitted suffixes can be overwritten. The visual distinction between commit index and last log index is essential. A student who interprets the longest log as 'all entries confirmed' will misdiagnose failures. Some log entries are speculative until their commitment conditions hold, and different nodes may temporarily have differing suffixes.</p>
+
+<p>Paxos expresses similar agreement requirements through ballots and durable promises, but its organization differs from Raft's explicit leader-log narrative. In single-decree Paxos, a proposer obtains promises from a quorum, may need to carry forward the highest previously accepted value, and then asks acceptors to accept a proposal. Multi-Paxos applies repeated decisions under a stable leader optimization. Neither description means all implementations are interchangeable: membership, snapshotting, transaction routing, and durability design still matter. Students should compare the two in terms of invariants and information retained across failures, rather than claiming one is inherently faster in every environment. Raft's understandable exposition does not free implementers from verifying real-world variants.</p>
+
+<p>Operationally, a three-voter group can tolerate one voting-node crash for continued progress when communication between the remaining two is sufficient. A five-voter group can tolerate two, but each write may interact with a larger set of hosts. Learners should not mistake higher replica count for linearly improved durability when all replicas share a faulty storage domain. Observer replicas can serve reads or backups depending on the system but do not count as voters unless configured as such. Monitoring should expose leader term, commit index, applied index, replication lag, and rejected stale requests. An election followed by a prolonged apply backlog is different from an election that cannot find a majority. Both may appear as slow client writes if only front-end response time is measured.</p>
+
+<p>Build a simplified Raft log explorer with three voters and an explicit current-term commit rule. Controls allow append command, deliver follower acknowledgement, simulate crash, start election, and reconcile logs. Draw three distinct marks for appended, majority replicated, and committed. Attempt to construct two different committed values at the same log index; a correct test harness should reject every such trace under its specified transitions. Add an incorrectly implemented follower that forgets its persisted vote after restart; the lab can then display the violated assumption. Separately compare message counts during stable leadership and during repeated elections. State visibly that the model excludes joint configuration changes, log compaction, disk torn writes, and adversarial scheduling that is beyond the finite traces exercised.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.3</span>
+            <span>Failure detectors and eventual leadership</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A failure detector reports suspicions, not omniscient facts. In a network with unpredictable delays, a healthy node that responds late can look identical to a crashed node. Detector properties are often described using completeness, concerning whether failed processes are eventually suspected, and accuracy, concerning whether correct processes are wrongly suspected. Strong accuracy guarantees are difficult without timing assumptions. Practical detectors use periodic heartbeats, peer probes, recent latency distributions, or lease deadlines. An eventually accurate detector may initially make mistakes but stabilize once the network behaves favorably. This helps explain why many leader-based protocols separate the timeless safety rule from progress that depends on eventual timing stability. An operational detector is a sensor with false positives and false negatives; it is not a consensus algorithm by itself.</p>
+
+<p>For an adaptive detector, let recent heartbeat intervals have a distribution. A suspicion threshold might be based on the probability that an observed delay would occur if the node were healthy, but that probability depends heavily on the quality and stationarity of the sample. Heavy-tailed delays, coordinated garbage collection, CPU throttling, and regional network congestion produce surprises. A fixed heartbeat timeout of 300 milliseconds may work in a quiet laboratory but fail under a noisy container scheduler. An adaptive threshold may reduce false positives while increasing time to recognize real crashes. The right objective is usually the service's end-to-end availability and safety, not maximizing a detector's raw sensitivity. Measurement should distinguish process heartbeat generation from network arrival, and should tag known maintenance windows.</p>
+
+<p>Consider an image-processing service whose workers heartbeat every second. Under sustained load, one worker pauses its event loop for three seconds while draining a memory heap. A detector configured to suspect after two missed heartbeats removes the worker and reallocates its tasks. The original worker later resumes and may still attempt to publish completed results. If publication is guarded only by 'I was assigned this task earlier', duplicate work or stale writes can occur. A lease with fencing tokens or a transaction on the result record can keep effects safe despite false suspicion. The detector then influences efficiency and reassignment latency, while the resource-level protocol enforces correctness. This separation is central to realistic distributed design: failure detection need not be perfect when authority transfer is constructed safely.</p>
+
+<p>A control plane should not blindly amplify a detector's mistakes. If hundreds of hosts report elevated RTT simultaneously, the likely cause may be a shared network issue rather than hundreds of independent crashes. Bulk rescheduling can overload the healthy remainder, increasing RTT and causing a cascade. Rate limit replacements, cap concurrent elections, and retain enough observability to diagnose correlated failures. During partitions, process-health checks and service-reachability checks may disagree; both measurements are useful when labeled accurately. Avoid using a single health status to decide all traffic routing, data authority, and operator alerts. The health rule for an HTTP replica may only ask whether it can serve stale reads, while the rule for accepting linearizable writes asks whether it belongs to a writable quorum.</p>
+
+<p>Model heartbeat arrival as a configurable sequence of delays, drops, and process pauses. The learner chooses heartbeat interval, suspicion threshold, and recovery rule, then labels each false suspicion and actual missed failure. For deterministic input traces, compare the detector's confusion matrix and median time-to-suspicion, but do not treat those as universal reliability guarantees. Next feed its suspicion events into a toy reassignment service: contrast an unguarded worker that can publish after reassignment with one whose result sink enforces monotonically increasing epochs. Include a real crash and a long pause that are observationally equivalent up to the timeout. The exercise should teach why health detection and write authorization are different mechanisms.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-election-timeout"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.4</span>
+            <span>Impossibility boundaries and what they actually say</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>The Fischer–Lynch–Paterson impossibility result addresses deterministic consensus in a completely asynchronous message-passing system when even one process can crash. Under that model, no algorithm can guarantee both the relevant correctness properties and termination in all admissible executions. The result does not claim that agreement can never occur, that distributed databases are useless, or that consensus implementations cannot be safe. It identifies an execution in which an adversarial schedule can keep the protocol from deciding. Practical systems obtain progress through additional assumptions or mechanisms, such as eventual synchrony, randomized choices, or failure-detector conditions. The distinction between guaranteed safety and conditional liveness is the main design insight. Students should resist simplistic slogans that 'FLP means consensus is impossible' without naming the model and guarantee.</p>
+
+<p>A thought experiment compares two indistinguishable worlds for a process waiting on a peer. In world one, the peer crashed immediately. In world two, the peer is alive but its message has been delayed indefinitely so far. At every finite observation point the waiting process has the same evidence. If it must decide immediately in one world and wait safely in the other, a purely deterministic protocol cannot infer which world is real from silence. The formal FLP proof develops a more precise adversarial construction using bivalent configurations; the informal indistinguishability story illustrates only part of the intuition. Do not present it as a complete proof. The mathematically honest lesson is to state how the chosen production protocol achieves progress under a <em>weaker</em> guarantee, for example eventual favorable network behavior, rather than assuming a timeout measures truth.</p>
+
+<p>CAP is a related but separate statement about replicated service under partition. For a network partition that blocks communication between relevant components, a service cannot guarantee both linearizable behavior and availability of every request in all components. A practical design may choose to reject some writes, allow only restricted operations, or permit divergent updates with later reconciliation. It may support different consistency models for different data types. This is not a claim that a service must choose one of three virtues permanently, nor that every network packet loss constitutes an unending partition. Coordinated reads and writes also trade latency for stronger guarantees when the network is healthy. Present CAP as a failure-mode boundary and explain the API contract chosen when communication is interrupted.</p>
+
+<p>A design review of a two-region account ledger illustrates the boundary. If two regions are isolated and both must continue confirming balance-decreasing withdrawals against the same account, the system cannot guarantee an arbitrary global overdraft invariant without restricting which operations each region may authorize. One option is a leader region whose loss makes withdrawals temporarily unavailable elsewhere. Another is distributing bounded spending rights in advance and allowing only operations within each region's local allowance. The second changes the operational contract rather than violating impossibility results. It is important not to conflate a preallocated escrow system with unrestricted globally linearizable withdrawals. Both approaches deserve evaluation against latency, regulatory, recovery, and user experience requirements. The impossibility result directs architectural choices; it does not choose the business invariant for the architect.</p>
+
+<p>Conduct an impossibility workshop with two browser-visible worlds sharing an identical prefix of message observations. At time t, one peer has crashed; the other is merely delayed beyond t. Ask the student what a local process can infer from the prefix and require explicit statements of model assumptions. Then let time advance and show the worlds diverge only after a message arrives; in the crashed world it never does. Compare a protocol that always waits for proof with one that relies on an eventual-synchrony timeout. Students should classify what is safety and what is progress in each trace. This is an intuition builder, not a mechanical proof of FLP or a randomized adversary model.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.5</span>
+            <span>Capstone: consensus under a regional network split</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Design a replicated metadata log for a three-region science data portal. The log records which storage shard owns a dataset identifier, which model version is active, and which researchers have publishing permission. Contradictory authoritative metadata could route a write to the wrong owner or expose a publication before review. Place one voter in each region for the first design and document which regional failures the configuration is expected to tolerate. With three voters, two are required for a majority. A partition isolating one region leaves the other two able to form a quorum if their links and processes are healthy, while the isolated voter cannot establish new authoritative decisions. The system may still answer explicitly stale metadata queries from cache, but it must not pretend those are fresh authority checks.</p>
+
+<p>A log proposal is distinct from a committed update. Let term 12 leader A append 'owner(dataset-7)=shard-X' at index 120 to itself and one follower. If the actual protocol's current-term quorum commit conditions hold, the entry becomes committed. A can crash before notifying the client, creating an ambiguous response, but a future legitimate leader must retain the entry. The test harness should record each node's term, vote, log prefix, commit index, and applied index to reconstruct the outcome. The next leader might have a longer local uncommitted suffix, yet voting restrictions ensure it does not undermine committed history. Do not assert safety solely from leader identity or the highest numerical term. The log matching and commitment rules establish which history is authoritative.</p>
+
+<p>Now create an adversarial schedule in which two candidates start elections almost simultaneously. Delay their requests so votes split and neither reaches a majority. After randomized election backoff and eventually stable communication, one can usually become leader and restore progress. Under a fully asynchronous scheduler with unlimited delay there is no guaranteed termination for deterministic consensus with a possible crash. The capstone should therefore state safety as unconditional under its model and progress as depending on eventual favorable conditions. Students need to observe that a failed election is not itself a safety violation. A temporary period without a leader may be the correct price for refusing contradictory updates.</p>
+
+<p>The design changes when a fourth region is added. A new host should not be made a voter by editing one local configuration file at a time; incompatible configurations may create unsafe quorum interpretations. The service needs a rigorous reconfiguration protocol that transitions ownership of voting authority safely. Read-only learners can be added with a different risk profile, because they are not automatically part of the commit quorum. For administrators, document how to remove a dead voter without creating overlapping membership histories. The maintenance runbook should show an authorized reconfiguration path and a recovery route from operator mistakes. Even perfect consensus code can fail its organizational objective if the only operator with control-plane permissions is unreachable during an outage.</p>
+
+<p>A verification plan combines trace exploration with observable effects. Enumerate partitions, crash points, message reorderings, restarts, and delayed acknowledgements. For each trace test whether two different values were committed at the same index, whether any committed entry disappeared after election, and whether clients were told 'confirmed' before the commit condition held. Inspect liveness only for traces in which the required majority eventually communicates. Add state-machine commands that carry stable operation IDs so retrying an ambiguous metadata update cannot create a second logical action. This does not prove all possible executions; model checking a bounded state space can give stronger evidence for selected safety properties. The report should say exactly which failure modes were excluded, such as Byzantine voters or torn disk writes.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Programming Fundamentals Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked</span>
+            <strong>Example 4.1: Count majority votes for a five-voter group</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A five-voter replicated log loses connectivity to two voters. What minimum vote count is required for a majority, and can the connected three potentially continue committing operations?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--distributed-systems-u4-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--distributed-systems-u4-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1: reasoning</div>
+              
+              <div class="step-explanation"><p>A majority of N voters has size floor(N/2)+1. For N=5 that is floor(2.5)+1=3.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2: reasoning</div>
+              
+              <div class="step-explanation"><p>The remaining connected group contains exactly three voters, so it can meet a majority threshold if its members are eligible under the current committed configuration.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3: reasoning</div>
+              
+              <div class="step-explanation"><p>Actual progress also depends on a valid leader, term handling, log safety, storage durability and timing. Three available hosts are necessary here, not a complete proof of progress.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Three votes are required; the connected group can potentially progress if all other protocol conditions hold.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked</span>
+            <strong>Example 4.2: Distinguish proposal and commitment</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A three-voter leader appends command C locally but receives no follower acknowledgement before crashing. A new leader is elected from the other two voters. Was C committed, and can it be replaced?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--distributed-systems-u4-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--distributed-systems-u4-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1: reasoning</div>
+              
+              <div class="step-explanation"><p>Only one voter had appended C according to the facts, below the two-voter majority required for commitment.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2: reasoning</div>
+              
+              <div class="step-explanation"><p>The original leader may have offered C to a client, but it lacked evidence to confirm a committed result. Its loss creates an uncertain proposal, not an acknowledged authoritative command.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3: reasoning</div>
+              
+              <div class="step-explanation"><p>Under a correct log-reconciliation protocol, an uncommitted suffix may be replaced by another command. A committed prefix must be preserved.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>C was not known committed and may be replaced during safe log reconciliation.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked</span>
+            <strong>Example 4.3: Explain an impossible guarantee under full asynchrony</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An engineer claims a deterministic protocol always terminates consensus in a completely asynchronous crash-prone model with no additional assumptions. Identify the problematic guarantee and one practical way real protocols make progress.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--distributed-systems-u4-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--distributed-systems-u4-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1: reasoning</div>
+              
+              <div class="step-explanation"><p>FLP shows that deterministic consensus cannot guarantee termination in every admissible asynchronous execution when at least one crash is possible, even though safety may be maintained.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2: reasoning</div>
+              
+              <div class="step-explanation"><p>Unbounded message delay makes a slow correct peer indistinguishable from a crashed peer at finite observation points; an adversarial schedule can obstruct termination.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3: reasoning</div>
+              
+              <div class="step-explanation"><p>Practical designs often assume eventual timing stability, use suitable failure-detector conditions or incorporate randomization, preserving safety while requiring conditions for liveness.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Universal deterministic termination is the unsupported guarantee; progress must rely on additional assumptions or mechanisms.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/kernighan-ritchie-c" target="_blank" rel="noopener noreferrer">Kernighan, B.W., &amp; Ritchie, D.M. (1988). The C Programming Language (2nd ed.): Foundational text on structural decomposition, control flow, functions, pointers, and memory layout</a></li><li><a href="https://openstemlibrary.com/references/sicp" target="_blank" rel="noopener noreferrer">Abelson, H., &amp; Sussman, G.J. (1996). Structure and Interpretation of Computer Programs: Canonical treatise on abstraction, procedural decomposition, state, and evaluation models</a></li><li><a href="https://openstemlibrary.com/references/goldberg-floating-point" target="_blank" rel="noopener noreferrer">Goldberg, D. (1991). What Every Computer Scientist Should Know About Floating-Point Arithmetic: Definitive reference on IEEE 754 precision, rounding, and representation error</a></li><li><a href="https://openstemlibrary.com/references/beck-tdd" target="_blank" rel="noopener noreferrer">Beck, K. (2002). Test-Driven Development: By Example: Primary reference for unit test boundaries, assertions, and invariant verification</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="distributed-systems-chapter-3">← Previous chapter</a><a href="distributed-systems">Book contents</a><a href="distributed-systems-chapter-5">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="distributed-systems-sims.js"></script>
+  <script src="distributed-systems-data.js"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

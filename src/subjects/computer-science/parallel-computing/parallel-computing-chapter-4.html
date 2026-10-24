@@ -1,0 +1,343 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Distributed-memory programming | Parallel Computing | OpenSTEM Library</title>
+  <meta name="description" content="Message Exchange; Collective Operations; Domain Decomposition; MPI Concepts">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/parallel-computing-chapter-4">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/parallel-computing-chapter-4">
+  <meta property="og:title" content="Parallel Computing: Shared Memory, MPI, GPU CUDA Architecture &amp; Amdahl's Law | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Parallel Computing: Shared Memory, MPI, GPU CUDA Architecture &amp; Amdahl's Law | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="parallel-computing.css?v=20261024_academic"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Parallel Computing: Distributed-memory programming","description":"Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/parallel-computing-chapter-4","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Programming Fundamentals","Problem Decomposition","Control Flow Invariants","Two's Complement Representation","Modular Architecture","Unit Testing","Binary Search","Numerical Integration"],"keywords":"Parallel Computing, Amdahl and Gustafson Laws, Roofline Model, Shared-Memory Threading, Message Passing Interface (MPI), GPU Architecture and CUDA, Cache Coherence Protocols, Lock-Free Synchronization"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#computer-science"},{"@type":"ListItem","position":3,"name":"Parallel Computing","item":"https://openstemlibrary.com/parallel-computing"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Parallel Computing","description":"Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Library","url":"https://openstemlibrary.com"},"courseCode":"CS 420, CS 452","educationalLevel":"Undergraduate","hasCourseInstance":{"@type":"CourseInstance","courseMode":"online","courseWorkload":"PT80H"}}</script></head>
+<body data-book-path="parallel-computing.html" data-chapter-index="3" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Programming Fundamentals</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search problem decomposition, linear search, floating point precision, two's complement overflow, loop invariants, recursion, stack frames, hash tables, unit test boundaries, binary search, trapezoidal rule…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="parallel-computing" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Parallel models</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="parallel-computing-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Performance analysis</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="parallel-computing-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Shared-memory programming</span></a></li><li class="unit-nav-item active" data-unit-index="3"><a href="parallel-computing-chapter-4" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Distributed-memory programming</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="parallel-computing-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">GPU computing</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="parallel-computing-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Parallel algorithms</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="parallel-computing-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Numerical and data workloads</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="parallel-computing-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Optimization and reliability</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Programming fundamentals core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 4 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Distributed-memory programming</h1>
+            <p class="unit-desc-lead" id="unit-desc">Message Exchange; Collective Operations; Domain Decomposition; MPI Concepts</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for introductory computer science and software construction. Eight units with exactly three solved questions per unit and 16 interactive numerical simulations illustrating problem decomposition, overflow boundaries, hash collisions, and test coverage. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-4-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.1</span>
+            <span>Message Exchange</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A process in a distributed-memory program cannot assume that another process shares its ordinary pointers. To obtain remote data, it must participate in a communication operation with defined message contents and matching rules. Point-to-point communication is the elementary building block: a sender offers a buffer of typed values to a destination, and a receiver posts an operation that can accept a compatible message. The MPI family of interfaces defines communicators, ranks, datatypes, tags and communication operations. A rank identifies a process within a communicator, not a physical CPU core. One node may host many ranks, and rank ordering does not by itself describe the network topology.</p>
+
+<p>Consider a ring of four processes that each needs the value produced by its left neighbor. Rank r sends its value to rank (r+1) mod 4 and receives from rank (r-1+4) mod 4. The operation seems symmetrical, but performing a blocking send first on every rank can be unsafe if completion depends on a matching receive that no process has posted yet. Some MPI implementations buffer small messages, so a toy demonstration might appear to succeed and then deadlock when payloads grow. A safer design posts appropriate nonblocking receives and sends before waiting for completion, or uses a combined send-receive primitive designed for such exchanges. The communication pattern itself has to be established independently from timing accidents.</p>
+
+<p>Blocking and nonblocking do not mean the same as synchronous and asynchronous at the application level. A blocking send may return when its send buffer can be reused, not necessarily when the receiver has consumed the data. A nonblocking operation starts a transfer request and immediately gives control to the application, but the caller must preserve buffers and later ensure completion. Some implementations make communication progress in the background; others require further calls into the library. Overlap measurements should therefore be based on the actual system and a timeline, not merely on whether the API name contains an 'I' prefix.</p>
+
+<p>Message matching is a correctness concern. A receive may specify a communicator, source rank and tag. Wildcard matching can simplify flexible work queues, but it also makes message arrival order nondeterministic. If different messages describe different algorithmic phases, a wildcard may accidentally accept a stale or unrelated update. Robust protocols use structured tags or explicit phase identifiers and validate expected counts. Complex communication layers often separate control channels from bulk data channels to reduce ambiguity. Datatype definitions also matter: a process sending 64-bit integers must not be decoded by a receiver expecting a different representation or count without an agreed conversion.</p>
+
+<p>A halo exchange for a two-dimensional grid illustrates why communication and computation must be coordinated. Each rank stores interior cells plus ghost layers. At time step k, it sends boundary cells from the current state and receives the neighbors' values for that same step. It may update cells whose dependencies are local while transfers progress. Once incoming ghosts are complete, it computes the boundary region and prepares the new state. The two buffers or explicit phase indices prevent writing new values over data needed by an unfinished exchange. This protocol is correct only if boundaries, corners and exceptional ranks at the physical edges are handled consistently. Nonperiodic and periodic boundaries have different neighbor relationships.</p>
+
+<p>A message model should count both latency and data size. Exchanging four 16-kilobyte faces may be cheaper than sending 4,096 individual 16-byte updates because the latter repeatedly pays software startup and network injection overhead. Conversely, creating giant buffers can require expensive packing and delay early useful work. The best granularity minimizes time on the critical path, which may involve overlapping several independent messages with computation. Microbenchmarks for one sender and one receiver provide starting estimates but can miss network contention under many simultaneous ranks.</p>
+
+<p>Failures and timeouts have no universal behavior in a basic numerical job. A process that disappears can cause waits or job termination unless the application and implementation provide a recovery protocol. A timeout is not proof that a remote rank has permanently failed; network delays or scheduler pauses can look similar. A production service might need explicit heartbeats, replayable state and safe retries, but such features are separate from the mathematics of message matching. For a scientific batch job, coordinated checkpoint-restart may be more practical than attempting to continue with a missing rank.</p>
+
+<p>To validate a message exchange, run with one rank, two ranks and an odd number of ranks; test uneven partitions and message sizes around protocol thresholds. Verify a global invariant such as the sum of exchanged identifiers or exact ghost-layer checksums. Instrument outstanding requests and buffer ownership. A benchmark that merely completes without deadlock may still receive mismatched or old data, so use values that encode both source rank and iteration number.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-halo-face"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.2</span>
+            <span>Collective Operations</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Collective communication coordinates a group of participating processes. Common forms include broadcast, reduction, all-reduction, scatter, gather, all-gather and all-to-all exchange. A broadcast distributes one rank's data to others; a reduction combines values according to an operation; an all-reduction makes the combined result available to every participant. These operations are not interchangeable. Using gather to collect all individual arrays and then summing them at a root may transfer far more data than a reduction that combines partial results along the way. The best collective expresses the true dataflow rather than simply using an API that happens to produce the answer.</p>
+
+<p>A tree reduction highlights algorithmic structure. With eight ranks, suppose each holds one local sum. In the first stage, ranks combine values in pairs; in the second, pairs become groups of four; in the third, a root holds the total. The critical communication depth is three combination stages for an ideal binary tree. A flat protocol in which the root receives one value from each other rank has as many as seven serialized receives, though real implementations can overlap message progress. Tree-based algorithms reduce latency depth for small messages, but large arrays may be better served by segmented or ring algorithms that exploit high bandwidth. Libraries choose among such strategies using topology and message-size information.</p>
+
+<p>Associativity is essential to a parallel reduction. Integer addition within a range that avoids overflow is associative, so a tree can regroup additions without changing the exact mathematical result. Floating-point addition is not perfectly associative because each operation rounds; different reduction trees can return slightly different values. For scientific reproducibility, a fixed communication tree or more accurate accumulation method may be needed. Minimum and maximum reductions are often more stable, but special values such as NaNs and signed zero can complicate semantics. Custom reduction operators must satisfy the required mathematical properties and any type or ordering constraints declared by the interface.</p>
+
+<p>A collective involves compatible participation. If some ranks enter a broadcast while others call a reduction on the same communicator in an incompatible order, the program may hang or behave incorrectly. Even when all ranks call the same function, mismatched counts or datatypes can corrupt data. A control-flow branch based on a rank-local observation can accidentally cause divergent collective ordering. The safe approach is to agree collectively on decisions that change the communication sequence, or to structure phases so every rank knows exactly which collective occurs next. Exceptions and early returns must preserve those invariants.</p>
+
+<p>Global collectives may become a scalability barrier. Suppose every iteration of a solver performs a dot product requiring an all-reduction. If the local computation takes only tens of microseconds, the all-reduction latency can dominate across a large cluster. Pipelined Krylov methods and communication-avoiding variants attempt to reduce or hide synchronization frequency, sometimes introducing additional arithmetic or changing numerical behavior. The engineering goal is not always to avoid any global communication. It is to minimize its effect on the critical path while preserving convergence and error guarantees.</p>
+
+<p>Collective cost depends on both algorithm and network topology. A reduction across GPUs within one server may use a different route from a reduction crossing hundreds of servers. A ring all-reduce can communicate in multiple chunks and use available bandwidth efficiently for large vectors, but its latency steps may be less attractive for tiny messages. A tree may minimize startup depth while using more aggregate bandwidth. The application developer should not hard-code expectations about one universal fastest collective; benchmark at representative process counts and sizes, and record library versions and network conditions.</p>
+
+<p>Use collectives carefully in machine learning. In data-parallel training, workers compute local gradient vectors and use all-reduce or related methods to combine them. If gradients are summed but the optimizer assumes an average, learning rate behavior changes with worker count. If batch sizes differ, a simple mean of per-worker means can weight examples incorrectly; weighted sums divided by the global example count are required. Precision, overflow, straggler behavior and stale updates may also affect convergence. Communication correctness is therefore inseparable from the statistical meaning of the aggregated values.</p>
+
+<p>A sound collective test creates small arrays with known rank-specific values, validates outputs on every participating rank, and uses counts that are not simple powers of two. Then benchmark separately for latency-dominated and bandwidth-dominated sizes. Distinguish communication time from application-level barriers and data packing. This disciplined approach prevents a complex library call from hiding an elementary mismatch in mathematical intent.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.3</span>
+            <span>Domain Decomposition</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Domain decomposition partitions a larger computational domain into smaller regions that can be updated independently except at their boundaries. Structured-grid simulations, finite-element models, spatial joins, image processing and geometric searches all use versions of this idea. A decomposition must satisfy coverage, ownership and boundary consistency. Every interior element must belong to a designated owner; replicated boundary data must have a clear source of truth; and tasks must not accidentally omit or double-count elements. The shape of a partition influences not only balance but also communication cost and the ability to exploit local memory.</p>
+
+<p>A rectangular heat-transfer problem provides a concrete example. Divide a 1,024-by-1,024 grid among sixteen ranks arranged as a four-by-four process grid. Each rank owns a 256-by-256 interior tile. For a five-point stencil, it needs one row or column from each adjacent tile. Interior ranks exchange up to 4*256 values per iteration, while physical boundary ranks have fewer neighbors. The owned work contains 65,536 cells; the halo carries about 1,024 values before accounting for communication protocol details. If each value occupies eight bytes, this is roughly eight kilobytes of neighbor data per iteration for an interior rank. A one-dimensional stripe partition would have a different boundary-to-volume ratio and can be preferable for particular grid shapes or processor counts.</p>
+
+<p>The surface-to-volume relation predicts scaling. For a three-dimensional cubic local subdomain with side length m, volume is m cubed and the surface has approximately 6m squared cells. Their ratio is about 6/m. As local subdomains shrink during strong scaling, communication cost becomes larger relative to useful updates. Increasing the halo thickness for higher-order stencils raises transferred data volume. The ratio does not directly equal runtime because real performance also depends on memory traffic, network latency and overlap, but it provides a fundamental geometric explanation for why finer partitions eventually lose efficiency.</p>
+
+<p>Static geometric decomposition assumes roughly uniform work per cell. This assumption fails in adaptive meshes, sparse finite-element systems and particle simulations with clustered particles. If one rank owns a region with dense physics and another owns mostly empty space, identical geographic area does not imply balanced execution. Weighted partitioning estimates computational cost rather than only cell count. Graph and hypergraph partitioners represent interactions as edges or hyperedges and seek to reduce communication while balancing vertex weights. The resulting partition may be irregular, complicating memory access and visualization; this is the tradeoff between balance and locality.</p>
+
+<p>Halo correctness requires an iteration protocol. In an explicit time-stepping scheme, every rank must compute time k+1 from time k values. Receiving an adjacent rank's new time k+1 values early while others still use time k creates a mixed-time computation unless the mathematical method explicitly allows asynchronous iteration. Double-buffered state and tagged halo exchanges avoid this problem. Corner exchanges require care for nine-point stencils or multidimensional operators whose dependencies include diagonal neighbors. Boundaries may represent reflective, periodic, fixed-value or flux conditions, and each condition dictates distinct ghost-cell values.</p>
+
+<p>Decomposition affects local algorithms too. A rank holding a regular tile can store data in contiguous memory and apply vectorized kernels. An irregular sparse partition may need index indirection that increases cache misses. Some applications reorder vertices to improve locality or group nearby cells into blocks. Such transformations can change communication volume and work scheduling. A good partition objective may combine maximum workload, edge-cut communication volume and memory footprint, rather than minimizing one metric in isolation.</p>
+
+<p>Repartitioning during a run is useful when work distribution evolves. An adaptive fluid solver might refine the mesh near moving shocks, making previously balanced tiles uneven. Dynamic load balancing migrates subdomains or graph vertices. Migration costs include serialization, network traffic, reconstruction of local indices, and rebuilding ghost relationships. Frequent migrations can spend more time moving work than they save. Measure imbalance over several iterations and amortize migration over the expected future benefit. The decision resembles a financial investment: pay a one-time movement cost to reduce repeated future costs.</p>
+
+<p>Test a decomposition with a global checksum or invariant, including uneven N that is not divisible by p. Validate no missing cells, no duplicate owners, and correct treatment of global boundaries. A decomposition that works for power-of-two process counts may hide defects at three, five or seven ranks. For performance, report both global domain size and local tile geometry; saying only that a program used 128 workers is insufficient to understand its communication behavior.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-collective-tree"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-4-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§4.4</span>
+            <span>MPI Concepts</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>MPI is a standard interface for message-passing programs. It describes concepts such as communicators, ranks, point-to-point messaging, collectives, user-defined datatypes, process groups and one-sided communication. It does not prescribe a universal network transport or require that processes execute on separate computers. A parallel program can run several ranks on one workstation and later distribute them across a cluster. The semantic contract belongs to the MPI version and implementation, while achievable performance depends on transport, placement, compiler and system configuration. Contemporary MPI standards include additional facilities for partitioned communication and other advanced patterns, but beginners should first master matching, completion and collective consistency.</p>
+
+<p>The communicator is central. It defines a communication context and a group of processes whose ranks are meaningful within that context. Two libraries can duplicate or split a communicator to prevent unrelated messages from matching accidentally. Ranks are local identifiers; world rank three need not equal rank three in a subgroup. Splitting an application into teams for independent simulation ensembles is easier when each team uses a separate communicator. The program then has to decide how partial results are returned to a parent group, which introduces hierarchical communication design.</p>
+
+<p>A point-to-point message includes matching information such as source, destination, tag and communicator. A sender may use a derived datatype to describe strided or structured memory layouts instead of manually packing every field. This can improve clarity and sometimes performance, but type extents, alignment and portability must be checked carefully. A buffer of ten records should not be interpreted as ten bytes or vice versa. When workers use heterogeneous environments, portable representations and explicit type contracts matter more than assumptions about native structure layout.</p>
+
+<p>The blocking/nonblocking distinction is only one axis of MPI semantics. Completion of a send may mean its original buffer is safe to reuse, while receive completion establishes that the receive buffer contains the matched message. Nonblocking operations return request handles; applications should complete or manage them according to the standard. Persistent communication requests can reduce repeated setup for fixed communication patterns. Collective calls place participation obligations on the group, and nonblocking collectives have analogous completion semantics. When trying overlap, instrument an actual timeline and test whether computation meaningfully proceeds during transfers.</p>
+
+<p>One-sided communication, often called remote memory access, permits processes to expose memory windows and perform operations such as remote get, put or accumulate under synchronization rules. It can be useful for irregular access patterns but shifts complexity from explicit sends and receives to epochs, ordering and visibility. The absence of a matching receive call does not imply that synchronization disappears. Some one-sided patterns reduce overhead while others become harder to reason about than ordinary point-to-point communication. Choose the mechanism based on ownership, traffic patterns and the ability to establish correct memory visibility.</p>
+
+<p>Parallel I/O is another important aspect. If a thousand ranks all open one file and write arbitrary overlapping regions, contention and corruption can arise. Collective file operations and well-defined offsets permit coordinated access. Storing one file per rank can simplify local writes but may overload metadata servers and create thousands of small files. Aggregated I/O combines data into fewer, larger transactions. Compression, checkpoint frequency, and storage system topology further affect the results. The computation's performance profile must include I/O when it is part of the user-visible workload.</p>
+
+<p>A minimal MPI correctness test should run at p=1 and p=2 before scaling further, use small recognizable data, and verify all communication buffers and counts. Test asymmetric message sizes where the algorithm permits them and force large payloads that exceed eager buffering thresholds. Use sanitizers where available and a watchdog timeout to detect hangs in an automated test. A benchmark that only exercises one implementation on one message size cannot validate all message-matching or progress assumptions.</p>
+
+<p>Official API documentation and standard revisions should govern exact function behavior. For teaching, it is more important to explain the lifecycle and ownership rules than to memorize call names in isolation: initialize the environment, identify communicators and ranks, establish data decomposition, perform messages or collectives, validate outputs, and finalize correctly. These principles remain useful even when MPI is wrapped by a higher-level scientific framework.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Programming Fundamentals Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 4.1: Verify halo size</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A 1,024-by-1,024 grid is split into a four-by-four process grid. Each interior rank owns 256-by-256 cells and exchanges one cell-thick four-sided halos. Count transferred values and bytes at eight bytes per value.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u4-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u4-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Determine tile geometry</div>
+              
+              <div class="step-explanation"><p>A 1,024-by-1,024 domain divided equally four ways on each axis gives 256 rows and 256 columns per rank.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Count cell values</div>
+              
+              <div class="step-explanation"><p>An interior tile exposes 256 values along each of four faces, totaling 4×256=1,024 sent or received values when faces are counted separately. Corners are excluded for this five-point stencil.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Convert and qualify</div>
+              
+              <div class="step-explanation"><p>At eight bytes per value, each direction carries 8,192 bytes per iteration per interior rank. Actual network traffic can include protocol headers and duplicated corner data under a different stencil.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 4.2: Design rank-safe exchange</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Four ranks form a ring, and every rank must pass its value to its right neighbor while receiving from its left. Explain why all blocking sends first can be unsafe.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u4-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u4-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Trace dependencies</div>
+              
+              <div class="step-explanation"><p>If all sends require a posted receive before they can complete, all four processes can wait in their send call. No rank reaches its subsequent receive, creating deadlock.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Use a safe pattern</div>
+              
+              <div class="step-explanation"><p>Post nonblocking receives for left-neighbor data, then nonblocking sends to right neighbors, and complete both request sets before reading received buffers or reusing send buffers.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Verify message identity</div>
+              
+              <div class="step-explanation"><p>Send tagged values containing rank and iteration, then check that rank r receives from (r−1+4) mod 4. Test large messages so accidental eager buffering cannot hide errors.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 4.3: Compute a weighted global mean</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Two ranks compute means 4 and 10 using ten and thirty samples respectively. What is the correct global mean, and why is the unweighted mean wrong?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u4-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u4-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Reconstruct sums</div>
+              
+              <div class="step-explanation"><p>The first rank contributes total 10×4=40; the second contributes 30×10=300. The overall sum is 340 over 40 samples.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Calculate the average</div>
+              
+              <div class="step-explanation"><p>Global mean is 340/40=8.5. An unweighted average of local means gives (4+10)/2=7, which misrepresents the smaller rank as having equal sample weight.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Specify a collective protocol</div>
+              
+              <div class="step-explanation"><p>Reduce local sums and local sample counts separately, or use a combined custom representation with an associative combine operation. Divide only after obtaining both global totals.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/kernighan-ritchie-c" target="_blank" rel="noopener noreferrer">Kernighan, B.W., &amp; Ritchie, D.M. (1988). The C Programming Language (2nd ed.): Foundational text on structural decomposition, control flow, functions, pointers, and memory layout</a></li><li><a href="https://openstemlibrary.com/references/sicp" target="_blank" rel="noopener noreferrer">Abelson, H., &amp; Sussman, G.J. (1996). Structure and Interpretation of Computer Programs: Canonical treatise on abstraction, procedural decomposition, state, and evaluation models</a></li><li><a href="https://openstemlibrary.com/references/goldberg-floating-point" target="_blank" rel="noopener noreferrer">Goldberg, D. (1991). What Every Computer Scientist Should Know About Floating-Point Arithmetic: Definitive reference on IEEE 754 precision, rounding, and representation error</a></li><li><a href="https://openstemlibrary.com/references/beck-tdd" target="_blank" rel="noopener noreferrer">Beck, K. (2002). Test-Driven Development: By Example: Primary reference for unit test boundaries, assertions, and invariant verification</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="parallel-computing-chapter-3">← Previous chapter</a><a href="parallel-computing">Book contents</a><a href="parallel-computing-chapter-5">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="parallel-computing-sims.js"></script>
+  <script src="parallel-computing-data.js"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

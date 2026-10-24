@@ -1,0 +1,343 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Numerical and data workloads | Parallel Computing | OpenSTEM Library</title>
+  <meta name="description" content="Simulation; Graph Processing; Machine Learning; Scientific Pipelines">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/parallel-computing-chapter-7">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/parallel-computing-chapter-7">
+  <meta property="og:title" content="Parallel Computing: Shared Memory, MPI, GPU CUDA Architecture &amp; Amdahl's Law | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Parallel Computing: Shared Memory, MPI, GPU CUDA Architecture &amp; Amdahl's Law | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="parallel-computing.css?v=20261024_academic"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Parallel Computing: Numerical and data workloads","description":"Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/parallel-computing-chapter-7","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Programming Fundamentals","Problem Decomposition","Control Flow Invariants","Two's Complement Representation","Modular Architecture","Unit Testing","Binary Search","Numerical Integration"],"keywords":"Parallel Computing, Amdahl and Gustafson Laws, Roofline Model, Shared-Memory Threading, Message Passing Interface (MPI), GPU Architecture and CUDA, Cache Coherence Protocols, Lock-Free Synchronization"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#computer-science"},{"@type":"ListItem","position":3,"name":"Parallel Computing","item":"https://openstemlibrary.com/parallel-computing"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Parallel Computing","description":"Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Library","url":"https://openstemlibrary.com"},"courseCode":"CS 420, CS 452","educationalLevel":"Undergraduate","hasCourseInstance":{"@type":"CourseInstance","courseMode":"online","courseWorkload":"PT80H"}}</script></head>
+<body data-book-path="parallel-computing.html" data-chapter-index="6" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Programming Fundamentals</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search problem decomposition, linear search, floating point precision, two's complement overflow, loop invariants, recursion, stack frames, hash tables, unit test boundaries, binary search, trapezoidal rule…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="parallel-computing" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Parallel models</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="parallel-computing-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Performance analysis</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="parallel-computing-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Shared-memory programming</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="parallel-computing-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Distributed-memory programming</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="parallel-computing-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">GPU computing</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="parallel-computing-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Parallel algorithms</span></a></li><li class="unit-nav-item active" data-unit-index="6"><a href="parallel-computing-chapter-7" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Numerical and data workloads</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="parallel-computing-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Optimization and reliability</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Programming fundamentals core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 7 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Numerical and data workloads</h1>
+            <p class="unit-desc-lead" id="unit-desc">Simulation; Graph Processing; Machine Learning; Scientific Pipelines</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for introductory computer science and software construction. Eight units with exactly three solved questions per unit and 16 interactive numerical simulations illustrating problem decomposition, overflow boundaries, hash collisions, and test coverage. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-7-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.1</span>
+            <span>Simulation</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Numerical simulation transforms equations into discrete updates that a computer can execute. Many physical models consist of local updates, making them promising for parallelization, but the exact dependencies depend on the numerical method. An explicit finite-difference scheme for heat diffusion calculates the next time step from the current grid state. Each cell's update reads neighboring values but need not write to another cell's output location. Separate old and new arrays give a clean parallel ownership rule. An implicit scheme instead requires solving a coupled linear system at each time step, introducing different synchronization and communication challenges. Parallelism follows the mathematical discretization, not the word 'simulation' alone.</p>
+
+<p>Consider a one-dimensional heat equation discretized as u_i^(k+1)=u_i^k+r(u_(i-1)^k-2u_i^k+u_(i+1)^k), where r is the diffusion coefficient times time step divided by squared spatial step. For the standard explicit scheme with simple boundaries, stability requires r not exceed one-half under familiar assumptions. Assign contiguous index ranges to p workers, and let each compute output values from the unchanged old array. At rank boundaries, exchange one ghost value from each neighbor before updating the outermost cells. After all outputs are complete, swap old and new buffers. A worker that updates the old array in place violates the scheme's intended time-level semantics and may cause schedule-dependent results even if it never writes another worker's owned index.</p>
+
+<p>Communication costs arise from subdomain boundaries. For a three-dimensional stencil, each rank may exchange six faces, and corner exchanges may be necessary for more complex operators. The local compute cost scales with volume, while exchanged cells scale more closely with surface area. As the global problem is spread over more ranks, the surface-to-volume ratio increases and strong-scaling efficiency can fall. Increasing stencil order also widens halos. Some algorithms perform several local time steps between exchanges by temporarily extending halos, trading redundant arithmetic and storage for fewer communication startups. The numerical equivalence of such methods must be established rather than assumed.</p>
+
+<p>Monte Carlo simulation offers a different model. Independent trajectories can often run with little communication until their aggregate statistics are reduced. The main correctness concern becomes random-number stream independence and reproducibility. Assigning each worker an identical seed can produce perfectly correlated trajectories, invalidating the estimated uncertainty. Simply changing a seed by one does not constitute a proof of independence for an arbitrary generator. Counter-based generators or carefully partitioned streams can provide well-defined reproducible assignment. If results are aggregated in a different floating-point order, small numerical differences may still occur; record the reduction method.</p>
+
+<p>Adaptive simulations produce irregular work. An adaptive mesh refines some regions far more than others, so assigning equal numbers of coarse cells may not balance computational cost. A fluid solver may spend extra time where turbulence is intense; a particle code may cluster many particles into one spatial region. Load balancing then becomes an ongoing process. Dynamic repartitioning requires transferring physical state, rebuilding connectivity and ensuring no cells or particles are lost. An important decision is whether the saved cost per future iteration exceeds the one-time migration cost. More frequent balancing is not automatically better.</p>
+
+<p>Checkpointing matters because long parallel simulations can run for hours or days and use thousands of components. Saving state periodically protects against failures but consumes I/O bandwidth and storage. If each checkpoint takes considerable time, checkpointing too often reduces useful throughput; too infrequent checkpointing risks losing large amounts of progress. The choice depends on failure rates, checkpoint duration and recovery cost. Consistent state requires that checkpoint files represent a coherent simulation time level. Partial files must not be mistaken for completed checkpoints, and metadata should include dimensions, step count, numerical scheme and version information.</p>
+
+<p>Numerical validation cannot rely only on comparing one large parallel run with another. For heat diffusion, test constant fields, for which the update should remain constant under compatible boundary conditions. Test conservation where the model implies it, and compare against analytical solutions or high-resolution references. Run small problems with one and multiple workers and compare within justified tolerances. Use a convergence study as spatial and temporal resolution change; correct parallelization does not rescue an unstable or inaccurate discretization. A highly scalable simulation that solves the wrong equations is an engineering failure.</p>
+
+<p>Performance reports should name the simulated physical time, numerical resolution, time-step count, solver tolerance, hardware and initialization costs. Weak scaling can answer whether more hardware supports higher resolution within the same wall time, while strong scaling measures time saved for one fixed scientific problem. The final goal is reliable science, not merely a good speedup curve.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-stencil-domains"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.2</span>
+            <span>Graph Processing</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Graphs represent irregular relationships through vertices and edges. Parallel graph computation is difficult because degrees and neighborhoods vary, memory accesses are often indirect, and the active work can change dramatically between iterations. Breadth-first search, connected components, PageRank and graph neural network message aggregation all use graph structure but expose different opportunities for parallelism. A simple vertex-parallel implementation assigns one vertex to each worker, yet a vertex with a million edges performs far more work than one with two edges. Balancing vertex counts does not therefore balance execution time.</p>
+
+<p>Breadth-first search illustrates dynamic frontiers. Start with one source vertex at distance zero. At each level, inspect edges from the current frontier and identify previously unvisited neighbors for the next frontier. Every newly discovered vertex must receive its correct distance and must not be processed in conflicting ways. Multiple workers may discover the same neighbor concurrently, so visited-state updates require an atomic claim, a partitioned owner, or another deduplication mechanism. Duplicate discoveries that are not handled correctly can waste work or corrupt output. A level-synchronous algorithm uses barriers between frontiers; an asynchronous alternative requires more elaborate reasoning about ordering and termination.</p>
+
+<p>A traditional compressed sparse row representation stores an offset for each vertex and contiguous arrays of neighboring vertex IDs. This format avoids pointer-heavy adjacency objects and often improves sequential edge traversal. Yet neighbor IDs lead to irregular reads of visited flags and vertex state, which can miss caches. GPU traversal may process many edges per active vertex cooperatively to reduce imbalance. On a CPU, a task scheduler might assign chunks of edges rather than complete vertices. The representation should be chosen by the algorithm's access pattern and the expected graph size, not merely by familiarity with one library's API.</p>
+
+<p>Graph partitioning for a cluster aims to assign vertices or edges to ranks while limiting communication. A partition with very few cut edges can be attractive, but it may place most high-degree vertices on one rank, causing imbalance. Vertex cuts replicate high-degree vertex state across partitions so that edges can be balanced, at the cost of synchronization and increased state replication. Edge cuts keep vertices uniquely owned and communicate across cut edges. Neither strategy dominates every graph. Social networks with heavy-tailed degree distributions behave differently from regular mesh graphs or road networks.</p>
+
+<p>PageRank-type iterative computations propagate values along graph edges and then combine contributions. Their parallel implementation resembles a sparse matrix-vector multiplication or a message-passing update. A 'push' approach sends a vertex's contribution to its neighbors, potentially causing conflicting writes to destination accumulators. A 'pull' approach has each destination gather contributions from incoming neighbors, making output ownership easier but changing memory-access behavior. The best choice depends on graph density, frontier size and data layout. Hybrid algorithms switch modes based on the active fraction of vertices.</p>
+
+<p>Distributed graph algorithms must identify when a global iteration is complete. A rank with an empty local work queue may still receive new work from another rank; local emptiness is not global termination. Termination detection therefore requires a global invariant, collective check or a carefully designed asynchronous protocol. For graph analytics, converged numerical values and absence of pending messages are separate issues. A PageRank iteration might meet a local tolerance on one rank while global residual remains large. Reduction of residual norms and compatible stopping decisions are part of correct distributed execution.</p>
+
+<p>Performance measurements should include frontier distribution, visited-edge count, degree skew, communication bytes and peak memory. Graphs with equal numbers of vertices may differ in edge count by orders of magnitude. Traversing a chain has a long dependency depth even though each vertex has small degree; traversing a star may process many edges in one level but create contention around a central hub. Use several graph families, including adversarial skew, to evaluate scheduling policies. A benchmark on one synthetic random graph does not establish broad superiority.</p>
+
+<p>Correctness tests use small graphs with known traversal distances, multiple paths, disconnected components, self-loops and duplicate edges. For algorithms that are meant to ignore edge multiplicity, verify the implementation actually does so. For weighted graphs, ensure the chosen algorithm supports the weight assumptions. Parallel graph processing rewards decomposition of edges and careful state ownership, but its irregularity makes hidden synchronization and load imbalance especially important.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.3</span>
+            <span>Machine Learning</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Parallel machine learning commonly distributes data examples, model parameters or layers of computation. Data parallelism gives several workers copies of a model and different subsets of a training batch. Each worker computes gradients locally; an aggregation step combines them before the shared model is updated. Model parallelism distributes pieces of a large model across devices because a single device lacks sufficient memory or because particular operations can run concurrently. Pipeline parallelism divides model layers into stages, processing multiple microbatches in flight. These strategies may coexist, but their synchronization and statistical consequences differ.</p>
+
+<p>For synchronous data-parallel gradient descent, suppose p workers hold batches of sizes n_1 through n_p. Each computes a sum of per-example gradients g_i. The correct global average gradient is the sum of all g_i divided by the total number of examples, not necessarily the unweighted average of worker-average gradients. If one worker has ten examples and another has thirty, their means must be weighted 10:30. This detail is easy to overlook when batches are uneven because the final batch of a dataset is incomplete. A numerically correct all-reduce can still produce an incorrect optimizer update if the mathematical scaling is wrong.</p>
+
+<p>Communication cost can dominate when the model has many parameters but each worker processes only a small batch. If every optimizer step requires transferring a gradient vector with billions of components, network bandwidth and collective latency become central. Larger local batches reduce the frequency of gradient synchronization per processed example, but they also change optimizer behavior and potentially generalization. Gradient accumulation can simulate a larger effective batch while keeping device-memory use manageable; the learning rate and loss scaling must be consistent with the chosen aggregation. Compression of gradients can reduce bytes but introduces approximation error and extra compute, which should be evaluated on both convergence and wall-clock time to target accuracy.</p>
+
+<p>Pipeline training adds scheduling constraints. If a model is divided into four stages, stage one can process microbatch two while stage two handles microbatch one. Without enough microbatches, some stages remain idle, creating a pipeline bubble. With many microbatches, utilization improves, but activation memory and scheduling complexity increase. Backpropagation dependencies complicate the schedule further because gradients flow backward through stages. Pipeline depth should therefore be chosen relative to the number of microbatches, device speed differences and allowable activation storage. A pipeline that balances nominal floating-point operations may still bottleneck on one stage's memory or communication.</p>
+
+<p>Mixed precision improves throughput and reduces memory traffic on many accelerators, but model updates can become numerically unstable if small gradients underflow or large activations overflow. Loss scaling, accumulator precision and normalization schemes can mitigate risks. Parallel reductions can change floating-point order, making training runs non-bitwise reproducible even with fixed random seeds. Dropout, data shuffling and nondeterministic device kernels add further variability. Reproducibility requires recording data order, model initialization, library versions, devices and the deterministic behavior actually supported by the backend.</p>
+
+<p>Asynchronous training allows workers to apply updates without waiting for every peer. This can hide stragglers but introduces stale gradients computed from older model parameters. The algorithm's convergence properties depend on delay, step size, data distribution and assumptions about the objective. It is not sufficient to claim that asynchronous updates are always faster: fewer waits can be offset by extra iterations to reach the same validation quality. Evaluate time to a defined loss or task metric, not only examples processed per second. A system can achieve extraordinary raw throughput while converging poorly.</p>
+
+<p>Inference has different goals from training. Batched inference can use GPU matrix operations efficiently, but a service with strict per-request latency may not tolerate large batching queues. Dynamic batching combines requests arriving close in time, trading latency for throughput. Model replication distributes independent requests across devices, whereas tensor parallelism splits a single inference operation across devices and introduces communication. Measure tail latency, memory footprint and energy as well as average throughput. A system optimized for offline batch processing may be unsuitable for interactive use.</p>
+
+<p>For verification, compare a small parallel training step against a serial reference on a fixed minibatch. Check that gradients are correctly normalized, parameter updates agree within tolerance, and no examples are dropped or counted twice. When using data loaders, ensure that distributed samplers partition examples as intended. Record validation quality after comparable compute budgets. Parallel machine learning is successful only when it accelerates progress toward the statistical task without silently changing the experimental question.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-pipeline-rate"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-7-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§7.4</span>
+            <span>Scientific Pipelines</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Scientific computing often consists of a series of connected transformations rather than one monolithic kernel. A telescope workflow might ingest raw frames, calibrate sensor artifacts, align exposures, detect candidates, classify objects and write a catalog. Each stage has its own compute, memory, I/O and accuracy characteristics. Pipeline parallelism overlaps stages on different data batches so that, after startup, throughput can approach the capacity of the slowest stage. However, end-to-end latency for one item remains tied to the serial path through the stages unless individual stages also exploit internal parallelism.</p>
+
+<p>Suppose four pipeline stages take 2, 5, 3 and 4 milliseconds per item. With one worker per stage and perfect buffering, the steady-state bottleneck is the five-millisecond stage, giving an upper throughput of about 200 items per second. The latency of one item is at least 14 milliseconds before queueing, transfers or coordination. Adding another worker to the two-millisecond stage will not improve the throughput because it is not the bottleneck. Adding a worker to the five-millisecond stage may move the bottleneck to the four-millisecond stage, assuming the slow stage can be replicated and the dataflow permits independent items. This kind of capacity reasoning is more useful than blindly parallelizing every stage.</p>
+
+<p>Queueing creates another constraint. If acquisition continuously produces 250 items per second while downstream processing can sustain only 200, a queue accumulates about fifty items per second. Unless the source slows or data are discarded, memory and storage use grow without bound. Bounded queues propagate backpressure and limit resource use. In real-time observation systems, dropping low-priority data may be acceptable; in medical or scientific record processing, discarding unprocessed inputs can be unacceptable. The pipeline must state the policy explicitly. A retry policy must not accidentally process a record twice if downstream effects are not idempotent.</p>
+
+<p>Data locality matters between stages. If one stage finishes a result on a GPU and the next stage also runs on the same GPU, keeping the intermediate tensor on device may avoid a costly host-memory round trip. If another stage needs CPU-only functionality, transfers are inevitable but can perhaps be overlapped with other work. Similarly, reading a large input file independently in each stage wastes I/O bandwidth. Streaming and chunked processing can reduce peak memory, but chunk boundaries must preserve algorithms that use neighboring samples or global statistics.</p>
+
+<p>Workflow graphs allow tasks to execute when dependencies are satisfied. A job scheduler can track completed datasets and direct independent partitions to workers. For reproducibility, the graph should reference immutable input versions and record software, parameters and checksums. Otherwise, rerunning a failed task may read an updated input file and produce a different result while claiming to resume the same computation. Caching intermediate outputs can save expensive recomputation when only downstream parameters change, but cache keys must include all inputs that affect output. Hidden global state makes invalid caching a severe risk.</p>
+
+<p>Checkpointing at stage boundaries is a tradeoff. Persisting every intermediate dataset makes recovery easy but can consume enormous storage and I/O time. Keeping only selected checkpoints reduces expense but increases recomputation after a failure. The best policy depends on stage cost, failure probability, storage price and the value of provenance. A pipeline serving regulated or high-stakes scientific conclusions may prioritize complete traceability over minimum wall-clock time. The engineering design should distinguish performance optimization from the requirements for trustworthy results.</p>
+
+<p>Instrumentation should make bottlenecks visible. Measure per-stage service time, queue wait, input and output volumes, failed or retried items, worker utilization and tail latency. A high global CPU utilization is not necessarily healthy if a stage is overproducing work that piles up in a queue. Conversely, idle workers may be expected if the upstream acquisition rate is sporadic. Capacity planning follows the arrival process and required turnaround time, not merely the maximum throughput observed in a benchmark.</p>
+
+<p>A scientific pipeline is successful when it produces a traceable, correct result within the user's timing and cost constraints. Parallel execution gives flexibility to overlap independent stages and distribute heavy kernels, but it also introduces queues, retries, versioning and synchronization requirements. Those concerns are part of the computational method, not separate operational afterthoughts.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Programming Fundamentals Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.1: Check a heat stencil</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An explicit heat update uses r=0.2 and neighboring values 8 and 12 around center value 10. Compute the next value and state a stability condition for a standard one-dimensional scheme.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u7-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u7-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Form the update</div>
+              
+              <div class="step-explanation"><p>u_new=10+0.2×(8−2×10+12)=10+0.2×0=10. The value remains constant in this symmetric local example.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State stability assumption</div>
+              
+              <div class="step-explanation"><p>For the standard explicit one-dimensional diffusion discretization with the usual nonnegative diffusion coefficient, r≤0.5 is a familiar stability requirement.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Check parallel time levels</div>
+              
+              <div class="step-explanation"><p>Every worker must read the same old time level. In-place updates may mix time levels and invalidate the numerical scheme even though the arithmetic expression looks unchanged.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.2: Estimate pipeline throughput</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A four-stage streaming workflow needs [2,5,3,4] milliseconds per item. Compute its ideal steady-state throughput and single-item latency.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u7-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u7-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Find bottleneck service time</div>
+              
+              <div class="step-explanation"><p>The slowest stage processes one item per five milliseconds, so steady-state throughput is bounded by 1/0.005=200 items per second with one worker per stage.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Find minimum item latency</div>
+              
+              <div class="step-explanation"><p>One item traverses all four stages in at least 2+5+3+4=14 milliseconds without queuing, transfer or coordination.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Assess resource allocation</div>
+              
+              <div class="step-explanation"><p>Adding capacity to the two-millisecond stage does not raise the 200-item/s throughput ceiling. Speeding up or replicating the five-millisecond stage can help until another stage becomes the bottleneck.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 7.3: Weight distributed gradient means</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>One worker has a mean gradient of 2 computed on 20 examples; another has mean gradient 5 on 30 examples. Compute the global average.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u7-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u7-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Recover local sums</div>
+              
+              <div class="step-explanation"><p>The workers contribute sums 20×2=40 and 30×5=150. Total gradient sum is 190 over 50 examples.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Compute result</div>
+              
+              <div class="step-explanation"><p>The correctly weighted global mean is 190/50=3.8; the unweighted mean 3.5 is inaccurate because the shard sizes differ.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Explain application</div>
+              
+              <div class="step-explanation"><p>All-reduce sums and counts, then divide. Scaling mistakes change optimizer steps and can make comparisons across worker counts scientifically invalid.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/kernighan-ritchie-c" target="_blank" rel="noopener noreferrer">Kernighan, B.W., &amp; Ritchie, D.M. (1988). The C Programming Language (2nd ed.): Foundational text on structural decomposition, control flow, functions, pointers, and memory layout</a></li><li><a href="https://openstemlibrary.com/references/sicp" target="_blank" rel="noopener noreferrer">Abelson, H., &amp; Sussman, G.J. (1996). Structure and Interpretation of Computer Programs: Canonical treatise on abstraction, procedural decomposition, state, and evaluation models</a></li><li><a href="https://openstemlibrary.com/references/goldberg-floating-point" target="_blank" rel="noopener noreferrer">Goldberg, D. (1991). What Every Computer Scientist Should Know About Floating-Point Arithmetic: Definitive reference on IEEE 754 precision, rounding, and representation error</a></li><li><a href="https://openstemlibrary.com/references/beck-tdd" target="_blank" rel="noopener noreferrer">Beck, K. (2002). Test-Driven Development: By Example: Primary reference for unit test boundaries, assertions, and invariant verification</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="parallel-computing-chapter-6">← Previous chapter</a><a href="parallel-computing">Book contents</a><a href="parallel-computing-chapter-8">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="parallel-computing-sims.js"></script>
+  <script src="parallel-computing-data.js"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

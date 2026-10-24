@@ -1,0 +1,343 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Optimization and reliability | Parallel Computing | OpenSTEM Library</title>
+  <meta name="description" content="Profiling; Load Balance; Race Diagnosis; Reproducible Parallel Results">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/parallel-computing-chapter-8">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/parallel-computing-chapter-8">
+  <meta property="og:title" content="Parallel Computing: Shared Memory, MPI, GPU CUDA Architecture &amp; Amdahl's Law | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Parallel Computing: Shared Memory, MPI, GPU CUDA Architecture &amp; Amdahl's Law | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="parallel-computing.css?v=20261024_academic"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Parallel Computing: Optimization and reliability","description":"Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/parallel-computing-chapter-8","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Programming Fundamentals","Problem Decomposition","Control Flow Invariants","Two's Complement Representation","Modular Architecture","Unit Testing","Binary Search","Numerical Integration"],"keywords":"Parallel Computing, Amdahl and Gustafson Laws, Roofline Model, Shared-Memory Threading, Message Passing Interface (MPI), GPU Architecture and CUDA, Cache Coherence Protocols, Lock-Free Synchronization"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#computer-science"},{"@type":"ListItem","position":3,"name":"Parallel Computing","item":"https://openstemlibrary.com/parallel-computing"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Parallel Computing","description":"Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Library","url":"https://openstemlibrary.com"},"courseCode":"CS 420, CS 452","educationalLevel":"Undergraduate","hasCourseInstance":{"@type":"CourseInstance","courseMode":"online","courseWorkload":"PT80H"}}</script></head>
+<body data-book-path="parallel-computing.html" data-chapter-index="7" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Programming Fundamentals</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search problem decomposition, linear search, floating point precision, two's complement overflow, loop invariants, recursion, stack frames, hash tables, unit test boundaries, binary search, trapezoidal rule…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="parallel-computing" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Parallel models</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="parallel-computing-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Performance analysis</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="parallel-computing-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Shared-memory programming</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="parallel-computing-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Distributed-memory programming</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="parallel-computing-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">GPU computing</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="parallel-computing-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Parallel algorithms</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="parallel-computing-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Numerical and data workloads</span></a></li><li class="unit-nav-item active" data-unit-index="7"><a href="parallel-computing-chapter-8" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Optimization and reliability</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Programming fundamentals core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 8 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Optimization and reliability</h1>
+            <p class="unit-desc-lead" id="unit-desc">Profiling; Load Balance; Race Diagnosis; Reproducible Parallel Results</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for introductory computer science and software construction. Eight units with exactly three solved questions per unit and 16 interactive numerical simulations illustrating problem decomposition, overflow boundaries, hash collisions, and test coverage. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-8-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.1</span>
+            <span>Profiling</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Profiling is the disciplined process of measuring where execution time and resources are consumed. A program that uses sixteen threads is not necessarily performing sixteen independent units of useful computation. Some threads may be blocked on locks, waiting at barriers, suffering memory stalls or competing for a shared device. A useful parallel profiler distinguishes active computation, synchronization waits, communication, I/O and runtime scheduling. CPU sampling can identify frequently executed code paths; event-based profilers can report cache misses, bandwidth or vector utilization; GPU profilers can show kernel duration, occupancy and memory transactions. Each instrument has overhead and blind spots, so interpret measurements alongside the underlying program semantics.</p>
+
+<p>Begin with a valid baseline. Record the input problem, processor or GPU configuration, compiler options, runtime library versions and output checksum. Time the whole program, then isolate expensive phases. If a simulation spends half its time reading files and half computing, doubling compute throughput can at best reduce the total time to three-quarters of its original value while file time remains unchanged. Optimizing a tiny hot-looking function outside the critical path may have almost no effect. The first profiling question is what the user is waiting for, not which line has the largest number of instructions.</p>
+
+<p>Sampling profilers observe where execution is occurring at periodic intervals, giving a statistical estimate of time distribution. They can miss very short events or misattribute time when inlining and compiler optimization obscure source locations. Instrumentation inserts measurement events around known regions and can provide more precise phase durations, but it may perturb execution, especially when many threads contend on the logging system. Hardware counters report events such as retired instructions, branch misses and cache activity, though multiplexing, counter scope and architecture differences matter. A high cache miss count does not automatically prove memory-bound behavior: miss penalties may overlap or be hidden by other work.</p>
+
+<p>Parallel timelines reveal patterns that aggregate timings conceal. A long horizontal gap before a barrier may show that one worker performed more computation than its peers. A series of tiny GPU kernels separated by host synchronization can reveal launch-bound execution. A communication timeline may show a rank sending many small messages while others remain idle. Annotating application phases and work identities improves interpretation. Without identifiers, one cannot tell whether a delay came from expected dependency, contention, or a task that was never enqueued.</p>
+
+<p>The roofline model compares arithmetic intensity with machine ceilings. Estimate useful arithmetic operations per byte of data moved from the memory level being modeled. A kernel with two arithmetic operations for every eight bytes transferred has intensity 0.25 operations per byte. If a system sustains 100 GB/s of relevant bandwidth, that intensity suggests a memory-bound ceiling of about 25 billion operations per second before considering other limits. If the same kernel is measured at two billion operations per second, the gap invites investigation of inefficient access, serialization or insufficient concurrency. The roofline is a bound, not an exact prediction, and its interpretation requires accurate operation and byte counts.</p>
+
+<p>A scalable profiling protocol sweeps both problem size and worker count. Fixing only one input can miss a regime change: small problems may be launch-bound, medium problems cache-friendly, and large problems bandwidth-bound. Repeated runs reveal noise from scheduling, frequency scaling and shared system activity. Use medians and dispersion instead of reporting a single best time. When comparing two implementations, ensure equivalent results, compilation flags and resource allocation. A ten-percent improvement smaller than run-to-run variation is not a robust finding without further evidence.</p>
+
+<p>Performance diagnosis should produce a falsifiable hypothesis. If one believes a kernel is limited by memory traffic, estimate the bytes, compare with measured bandwidth and test whether improving locality changes runtime. If a barrier seems responsible, remove or restructure it only after proving the dependency remains satisfied, and then measure idle time again. If process placement is suspected, control affinity and compare local versus remote memory access. A profiler is most valuable when it guides an experiment rather than merely displaying attractive charts.</p>
+
+<p>Finally, record performance results as reproducible research artifacts. Include benchmark scripts, input generators, environment versions, raw measurements and definitions of derived metrics. Do not claim an optimization was verified on hardware that was not available. A simulated performance model can be useful for teaching, but it must be labeled as a model and validated against real measurements before informing a hardware purchase or production capacity decision.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-work-bound"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.2</span>
+            <span>Load Balance</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Load balance concerns how evenly useful work is distributed among workers and whether those workers can operate independently without exhausting shared resources. Equal task counts are a poor proxy when tasks have different costs. A process might own ten matrix blocks with dense arithmetic, while another owns ten blocks that are mostly zero. Their nominal task counts match, but execution times do not. A simple diagnostic records per-worker useful computation time and compares average to maximum. If four workers take 4, 4, 4 and 12 seconds, the average is six, the maximum is twelve, and an elementary balance efficiency is six divided by twelve, or fifty percent. The imbalance explains idle time at the next synchronization point.</p>
+
+<p>The theoretical makespan for independent tasks is at least the largest task duration and at least total work divided by the number of processors. Suppose six jobs take durations [2,2,2,2,2,12] seconds on three identical workers. Total work is 22 seconds, so the average bound is 7.33 seconds, but the twelve-second job imposes a stronger lower bound of twelve. Assigning the long job to one worker and splitting the five short jobs among the others can achieve twelve seconds. No clever scheduler can beat that without splitting the long job itself. This reasoning prevents blaming a runtime for an unavoidable critical path.</p>
+
+<p>Static partitioning is inexpensive and locality-friendly when work costs are predictable. It can perform badly on irregular datasets or when input behavior changes. Dynamic work queues assign new chunks to idle workers, helping with unpredictable durations. The price is queue contention, scheduling overhead and potential loss of cache affinity. Work stealing gives idle workers an opportunity to take tasks from busier peers, often benefiting recursive divide-and-conquer algorithms. A scheduler must also consider memory locality: stealing a task that repeatedly reads remote NUMA pages can be slower than waiting briefly for a local task.</p>
+
+<p>Weighted partitioning estimates work before execution. For a sparse matrix, the number of nonzero entries per row may be a useful weight; for graph traversal, vertex degree may approximate edge-processing cost. Those proxies can still mispredict execution if cache locality, branching or expensive user-defined functions dominate. Adaptive profiling can update estimates between iterations. But collecting detailed cost statistics also consumes time and memory. The relevant decision is whether better assignment saves enough repeated work to justify the measurement and migration overhead.</p>
+
+<p>Load balancing must include resource constraints. Assigning two memory-heavy tasks to the same worker might exceed available RAM even if their arithmetic durations appear short. Placing all communication-heavy tasks on one network endpoint creates contention despite balanced CPU cycles. GPU tasks can compete for memory capacity and execution streams. A heterogeneous cluster contains machines with different compute rates or memory bandwidth; assigning equal work counts may be inherently unbalanced. Weighted capacity and performance measurements should guide task placement.</p>
+
+<p>Imbalance can arise from synchronization patterns too. When workers finish local tasks at different times but must enter a barrier, the fast workers idle. Eliminating the barrier may improve overlap only if the next phase's dependencies permit it. In a stencil simulation, advancing one worker's time step before its neighbors have produced required halos can change the numerical method. In a task graph, replacing global barriers with fine-grained dependencies can preserve correctness while admitting more concurrency, but the dependency tracking itself consumes resources. Optimize the program's critical path, not simply the count of barriers.</p>
+
+<p>Rebalancing an evolving simulation involves state migration. A partition that becomes overloaded might donate cells to another rank, but transferring state and rebuilding neighbor tables is expensive. If migration costs twenty seconds and the new partition saves two seconds per future iteration, it breaks even after ten iterations in the simplest model. If only five iterations remain, the migration is counterproductive. Forecasting future workload is uncertain, so practical systems use thresholds and moving averages rather than reacting to every transient spike.</p>
+
+<p>A good load-balance report includes maximum, average and distribution of per-worker useful time; idle time; movement costs; task size distribution; and total wall-clock improvement. It also documents the partitioning rule and whether the workload is deterministic. The final objective is not cosmetically equal load bars but the shortest reliable completion time at acceptable resource cost.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.3</span>
+            <span>Race Diagnosis</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A race condition exists when a program's behavior depends on the relative timing of operations that are not adequately ordered. A <em>data race</em> has a more specific meaning under a language memory model: conflicting memory accesses occur without the required synchronization and at least one is a write. Not all race conditions are data races. Two correctly synchronized workers might each legitimately win a contest to reserve a shared resource, making the business outcome depend on schedule even though every memory operation is properly protected. A diagnosis must identify whether the bug violates memory safety, an ordering invariant or an application-level decision rule.</p>
+
+<p>The simplest lost-update example uses a shared integer counter initially zero. Thread A reads zero and computes one; thread B reads zero and computes one; both store one. The intended result after two increments is two, but the observed value is one. The fault is that an increment is a read-modify-write sequence rather than one indivisible operation. Protecting the operation with a mutex or using a suitable atomic fetch-add repairs the counter. For a large histogram, however, millions of contending atomic updates may be slow. A better design may use private histograms and a final reduction, which improves both clarity and throughput.</p>
+
+<p>A race diagnosis begins with an invariant. For the counter, expected value equals the number of completed increments. For a producer-consumer queue, every enqueued item must be consumed at most once, and a completed item must not disappear. For a numerical solver, outputs must correspond to one coherent input time level. Instrument tests to check the invariant on small inputs with exaggerated opportunities for interleaving. For example, insert test-only yield points after the read and before the write. Such perturbations can reveal a bug, but they are not a synchronization mechanism and their absence cannot prove correctness.</p>
+
+<p>Thread sanitizers analyze memory accesses during execution and can detect many conflicting unsynchronized operations. Their reports need context: custom synchronization, foreign libraries and unsupported language features may affect accuracy. A lock-order checker can identify cycles that create deadlock risks. GPU race-detection tools can inspect certain shared-memory or global-memory hazards, but tool coverage varies. Use dynamic tools as evidence, not as substitutes for a clear argument about who owns each memory location and how ownership changes.</p>
+
+<p>Memory visibility often hides behind an apparently innocent flag. A producer fills data and sets `ready`, while a consumer polls the flag and then reads the data. If ordinary unsynchronized variables are used where the language requires atomics or locks, the compiler and CPU may reorder accesses or the consumer may observe stale values. Introducing an arbitrary sleep is not a fix. A release publication and acquire observation, or a mutex and condition variable, can establish the necessary happens-before relation. The precise primitives depend on the programming language and device scope.</p>
+
+<p>Atomicity alone does not guarantee a correct high-level protocol. Two workers might each check a shared balance and then decrement it using individually atomic operations, resulting in an overdraft if the check and update are not one transaction. Compare-and-swap loops, locking or a serialized owner can protect the combined invariant. Similarly, an atomic flag used to mark a vertex visited in parallel BFS must be paired with a rule that only the successful claimant enqueues the vertex when that property is needed. The data structure's logical operation, not the individual load or store, defines the required atomicity boundary.</p>
+
+<p>Reproducing failures requires care. Running the same test ten thousand times can increase confidence that a particular bug is rare under those conditions, but it cannot exhaust all thread schedules. Model checking or systematic schedule exploration can prove properties for small bounded models, subject to the model's assumptions. Formal reasoning from data ownership and synchronization remains important for the full implementation. A particularly useful review practice is to list every shared mutable location and ask which writes may overlap, which reads depend on those writes, and what establishes ordering.</p>
+
+<p>A race fix must be retested for performance. One coarse mutex might eliminate the race while serializing all workers, making the application unusable. Finer-grained locks, immutable snapshots or disjoint ownership can preserve more parallelism. The best solution often changes the dataflow so that conflicting accesses no longer exist. Correctness first, then measured optimization, is essential because a spectacular speedup produced by dropped increments or missing synchronization has no engineering value.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-rebalance-payback"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.4</span>
+            <span>Reproducible Parallel Results</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Reproducibility asks whether a computation can be repeated with meaningfully equivalent results under a stated set of conditions. For integer algorithms with defined overflow behavior, strict deterministic scheduling may be unnecessary if operations are associative and independent. For floating-point numerical work, different execution orders can alter rounded values. For stochastic algorithms, random streams and data-order choices affect outputs. For asynchronous graph or optimization algorithms, the order of updates can affect convergence paths. A reproducibility policy therefore needs to specify its level: bitwise identity, tolerance-based numerical agreement, statistical equivalence, or agreement on a scientific conclusion.</p>
+
+<p>Floating-point addition illustrates the issue. The result of `(a+b)+c` can differ from `a+(b+c)` due to finite precision. A parallel reduction tree groups values differently from a serial left-to-right accumulation. The program may be mathematically correct while producing slightly different last bits. If the application compares two large simulation runs, it should use error norms, conservation properties or a scientifically justified tolerance, not demand bitwise identity without explaining why. Some applications, such as audited financial calculations or regression test baselines, may nevertheless require exact deterministic outputs and should select algorithms and arithmetic representations accordingly.</p>
+
+<p>Random-number generation must be parallelized deliberately. Giving every worker the same seed duplicates streams and can drastically reduce the effective sample diversity in Monte Carlo estimation. Assigning seeds based only on scheduling order can make results change whenever task placement changes. Counter-based generators or explicit stream identifiers tied to stable simulation entities can make results reproducible regardless of worker count, when used correctly. Record generator family, seed scheme, stream assignment and library versions. For privacy- or security-sensitive randomness, statistical simulation generators must not be mistaken for cryptographically secure random sources.</p>
+
+<p>Deterministic task assignment can help debugging but may reduce load-balancing flexibility. A fixed schedule and reduction tree make execution easier to replay, yet irregular workloads can leave resources idle. Some systems offer a deterministic mode for validation and a faster nondeterministic mode for production. This is acceptable when both modes satisfy the same application-level correctness and tolerance criteria. The distinction should be documented in benchmark reports, because comparing a deterministic serial baseline against a relaxed parallel version can hide numerical or semantic differences.</p>
+
+<p>Versioned inputs and environments are as important as execution order. A result depends on source data, compiler options, mathematical libraries, hardware instructions, precision modes and solver tolerances. A scientific pipeline should record input checksums and parameter files, not only code commit identifiers. Replaying a computation with changed library defaults or GPU kernels may produce different numerical outputs even from identical source code. Where practical, container images or environment manifests reduce ambiguity, but they do not freeze hardware behavior or external service responses.</p>
+
+<p>Parallel checkpoints require consistent state. If some workers save after time step k while others save after k+1, the combined files may represent no valid global state. A coordinated checkpoint protocol or versioned application-level snapshot must establish a coherent cut. Each file should include rank or partition identity, iteration, dimensions and checksum. The recovery process must validate the complete set before continuing. Atomic publication of checkpoint metadata can prevent users from mistaking partially written files for complete recovery points.</p>
+
+<p>Academic verification combines several independent tests. Compare small parallel outputs to a trusted serial reference; check invariants such as conservation and permutation preservation; vary thread counts and partition boundaries; and repeat stochastic runs to compare statistical properties. For a floating-point solver, a residual or error norm can be more informative than equality of raw intermediate arrays. For nondeterministic graph traversal, several valid visitation orders may exist while final distances remain uniquely defined. The acceptance criterion must match the algorithm's semantics.</p>
+
+<p>Reproducibility is not synonymous with suppressing every form of nondeterminism. It means making claims that can be independently checked given declared assumptions and tolerances. A reproducible result comes from controlled inputs, explicit algorithmic contracts, adequate test evidence and transparent recordkeeping. Those practices make parallel programs trustworthy even when their execution schedules vary from run to run.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Programming Fundamentals Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 8.1: Evaluate a load-balance trace</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Four workers have useful times [4,4,4,12] seconds and synchronize at one barrier. Compute an elementary balance efficiency and the possible idle time.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u8-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u8-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Compute mean and maximum</div>
+              
+              <div class="step-explanation"><p>The mean useful time is (4+4+4+12)/4=6 seconds, and the slowest worker needs 12 seconds.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Estimate efficiency</div>
+              
+              <div class="step-explanation"><p>Mean/max=6/12=0.5, or 50 percent. If workers start together, the three short workers each wait about eight seconds at the barrier.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Identify improvement</div>
+              
+              <div class="step-explanation"><p>Repartition the long task if divisible; removing the barrier without preserving the phase dependency would risk correctness. Measure actual scheduling and migration overhead before claiming improvement.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 8.2: Analyze a counter race</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Two threads each execute a non-atomic read-increment-write on counter zero. Construct an interleaving that leaves the result at one rather than two.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u8-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u8-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Read concurrently</div>
+              
+              <div class="step-explanation"><p>A reads zero and stores the value in its local register. Before A writes, B also reads zero and computes one.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Perform writes</div>
+              
+              <div class="step-explanation"><p>A stores one and B stores one. The final shared value is one, although two increments were logically requested.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Repair the invariant</div>
+              
+              <div class="step-explanation"><p>Use an atomic fetch-add, a properly scoped lock or thread-local counters plus a reduction. Sleep calls are not valid synchronization and cannot prove correctness.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 8.3: Decide whether to repartition</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A repartition costs 20 seconds upfront and saves two seconds on each future iteration. Calculate the break-even iteration count and decide whether to repartition if only five iterations remain.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u8-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u8-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Compute break-even</div>
+              
+              <div class="step-explanation"><p>At two seconds saved per iteration, recovering a 20-second migration cost requires 20/2=10 future iterations.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Evaluate five iterations</div>
+              
+              <div class="step-explanation"><p>Five iterations save only ten seconds, less than the 20-second migration expense; the simple net effect is ten seconds slower.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State uncertainty</div>
+              
+              <div class="step-explanation"><p>Prediction error, changing workload and one-off communication costs can alter the decision. Monitor imbalance over time and test that migrated state remains complete and correctly owned.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/kernighan-ritchie-c" target="_blank" rel="noopener noreferrer">Kernighan, B.W., &amp; Ritchie, D.M. (1988). The C Programming Language (2nd ed.): Foundational text on structural decomposition, control flow, functions, pointers, and memory layout</a></li><li><a href="https://openstemlibrary.com/references/sicp" target="_blank" rel="noopener noreferrer">Abelson, H., &amp; Sussman, G.J. (1996). Structure and Interpretation of Computer Programs: Canonical treatise on abstraction, procedural decomposition, state, and evaluation models</a></li><li><a href="https://openstemlibrary.com/references/goldberg-floating-point" target="_blank" rel="noopener noreferrer">Goldberg, D. (1991). What Every Computer Scientist Should Know About Floating-Point Arithmetic: Definitive reference on IEEE 754 precision, rounding, and representation error</a></li><li><a href="https://openstemlibrary.com/references/beck-tdd" target="_blank" rel="noopener noreferrer">Beck, K. (2002). Test-Driven Development: By Example: Primary reference for unit test boundaries, assertions, and invariant verification</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="parallel-computing-chapter-7">← Previous chapter</a><a href="parallel-computing">Book contents</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="parallel-computing-sims.js"></script>
+  <script src="parallel-computing-data.js"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

@@ -1809,6 +1809,101 @@ window.LIBRARY_CATALOG = {
             "Interaction modalities",
             "Socio-technical design"
           ]
+        },
+        {
+          "id": "information-security",
+          "title": "Information Security",
+          "subtitle": "Symmetric & Asymmetric Cryptography, Key Exchange, Access Control Models, Memory Exploits & Threat Analysis",
+          "status": "AVAILABLE",
+          "url": "information-security.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering classical and modern cryptography (AES, RSA, ECC), cryptographic hash functions, digital signatures, Diffie-Hellman key exchange, access control models (DAC, MAC, RBAC, Bell-LaPadula), memory safety vulnerabilities (buffer overflows, ROP chains), web security (XSS, CSRF, SQLi), network security, and security engineering with 24 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Security foundations",
+            "Cryptography",
+            "Systems security",
+            "Network Security",
+            "Application Security",
+            "Identity, Authorization, Privacy and Key Management",
+            "Security Operations and Incident Response",
+            "Security Assurance, Secure Development and Responsible Testing"
+          ]
+        },
+        {
+          "id": "distributed-systems",
+          "title": "Distributed Systems",
+          "subtitle": "Logical Clocks, Consensus Protocols, Paxos, Raft, Fault Tolerance, Partitioning & Eventual Consistency",
+          "status": "AVAILABLE",
+          "url": "distributed-systems.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Distributed foundations",
+            "Coordination",
+            "Replication",
+            "Consensus",
+            "Distributed storage",
+            "Distributed computation",
+            "Reliability and operations",
+            "System design"
+          ]
+        },
+        {
+          "id": "parallel-computing",
+          "title": "Parallel Computing",
+          "subtitle": "Shared-Memory Threads, Message Passing (MPI), GPU Architecture (CUDA), Amdahl's Law & Synchronization",
+          "status": "AVAILABLE",
+          "url": "parallel-computing.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Parallel models",
+            "Performance analysis",
+            "Shared-memory programming",
+            "Distributed-memory programming",
+            "GPU computing",
+            "Parallel algorithms",
+            "Numerical and data workloads",
+            "Optimization and reliability"
+          ]
+        },
+        {
+          "id": "web-systems",
+          "title": "Web Systems",
+          "subtitle": "HTTP Protocols, Client-Server Architectures, REST APIs, Browser Internals, Caching & Scalability",
+          "status": "AVAILABLE",
+          "url": "web-systems.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering the architectural evolution of the World Wide Web, HTTP/1.1, HTTP/2 multiplexing, HTTP/3 (QUIC), RESTful API design, browser rendering engines (DOM tree, CSSOM, layout, paint), client-side state management, CDN edge caching, web security (CORS, CSP, same-origin policy), and high-concurrency server architectures with 24 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Web foundations",
+            "Frontend systems",
+            "Backend systems",
+            "Data and sessions",
+            "Web performance",
+            "Reliability and security",
+            "Distributed web architecture",
+            "Delivery and observability"
+          ]
+        },
+        {
+          "id": "software-testing-and-verification",
+          "title": "Software Testing and Verification",
+          "subtitle": "Unit Testing, Mutation Analysis, Fuzzing, Symbolic Execution, Model Checking & Formal Verification",
+          "status": "AVAILABLE",
+          "url": "software-testing-and-verification.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering test engineering fundamentals, black-box partition testing, white-box graph coverage (statement, branch, prime path, MC/DC), mutation analysis, regression testing, property-based testing, automated fuzzing (AFL, coverage-guided), symbolic execution, Hoare logic, SAT/SMT solvers, and model checking (LTL, CTL) with 24 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Quality foundations",
+            "Unit and integration testing",
+            "System testing",
+            "Test-design techniques",
+            "Static verification",
+            "Formal verification",
+            "Reliability testing",
+            "Quality operations"
+          ]
         }
       ]
     }

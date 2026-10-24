@@ -1,0 +1,343 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Parallel algorithms | Parallel Computing | OpenSTEM Library</title>
+  <meta name="description" content="Reductions; Scans; Sorting; Matrix Computation">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/parallel-computing-chapter-6">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/parallel-computing-chapter-6">
+  <meta property="og:title" content="Parallel Computing: Shared Memory, MPI, GPU CUDA Architecture &amp; Amdahl's Law | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Parallel Computing: Shared Memory, MPI, GPU CUDA Architecture &amp; Amdahl's Law | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="parallel-computing.css?v=20261024_academic"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Parallel Computing: Parallel algorithms","description":"Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/parallel-computing-chapter-6","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Programming Fundamentals","Problem Decomposition","Control Flow Invariants","Two's Complement Representation","Modular Architecture","Unit Testing","Binary Search","Numerical Integration"],"keywords":"Parallel Computing, Amdahl and Gustafson Laws, Roofline Model, Shared-Memory Threading, Message Passing Interface (MPI), GPU Architecture and CUDA, Cache Coherence Protocols, Lock-Free Synchronization"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#computer-science"},{"@type":"ListItem","position":3,"name":"Parallel Computing","item":"https://openstemlibrary.com/parallel-computing"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Parallel Computing","description":"Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Library","url":"https://openstemlibrary.com"},"courseCode":"CS 420, CS 452","educationalLevel":"Undergraduate","hasCourseInstance":{"@type":"CourseInstance","courseMode":"online","courseWorkload":"PT80H"}}</script></head>
+<body data-book-path="parallel-computing.html" data-chapter-index="5" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Programming Fundamentals</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search problem decomposition, linear search, floating point precision, two's complement overflow, loop invariants, recursion, stack frames, hash tables, unit test boundaries, binary search, trapezoidal rule…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="parallel-computing" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Parallel models</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="parallel-computing-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Performance analysis</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="parallel-computing-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Shared-memory programming</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="parallel-computing-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Distributed-memory programming</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="parallel-computing-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">GPU computing</span></a></li><li class="unit-nav-item active" data-unit-index="5"><a href="parallel-computing-chapter-6" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Parallel algorithms</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="parallel-computing-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Numerical and data workloads</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="parallel-computing-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Optimization and reliability</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Programming fundamentals core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 6 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Parallel algorithms</h1>
+            <p class="unit-desc-lead" id="unit-desc">Reductions; Scans; Sorting; Matrix Computation</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for introductory computer science and software construction. Eight units with exactly three solved questions per unit and 16 interactive numerical simulations illustrating problem decomposition, overflow boundaries, hash collisions, and test coverage. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-6-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.1</span>
+            <span>Reductions</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A reduction combines a collection of elements into a single result using an operation such as addition, minimum, maximum, logical conjunction or a custom associative combination. The operation must have well-understood algebraic properties. Associativity permits regrouping, which is the foundation of parallel reduction trees. An identity value permits clean handling of empty or padded segments. Commutativity may allow arbitrary reordering, but not every associative operation is commutative: matrix multiplication and string concatenation provide familiar counterexamples. A correct implementation should preserve element order when the operator requires it, even if it still uses a balanced tree of contiguous segments.</p>
+
+<p>To reduce sixteen integer values, eight workers can each read two and compute a local sum. Four sums are created in the next combination level, then two, then one. The tree has logarithmic depth in the number of input elements if enough execution resources exist. A sequential sum needs n-1 addition operations on a dependency chain of length n-1. A balanced reduction still performs n-1 additions overall but organizes them into roughly log2(n) dependent levels. This illustrates the distinction between <em>work</em> and <em>span</em>. A parallel algorithm is attractive when it preserves reasonable total work while reducing span substantially.</p>
+
+<p>The simplest tree reduction assumes a power-of-two length, but real datasets rarely respect such a restriction. Padding with the operation's identity can make the logical length a power of two if storage and synchronization are handled safely. Alternatively, an implementation can use a ragged tree with correct bounds checks. Testing n equal to 0, 1, 3, 17 and values around a block boundary exposes many indexing defects that n=1,024 conceals. An empty reduction needs an explicit API contract: some operations return their identity, while others reject an empty input because no appropriate identity is defined.</p>
+
+<p>Floating-point reduction introduces a more subtle concern. Floating-point addition rounds after each operation, and changing grouping can change results. For example, a large positive number, a small value and the matching large negative number may produce different rounded sums depending on order. A tree can improve numerical error properties compared with certain sequential orders, but it cannot guarantee bitwise identity with a conventional left-to-right sum. Numerically sensitive applications may use pairwise summation, compensated summation, superaccumulators or reproducible reduction libraries. A tolerance should depend on the problem's conditioning and desired accuracy rather than an arbitrary fixed count of decimal digits.</p>
+
+<p>Contention is the main reason to avoid a shared global accumulator updated by every thread. Even if each update is atomic and correct, the single memory location may become a coherence hotspot. Private local reductions reduce synchronization frequency; a final hierarchy combines partial values. On GPUs, a block can reduce locally in shared memory or with lane-level operations, then write one partial result. A separate kernel combines block partials, or suitable atomic operations may be used when nondeterministic ordering is acceptable. The choice depends on payload size, hardware support and the desired reproducibility contract.</p>
+
+<p>In distributed memory, reduction is a communication problem as well as an arithmetic problem. A local sum on each rank is cheap when data remain local, but combining across ranks requires a reduction tree or another collective algorithm. For small payloads, startup latency and tree depth dominate. For large arrays, pipelined or ring-based communication can use bandwidth more effectively. Data types and operations must match across ranks. If one rank contributes a mean calculated over a different number of samples, simply reducing the means may give the wrong global mean. Reduce sums and counts separately, then divide by the total count.</p>
+
+<p>Reduction performance is best evaluated with work, span, memory traffic and communication depth together. A clever tree that minimizes arithmetic depth can still be slower than a simple loop on small arrays because of launch overhead. A tree that uses more temporary storage may displace useful data from cache. For large arrays, memory bandwidth may dominate long before arithmetic reduction time becomes significant. Measure a range of n and p, and compare to a well-tuned serial reference under equivalent numerical acceptance criteria.</p>
+
+<p>A reduction is not merely a library primitive. It is an algebraic specification combined with a hardware mapping. State the operator, identity, data type, overflow policy and ordering expectations; then choose the tree and communication strategy. This careful framing also prepares the reader for parallel scans, which compute many related prefix reductions rather than only one final result.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-reduction-depth"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.2</span>
+            <span>Scans</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A scan, or prefix operation, produces intermediate accumulations rather than only the final reduction. For an array [2,3,5,7], an inclusive prefix sum returns [2,5,10,17]; an exclusive prefix sum returns [0,2,5,10] when zero is the identity. Both forms are valuable, but confusing them causes off-by-one errors. Scans support stream compaction, radix sorting, histogram offsets, memory allocation, sparse matrix construction and parallel recurrence transformations. Their central property is that every output is a reduction of a prefix of the input sequence.</p>
+
+<p>A sequential scan traverses the array once, maintaining a running accumulator, so it does O(n) work but has O(n) dependency depth. A naive parallel design might independently sum each prefix; that creates O(n squared) total work, wasting hardware despite abundant parallelism. Tree-based scans achieve much better work-depth tradeoffs. A common conceptual algorithm performs an upsweep to build partial sums, then a downsweep to distribute prefix values. For a power-of-two array, the two tree traversals have logarithmic depth and linear work. Each phase has dependencies that must be respected through barriers or kernel boundaries.</p>
+
+<p>The upsweep-downsweep description is easiest to understand with eight items. Adjacent pairs first compute partial sums. Pairs of pairs combine, ultimately producing the total. The downsweep starts with the identity at the root and propagates prefix information: the left child inherits the parent's prefix, while the right child receives that prefix combined with the left child's aggregate. Leaves then contain exclusive prefix results. To obtain an inclusive result, combine each original input with its exclusive prefix. The logic preserves order for associative but noncommutative operators when traversal is arranged appropriately.</p>
+
+<p>On GPUs, a scan is usually hierarchical because a single block cannot globally synchronize arbitrary other blocks in an ordinary launch. Each block computes local prefixes and a block total. A second scan computes offsets for the block totals. A final pass adds each block's offset to its local prefixes. This design incurs extra passes and temporary storage but scales to arrays much larger than one block. Advanced algorithms can fuse stages with carefully defined synchronization and progress guarantees, but these are harder to verify. A straightforward three-stage implementation is often the best teaching baseline.</p>
+
+<p>Scan correctness requires an identity and a valid associative operator. For string concatenation, order matters: 'ab' followed by 'cd' must not be reordered as 'cdab'. For floating-point addition, regrouping changes rounding as in reductions, so mathematical associativity is only approximate in machine arithmetic. For integer counts, overflow behavior must be specified. If prefix counts exceed the maximum representable integer, the resulting memory offsets can become dangerous even when individual input values are valid. Use data types large enough for the total and check dimensions before allocating output arrays.</p>
+
+<p>Stream compaction provides a worked design context. Suppose every input record has a predicate indicating whether it should survive filtering. Evaluate the predicate to obtain a zero-one flag for each record. An exclusive scan of flags yields the destination position of each surviving record. A thread with flag one writes its record to output at that position. The final output length is the total sum of flags. The procedure preserves input order and can run in parallel without output collisions because each surviving record has a unique prefix count. The proof uses the fact that prefix counts strictly increase at positions where the flag is one.</p>
+
+<p>Scan performance involves more than theoretical depth. Each stage reads and writes arrays, and the algorithm may be bandwidth-bound. Temporary buffers, launch overhead and communication of block totals affect runtime. An optimized implementation may use warp-level primitives or fuse local scanning with later computation. Compare not only standalone scan throughput but also the surrounding pipeline: a filter-plus-scan-plus-scatter pipeline might benefit from processing tiles that stay in cache or shared memory. Saving one array pass can outweigh a marginal improvement in the scan's arithmetic operations.</p>
+
+<p>Test with arrays of length zero, one, prime numbers, and lengths slightly below and above block boundaries. Check both inclusive and exclusive conventions with a serial reference. Add input patterns of all zeros, all ones and alternating flags to validate compaction. A scan is a foundational parallel algorithm precisely because its output structure exposes ordering and synchronization mistakes so clearly.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.3</span>
+            <span>Sorting</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Sorting is a fundamental data transformation whose parallelization is more challenging than elementwise mapping. Comparison sorting must coordinate which values occupy which positions, and intermediate partitions may have very different sizes. Parallel merge sort divides the input into subarrays, sorts them concurrently and merges their results. Parallel quicksort partitions around pivots and recurses, but poor pivots can create highly uneven work. Sample sort selects splitters to partition records among processes, then locally sorts each partition. The best algorithm depends on whether keys are bounded integers or arbitrary comparable objects, on how large records are, and on the memory and communication hierarchy.</p>
+
+<p>Consider parallel merge sort on n records. A serial merge-sort algorithm performs O(n log n) comparisons. Parallel recursive sorting exposes independent subproblems, but each merge can introduce a long dependency if implemented sequentially. A parallel merge uses binary searches or block partitions to identify independent output regions, reducing span at the cost of extra index work. The algorithm must preserve the ordering relation, including behavior when keys are equal. A <em>stable</em> sort retains input order among equal keys; parallel implementations sometimes sacrifice stability unless designed for it. If stability is required for a downstream database operation, this is a correctness requirement rather than an optional aesthetic feature.</p>
+
+<p>Sorting distributed data usually involves communication. Suppose each of eight ranks holds a million records and the final order must be globally sorted by key. Sorting each rank's local array is insufficient, because a large key on rank zero may need to move after a small key on rank seven. A sample-sort strategy collects representative keys, selects splitters, partitions data by key ranges, exchanges partitions among ranks, and sorts locally. Skewed key distributions can overload a few destinations, so splitter selection and duplicate-key handling matter. If all keys are identical, a naive range partition might send nearly every record to one rank unless the algorithm deliberately balances equals.</p>
+
+<p>Sorting network algorithms such as bitonic sort execute a fixed pattern of comparisons and swaps. Their predictable control flow can be attractive on hardware that benefits from regular operations, but they may perform more comparisons than asymptotically optimal comparison sorts. Bitonic networks naturally accommodate powers of two; a correct general implementation must pad safely or use a specialized irregular-size method. Network-based sorting is a good teaching example because every comparator has a clearly defined dependency level, making span and synchronization costs explicit.</p>
+
+<p>Integer keys sometimes enable radix sorting. Rather than comparing arbitrary pairs, radix sorting processes a fixed number of bits or digits, building histograms and prefix offsets for each pass. A parallel radix sorter uses scans to calculate stable destination positions. Its complexity depends on key width, digit size and memory traffic. Larger digits reduce the number of passes but require larger histograms, creating different cache and shared-memory tradeoffs. A floating-point sort requires deliberate handling of sign representation, NaNs and signed zeros if bitwise ordering tricks are used.</p>
+
+<p>Sorting benchmarks are particularly vulnerable to misleading input choices. Already sorted input, reverse order, many duplicates and uniform random keys can exercise very different paths. A quicksort implementation that performs well on random keys may degrade on adversarial pivots. A radix sort that excels on fixed-width integers may not apply to variable-length strings. Report key type, record size, distribution, stability requirements, device, total input length and memory limits. For a distributed sort, include bytes moved over the network and final output placement in the timing boundary.</p>
+
+<p>Verification should go beyond checking that neighboring output keys are nondecreasing. A sorting algorithm could accidentally lose elements, duplicate values or corrupt associated payloads while still returning a sorted key sequence. Compare a multiset checksum or exact record counts, verify that the output is a permutation of the input and test equal-key stability when required. Small arrays with unique identifiers attached to duplicate keys are especially effective. On a multi-rank output, check global order across partition boundaries as well as order within each rank.</p>
+
+<p>The parallel sorting lesson is about balancing comparison work, memory movement and global redistribution. An algorithm with an excellent asymptotic comparison bound can lose to a simpler method if it moves records inefficiently. The strongest design chooses its partitioning strategy from the data distribution and target memory hierarchy, then verifies both global order and complete preservation of records.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-scan-hierarchy"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.4</span>
+            <span>Matrix Computation</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Dense matrix computation is important because it offers substantial arithmetic reuse when organized correctly. Multiplying an m-by-k matrix A by a k-by-n matrix B requires approximately 2mkn floating-point operations under the common convention that a multiply-add counts as two operations. The naive loop nest repeatedly loads elements whose values will be reused for many products. Blocking or tiling reorganizes the computation so a submatrix of A and a submatrix of B remain in faster memory while producing many output elements. This improves arithmetic intensity, the amount of useful computation per byte moved from slower memory.</p>
+
+<p>A small matrix example makes the mapping explicit. For matrices A=[[1,2],[3,4]] and B=[[5,6],[7,8]], C=AB has entries 19,22,43,50. Each output element is a dot product of one row of A with one column of B, so four outputs can be computed independently if the inputs are immutable. For larger matrices, assign tiles of C to worker groups rather than one output scalar per expensive task. Each tile needs appropriate portions of A and B. A good implementation avoids two workers writing the same C tile unless a controlled reduction combines their partial results.</p>
+
+<p>The classical three-loop multiplication has O(n cubed) arithmetic for square matrices, but performance depends strongly on loop order and storage layout. For row-major arrays, an inner loop that walks contiguous B elements can exploit cache and vectorization more effectively than one that repeatedly strides down columns. Packing blocks into contiguous scratch buffers can further improve locality. These transformations preserve the mathematical operation but may change floating-point reduction order. Numerical verification should account for that and include checks with known matrices, identities, zeros and non-square dimensions.</p>
+
+<p>On a cluster, matrix multiplication requires distributed data placement. A two-dimensional process grid can assign blocks of C to ranks and communicate panels of A and B as needed. SUMMA-style algorithms use repeated broadcasts along process-grid rows and columns, with local matrix multiplications between communication phases. Performance depends on panel width, memory footprint and overlap. A naive strategy that sends all of A and B to every rank can exceed available memory and network bandwidth. Scalable algorithms strive to reuse communicated blocks, balance work and respect each rank's memory capacity.</p>
+
+<p>GPU matrix kernels often use shared-memory tiles, register accumulators and specialized arithmetic units. Hardware matrix-multiply accelerators may support reduced-precision inputs with accumulation in a different precision. Their impressive nominal throughput does not guarantee acceptable accuracy for every scientific problem. An ill-conditioned linear algebra task may require higher precision or iterative refinement. The data type, accumulation method and tolerated error are part of the algorithm's contract, especially when results are used in numerical solvers rather than visualization.</p>
+
+<p>Parallel matrix-vector multiplication offers a contrasting example. Multiplying a dense n-by-n matrix by a vector performs O(n squared) arithmetic and reads O(n squared) matrix entries. Unless the matrix or vector is repeatedly reused, the arithmetic intensity is much lower than matrix-matrix multiplication. Many optimized matrix-vector kernels are memory-bandwidth limited. This difference explains why simply placing both operations on a GPU yields very different scaling. The roofline framework predicts the sensitivity to bandwidth versus compute throughput by comparing operations to bytes moved.</p>
+
+<p>Sparse matrices introduce irregular memory accesses. A compressed sparse row format stores nonzero values and column indices with row offsets. Different rows may contain very different numbers of nonzeros, producing load imbalance when one thread handles each row. Grouping long rows, using segmented reductions or reordering the sparse structure can improve balance, but preprocessing and storage overhead matter. For iterative solvers that reuse the matrix thousands of times, preprocessing may be worthwhile; for one multiplication it may not. Correctness checks must preserve the relation between stored values, column indices and row boundaries.</p>
+
+<p>A robust matrix performance study separates transfer, packing, computation and numerical validation. Use dimensions not aligned to tile sizes, compare against a trusted small reference and measure sustained operations per second relative to relevant precision. A fast multiplication that silently discards small terms or uses an unreported approximation is not equivalent to a precise baseline. Parallel matrix algorithms succeed by coordinating mathematical decomposition with data movement, memory reuse and a transparent accuracy contract.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Programming Fundamentals Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 6.1: Calculate reduction span</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A power-of-two vector has 1,024 elements. Compare a sequential sum dependency depth with a balanced tree, assuming unit-time additions.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u6-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u6-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Sequential dependency</div>
+              
+              <div class="step-explanation"><p>A left-to-right sum needs 1,023 additions with a dependency chain of 1,023 steps.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Tree dependency</div>
+              
+              <div class="step-explanation"><p>A balanced binary reduction has log2(1,024)=10 combination levels, each containing many independent additions; total additions remain 1,023.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Qualify real performance</div>
+              
+              <div class="step-explanation"><p>Ten levels do not mean a ten-time-unit total on arbitrary hardware. Data loading, limited workers, barriers and memory movement can dominate. Floating-point regrouping can change rounding.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 6.2: Apply exclusive scan to compaction</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Records have keep flags [1,0,1,1,0]. Calculate exclusive prefix offsets and the destination indices for retained records.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u6-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u6-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Generate prefixes</div>
+              
+              <div class="step-explanation"><p>Exclusive sums are [0,1,1,2,3]. The scan begins with the addition identity zero, and every offset counts retained records before that index.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Select destination slots</div>
+              
+              <div class="step-explanation"><p>Retained records are at input indices 0, 2 and 3. Their destination indices are 0, 1 and 2 respectively, so the output contains three records.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Prove no collision</div>
+              
+              <div class="step-explanation"><p>At each retained input index, the prefix count strictly increases relative to the preceding retained index. Thus retained records obtain unique ordered destinations without conflicting writes.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 6.3: Multiply two matrices</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Let A=[[1,2],[3,4]] and B=[[5,6],[7,8]]. Compute the product and explain how output ownership permits parallelism.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u6-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u6-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">First row</div>
+              
+              <div class="step-explanation"><p>C00=1×5+2×7=19 and C01=1×6+2×8=22. Each is a dot product using immutable entries of A and B.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Second row</div>
+              
+              <div class="step-explanation"><p>C10=3×5+4×7=43 and C11=3×6+4×8=50, so C=[[19,22],[43,50]].</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Parallel ownership</div>
+              
+              <div class="step-explanation"><p>Give each C element or contiguous C tile a unique writer. Blocking reuses portions of A and B but must preserve valid boundaries for non-multiple tile dimensions.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/kernighan-ritchie-c" target="_blank" rel="noopener noreferrer">Kernighan, B.W., &amp; Ritchie, D.M. (1988). The C Programming Language (2nd ed.): Foundational text on structural decomposition, control flow, functions, pointers, and memory layout</a></li><li><a href="https://openstemlibrary.com/references/sicp" target="_blank" rel="noopener noreferrer">Abelson, H., &amp; Sussman, G.J. (1996). Structure and Interpretation of Computer Programs: Canonical treatise on abstraction, procedural decomposition, state, and evaluation models</a></li><li><a href="https://openstemlibrary.com/references/goldberg-floating-point" target="_blank" rel="noopener noreferrer">Goldberg, D. (1991). What Every Computer Scientist Should Know About Floating-Point Arithmetic: Definitive reference on IEEE 754 precision, rounding, and representation error</a></li><li><a href="https://openstemlibrary.com/references/beck-tdd" target="_blank" rel="noopener noreferrer">Beck, K. (2002). Test-Driven Development: By Example: Primary reference for unit test boundaries, assertions, and invariant verification</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="parallel-computing-chapter-5">← Previous chapter</a><a href="parallel-computing">Book contents</a><a href="parallel-computing-chapter-7">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="parallel-computing-sims.js"></script>
+  <script src="parallel-computing-data.js"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

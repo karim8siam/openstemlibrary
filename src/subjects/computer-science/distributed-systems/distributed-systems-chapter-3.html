@@ -1,0 +1,353 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Replication | Distributed Systems | OpenSTEM Library</title>
+  <meta name="description" content="Deterministic state-machine replication, Primary–backup replication and failover, Quorum reads, quorum writes, and intersecting sets, Conflict resolution, versions, and convergent data types, Capstone: replicating an equipment inventory ledger">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/distributed-systems-chapter-3">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/distributed-systems-chapter-3">
+  <meta property="og:title" content="Distributed Systems: Logical Clocks, Paxos, Raft Consensus &amp; Fault Tolerance | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Distributed Systems: Logical Clocks, Paxos, Raft Consensus &amp; Fault Tolerance | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="distributed-systems.css?v=20261024_academic"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Distributed Systems: Replication","description":"Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/distributed-systems-chapter-3","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Programming Fundamentals","Problem Decomposition","Control Flow Invariants","Two's Complement Representation","Modular Architecture","Unit Testing","Binary Search","Numerical Integration"],"keywords":"Distributed Systems, Logical Clocks and Causality, Paxos and Raft Consensus, Fault Tolerance, Quorum Systems, CAP Theorem, Replication and Consistency, Distributed Transactions"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#computer-science"},{"@type":"ListItem","position":3,"name":"Distributed Systems","item":"https://openstemlibrary.com/distributed-systems"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Distributed Systems","description":"Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Library","url":"https://openstemlibrary.com"},"courseCode":"CS 417, CS 451","educationalLevel":"Undergraduate","hasCourseInstance":{"@type":"CourseInstance","courseMode":"online","courseWorkload":"PT80H"}}</script></head>
+<body data-book-path="distributed-systems.html" data-chapter-index="2" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Programming Fundamentals</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search problem decomposition, linear search, floating point precision, two's complement overflow, loop invariants, recursion, stack frames, hash tables, unit test boundaries, binary search, trapezoidal rule…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="distributed-systems" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Distributed foundations</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="distributed-systems-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Coordination</span></a></li><li class="unit-nav-item active" data-unit-index="2"><a href="distributed-systems-chapter-3" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Replication</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="distributed-systems-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Consensus</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="distributed-systems-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Distributed storage</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="distributed-systems-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Distributed computation</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="distributed-systems-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Reliability and operations</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="distributed-systems-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">System design</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Programming fundamentals core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 3 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Replication</h1>
+            <p class="unit-desc-lead" id="unit-desc">Deterministic state-machine replication, Primary–backup replication and failover, Quorum reads, quorum writes, and intersecting sets, Conflict resolution, versions, and convergent data types, Capstone: replicating an equipment inventory ledger</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for introductory computer science and software construction. Eight units with exactly three solved questions per unit and 16 interactive numerical simulations illustrating problem decomposition, overflow boundaries, hash collisions, and test coverage. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-3-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.1</span>
+            <span>Deterministic state-machine replication</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>State-machine replication means that replicas begin from equivalent state and apply the same ordered sequence of deterministic commands. If the transition function is deterministic and all replicas observe the same initial state and log order, they should produce equivalent results. The hard part is agreeing on the command sequence under failures. A replicated log may be established using a consensus protocol, with a leader proposing entries and quorum rules determining which entries become committed. Replication without agreement is not enough: two replicas can have identical code but diverge when they execute conflicting commands in different orders. Commands should be expressed in stable application terms, for example 'reserve seat 27 for operation key K' rather than 'run arbitrary code now'. The latter may read local time, filesystem state, or randomness and produce different results on each replica.</p>
+
+<p>Determinism is more subtle than avoiding an explicit random function. Hash-map iteration order, locale-dependent formatting, floating-point corner cases across runtimes, non-versioned external API calls, and race conditions can change outputs. A robust state-machine command supplies any required timestamp, unique sequence number, or randomness as agreed input. Some services deterministically evaluate a command and record its effect rather than replay arbitrary application execution. Each replica must also know which commands are committed and may safely be exposed to clients. Applying an uncommitted proposal as durable fact can force a painful rollback after a leader change. Snapshots reduce replay work by capturing a state together with an applied log index and appropriate integrity metadata. A snapshot without a matching log position is insufficient evidence of recovery correctness.</p>
+
+<p>Consider a replicated student registration database. The log contains commands to add a course, set its capacity, and enroll specific operation identifiers. Each transition checks an invariant: enrollment count may not exceed the capacity. The order matters when two clients attempt to acquire the final seat. If every replica applies one common committed order, exactly one enrollment succeeds. If replicas independently accept local commands and merge counters later, they may both claim confirmation. The state machine can return the same result for duplicate operation identifiers by storing previous outcomes, allowing retries after ambiguous responses. Snapshotting that state must retain deduplication records for their specified retention horizon, or an old retry arriving after recovery may execute again. This combines application idempotency with log ordering, a relationship frequently overlooked in toy consensus demos.</p>
+
+<p>State-machine replication has costs even when it works correctly. Coordinated writes incur network round trips and durable storage overhead, and a hot global log can become a throughput bottleneck. Partitioning independent keys into separate consensus groups reduces contention but complicates operations spanning groups. Applying commands may be CPU-intensive, creating follower lag despite healthy replication links. Leadership changes can leave uncommitted log suffixes that require reconciliation. A system's recovery story should specify how replicas restore from snapshots, verify checksums, identify the committed prefix, and reject unsafe commands after membership changes. It should also distinguish a correct mathematical replication model from an actual deployment that depends on file-system durability and hardware failure modes.</p>
+
+<p>Create a three-replica log visualizer where the learner appends two proposed commands, acknowledges them at selected voters, and advances the committed index only according to a defined quorum rule. Keep 'appended', 'committed', and 'applied' states separate and visible. Let a leader crash with an uncommitted suffix, elect a different leader, and inspect how commands from the old suffix may be replaced while the committed prefix must remain. Use a deterministic transition function for a small inventory map; compare state hashes only after the same committed prefix has been applied. Demonstrate a deliberately nondeterministic command that calls each replica's local random generator, and show divergent state hashes despite identical log entries. The animation is a bounded teaching model, not a complete Raft implementation.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-replication-lag"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.2</span>
+            <span>Primary–backup replication and failover</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Primary–backup replication assigns an active primary to handle designated updates while backups receive records or state copies. In synchronous variants the primary may wait for backups before returning a confirmed success; in asynchronous variants it may acknowledge earlier, accepting a window of possible lost updates. The choice affects recovery-point objectives and latency. Calling a backup 'hot' or 'ready' says little unless the system specifies which writes it has durably received and applied. A failover protocol must prevent the old primary from continuing authoritative updates after another primary takes over. Epochs or terms provide a fencing mechanism, and a reliable authority or quorum must decide whose writes are valid. Merely switching a load balancer DNS target does not provide write fencing.</p>
+
+<p>Suppose a small merchant database performs 100 updates per second. It acknowledges each write immediately after local durable append and ships changes to its backup with average delay 200 milliseconds. Under stable load, the expected number of acknowledged updates not yet at the backup is approximately 100×0.2=20, although real queueing and burstiness change the distribution. If the primary is destroyed with no surviving copy of those updates, the service may lose acknowledged data. The calculation is an illustrative mean backlog under simple steady-state assumptions, not a guarantee about a particular failure. A synchronous secondary acknowledgement can narrow that window but increases latency and may reduce availability when the secondary is unreachable. The product should choose the rule deliberately and disclose which acknowledgement means 'durable against one node loss'.</p>
+
+<p>Failover testing must examine old-primary recovery. Imagine primary P loses its route to the control plane while clients can still reach it. Backup B is promoted and accepts new writes. When the route is repaired, P reconnects with a divergent log. If it blindly republishes its writes, B may be overwritten or duplicates may leak to downstream consumers. Safe recovery treats P as a follower or repair source under a new authority epoch; it reconciles the accepted history according to the system's actual commit semantics. In a simplified single-primary database without a consensus group, automatic failover may be impossible to make safe under every partition pattern; operators may need a manual fencing step to avoid dual primaries. These limitations should be in the incident playbook before an outage occurs.</p>
+
+<p>Backup design is not just a question of number of copies. Restore time, point-in-time recovery, immutable backups, schema compatibility, encryption-key availability, and disaster recovery drills determine whether a surviving copy is useful. A replica that continuously follows the primary may eagerly reproduce accidental deletions or corrupted data. Backups with retention and versioning protect against a different class of failure than real-time failover. It is useful to describe recovery time objective as a target for restoring service and recovery point objective as a target for acceptable data loss. Neither target is an observed guarantee without drills and measurements. A resilient strategy may combine synchronous in-region replicas, asynchronous cross-region copies, and periodic immutable backups, with different roles in the failure model.</p>
+
+<p>Implement a primary–backup simulator with controls for write arrival rate, replication delay, acknowledgement strategy, crash instant, and promotion epoch. Plot the sequence of locally durable, copied, and client-acknowledged writes. When running asynchronously, count updates that were acknowledged but absent from the surviving backup at crash time. For the synchronous setting, mark requests awaiting replication and show their extra response delay. Then reconnect the old primary and test that it cannot write with a stale epoch. Ask learners to state precisely what their simulation does not represent: torn disk writes, Byzantine backup behavior, external downstream effects, and backups stored in another administrative domain. A correct result is a trace accompanied by explicit assumptions, not a smooth animation.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.3</span>
+            <span>Quorum reads, quorum writes, and intersecting sets</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Quorum replication uses overlapping sets of participants to constrain which operations can proceed. In a simple majority voting group with N members, any two majorities intersect in at least one member because each has more than half the voters. That intersection supports safety arguments for consensus protocols when combined with the full rules on terms, durable promises, and log positions. In a leaderless replicated key-value store, engineers may choose read count R and write count W over replication factor N, often using the heuristic R+W&gt;N for overlap. This overlap alone does not guarantee linearizable reads: concurrent writes, sloppy quorums, hinted handoff, stale acknowledgements, and lack of read repair can defeat stronger assumptions. State which quorum model is being analyzed rather than treating one arithmetic inequality as an entire consistency proof.</p>
+
+<p>For N=5, R=3, W=3, read and write sets must intersect because 3+3&gt;5. However, the common member might return a stale version when writes are still propagating or when the protocol permits different failure semantics. A read coordinator needs a version-selection and perhaps reconciliation procedure. With N=5, R=1, W=5, reads are cheap and writes require all replicas; one offline member can prevent progress under a strict interpretation. With R=5, W=1, write availability is higher but reads are fragile. These choices move latency and availability costs between operations. They are not optimal independently of read/write traffic, network geography, conflict rate, and recovery process. Also distinguish an intended replica set from the nodes that temporarily accept hints for unavailable replicas.</p>
+
+<p>Imagine a distributed ticketing service holding five replicas of the remaining inventory count. It chooses R=3 and W=3 and lets two clients concurrently decrement separate copies. Even though each write reaches three nodes, the application can oversell if it performs read-modify-write without comparing versions or applying a serialized transaction. Each client could read one remaining ticket and write zero using a different causal history. Quorum overlap helps discover or constrain versions, but does not make a non-atomic multi-step business operation safe. Implement conditional writes or route the inventory invariant through an authoritative state machine. For other workloads, such as a comment 'like' count, a mergeable increment operation may eliminate the need for serializing every event. Consistency requirements should be derived from user-visible invariants, not merely chosen by a replica count formula.</p>
+
+<p>Membership and repairs complicate quorum reasoning. A store may use virtual nodes and consistent hashing to decide owners; changing ownership during scaling affects which sets a quorum intersects. A client should not quietly believe that a request succeeded merely because three random nodes responded if the current configuration defines a different eligible set. Replicas that were offline need anti-entropy or log catch-up before serving authoritative reads. In leader-based consensus, a voting majority cannot be replaced by a collection of read-only observers. Under split-brain incidents, the operator should inspect configuration epochs, voter identities, write acknowledgements, and whether the safety invariant actually held, rather than relying on green host-health indicators.</p>
+
+<p>Build a quorum grid for N from 3 to 9. Learners choose R and W and click replica nodes to represent read and write participants. Highlight the guaranteed intersection when R+W&gt;N, but label the result 'set intersection only'. Provide a second mode for majority-of-N voting and enumerate candidate majority subsets to show that any two must intersect. Construct an example in which a shared node acknowledges a value before it is durably stored; then let that node crash and observe why durability assumptions matter. Ask students to modify a ticketing update to require a compare-and-swap condition and explain why the set-intersection calculation does not replace transaction logic. This intentionally separates mathematics of set intersection from implementation-level guarantees.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-quorum-intersection"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.4</span>
+            <span>Conflict resolution, versions, and convergent data types</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>When replicas accept concurrent writes, the system must decide what those writes mean together. A conflict is not necessarily an error; it is evidence that no single observed ordering determines the result. Last-write-wins registers pick one value according to a chosen total order, often a timestamp with a tie-breaker. This is simple but can lose one user's intentional update, and unsynchronized clocks make 'latest' ambiguous. Multi-value registers retain concurrent alternatives for application resolution. Version vectors can detect that two values are concurrent rather than one overwriting the other. Conflict-free replicated data types, or CRDTs, instead define state or operation merges with algebraic properties that guarantee convergence under specified delivery assumptions. Convergence is not equivalent to every possible application invariant being preserved.</p>
+
+<p>An observed-remove set is more nuanced than a naive set union. A user adds tag 'reviewed' and another user concurrently removes the tag. Whether the final state includes it depends on the chosen add-wins or remove-wins semantics. In an observed-remove design, removal typically targets additions the remover has observed; concurrent unseen additions may survive. This may suit collaborative annotation but not revoking critical access rights. A counter CRDT can merge independent positive increments without losing them by tracking per-replica contributions or equivalent causal metadata. A bounded inventory counter is different: unconstrained local increments and decrements can violate a non-negative invariant during partition. Escrow techniques allocate rights to decrement, limiting local operations without a global round trip. These approaches work because the invariant and transfer rights are designed together.</p>
+
+<p>Consider a shared campus reading list. Alice offline adds a reference to Paper X, while Bob offline adds Paper Y. A grow-only set merged by union retains both, a desirable result. Later Alice removes Paper X while Bob—unaware of the removal—edits its annotation. What should happen? The data structure cannot make the educational product decision for you. One application may hide the reference but preserve annotation history; another may restore the item with a conflict marker; another may require explicit moderation. The merge structure should represent intentions with unique operation IDs and causal context, not merely replace an entire JSON document with the version whose server clock is greatest. A useful test makes both operation orders and a partitioned execution produce the documented semantic outcome.</p>
+
+<p>CRDT descriptions should specify convergence assumptions. State-based CRDT merges are often designed to be associative, commutative, and idempotent, so merging duplicate or reordered states yields the same result. Operation-based variants may rely on dependable causal delivery or equivalent metadata. Tombstones and causal context can grow and require carefully designed garbage collection; premature cleanup may let deleted items reappear when a long-offline replica returns. Security is not automatically handled: a mathematically convergent structure can faithfully merge malicious unauthorized edits. Authorization and trusted identity remain external requirements. For a single-seat reservation, strict serializability or escrow rights may be simpler than trying to invent a conflict resolution rule after accepting contradictory confirmations.</p>
+
+<p>Implement two-replica experiments for a last-write-wins register, multi-value register, and grow-only set. Let the learner send two concurrent updates while disconnected, then deliver them in either order. Show how set union converges and how last-write-wins discards one value. Repeat with a forged clock 24 hours ahead, illustrating the risk of wall-clock winners. In a second task, use per-replica G-counter components and merge by componentwise maximum; verify that counts converge after duplicate and reordered state transmissions. Add an intentionally invalid bounded decrement to show how mathematical convergence can coexist with an unacceptable negative inventory. The conclusion should be a statement of product invariants and merge semantics rather than an assertion that one data type fits every domain.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.5</span>
+            <span>Capstone: replicating an equipment inventory ledger</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A laboratory equipment inventory tracks physical devices, their custodians, calibration status, and reservations. A misplaced instrument has financial and safety consequences, so the inventory needs more than eventually matching replica byte strings. The first requirement is a stable identity for each device; the second is an explicit ownership invariant for operations that allocate exclusive equipment; the third is an audit trail of custody transfers. Some data fields, such as last-inspected notes, can be updated independently and reconciled. Others, such as 'currently assigned to exactly one researcher', need an authoritative transition. Model the system as a state machine with command identifiers and versioned state. Separate a tentative reservation from a confirmed assignment so a disconnected client never invents authority. This provides the domain definition needed to assess replication mechanisms.</p>
+
+<p>Partition the inventory by laboratory or device group rather than by arbitrary server process. Each partition can have its own replication group, improving scale without requiring one global log. However a single device transfer from Lab A to Lab B may touch two partitions, creating a cross-shard invariant. One approach reserves the device in the source partition, records a transfer intent, and completes ownership change through a coordinated workflow. Another uses a transaction service offering the necessary isolation and atomicity, with higher coordination costs. Neither approach should be hidden behind a simple 'move device' button that always returns instant success. The UI may show transfer pending until the durable new owner is confirmed and the prior owner is invalidated.</p>
+
+<p>A failure trace clarifies the distinction between replication and durable acknowledgement. Primary P records transfer T, but before the backup has durably received it P returns success and immediately crashes. Backup B is promoted and lacks T. If the business contract promised loss-free confirmed transfers under any single-node failure, this behavior violates it. A synchronous quorum-based commit could protect the operation, at the cost of waiting for additional persistence. A replica whose local log includes T but whose commit index does not may need to discard T during leader reconciliation. The incident analysis should compare acknowledged, durable, committed, and applied indices separately. A screenshot of equal file sizes is not proof that both replicas accepted the same history.</p>
+
+<p>Conflict-free merge techniques have a place in the same product. Independent tags, comments, and sensor readings may be modeled with convergent data types. A calibration counter that only increases can merge monotonic contributions from different facilities, but a claim that one expensive spectrometer can be checked out in two locations at once cannot be repaired by simply merging counters. If the device allocation policy requires uniqueness, use constrained rights, leases with fencing, or a strongly consistent owner. A background anti-entropy process can reconcile non-critical annotations; it should not overwrite confirmed custody records based solely on wall-clock freshness. Distinguish the guarantees of each field and publish them in the application contract.</p>
+
+<p>Finally design a restore drill. Take a snapshot at log index S, then record new committed events through C&gt;S. Destroy one replica and restore from the snapshot plus committed suffix. Verify the resulting state hash, every operation key's prior result, and the audit chain for custody transfers. Then repeat with a corrupt log block and require restoration to halt rather than silently skip it. A snapshot copied into three locations is not useful if all copies are encrypted with a lost key, so the drill needs a tested key-recovery policy. Record the elapsed restore time and the recovered committed index to compare with targets. This capstone integrates replication correctness, conflict resolution, backup design, and truthful operations reporting.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Programming Fundamentals Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked</span>
+            <strong>Example 3.1: Majority and quorum intersection</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A service has N=5 replicas, with R=3 for reads and W=3 for writes. Show that every read quorum intersects every write quorum; explain one reason this arithmetic alone does not prove linearizability.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--distributed-systems-u3-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--distributed-systems-u3-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1: reasoning</div>
+              
+              <div class="step-explanation"><p>The pigeonhole principle gives minimum overlap max(0,R+W−N)=max(0,3+3−5)=1 member.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2: reasoning</div>
+              
+              <div class="step-explanation"><p>Thus an R-size set and a W-size set cannot be disjoint among five eligible replicas.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3: reasoning</div>
+              
+              <div class="step-explanation"><p>An intersection node may still return an old version or may not have persisted the acknowledged write, depending on protocol rules. Version selection, concurrency handling, and durable acknowledgement are additional obligations.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>At least one eligible replica intersects, but linearizability is not established by set arithmetic alone.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked</span>
+            <strong>Example 3.2: Quantify asynchronous replication backlog</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A primary acknowledges 120 writes per second and asynchronously ships each write with mean delay 0.25 seconds. Estimate the mean in-flight backlog under steady-state conditions and state the limitation.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--distributed-systems-u3-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--distributed-systems-u3-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1: reasoning</div>
+              
+              <div class="step-explanation"><p>Little’s Law under stable arrival/service assumptions gives average in-flight count L=λW.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2: reasoning</div>
+              
+              <div class="step-explanation"><p>Substitute λ=120 writes/s and W=0.25 s to obtain L=30 writes.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3: reasoning</div>
+              
+              <div class="step-explanation"><p>This is an expected backlog, not a hard loss bound. Variance, batches, storage durability, and crash timing can make actual data exposure different.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Approximately 30 writes in flight on average; no worst-case recovery point is implied.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked</span>
+            <strong>Example 3.3: Detect nondeterminism in replicated commands</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Two replicas apply identical log command increaseCount(1), then command setCount(randomLocal()), from the same initial state. Are identical committed logs sufficient to guarantee identical final states?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--distributed-systems-u3-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--distributed-systems-u3-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1: reasoning</div>
+              
+              <div class="step-explanation"><p>The first command deterministically adds one to a shared starting counter, so both replicas agree after it.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2: reasoning</div>
+              
+              <div class="step-explanation"><p>The second command calls independent local randomness; replicas need not choose the same number.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3: reasoning</div>
+              
+              <div class="step-explanation"><p>State-machine replication requires deterministic transitions or agreed random outcomes stored as input. Identical log order alone is insufficient when the transition function reads uncontrolled local state.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>No. Record the random outcome as agreed command data or remove nondeterministic behavior.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/kernighan-ritchie-c" target="_blank" rel="noopener noreferrer">Kernighan, B.W., &amp; Ritchie, D.M. (1988). The C Programming Language (2nd ed.): Foundational text on structural decomposition, control flow, functions, pointers, and memory layout</a></li><li><a href="https://openstemlibrary.com/references/sicp" target="_blank" rel="noopener noreferrer">Abelson, H., &amp; Sussman, G.J. (1996). Structure and Interpretation of Computer Programs: Canonical treatise on abstraction, procedural decomposition, state, and evaluation models</a></li><li><a href="https://openstemlibrary.com/references/goldberg-floating-point" target="_blank" rel="noopener noreferrer">Goldberg, D. (1991). What Every Computer Scientist Should Know About Floating-Point Arithmetic: Definitive reference on IEEE 754 precision, rounding, and representation error</a></li><li><a href="https://openstemlibrary.com/references/beck-tdd" target="_blank" rel="noopener noreferrer">Beck, K. (2002). Test-Driven Development: By Example: Primary reference for unit test boundaries, assertions, and invariant verification</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="distributed-systems-chapter-2">← Previous chapter</a><a href="distributed-systems">Book contents</a><a href="distributed-systems-chapter-4">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="distributed-systems-sims.js"></script>
+  <script src="distributed-systems-data.js"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

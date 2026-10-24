@@ -1,0 +1,343 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Shared-memory programming | Parallel Computing | OpenSTEM Library</title>
+  <meta name="description" content="Threads; Synchronization; Work Sharing; Memory Consistency">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/parallel-computing-chapter-3">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/parallel-computing-chapter-3">
+  <meta property="og:title" content="Parallel Computing: Shared Memory, MPI, GPU CUDA Architecture &amp; Amdahl's Law | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Parallel Computing: Shared Memory, MPI, GPU CUDA Architecture &amp; Amdahl's Law | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="parallel-computing.css?v=20261024_academic"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Parallel Computing: Shared-memory programming","description":"Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/parallel-computing-chapter-3","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Programming Fundamentals","Problem Decomposition","Control Flow Invariants","Two's Complement Representation","Modular Architecture","Unit Testing","Binary Search","Numerical Integration"],"keywords":"Parallel Computing, Amdahl and Gustafson Laws, Roofline Model, Shared-Memory Threading, Message Passing Interface (MPI), GPU Architecture and CUDA, Cache Coherence Protocols, Lock-Free Synchronization"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#computer-science"},{"@type":"ListItem","position":3,"name":"Parallel Computing","item":"https://openstemlibrary.com/parallel-computing"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Parallel Computing","description":"Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Library","url":"https://openstemlibrary.com"},"courseCode":"CS 420, CS 452","educationalLevel":"Undergraduate","hasCourseInstance":{"@type":"CourseInstance","courseMode":"online","courseWorkload":"PT80H"}}</script></head>
+<body data-book-path="parallel-computing.html" data-chapter-index="2" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Programming Fundamentals</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search problem decomposition, linear search, floating point precision, two's complement overflow, loop invariants, recursion, stack frames, hash tables, unit test boundaries, binary search, trapezoidal rule…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="parallel-computing" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Parallel models</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="parallel-computing-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Performance analysis</span></a></li><li class="unit-nav-item active" data-unit-index="2"><a href="parallel-computing-chapter-3" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Shared-memory programming</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="parallel-computing-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Distributed-memory programming</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="parallel-computing-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">GPU computing</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="parallel-computing-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Parallel algorithms</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="parallel-computing-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Numerical and data workloads</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="parallel-computing-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Optimization and reliability</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Programming fundamentals core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 3 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Shared-memory programming</h1>
+            <p class="unit-desc-lead" id="unit-desc">Threads; Synchronization; Work Sharing; Memory Consistency</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for introductory computer science and software construction. Eight units with exactly three solved questions per unit and 16 interactive numerical simulations illustrating problem decomposition, overflow boundaries, hash collisions, and test coverage. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-3-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.1</span>
+            <span>Threads</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A thread is an independently scheduled stream of instructions within a process. Threads in the same process typically share virtual memory, open resources and many runtime structures while retaining their own register state and execution stack. Creating threads does not automatically divide a sequential loop into parallel work. The programmer or runtime must map operations to tasks and establish how their data is accessed. A thread can run concurrently with another even on a single CPU core through time slicing; parallel execution, strictly speaking, requires multiple processing resources making progress simultaneously. This distinction matters when measuring a multithreaded program on hardware with fewer cores than runnable threads.</p>
+
+<p>Suppose an application performs histogram analysis on a large image. A naive threaded solution increments shared histogram bins for each pixel. Even with one thread per image segment, every thread may update the same bins, introducing data races and heavy contention. One remedy is a private histogram per thread, followed by a deterministic merge. If there are 256 bins and eight workers using 64-bit counters, the private histograms occupy 8<em>256</em>8=16,384 bytes, small compared with many images. The final merge requires 8*256 additions, a modest overhead when the image contains millions of pixels. The design changes memory use slightly but eliminates millions of conflicting shared increments. It also permits a clear proof: every pixel belongs to exactly one worker, every local increment is sequential in its owning thread, and the final merge sums the partial counts.</p>
+
+<p>Thread placement affects the memory hierarchy. Two software threads on different logical CPUs that share one physical core may compete for the same execution ports and caches. Threads on separate cores may compute independently but compete for last-level cache and memory bandwidth. Pinning threads can reduce migration costs and stabilize NUMA locality, but excessive pinning can interfere with system responsiveness or oversubscribe a resource allocated to another application. A thread pool is often preferable to creating thousands of operating-system threads for tiny tasks because construction, stack memory and context switches impose costs. The correct number of runnable threads depends on the task: CPU-bound numeric kernels often begin with a count near available cores, whereas I/O-bound tasks can benefit from concurrency exceeding the core count.</p>
+
+<p>A parallel loop is valid only after examining dependencies. In a loop that writes output[i] based on immutable input[i], iterations can usually run independently. In a recurrence output[i]=output[i-1]+input[i], a direct parallel loop would violate dependencies. The recurrence may be transformed into a prefix-sum algorithm, but that is a different computational structure with additional work and synchronization. Threads cannot nullify a dependency simply because the loop iterations are syntactically separate. Before using a runtime pragma, identify private variables, shared variables, reductions, memory visibility requirements and the iteration-to-worker mapping.</p>
+
+<p>Structured parallel regions make lifecycle easier to reason about. Entering a region creates or activates a team, runs a defined section concurrently and joins at an agreed point. The OpenMP model supports shared-memory parallel regions, worksharing constructs and task constructs, but the exact semantics depend on the selected OpenMP version and clauses. A `parallel for` or equivalent construct does not require every worker to receive the same number of iterations under all scheduling choices. Static, dynamic and guided schedules have different distribution policies. Never infer iteration ownership from how a debugger happened to schedule one test execution.</p>
+
+<p>One challenge is <em>nested parallelism</em>. A library function invoked by each worker may itself start a thread pool, multiplying the intended concurrency. If eight outer threads each launch eight inner threads, the application might create up to sixty-four runnable threads on an eight-core machine. Oversubscription can worsen performance dramatically through context switching and cache disruption. Coordination between library runtimes, explicit thread limits or task-based designs with a shared scheduler can avoid this effect. Similar problems arise when numerical libraries run their own multithreaded matrix operations inside a larger application that already manages tasks.</p>
+
+<p>Debugging threads needs observability beyond print statements. Logging from many threads can serialize execution on an output lock and change timing enough to mask races. Use thread identifiers, bounded trace buffers and specialized race detectors where available. Record whether a result changes with worker count or schedule policy. A repeatable test with two workers and tiny input can expose an ownership bug that disappears in a large benchmark. Stress tests are useful, but stress alone cannot prove freedom from all races. Correctness arguments should come from data ownership and synchronization semantics, with dynamic tools providing additional evidence.</p>
+
+<p>The central lesson is to treat threads as execution resources, not as a correctness proof. A successful design begins with the dataflow and ends with measured scalability. Creating threads is often the easiest step; ensuring that they produce the intended result under every allowed execution order is the real engineering work.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-private-histograms"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.2</span>
+            <span>Synchronization</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Synchronization creates ordering relationships among concurrent operations. A mutex prevents two threads from executing a protected critical region simultaneously. A semaphore controls permits to access a bounded resource. A condition variable allows a thread to sleep until a predicate may have changed, usually while coordinating with a mutex. A barrier coordinates completion of a phase. An atomic operation performs certain read-modify-write actions with indivisible semantics defined by a language and memory model. These primitives solve different problems. Replacing a barrier with a mutex, or replacing a condition-variable predicate loop with a single notification, can introduce subtle errors even when a small test passes.</p>
+
+<p>Consider a queue of work items consumed by four threads. The queue's internal links or indices must be updated consistently. A mutex can protect insertion and removal. When the queue is empty, a consumer waits for a condition rather than spinning indefinitely. The correct waiting pattern rechecks the predicate in a loop because a wakeup does not promise that an item is still available; another consumer may remove it first. A producer modifies the queue under the lock, then signals waiting consumers according to the chosen protocol. The logic also needs a shutdown state so that a consumer does not wait forever after all producers exit. A complete concurrency contract includes both normal data transfer and termination.</p>
+
+<p>Deadlock occurs when threads wait in a cycle for resources they cannot obtain. Suppose transfer operations lock two accounts, first locking their source and then destination. Thread A transfers from account 1 to account 2 while thread B transfers from account 2 to account 1. Each can acquire one lock and wait for the other. A global lock order by account identifier prevents this cycle: both operations acquire the lower-numbered account lock first. Other strategies include try-lock with rollback or redesign to reduce lock scope. A deadlock-free design is not necessarily fair; one worker might repeatedly lose races to acquire a lock and starve indefinitely.</p>
+
+<p>Livelock differs from deadlock. Two polite algorithms can repeatedly observe conflict, release resources and retry in synchrony without making progress. Randomized backoff or a deterministic tie-breaking rule can restore progress. Priority inversion is another failure mode: a high-priority thread waits on a mutex held by a lower-priority thread, while an unrelated medium-priority thread delays the lock holder. Priority inheritance may mitigate this in supporting runtimes. These examples show why synchronization is not only a question of mutual exclusion; scheduling and progress conditions also matter.</p>
+
+<p>Critical sections can dominate runtime even without deadlocks. Imagine a hundred thousand independent records where each record is processed in ten microseconds and then increments a shared progress counter under a lock. If lock acquisition and coherence cost adds a few microseconds at high contention, the progress counter can consume a substantial fraction of total time. Aggregating counts in thread-local storage and publishing them periodically reduces coordination frequency. However, a dashboard reading aggregated counters then sees an approximate count that may lag behind reality. This is an explicit consistency-versus-performance decision and should be documented rather than treated as an invisible optimization.</p>
+
+<p>Atomic operations require careful memory-order reasoning. Atomicity guarantees that the operation itself is not torn, but relaxed atomic memory order does not automatically establish ordering for unrelated data. A producer that fills a buffer and then publishes a readiness flag often needs release semantics, and a consumer observing readiness needs appropriate acquire semantics before safely reading the buffer. In some languages a stronger default ordering simplifies reasoning at possible cost. Students should identify the intended happens-before relationship and confirm that the chosen atomic operations establish it. An atomic flag is not a universal substitute for a condition variable or full queue synchronization.</p>
+
+<p>Barriers are particularly useful in iterative numerical algorithms. Each worker computes a new state from an old state, waits for all workers, and then the group swaps buffers. Without a barrier, a fast worker might read a neighbor's partially updated state in the next iteration. But an unnecessary barrier in a task pipeline prevents useful overlap; each worker must stop for the slowest. A barrier also imposes a participation contract: if one thread exits early without satisfying the required rendezvous, the others can wait forever. The placement and participant set must be analyzed for every control-flow path, including error handling.</p>
+
+<p>The best synchronization strategy reduces shared mutable state by design. It uses ownership, immutable inputs, reductions and phase separation before adding locks. To verify it, describe every shared location, which operations can access it concurrently, and what ordering primitive protects conflicting accesses. Test a small adversarial schedule in which context switches occur between reads and writes. A lock-free algorithm may improve throughput, but it requires even more rigorous reasoning about linearization points, memory reclamation and progress guarantees. Use such complexity only when measurements demonstrate a benefit.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.3</span>
+            <span>Work Sharing</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Work sharing assigns pieces of a computation to a team of workers. Static scheduling partitions iterations in advance; dynamic scheduling hands out chunks as workers become available; guided scheduling begins with larger chunks and reduces chunk size over time according to an implementation's policy. These strategies trade low scheduling overhead against adaptation to irregular work. The central objective is not equal iteration counts but similar completion times without excessive coordination or lost locality. For uniform per-iteration cost and contiguous arrays, static partitioning frequently performs well because workers access predictable neighboring memory. For irregular graph vertices or variable-length records, a dynamic queue may reduce idle time.</p>
+
+<p>An example clarifies the difference. Suppose eight jobs take 1, 1, 1, 1, 1, 1, 1 and 17 seconds. Two workers receiving four consecutive jobs each can finish after 20 and 4 seconds, so total makespan is 20 seconds. A sufficiently flexible work queue that assigns the long job early may give one worker the 17-second job while the other handles the seven short jobs in 7 seconds, reducing the makespan to 17 seconds. No scheduler can beat 17 seconds because the longest indivisible job alone takes that long. Splitting the long job may reduce the critical path further if it contains parallelizable work. This connects load balancing with task granularity and the span bound.</p>
+
+<p>A chunk size is an engineering parameter. Giving one iteration at a time provides fine balancing but increases work-queue contention and may break cache-friendly sequential access. Giving ten thousand iterations at a time reduces scheduling calls but can leave a large final chunk on one worker after others finish. A sensible experiment changes chunk size and collects both elapsed time and variance in per-worker useful work. It also measures cache misses or memory bandwidth when available. If a loop repeatedly revisits the same arrays, stable ownership across iterations can preserve cache warmth and improve performance beyond what raw iteration counts predict.</p>
+
+<p>Work partitioning also affects false sharing. Suppose each worker updates one small counter in a contiguous array, and several counters lie within the same cache line. Even though workers write different logical variables, the coherence protocol may repeatedly move ownership of that line between cores. Padding counters into separate cache lines can improve throughput, at the expense of memory footprint. This is not a language-level data race if variables are distinct and properly accessed, but it is a hardware contention problem. A profiler may show unexpectedly high cache-coherence traffic despite no locks. Avoid blindly padding every object: for large arrays it can waste bandwidth and cache capacity.</p>
+
+<p>Nested loops offer multiple sharing strategies. In matrix operations, assigning contiguous blocks of rows to workers gives each worker long sequential accesses; splitting individual scalar multiplications across workers introduces far more synchronization. Blocking in both dimensions can improve cache locality, particularly when matrices exceed the last-level cache. Loop interchange can change which index varies fastest in memory. The optimal tiling and thread assignment depend on memory layout, vectorization and cache topology. A good work-sharing policy begins with a memory-access analysis, not with a preference for a particular scheduler setting.</p>
+
+<p>A reduction clause or equivalent operation should be preferred to unsynchronized updates of a shared accumulator. For integer counts within a safe range, the combined result may be exactly reproducible under any grouping. For floating-point sums, grouping changes rounding. If the application needs bitwise reproducibility, a fixed reduction tree or a specialized accumulator can impose deterministic order. That extra requirement may cost performance. Correctness may mean within a specified numerical tolerance rather than bitwise identical output; make the acceptance criterion explicit and justified by the scientific problem.</p>
+
+<p>Work sharing interacts with cancellation and exceptions. If one chunk encounters invalid input and signals failure, the program must specify whether other chunks continue, cancel or roll back their partial results. A failed worker must not leave shared state in a half-updated form that is later mistaken for a complete output. Pure transformations into disjoint output ranges simplify this: results are published only after the whole parallel region succeeds. For mutable shared structures, an explicit transaction or version scheme may be necessary. The work-sharing construct handles task distribution but does not design the application's failure semantics.</p>
+
+<p>Evaluate the schedule by tracing which chunks ran where and when. Look for long idle gaps, hotspots on queue locks, remote memory accesses and excessive migration. A single timing run is insufficient because operating-system noise can make one policy look arbitrarily superior. Work sharing succeeds when decomposition, scheduling and memory locality reinforce each other, and when the resulting program still has a straightforward proof of ownership and completion.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-chunk-scheduling"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-3-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§3.4</span>
+            <span>Memory Consistency</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Memory consistency describes which values a thread may observe when other threads read and write shared locations. It is tempting to imagine a single global sequence in which every processor sees every memory operation immediately. Real processors use caches, store buffers and reordering to increase throughput, while programming languages define which reorderings are legal for concurrent source programs. The resulting contract must be understood at the language and synchronization level. Compiler optimization can transform code in ways that would be surprising if one assumed a global sequential execution order for every unsynchronized read and write.</p>
+
+<p>A data race occurs when conflicting accesses to the same memory location can execute concurrently without an ordering mechanism required by the language, and at least one access writes. In languages such as C and C++, a data race on ordinary memory can result in undefined behavior. Observing the expected value during a thousand test runs does not make the program valid. A common example is one thread setting a plain Boolean `ready=true` after filling a data buffer while another spins on `while(!ready)`. A compiler may hoist or optimize the read, and the hardware may not publish the buffer's contents in the expected order. Use an appropriate atomic flag with release/acquire semantics or a mutex-and-condition protocol.</p>
+
+<p>The term <em>happens-before</em> formalizes visibility constraints. If operation A happens-before operation B, then B must observe effects of A in ways established by the relevant memory model, subject to intervening writes and other rules. Program order within a thread contributes ordering; synchronization operations can create cross-thread ordering. Without such an edge, two conflicting operations may be unordered even if wall-clock intuition suggests one happened first. This is why sleep calls and arbitrary delays do not constitute synchronization. A two-second delay may reduce the probability of an observed failure, but it provides no general ordering guarantee.</p>
+
+<p>Sequentially consistent atomic operations provide a strong global-order abstraction for atomic operations, simplifying many examples. Weaker orders can permit more optimizations but require careful proof. Relaxed atomics can be appropriate for independent counters where only the counter's numerical value matters and there is no associated data that must become visible. Acquire/release pairs are useful for publication patterns. Compare-and-swap can implement coordination but may suffer contention, retry storms and the ABA problem in pointer-based lock-free structures. A successful compare-and-swap tells us about a particular atomic object's value, not the memory safety of arbitrary reclaimed objects elsewhere.</p>
+
+<p>Cache coherence and memory consistency are related but different. Coherence concerns the ordering and visibility of writes to an individual memory location or cache line within the hardware protocol. Consistency concerns permitted relationships across different locations and instructions. A coherent cache hierarchy does not mean a high-level program is automatically race-free or that all memory operations are sequentially consistent. Confusing these concepts leads to explanations that blame a compiler bug for a missing synchronization operation or assume a hardware fence alone repairs a language-level data race.</p>
+
+<p>False sharing demonstrates the performance side of visibility. Two threads may safely update separate array elements that share one cache line. Coherence moves the line among caches as ownership changes, causing expensive invalidations. Aligning per-thread counters or moving them into thread-local memory can eliminate much of the traffic, but the benefit depends on frequency, alignment, cache line size and topology. The program can be <em>correct</em> yet slow because of false sharing. Conversely, avoiding false sharing does not make an unsynchronized update to the same logical counter correct.</p>
+
+<p>An experiment on memory consistency should distinguish what it can demonstrate from what it can prove. Litmus tests execute small concurrent operation patterns many times and record outcomes. Seeing an unexpected outcome can reveal a weak ordering or race under the tested environment. Not seeing one never proves that the ordering is impossible. Use a formal memory model or a documented language guarantee for correctness arguments. Race detectors and thread sanitizers can find many practical violations, but their absence of warnings on a run does not establish exhaustive verification. For academic teaching, specify initial values, thread operations and allowed outcomes before discussing measured results.</p>
+
+<p>When porting threaded code between compilers or architectures, review atomic semantics, memory fences, volatile usage and cache assumptions. `volatile` is not a general-purpose interthread synchronization primitive in C or C++. Device code may have distinct scopes for thread, workgroup and device memory. A release at one scope may not establish visibility at another scope. The right debugging question is not merely 'did the store happen?' but 'what synchronizes the reader with the writer, at which scope, and under which memory model?' That question is the foundation of correct shared-memory parallel programming.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Programming Fundamentals Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 3.1: Repair a histogram race</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Eight threads must count a million pixels over 256 bins using 64-bit counters. Propose a safe strategy and calculate the counter storage for one histogram per thread.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u3-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u3-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Identify the conflict</div>
+              
+              <div class="step-explanation"><p>Incrementing a shared non-atomic bin can lose updates when two threads read the same old count. A large lock around each increment would be correct but would add substantial contention.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Create local histograms</div>
+              
+              <div class="step-explanation"><p>Allocate 8×256 counters, or 2,048 counters total. At eight bytes per counter, storage is 16,384 bytes. Each thread updates only its private counters while processing its assigned pixels.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Merge safely</div>
+              
+              <div class="step-explanation"><p>After threads finish, sum corresponding bins across the eight histograms. Compare the final total count with exactly 1,000,000 and verify empty and constant-color images as adversarial tests.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 3.2: Diagnose reversed lock order</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Thread A locks account 1 and then account 2, while thread B locks account 2 and then account 1. State a possible failure and one rigorous correction.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u3-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u3-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Construct a schedule</div>
+              
+              <div class="step-explanation"><p>A acquires account 1 while B acquires account 2. Each then waits for the lock owned by the other. Neither can proceed: a circular-wait deadlock occurs.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Enforce global order</div>
+              
+              <div class="step-explanation"><p>Both operations must acquire account locks in increasing account identifier order, irrespective of transfer direction. If an operation concerns the same account twice, lock only once.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Preserve semantics</div>
+              
+              <div class="step-explanation"><p>The two-account balance invariant must be checked and updated while both locks are held. A lock-order fix prevents deadlock but does not by itself specify behavior for insufficient balance or retry after failure.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 3.3: Balance irregular jobs</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Two workers receive jobs lasting [1,1,1,1,1,1,1,17] seconds. Give a valid schedule and identify the strongest simple lower bound.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u3-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u3-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Find the work bound</div>
+              
+              <div class="step-explanation"><p>The total useful work is 24 seconds, so total work divided by two workers gives a lower bound of 12 seconds.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Find the indivisible-task bound</div>
+              
+              <div class="step-explanation"><p>The longest single job takes 17 seconds. If jobs cannot be subdivided, completion cannot occur faster than 17 seconds.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Construct a schedule</div>
+              
+              <div class="step-explanation"><p>Give the 17-second job to one worker and all seven one-second jobs to the other, yielding a 17-second makespan. Splitting the long job is the only route to a shorter schedule within this simplified model.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/kernighan-ritchie-c" target="_blank" rel="noopener noreferrer">Kernighan, B.W., &amp; Ritchie, D.M. (1988). The C Programming Language (2nd ed.): Foundational text on structural decomposition, control flow, functions, pointers, and memory layout</a></li><li><a href="https://openstemlibrary.com/references/sicp" target="_blank" rel="noopener noreferrer">Abelson, H., &amp; Sussman, G.J. (1996). Structure and Interpretation of Computer Programs: Canonical treatise on abstraction, procedural decomposition, state, and evaluation models</a></li><li><a href="https://openstemlibrary.com/references/goldberg-floating-point" target="_blank" rel="noopener noreferrer">Goldberg, D. (1991). What Every Computer Scientist Should Know About Floating-Point Arithmetic: Definitive reference on IEEE 754 precision, rounding, and representation error</a></li><li><a href="https://openstemlibrary.com/references/beck-tdd" target="_blank" rel="noopener noreferrer">Beck, K. (2002). Test-Driven Development: By Example: Primary reference for unit test boundaries, assertions, and invariant verification</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="parallel-computing-chapter-2">← Previous chapter</a><a href="parallel-computing">Book contents</a><a href="parallel-computing-chapter-4">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="parallel-computing-sims.js"></script>
+  <script src="parallel-computing-data.js"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

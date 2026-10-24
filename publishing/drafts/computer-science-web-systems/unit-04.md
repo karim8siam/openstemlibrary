@@ -1,0 +1,116 @@
+# Unit 4: Data and sessions
+
+## 4.1 Persistence
+
+Persistence means keeping data beyond the lifetime of a single request or process. A relational database provides transactions, constraints, indexes, and query capabilities; an object store handles large binary artifacts under different access and consistency semantics; an in-memory cache accelerates repeated access but may discard data. A web application can use all three, provided each has a clearly defined responsibility. Choosing storage based solely on convenience often creates hidden integrity problems. A table of student grades should support foreign keys, uniqueness constraints, and auditable updates. A large video lesson belongs more naturally in object storage, referenced by metadata stored elsewhere.
+
+A schema is an executable statement of allowed states. A NOT NULL constraint says that missing values are not permitted; a UNIQUE constraint prevents duplicate keys under concurrency; a foreign key controls references to other records. Application validation remains useful, but database constraints defend against concurrent code paths and future services that may not share the same validation implementation. Indexes improve selected queries by exchanging storage and write overhead for faster access. An index on the wrong columns can sit idle while consuming disk and increasing insertion cost. Query planning depends on cardinality, selectivity, data distribution, and actual access patterns.
+
+Backups and recoverability are not synonyms. A snapshot that has never been restored may be incomplete, corrupted, or inaccessible to the people who need it. Define recovery point objective, the maximum tolerable data loss, and recovery time objective, the desired restoration delay. If a school accepts assignments for an hour after the last backup, losing that hour may be unacceptable even when a daily backup exists. Transaction logs and tested restore procedures can reduce loss, but they add operational complexity. Privacy requirements may demand encryption and deletion practices that complicate long-term backups; that tradeoff must be documented.
+
+A migration changes a live data contract. Adding a nullable column may be safe, while renaming a widely used column requires application compatibility coordination. The expand-and-contract pattern lets old and new code coexist: introduce the new structure, backfill safely, deploy readers and writers that can tolerate both forms, and remove the old form only after verification. During a backfill, monitor database load and progress. Persistence engineering is not only about saving values; it is about preserving integrity while software versions, workloads, and failure modes evolve.
+
+### Applied design, experiment, and interpretation
+
+**Case analysis: grades and lecture videos.** A university platform stores grades in relational tables with constraints, while large lecture videos live in object storage. Each object key is referenced by metadata that records visibility and version. A missing object should not silently appear as an empty video; reconciliation jobs can detect references to absent objects. Backups of the relational database alone are insufficient if the platform cannot restore the referenced media. Privacy requests may require coordinated deletion rules across metadata, storage, backups, and CDN caches.
+
+**Research exercise.** Design a restore drill that recreates grades and media references in a clean environment. Record maximum tolerable data loss and restoration delay. Run queries that list one student's submissions, explain which indexes are helpful, and use an execution plan to see whether the database actually uses them. Then perform a schema migration while an old application version remains active, checking the forward and backward compatibility assumptions.
+
+## 4.2 Authentication
+
+Authentication establishes which principal is making a request; it does not decide what that principal is allowed to do. A user may authenticate using a password, passkey, external identity provider, or another credential mechanism. The application then links the result to a session, token, or server-side identity context. Good authentication systems resist credential theft, online guessing, and replay, while remaining usable for legitimate users. Passwords should be stored through a suitable salted password-hashing method rather than reversible encryption or a fast general-purpose hash. Credential resets and recovery channels require as much care as the initial login.
+
+A browser session commonly uses a cookie containing an opaque unpredictable identifier. The server maps the identifier to session state or verifies a carefully designed signed token. Secure cookies restrict transmission to secure transport; HttpOnly prevents ordinary scripts from reading them; SameSite influences cross-site sending behavior. These attributes protect different failure modes and should not be treated as interchangeable. Session identifiers should rotate when privilege context changes, and logout should invalidate authoritative session state under the application's model. A signed token cannot be revoked instantly without an additional revocation strategy, so its lifetime and use must be chosen consciously.
+
+Multi-factor authentication can raise the cost of account takeover, but implementations vary in phishing resistance. A reusable one-time code can be stolen in a convincing real-time phishing flow, while origin-bound passkeys can better resist that specific class of attack. Recovery must not become an easier bypass than normal login. Consider a university staff account that can export student records. Requiring strong authentication for the initial login is sensible, but sensitive exports may deserve step-up verification and a fresh authentication state. High-risk transitions should also be logged with privacy-preserving context for investigation.
+
+An authentication test plan must include brute-force controls, session fixation attempts, token expiration, clock skew, recovery replay, and account enumeration. Test that a deactivated account loses access under realistic cache and token lifetimes. Avoid embedding bearer tokens in URLs where they can leak through logs or history. If an external identity provider is used, validate the intended audience, issuer, and relevant protocol checks instead of assuming that any well-formed token is acceptable. Authentication is a protocol boundary with security consequences, not a decorative sign-in button.
+
+### Applied design, experiment, and interpretation
+
+**Case analysis: staff account recovery.** An instructor loses the device used for passkey authentication. A recovery workflow must restore legitimate access without providing an easier attack path than the original method. Require an appropriate combination of verified identity signals, limited recovery tokens, timing and notification safeguards, and manual escalation for unusually privileged users. Rotate active sessions after a confirmed account recovery. Do not disclose in unauthenticated responses whether a particular staff email exists. Keep audit evidence of the recovery decision under strict access controls.
+
+**Research exercise.** Try to reuse a recovery token after success, complete two simultaneous recovery attempts, and access a protected record with a session issued before password or authenticator reset. Check whether the system's declared revocation behavior is actually enforced. Compare the phishing resistance of reusable codes and origin-bound credentials without claiming that a credential type eliminates every possible account compromise.
+
+## 4.3 Authorization
+
+Authorization decides whether a verified principal can perform a specified action on a specified resource under current conditions. Role-based access control offers a coarse mechanism: students can view their own submissions, instructors can grade assigned courses, and administrators can manage institutional settings. Attribute-based rules may incorporate ownership, enrollment, publication state, or time. Whatever vocabulary is chosen, the server must perform the check when acting. Hiding a button from unauthorized users improves usability but does not stop a direct request to the endpoint.
+
+Broken object-level authorization is a common web risk. A student opens /submissions/840, changes the identifier to /submissions/841, and sees a classmate's private work because the handler only checks whether anyone is logged in. A secure query scopes the lookup to the authorized context or checks ownership after retrieval before returning information. Every operation needs this check: reading, listing, exporting, updating, and deleting. Batch endpoints and background jobs often expose gaps that single-record routes do not. Never infer authority from obscurity of an identifier.
+
+Policy composition becomes difficult when roles overlap. An instructor may view assignments for their course, but not financial details for students. A teaching assistant may grade drafts only while assigned to a semester. A simple boolean isStaff cannot safely encode these distinctions. Model permissions around operations and resources, write explicit deny cases, and test default denial. For high-risk systems, audit access decisions in enough detail to investigate misuse while minimizing leakage of sensitive subject information in logs. A policy engine can centralize rules, but errors in inputs or identity mapping remain dangerous.
+
+Authorization testing should create at least two distinct users and resources. Verify permitted access, forbidden cross-user access, privilege escalation attempts, stale role changes, and indirect operations triggered by messages or jobs. A test that uses only an administrator account can pass while ordinary users have a serious data breach. Reevaluate authority at the time of each effect; a queued export should not necessarily inherit a permission that was revoked before execution. This distinction between authenticated identity and current authorization is foundational to trustworthy web systems.
+
+### Applied design, experiment, and interpretation
+
+**Case analysis: course-level teaching assistants.** A teaching assistant may grade assignments in Course A this semester, but has no permission to see Course B or students' fee information. A global isStaff flag is too broad. Model grants with resource scope, role, and valid period; evaluate each requested operation against those grants. Batch exports are a frequent failure point because it is tempting to retrieve all rows before filtering them in the application. Push authorization predicates into the query or enforce them before output. Background export workers must re-evaluate permissions if changes can occur while a job is queued.
+
+**Research exercise.** Create two courses, two assistants, and two students. Test every combination of own-course and other-course access for reading, grading, export, and deletion. Remove one grant and verify its effect on existing sessions and queued operations. Log the decision without storing unnecessary student data in the log entry. A correct test matrix includes forbidden cases, not only success cases.
+
+## 4.4 Transaction Boundaries
+
+A transaction boundary defines which state changes must succeed or fail as a coherent unit. In a relational database, a transaction can provide atomicity, isolation, and durability according to the database's guarantees and configured isolation level. Consider a course enrollment that deducts one remaining seat and creates a registration record. If the seat decrement succeeds but registration insertion fails, the system loses capacity without enrolling anyone. Putting both changes inside one transaction keeps the invariant aligned, assuming all relevant writes share the same transactional resource.
+
+Concurrency introduces anomalies. Two users both see one remaining seat; both decide to enroll; both write. Depending on the isolation mechanism, a naive implementation can overbook. A conditional update like decrement seats only where seats > 0, followed by examination of the affected row count, can enforce a simple invariant in one database. For a multi-table rule, suitable locking or serialization may be required. Testing must use actual concurrent transactions; a mocked repository invoked sequentially will not demonstrate database isolation.
+
+Transactions cannot normally span every external service. The database may commit an order while an email service is unavailable. Holding a database transaction open during a network request usually creates unnecessary lock time and still does not ensure global atomicity. A transactional outbox stores a durable event in the same transaction as business data; a worker later sends it, with retries and deduplication. The receiving consumer may still see a message more than once, so idempotent effects are crucial. A saga coordinates multiple compensating actions, but compensation is domain specific and is not the same as undoing time.
+
+Design each operation by stating what is atomic, what is eventually consistent, and what failures remain visible. Define the recovery behavior when a process crashes after a commit but before acknowledging the client. An API retry with an idempotency key can prevent a duplicate result in such cases. Beware of double-spend-like logic when counters are read outside a transaction or when validation occurs before a separate write. A transaction is a correctness tool, not a universal cure; careful boundaries and explicit invariants determine whether it solves the actual problem.
+
+### Applied design, experiment, and interpretation
+
+**Case analysis: certificate issuance across services.** On completion of a course, the database records eligibility and should eventually trigger a certificate generator. If the service commits eligibility and crashes before publishing a message, the certificate may never arrive. An outbox row committed with eligibility can be processed later by a worker. The certificate generator uses an idempotency key based on learner, course and attempt version so that duplicate messages do not create conflicting certificates. The user sees a state like Pending rather than a false 'issued' guarantee before the generator confirms success.
+
+**Research exercise.** Inject a crash at three points: before database commit, after commit but before publication, and after generation but before acknowledgement. Verify eventual consistency without duplicate durable certificates. Explain which portions are atomic and why the distributed workflow is not one universal ACID transaction. Record how operators resolve a poison event that cannot be processed automatically.
+
+### Integrated laboratory: sessions and consistency for course submissions
+
+Build a paper design for a student's assignment submission system. Identify the authoritative records: user account, course enrollment, assignment, submission version, object-storage attachment, and grading state. State the invariants before selecting a database. A student must not submit to a course they cannot access; one attempt must not silently overwrite another under an ambiguous race; and a confirmed upload must correspond to retrievable content. Consider what happens when a network transfer succeeds but the database commit fails, or when metadata commits before the object becomes available.
+
+Draw a sequence diagram for authentication and authorization. The browser holds a session cookie with scoped security attributes; the server maps it to a principal; an authorization function checks that principal against the requested submission resource. Changing the path identifier cannot grant the right to read a peer's work. A teaching assistant's role must be scoped to specific courses. Add logout and privilege-revocation cases, including the possibility that a queued export should be denied at execution time after permissions change.
+
+Plan a transaction for the final submission record. Decide whether the system uses a version number, ETag precondition, or append-only attempts. If finalization requires an attachment uploaded separately, document the intermediate states and how incomplete uploads are cleaned up. Never hold a database transaction open across a long upload to a remote service merely to create the appearance of atomicity. A durable staging record and reconciliation process may be more practical. The user interface should distinguish 'upload complete' from 'submission accepted'.
+
+Test concurrency by having two browser contexts edit the same draft. Make one commit a newer version and attempt a stale write from the other context. Verify that the service rejects or explicitly merges it rather than silently losing changes. Test a permission change between starting and completing the workflow. Test a repeated finalize request after the response is lost. Each test must check durable state, not just the HTTP code. Consider object-store access rules and signed-link lifetimes when students download their own submissions.
+
+Finish with recoverability. State the recovery point and recovery time objectives for assignment records, then simulate a restore into a separate environment. Determine whether backups include object metadata and the ability to locate the actual attachment bytes. Discuss deletion and privacy obligations, especially when files appear in backups or content-delivery caches. The laboratory demonstrates that sessions, storage, transactions, and authorization form one end-to-end correctness contract, even if separate teams implement them.
+
+### Synthesis: authority and consistency outlive a browser request
+
+Storing records, authenticating users, authorizing actions, and committing transactions are tightly related but not interchangeable. A valid login session establishes a principal; it does not make every database row readable. A successful object upload establishes that bytes reached one storage system; it does not establish that an assignment was durably accepted. A transaction can make multiple database writes atomic; it generally cannot make an arbitrary external email service or object store part of the same commit. These boundaries must be documented in terms a student and an operator can both understand.
+
+A useful systems exercise is to list every place a result can be described as 'complete'. A client may have finished sending bytes; a server may have accepted them into memory; a database may have committed metadata; a scanning worker may have verified the attachment; and an instructor may have received notification. The UI should not collapse all stages into one misleading success signal. Similarly, revoke one instructor's role and observe how immediately that decision affects normal reads, already-open sessions, and queued exports. Design privilege evaluation and eventual-consistency policies deliberately. A robust web application makes its state transitions legible instead of hiding the difficult cases behind a loading spinner.
+
+## Worked questions
+
+### Model authoritative persistence
+
+Student grades live in a relational database and lesson videos in object storage. Explain why both need coordinated backup and what a meaningful restore drill proves.
+
+**Define storage contracts.** Grade records need suitable constraints and transaction semantics; large video bytes are served more economically from object storage. The database can store object identifiers and visibility rules. A reference to a missing object is not a valid restored course, so a backup plan must preserve metadata and artifacts under compatible versions.
+
+**State recovery objectives.** Set an explicit recovery point objective describing tolerable loss of accepted grade changes and a recovery time objective describing acceptable restoration delay. Snapshot intervals and retained transaction logs should be evaluated against those goals. A nightly database snapshot alone may omit a full day of submissions, and an object-store backup may not include permissions or metadata required for correct access.
+
+**Exercise recovery.** Restore into an isolated environment, run representative integrity queries, fetch several video objects, and verify access controls. Document which operations require reconciliation if object and metadata snapshots were captured at different instants. A successful backup command without a demonstrated restoration is only partial recoverability evidence.
+
+### Design secure account recovery
+
+An instructor loses a password authenticator and requests recovery. Explain why recovery must not bypass normal account protection and what to test.
+
+**Identify the new attack path.** Recovery allows a caller who lacks the normal credential to regain access. If it depends solely on unverified personal facts or a long-lived reusable email link, attackers may prefer it to the login flow. The precise identity proofing mechanism should match the account's privileges and the institution's realistic support capabilities.
+
+**Design bounded recovery.** Use authenticated recovery channels or suitable organizational verification, short-lived single-use tokens, rate controls, and notifications. Rotate or revoke existing sessions when the recovery process indicates possible credential compromise. Do not reveal account existence through unauthenticated responses without a reasoned policy.
+
+**Test the lifecycle.** Attempt reuse, simultaneous redemption, expired redemption, and follow-up use of a previously issued session. Verify that changing credentials affects the promised scope of active sessions. For staff who can export private records, consider additional review or step-up authentication. Record only appropriate audit facts, not plaintext recovery secrets.
+
+### Prevent a cross-course access leak
+
+Teaching assistant T has grading rights in course A but not B. A batch export endpoint accepts a course identifier. Design a permission rule and test matrix.
+
+**State the permission predicate.** An authenticated assistant can export grades only if an active grant permits the export operation for the target course. A broad isStaff boolean is insufficient because it ignores resource scope. The server should apply the policy regardless of whether the user interface currently displays the export button.
+
+**Enforce at the data boundary.** Validate the course identifier, evaluate current grants, and construct a database query that cannot collect unauthorized rows. Avoid fetching all grades and relying on a client filter. A queued export must obey a documented policy for permissions that change between scheduling and execution.
+
+**Test positive and negative cases.** Create two courses with different assistants and students. Verify allowed export for A, denied export for B, denial after grant revocation, and denial when a student manually changes a path parameter. Inspect output files and logs for private data leakage. Authorization is confirmed only when forbidden cases are actively tested.
+

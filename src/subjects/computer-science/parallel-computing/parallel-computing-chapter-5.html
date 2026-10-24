@@ -1,0 +1,343 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>GPU computing | Parallel Computing | OpenSTEM Library</title>
+  <meta name="description" content="Execution Hierarchies; Kernels; Memory Access; Divergence">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/parallel-computing-chapter-5">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/parallel-computing-chapter-5">
+  <meta property="og:title" content="Parallel Computing: Shared Memory, MPI, GPU CUDA Architecture &amp; Amdahl's Law | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Parallel Computing: Shared Memory, MPI, GPU CUDA Architecture &amp; Amdahl's Law | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="parallel-computing.css?v=20261024_academic"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Parallel Computing: GPU computing","description":"Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/parallel-computing-chapter-5","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Programming Fundamentals","Problem Decomposition","Control Flow Invariants","Two's Complement Representation","Modular Architecture","Unit Testing","Binary Search","Numerical Integration"],"keywords":"Parallel Computing, Amdahl and Gustafson Laws, Roofline Model, Shared-Memory Threading, Message Passing Interface (MPI), GPU Architecture and CUDA, Cache Coherence Protocols, Lock-Free Synchronization"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#computer-science"},{"@type":"ListItem","position":3,"name":"Parallel Computing","item":"https://openstemlibrary.com/parallel-computing"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Parallel Computing","description":"Comprehensive university textbook covering parallel hardware architectures (SMP, NUMA, clusters, GPUs), shared-memory multi-threading (OpenMP, pthreads), message passing interfaces (MPI), GPU compute programming (CUDA, OpenCL), scalability analysis (Amdahl's law, Gustafson's law, Roofline model), cache coherence protocols (MESI), and lock-free synchronization with 24 solved questions and 16 interactive simulations.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Library","url":"https://openstemlibrary.com"},"courseCode":"CS 420, CS 452","educationalLevel":"Undergraduate","hasCourseInstance":{"@type":"CourseInstance","courseMode":"online","courseWorkload":"PT80H"}}</script></head>
+<body data-book-path="parallel-computing.html" data-chapter-index="4" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Programming Fundamentals</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search problem decomposition, linear search, floating point precision, two's complement overflow, loop invariants, recursion, stack frames, hash tables, unit test boundaries, binary search, trapezoidal rule…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="parallel-computing" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Parallel models</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="parallel-computing-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Performance analysis</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="parallel-computing-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Shared-memory programming</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="parallel-computing-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Distributed-memory programming</span></a></li><li class="unit-nav-item active" data-unit-index="4"><a href="parallel-computing-chapter-5" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">GPU computing</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="parallel-computing-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Parallel algorithms</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="parallel-computing-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Numerical and data workloads</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="parallel-computing-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Optimization and reliability</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Programming fundamentals core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 5 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">GPU computing</h1>
+            <p class="unit-desc-lead" id="unit-desc">Execution Hierarchies; Kernels; Memory Access; Divergence</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for introductory computer science and software construction. Eight units with exactly three solved questions per unit and 16 interactive numerical simulations illustrating problem decomposition, overflow boundaries, hash collisions, and test coverage. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-5-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.1</span>
+            <span>Execution Hierarchies</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Graphics processing units accelerate computations that expose large numbers of relatively simple operations. A typical GPU programming model organizes threads into blocks or workgroups, then organizes those blocks into a grid or dispatch. Hardware executes groups of lanes together, often called warps on NVIDIA hardware, while assigning blocks to streaming multiprocessors or analogous units. A conceptual GPU hierarchy therefore has several levels: an application launches work; blocks share certain resources and synchronization scope; lanes execute instructions; and the machine schedules groups of blocks under resource constraints. The exact limits and scheduling policies are hardware-dependent, so code should query device properties rather than assume every GPU has an identical block size or register allocation.</p>
+
+<p>Suppose a kernel transforms an array of 1,000,000 temperature readings. A block contains 256 threads, each responsible for one or more elements. The grid requires ceil(1,000,000/256)=3,907 blocks if each thread handles exactly one element; the final block includes inactive or bounds-checked lanes. The kernel must verify an element's global index before reading or writing. Omitting the bounds check may produce an out-of-bounds access on the final block. The number of launched threads is not the number of simultaneously resident hardware threads. Blocks are scheduled in waves, and residency depends on registers, shared memory, block size and device limits.</p>
+
+<p>A GPU hides memory latency partly by switching among ready groups of threads. When one warp waits for data, another may issue useful instructions. This requires enough independent work and suitable resources; launching a huge number of threads is not a substitute for good memory access. A kernel that uses very many registers per thread can limit the number of resident warps. A kernel that reserves large shared-memory buffers can restrict block residency. An occupancy calculator estimates the share of a multiprocessor's supported active warps that can fit under these constraints, but high occupancy alone does not guarantee high throughput. Some compute-bound kernels perform best with fewer resident warps and more registers per thread, reducing spills to slow memory.</p>
+
+<p>GPU blocks commonly coordinate only with threads in their own group using a barrier whose scope and semantics are defined by the API. A block barrier does not generally synchronize arbitrary blocks throughout a conventional kernel. Algorithms requiring global barriers may use multiple kernel launches, cooperative execution features where supported, or a different design. Assuming that block zero always runs before block one is unsafe: scheduling order is not a correctness guarantee. A producer block cannot normally write a flag and expect another arbitrary block to observe it safely without an appropriate device-wide protocol.</p>
+
+<p>SIMT execution, single instruction multiple threads, expresses a common instruction stream over multiple lanes that may have different data. It resembles vectorization but also supports per-thread control flow. Divergent branches cause a group to execute distinct paths serially or under execution masks, depending on the hardware and compiler. Consider thirty-two lanes each evaluating whether its measurement exceeds a threshold. If all lanes follow the same branch, execution is regular. If half take an expensive branch and half skip it, the group may execute the branch body while masking inactive lanes, reducing utilization. Rearranging data by common behavior can sometimes improve coherence, but sorting records has a cost and may disrupt other locality advantages.</p>
+
+<p>Device placement and transfer costs must be included in end-to-end performance. If a CPU sends 100 MB to a GPU, launches a 0.5-millisecond kernel and reads 100 MB back, the transfers can dominate the result. Optimizing only the kernel may offer little user-visible benefit. Keeping intermediate arrays on the GPU across several operations can amortize transfer overhead. Unified or managed memory can reduce programming complexity, but migration and page-fault behavior can still affect performance. The application should measure all allocation, transfer, synchronization and kernel phases with clearly described timing boundaries.</p>
+
+<p>Multi-GPU systems add another level of hierarchy. Each GPU has its own memory, and moving data between devices may require a peer-to-peer link or a route through host memory. GPU-aware communication libraries may move data directly among devices when the environment supports it. Algorithms must still establish ownership and synchronization across these memories. Some workloads gain by partitioning independent batches across devices; others require costly cross-device reductions or halo exchanges. The number of GPUs alone says little about speedup without the communication graph and interconnect characteristics.</p>
+
+<p>The practical approach is to map indices explicitly, establish bounds, estimate per-thread resources and explain every synchronization scope. Verify outputs against a simple CPU implementation on small arrays including sizes not divisible by block size. Then profile launch overhead, occupancy, memory traffic and divergence. GPU execution is most effective when the computational structure gives many independent, regular operations enough work to amortize transfers and scheduling.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-gpu-grid"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.2</span>
+            <span>Kernels</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A kernel is a device-executed function applied across a launch configuration. Writing a correct kernel is not merely translating a CPU loop into GPU syntax. The programmer must determine which thread computes each output, how input data are laid out, whether threads read overlapping locations and which intermediate results need communication. The easiest kernels use a one-to-one mapping between output elements and threads. More advanced kernels use each thread to process several elements, cooperate in shared-memory tiles, or pipeline memory transfers with arithmetic. Every such choice changes register pressure, memory traffic and the availability of independent work.</p>
+
+<p>Consider elementwise affine transformation y_i=a x_i+b. A straightforward kernel obtains i from block and thread indices and writes y_i when i<n. if="" x="" and="" y="" are="" disjoint="" arrays,="" each="" output="" element="" has="" exactly="" one="" writer,="" no="" interthread="" synchronization="" is="" necessary.="" point="" to="" the="" same="" array,="" an="" in-place="" operation="" still="" safe="" for="" this="" transformation="" because="" depends="" only="" on="" its="" prior="" value="" accessed="" by="" thread.="" but="" stencil="" not="" under="" mapping:="" computing="" y_i="" from="" x_(i-1),x_i,x_(i+1)="" can="" read="" neighbors="" already="" overwritten="" other="" threads.="" double="" buffering="" or="" carefully="" synchronized="" local="" tiling="" distinction="" should="" be="" explained="" through="" write="" sets,="" vague="" claims="" that="" gpu="" operations="" parallel.<="" p="">
+
+</n.></p><p>Kernel launches impose overhead even when each thread does little work. If a device kernel performs ten microseconds of arithmetic but takes a comparable amount of time to enqueue and synchronize, fusing multiple compatible transformations into one kernel can improve throughput. Fusion saves temporary writes and repeated launches, but it may increase register pressure or complicate dependencies. For example, applying normalization followed by an independent nonlinear transform can often be fused. Combining two stages that require a global reduction between them may require separate kernels or a specialized cooperative strategy. Fusion is only correct when intermediate values and ordering constraints are preserved.</p>
+
+<p>Parallel reductions illustrate cooperative kernels. Within a block, threads can load data, compute partial sums and combine them through a tree. Each phase may need a barrier before a thread reads a value produced by another. Across blocks, the program may emit partial sums to a global buffer and launch a second kernel to finish the reduction. Atomics can sometimes combine block results, but contention and nondeterministic floating-point order may make that method inferior. A strong implementation states how it handles non-power-of-two lengths, inactive lanes, overflow and the final partial block.</p>
+
+<p>A GPU kernel is often memory-bound rather than arithmetic-bound. One device thread reading four bytes and writing four bytes for a single addition has only a small number of arithmetic operations per transferred byte. Increasing arithmetic throughput cannot overcome an already saturated memory interface. Reusing loaded tiles, working on several adjacent elements per thread or fusing operations can raise arithmetic intensity. However, transformations may reduce occupancy or increase redundant reads if chosen poorly. Count actual device-memory traffic when possible and use performance counters to test the model.</p>
+
+<p>Kernel correctness includes floating-point behavior. CPUs and GPUs may use different instruction choices, fused multiply-add operations, rounding modes or reduction orders. Two valid implementations can disagree in a small number of least-significant bits without indicating a logical error. Verification should use justified absolute or relative tolerances for approximate floating-point results, while integer indexing and buffer bounds require exact correctness. A kernel that produces a visually plausible image can still be wrong at boundaries or for special values such as infinities and NaNs. Include small adversarial inputs with zeros, negative values, extreme magnitudes and ragged dimensions.</p>
+
+<p>Streams and asynchronous execution can overlap copies and kernels when the device and dependencies permit. A pipeline may transfer batch k+1 while computing batch k and reading back batch k-1. Correctness requires that a kernel not consume data before its transfer finishes and that buffers are not reused while another operation still accesses them. Event dependencies or stream ordering can express those constraints. A timeline with transfer lanes and compute lanes makes overlap and idle gaps visible; measured overlap may be less than theoretical because copy engines, buses and memory controllers are finite resources.</p>
+
+<p>Kernel optimization should proceed incrementally: establish a simple correct reference, profile bottlenecks, change one major mapping or memory strategy, and rerun correctness checks. Hand-tuned low-level tricks are valuable only when they outperform a known baseline on relevant hardware and input sizes. Performance that depends on a hidden warp-size assumption or undefined synchronization is not a reliable optimization.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.3</span>
+            <span>Memory Access</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>GPU memory systems have several distinct storage levels. Device-global memory offers large capacity and bandwidth but higher access latency than registers or on-chip shared memory. Registers hold thread-local working values but are a scarce resource that can limit occupancy. Shared memory within a block can enable reuse and communication with controlled synchronization. Constant or read-only caches may accelerate suitable access patterns. The right choice depends on how frequently data are reused and which threads need them. Moving every value into shared memory is not necessarily a win: copying has a cost, and the shared-memory allocation may reduce the number of resident blocks.</p>
+
+<p>Coalescing is a property of how a group of threads accesses memory. If neighboring lanes load neighboring contiguous elements, hardware can often service the accesses with relatively few memory transactions. If neighboring lanes load elements separated by a large stride, the same nominal payload can require many more transactions and waste transferred bytes. An example is a row-major matrix where consecutive threads read the same column from widely separated rows. The pattern has a stride equal to row length, so a transposed thread mapping or tiled approach may improve bandwidth. The details of transaction width, cache lines and alignment are device-specific, so analyze layout and confirm with profiling rather than asserting one constant penalty.</p>
+
+<p>Tiling makes reuse explicit. Suppose multiplying matrices A and B to form C. A naive per-output thread repeatedly loads row elements of A and column elements of B, with reuse depending on cache behavior. A tiled kernel loads submatrices into shared memory, synchronizes threads, multiplies many combinations of the tile elements and accumulates partial outputs. Each loaded value is reused by multiple arithmetic operations. For tile width t, a block computes roughly t cubed multiply-add pairs while loading on the order of two t-squared input values per tile phase. This increases arithmetic per transferred byte, although register and shared-memory limits constrain t. The algorithm must handle partial tiles at matrix edges without reading invalid addresses.</p>
+
+<p>Bank conflicts can arise in shared memory when several lanes address locations mapping to the same storage bank in a way that cannot be serviced efficiently. Padding a two-dimensional tile by one element per row is a classic remedy for certain transpose patterns. Yet this is a hardware and access-pattern issue: padding wastes some shared memory and might be unnecessary on architectures with different broadcast or bank behavior. The best explanation uses a concrete address mapping, identifies conflicting lanes and compares measured transactions or latency after the layout change.</p>
+
+<p>Memory alignment and vector loads are further constraints. A compiler may generate efficient vectorized memory operations when pointers are aligned and sufficiently many adjacent elements are available. Misaligned boundaries may require separate handling. Using wider loads without checking length can overrun the final array. A good kernel states the alignment preconditions and includes a correct fallback path for ragged dimensions. For many real workloads, extra bounds checks cost far less than the engineering risk of assuming every input size is a multiple of a convenient block width.</p>
+
+<p>Host-device transfers are part of the data-movement budget. Pinned host buffers and asynchronous copies can improve some pipelines, but pinned memory consumes system resources and should not be allocated without limits. Keeping data resident across several GPU stages often saves more than any individual coalescing trick because it eliminates round trips. A useful transfer model sums bytes across every boundary: disk to host, host to device, device memory to on-chip storage, and device to host. The slowest or most repeated boundary can dominate total latency even when the core arithmetic kernel runs quickly.</p>
+
+<p>Irregular workloads resist perfect coalescing. Graph algorithms use neighbor lists with data-dependent addresses, and sparse matrices may have varying row lengths. Reordering vertices or grouping similar-degree rows can improve locality and load balance, but reordering incurs preprocessing cost and may complicate mapping results back to original identifiers. A sensible experiment compares end-to-end time across repeated iterations, accounting for amortization. If one expensive preprocessing pass saves a small amount on each of thousands of iterations, the investment may pay off; for a one-off query it may not.</p>
+
+<p>The key design skill is to trace bytes, not source-code variables. Estimate compulsory data movement, identify reuse opportunities, inspect access regularity, and measure actual memory throughput. A kernel that executes many arithmetic operations can still be memory-bound; a kernel with simple arithmetic can be compute-bound when its data are repeatedly reused from registers. Only measurement plus a believable traffic model resolves the ambiguity.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-coalescing"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-5-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§5.4</span>
+            <span>Divergence</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Divergence occurs when threads that share an execution group follow different control-flow paths. In SIMT architectures, the hardware may execute paths under masks, so inactive lanes occupy execution resources without contributing useful work. The performance effect depends on path lengths, hardware reconvergence, compiler transformations and whether divergent groups are common. Divergence does not automatically make an algorithm incorrect, and avoiding every conditional statement is not always worthwhile. A uniform branch that every lane takes identically typically causes no lane-level divergence penalty in that group.</p>
+
+<p>Consider a GPU image kernel that performs a cheap transform on ordinary pixels but runs a costly outlier reconstruction on extreme pixels. If outliers are randomly distributed, many execution groups contain both ordinary and extreme pixels. Those groups may execute the costly path with only a few active lanes, wasting lane capacity. If outliers cluster spatially, groups aligned with the clusters may execute mostly uniform branches, reducing the effect. Sorting pixels by category could make execution more coherent, but the sorting pass and reordering memory accesses may cost more than the branch penalty. The optimal approach depends on how often the workload is repeated and whether categorized indices are reused.</p>
+
+<p>A common strategy is <em>compaction</em>: first generate a flag for items needing expensive work, then produce a compact list of their indices using a prefix sum, and launch a second kernel on only those items. The initial pass and scan impose extra memory traffic and launches. Compaction pays off when the expensive branch is sufficiently costly and sufficiently sparse. It can also enable separate kernels with different resource requirements, potentially improving occupancy. But it complicates output ordering and requires checking that the compact list is correct. A debugging test should compare the reconstructed output to a straightforward serial reference for every original index.</p>
+
+<p>Divergence also arises from early exits and variable-length loops. In graph traversal, one thread may scan a vertex with two neighbors while another scans a vertex with thousands. Lanes assigned to short lists finish quickly but may remain inactive while the long list is processed. Load-balancing strategies can assign high-degree vertices to cooperative groups and low-degree vertices to individual threads. That mapping requires classification and potentially additional synchronization. Optimizing only divergence without considering memory locality can hurt performance because adjacency lists may no longer be processed in cache-friendly order.</p>
+
+<p>Branch elimination is not always an optimization. Replacing a conditional with arithmetic selection might execute both sides of an expensive computation, increasing total work. It can also change numerical behavior, for example by evaluating a division that the original branch would have skipped when the denominator was zero. A predicate-based operation must preserve the domain and exception behavior of the original program. Measure whether the compiler already uses predication, and compare actual instruction counts and elapsed time rather than relying on source-code appearance.</p>
+
+<p>Warp-level primitives can accelerate operations such as reductions and shuffles, but their semantics depend on the set of participating lanes. Using them under divergent control flow requires that participation masks and synchronization assumptions are valid. If an algorithm assumes all lanes are active and some exit early, results can be undefined or incorrect. An apparently successful run with a full block may conceal the bug that appears only in the final partial block. Testing ragged sizes is therefore central to validating divergence-sensitive kernels.</p>
+
+<p>Profilers can report metrics such as eligible warps, branch efficiency, active lanes and instruction issue utilization. Each is a partial signal. High branch efficiency with terrible performance might mean memory accesses are scattered or the kernel performs unnecessary operations. Low branch efficiency might be acceptable if divergent branches are rare and arithmetic intensity is high. Evaluate overall throughput and isolate the dominant cause before changing code.</p>
+
+<p>Divergence management is ultimately a problem of matching heterogeneous work to execution resources. Keep similar-length work together when possible, use separate kernels for genuinely different computational paths when amortization supports it, and preserve correctness under all participation patterns. A consistent test matrix includes uniform inputs, mixed inputs, all-exception inputs, and a final incomplete group. This gives far stronger evidence than an attractive benchmark on one regular dataset.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Programming Fundamentals Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 5.1: Choose GPU launch dimensions</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A GPU kernel processes one million independent elements with 256 threads per block. How many blocks are required and how many surplus logical threads are launched?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u5-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u5-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Compute the ceiling</div>
+              
+              <div class="step-explanation"><p>Blocks = ceil(1,000,000/256)=3,907. The launch covers 3,907×256=1,000,192 thread indices.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Calculate surplus threads</div>
+              
+              <div class="step-explanation"><p>There are 192 extra logical indices beyond the input length. Each thread must check whether its global index is less than 1,000,000 before accessing memory.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Explain resource limits</div>
+              
+              <div class="step-explanation"><p>Launched threads need not run simultaneously. Occupancy depends on registers, shared memory and hardware limits. This count is a correctness requirement, not a performance recommendation for every GPU.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 5.2: Compare coalesced and strided access</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A group of 32 lanes loads one four-byte value each. Explain why contiguous addresses may use less memory traffic than widely spaced addresses, and identify an exception.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u5-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u5-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Describe the contiguous case</div>
+              
+              <div class="step-explanation"><p>Thirty-two consecutive four-byte values cover 128 bytes. Subject to transaction alignment and hardware details, the group can use a small number of efficiently coalesced memory requests.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Describe the strided case</div>
+              
+              <div class="step-explanation"><p>If adjacent lanes access addresses separated by an entire memory transaction region, more transactions may be required to return the same 128 useful bytes. Effective bandwidth falls.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">State the limits</div>
+              
+              <div class="step-explanation"><p>Hardware cache hits, alignment and architecture-specific transaction widths matter. A layout transformation is worthwhile only when end-to-end measurements beat its packing or reordering overhead.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 5.3: Diagnose divergent branches</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Thirty-two GPU lanes run a branch, but four lanes require the long path and the other twenty-eight require the short path. Explain the potential issue and two changes worth evaluating.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-parallel-computing-u5-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-parallel-computing-u5-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Identify the effect</div>
+              
+              <div class="step-explanation"><p>The long path may execute with only four active lanes of the group, consuming instruction issue resources while the others are masked. The exact behavior depends on device and compilation.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Evaluate alternatives</div>
+              
+              <div class="step-explanation"><p>One option is compaction into a separate array of exceptional indices using a scan; another is grouping similar items in memory before launching the kernel.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Account for tradeoffs</div>
+              
+              <div class="step-explanation"><p>Compaction and sorting add passes, memory traffic and launch overhead. Measure whether the expensive branch is frequent enough to justify them, and test that every original output index is preserved.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/kernighan-ritchie-c" target="_blank" rel="noopener noreferrer">Kernighan, B.W., &amp; Ritchie, D.M. (1988). The C Programming Language (2nd ed.): Foundational text on structural decomposition, control flow, functions, pointers, and memory layout</a></li><li><a href="https://openstemlibrary.com/references/sicp" target="_blank" rel="noopener noreferrer">Abelson, H., &amp; Sussman, G.J. (1996). Structure and Interpretation of Computer Programs: Canonical treatise on abstraction, procedural decomposition, state, and evaluation models</a></li><li><a href="https://openstemlibrary.com/references/goldberg-floating-point" target="_blank" rel="noopener noreferrer">Goldberg, D. (1991). What Every Computer Scientist Should Know About Floating-Point Arithmetic: Definitive reference on IEEE 754 precision, rounding, and representation error</a></li><li><a href="https://openstemlibrary.com/references/beck-tdd" target="_blank" rel="noopener noreferrer">Beck, K. (2002). Test-Driven Development: By Example: Primary reference for unit test boundaries, assertions, and invariant verification</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="parallel-computing-chapter-4">← Previous chapter</a><a href="parallel-computing">Book contents</a><a href="parallel-computing-chapter-6">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="parallel-computing-sims.js"></script>
+  <script src="parallel-computing-data.js"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Cryptography | Information Security | OpenSTEM Library</title>
+  <meta name="description" content="Symmetric AEAD and nonce discipline; public-key establishment and signatures; hashes and password verifiers; authenticated protocols and replay protection">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/information-security-chapter-2">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/information-security-chapter-2">
+  <meta property="og:title" content="Information Security: Cryptography, Key Exchange, Access Control &amp; Exploit Mitigation | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering classical and modern cryptography (AES, RSA, ECC), cryptographic hash functions, digital signatures, Diffie-Hellman key exchange, access control models (DAC, MAC, RBAC, Bell-LaPadula), memory safety vulnerabilities (buffer overflows, ROP chains), web security (XSS, CSRF, SQLi), network security, and security engineering with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Information Security: Cryptography, Key Exchange, Access Control &amp; Exploit Mitigation | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering classical and modern cryptography (AES, RSA, ECC), cryptographic hash functions, digital signatures, Diffie-Hellman key exchange, access control models (DAC, MAC, RBAC, Bell-LaPadula), memory safety vulnerabilities (buffer overflows, ROP chains), web security (XSS, CSRF, SQLi), network security, and security engineering with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="information-security.css?v=20261024_academic"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Information Security: Cryptography","description":"Comprehensive university textbook covering classical and modern cryptography (AES, RSA, ECC), cryptographic hash functions, digital signatures, Diffie-Hellman key exchange, access control models (DAC, MAC, RBAC, Bell-LaPadula), memory safety vulnerabilities (buffer overflows, ROP chains), web security (XSS, CSRF, SQLi), network security, and security engineering with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/information-security-chapter-2","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Programming Fundamentals","Problem Decomposition","Control Flow Invariants","Two's Complement Representation","Modular Architecture","Unit Testing","Binary Search","Numerical Integration"],"keywords":"Information Security, Cryptography, Public Key Infrastructure, Access Control Models, Memory Safety and Exploits, Return-Oriented Programming, Network Security, Security Engineering"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#computer-science"},{"@type":"ListItem","position":3,"name":"Information Security","item":"https://openstemlibrary.com/information-security"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Information Security","description":"Comprehensive university textbook covering classical and modern cryptography (AES, RSA, ECC), cryptographic hash functions, digital signatures, Diffie-Hellman key exchange, access control models (DAC, MAC, RBAC, Bell-LaPadula), memory safety vulnerabilities (buffer overflows, ROP chains), web security (XSS, CSRF, SQLi), network security, and security engineering with 24 solved questions and 16 interactive simulations.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Library","url":"https://openstemlibrary.com"},"courseCode":"CS 355, CS 455","educationalLevel":"Undergraduate","hasCourseInstance":{"@type":"CourseInstance","courseMode":"online","courseWorkload":"PT80H"}}</script></head>
+<body data-book-path="information-security.html" data-chapter-index="1" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Programming Fundamentals</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search problem decomposition, linear search, floating point precision, two's complement overflow, loop invariants, recursion, stack frames, hash tables, unit test boundaries, binary search, trapezoidal rule…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="information-security" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Security foundations</span></a></li><li class="unit-nav-item active" data-unit-index="1"><a href="information-security-chapter-2" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Cryptography</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="information-security-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Systems security</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="information-security-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Network Security</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="information-security-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Application Security</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="information-security-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Identity, Authorization, Privacy and Key Management</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="information-security-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Security Operations and Incident Response</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="information-security-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Security Assurance, Secure Development and Responsible Testing</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Programming fundamentals core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 2 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Cryptography</h1>
+            <p class="unit-desc-lead" id="unit-desc">Symmetric AEAD and nonce discipline; public-key establishment and signatures; hashes and password verifiers; authenticated protocols and replay protection</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for introductory computer science and software construction. Eight units with exactly three solved questions per unit and 16 interactive numerical simulations illustrating problem decomposition, overflow boundaries, hash collisions, and test coverage. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-2-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.1</span>
+            <span>Symmetric encryption: protecting information without inventing a cipher</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Start with a precise security objective</h4>
+
+<p>A laboratory researcher sends a report to an authorized collaborator over an untrusted network. The network may expose packets to a third party, and the receiving computer may store them for later use. The immediate goal is confidentiality: someone who sees the transmission should not learn the report contents. But the laboratory also cares whether a recipient receives the report exactly as authorized. An attacker who cannot read a report might still attempt to replace it with a different report, change its metadata, or cause an old result to be accepted as new. Therefore the design problem is not merely to hide bytes. It is to make the recipient reject unauthenticated changes and to bind a particular ciphertext to the context in which it is meant to be used.</p>
+
+<p>A symmetric-key algorithm relies on a secret shared by the parties who perform the relevant cryptographic operations. The same secret key, or keys derived from shared secret material, supports encryption and decryption. In a practical application, a sender obtains a key from a protected key-management service, encrypts a record, and transmits the ciphertext together with nonsecret parameters required for decryption. The recipient must possess the appropriate key and must verify any authentication tag before treating the plaintext as trusted. The key is not a password typed into the encryption function, and the ciphertext is not itself a key. Confusing these objects leads to errors in both architecture and incident response.</p>
+
+<p>A modern authenticated-encryption-with-associated-data scheme, often abbreviated AEAD, produces ciphertext and an authentication tag while optionally authenticating additional metadata that need not be encrypted. A report might have a secret body but a public routing identifier. The routing identifier can be included as associated data so that a recipient detects unauthorized alteration without hiding it. The recipient supplies the same associated data during verification. If the authenticated decryption operation rejects, the application must not act on unverified plaintext. This is a protocol-level obligation, not a user-interface preference. Showing a corrupted report with a warning can be unsafe if downstream automation consumes the contents before a human notices.</p>
+
+<h4>Keys, nonces, and the difference between random and unique</h4>
+
+<p>Many AEAD schemes use a nonce, a value associated with an encryption operation. The nonce usually does not need to be secret, but its permitted use is algorithm-specific. For Galois/Counter Mode, repeating an initialization vector with the same key on different inputs can severely undermine confidentiality and authentication. A random nonce generator may make collisions unlikely, yet unlikely is not impossible. A counter-based nonce scheme can provide uniqueness when its state is correctly maintained, but it creates a different operational obligation: the counter must not roll back after a crash or be reused by two writers sharing a key. There is no universal instruction to 'use a random nonce' that is safe for every mode and every distributed deployment.</p>
+
+<p>The laboratory has several report-producing workers. If each worker generates random nonces under a shared key, the total number of encryptions matters, not just the number from one worker. A rough birthday-model collision probability for n independently sampled values from a space of size N is 1 − exp[−n(n−1)/(2N)]. This is an approximation for uniformly random independent samples; it is not a universal failure probability for an encryption system. If the application uses deterministic allocation, the birthday approximation is the wrong model. If keys are separated per worker, nonce reuse across different keys may not have the same significance as reuse under one key. Security requirements must specify the scope of uniqueness, the mode, the key lifetime, and what happens when counters or generators fail.</p>
+
+<p>Consider why a system cannot simply reuse a convenient report identifier as the nonce. A report may be revised, and two versions may share the same identifier. An identifier may also be truncated, duplicated after database restoration, or shared across tenants. The engineering question is whether the identifier is guaranteed to be unique for every encryption under a given key, including retries, restoration, and parallel writes. Unless that invariant can be established and monitored, it is not an adequate nonce design. A protocol may derive a nonce from a sequence number with strict session-specific keys; that is different from inserting an arbitrary database key into an encryption API.</p>
+
+<h4>Data at rest, envelopes, and key life cycles</h4>
+
+<p>For stored laboratory reports, encryption is only one layer of protection. An envelope-encryption pattern uses a fresh data-encryption key for a record or bounded group of records, then protects that key with a key-encryption key under separate access controls. This can reduce the number of records directly exposed by one data-key compromise and simplify some rotation operations. It also introduces metadata and recovery requirements: the system must know which wrapped key corresponds to each record and must retain access to the correct key versions. If a key is lost permanently, the data may become unrecoverable even if the ciphertext and backups are intact. If an attacker steals both encrypted records and the keys capable of opening them, the presence of encryption provides little remaining confidentiality.</p>
+
+<p>Rotation has multiple meanings. Changing a key used for new records is not the same as re-encrypting old records. Revoking a user's access to the application is not the same as erasing copies the user already downloaded. Deleting a data key may make an encrypted record inaccessible, but only if there are no usable copies of the key or plaintext elsewhere. A secure lifecycle covers generation, distribution, authorization, storage, use, audit, rotation, backup, revocation, and eventual destruction. The lifecycle also states how administrators recover from a partial migration without silently decrypting under an obsolete key or losing historical records.</p>
+
+<p>The laboratory should choose established algorithms and well-maintained cryptographic libraries rather than implement a custom block cipher. Cryptographic code is unusually sensitive to subtle errors: a valid-looking encryption routine can fail because it leaks through timing, reuses a nonce, skips a tag check, or accepts the wrong metadata. Algorithm strength cannot repair a key placed in a public source repository. A formal security argument for an AEAD mode assumes conditions that software engineers must actually enforce. Good design connects those conditions to tests, monitoring, and operational ownership rather than assuming the library makes all surrounding choices safe.</p>
+
+<h4>Integrity and authenticity are contextual</h4>
+
+<p>An AEAD tag tells a recipient that a ciphertext and its authenticated metadata were produced by someone holding the relevant symmetric key, assuming the scheme's security conditions hold. It does not, by itself, identify which employee pressed a button when many services share that key. Nor does it establish that the underlying laboratory measurement was scientifically correct. Cryptographic integrity protects against certain unauthorized alterations of represented bytes; data quality and scientific validity require different controls. Similarly, an encrypted report can be copied and replayed intact. The tag may remain valid because the bytes are unchanged. The application must separately decide whether the message belongs to the current transaction, whether it has expired, and whether it has already been processed.</p>
+
+<p>Associated data is valuable when the same encrypted content might be moved between contexts. Imagine a record encrypted for project Alpha but accidentally presented in project Beta. If the project identifier and report version are authenticated as associated data, the receiver can reject a mismatched context. However, the application must supply the correct expected project identifier, not simply read the attacker's chosen identifier and authenticate it against itself. A cryptographic primitive can check consistency among inputs; it cannot decide the organization's authorization policy. That distinction between mechanism and policy appears throughout the remainder of this book.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-crypto-nonce"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.2</span>
+            <span>Public-key cryptography: establishing trust before sharing secrets</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Two related tools with different purposes</h4>
+
+<p>Public-key cryptography uses a mathematically related public key and private key. Depending on the construction, it may support key establishment, encryption, or digital signatures. It is misleading to describe all public-key systems as 'encrypt with a public key and decrypt with a private key,' because modern secure communication often uses a key agreement or key-encapsulation mechanism to establish a symmetric secret and then uses AEAD for the actual data. Digital signatures are another distinct operation: the signer uses a private signing key to produce evidence that a message is associated with that key, and a verifier uses the public verification key to check it. A signature does not hide the signed message.</p>
+
+<p>In the laboratory, two institutions want to exchange large result files. Encrypting each file directly with a public-key algorithm is usually not the preferred architecture. Instead, the parties establish fresh shared key material through an authenticated protocol, derive one or more symmetric traffic keys, and use efficient symmetric encryption for the file bytes. This combination is sometimes called hybrid encryption. The term 'hybrid' here describes combining public-key establishment with symmetric data protection; it should not be confused with the separate migration strategy of combining classical and post-quantum key-establishment methods. Both concepts are useful, but they solve different design problems.</p>
+
+<p>Key establishment alone does not tell a participant whose public key was used. Suppose the laboratory downloads a public key from a page controlled by an attacker. An otherwise mathematically correct exchange may then create a secret shared with the attacker. Identity binding is therefore a central requirement. A certificate infrastructure can connect a public key to a named service through a chain of signed statements and validation rules. Other environments may use carefully managed pinned keys or an authenticated out-of-band channel. Whatever the method, the receiver must validate the intended identity, key usage, validity period, and relevant revocation or replacement rules, not merely observe that some signature verifies.</p>
+
+<h4>Key agreement, encapsulation, and forward secrecy</h4>
+
+<p>In a key agreement protocol, participants contribute information from which they compute a common secret. In a key-encapsulation mechanism, an encapsulating party uses a public key to produce a ciphertext and a shared secret; the private-key holder decapsulates to recover the corresponding shared secret. The shared secret is normally passed through an appropriate key-derivation process before use as a traffic key. A KEM ciphertext is not the same thing as a bulk encrypted laboratory report. Its purpose is to support key establishment, and the protocol must bind it to the right peers and transcript. Even a standardized KEM does not automatically provide authenticated sessions, authorization, or replay protection.</p>
+
+<p>Forward secrecy is a property of certain session protocols, not a magic property of all public-key encryption. In an appropriately designed ephemeral key exchange, compromise of a long-term authentication key later need not expose previously recorded session traffic. That outcome depends on the protocol, whether ephemeral secrets were erased, and the absence of other compromises. A design that encrypts every stored file directly to one long-term private key may have very different consequences if that key is stolen. The laboratory should distinguish a compromise of current credentials from a compromise of past session traffic, backup archives, and the keys that protect them.</p>
+
+<p>Quantum computing changes the long-term threat model for some public-key schemes. NIST finalized FIPS 203 in August 2024, standardizing ML-KEM for key establishment based on a module-lattice problem. This does not mean every existing deployment must instantly switch algorithms without compatibility testing. It means organizations with long confidentiality lifetimes should inventory where vulnerable public-key mechanisms are used, how long protected data must remain secret, and which migration paths are supported by their protocols and vendors. An attacker can record ciphertext today and potentially attempt decryption later if the original key-establishment scheme becomes breakable. Migration decisions must consider both cryptographic confidence and operational failure modes.</p>
+
+<h4>Signatures, provenance, and trust boundaries</h4>
+
+<p>A digital signature binds a message to a signing key under specified cryptographic assumptions. For a signed laboratory report, the verifier must first know which signing key belongs to the authorized issuing service. The signature can then detect changes to the signed representation. If the application signs a JSON object, the exact serialization and canonicalization rules matter. Two equivalent-looking objects can have different byte sequences; conversely, a careless verification layer may validate one representation and display another. The signed payload should include the fields needed to prevent cross-project substitution, such as report identity, version, and intended use, when those fields are security relevant.</p>
+
+<p>Signatures do not prove the signer was honest, the measuring instrument was calibrated, or the sample was correctly labeled. A compromised signing service may issue perfectly valid signatures on false records. This is why provenance systems combine cryptographic checks with access control, audit trails, workflow approvals, and independent measurement checks. The signature can be strong evidence about the origin and integrity of bytes without being complete evidence about their truth. A practical verification interface should communicate exactly what was verified and avoid vague claims that a report is 'guaranteed authentic' in every possible sense.</p>
+
+<p>The distinction between confidentiality and signatures becomes visible when sharing a public report. The university may want anyone to read the report while preventing undetected modifications. A signature can serve that goal without encryption. For a restricted report, the university may need both confidentiality and a trustworthy issuer identity. The order and composition of operations must follow a reviewed protocol; independently attaching arbitrary signatures and encryption layers can create ambiguity about which metadata is covered or which identity is authenticated. Standardized formats and libraries reduce the need to invent these details from scratch.</p>
+
+<h4>Public-key lifecycle and organizational responsibility</h4>
+
+<p>Public keys can be distributed widely, but their authenticity must be established. Private keys require access controls and often hardware-backed storage for high-value roles. A private signing key used to approve scientific results should not be reused as a general-purpose decryption key. Key separation limits the effects of a compromise and clarifies audit trails. The laboratory should record ownership, purpose, generation date, allowed algorithms, expiry, backup policy, and replacement procedure. It should also plan how to verify older signatures after a key expires without confusing historical validity with current authorization to issue new reports.</p>
+
+<p>Revocation is difficult because systems operate with caches, offline clients, and intermittent networks. A revoked certificate may remain visible in an old archive, and a verifier needs a defined policy for checking whether it was valid at the relevant time. An emergency rotation may require updating servers, clients, mobile applications, and external partners. If a deployment cannot tolerate the transition, staff may bypass verification to restore service, creating a new vulnerability. Key management is therefore partly an operational coordination problem. A technically strong primitive is only one component of a trustworthy institutional process.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.3</span>
+            <span>Hashes, message authentication, and password storage</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>A hash is a fingerprint, not a secret lock</h4>
+
+<p>A cryptographic hash maps an arbitrary-length input to a fixed-length digest. A small change in the input normally changes the digest unpredictably, and well-designed hashes aim to make it computationally difficult to find a preimage or two different inputs with the same digest. These are distinct properties. Preimage resistance concerns recovering an input from a given digest. Second-preimage resistance concerns finding a different input matching a particular known input. Collision resistance concerns finding any pair of distinct inputs with the same digest. The theoretical birthday bound for a uniformly behaving b-bit digest suggests collisions may become feasible on the order of 2^(b/2) trials, not 2^b trials. This is a conceptual estimate, not a prediction of the exact resources needed for a specific algorithm.</p>
+
+<p>The laboratory can publish a digest of a large public dataset to help readers detect accidental or unauthorized changes during download. A matching digest is useful only if the expected digest came from a trustworthy source. If an attacker can replace both the dataset and the displayed digest, the recipient learns little about authenticity. A hash is not encryption: it does not provide a decryption key or reversible confidentiality. It also does not establish who computed it. When identity matters, the digest may need to be authenticated through a signature or a message authentication code within a trusted channel.</p>
+
+<p>A message authentication code, or MAC, uses a secret key to authenticate a message. HMAC is a widely used construction based on a cryptographic hash. If two services share the same MAC key, a valid tag provides evidence that some holder of that key generated the tag, subject to the protocol's assumptions. It does not distinguish which of the two services acted if both could generate tags. A digital signature differs because verification can be performed with a public key that does not allow the verifier to create signatures. The choice depends on the desired trust relationship, not merely on which operation is fastest.</p>
+
+<h4>Passwords are low-entropy secrets</h4>
+
+<p>A password chosen by a person is not equivalent to a uniformly random 256-bit encryption key. People reuse patterns, choose common words, and respond to interface constraints. Storing a fast ordinary hash of a password exposes a verifier to offline guessing if the database is stolen: an attacker can compute candidate hashes repeatedly without contacting the login server. A purpose-built password-hashing or password-based key-derivation function deliberately consumes resources per guess. Memory-hard designs also impose substantial memory requirements, raising the cost of parallel guessing on specialized hardware. These functions slow guessing; they do not make weak passwords impossible to guess.</p>
+
+<p>A salt is a distinct, usually public value associated with each password verifier. Salting prevents identical passwords from automatically producing identical stored verifier values and obstructs some forms of reusable precomputation. A salt is not a substitute for a strong password-hashing function, and it is not a secret encryption key. A server-side pepper, if used, is a separate secret whose storage and rotation require explicit design. Mixing up salts, peppers, and encryption keys makes recovery and incident response harder. The laboratory should avoid storing recoverable passwords and should design password reset around new credential enrollment rather than revealing the old secret.</p>
+
+<p>RFC 9106 describes Argon2 and identifies Argon2id as the required supported variant for implementations of that RFC. The document offers parameter recommendations, but a deployment must also benchmark legitimate login latency, memory availability, denial-of-service exposure, and hardware differences. Parameters that exhaust the login service under normal traffic are not a practical defense. Parameters so cheap that billions of offline guesses become affordable may provide inadequate protection. The right decision requires measured constraints and periodic reevaluation, not copying a number from an unrelated application without testing.</p>
+
+<p>Password security also depends on the surrounding authentication flow. A strong password hash does not stop a phishing page from tricking a user into entering a password, and it does not prevent session-token theft after a successful login. Rate limits and anomaly detection reduce online guessing opportunities but do not constrain an attacker who has already stolen password verifiers. Multi-factor authentication and phishing-resistant authenticators can reduce the impact of password disclosure, subject to recovery and enrollment risks. Each control addresses a different part of the threat model. Describing all of them as 'password encryption' hides the differences that an engineer needs to reason about.</p>
+
+<h4>Hashing in scientific workflows</h4>
+
+<p>A laboratory dataset often moves through multiple processing steps: raw measurements, cleaning, calibration, analysis, and publication. A digest can identify the exact bytes at each stage, supporting reproducibility and auditability. But hashing cannot prove that the input was measured honestly or that the analysis method was scientifically valid. The system should record provenance: who produced the file, what software version was used, which source data were read, and what transformations were applied. A digest is a compact identifier within that record, not a replacement for the record itself.</p>
+
+<p>Merkle trees extend the idea by hashing groups of records into a hierarchy, allowing a verifier to check that a particular record belongs to a committed collection using a short proof. The usefulness depends on an authenticated root value and a clear serialization rule. If the tree root is not trusted, a convincing-looking membership proof may simply demonstrate membership in an attacker's collection. For large archives, the structure can support efficient consistency checks, but it does not decide whether the included data should have been collected or retained. Cryptographic integrity and data governance remain separate responsibilities.</p>
+
+<p>A sensible design records which hash algorithm and encoding were used, because a digest without algorithm context can be ambiguous. Applications must also avoid treating a digest as a universally unique database key without considering collision handling and domain separation. The probability of accidental collisions under ideal assumptions can be tiny for long digests, but security engineering should still specify behavior when two objects claim the same identifier. Systems that depend on exact uniqueness should compare canonical content or use a separate authoritative identifier where appropriate. The operational rule is to define what the digest proves, who vouches for it, and what happens when verification fails.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.4</span>
+            <span>Authentication protocols: making cryptographic evidence useful</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>A secure session is a sequence of checks</h4>
+
+<p>Authentication is the process of establishing a claimed identity to a degree appropriate for a task. Authorization decides what that identity may do. The distinction matters in the laboratory: a visiting researcher may authenticate correctly but lack permission to download another project's restricted reports. A cryptographic session can protect the transport channel while an application still makes an incorrect authorization decision. Neither a certificate nor a successful password login implies unrestricted access to every record. A robust design checks authorization at each relevant operation using current policy and resource context.</p>
+
+<p>Imagine a collaborator opening the laboratory's report portal. The browser first needs confidence that it is communicating with the intended service rather than an impostor. A properly validated authenticated transport protocol helps establish that channel and protect data in transit. The application then authenticates the collaborator, potentially using a phishing-resistant factor, and creates a session with an appropriate lifetime. Subsequent requests carry evidence of that session, but the server must continue to enforce permissions. The cryptographic channel, identity proof, session state, and authorization decision are separate layers with different failure modes.</p>
+
+<p>A challenge-response protocol can demonstrate possession of a secret without transmitting that secret directly, but its details matter. A challenge should be fresh and bound to the right session and intended peer. If a verifier accepts an old response to a reused challenge, an observer may replay a previously valid exchange. If the response does not include the relevant context, it might be relayed into a different transaction. A protocol should specify what is authenticated: identity, channel, message, role, transaction amount, or some combination. 'The signature is valid' is incomplete when the signature covers the wrong thing.</p>
+
+<h4>Replay protection and freshness</h4>
+
+<p>Encryption and authentication tags do not automatically prevent replay. Suppose a valid command asks the laboratory to release a report to an approved address. An attacker who records the entire authenticated request may not need to alter it to cause harm; sending it again might trigger another release or duplicate an irreversible workflow. The server can use transaction identifiers, monotonic sequence numbers, expiry windows, and an idempotency record to reject or safely handle duplicates. These mechanisms must be scoped to the relevant principal and operation. A timestamp alone can fail if clocks are poorly synchronized or if the accepted window is wide enough to allow meaningful repetition.</p>
+
+<p>Idempotency is particularly important in distributed systems because retries are normal. A network timeout does not tell a client whether the server completed an operation. If a client resends a request, the server should return the existing result or recognize the operation identifier instead of performing the action twice. Cryptographic authentication protects the integrity of the identifier; the application enforces its one-time or repeat-safe meaning. The design must consider storage retention for identifiers and the possibility of two concurrent workers receiving the same request. This is an example of a security property that cannot be delegated entirely to a cipher.</p>
+
+<p>Session tokens are often bearer credentials: possession is sufficient to act within their authority. They require confidentiality in storage and transit, expiration, appropriate audience restrictions, and revocation strategies. A token that is valid for the reporting API should not automatically be accepted by an unrelated administrative API. If a token includes claims, the server must verify its signature or MAC and validate issuer, audience, timing, and authorization semantics. Merely decoding a token is not verification. Similarly, a browser that stores tokens in an exposed location may lose them to injected scripts even if the network connection is encrypted.</p>
+
+<h4>Protocol composition and failure behavior</h4>
+
+<p>Security failures frequently occur at boundaries between individually sound components. A service may use AEAD correctly but reuse the same key across unrelated purposes. A verifier may check a signature but ignore the signed project identifier. A login system may authenticate a user but issue a session token with broader permissions than the user possesses. A backup process may copy ciphertext but omit the metadata needed to find its decryption key. A cryptographic design review therefore traces the full lifecycle of a protected object, including creation, transfer, verification, authorization, storage, logging, recovery, and deletion.</p>
+
+<p>Error handling is part of the protocol. A recipient should fail closed when authentication fails, but the application must also avoid leaking secrets through detailed error messages or timing differences. A login response should not unnecessarily reveal which account names exist. A decryption failure should not trigger a fallback to an unauthenticated mode. A key rotation should not silently accept obsolete credentials indefinitely. The exact response depends on usability and recovery requirements, but any fallback must be reviewed as a separate security path rather than assumed harmless because it is used only during emergencies.</p>
+
+<p>Authentication also depends on human procedures. When a researcher loses a security key, the recovery process must not allow an attacker to obtain a new credential through an easier channel. Support staff need evidence standards, auditability, and a safe escalation path. A technically excellent protocol can be undermined by an account-recovery email sent to an address that the attacker controls. Conversely, a recovery process that is too difficult may lock out authorized staff during urgent work. Security and usability are not opposing decorations; they jointly determine whether people can follow the intended protocol.</p>
+
+<h4>Evaluating a protocol against a concrete threat model</h4>
+
+<p>The laboratory can evaluate an authentication design by writing explicit attacker capabilities. Can the adversary observe network traffic, send arbitrary requests, control one client device, steal a database backup, or operate a malicious service with a valid certificate for a different domain? The answers change which guarantees are plausible. A protocol that protects against passive observation may not protect against an endpoint already controlled by an attacker. A signature verifies bytes under a key but does not establish that the human signer intended every operation. State assumptions before presenting a security claim and test the negative paths that violate those assumptions.</p>
+
+<p>Useful tests include changing associated data and verifying that decryption fails, replaying an authenticated request and checking duplicate handling, using a valid token for the wrong audience, presenting a certificate for the wrong hostname, and rotating a key while restoring a backup. These are defensive acceptance tests, not demonstrations of how to compromise a real system. The important outcome is whether the implementation rejects an invalid state without exposing sensitive data or silently downgrading protection. A test suite should include concurrency, clock drift, and recovery scenarios because security invariants often fail only under operational stress.</p>
+
+<p>A good architecture keeps the division of responsibility visible. Cryptographic primitives provide bounded mathematical guarantees under assumptions; protocols establish the order and meaning of messages; application logic enforces authorization and business rules; operations maintain keys, certificates, clocks, and recovery; and governance decides retention and acceptable risk. None of these layers can be replaced by a slogan such as 'military-grade encryption.' The aim is to know precisely what protection is claimed, how it is implemented, and how the claim could fail. That precision makes cryptography a useful engineering tool rather than a decorative feature.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-crypto-overhead"></div>
+          </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Programming Fundamentals Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Fully worked example</span>
+            <strong>Example 2.1: Random nonce collision estimate</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A fictional test harness chooses 10,000 independent, uniformly random 32-bit nonce values under one key. Using the birthday-model Poisson approximation, estimate the probability of at least one collision. State two reasons this numerical result is not a direct estimate of a deployed system's compromise probability.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--information-security-u2-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--information-security-u2-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1</div>
+              
+              <div class="step-explanation"><p>The model's sample-space size is N = 2^32 = 4,294,967,296. The number of unordered sample pairs is n(n−1)/2 = 10,000 × 9,999 / 2 = 49,995,000. The expected number of colliding pairs in the idealized model is λ = 49,995,000 / 4,294,967,296 ≈ 0.0116403680.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2</div>
+              
+              <div class="step-explanation"><p>Apply the Poisson birthday approximation P(at least one collision) ≈ 1 − exp(−λ). Substituting the value above gives approximately 0.0115728811, or 1.1573%. This is a probability over repeated hypothetical sampling experiments; it does not assert that a collision must occur in any one experiment.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3</div>
+              
+              <div class="step-explanation"><p>Explain the scope. A deployed AEAD design may use 96-bit nonces, deterministic counters, different keys, or constrained invocation counts. A collision also does not automatically imply a particular loss amount or a successful attacker exploit; the consequences depend on the scheme, data, adversary, and surrounding protocol. Conversely, for modes such as GCM, same-key nonce reuse is a serious violation and should not be dismissed because a teaching example has a small probability.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>The idealized 32-bit random-nonce collision probability is approximately 1.1573%. It is a birthday-model estimate, not a production risk score. The appropriate engineering action is to follow the selected AEAD specification's uniqueness requirements and test the actual allocation mechanism.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Fully worked example</span>
+            <strong>Example 2.2: AEAD record overhead and metadata</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A laboratory stores a 1,536-byte plaintext record using a hypothetical AEAD layout that includes a 12-byte transmitted nonce and a 16-byte authentication tag. Ignore framing and key identifiers. Find the transmitted record size and the fractional overhead relative to plaintext. Explain why these numbers do not determine whether the system is secure.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--information-security-u2-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--information-security-u2-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1</div>
+              
+              <div class="step-explanation"><p>The record contains 1,536 plaintext-equivalent ciphertext bytes, 12 nonce bytes, and 16 tag bytes. Under the stated layout, the total is 1,536 + 12 + 16 = 1,564 bytes. The absolute overhead is 28 bytes. This calculation assumes the cipher mode does not pad the message and that nonce and tag are transmitted exactly once per record.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2</div>
+              
+              <div class="step-explanation"><p>Relative overhead is 28 / 1,536 × 100 ≈ 1.8229%. If the system encrypts many small records separately, the percentage grows because the fixed overhead is repeated. If the application batches records, overhead may decrease, but batching changes error isolation, access patterns, and the unit of authentication. Bandwidth optimization therefore interacts with system design rather than replacing it.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3</div>
+              
+              <div class="step-explanation"><p>The calculation says nothing about key secrecy, nonce uniqueness, tag verification, authorization, or replay handling. A 16-byte tag may be a valid parameter in a reviewed construction, but an application that ignores verification can still accept tampered records. Similarly, an exposed key defeats confidentiality even if the overhead is mathematically correct.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>The modeled record is 1,564 bytes, with 28 bytes of overhead, or approximately 1.8229% of plaintext size. Overhead is a performance measure; security requires separate protocol and implementation evidence.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Fully worked example</span>
+            <strong>Example 2.3: Choosing the right primitive for a laboratory workflow</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>The fictional laboratory must (a) publish a public dataset so readers can detect changes and verify the issuing organization, (b) protect a restricted report sent to a collaborator, and (c) store user passwords without recovering the original passwords. For each case, choose a suitable class of cryptographic mechanism, identify the trust dependency, and give one failure mode that the mechanism does not solve.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--information-security-u2-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--information-security-u2-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1</div>
+              
+              <div class="step-explanation"><p>For a public dataset, compute a digest using a suitable contemporary cryptographic hash and authenticate the digest or a manifest with a digital signature. Readers need a trusted association between the signing public key and the laboratory. A matching digest alone cannot authenticate a source if the expected digest is also attacker-controlled. A signature also does not prove the scientific correctness of the data.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2</div>
+              
+              <div class="step-explanation"><p>For a restricted report, establish authenticated key material through a reviewed protocol and use symmetric AEAD to protect the content, binding the relevant report identity and context as associated data. The trust dependencies include authenticated peer identity, secure key handling, and enforcement of recipient authorization. AEAD does not stop an authorized recipient from copying plaintext after decryption or prevent replay unless the application handles freshness.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3</div>
+              
+              <div class="step-explanation"><p>For password verification, store a salted verifier computed by a dedicated password-hashing function such as Argon2id with parameters selected for the deployment. The server compares a newly computed verifier rather than decrypting a stored password. The trust dependencies include server-side storage controls, appropriate salts, resource limits, and secure enrollment and recovery. Password hashing cannot prevent phishing or session-token theft after login.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>(a) Hash plus authenticated signature or signed manifest; (b) authenticated key establishment plus symmetric AEAD and authorization; (c) salted password hashing with a reviewed parameter policy. Each addresses a different threat, and none substitutes for system-level controls.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/kernighan-ritchie-c" target="_blank" rel="noopener noreferrer">Kernighan, B.W., &amp; Ritchie, D.M. (1988). The C Programming Language (2nd ed.): Foundational text on structural decomposition, control flow, functions, pointers, and memory layout</a></li><li><a href="https://openstemlibrary.com/references/sicp" target="_blank" rel="noopener noreferrer">Abelson, H., &amp; Sussman, G.J. (1996). Structure and Interpretation of Computer Programs: Canonical treatise on abstraction, procedural decomposition, state, and evaluation models</a></li><li><a href="https://openstemlibrary.com/references/goldberg-floating-point" target="_blank" rel="noopener noreferrer">Goldberg, D. (1991). What Every Computer Scientist Should Know About Floating-Point Arithmetic: Definitive reference on IEEE 754 precision, rounding, and representation error</a></li><li><a href="https://openstemlibrary.com/references/beck-tdd" target="_blank" rel="noopener noreferrer">Beck, K. (2002). Test-Driven Development: By Example: Primary reference for unit test boundaries, assertions, and invariant verification</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="information-security">← Previous chapter</a><a href="information-security">Book contents</a><a href="information-security-chapter-3">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="information-security-sims.js"></script>
+  <script src="information-security-data.js"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

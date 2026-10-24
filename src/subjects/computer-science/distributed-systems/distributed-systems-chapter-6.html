@@ -1,0 +1,353 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Distributed computation | Distributed Systems | OpenSTEM Library</title>
+  <meta name="description" content="Message brokers and delivery semantics, Workflows, sagas and durable orchestration, Stream processing and event-time windows, Distributed scheduling and resource allocation, Capstone: a global scientific analysis pipeline">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/distributed-systems-chapter-6">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/distributed-systems-chapter-6">
+  <meta property="og:title" content="Distributed Systems: Logical Clocks, Paxos, Raft Consensus &amp; Fault Tolerance | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Distributed Systems: Logical Clocks, Paxos, Raft Consensus &amp; Fault Tolerance | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="distributed-systems.css?v=20261024_academic"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Distributed Systems: Distributed computation","description":"Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/distributed-systems-chapter-6","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Programming Fundamentals","Problem Decomposition","Control Flow Invariants","Two's Complement Representation","Modular Architecture","Unit Testing","Binary Search","Numerical Integration"],"keywords":"Distributed Systems, Logical Clocks and Causality, Paxos and Raft Consensus, Fault Tolerance, Quorum Systems, CAP Theorem, Replication and Consistency, Distributed Transactions"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Computer Science","item":"https://openstemlibrary.com/#computer-science"},{"@type":"ListItem","position":3,"name":"Distributed Systems","item":"https://openstemlibrary.com/distributed-systems"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Distributed Systems","description":"Comprehensive university textbook covering distributed system architectures, RPC semantics, Lamport logical clocks, vector clocks, distributed mutual exclusion, consensus algorithms (Paxos, Raft), quorum consensus, CAP theorem, PACELC, distributed transactions (Two-Phase Commit), replication models, partition handling, and stream processing with 24 solved questions and 16 interactive simulations.","provider":{"@type":"EducationalOrganization","name":"OpenSTEM Library","url":"https://openstemlibrary.com"},"courseCode":"CS 417, CS 451","educationalLevel":"Undergraduate","hasCourseInstance":{"@type":"CourseInstance","courseMode":"online","courseWorkload":"PT80H"}}</script></head>
+<body data-book-path="distributed-systems.html" data-chapter-index="5" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Programming Fundamentals</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search problem decomposition, linear search, floating point precision, two's complement overflow, loop invariants, recursion, stack frames, hash tables, unit test boundaries, binary search, trapezoidal rule…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="distributed-systems" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Distributed foundations</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="distributed-systems-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Coordination</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="distributed-systems-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Replication</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="distributed-systems-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Consensus</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="distributed-systems-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Distributed storage</span></a></li><li class="unit-nav-item active" data-unit-index="5"><a href="distributed-systems-chapter-6" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Distributed computation</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="distributed-systems-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Reliability and operations</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="distributed-systems-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">System design</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Programming fundamentals core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 6 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Distributed computation</h1>
+            <p class="unit-desc-lead" id="unit-desc">Message brokers and delivery semantics, Workflows, sagas and durable orchestration, Stream processing and event-time windows, Distributed scheduling and resource allocation, Capstone: a global scientific analysis pipeline</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for introductory computer science and software construction. Eight units with exactly three solved questions per unit and 16 interactive numerical simulations illustrating problem decomposition, overflow boundaries, hash collisions, and test coverage. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-6-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.1</span>
+            <span>Message brokers and delivery semantics</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A distributed message broker separates the rate and location of producers from those of consumers. The broker may store messages durably, partition topics, retain offsets, and distribute work among consumer groups. Yet broker durability and application correctness are different questions. An acknowledged publish may represent local receipt, replication to a quorum, or persistence to storage depending on the broker and configuration. A consumer acknowledgement may mark work complete even if the corresponding application transaction is not durable. At-least-once redelivery is a useful recovery strategy but requires idempotent consumers; at-most-once consumption can lose work when a process crashes after acknowledging. Even systems offering exactly-once stream-processing features have scoped guarantees, not universal atomicity across arbitrary external effects. Write down each durable boundary and crash window instead of treating a marketing delivery label as the entire contract.</p>
+
+<p>Partitioned logs often preserve order only within each partition. If two related events are routed to different partitions, their relative consumption order need not match the order in which clients perceived them. A useful partition key groups events whose ordering matters, but a very hot key can create one overloaded partition. Consumer group rebalancing moves partition ownership and may temporarily interrupt processing or create ambiguous in-flight work. Offset commits should be coordinated with application effects. If an offset is committed before a payment update, a crash can skip the update; if committed afterward, the same message may be delivered again. A stable operation key and an atomic write path can convert redelivery into a harmless retry within the defined domain. Long-running tasks may require leases or heartbeats so a consumer is not assumed dead while processing legitimate work.</p>
+
+<p>Consider a fictional laboratory analysis queue. The instrument submits a sample ID, model version, and checksum to a broker; worker A processes the sample and writes a result. A crashes after the database commit but before acknowledging the broker. Worker B receives the same message and starts the same computation. If the result table has a uniqueness constraint on sample ID plus analysis version, B can discover that an equivalent result was already committed. If the computation has external side effects, such as commanding a physical instrument, a database uniqueness constraint may not undo duplicate physical commands. The workflow must separate safe retries from actions requiring a dedicated command ledger and external acknowledgement. A dead-letter queue collects messages that cannot currently be processed, but it is not a substitute for analyzing why repeated retries fail.</p>
+
+<p>Backpressure is the control mechanism that prevents queueing growth from overwhelming a service. If arrival rate exceeds sustainable processing rate, average backlog grows rather than disappearing through eventual patience. Scale consumers when the workload can be partitioned and downstream capacity permits. Increasing consumers past partition count or saturating a shared database may yield no improvement. Retention duration, poison messages, consumer lag, checkpoint size, and broker partition count are production parameters with real costs. Observability should distinguish lag measured in message count from lag measured in event time, since a million tiny records may be cheap while one huge batch is not. A healthy design also defines replay behavior after data corrections, not just live message delivery.</p>
+
+<p>Build a broker explorer with a producer rate, consumer throughput, partition count, delivery failure toggle, and offset-commit ordering. Animate backlog growth under λ greater than μ, then lower arrival rate and estimate recovery time from existing backlog. Inject a crash after application commit but before broker acknowledgement and observe duplicate delivery. Toggle an idempotent consumer table and confirm that the second attempt does not duplicate the domain effect. Ask the student to choose a partition key for events related to the same lab sample and explain the ordering and hotspot tradeoff. The toy model does not reproduce real retention, disk compaction, or transactional producer configurations; its purpose is to expose assumptions in the event processing contract.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-queue-drain"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.2</span>
+            <span>Workflows, sagas and durable orchestration</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A workflow coordinates a sequence of activities that may execute on different machines and complete over minutes or days. Unlike one in-memory function call, a durable workflow must survive coordinator restarts without forgetting which tasks were scheduled, which results were accepted, or which compensations are due. An orchestrator persists workflow transitions and issues activities with stable identifiers; a choreography design distributes decisions among participants reacting to events. Choreography can reduce central coupling but makes global reasoning and failure diagnosis harder when many services publish mutually triggering events. Orchestration gives a clear process view but creates an authoritative workflow-state dependency. Neither choice eliminates retries, duplicate delivery, or partial side effects. Make long-running work explicit in the user-facing state model and separate business timeouts from network response timeouts.</p>
+
+<p>An activity may execute at least once under restart, so its side effects need idempotency or a reconciliation strategy. Suppose a workflow reserves laboratory equipment, charges an internal budget, and sends an approval email. The coordinator crashes after sending the email but before recording success. On replay, blindly rerunning sendEmail can send two messages. A workflow ledger might store a deterministic email job ID and let the notification service deduplicate. If a third-party service lacks idempotency, the workflow may need to query the recipient status, accept a possibility of duplicate notification, or require manual resolution. Durable timers differ from process sleep: a coordinator must record a wake-up condition so a restart can resume after a specified deadline. Use explicit versioning for workflow definitions so changing code does not invalidate histories started under older logic.</p>
+
+<p>Compensation is not an inverse function that magically restores history. A canceled hotel reservation may incur a fee; a scheduled instrument may already have run; an email may already be read. A well-designed saga records compensating tasks that reduce the undesired business state as far as practical. For a research equipment booking, compensation might release an unused slot, submit an expense reversal, and notify a coordinator that a human must settle a consumed reagent cost. Some steps have no valid automatic compensation, requiring an explicit failure state rather than repeated futile retries. Transaction boundaries should be chosen by reversible side effects and invariant needs, not by drawing neat boxes around a process diagram. Each activity should specify its maximum retries, timeout handling, idempotency key, and escalation owner.</p>
+
+<p>Workflow observability needs more than an HTTP trace because activities can outlive the original request. A durable workflow ID, activity IDs, causation links, and state transitions allow operators to reconstruct what happened. Separate logical completion from transport acknowledgement: a step may have succeeded remotely but its confirmation was lost. Version the event schema and preserve enough historical information to replay safely. Apply limits to the number of retries or pending workflows so failure does not create an unbounded backlog. A batch compensation system needs access control as strong as the original action, because a malicious or mistaken compensating command can undo legitimate allocations. Test the workflow against worker crash, coordinator crash, duplicate completion callback, missing callback, and long pause, not only the successful sequence.</p>
+
+<p>Use a state-machine workflow simulator for reserve equipment, authorize budget, and publish confirmation. Each activity has NOT_STARTED, RUNNING, SUCCEEDED, FAILED, or COMPENSATING states, and the coordinator has a durable event history. The learner can duplicate callbacks, crash the coordinator, inject a timeout after an actual success, and restart from the log. Require the final accepted domain effect to occur at most once per activity ID, while acknowledging that duplicated attempts may occur. Demonstrate why a saga compensation for budget authorization is a fresh reversal transaction, not erasure of the prior ledger entry. Compare orchestrated and event-choreographed depictions of the same workflow, highlighting which component knows the complete state.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.3</span>
+            <span>Stream processing and event-time windows</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Stream processing continuously transforms event records, often grouping them into time windows and maintaining keyed state. Processing time is when a worker handles an event; event time is when the underlying observation occurred. They differ because events may be delayed by connectivity, device buffers, or backlogs. A watermark is an estimate that event time has advanced sufficiently that earlier events are unlikely or no longer expected under a chosen lateness policy. It is not proof that no earlier event will ever arrive. A window result can therefore be provisional, finalized after allowed lateness, or updated with revisions. The output contract determines whether a late event is discarded, routed to a correction stream, or used to adjust previous aggregates. Choosing a one-minute window means little without defining its clock basis and late-data policy.</p>
+
+<p>Consider remote environmental sensors sending temperature measurements. Sensor A records at 10:00:04 but cannot upload until 10:02:30. Sensor B records at 10:01:01 and uploads immediately. Sorting by processing time would place B before A, although event time says A came first. If the analytics product computes the average temperature for 10:00–10:01, it must decide whether to wait for A, update a prior result, or exclude the late record. The decision affects dashboards and alerts. A watermark at 10:01:00 may allow finalization for some policies; if A arrives afterward, the system needs a defined correction behavior. More generous lateness reduces missing data but uses more retained state and delays final results. There is no universally correct watermark choice independent of sensor reliability and user requirements.</p>
+
+<p>Stateful operators need checkpoint and replay semantics. A count-by-station operator may periodically persist its state and source offsets; after crash it restores both from a consistent checkpoint and processes subsequent events. If offsets and state are restored inconsistently, records can be counted twice or lost. Some stream processors coordinate checkpoint barriers or transactional sinks to support precisely scoped recovery properties. A sink sending external emails may still require a deduplicating notification layer. Backpressure propagates when a downstream operator falls behind; adding parallel tasks may help only if key distribution is not highly skewed and external sinks can absorb the output. A long-running stream job needs operational policies for checkpoint growth, schema changes, and replay from archived data.</p>
+
+<p>Window design can encode subtle errors. Tumbling windows partition event time into adjacent fixed intervals. Sliding windows overlap; one event may contribute to several windows. Session windows group activity separated by gaps. A local-time midnight boundary can be ambiguous during daylight-saving changes, so globally distributed systems should represent event-time instants and timezone interpretation deliberately. Floating-point aggregation order can change low-order bits, especially in parallel reductions; reports should avoid implying more precision than measurements permit. Late updates may cause downstream retractions or upserts, which consumers must understand. The most useful documentation includes a worked record trace showing window assignment, watermark movement, and final output versions.</p>
+
+<p>Create an event-time laboratory with six sample measurements, each with event timestamp and arrival timestamp. Let learners configure one-minute tumbling windows and a lateness allowance. As records arrive, draw the live aggregate and the watermark position, then mark when a window becomes final. Deliver one deliberately late event and apply either drop or correction mode. Ask how a dashboard should label provisional values and how a downstream database can represent revisions without duplicating rows. Include a crash and checkpoint restore trace with recorded offsets, showing why restoring state and offsets from different points is unsafe. This teaching simulator is deterministic and does not model a particular stream framework's exact watermark implementation.</p>
+        </div>
+        
+          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+            <div class="simulation-slot" id="sim-container-watermark-lateness"></div>
+          </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.4</span>
+            <span>Distributed scheduling and resource allocation</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A distributed scheduler assigns tasks to machines subject to capacity, locality, priority, and policy constraints. The scheduler must know available resources but its observations may lag behind reality. A worker may accept a task and crash; a task may finish but lose its completion message; several schedulers may try to allocate the same scarce accelerator. Good scheduling therefore needs task identifiers, durable assignment state, leases or ownership epochs, and recovery semantics. Scheduling the same task twice may be acceptable if tasks are pure and duplicate outputs are reconciled; it may be dangerous if tasks trigger costly or irreversible external effects. Resource utilization alone is a poor objective if it creates starvation, large queueing latency, or unfairness between users. Formalize the objective before designing the placement algorithm.</p>
+
+<p>For each worker i, let capacity be c_i units of CPU or memory and current committed allocation be a_i. Admitting a new task requiring d units needs a_i+d≤c_i under the scheduler's relevant resource model. This simple inequality does not handle GPU affinity, network locality, interference, or burst usage, but it shows why optimistic stale resource reports can overcommit. A central scheduler can maintain one queue and select feasible workers but may become a control-plane bottleneck. A decentralized work-stealing system improves utilization for independent tasks while requiring duplicate handling and communication. Gang scheduling for distributed training needs several workers simultaneously; partial allocation of only some members can waste resources or deadlock other jobs. Some scheduling decisions require atomic reservation of a set of resources rather than independent greedy placement.</p>
+
+<p>Imagine a student research cloud running a nightly data analysis across eight partitions. Six workers are online, each able to run two partitions. Scheduling all tasks is feasible, but the input data for partitions 1–4 lives near only two workers. A naive round-robin placement moves more data across the network, possibly making job completion slower than a slightly imbalanced locality-aware schedule. If a worker disappears, retrying only the lost partition is attractive; redoing the entire job wastes completed work. Deterministic partition IDs and immutable input snapshots permit safe replay. If a job updates a shared result database, its reducer must deduplicate partition outputs by job and partition key. The scheduling algorithm and result-commit protocol must be evaluated together.</p>
+
+<p>Fairness, deadline, and preemption policies complicate resource allocation. A large batch job can block small interactive analyses in a first-in-first-out queue even when a short task could fit elsewhere. Priority scheduling can harm low-priority users if no starvation bound exists. Preemption may evict a long-running computation whose progress is expensive to reconstruct unless checkpoints are available. Autoscaling adds worker capacity only after provisioning delays; when demand drops, scale-down decisions must respect in-flight work and persistent state. Track queue wait, task completion, wasted retry compute, missed deadlines, and per-tenant fairness. A scheduler that reports high utilization but causes daily deadline misses is not successful by the product's objective.</p>
+
+<p>Build a resource allocation simulator with heterogeneous worker capacities, task sizes, deadline priorities, and data-locality costs. Compare first-fit, least-loaded, and locality-aware placement over the same deterministic task sequence. Inject one worker failure halfway through and show which tasks need reassignment. Learners should inspect the difference between scheduling a task and committing its output, and try a scenario in which a task finishes but its acknowledgement is lost. Add an idempotent output key to prevent duplicate result rows after reassignment. The model deliberately abstracts from Kubernetes-specific control loops and real CPU scheduling, so it cannot establish performance numbers for a production cluster.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.5</span>
+            <span>Capstone: a global scientific analysis pipeline</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>A global scientific analysis pipeline receives observations from field stations, validates and transforms them, and publishes regional summaries for researchers. Sensors are intermittently connected; some transmit records hours after measurement. Producers must attach stable observation IDs, timestamps representing the measurement event, schema versions, and appropriate integrity metadata. The ingestion broker decouples receipt from computation but introduces replay and backlog semantics. The processing pipeline is a DAG of transforms, each with its own resources and checkpoint state. The published output should distinguish preliminary estimates from finalized windows. A complete design includes data quality, provenance, idempotency, and operational recovery rather than drawing a straight arrow from sensor to dashboard.</p>
+
+<p>At the ingest boundary, evaluate acknowledgement guarantees. If the edge receiver tells a sensor 'stored' after writing only volatile memory, a subsequent crash may lose the record even though the sensor deletes its local copy. The acknowledgement should correspond to the stated durability objective, for example persistence on a replicated log under a specified fault model. Device retries use stable event IDs; the broker can deliver duplicates; consumers either deduplicate by ID or use commutative aggregation with appropriate causal metadata. Measurements also require schema validation, ranges and unit normalization. A temperature sent in Fahrenheit and interpreted as Celsius is a semantic corruption that cannot be repaired by a perfect consensus algorithm. Data-quality checks must accompany transport correctness.</p>
+
+<p>Stream processors group observations by station and event-time window. A late observation may update a previously published mean and should therefore produce a versioned correction or a documented exclusion. If windows are finalized after a 30-minute lateness allowance, devices offline for several hours will miss the normal window; the data product must decide how archival reconciliation works. A batch correction job can consume retained raw records and republish a labeled revision. Users who cite an earlier data release should still be able to access that release or its documented change history. This is especially important for scientific reproducibility, where the dataset revision and model version are part of the result. Streaming convenience is not a substitute for durable lineage.</p>
+
+<p>Work allocation involves queueing and resource locality. A field station may upload thousands of measurements simultaneously when connectivity returns, creating bursts. Scale worker pools according to observed queue delay and cost, but prevent one source from starving the others. Jobs that perform expensive geospatial joins should be partitioned by region or spatial tile, with explicit handling of cross-tile overlap. A crashed worker may replay a tile; stable output identifiers and atomic result publication prevent duplicate rows. A workflow coordinator can persist processing status across retries and perform repair when one downstream data lake is unavailable. The control plane itself needs access management and tested restoration procedures.</p>
+
+<p>End the capstone with an experiment calendar. Inject one delayed batch, one duplicate upload, one worker crash after output commit, one checkpoint failure, and one stale client schema. Record the effect on both user-visible summaries and durable raw records. Require a reproducible output artifact containing the input dataset version, processing code revision, event-time policy, and committed output version. A good result is not merely that all messages were eventually consumed; it is that scientists can explain which observations contributed to which published numbers. The learner should justify retention cost, correction policy, and failure alarms using expected research value rather than a universal default for every field station.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Programming Fundamentals Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked</span>
+            <strong>Example 6.1: Backlog recovery time under stable rates</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>A consumer queue contains 18,000 messages. New messages arrive at 120 per second and consumers process 200 per second. Ignoring bursts, failures and fixed overhead, how long until backlog reaches zero?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--distributed-systems-u6-q1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--distributed-systems-u6-q1">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1: reasoning</div>
+              
+              <div class="step-explanation"><p>Net draining capacity is processing rate minus new arrival rate: 200−120=80 messages per second.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2: reasoning</div>
+              
+              <div class="step-explanation"><p>At a constant 80-message-per-second net drain, emptying 18,000 messages takes 18,000/80=225 seconds.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3: reasoning</div>
+              
+              <div class="step-explanation"><p>The estimate assumes the consumer service rate remains 200/s and arrivals 120/s as backlog falls. A poison message or shared sink bottleneck could invalidate it.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>225 seconds, or 3 minutes 45 seconds, under the stated stable-rate assumptions.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked</span>
+            <strong>Example 6.2: Event time versus arrival time</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Record A has event time 10:00:04 and arrives at 10:02:30. Record B has event time 10:01:01 and arrives at 10:01:02. Which record is earlier by event time and which is processed first in arrival order?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--distributed-systems-u6-q2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--distributed-systems-u6-q2">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1: reasoning</div>
+              
+              <div class="step-explanation"><p>Compare recorded event times: 10:00:04 precedes 10:01:01, so A is earlier in the underlying event-time axis.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2: reasoning</div>
+              
+              <div class="step-explanation"><p>Compare arrival times: 10:01:02 precedes 10:02:30, so B is received first in arrival order.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3: reasoning</div>
+              
+              <div class="step-explanation"><p>The differing orders explain why watermarking and late-event policies are necessary for event-time windows.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>A is earlier by event time; B arrives first.</p></div>
+          </div>
+        
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Worked</span>
+            <strong>Example 6.3: Check worker admission capacity</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Worker A has capacity 16 memory units and 11 already allocated. Task T needs 6 units. Worker B has capacity 20 and 12 allocated. Which worker can accept T without exceeding stated memory capacities?</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-computer-science--distributed-systems-u6-q3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-computer-science--distributed-systems-u6-q3">
+          
+            <div class="solution-step">
+              <div class="step-title">Step 1: reasoning</div>
+              
+              <div class="step-explanation"><p>For worker A, projected allocation is 11+6=17, greater than capacity 16; reject placement.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 2: reasoning</div>
+              
+              <div class="step-explanation"><p>For worker B, projected allocation is 12+6=18, at most 20; memory-capacity condition is satisfied.</p></div>
+            </div>
+          
+            <div class="solution-step">
+              <div class="step-title">Step 3: reasoning</div>
+              
+              <div class="step-explanation"><p>Feasibility under this simple model does not prove network-locality, accelerator or CPU constraints are satisfied.</p></div>
+            </div>
+          
+          <div class="solution-step" style="border-left-color: #10b981;">
+            <div class="step-title" style="color: #10b981;">Final Answer &amp; Physical Insight</div>
+            <div class="step-explanation"><p>Worker B can accept T under the stated memory constraint; A cannot.</p></div>
+          </div>
+        
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-computer-science">Computer Science Department</a><a href="programming-fundamentals">Programming Fundamentals</a><a href="data-structures">Data Structures</a><a href="algorithms">Algorithms</a><a href="discrete-structures-for-computer-science">Discrete Structures</a><a href="computer-architecture">Computer Architecture</a><a href="discrete-mathematics">Discrete Mathematics prerequisite</a><a href="linear-algebra">Linear Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="probability-and-probability-distributions">Probability prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/kernighan-ritchie-c" target="_blank" rel="noopener noreferrer">Kernighan, B.W., &amp; Ritchie, D.M. (1988). The C Programming Language (2nd ed.): Foundational text on structural decomposition, control flow, functions, pointers, and memory layout</a></li><li><a href="https://openstemlibrary.com/references/sicp" target="_blank" rel="noopener noreferrer">Abelson, H., &amp; Sussman, G.J. (1996). Structure and Interpretation of Computer Programs: Canonical treatise on abstraction, procedural decomposition, state, and evaluation models</a></li><li><a href="https://openstemlibrary.com/references/goldberg-floating-point" target="_blank" rel="noopener noreferrer">Goldberg, D. (1991). What Every Computer Scientist Should Know About Floating-Point Arithmetic: Definitive reference on IEEE 754 precision, rounding, and representation error</a></li><li><a href="https://openstemlibrary.com/references/beck-tdd" target="_blank" rel="noopener noreferrer">Beck, K. (2002). Test-Driven Development: By Example: Primary reference for unit test boundaries, assertions, and invariant verification</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="distributed-systems-chapter-5">← Previous chapter</a><a href="distributed-systems">Book contents</a><a href="distributed-systems-chapter-7">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="distributed-systems-sims.js"></script>
+  <script src="distributed-systems-data.js"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>
