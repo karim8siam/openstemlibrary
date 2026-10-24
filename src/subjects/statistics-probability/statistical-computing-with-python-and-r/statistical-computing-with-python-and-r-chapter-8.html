@@ -111,7 +111,7 @@
         <div class="sec-content">
           <p>In statistical modeling, translating abstract mathematical models into computational instructions requires a formal domain-specific language (DSL). In 1973, G. N. Wilkinson and C. E. Rogers published a landmark paper in <em>Applied Statistics</em> establishing <strong>Symbolic Formula Syntax</strong> for specifying analysis of variance (ANOVA) and linear models.</p>
 
-<p>The Wilkinson–Rogers formalism (refined by John Chambers and Trevor Hastie in S and adopted universally across GNU R, Python's `patsy`/`formulaic`, and Julia's `StatsModels.jl`) allows statisticians to express complex designs—including factor interactions, nested hierarchies, polynomial expansions, and custom contrast codings—concisely without manually assembling numerical design matrices $\mathbf{X}$.</p>
+<p>The Wilkinson–Rogers formalism (refined by John Chambers and Trevor Hastie in S and adopted universally across GNU R, Python's <code>patsy</code>/<code>formulaic</code>, and Julia's <code>StatsModels.jl</code>) allows statisticians to express complex designs—including factor interactions, nested hierarchies, polynomial expansions, and custom contrast codings—concisely without manually assembling numerical design matrices $\mathbf{X}$.</p>
 
 <h4>Symbolic Formula Operators and Syntax Semantics</h4>
 
@@ -163,7 +163,7 @@
 
 <h4>7. The Arithmetic Protection Operator (`I()`):</h4>
 
-<p>Because symbols like `+`, `-`, `*`, and `^` have special grammatical meaning in formula DSLs, standard mathematical transformations must be shielded using the Identity operator `I()`:</p>
+<p>Because symbols like <code>+</code>, <code>-</code>, <code>*</code>, and <code>^</code> have special grammatical meaning in formula DSLs, standard mathematical transformations must be shielded using the Identity operator <code>I()</code>:</p>
 
 <div class="math-display">$$y \sim x + I(x^2) \iff y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \epsilon_i$$</div>
 
@@ -173,7 +173,7 @@
 
 <p>Let $\mu_k = \mathbb{E}[Y \mid A = a_k]$ denote the true population mean for group $k$. The choice of contrast coding governs the exact mathematical interpretation of the regression parameters $\boldsymbol{\beta} = (\beta_0, \beta_1, \dots, \beta_{K-1})^\top$.</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>Factor Level Mapping to Design Matrix Columns:
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">Factor Level Mapping to Design Matrix Columns:
   Factor Level a_k  ---&gt; [ Contrast Matrix C (K x (K-1)) ] ---&gt; [ Design Matrix Rows ]</code></pre>
 
 <h5>1. Treatment (Dummy) Coding (Default in R)</h5>
@@ -255,37 +255,37 @@
 
 <h4>The `patsy` and `formulaic` Transformation Engines</h4>
 
-<p>To provide R-style formula capabilities in Python, Nathaniel Smith created `patsy`. `patsy` parses formula strings into Abstract Syntax Trees (ASTs), executes categorical factor encoding via contrast matrices, applies non-linear transformations (splines via `cr()`, standardization via `scale()`), and produces two matrices:</p>
+<p>To provide R-style formula capabilities in Python, Nathaniel Smith created <code>patsy</code>. <code>patsy</code> parses formula strings into Abstract Syntax Trees (ASTs), executes categorical factor encoding via contrast matrices, applies non-linear transformations (splines via <code>cr()</code>, standardization via <code>scale()</code>), and produces two matrices:</p>
 
 <ul>
 
-  <li>Design matrix: `dmatrix("x1 + C(region, Sum) + x2", data)`</li>
+  <li>Design matrix: <code>dmatrix("x1 + C(region, Sum) + x2", data)</code></li>
 
-  <li>Response and design matrices: `y, X = dmatrices("y ~ x1 + x2", data)`</li>
+  <li>Response and design matrices: <code>y, X = dmatrices("y ~ x1 + x2", data)</code></li>
 
 </ul>
 
-<p>`formulaic` provides a high-throughput, modern alternative to `patsy`, offering native Apache Arrow integration, zero-copy categorical encoding, and up to $50\times$ faster design matrix generation.</p>
+<p><code>formulaic</code> provides a high-throughput, modern alternative to <code>patsy</code>, offering native Apache Arrow integration, zero-copy categorical encoding, and up to $50\times$ faster design matrix generation.</p>
 
 <h4>`statsmodels`: Econometric Rigor in Python</h4>
 
-<p>Built by Skipper Seabold, Josef Perktold, and colleagues, `statsmodels` provides comprehensive classical statistical models:</p>
+<p>Built by Skipper Seabold, Josef Perktold, and colleagues, <code>statsmodels</code> provides comprehensive classical statistical models:</p>
 
 <ul>
 
-  <li>Ordinary Least Squares (`smf.ols`)</li>
+  <li>Ordinary Least Squares (<code>smf.ols</code>)</li>
 
-  <li>Generalized Linear Models (`smf.glm`)</li>
+  <li>Generalized Linear Models (<code>smf.glm</code>)</li>
 
-  <li>Robust Linear Models (`smf.rlm`)</li>
+  <li>Robust Linear Models (<code>smf.rlm</code>)</li>
 
-  <li>Mixed Linear Models (`smf.mixedlm`)</li>
+  <li>Mixed Linear Models (<code>smf.mixedlm</code>)</li>
 
-  <li>Vector Autoregressions and State Space Models (`sm.tsa`)</li>
+  <li>Vector Autoregressions and State Space Models (<code>sm.tsa</code>)</li>
 
 </ul>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>import statsmodels.formula.api as smf
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">import statsmodels.formula.api as smf
 
 model = smf.ols("log_wage ~ education + experience + I(experience**2) + C(sector)", data=df)
 results = model.fit(cov_type="HC3")  # Heteroscedasticity-robust standard errors
@@ -297,13 +297,13 @@ print(results.summary())</code></pre>
 
 <h5>The Architecture of `Pipeline` and `ColumnTransformer`:</h5>
 
-<p>In `scikit-learn`, an estimator or preprocessor implements the standard API:</p>
+<p>In <code>scikit-learn</code>, an estimator or preprocessor implements the standard API:</p>
 
 <ul>
 
-  <li>`fit(X, y)`: Estimates parameters (e.g. mean and standard deviation for standardization).</li>
+  <li><code>fit(X, y)</code>: Estimates parameters (e.g. mean and standard deviation for standardization).</li>
 
-  <li>`transform(X)`: Applies the transformation using fitted parameters:</li>
+  <li><code>transform(X)</code>: Applies the transformation using fitted parameters:</li>
 
 </ul>
 
@@ -311,13 +311,13 @@ print(results.summary())</code></pre>
 
 <ul>
 
-  <li>`fit_transform(X, y)`: Combines fitting and transformation in a single step.</li>
+  <li><code>fit_transform(X, y)</code>: Combines fitting and transformation in a single step.</li>
 
 </ul>
 
-<p>A `Pipeline` chains multiple transformers sequentially with a terminal estimator:</p>
+<p>A <code>Pipeline</code> chains multiple transformers sequentially with a terminal estimator:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>from sklearn.pipeline import Pipeline
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
@@ -339,7 +339,7 @@ pipeline = Pipeline([
 pipeline.fit(X_train, y_train)
 y_pred = pipeline.predict(X_test)</code></pre>
 
-<p>When evaluated inside `cross_val_score(pipeline, X, y, cv=5)`, the pipeline fits the imputer, scaler, and encoder <strong>independently inside each fold's training split</strong>, completely insulating the validation fold from look-ahead contamination.</p>
+<p>When evaluated inside <code>cross_val_score(pipeline, X, y, cv=5)</code>, the pipeline fits the imputer, scaler, and encoder <strong>independently inside each fold's training split</strong>, completely insulating the validation fold from look-ahead contamination.</p>
 
 <hr class="section-divider-hr">
         </div>
@@ -545,9 +545,9 @@ y_pred = pipeline.predict(X_test)</code></pre>
 
 <div class="math-display">$$\text{Literate Document} = \text{Explanatory Prose} \oplus \text{Executable Code Chunks} \oplus \text{Generated Artifacts (Tables, Figures)}$$</div>
 
-<p>In modern computational science, literate programming is realized through <strong>Quarto (`.qmd`)</strong> and <strong>R Markdown (`.Rmd`)</strong>.</p>
+<p>In modern computational science, literate programming is realized through <strong>Quarto (<code>.qmd</code>)</strong> and <strong>R Markdown (<code>.Rmd</code>)</strong>.</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>Quarto Multi-Language Execution Architecture:
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">Quarto Multi-Language Execution Architecture:
        [ document.qmd (Markdown + Python/R Chunks) ]
                             |
                  (Knits via knitr or jupyter)
@@ -564,11 +564,11 @@ y_pred = pipeline.predict(X_test)</code></pre>
 
 <h4>1. Deterministic PRNG Seeding:</h4>
 
-<p>Pseudo-random simulations must be initialized with explicit integer seeds (`set.seed(42)` in R; `np.random.default_rng(42)` in Python).</p>
+<p>Pseudo-random simulations must be initialized with explicit integer seeds (<code>set.seed(42)</code> in R; <code>np.random.default_rng(42)</code> in Python).</p>
 
 <ul>
 
-  <li><strong>Cross-Language Seed Warning</strong>: A seed value of `42` in R does <strong>not</strong> generate the same sequence of numbers as `np.random.seed(42)` in Python because R and Python deploy distinct PRNG algorithms (Mersenne Twister vs PCG64) and differing transformation kernels. Deterministic cross-language pipelines must exchange pre-computed random seeds or uniform arrays directly.</li>
+  <li><strong>Cross-Language Seed Warning</strong>: A seed value of <code>42</code> in R does <strong>not</strong> generate the same sequence of numbers as <code>np.random.seed(42)</code> in Python because R and Python deploy distinct PRNG algorithms (Mersenne Twister vs PCG64) and differing transformation kernels. Deterministic cross-language pipelines must exchange pre-computed random seeds or uniform arrays directly.</li>
 
 </ul>
 
@@ -578,15 +578,15 @@ y_pred = pipeline.predict(X_test)</code></pre>
 
 <ul>
 
-  <li>In R: `renv` generates a lockfile (`renv.lock`) capturing exact CRAN/GitHub package versions, commit hashes, and compiler configurations.</li>
+  <li>In R: <code>renv</code> generates a lockfile (<code>renv.lock</code>) capturing exact CRAN/GitHub package versions, commit hashes, and compiler configurations.</li>
 
-  <li>In Python: `conda-lock` or `poetry.lock` pins every transitive dependency down to exact build hashes.</li>
+  <li>In Python: <code>conda-lock</code> or <code>poetry.lock</code> pins every transitive dependency down to exact build hashes.</li>
 
 </ul>
 
 <h4>3. Containerization (Docker):</h4>
 
-<p>Locks the underlying operating system, C compiler libraries (`glibc`), BLAS/LAPACK implementations (OpenBLAS vs MKL), and system fonts into an immutable container image, ensuring exact execution across cloud servers.</p>
+<p>Locks the underlying operating system, C compiler libraries (<code>glibc</code>), BLAS/LAPACK implementations (OpenBLAS vs MKL), and system fonts into an immutable container image, ensuring exact execution across cloud servers.</p>
 
 <hr class="section-divider-hr">
         </div>
@@ -599,7 +599,7 @@ y_pred = pipeline.predict(X_test)</code></pre>
           </h3>
         </header>
         <div class="sec-content">
-          <p>In large-scale enterprise data architectures, statistical workflows rarely reside within a single language. A data engineering pipeline may ingest terabytes of JSON records in Python, transform the data using PySpark or Polars, and then pass the cleaned dataframe to GNU R to fit specialized mixed-effects survival models (`coxme`, `lme4`) or generate publication-grade graphics (`ggplot2`).</p>
+          <p>In large-scale enterprise data architectures, statistical workflows rarely reside within a single language. A data engineering pipeline may ingest terabytes of JSON records in Python, transform the data using PySpark or Polars, and then pass the cleaned dataframe to GNU R to fit specialized mixed-effects survival models (<code>coxme</code>, <code>lme4</code>) or generate publication-grade graphics (<code>ggplot2</code>).</p>
 
 <p>Historically, cross-language communication required writing intermediate tables to CSV or disk files:</p>
 
@@ -613,23 +613,23 @@ y_pred = pipeline.predict(X_test)</code></pre>
 
 <h5>1. R `reticulate` (Embedding CPython within R):</h5>
 
-<p>The `reticulate` package embeds a complete CPython runtime inside the GNU R operating system process.</p>
+<p>The <code>reticulate</code> package embeds a complete CPython runtime inside the GNU R operating system process.</p>
 
 <ul>
 
-  <li>When an R script executes `reticulate::py_run_string(...)`, both Python and R share the <strong>same virtual memory address space</strong>.</li>
+  <li>When an R script executes <code>reticulate::py_run_string(...)</code>, both Python and R share the <strong>same virtual memory address space</strong>.</li>
 
-  <li>Primitive types (integers, floats, booleans) map bijectively across the C APIs (`PyFloatObject*` $\leftrightarrow$ `REALSXP`).</li>
+  <li>Primitive types (integers, floats, booleans) map bijectively across the C APIs (<code>PyFloatObject*</code> $\leftrightarrow$ <code>REALSXP</code>).</li>
 
-  <li>2D NumPy arrays map directly to R matrices: because NumPy arrays can be configured as Fortran-contiguous, `reticulate` simply constructs an R `SEXP` header whose memory pointer points directly to the existing NumPy payload buffer, achieving <strong>zero-copy array sharing</strong>!</li>
+  <li>2D NumPy arrays map directly to R matrices: because NumPy arrays can be configured as Fortran-contiguous, <code>reticulate</code> simply constructs an R <code>SEXP</code> header whose memory pointer points directly to the existing NumPy payload buffer, achieving <strong>zero-copy array sharing</strong>!</li>
 
 </ul>
 
 <h5>2. Python `rpy2` (Embedding libR within Python):</h5>
 
-<p>Conversely, Python's `rpy2` library loads `libR.so` (the compiled R shared library) inside the CPython process, allowing Python developers to call arbitrary R functions:</p>
+<p>Conversely, Python's <code>rpy2</code> library loads <code>libR.so</code> (the compiled R shared library) inside the CPython process, allowing Python developers to call arbitrary R functions:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>import rpy2.robjects as ro
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">import rpy2.robjects as ro
 from rpy2.robjects.packages import importr
 
 # Seamless access to R statistical packages inside Python
@@ -654,21 +654,21 @@ print(ro.r.summary(fit))</code></pre>
 
 <ul>
 
-  <li>`struct ArrowSchema`: Defines column names, nested types, and dictionary encodings.</li>
+  <li><code>struct ArrowSchema</code>: Defines column names, nested types, and dictionary encodings.</li>
 
-  <li>`struct ArrowArray`: Holds pointers to data buffers, null bitmasks, and child arrays.</li>
+  <li><code>struct ArrowArray</code>: Holds pointers to data buffers, null bitmasks, and child arrays.</li>
 
 </ul>
 
 <ol>
 
-  <li>Python passes the 64-bit pointers `&amp;ArrowSchema` and `&amp;ArrowArray` to R via a tiny FFI call.</li>
+  <li>Python passes the 64-bit pointers <code>&amp;ArrowSchema</code> and <code>&amp;ArrowArray</code> to R via a tiny FFI call.</li>
 
-  <li>R wraps the pointers into an R Arrow Table or `nanoarrow` object.</li>
+  <li>R wraps the pointers into an R Arrow Table or <code>nanoarrow</code> object.</li>
 
 </ol>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>Apache Arrow In-Memory Zero-Copy Bridge:
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">Apache Arrow In-Memory Zero-Copy Bridge:
   [ Python Process Memory Heap ]
     |
     v (Arrow Table: Column Contiguous Memory Buffers)
@@ -695,13 +695,13 @@ print(ro.r.summary(fit))</code></pre>
           </h3>
         </header>
         <div class="sec-content">
-          <p>In biostatistics, oncology trials, and econometric duration analysis, event-time data requires specialized formula specifications that accommodate right-censoring, left-truncation, time-varying covariates, and clustered random effects. David Cox (1972) and Odd Aalen (1978) formalized the counting process approach to survival analysis, which is implemented in R's `survival` package and Python's `lifelines` and `scikit-survival`.</p>
+          <p>In biostatistics, oncology trials, and econometric duration analysis, event-time data requires specialized formula specifications that accommodate right-censoring, left-truncation, time-varying covariates, and clustered random effects. David Cox (1972) and Odd Aalen (1978) formalized the counting process approach to survival analysis, which is implemented in R's <code>survival</code> package and Python's <code>lifelines</code> and <code>scikit-survival</code>.</p>
 
 <h4>The Counting Process Formula Syntax: `Surv(time1, time2, event)`</h4>
 
 <p>In classical survival models, an observation is characterized by a single duration $T$ and a binary censoring indicator $\delta \in \{0, 1\}$. However, when subjects experience recurrent events or covariates change over time (e.g., patient blood pressure recorded at sequential clinic visits), the data must be structured into discontinuous risk intervals $[t_{start}, t_{stop})$.</p>
 
-<p>The Wilkinson–Rogers formula is extended via the `Surv()` response constructor:</p>
+<p>The Wilkinson–Rogers formula is extended via the <code>Surv()</code> response constructor:</p>
 
 <div class="math-display">$$\text{Surv}(t_{start}, t_{stop}, \text{event}) \sim \mathbf{x}_1 + \mathbf{x}_2 + \dots$$</div>
 
@@ -729,7 +729,7 @@ print(ro.r.summary(fit))</code></pre>
 
 <div class="math-display">$$\lambda_{ij}(t) = \lambda_0(t) w_i \exp(\mathbf{x}_{ij}^\top \boldsymbol{\beta}) = \lambda_0(t) \exp(\mathbf{x}_{ij}^\top \boldsymbol{\beta} + u_i)$$</div>
 
-<p>where $w_i = \exp(u_i) &gt; 0$ is the unobserved frailty of cluster $i$, typically distributed as $\text{Gamma}(1/\theta, 1/\theta)$ or log-normal. In formula syntax, frailty terms are specified via `+ frailty(center)` in R `survival` or `+ (1 | center)` in `coxme`.</p>
+<p>where $w_i = \exp(u_i) &gt; 0$ is the unobserved frailty of cluster $i$, typically distributed as $\text{Gamma}(1/\theta, 1/\theta)$ or log-normal. In formula syntax, frailty terms are specified via <code>+ frailty(center)</code> in R <code>survival</code> or <code>+ (1 | center)</code> in <code>coxme</code>.</p>
 
 <hr class="section-divider-hr">
         </div>
@@ -777,7 +777,7 @@ print(ro.r.summary(fit))</code></pre>
 
 <p>Apache Parquet groups records into <strong>Row Groups</strong> (typically 100,000 to 1,000,000 rows each) and stores data strictly <strong>column-by-column within each row group</strong>:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>Apache Parquet File Structure:
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">Apache Parquet File Structure:
 +-----------------------------------------------------------+
 | File Header                                               |
 +-----------------------------------------------------------+
@@ -820,13 +820,13 @@ print(ro.r.summary(fit))</code></pre>
 
 <h4>2. Predicate Pushdown (Min/Max Statistics Pruning):</h4>
 
-<p>Parquet embeds metadata summary statistics (`min_value`, `max_value`, `null_count`) into the footer of every row group. When an analytical query evaluates:</p>
+<p>Parquet embeds metadata summary statistics (<code>min_value</code>, <code>max_value</code>, <code>null_count</code>) into the footer of every row group. When an analytical query evaluates:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>   df = pd.read_parquet("census.parquet", filters=[("age", "&gt;", 65)])</code></pre>
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">   df = pd.read_parquet("census.parquet", filters=[("age", "&gt;", 65)])</code></pre>
 
-<p>The query engine reads the footer metadata before touching the data. If a row group has `max_value = 62`, the engine knows that zero records in that row group satisfy the filter. The entire 50 MB row group is <strong>skipped without reading a single byte from disk</strong>!</p>
+<p>The query engine reads the footer metadata before touching the data. If a row group has <code>max_value = 62</code>, the engine knows that zero records in that row group satisfy the filter. The entire 50 MB row group is <strong>skipped without reading a single byte from disk</strong>!</p>
 
-<p>By combining column pruning and predicate pushdown, reading datasets from Apache Parquet into pandas or R `arrow::read_parquet()` executes between <strong>$10\times$ and $100\times$ faster</strong> than reading raw CSV files, representing the foundational storage pillar of modern computational statistics.</p>
+<p>By combining column pruning and predicate pushdown, reading datasets from Apache Parquet into pandas or R <code>arrow::read_parquet()</code> executes between <strong>$10\times$ and $100\times$ faster</strong> than reading raw CSV files, representing the foundational storage pillar of modern computational statistics.</p>
 
 <hr class="section-divider-hr">
         </div>
@@ -839,13 +839,13 @@ print(ro.r.summary(fit))</code></pre>
           </h3>
         </header>
         <div class="sec-content">
-          <p>In scientific computing, reproducibility failure is most frequently caused not by bugs in the statistical code, but by <strong>environmental drift</strong> in the underlying operating system: differing versions of the C standard library (`glibc`), compiler optimization flags, dynamic link libraries (`libgfortran`), and BLAS/LAPACK implementations.</p>
+          <p>In scientific computing, reproducibility failure is most frequently caused not by bugs in the statistical code, but by <strong>environmental drift</strong> in the underlying operating system: differing versions of the C standard library (<code>glibc</code>), compiler optimization flags, dynamic link libraries (<code>libgfortran</code>), and BLAS/LAPACK implementations.</p>
 
 <p>To achieve bit-for-bit reproducible computational science, researchers deploy <strong>functional declarative package managers: Nix and GNU Guix</strong>.</p>
 
 <h4>The Functional Package Management Architecture</h4>
 
-<p>Traditional operating system package managers (Debian `apt`, RedHat `rpm`, macOS `brew`) modify a shared global filesystem root (`/usr/lib`, `/usr/bin`). When a package is updated, existing shared libraries are overwritten, silently mutating the runtime dependencies of existing statistical scripts.</p>
+<p>Traditional operating system package managers (Debian <code>apt</code>, RedHat <code>rpm</code>, macOS <code>brew</code>) modify a shared global filesystem root (<code>/usr/lib</code>, <code>/usr/bin</code>). When a package is updated, existing shared libraries are overwritten, silently mutating the runtime dependencies of existing statistical scripts.</p>
 
 <p>In contrast, Eelco Dolstra's <strong>Nix</strong> (2004) and Ludovic Courtès' <strong>GNU Guix</strong> (2015) treat software deployment as a <strong>pure mathematical function</strong>:</p>
 
@@ -855,9 +855,9 @@ print(ro.r.summary(fit))</code></pre>
 
 <h4>1. Content-Addressed Store Paths:</h4>
 
-<p>Packages are never installed into `/usr/lib`. Every package is installed into its own isolated directory in `/gnu/store/` or `/nix/store/`, prefixed by a cryptographic hash of all its inputs:</p>
+<p>Packages are never installed into <code>/usr/lib</code>. Every package is installed into its own isolated directory in <code>/gnu/store/</code> or <code>/nix/store/</code>, prefixed by a cryptographic hash of all its inputs:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>   /gnu/store/b9x3j7...-r-survival-3.5-0/
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">   /gnu/store/b9x3j7...-r-survival-3.5-0/
    /gnu/store/f4k8a1...-python-scipy-1.11.2/</code></pre>
 
 <p>If two statistical projects require different versions of R or SciPy, both versions co-exist on the system without interference.</p>
@@ -868,7 +868,7 @@ print(ro.r.summary(fit))</code></pre>
 
 <h4>3. Bit-Reproducible Container Profiles:</h4>
 
-<p>A single declarative manifest file (`manifest.scm` or `flake.nix`) defines the entire software environment. Running `guix time-machine` allows a researcher to instantiate the exact, byte-for-byte identical computing environment a decade in the future, guaranteeing permanent scientific reproducibility.</p>
+<p>A single declarative manifest file (<code>manifest.scm</code> or <code>flake.nix</code>) defines the entire software environment. Running <code>guix time-machine</code> allows a researcher to instantiate the exact, byte-for-byte identical computing environment a decade in the future, guaranteeing permanent scientific reproducibility.</p>
 
 <hr class="section-divider-hr">
         </div>
@@ -885,7 +885,7 @@ print(ro.r.summary(fit))</code></pre>
 
 <h4>Property-Based Testing and Mathematical Invariance Assertions</h4>
 
-<p>In statistical computing, individual point assertions (e.g. `assert mean([1, 2, 3]) == 2.0`) test only trivial edge cases. To rigorously verify statistical estimation routines, developers deploy <strong>Property-Based Testing</strong> (`Hypothesis` in Python, `hedgehog` in R), generating hundreds of randomized input vectors and asserting invariant mathematical properties:</p>
+<p>In statistical computing, individual point assertions (e.g. <code>assert mean([1, 2, 3]) == 2.0</code>) test only trivial edge cases. To rigorously verify statistical estimation routines, developers deploy <strong>Property-Based Testing</strong> (<code>Hypothesis</code> in Python, <code>hedgehog</code> in R), generating hundreds of randomized input vectors and asserting invariant mathematical properties:</p>
 
 <h5>Canonical Statistical Invariant Properties:</h5>
 
@@ -915,7 +915,7 @@ print(ro.r.summary(fit))</code></pre>
 
 <h4>Continuous Integration (CI) and Multi-Platform Matrix Testing</h4>
 
-<p>Statistical algorithms rely heavily on compiled low-level BLAS and LAPACK libraries (e.g. OpenBLAS, Intel MKL, Apple Accelerate). Minor differences in processor instruction sets (x86-64 AVX-512 vs ARM64 NEON) and compiler optimization flags (`-O3`, `-ffast-math`) can cause non-associative floating-point operations to round differently:</p>
+<p>Statistical algorithms rely heavily on compiled low-level BLAS and LAPACK libraries (e.g. OpenBLAS, Intel MKL, Apple Accelerate). Minor differences in processor instruction sets (x86-64 AVX-512 vs ARM64 NEON) and compiler optimization flags (<code>-O3</code>, <code>-ffast-math</code>) can cause non-associative floating-point operations to round differently:</p>
 
 <div class="math-display">$$(a + b) + c \ne a + (b + c)$$</div>
 
@@ -923,11 +923,11 @@ print(ro.r.summary(fit))</code></pre>
 
 <ul>
 
-  <li><strong>Fuzzy Tolerance Equality</strong>: In unit tests, never assert exact bitwise equality `assert a == b`. Always assert absolute and relative tolerances:</li>
+  <li><strong>Fuzzy Tolerance Equality</strong>: In unit tests, never assert exact bitwise equality <code>assert a == b</code>. Always assert absolute and relative tolerances:</li>
 
 </ul>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>  import numpy.testing as npt
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">  import numpy.testing as npt
   npt.assert_allclose(actual, expected, rtol=1e-7, atol=1e-9)</code></pre>
 
 <ul>
@@ -957,7 +957,7 @@ print(ro.r.summary(fit))</code></pre>
         <div class="sec-content">
           <p>In hierarchical, longitudinal, and grouped observational studies (e.g. repeated student test scores nested within classrooms, or multi-center clinical trials), observations within the same group share unobserved cluster-specific latent variables.</p>
 
-<p>To model intra-cluster correlation without consuming excessive degrees of freedom, statisticians deploy <strong>Linear Mixed-Effects Models (LMMs)</strong>, formalized by Nan Laird and James Ware (1982) and implemented in R's `lme4` (`lmer`) and Python's `statsmodels.mixedlm`:</p>
+<p>To model intra-cluster correlation without consuming excessive degrees of freedom, statisticians deploy <strong>Linear Mixed-Effects Models (LMMs)</strong>, formalized by Nan Laird and James Ware (1982) and implemented in R's <code>lme4</code> (<code>lmer</code>) and Python's <code>statsmodels.mixedlm</code>:</p>
 
 <div class="math-display">$$\mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \mathbf{Z} \mathbf{u} + \boldsymbol{\epsilon}$$</div>
 
@@ -979,17 +979,17 @@ print(ro.r.summary(fit))</code></pre>
 
 <h4>Extended Formula Syntax in `lme4`: Random Intercepts and Slopes</h4>
 
-<p>The Wilkinson–Rogers formula is extended by adding grouping conditioning bars `(... | group)`:</p>
+<p>The Wilkinson–Rogers formula is extended by adding grouping conditioning bars <code>(... | group)</code>:</p>
 
 <h4>1. Random Intercepts Model:</h4>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>   y ~ x + (1 | school)</code></pre>
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">   y ~ x + (1 | school)</code></pre>
 
 <p>Specifies that each school has its own baseline intercept $u_{0i}$, shifting the regression line vertically while keeping the slope $\beta_1$ constant across all schools.</p>
 
 <h4>2. Correlated Random Intercepts and Slopes:</h4>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>   y ~ x + (x | school)   # Equivalent to (1 + x | school)</code></pre>
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">   y ~ x + (x | school)   # Equivalent to (1 + x | school)</code></pre>
 
 <p>Allows both the baseline intercept $u_{0i}$ and the treatment slope $u_{1i}$ to vary across schools, estimating their joint $2 \times 2$ covariance matrix:</p>
 
@@ -997,7 +997,7 @@ print(ro.r.summary(fit))</code></pre>
 
 <h4>3. Uncorrelated Random Intercepts and Slopes:</h4>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>   y ~ x + (1 | school) + (0 + x | school)</code></pre>
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">   y ~ x + (1 | school) + (0 + x | school)</code></pre>
 
 <p>Forces the correlation parameter $\rho = 0$, reducing parameters to two independent variances.</p>
 
@@ -1005,9 +1005,9 @@ print(ro.r.summary(fit))</code></pre>
 
 <ul>
 
-  <li><strong>Nested Grouping (`(1 | district / school)`)</strong>: Schools are unique to specific districts (school 1 in district A is completely distinct from school 1 in district B). Expands to: `(1 | district) + (1 | district:school)`.</li>
+  <li><strong>Nested Grouping (<code>(1 | district / school)</code>)</strong>: Schools are unique to specific districts (school 1 in district A is completely distinct from school 1 in district B). Expands to: <code>(1 | district) + (1 | district:school)</code>.</li>
 
-  <li><strong>Crossed Grouping (`(1 | subject) + (1 | item)`)</strong>: In psychometrics or consumer testing, every subject evaluates multiple items, and every item is evaluated by multiple subjects. Neither factor is nested within the other. `lme4` solves crossed random effects using sparse Cholesky algorithms (`CHOLMOD`), factorizing sparse matrices with hundreds of thousands of random effects in seconds.</li>
+  <li><strong>Crossed Grouping (<code>(1 | subject) + (1 | item)</code>)</strong>: In psychometrics or consumer testing, every subject evaluates multiple items, and every item is evaluated by multiple subjects. Neither factor is nested within the other. <code>lme4</code> solves crossed random effects using sparse Cholesky algorithms (<code>CHOLMOD</code>), factorizing sparse matrices with hundreds of thousands of random effects in seconds.</li>
 
 </ul>
 
@@ -1048,11 +1048,11 @@ print(ro.r.summary(fit))</code></pre>
 
 <ul>
 
-  <li><strong>Hierarchical POSIX Group Structure</strong>: Datasets are organized into nested directory paths (`/experiments/subject_01/fMRI_raw`) with attached metadata attributes.</li>
+  <li><strong>Hierarchical POSIX Group Structure</strong>: Datasets are organized into nested directory paths (<code>/experiments/subject_01/fMRI_raw</code>) with attached metadata attributes.</li>
 
   <li><strong>Chunked Storage and Filters</strong>: Datasets are partitioned into regular multidimensional chunk blocks (e.g. $128 \times 128 \times 64$). Chunks are transparently passed through dynamic compression pipelines (gzip, lzf, blosc) before being written to disk.</li>
 
-  <li><strong>B-Tree Chunk Indexing</strong>: Slicing an arbitrary multidimensional sub-volume (e.g. extracting a time series across a single voxel: `data[:, 42, 108]`) uses internal B-trees to seek directly to the relevant chunk byte offsets on disk without loading unrequested data.</li>
+  <li><strong>B-Tree Chunk Indexing</strong>: Slicing an arbitrary multidimensional sub-volume (e.g. extracting a time series across a single voxel: <code>data[:, 42, 108]</code>) uses internal B-trees to seek directly to the relevant chunk byte offsets on disk without loading unrequested data.</li>
 
   <li><strong>Concurrency Limitation</strong>: Standard HDF5 relies on a single monolithic binary file with mandatory global file-locking, preventing concurrent multi-process writes across distributed cloud clusters.</li>
 
@@ -1066,7 +1066,7 @@ print(ro.r.summary(fit))</code></pre>
 
 <h4>1. Key-Value Chunk Partitioning: Zarr stores each compressed array chunk as a separate, distinct file or cloud object key:</h4>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>   gs://bucket/climate.zarr/temperature/c/0/14/2
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">   gs://bucket/climate.zarr/temperature/c/0/14/2
    s3://bucket/genomics.zarr/expression/c/105/4</code></pre>
 
 <h4>2. Metadata in Pure JSON: Group hierarchy, data types, chunk shapes, and compressor codecs are stored in human-readable `.zmetadata` and `.zarray` JSON files.</h4>
@@ -1075,7 +1075,7 @@ print(ro.r.summary(fit))</code></pre>
 
 <h4>4. Blosc Ultra-Fast Compression: Zarr utilizes the Blosc meta-compressor, which uses CPU SIMD instruction vectorization to accelerate in-memory compression to memory-bus speeds (over $3 \text{ GB/sec}$).</h4>
 
-<p>In both Python (`zarr`, `xarray`) and R (`pizzarr`), Zarr represents the state-of-the-art storage standard for petabyte-scale statistical array computation in the cloud.</p>
+<p>In both Python (<code>zarr</code>, <code>xarray</code>) and R (<code>pizzarr</code>), Zarr represents the state-of-the-art storage standard for petabyte-scale statistical array computation in the cloud.</p>
         </div>
         
       </section><section class="textbook-section-card" id="sec-8-13">
@@ -1086,7 +1086,7 @@ print(ro.r.summary(fit))</code></pre>
           </h3>
         </header>
         <div class="sec-content">
-          <p>Modern empirical statistical investigations rarely consist of a single self-contained script. A realistic workflow encompasses ingestion of multi-gigabyte raw files, messy data wrangling, categorical factor coding, complex model estimation, cross-validation tuning loops, diagnostic sensitivity analyses, and publication table compilation. In unstructured research environments, analysts execute numbered scripts sequentially (for example, `01_clean.R`, `02_impute.py`, `03_fit.R`, `04_plots.py`). This ad-hoc convention is notoriously fragile. If an analyst modifies an imputation hyperparameter in script 2, they must manually remember which downstream scripts require re-execution. If they accidentally skip script 3 and run script 4, reported tables and visualization figures become mathematically desynchronized, leading to silent, irreproducible reporting errors.</p>
+          <p>Modern empirical statistical investigations rarely consist of a single self-contained script. A realistic workflow encompasses ingestion of multi-gigabyte raw files, messy data wrangling, categorical factor coding, complex model estimation, cross-validation tuning loops, diagnostic sensitivity analyses, and publication table compilation. In unstructured research environments, analysts execute numbered scripts sequentially (for example, <code>01_clean.R</code>, <code>02_impute.py</code>, <code>03_fit.R</code>, <code>04_plots.py</code>). This ad-hoc convention is notoriously fragile. If an analyst modifies an imputation hyperparameter in script 2, they must manually remember which downstream scripts require re-execution. If they accidentally skip script 3 and run script 4, reported tables and visualization figures become mathematically desynchronized, leading to silent, irreproducible reporting errors.</p>
 
 <h4>The Directed Acyclic Graph (DAG) Execution Model</h4>
 
@@ -1114,9 +1114,9 @@ print(ro.r.summary(fit))</code></pre>
 
 <h4>The R `targets` Architecture</h4>
 
-<p>In the R ecosystem, the `targets` package (the modern successor to `drake`) implements purely functional, declarative pipeline orchestration. Unlike Makefiles that track filesystem file modification timestamps, `targets` inspects R functions directly:</p>
+<p>In the R ecosystem, the <code>targets</code> package (the modern successor to <code>drake</code>) implements purely functional, declarative pipeline orchestration. Unlike Makefiles that track filesystem file modification timestamps, <code>targets</code> inspects R functions directly:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code># _targets.R
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;"># _targets.R
 library(targets)
 library(tarchetypes)
 
@@ -1145,23 +1145,23 @@ list(
   )
 )</code></pre>
 
-<p>The `targets` architecture offers distinct mathematical guarantees for statistical computing:</p>
+<p>The <code>targets</code> architecture offers distinct mathematical guarantees for statistical computing:</p>
 
 <ul>
 
-  <li><strong>Dynamic Branching</strong>: If a simulation study tests $1,000$ parameter combinations, `tar_map()` or `pattern = map(...)` splits the computation into $1,000$ independent branches, automatically distributing them across available multi-core worker threads or high-performance computing (HPC) Slurm clusters via `clustermq` or `future`.</li>
+  <li><strong>Dynamic Branching</strong>: If a simulation study tests $1,000$ parameter combinations, <code>tar_map()</code> or <code>pattern = map(...)</code> splits the computation into $1,000$ independent branches, automatically distributing them across available multi-core worker threads or high-performance computing (HPC) Slurm clusters via <code>clustermq</code> or <code>future</code>.</li>
 
-  <li><strong>Target Invariance</strong>: If the analyst alters the Quarto reporting layout without altering `wrangle_and_contrast_encode()` or `fit_mixed_effects_reml()`, running `tar_make()` executes only the rendering step, saving hours of model re-estimation time.</li>
+  <li><strong>Target Invariance</strong>: If the analyst alters the Quarto reporting layout without altering <code>wrangle_and_contrast_encode()</code> or <code>fit_mixed_effects_reml()</code>, running <code>tar_make()</code> executes only the rendering step, saving hours of model re-estimation time.</li>
 
-  <li><strong>Visual Graph Auditing</strong>: The function `tar_visnetwork()` generates an interactive HTML graph displaying nodes as colored circles: green for up-to-date targets, blue for outdated targets requiring rebuild, and red for errored nodes.</li>
+  <li><strong>Visual Graph Auditing</strong>: The function <code>tar_visnetwork()</code> generates an interactive HTML graph displaying nodes as colored circles: green for up-to-date targets, blue for outdated targets requiring rebuild, and red for errored nodes.</li>
 
 </ul>
 
 <h4>Python Workflow Orchestration: `Snakemake` and `Prefect`</h4>
 
-<p>In the Python data science and bioinformatics communities, `Snakemake` provides a domain-specific workflow language built directly on Python grammar. Snakemake rules define expected input files, generated output files, container specifications, and execution scripts:</p>
+<p>In the Python data science and bioinformatics communities, <code>Snakemake</code> provides a domain-specific workflow language built directly on Python grammar. Snakemake rules define expected input files, generated output files, container specifications, and execution scripts:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code># Snakefile
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;"># Snakefile
 rule clean_data:
     input:
         raw="data/measurements_{sample}.csv"
@@ -1194,7 +1194,7 @@ rule fit_models:
 
 <h4>Security Vulnerabilities and Brittleness of Python `pickle` and R `saveRDS`</h4>
 
-<p>Historically, Python practitioners relied on `pickle` (or its multi-core compression wrapper `joblib`), while R users relied on `save()` and `saveRDS()`. Both formats exhibit critical architectural limitations that render them unsuitable for secure, production-grade statistical software:</p>
+<p>Historically, Python practitioners relied on <code>pickle</code> (or its multi-core compression wrapper <code>joblib</code>), while R users relied on <code>save()</code> and <code>saveRDS()</code>. Both formats exhibit critical architectural limitations that render them unsuitable for secure, production-grade statistical software:</p>
 
 <h4>1. Arbitrary Code Execution Vulnerabilities: Python's `pickle` format is not a passive data structure; it is an interpreted stack language. The pickle byte stream can invoke arbitrary Python callables during unpickling via the `__reduce__` method. Loading a serialized model file from an untrusted third party allows malicious actors to execute arbitrary operating system commands, opening severe security backdoors.</h4>
 
@@ -1204,23 +1204,23 @@ rule fit_models:
 
 <h4>The Open Neural Network Exchange (ONNX) Architecture</h4>
 
-<p>To resolve cross-language incompatibilities and security vulnerabilities, the scientific computing ecosystem developed <strong>ONNX (Open Neural Network Exchange)</strong>. ONNX defines a standardized, language-agnostic computational graph representation serialized via Google Protocol Buffers (`.proto`).</p>
+<p>To resolve cross-language incompatibilities and security vulnerabilities, the scientific computing ecosystem developed <strong>ONNX (Open Neural Network Exchange)</strong>. ONNX defines a standardized, language-agnostic computational graph representation serialized via Google Protocol Buffers (<code>.proto</code>).</p>
 
 <p>In the ONNX framework:</p>
 
 <ul>
 
-  <li>Models are represented as a strictly defined Directed Acyclic Graph where nodes are standardized mathematical operators (such as `Gemm` for matrix multiplication, `Relu`, `Conv`, `Softmax`, or `TreeEnsembleRegressor`).</li>
+  <li>Models are represented as a strictly defined Directed Acyclic Graph where nodes are standardized mathematical operators (such as <code>Gemm</code> for matrix multiplication, <code>Relu</code>, <code>Conv</code>, <code>Softmax</code>, or <code>TreeEnsembleRegressor</code>).</li>
 
-  <li>All tensors possess explicit, static or symbolic data types and dimension shapes (such as `[batch_size, num_features]`).</li>
+  <li>All tensors possess explicit, static or symbolic data types and dimension shapes (such as <code>[batch_size, num_features]</code>).</li>
 
   <li>The serialization format is strictly passive data: no executable bytecode or arbitrary language functions are permitted, eliminating deserialization attack vectors completely.</li>
 
 </ul>
 
-<p>Statistical models trained in scikit-learn, LightGBM, or statsmodels can be exported directly into ONNX computational graphs using converter libraries such as `skl2onnx`:</p>
+<p>Statistical models trained in scikit-learn, LightGBM, or statsmodels can be exported directly into ONNX computational graphs using converter libraries such as <code>skl2onnx</code>:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>from skl2onnx import convert_sklearn
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
 import onnxruntime as rt
 import numpy as np
@@ -1249,9 +1249,9 @@ predictions = session.run([label_name], {input_name: X_test.astype(np.float32)})
 
 <ul>
 
-  <li><strong>Zero Language Runtime Dependency</strong>: The resulting `.onnx` file can be loaded directly inside embedded C++, Rust, Go, or Java microservices using `onnxruntime` libraries. There is no requirement to install Python, R, numpy, or scikit-learn on production edge devices or low-latency prediction servers.</li>
+  <li><strong>Zero Language Runtime Dependency</strong>: The resulting <code>.onnx</code> file can be loaded directly inside embedded C++, Rust, Go, or Java microservices using <code>onnxruntime</code> libraries. There is no requirement to install Python, R, numpy, or scikit-learn on production edge devices or low-latency prediction servers.</li>
 
-  <li><strong>Hardware Acceleration</strong>: `onnxruntime` dynamically targets hardware execution providers (CUDA, TensorRT, Intel OpenVINO, Apple CoreML, ARM DirectML), transparently dispatching statistical vector operations to GPUs or neural processing units without altering model definitions.</li>
+  <li><strong>Hardware Acceleration</strong>: <code>onnxruntime</code> dynamically targets hardware execution providers (CUDA, TensorRT, Intel OpenVINO, Apple CoreML, ARM DirectML), transparently dispatching statistical vector operations to GPUs or neural processing units without altering model definitions.</li>
 
   <li><strong>Strict Backward Compatibility</strong>: An ONNX model serialized today retains guaranteed forward compatibility across future operating system and engine upgrades.</li>
 
@@ -1805,17 +1805,17 @@ predictions = session.run([label_name], {input_name: X_test.astype(np.float32)})
 
 <ol>
 
-  <li>`patient_id` (64-bit signed integer, `int64`, 8 bytes)</li>
+  <li><code>patient_id</code> (64-bit signed integer, <code>int64</code>, 8 bytes)</li>
 
-  <li>`biomarker_a` (64-bit double float, `float64`, 8 bytes)</li>
+  <li><code>biomarker_a</code> (64-bit double float, <code>float64</code>, 8 bytes)</li>
 
-  <li>`biomarker_b` (64-bit double float, `float64`, 8 bytes)</li>
+  <li><code>biomarker_b</code> (64-bit double float, <code>float64</code>, 8 bytes)</li>
 
-  <li>`disease_status` (8-bit boolean with bitmask validity, 1 byte payload)</li>
+  <li><code>disease_status</code> (8-bit boolean with bitmask validity, 1 byte payload)</li>
 
 </ol>
 
-<p>The raw data is ingested and normalized in Python using Apache Arrow (`pyarrow.Table`). An advanced Bioconductor survival model must be executed in GNU R using the `arrow` / `nanoarrow` R package.</p>
+<p>The raw data is ingested and normalized in Python using Apache Arrow (<code>pyarrow.Table</code>). An advanced Bioconductor survival model must be executed in GNU R using the <code>arrow</code> / <code>nanoarrow</code> R package.</p>
 
 <ol>
 
@@ -1841,7 +1841,7 @@ predictions = session.run([label_name], {input_name: X_test.astype(np.float32)})
 
 <ul>
 
-  <li>Detail the memory layout and pointer exchange mechanisms of `struct ArrowArray` and `struct ArrowSchema`.</li>
+  <li>Detail the memory layout and pointer exchange mechanisms of <code>struct ArrowArray</code> and <code>struct ArrowSchema</code>.</li>
 
   <li>Explain why the exchange is strictly <strong>zero-copy</strong>.</li>
 
@@ -1939,7 +1939,7 @@ predictions = session.run([label_name], {input_name: X_test.astype(np.float32)})
 
 <ul>
 
-  <li>Reading and parsing 50 million lines using high-speed C parsers (`data.table::fread` or `readr`) executes at $\sim 150 \text{ MB/sec}$:</li>
+  <li>Reading and parsing 50 million lines using high-speed C parsers (<code>data.table::fread</code> or <code>readr</code>) executes at $\sim 150 \text{ MB/sec}$:</li>
 
 </ul>
 
@@ -1973,24 +1973,24 @@ predictions = session.run([label_name], {input_name: X_test.astype(np.float32)})
 
   <li>The table already resides in contiguous memory allocated by PyArrow in RAM.</li>
 
-  <li>PyArrow populates two small C structs defined in `arrow/c/abi.h`:</li>
+  <li>PyArrow populates two small C structs defined in <code>arrow/c/abi.h</code>:</li>
 
 </ol>
 
 <ul>
 
-  <li>`struct ArrowSchema`: Encodes the data types (`int64`, `float64`, `boolean`), column names, and field counts ($\sim 256$ bytes).</li>
+  <li><code>struct ArrowSchema</code>: Encodes the data types (<code>int64</code>, <code>float64</code>, <code>boolean</code>), column names, and field counts ($\sim 256$ bytes).</li>
 
-  <li>`struct ArrowArray`: Contains 64-bit pointers pointing directly to the contiguous data buffers already residing in physical memory:</li>
+  <li><code>struct ArrowArray</code>: Contains 64-bit pointers pointing directly to the contiguous data buffers already residing in physical memory:</li>
 
 </ul>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>     array-&gt;buffers[0] = validity_bitmask_ptr;
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">     array-&gt;buffers[0] = validity_bitmask_ptr;
      array-&gt;buffers[1] = data_payload_ptr;</code></pre>
 
 <ol>
 
-  <li>PyArrow passes the memory addresses of these two structs to R via `reticulate` or POSIX shared memory.</li>
+  <li>PyArrow passes the memory addresses of these two structs to R via <code>reticulate</code> or POSIX shared memory.</li>
 
   <li>The R Arrow / nanoarrow package receives the memory pointers:</li>
 
@@ -1998,11 +1998,11 @@ predictions = session.run([label_name], {input_name: X_test.astype(np.float32)})
 
 <ul>
 
-  <li>It reads the `ArrowSchema` to construct the R column descriptors.</li>
+  <li>It reads the <code>ArrowSchema</code> to construct the R column descriptors.</li>
 
   <li>It creates an R SEXP wrapping the buffer pointers.</li>
 
-  <li>It marks the buffer with an external pointer finalizer (`EXTPTRSXP`) ensuring the memory remains pinned and protected from Python garbage collection until R finishes processing.</li>
+  <li>It marks the buffer with an external pointer finalizer (<code>EXTPTRSXP</code>) ensuring the memory remains pinned and protected from Python garbage collection until R finishes processing.</li>
 
 </ul>
 

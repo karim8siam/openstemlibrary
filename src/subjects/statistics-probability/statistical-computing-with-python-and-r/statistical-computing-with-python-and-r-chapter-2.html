@@ -117,79 +117,79 @@
 
 <h5>1. Base R `data.frame`</h5>
 
-<p>In base R, a `data.frame` is not a specialized compiled C structure; rather, it is a high-level abstraction constructed atop the foundational S-expression primitives. Specifically, an R `data.frame` is an S3 object whose base type is a <strong>named generic vector (list, `VECSXP`)</strong> of equal-length atomic vectors, decorated with three mandatory attributes:</p>
+<p>In base R, a <code>data.frame</code> is not a specialized compiled C structure; rather, it is a high-level abstraction constructed atop the foundational S-expression primitives. Specifically, an R <code>data.frame</code> is an S3 object whose base type is a <strong>named generic vector (list, <code>VECSXP</code>)</strong> of equal-length atomic vectors, decorated with three mandatory attributes:</p>
 
 <ul>
 
-  <li>`names`: A character vector providing unique column labels.</li>
+  <li><code>names</code>: A character vector providing unique column labels.</li>
 
-  <li>`row.names`: An integer or character vector providing row identifiers. (In modern R, compact row names are represented by an integer pair `c(NA, -N)`, avoiding the allocation of $N$ string pointers).</li>
+  <li><code>row.names</code>: An integer or character vector providing row identifiers. (In modern R, compact row names are represented by an integer pair <code>c(NA, -N)</code>, avoiding the allocation of $N$ string pointers).</li>
 
-  <li>`class`: Set to `"data.frame"`.</li>
+  <li><code>class</code>: Set to <code>"data.frame"</code>.</li>
 
 </ul>
 
-<p>Because a `data.frame` is a list of columns, it constitutes a <strong>column-oriented storage model</strong>. Accessing or extracting an entire column (e.g., `df$age` or `df[["age"]]`) is an $O(1)$ pointer dereference. Conversely, accessing an individual row (e.g., `df[i, ]`) requires slicing across every individual column vector in the list, allocating a brand-new list of 1-element vectors, and copying attributes. Row-wise operations in base R are therefore computationally expensive and should be avoided in favor of columnar transformations.</p>
+<p>Because a <code>data.frame</code> is a list of columns, it constitutes a <strong>column-oriented storage model</strong>. Accessing or extracting an entire column (e.g., <code>df$age` or `df[["age"]]`) is an $O(1)$ pointer dereference. Conversely, accessing an individual row (e.g., </code>df[i, ]`) requires slicing across every individual column vector in the list, allocating a brand-new list of 1-element vectors, and copying attributes. Row-wise operations in base R are therefore computationally expensive and should be avoided in favor of columnar transformations.</p>
 
 <h5>2. Modern Tidyverse `tibble`</h5>
 
-<p>The `tibble` package (part of the tidyverse ecosystem developed by Hadley Wickham and colleagues) re-engineers the base `data.frame` to eliminate historical idiosyncrasies that frequently introduced silent bugs into statistical pipelines:</p>
+<p>The <code>tibble</code> package (part of the tidyverse ecosystem developed by Hadley Wickham and colleagues) re-engineers the base <code>data.frame</code> to eliminate historical idiosyncrasies that frequently introduced silent bugs into statistical pipelines:</p>
 
 <ul>
 
-  <li><strong>No Partial Matching</strong>: Base R allows partial column name matching (`df$a` matches `df$age`), which can silently introduce subtle errors. `tibble` strictly enforces exact column name lookups.</li>
+  <li><strong>No Partial Matching</strong>: Base R allows partial column name matching (<code>df$a` matches `df$age</code>), which can silently introduce subtle errors. <code>tibble</code> strictly enforces exact column name lookups.</li>
 
-  <li><strong>Never Converts Strings to Factors Silently</strong>: Prior to R 4.0.0, base `data.frame` automatically converted character strings to factors (`stringsAsFactors = TRUE`), corrupting arbitrary text identifiers. `tibble` preserves character types strictly.</li>
+  <li><strong>Never Converts Strings to Factors Silently</strong>: Prior to R 4.0.0, base <code>data.frame</code> automatically converted character strings to factors (<code>stringsAsFactors = TRUE</code>), corrupting arbitrary text identifiers. <code>tibble</code> preserves character types strictly.</li>
 
-  <li><strong>Strict Slicing Invariance</strong>: In base R, slicing a single column via `df[, 1]` drops dimensions and collapses the output into an atomic vector unless `drop = FALSE` is specified. In contrast, `tibble` subsetting `tb[, 1]` always returns a tibble, preserving structural type stability.</li>
+  <li><strong>Strict Slicing Invariance</strong>: In base R, slicing a single column via <code>df[, 1]</code> drops dimensions and collapses the output into an atomic vector unless <code>drop = FALSE</code> is specified. In contrast, <code>tibble</code> subsetting <code>tb[, 1]</code> always returns a tibble, preserving structural type stability.</li>
 
 </ul>
 
 <h5>3. High-Performance `data.table`</h5>
 
-<p>For large-scale statistical computing, Matt Dowle and Arun Srinivasan developed `data.table`. While inheriting from `data.frame`, `data.table` fundamentally re-architects memory mutation and indexing:</p>
+<p>For large-scale statistical computing, Matt Dowle and Arun Srinivasan developed <code>data.table</code>. While inheriting from <code>data.frame</code>, <code>data.table</code> fundamentally re-architects memory mutation and indexing:</p>
 
 <ul>
 
-  <li><strong>In-Place Modification (`:=`)</strong>: Unlike base R's Copy-on-Modify semantics, `data.table` uses the `:=` assignment operator to modify column vectors directly in memory via C-level pointer manipulation, bypassing memory duplication.</li>
+  <li><strong>In-Place Modification (<code>:=</code>)</strong>: Unlike base R's Copy-on-Modify semantics, <code>data.table</code> uses the <code>:=</code> assignment operator to modify column vectors directly in memory via C-level pointer manipulation, bypassing memory duplication.</li>
 
-  <li><strong>Secondary B-Tree and Radix Keys</strong>: `data.table` allows setting sorted primary and secondary keys (`setkey(dt, id)`). Filtering and joining on keyed columns does not require linear scanning ($O(N)$); instead, it executes via binary search ($O(\log N)$) or ultra-fast radix sorting ($O(N)$ with tiny constants), achieving speedups of 10 to 100 times over standard list filtering.</li>
+  <li><strong>Secondary B-Tree and Radix Keys</strong>: <code>data.table</code> allows setting sorted primary and secondary keys (<code>setkey(dt, id)</code>). Filtering and joining on keyed columns does not require linear scanning ($O(N)$); instead, it executes via binary search ($O(\log N)$) or ultra-fast radix sorting ($O(N)$ with tiny constants), achieving speedups of 10 to 100 times over standard list filtering.</li>
 
 </ul>
 
 <h4>Python Tabular Architectures: pandas `DataFrame` and `Series`</h4>
 
-<p>In the Python ecosystem, tabular data processing is centered on the `pandas` library, created by Wes McKinney in 2008.</p>
+<p>In the Python ecosystem, tabular data processing is centered on the <code>pandas</code> library, created by Wes McKinney in 2008.</p>
 
 <h5>The `Series` and `Index` Architecture</h5>
 
-<p>A pandas `Series` is a one-dimensional labeled array comprising:</p>
+<p>A pandas <code>Series</code> is a one-dimensional labeled array comprising:</p>
 
 <ol>
 
   <li>A 1D homogeneous NumPy array or extension array holding the raw data values.</li>
 
-  <li>An `Index` object holding row labels (integers, strings, or datetimes). The `Index` maintains an internal hash table mapping labels to integer array positions, enabling $O(1)$ label-based lookups (`.loc[]`) alongside $O(1)$ positional indexing (`.iloc[]`).</li>
+  <li>An <code>Index</code> object holding row labels (integers, strings, or datetimes). The <code>Index</code> maintains an internal hash table mapping labels to integer array positions, enabling $O(1)$ label-based lookups (<code>.loc[]</code>) alongside $O(1)$ positional indexing (<code>.iloc[]</code>).</li>
 
 </ol>
 
 <h5>The `DataFrame` and the `BlockManager`</h5>
 
-<p>Internally, a pandas `DataFrame` (prior to pandas 2.0) organizes columns using a complex memory coordinator known as the <strong>`BlockManager`</strong>. Rather than storing each column as an isolated 1D array, the `BlockManager` consolidates columns of identical data types into 2D NumPy arrays called <strong>Blocks</strong>:</p>
+<p>Internally, a pandas <code>DataFrame</code> (prior to pandas 2.0) organizes columns using a complex memory coordinator known as the <strong><code>BlockManager</code></strong>. Rather than storing each column as an isolated 1D array, the <code>BlockManager</code> consolidates columns of identical data types into 2D NumPy arrays called <strong>Blocks</strong>:</p>
 
 <ul>
 
-  <li>A `FloatBlock` holding a 2D array of shape $(K_{float}, N)$, consolidating all $K_{float}$ double-precision columns.</li>
+  <li>A <code>FloatBlock</code> holding a 2D array of shape $(K_{float}, N)$, consolidating all $K_{float}$ double-precision columns.</li>
 
-  <li>An `IntBlock` holding a 2D array of shape $(K_{int}, N)$, consolidating all integer columns.</li>
+  <li>An <code>IntBlock</code> holding a 2D array of shape $(K_{int}, N)$, consolidating all integer columns.</li>
 
-  <li>An `ObjectBlock` holding pointers to string or arbitrary Python objects.</li>
+  <li>An <code>ObjectBlock</code> holding pointers to string or arbitrary Python objects.</li>
 
 </ul>
 
-<p>While consolidating homogeneous columns enables fast vectorized evaluation across multiple columns simultaneously, the `BlockManager` introduces severe memory fragmentation and copy overhead during column insertions, deletions, and type conversions.</p>
+<p>While consolidating homogeneous columns enables fast vectorized evaluation across multiple columns simultaneously, the <code>BlockManager</code> introduces severe memory fragmentation and copy overhead during column insertions, deletions, and type conversions.</p>
 
-<p>To overcome these historical limitations, modern pandas 2.0+ and libraries like `Polars` have integrated <strong>Apache Arrow</strong> columnar table structures. Arrow tables store data in contiguous, immutable, chunked record batches with native bitmask-based null handling, facilitating zero-copy sharing between Python, R, and compiled C++ engines.</p>
+<p>To overcome these historical limitations, modern pandas 2.0+ and libraries like <code>Polars</code> have integrated <strong>Apache Arrow</strong> columnar table structures. Arrow tables store data in contiguous, immutable, chunked record batches with native bitmask-based null handling, facilitating zero-copy sharing between Python, R, and compiled C++ engines.</p>
 
 <hr class="section-divider-hr">
         </div>
@@ -216,7 +216,7 @@
 
 <h4>2. Full Outer Join ($\mathcal{R} \sqsupset\bowtie\sqsubset \mathcal{S}$):</h4>
 
-<p>Preserves all tuples from both $\mathcal{R}$ and $\mathcal{S}$. When a tuple $r \in \mathcal{R}$ has no matching tuple in $\mathcal{S}$, it is padded with missing values (`NA` / `NaN`) across the attributes of $\mathcal{S}$, and vice versa.</p>
+<p>Preserves all tuples from both $\mathcal{R}$ and $\mathcal{S}$. When a tuple $r \in \mathcal{R}$ has no matching tuple in $\mathcal{S}$, it is padded with missing values (<code>NA</code> / <code>NaN</code>) across the attributes of $\mathcal{S}$, and vice versa.</p>
 
 <h4>3. Left Outer Join ($\mathcal{R} \rtimes \mathcal{S}$):</h4>
 
@@ -234,7 +234,7 @@
 
 <p>The logical complement of the semi-join. Returns only those tuples $r \in \mathcal{R}$ for which <strong>no</strong> matching tuple exists in $\mathcal{S}$. Anti-joins are indispensable in statistical data auditing for detecting missing study participants, dropped follow-up visits, or unmatched survey cohorts.</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>Relational Join Taxonomy:
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">Relational Join Taxonomy:
 +-------------------+---------------------------------------------------+
 | Join Type         | Output Row Retention                              |
 +-------------------+---------------------------------------------------+
@@ -254,7 +254,7 @@
 
 <p>The simplest algorithm iterates across every row of $\mathcal{R}$ and compares it against every row of $\mathcal{S}$:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>output = []
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">output = []
 for r in R:
     for s in S:
         if r[key] == s[key]:
@@ -284,7 +284,7 @@ for r in R:
 
 </ol>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>   Pointer R ---&gt; [ Key 10, Key 12, Key 15, Key 18 ]
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">   Pointer R ---&gt; [ Key 10, Key 12, Key 15, Key 18 ]
    Pointer S ---&gt; [ Key 10, Key 10, Key 15, Key 20 ]</code></pre>
 
 <ul>
@@ -297,7 +297,7 @@ for r in R:
 
 <h5>3. Classic and Grace Hash Joins</h5>
 
-<p>The <strong>Hash Join</strong> is the dominant algorithm utilized by pandas (`merge`), base R (`merge`), dplyr (`left_join`), and SQL database engines for in-memory equijoins.</p>
+<p>The <strong>Hash Join</strong> is the dominant algorithm utilized by pandas (<code>merge</code>), base R (<code>merge</code>), dplyr (<code>left_join</code>), and SQL database engines for in-memory equijoins.</p>
 
 <p>A hash join operates in two distinct phases:</p>
 
@@ -364,17 +364,17 @@ for r in R:
 
 </ul>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>  SubjectID   Treatment   Time_1   Time_2   Time_3
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">  SubjectID   Treatment   Time_1   Time_2   Time_3
      101          A        12.4     15.1     18.2
      102          B        10.8     11.2     13.9</code></pre>
 
 <ul>
 
-  <li><strong>Long Format</strong>: Mandatory for modern statistical graphics (ggplot2, seaborn), mixed-effects longitudinal modeling (`lme4`, `statsmodels`), and relational database storage. Every single measurement is represented on its own row, with key indicator columns identifying the context:</li>
+  <li><strong>Long Format</strong>: Mandatory for modern statistical graphics (ggplot2, seaborn), mixed-effects longitudinal modeling (<code>lme4</code>, <code>statsmodels</code>), and relational database storage. Every single measurement is represented on its own row, with key indicator columns identifying the context:</li>
 
 </ul>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>  SubjectID   Treatment   TimePoint   Measurement
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">  SubjectID   Treatment   TimePoint   Measurement
      101          A        Time_1        12.4
      101          A        Time_2        15.1
      101          A        Time_3        18.2
@@ -418,7 +418,7 @@ for r in R:
 
 </ol>
 
-<p>In Python: `pd.melt(df, id_vars=..., value_vars=..., var_name=..., value_name=...)` In R: `tidyr::pivot_longer(df, cols=..., names_to=..., values_to=...)` or `data.table::melt(dt, id.vars=..., measure.vars=...)`</p>
+<p>In Python: <code>pd.melt(df, id_vars=..., value_vars=..., var_name=..., value_name=...)</code> In R: <code>tidyr::pivot_longer(df, cols=..., names_to=..., values_to=...)</code> or <code>data.table::melt(dt, id.vars=..., measure.vars=...)</code></p>
 
 <h5>2. Pivoting Wider (Casting / Spreading)</h5>
 
@@ -438,7 +438,7 @@ for r in R:
 
 <div class="math-display">$$W_{m, j} = f_{agg}(\{ V_i : x_i = x, k_i = k_j \})$$</div>
 
-<p>In Python: `df.pivot(index=..., columns=..., values=...)` or `df.pivot_table(index=..., columns=..., values=..., aggfunc=...)` In R: `tidyr::pivot_wider(df, names_from=..., values_from=..., values_fn=...)` or `data.table::dcast(dt, id_vars ~ col_vars, value.var=..., fun.aggregate=...)`</p>
+<p>In Python: <code>df.pivot(index=..., columns=..., values=...)</code> or <code>df.pivot_table(index=..., columns=..., values=..., aggfunc=...)</code> In R: <code>tidyr::pivot_wider(df, names_from=..., values_from=..., values_fn=...)</code> or <code>data.table::dcast(dt, id_vars ~ col_vars, value.var=..., fun.aggregate=...)</code></p>
 
 <hr class="section-divider-hr">
         </div>
@@ -493,7 +493,7 @@ for r in R:
 
 </ul>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>Kleene 3-Valued Truth Tables:
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">Kleene 3-Valued Truth Tables:
 
 Conjunction (AND):          Disjunction (OR):           Negation (NOT):
 +-------+---+---+----+      +-------+---+---+----+      +---+----+
@@ -510,49 +510,49 @@ Conjunction (AND):          Disjunction (OR):           Negation (NOT):
 
 <p>GNU R natively implements exact Kleene logic across all vectorized boolean operations:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>TRUE | NA   # Evaluates to TRUE
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">TRUE | NA   # Evaluates to TRUE
 FALSE &amp; NA  # Evaluates to FALSE
 FALSE | NA  # Evaluates to NA</code></pre>
 
-<p>This rigorous behavior extends to indexing: subsetting a vector with a logical vector containing `NA` produces an `NA` element in the resulting subset:</p>
+<p>This rigorous behavior extends to indexing: subsetting a vector with a logical vector containing <code>NA</code> produces an <code>NA</code> element in the resulting subset:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>x &lt;- c(10, 20, 30)
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">x &lt;- c(10, 20, 30)
 x[c(TRUE, NA, FALSE)]  # Evaluates to c(10, NA)</code></pre>
 
-<p>To avoid propagating `NA`s into subsets, R programmers use `which()`:</p>
+<p>To avoid propagating <code>NA</code>s into subsets, R programmers use <code>which()</code>:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>x[which(x &gt; 15)]  # Drops NAs safely</code></pre>
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">x[which(x &gt; 15)]  # Drops NAs safely</code></pre>
 
 <h5>2. The Python Implementation: IEEE 754 NaN and Nullable Bitmasks</h5>
 
-<p>In standard Python, `numpy.nan` is an IEEE 754 floating-point constant. According to IEEE 754 specifications:</p>
+<p>In standard Python, <code>numpy.nan</code> is an IEEE 754 floating-point constant. According to IEEE 754 specifications:</p>
 
 <ul>
 
-  <li>Any arithmetic operation involving `NaN` evaluates to `NaN`: $x + \text{NaN} = \text{NaN}$.</li>
+  <li>Any arithmetic operation involving <code>NaN</code> evaluates to <code>NaN</code>: $x + \text{NaN} = \text{NaN}$.</li>
 
-  <li><strong>Every comparison against `NaN` evaluates to False</strong>, including self-equality:</li>
+  <li><strong>Every comparison against <code>NaN</code> evaluates to False</strong>, including self-equality:</li>
 
 </ul>
 
 <div class="math-display">$$\text{NaN} == \text{NaN} \implies \text{False}!$$</div>
 
-<p>To check for missingness in Python, one must never write `x == np.nan`; one must invoke `np.isnan(x)` or `pd.isna(x)`.</p>
+<p>To check for missingness in Python, one must never write <code>x == np.nan</code>; one must invoke <code>np.isnan(x)</code> or <code>pd.isna(x)</code>.</p>
 
-<p>In standard Python boolean operations, `np.nan` is considered "truthy" because it is a non-zero object pointer:</p>
+<p>In standard Python boolean operations, <code>np.nan</code> is considered "truthy" because it is a non-zero object pointer:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>bool(np.nan)  # Evaluates to True!</code></pre>
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">bool(np.nan)  # Evaluates to True!</code></pre>
 
-<p>This historical conflation of floating-point NaN with logical truthiness caused widespread bugs in conditional indexing. To solve this, modern pandas introduced dedicated <strong>Nullable Boolean Types</strong> (`pd.BooleanDtype()`) that implement full Kleene logic:</p>
+<p>This historical conflation of floating-point NaN with logical truthiness caused widespread bugs in conditional indexing. To solve this, modern pandas introduced dedicated <strong>Nullable Boolean Types</strong> (<code>pd.BooleanDtype()</code>) that implement full Kleene logic:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>import pandas as pd
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">import pandas as pd
 
 s1 = pd.Series([True, False, None], dtype="boolean")
 s2 = pd.Series([None, None, None], dtype="boolean")
 
 # Correct Kleene propagation
-s1 | s2   # Evaluates to [True, <na>, <na>]
-s1 &amp; False # Evaluates to [False, False, False]</na></na></code></pre>
+s1 | s2   # Evaluates to [True, &lt;NA&gt;, &lt;NA&gt;]
+s1 &amp; False # Evaluates to [False, False, False]</code></pre>
 
 <hr class="section-divider-hr">
         </div>
@@ -567,7 +567,7 @@ s1 &amp; False # Evaluates to [False, False, False]</na></na></code></pre>
         <div class="sec-content">
           <p>A central paradigm in statistical data transformation is the <strong>Split-Apply-Combine</strong> strategy, formalized by Hadley Wickham in 2011. Complex statistical summaries, hierarchical models, and panel data transformations rarely operate on the entire dataset simultaneously. Instead, the workflow divides a dataset into meaningful statistical sub-populations (strata, geographic units, experimental cohorts), applies statistical models or estimators independently to each subgroup, and recombines the results into a unified summary table.</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>Split-Apply-Combine Workflow:
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">Split-Apply-Combine Workflow:
        [ Complete Data Frame ]
                   |
         +---------+---------+
@@ -620,7 +620,7 @@ s1 &amp; False # Evaluates to [False, False, False]</na></na></code></pre>
 
   <li>Once sorted, all rows belonging to group $g$ occupy a <strong>single contiguous slice of memory</strong> $[i_{start, g}, i_{end, g}]$.</li>
 
-  <li>The engine computes group summaries by sweeping a single pointer across contiguous cache lines, completely eliminating pointer chasing and hash lookups. This architectural design makes `data.table` up to $10\times$ faster than standard hash-based grouping engines.</li>
+  <li>The engine computes group summaries by sweeping a single pointer across contiguous cache lines, completely eliminating pointer chasing and hash lookups. This architectural design makes <code>data.table</code> up to $10\times$ faster than standard hash-based grouping engines.</li>
 
 </ul>
 
@@ -634,7 +634,7 @@ s1 &amp; False # Evaluates to [False, False, False]</na></na></code></pre>
 
 <ul>
 
-  <li>Examples: `sum()`, `mean()`, `median()`, `sd()`, `min()`, `max()`.</li>
+  <li>Examples: <code>sum()</code>, <code>mean()</code>, <code>median()</code>, <code>sd()</code>, <code>min()</code>, <code>max()</code>.</li>
 
 </ul>
 
@@ -672,7 +672,7 @@ s1 &amp; False # Evaluates to [False, False, False]</na></na></code></pre>
 
 </ul>
 
-<p>In Python: `df.groupby('stratum')['measurement'].transform(lambda x: (x - x.mean()) / x.std())` In R: `dt[, z := (measurement - mean(measurement)) / sd(measurement), by = stratum]`</p>
+<p>In Python: <code>df.groupby('stratum')['measurement'].transform(lambda x: (x - x.mean()) / x.std())</code> In R: <code>dt[, z := (measurement - mean(measurement)) / sd(measurement), by = stratum]</code></p>
 
 <hr class="section-divider-hr">
 
@@ -715,11 +715,11 @@ s1 &amp; False # Evaluates to [False, False, False]</na></na></code></pre>
 
 <h4>2. Binary Search on Radix-Sorted Keys (`data.table`):</h4>
 
-<p>In `data.table`, non-equi joins are expressed concisely:</p>
+<p>In <code>data.table</code>, non-equi joins are expressed concisely:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>   dt_res &lt;- dt_events[dt_intervals, on = .(patient_id, event_time &gt;= start_time, event_time &lt;= end_time)]</code></pre>
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">   dt_res &lt;- dt_events[dt_intervals, on = .(patient_id, event_time &gt;= start_time, event_time &lt;= end_time)]</code></pre>
 
-<p>The engine sorts both tables by the join keys using ultra-fast radix sorting. For each row in `dt_intervals`, it executes two binary searches to pinpoint the lower bound pointer and upper bound pointer within the sorted `dt_events` table, scanning only the contiguous range of matching rows.</p>
+<p>The engine sorts both tables by the join keys using ultra-fast radix sorting. For each row in <code>dt_intervals</code>, it executes two binary searches to pinpoint the lower bound pointer and upper bound pointer within the sorted <code>dt_events</code> table, scanning only the contiguous range of matching rows.</p>
 
 <h4>Rolling Joins and As-Of Merging</h4>
 
@@ -733,11 +733,11 @@ s1 &amp; False # Evaluates to [False, False, False]</na></na></code></pre>
 
 <div class="math-display">$$s^* = \arg\max_{s \in \mathcal{S}, \, t_s \le t_r} t_s$$</div>
 
-<p>subject to exact matching on entity identifiers (e.g., `ticker_symbol` or `patient_id`).</p>
+<p>subject to exact matching on entity identifiers (e.g., <code>ticker_symbol</code> or <code>patient_id</code>).</p>
 
-<p>In pandas, this is executed via `pd.merge_asof()`:</p>
+<p>In pandas, this is executed via <code>pd.merge_asof()</code>:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>merged = pd.merge_asof(
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">merged = pd.merge_asof(
     trades.sort_values("time"),
     quotes.sort_values("time"),
     on="time",
@@ -745,9 +745,9 @@ s1 &amp; False # Evaluates to [False, False, False]</na></na></code></pre>
     direction="backward"
 )</code></pre>
 
-<p>In R `data.table`:</p>
+<p>In R <code>data.table</code>:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>setkey(quotes, ticker, time)
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">setkey(quotes, ticker, time)
 setkey(trades, ticker, time)
 merged &lt;- quotes[trades, roll = TRUE]</code></pre>
 
@@ -830,11 +830,11 @@ merged &lt;- quotes[trades, roll = TRUE]</code></pre>
 
 <ul>
 
-  <li>All integer columns default to 64-bit signed integers (`int64`, occupying 8 bytes per value).</li>
+  <li>All integer columns default to 64-bit signed integers (<code>int64</code>, occupying 8 bytes per value).</li>
 
-  <li>All continuous numerical columns default to 64-bit double-precision floats (`float64`, occupying 8 bytes per value).</li>
+  <li>All continuous numerical columns default to 64-bit double-precision floats (<code>float64</code>, occupying 8 bytes per value).</li>
 
-  <li>All text strings default to pointer-based object arrays (`object` in pandas, requiring 8 bytes for the pointer plus $\sim 50$ bytes for the boxed `PyUnicodeObject` per entry).</li>
+  <li>All text strings default to pointer-based object arrays (<code>object</code> in pandas, requiring 8 bytes for the pointer plus $\sim 50$ bytes for the boxed <code>PyUnicodeObject</code> per entry).</li>
 
 </ul>
 
@@ -856,11 +856,11 @@ merged &lt;- quotes[trades, roll = TRUE]</code></pre>
 
 <ul>
 
-  <li>Categorical status codes or Likert survey responses ($1, \dots, 5$) fit comfortably into an 8-bit signed integer (`int8`, range $[-128, 127]$), reducing memory usage by $87.5\%$ ($1$ byte instead of $8$ bytes).</li>
+  <li>Categorical status codes or Likert survey responses ($1, \dots, 5$) fit comfortably into an 8-bit signed integer (<code>int8</code>, range $[-128, 127]$), reducing memory usage by $87.5\%$ ($1$ byte instead of $8$ bytes).</li>
 
-  <li>Calendar years ($1900, \dots, 2050$) or participant ages ($0, \dots, 120$) require at most a 16-bit integer (`int16`, range $[-32768, 32767]$), saving $75\%$ memory ($2$ bytes vs $8$ bytes).</li>
+  <li>Calendar years ($1900, \dots, 2050$) or participant ages ($0, \dots, 120$) require at most a 16-bit integer (<code>int16</code>, range $[-32768, 32767]$), saving $75\%$ memory ($2$ bytes vs $8$ bytes).</li>
 
-  <li>Physical sensor measurements with 3 to 4 significant digits of instrument precision rarely justify 64-bit double precision (53 bits of significand). Downcasting to 32-bit single-precision floats (`float32`, 24 bits of significand) halves memory consumption from 8 bytes to 4 bytes without degrading statistical conclusions.</li>
+  <li>Physical sensor measurements with 3 to 4 significant digits of instrument precision rarely justify 64-bit double precision (53 bits of significand). Downcasting to 32-bit single-precision floats (<code>float32</code>, 24 bits of significand) halves memory consumption from 8 bytes to 4 bytes without degrading statistical conclusions.</li>
 
 </ul>
 
@@ -870,9 +870,9 @@ merged &lt;- quotes[trades, roll = TRUE]</code></pre>
 
 <ul>
 
-  <li>In Python, converting to `category` dtype (`df[region] = df[region].astype(category)`) replaces the string pointer array with an array of 8-bit or 16-bit integer codes paired with a single array of unique category strings.</li>
+  <li>In Python, converting to <code>category</code> dtype (<code>df[region] = df[region].astype(category)</code>) replaces the string pointer array with an array of 8-bit or 16-bit integer codes paired with a single array of unique category strings.</li>
 
-  <li>In R, converting to `factor` achieves the identical dictionary-encoded structure.</li>
+  <li>In R, converting to <code>factor</code> achieves the identical dictionary-encoded structure.</li>
 
 </ul>
 
@@ -894,7 +894,7 @@ merged &lt;- quotes[trades, roll = TRUE]</code></pre>
 
 <h4>3. Zero-Copy Inter-Process Communication (IPC):</h4>
 
-<p>Traditional data transfer between Python and R (or between independent microservice processes) requires serializing the table to JSON, CSV, or pickle, transmitting over a network socket or disk file, and deserializing on the receiving end. This serialization-deserialization bottleneck accounts for up to $80\%$ of runtime in distributed pipelines. Under Apache Arrow, because the in-memory binary representation is standardized across all languages, an Arrow table in Python memory can be shared with an R process or C++ analytics engine via <strong>POSIX shared memory (`shm_open`) or memory-mapped files (`mmap`)</strong>. The receiving process simply maps the pointer:</p>
+<p>Traditional data transfer between Python and R (or between independent microservice processes) requires serializing the table to JSON, CSV, or pickle, transmitting over a network socket or disk file, and deserializing on the receiving end. This serialization-deserialization bottleneck accounts for up to $80\%$ of runtime in distributed pipelines. Under Apache Arrow, because the in-memory binary representation is standardized across all languages, an Arrow table in Python memory can be shared with an R process or C++ analytics engine via <strong>POSIX shared memory (<code>shm_open</code>) or memory-mapped files (<code>mmap</code>)</strong>. The receiving process simply maps the pointer:</p>
 
 <div class="math-display">$$\text{Serialization Time} = 0, \quad \text{Deserialization Time} = 0, \quad \text{Memory Copied} = 0$$</div>
 
@@ -904,7 +904,7 @@ merged &lt;- quotes[trades, roll = TRUE]</code></pre>
 
 <p>The solution is <strong>out-of-core chunked processing</strong> using streaming generators:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>Streaming Out-of-Core Processing Pattern:
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">Streaming Out-of-Core Processing Pattern:
    [ 100 GB Disk CSV ]
            |
      (Stream Chunk k: 50,000 rows)
@@ -928,13 +928,13 @@ merged &lt;- quotes[trades, roll = TRUE]</code></pre>
           </h3>
         </header>
         <div class="sec-content">
-          <p>In modern statistical analytics, empirical datasets frequently exceed available physical random access memory (RAM). When an applied researcher attempts to load an $80\text{ GB}$ administrative health record or longitudinal financial transaction log into a standard in-memory pandas or base R session on a machine equipped with $32\text{ GB}$ of RAM, the operating system triggers aggressive virtual memory swap thrashing, culminating in an inevitable `MemoryError` or Out-of-Memory (OOM) kernel termination. To process massive datasets without requiring expensive distributed supercomputing clusters, computational statisticians rely on out-of-core streaming pipelines and declarative lazy execution frameworks.</p>
+          <p>In modern statistical analytics, empirical datasets frequently exceed available physical random access memory (RAM). When an applied researcher attempts to load an $80\text{ GB}$ administrative health record or longitudinal financial transaction log into a standard in-memory pandas or base R session on a machine equipped with $32\text{ GB}$ of RAM, the operating system triggers aggressive virtual memory swap thrashing, culminating in an inevitable <code>MemoryError</code> or Out-of-Memory (OOM) kernel termination. To process massive datasets without requiring expensive distributed supercomputing clusters, computational statisticians rely on out-of-core streaming pipelines and declarative lazy execution frameworks.</p>
 
 <h4>The Chunked Iteration Paradigm</h4>
 
 <p>The simplest architectural strategy for handling out-of-core data is chunked sequential streaming. Instead of materializing the entire tabular dataset in memory simultaneously, the computational engine reads a fixed batch of rows (for example, $b = 100,000$ records per chunk), applies transformations, updates running statistical accumulators, and immediately releases the chunk buffer back to the memory allocator:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>import pandas as pd
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">import pandas as pd
 import numpy as np
 
 # Sequential chunked processing of massive CSV files
@@ -962,7 +962,7 @@ sample_var = (running_sum_sq - (running_sum ** 2) / running_count) / (running_co
 
 <p>The modern frontier of high-performance out-of-core data wrangling is embodied by <strong>Polars</strong>, an open-source query engine implemented in Rust and built upon the Apache Arrow columnar memory model. Unlike pandas and R data.table, which evaluate data manipulation operations eagerly (immediately computing and materializing every intermediate dataframe), Polars supports a <strong>LazyFrame</strong> execution mode:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>import polars as pl
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">import polars as pl
 
 # Construct declarative query plan without loading data into memory
 q = (
@@ -982,19 +982,19 @@ q = (
 # Execute streaming query plan across disk partitions
 result = q.collect(streaming=True)</code></pre>
 
-<p>When an analyst invokes operations on a `LazyFrame`, Polars does not execute computations. Instead, it constructs a <strong>Logical Query Plan</strong>—a directed graph of mathematical expressions and relational transformations. Prior to physical execution, the query optimizer analyzes the logical graph and executes several high-level compiler optimizations:</p>
+<p>When an analyst invokes operations on a <code>LazyFrame</code>, Polars does not execute computations. Instead, it constructs a <strong>Logical Query Plan</strong>—a directed graph of mathematical expressions and relational transformations. Prior to physical execution, the query optimizer analyzes the logical graph and executes several high-level compiler optimizations:</p>
 
 <ul>
 
   <li><strong>Predicate Pushdown</strong>: If a filter operation ($\sigma_{\text{age} \ge 65}$) appears downstream, the optimizer moves the filter to the earliest possible stage—directly into the Parquet reader. Rows failing the predicate are never loaded into RAM.</li>
 
-  <li><strong>Projection Pushdown</strong>: If only three columns (`patient_age`, `systolic_bp`, `diagnosis_category`) are referenced out of $150$ columns present in the Parquet schema, the reader skips reading the remaining $147$ column byte streams completely.</li>
+  <li><strong>Projection Pushdown</strong>: If only three columns (<code>patient_age</code>, <code>systolic_bp</code>, <code>diagnosis_category</code>) are referenced out of $150$ columns present in the Parquet schema, the reader skips reading the remaining $147$ column byte streams completely.</li>
 
   <li><strong>Common Subexpression Elimination</strong>: Identical mathematical expressions computed across multiple aggregated columns are evaluated exactly once, caching intermediate SIMD registers.</li>
 
 </ul>
 
-<p>When `collect(streaming=True)` is called, the Polars streaming engine splits the workload into vector batches (typically $65,536$ records) and executes them across all available CPU threads in parallel via work-stealing thread pools, achieving memory consumption that remains strictly flat regardless of whether the dataset contains $100,000$ or $1,000,000,000$ rows.</p>
+<p>When <code>collect(streaming=True)</code> is called, the Polars streaming engine splits the workload into vector batches (typically $65,536$ records) and executes them across all available CPU threads in parallel via work-stealing thread pools, achieving memory consumption that remains strictly flat regardless of whether the dataset contains $100,000$ or $1,000,000,000$ rows.</p>
         </div>
         
       </section></div>
@@ -1108,7 +1108,7 @@ result = q.collect(streaming=True)</code></pre>
 
 <p>In a naive nested-loop join:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>For each record r in R:
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">For each record r in R:
     For each record s in S:
         Compare r[patient_id] == s[patient_id]</code></pre>
 
@@ -1162,7 +1162,7 @@ result = q.collect(streaming=True)</code></pre>
 
 <ul>
 
-  <li>The 64-bit `patient_id` key: 8 bytes.</li>
+  <li>The 64-bit <code>patient_id</code> key: 8 bytes.</li>
 
   <li>A 64-bit pointer or row index pointing to the tuple in $\mathcal{S}$: 8 bytes.</li>
 
@@ -1246,11 +1246,11 @@ result = q.collect(streaming=True)</code></pre>
 
   <li>$S = 500$ distinct monitoring stations.</li>
 
-  <li>Station identifier: `station_id` (integer).</li>
+  <li>Station identifier: <code>station_id</code> (integer).</li>
 
-  <li>$T = 4$ temporal quarters: `Q1`, `Q2`, `Q3`, `Q4`.</li>
+  <li>$T = 4$ temporal quarters: <code>Q1</code>, <code>Q2</code>, <code>Q3</code>, <code>Q4</code>.</li>
 
-  <li>$P = 3$ atmospheric pollutants: `PM2.5`, `NO2`, `SO2`.</li>
+  <li>$P = 3$ atmospheric pollutants: <code>PM2.5</code>, <code>NO2</code>, <code>SO2</code>.</li>
 
 </ul>
 
@@ -1330,13 +1330,13 @@ result = q.collect(streaming=True)</code></pre>
 
 <ol>
 
-  <li>`station_id`: Identification key (from original rows).</li>
+  <li><code>station_id</code>: Identification key (from original rows).</li>
 
-  <li>`quarter`: Categorical factor with 4 levels (`Q1`, `Q2`, `Q3`, `Q4`).</li>
+  <li><code>quarter</code>: Categorical factor with 4 levels (<code>Q1</code>, <code>Q2</code>, <code>Q3</code>, <code>Q4</code>).</li>
 
-  <li>`pollutant`: Categorical factor with 3 levels (`PM2.5`, `NO2`, `SO2`).</li>
+  <li><code>pollutant</code>: Categorical factor with 3 levels (<code>PM2.5</code>, <code>NO2</code>, <code>SO2</code>).</li>
 
-  <li>`concentration`: Continuous double-precision numerical measurement.</li>
+  <li><code>concentration</code>: Continuous double-precision numerical measurement.</li>
 
 </ol>
 
@@ -1356,7 +1356,7 @@ result = q.collect(streaming=True)</code></pre>
 
 <div class="math-display">$$\text{ColIndex}_W(t, p) = 1 + t \times P + p$$</div>
 
-<p>where column 0 is `station_id`.</p>
+<p>where column 0 is <code>station_id</code>.</p>
 
 <p>To map wide cell $\mathbf{W}[s, 1 + t \cdot P + p]$ into long table $\mathbf{L}$:</p>
 
@@ -1440,7 +1440,7 @@ result = q.collect(streaming=True)</code></pre>
 
 <ul>
 
-  <li>If sensor technology varies such that some stations record only $\text{PM2.5}$ but never $\text{SO2}$, $\mathbf{L}_{semi}$ must store columns of explicit `NA`s, incurring structural sparsity.</li>
+  <li>If sensor technology varies such that some stations record only $\text{PM2.5}$ but never $\text{SO2}$, $\mathbf{L}_{semi}$ must store columns of explicit <code>NA</code>s, incurring structural sparsity.</li>
 
   <li>Fully long $\mathbf{L}$ simply omits the unmeasured pollutant rows entirely, achieving optimal sparse storage without wasting memory on null cells.</li>
 
@@ -1504,7 +1504,7 @@ result = q.collect(streaming=True)</code></pre>
 
 <p>The survey sample contains $n = 12$ households with observed monthly earnings $Y$ (in thousand dollars) and binary formal employment status $E \in \{0, 1, NA\}$:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>Household ID   District (G)   Employment (E)   Earnings (Y)
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">Household ID   District (G)   Employment (E)   Earnings (Y)
      1              N               1              4.2
      2              N               1              5.0
      3              N              NA              NA
@@ -1526,11 +1526,11 @@ result = q.collect(streaming=True)</code></pre>
 
 <ul>
 
-  <li>Query A: `E == 1`</li>
+  <li>Query A: <code>E == 1</code></li>
 
-  <li>Query B: `(E == 1) | (Y &gt; 4.5)`</li>
+  <li>Query B: <code>(E == 1) | (Y &gt; 4.5)</code></li>
 
-  <li>Query C: `(E == 0) &amp; (Y &gt; 0.0)`</li>
+  <li>Query C: <code>(E == 0) &amp; (Y &gt; 0.0)</code></li>
 
 </ul>
 

@@ -414,6 +414,7 @@ function startApp() {
       });
 
       protectedStr = protectedStr
+        .replace(/`([^`\n]+)`/g, "<code>$1</code>")
         .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
         .replace(/\*(.*?)\*/g, "<em>$1</em>");
 
@@ -464,15 +465,20 @@ function startApp() {
         i++;
         const codeLines = [];
         while (i < lines.length && !lines[i].trim().startsWith("```")) {
-          codeLines.push(lines[i]);
+          let escapedLine = lines[i]
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+          codeLines.push(escapedLine);
           i++;
         }
         if (i < lines.length && lines[i].trim().startsWith("```")) {
           i++;
         }
-        output.push("<pre class=\"diagram-code-block\" style=\"background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;\"><code>" + codeLines.join("\n") + "</code></pre>");
+        output.push("<pre class=\"diagram-code-block\" style=\"background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;\"><code style=\"color: #f8fafc; background: transparent;\">" + codeLines.join("\n") + "</code></pre>");
         continue;
       }
+
 
       // Markdown Tables (| Col 1 | Col 2 |)
       if (s.startsWith("|") && s.endsWith("|") && i + 1 < lines.length && lines[i + 1].trim().startsWith("|") && /^\|(?:\s*:?-+:?\s*\|)+$/.test(lines[i + 1].trim())) {
@@ -594,6 +600,22 @@ function startApp() {
       }
 
       // Section Headings
+      if (s.startsWith("# ")) {
+        flushPara();
+        closeLists();
+        output.push("<h4>" + s.substring(2).trim() + "</h4>");
+        i++;
+        continue;
+      }
+
+      if (s.startsWith("## ")) {
+        flushPara();
+        closeLists();
+        output.push("<h4>" + s.substring(3).trim() + "</h4>");
+        i++;
+        continue;
+      }
+
       if (s.startsWith("### ")) {
         flushPara();
         closeLists();

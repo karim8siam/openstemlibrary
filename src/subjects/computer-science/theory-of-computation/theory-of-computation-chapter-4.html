@@ -117,11 +117,11 @@
 
 <p>For a concrete unary incrementer, input 111 represents three. Scan right over every 1 until encountering blank, write one additional 1, and halt with 1111. A trace includes state, head index, tape slice and rule applied at each step. Head direction must be consistent; treating the origin as fixed across an expanding left tape requires care. A machine that accepts a word need not preserve that word as output, so keep the notions of recognizer and transducer separate.</p>
 
-<p>Termination of a bounded test is easy to observe; termination of an arbitrary Turing-machine program is not a general decidable property. Use a per-example step budget in the simulator to prevent locking the interface. Report `limit reached` rather than incorrectly classifying the machine as rejecting when it has not halted. A correctness proof for a deliberately simple machine can use an invariant of the scan: every symbol to the left of the head has already been verified as a 1.</p>
+<p>Termination of a bounded test is easy to observe; termination of an arbitrary Turing-machine program is not a general decidable property. Use a per-example step budget in the simulator to prevent locking the interface. Report <code>limit reached</code> rather than incorrectly classifying the machine as rejecting when it has not halted. A correctness proof for a deliberately simple machine can use an invariant of the scan: every symbol to the left of the head has already been verified as a 1.</p>
 
 <h4>Encode a unary machine without ambiguity</h4>
 
-<p>A unary incrementer can be written with transition table `scan,1 -&gt; scan,1,R` and `scan,blank -&gt; halt,1,S` under a convention permitting a stay move S. The tape initially contains 1^n starting at the head. Inductively, after k scan transitions with 0≤k≤n, the head is at position k, the first n tape cells still contain 1, and no new symbol has yet been written. At k=n the head sees blank, so the next transition writes one additional 1 and halts. This proves the output is 1^(n+1) for every n, assuming blank cells extend to the right.</p>
+<p>A unary incrementer can be written with transition table <code>scan,1 -&gt; scan,1,R</code> and <code>scan,blank -&gt; halt,1,S</code> under a convention permitting a stay move S. The tape initially contains 1^n starting at the head. Inductively, after k scan transitions with 0≤k≤n, the head is at position k, the first n tape cells still contain 1, and no new symbol has yet been written. At k=n the head sees blank, so the next transition writes one additional 1 and halts. This proves the output is 1^(n+1) for every n, assuming blank cells extend to the right.</p>
 
 <p>The number of transitions is n+1 with that counting convention. But input length zero is a real edge case: the head begins at blank, writes 1 and halts after one transition. If unary zero is represented by ε, incrementing zero gives unary one; if zero is represented differently, the machine specification must be revised. A teaching tool should show the head moving while preserving an explicit indexing origin, because merely printing a trimmed tape string can make leftward motion ambiguous.</p>
 
@@ -189,7 +189,7 @@
 
 <p>The theorem also suggests how to reason about proof systems. A recognizable language has enumerable positive witnesses in the broad sense that acceptance is observable after finite time. If both positive and negative memberships have recognizable evidence, one can search for both kinds of evidence in parallel until one appears. The subtlety is that a failed search is not itself a witness; only an eventual positive acceptance terminates the algorithm.</p>
 
-<p>Try a concrete pair of recognizers: one accepts binary strings containing `00`; the other accepts strings that do not contain `00`. Because these particular languages are regular, both procedures can halt immediately. The dovetailing construction is unnecessarily expensive but still correct. Its value is logical: the same structure works even when the original recognizers need not halt on nonmembers.</p>
+<p>Try a concrete pair of recognizers: one accepts binary strings containing <code>00</code>; the other accepts strings that do not contain <code>00</code>. Because these particular languages are regular, both procedures can halt immediately. The dovetailing construction is unnecessarily expensive but still correct. Its value is logical: the same structure works even when the original recognizers need not halt on nonmembers.</p>
         </div>
         
       </section><section class="textbook-section-card" id="sec-4-4">
@@ -237,7 +237,7 @@
 
 <h4>Build a bounded tape-machine laboratory</h4>
 
-<p>Implement a tiny deterministic machine that scans unary input until blank, appends 1 and halts. Represent the transition rules in a table keyed by `(state,read-symbol)`; reject duplicate keys because the simulator promises determinism. Record every trace row as step number, state before, scanned symbol, action, and resulting tape. A test with input 111 should produce 1111; empty unary input may produce one symbol, depending on whether empty input represents zero. State that representation explicitly.</p>
+<p>Implement a tiny deterministic machine that scans unary input until blank, appends 1 and halts. Represent the transition rules in a table keyed by <code>(state,read-symbol)</code>; reject duplicate keys because the simulator promises determinism. Record every trace row as step number, state before, scanned symbol, action, and resulting tape. A test with input 111 should produce 1111; empty unary input may produce one symbol, depending on whether empty input represents zero. State that representation explicitly.</p>
 
 <p>Inject a deliberate infinite loop: a state reading blank moves right and stays in the same state forever. The simulator must stop after the user-selected budget, report incomplete observation, and never label the input rejected. Also include a rejecting machine that halts, so learners see the difference between rejection and nontermination. Test left-tape expansion, blank writes, and malformed rules. For simple machines write loop invariants that prove behavior for arbitrary unary input size rather than relying on finitely many traces.</p>
 

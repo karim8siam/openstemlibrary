@@ -119,7 +119,7 @@
 
 <h4>Limits and counterexamples</h4>
 
-<p>A test that replaces the policy checker with a stub returning `true` has not verified the policy checker. The use of mocks cannot compensate for failing to exercise the behavior of interest.</p>
+<p>A test that replaces the policy checker with a stub returning <code>true</code> has not verified the policy checker. The use of mocks cannot compensate for failing to exercise the behavior of interest.</p>
 
 <h4>Deep dive: test doubles as measurement instruments</h4>
 
@@ -133,7 +133,7 @@
 
 <p>A useful isolated experiment forces a crash after a commit and before a provider acknowledgment. On replay, the event identifier is already present; the handler should not create a second settlement but may need to resend an acknowledgment. Now force a crash before commit. Replay should perform the settlement once. The two windows can share the same external symptom, a missing acknowledgment, but have different correct recovery paths. A spy recording the number of attempted notifications cannot on its own establish durable exactly-once accounting. Observe committed ledger rows and outbox entries after controlled faults.</p>
 
-<p>Testing libraries frequently encourage interaction snapshots. For example, asserting `repository.save` was called once with particular arguments can pass even if the repository silently discards the write. An integration test that queries persisted state catches the problem. The opposite risk also exists: a black-box test that sees a correct final state may not discover that the service emitted a duplicate external message as a harmful side effect. Choose assertions according to the risk: state conservation, callback count, protocol schema, durable side effects, and rejection behavior each reveal different faults. Keep sensitive identifiers synthetic.</p>
+<p>Testing libraries frequently encourage interaction snapshots. For example, asserting <code>repository.save</code> was called once with particular arguments can pass even if the repository silently discards the write. An integration test that queries persisted state catches the problem. The opposite risk also exists: a black-box test that sees a correct final state may not discover that the service emitted a duplicate external message as a harmful side effect. Choose assertions according to the risk: state conservation, callback count, protocol schema, durable side effects, and rejection behavior each reveal different faults. Keep sensitive identifiers synthetic.</p>
 
 <p>Evaluate maintainability as part of evidence quality. A suite that fails whenever a harmless internal helper is renamed wastes engineering time and can encourage broad assertion deletion. Prefer semantic assertions at stable boundaries and reserve implementation-specific call checks for genuinely required behavior, such as refusing to contact a provider after credential rejection. Record the purpose of each test double so future engineers know when an API change requires updating the fake and when it indicates a real contract regression. The strongest testing architecture does not maximize mocking or eliminate it: it pairs deliberate control with independent reality checks.</p>
 
@@ -174,7 +174,7 @@
 
 <p>Test data contamination often appears as hidden fixture coupling. A test that sets the global exchange rate to a particular value may cause a later tax test to fail depending on execution order. Execute the suite in a randomized order and in two isolated workers; compare failing-test sets and inspect globally mutable state. An independent in-memory database per test can help, but it may not reproduce production locking, collation, or transaction semantics. Run a smaller integration suite on the same database family as production. A tradeoff emerges: isolation improves repeatability while realistic components expose interaction faults. A mature suite uses both, with deliberate responsibilities and separate failure interpretation.</p>
 
-<p>When designing assertions, identify whether they concern calls, state, or protocol. A call-count assertion such as `sendOnce` is suitable for verifying a specific orchestrator policy but can be brittle during refactoring. A state assertion that a ledger remains balanced is resilient to many internal changes. A protocol assertion that an unauthorized webhook yields a rejection and no persistent mutation guards the public boundary. Prefer the narrowest assertion that directly expresses a required property; include other observables where the failure mode demands them. A test double is not a miniature replacement for production reality: it is a controlled instrument whose purpose and limitations must be documented.</p>
+<p>When designing assertions, identify whether they concern calls, state, or protocol. A call-count assertion such as <code>sendOnce</code> is suitable for verifying a specific orchestrator policy but can be brittle during refactoring. A state assertion that a ledger remains balanced is resilient to many internal changes. A protocol assertion that an unauthorized webhook yields a rejection and no persistent mutation guards the public boundary. Prefer the narrowest assertion that directly expresses a required property; include other observables where the failure mode demands them. A test double is not a miniature replacement for production reality: it is a controlled instrument whose purpose and limitations must be documented.</p>
         </div>
         
       </section><section class="textbook-section-card" id="sec-2-3">
@@ -191,7 +191,7 @@
 
 <h4>Original investigative exercise</h4>
 
-<p>Define a user profile response with `id`, `displayName`, and optional `avatarUrl`. Check that omitting an optional field is accepted by the client and that changing `id` from a string to a number is rejected if the agreed contract requires a string. Test 401 and 404 error payloads, including the absence of private user information. Add a compatibility test for one old consumer version when the provider adds a field. Treat order of JSON object properties as irrelevant, but preserve order for arrays where the contract specifies it. Pin each side's schema version and run validation on actual encoded messages.</p>
+<p>Define a user profile response with <code>id</code>, <code>displayName</code>, and optional <code>avatarUrl</code>. Check that omitting an optional field is accepted by the client and that changing <code>id</code> from a string to a number is rejected if the agreed contract requires a string. Test 401 and 404 error payloads, including the absence of private user information. Add a compatibility test for one old consumer version when the provider adds a field. Treat order of JSON object properties as irrelevant, but preserve order for arrays where the contract specifies it. Pin each side's schema version and run validation on actual encoded messages.</p>
 
 <h4>Limits and counterexamples</h4>
 

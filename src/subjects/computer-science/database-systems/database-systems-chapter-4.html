@@ -280,7 +280,7 @@
 
 <p>Next examine a skewed input. One region contains 20% of all orders despite having 5% of customers. Estimated and actual join cardinalities now differ by a factor of four. Do not treat this as an inherent failure of SQL; the planner may lack statistics capturing the correlation. Compare an analyzed execution plan's actual row counts with estimated counts at each operator and investigate extended statistics or a query rewrite as supported by the engine.</p>
 
-<p><strong>Correctness check.</strong> Create a stable checksum of the set of `(order_id,amount)` included in the report. After an optimization, recompute both that checksum and the aggregate total. Faster execution is not an improvement if the query silently drops refunded orders, incorrectly double-counts customers, or changes the date-boundary semantics. Also test an empty region, an order without an allowed customer reference and timestamps at the start and end of the requested week.</p>
+<p><strong>Correctness check.</strong> Create a stable checksum of the set of <code>(order_id,amount)</code> included in the report. After an optimization, recompute both that checksum and the aggregate total. Faster execution is not an improvement if the query silently drops refunded orders, incorrectly double-counts customers, or changes the date-boundary semantics. Also test an empty region, an order without an allowed customer reference and timestamps at the start and end of the requested week.</p>
 
 <h4>Extended executable laboratory</h4>
 
@@ -292,7 +292,7 @@
 
 <p>Introduce skew deliberately. Put half the orders under a handful of large corporate customers, even though most customers have only a few orders. An estimate based on the average customer can badly predict a query focused on those large accounts. Save estimated and actual rows at each EXPLAIN node and identify the first divergent node. The query planner may react to fresh histograms or extended statistics; this is a specific diagnosis, not a universal recommendation to disable nested loops or force hashes.</p>
 
-<p>Finally inject a correctness bug: add a CustomerPhone relation with two phone numbers for one customer and join it before aggregation. The result now double-counts that customer's order amounts. Try to “fix” it with DISTINCT and explain why DISTINCT over `(order_id,amount)` could be wrong when separate orders legitimately share an amount or identifier scopes differ. The correct solution is to avoid irrelevant one-to-many joins or to aggregate child relations at their intended grain. A tuning report must include these logical checks alongside timing data.</p>
+<p>Finally inject a correctness bug: add a CustomerPhone relation with two phone numbers for one customer and join it before aggregation. The result now double-counts that customer's order amounts. Try to “fix” it with DISTINCT and explain why DISTINCT over <code>(order_id,amount)</code> could be wrong when separate orders legitimately share an amount or identifier scopes differ. The correct solution is to avoid irrelevant one-to-many joins or to aggregate child relations at their intended grain. A tuning report must include these logical checks alongside timing data.</p>
 
 <h4>Connections and deeper pitfalls</h4>
 

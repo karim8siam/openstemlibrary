@@ -109,17 +109,17 @@
           </h3>
         </header>
         <div class="sec-content">
-          <p>## Parameters: the computational contract</p>
+          <h4>Parameters: the computational contract</h4>
 
 <p><strong>Core idea.</strong> Parameters are local names bound when the function is called; document the allowed domain and dimensional meaning. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
 
 <p><strong>Executable Python example:</strong></p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>def area(width, height):
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">def area(width, height):
     return width * height
 print(area(3, 5))</code></pre>
 
-<p><strong>Expected result:</strong> `15`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
+<p><strong>Expected result:</strong> <code>15</code>. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
 
 <p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For parameters, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
 
@@ -127,27 +127,27 @@ print(area(3, 5))</code></pre>
 
 <h4>Extended case study, part 1</h4>
 
-<p># Extended laboratory: functions as contracts, composition, and controlled state</p>
+<h4>Extended laboratory: functions as contracts, composition, and controlled state</h4>
 
 <p>A function gives a name to a reusable operation, but reuse alone is not its most important property. A well-designed function creates a boundary around assumptions: it receives inputs with defined meanings, performs an operation under those assumptions, and returns a result whose meaning the caller can understand. Once that boundary is stable, other parts of a program can rely on the contract without duplicating internal logic. This is why function design affects correctness, testability, collaboration, and maintainability even in a program with only a few hundred lines.</p>
 
-<p>## Parameters separate a general rule from one particular calculation</p>
+<h4>Parameters separate a general rule from one particular calculation</h4>
 
-<p>Consider the area of a rectangle. A function that returns `width * height` is reusable because the dimensions are parameters rather than fixed literals. Yet the formula is meaningful only for appropriate inputs. If the caller provides width in metres and height in centimetres, the numerical product is not an area in square metres without conversion. If one dimension is negative, ordinary geometric area is not defined as a negative number under the intended model. The function contract must therefore say more than that it accepts two numeric inputs. It should define permissible values, units, and output semantics.</p>
+<p>Consider the area of a rectangle. A function that returns <code>width * height</code> is reusable because the dimensions are parameters rather than fixed literals. Yet the formula is meaningful only for appropriate inputs. If the caller provides width in metres and height in centimetres, the numerical product is not an area in square metres without conversion. If one dimension is negative, ordinary geometric area is not defined as a negative number under the intended model. The function contract must therefore say more than that it accepts two numeric inputs. It should define permissible values, units, and output semantics.</p>
 
-<p>Positional parameters work well when argument order is obvious, but they can introduce silent mistakes when two values share a type. A call such as `apply_discount(10, 100)` may confuse a percentage with an amount. Keyword arguments can improve readability: `apply_discount(price=100, percent=10)`. A simple data structure may be more appropriate when many parameters always travel together. Adding a class solely to replace a two-parameter function is not automatically an improvement; every abstraction carries a maintenance cost. Design the interface according to actual data relationships and likely changes.</p>
+<p>Positional parameters work well when argument order is obvious, but they can introduce silent mistakes when two values share a type. A call such as <code>apply_discount(10, 100)</code> may confuse a percentage with an amount. Keyword arguments can improve readability: <code>apply_discount(price=100, percent=10)</code>. A simple data structure may be more appropriate when many parameters always travel together. Adding a class solely to replace a two-parameter function is not automatically an improvement; every abstraction carries a maintenance cost. Design the interface according to actual data relationships and likely changes.</p>
 
-<p>Default arguments are convenient but require careful thought about meaning and evaluation time. A default tax rate hardcoded into a function may become wrong when policy changes. In Python, a mutable default such as an empty list is created when the function is defined, not afresh on every call. If a function appends to that shared default, calls can affect each other unexpectedly. Use an immutable sentinel such as `None` when a new collection is intended for each call, then construct that collection inside the function. This detail matters because a parameter declaration can accidentally introduce persistent shared state.</p>
+<p>Default arguments are convenient but require careful thought about meaning and evaluation time. A default tax rate hardcoded into a function may become wrong when policy changes. In Python, a mutable default such as an empty list is created when the function is defined, not afresh on every call. If a function appends to that shared default, calls can affect each other unexpectedly. Use an immutable sentinel such as <code>None</code> when a new collection is intended for each call, then construct that collection inside the function. This detail matters because a parameter declaration can accidentally introduce persistent shared state.</p>
 
-<p>## Returning information is different from displaying it</p>
+<h4>Returning information is different from displaying it</h4>
 
-<p>A function that prints a result writes to an output stream. A function that returns a result makes the value available for subsequent calculations, comparisons, storage, or display. Suppose a function computes the mean of a measurement series. If it prints the number and returns `None`, another function cannot directly compute the difference between that mean and a target value. An implementation that returns the mean can still be printed by its caller; it is useful in a spreadsheet export, a simulation, and an automated test without changing its core logic.</p>
+<p>A function that prints a result writes to an output stream. A function that returns a result makes the value available for subsequent calculations, comparisons, storage, or display. Suppose a function computes the mean of a measurement series. If it prints the number and returns <code>None</code>, another function cannot directly compute the difference between that mean and a target value. An implementation that returns the mean can still be printed by its caller; it is useful in a spreadsheet export, a simulation, and an automated test without changing its core logic.</p>
 
-<p>Return values also communicate failure, but failure conventions need care. Returning zero for both a legitimate zero calculation and a missing result makes the two situations indistinguishable. Returning `None`, a tagged result object, or raising a documented exception may be more appropriate. The choice should reflect whether absence is an expected outcome or an exceptional violation of the contract. For example, searching a list may legitimately find no match; dividing by zero may be an invalid operation. An explicit interface makes the caller responsible for handling the right cases.</p>
+<p>Return values also communicate failure, but failure conventions need care. Returning zero for both a legitimate zero calculation and a missing result makes the two situations indistinguishable. Returning <code>None</code>, a tagged result object, or raising a documented exception may be more appropriate. The choice should reflect whether absence is an expected outcome or an exceptional violation of the contract. For example, searching a list may legitimately find no match; dividing by zero may be an invalid operation. An explicit interface makes the caller responsible for handling the right cases.</p>
 
-<p>Multiple return values are often expressed as tuples. A function calculating the smallest and largest readings can return `(minimum, maximum)` instead of forcing the caller to repeat a scan. That is useful when the outputs share an expensive computation, but it does not justify returning a long tuple whose positions are easy to confuse. Named structures improve clarity when several related values are returned. The guiding question is what the caller needs to know and how to make misuse difficult.</p>
+<p>Multiple return values are often expressed as tuples. A function calculating the smallest and largest readings can return <code>(minimum, maximum)</code> instead of forcing the caller to repeat a scan. That is useful when the outputs share an expensive computation, but it does not justify returning a long tuple whose positions are easy to confuse. Named structures improve clarity when several related values are returned. The guiding question is what the caller needs to know and how to make misuse difficult.</p>
 
-<p>## Pure computation versus side effects</p>
+<h4>Pure computation versus side effects</h4>
 
 <p>A pure function returns the same result for the same inputs and does not modify external state. A Celsius-to-Fahrenheit conversion can be pure; a function that reads the current time or writes a file is not. Pure functions are easier to test because their result depends only on values supplied explicitly. Side effects are still necessary in real applications, but isolating them makes behavior easier to predict. A registration system must save a record and send a message; placing those effects in explicit boundary functions helps keep validation and business-rule calculations deterministic.</p>
 
@@ -166,17 +166,17 @@ print(area(3, 5))</code></pre>
           </h3>
         </header>
         <div class="sec-content">
-          <p>## Return Values: the computational contract</p>
+          <h4>Return Values: the computational contract</h4>
 
 <p><strong>Core idea.</strong> Returning data rather than printing it makes the function composable, testable and usable by other functions. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
 
 <p><strong>Executable Python example:</strong></p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>def extrema(values):
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">def extrema(values):
     return min(values), max(values)
 print(extrema([4, 9, -1]))</code></pre>
 
-<p><strong>Expected result:</strong> `(-1, 9)`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
+<p><strong>Expected result:</strong> <code>(-1, 9)</code>. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
 
 <p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For return values, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
 
@@ -184,23 +184,23 @@ print(extrema([4, 9, -1]))</code></pre>
 
 <h4>Extended case study, part 2</h4>
 
-<p>## Scope and name binding</p>
+<h4>Scope and name binding</h4>
 
-<p>Scope determines where a name is visible and which binding an expression refers to. A local name assigned inside a Python function normally does not rebind a similarly named global variable. If a global variable `rate` equals 0.1 and a function assigns local `rate = 0.2`, the two bindings can coexist. Reading the global value after calling the function still yields 0.1. A common beginner error occurs when a function attempts to read and assign a global name without declaring the intended scope; Python may treat the name as local and raise an error before the local assignment has completed.</p>
+<p>Scope determines where a name is visible and which binding an expression refers to. A local name assigned inside a Python function normally does not rebind a similarly named global variable. If a global variable <code>rate</code> equals 0.1 and a function assigns local <code>rate = 0.2</code>, the two bindings can coexist. Reading the global value after calling the function still yields 0.1. A common beginner error occurs when a function attempts to read and assign a global name without declaring the intended scope; Python may treat the name as local and raise an error before the local assignment has completed.</p>
 
 <p>Using global declarations to make every function access shared mutable state is usually a warning sign. The function's behavior then depends on context not visible in its argument list. That complicates tests and makes reusing the function in another project harder. Pass required configuration as an argument or through a clearly controlled object. Global constants that genuinely never change are less problematic than global counters, caches, or policy settings that several functions mutate. The key distinction is whether the function's external dependencies and effects remain comprehensible.</p>
 
 <p>Closures provide a different form of scope. A function defined inside another function can retain access to names from its enclosing environment. This is useful for creating small configured operations, such as a converter with a chosen scale factor. If the captured values are mutable, later changes can affect the function. A closure is therefore not a guarantee of immutability or purity. Explain what is captured and whether the function is intended to observe future changes.</p>
 
-<p>## Recursion is a structural claim about subproblems</p>
+<h4>Recursion is a structural claim about subproblems</h4>
 
-<p>A recursive function solves a problem by expressing it in terms of smaller instances of the same problem. For factorial, the mathematical recurrence is `0! = 1` and `n! = n*(n-1)!` for positive integers. A correct recursive implementation requires a base case, a valid input domain, and a strictly decreasing measure such as n. Calling the function with a negative integer without validation can cause unbounded recursion because repeatedly subtracting one never reaches zero. The base case does not help if the allowed inputs do not guarantee reaching it.</p>
+<p>A recursive function solves a problem by expressing it in terms of smaller instances of the same problem. For factorial, the mathematical recurrence is <code>0! = 1</code> and <code>n! = n*(n-1)!</code> for positive integers. A correct recursive implementation requires a base case, a valid input domain, and a strictly decreasing measure such as n. Calling the function with a negative integer without validation can cause unbounded recursion because repeatedly subtracting one never reaches zero. The base case does not help if the allowed inputs do not guarantee reaching it.</p>
 
-<p>A recursion proof normally has two parts. The base case establishes that the function produces the right result for the smallest admissible input. The inductive step assumes correctness for a smaller instance and shows that the current computation produces the desired result. For factorial, assume the recursive call returns `(n-1)!`; multiplying by n yields `n!`. This argument establishes mathematical correctness under the recurrence. It says nothing about a language's recursion-depth limit or memory consumption. A theoretically correct recursion can still fail operationally for inputs that are too large.</p>
+<p>A recursion proof normally has two parts. The base case establishes that the function produces the right result for the smallest admissible input. The inductive step assumes correctness for a smaller instance and shows that the current computation produces the desired result. For factorial, assume the recursive call returns <code>(n-1)!</code>; multiplying by n yields <code>n!</code>. This argument establishes mathematical correctness under the recurrence. It says nothing about a language's recursion-depth limit or memory consumption. A theoretically correct recursion can still fail operationally for inputs that are too large.</p>
 
 <p>The factorial problem is also easily expressed with a loop. An iterative implementation can maintain an accumulator equal to the product of integers already processed. It avoids building a deep call stack and may be preferable for large n. Recursion is compelling for naturally recursive structures such as trees, divide-and-conquer algorithms, and nested expressions, but not automatically best for every repetition. Compare the clarity of the recurrence, maximum depth, error handling, and available memory before selecting an implementation.</p>
 
-<p>## A trace of recursive execution</p>
+<h4>A trace of recursive execution</h4>
 
 <p>To compute factorial of four, the initial call requires four times factorial of three. That call requires three times factorial of two, which requires two times factorial of one. Factorial of one can return one under a chosen base convention. On return, factorial of two becomes two, factorial of three becomes six, and factorial of four becomes twenty-four. The recursive descent postpones multiplication while subproblems are created; the return phase resolves the deferred operations. A drawing of the call stack makes this control flow visible.</p>
 
@@ -219,18 +219,18 @@ print(extrema([4, 9, -1]))</code></pre>
           </h3>
         </header>
         <div class="sec-content">
-          <p>## Recursion: the computational contract</p>
+          <h4>Recursion: the computational contract</h4>
 
 <p><strong>Core idea.</strong> A recursive function needs a base case and a strictly smaller subproblem. A mathematical recurrence is not proof that an implementation terminates. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
 
 <p><strong>Executable Python example:</strong></p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>def factorial(n):
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">def factorial(n):
     if n &lt;= 1: return 1
     return n * factorial(n - 1)
 print(factorial(5))</code></pre>
 
-<p><strong>Expected result:</strong> `120`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
+<p><strong>Expected result:</strong> <code>120</code>. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
 
 <p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For recursion, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
 
@@ -238,7 +238,7 @@ print(factorial(5))</code></pre>
 
 <h4>Extended case study, part 3</h4>
 
-<p>## Modules are dependency boundaries</p>
+<h4>Modules are dependency boundaries</h4>
 
 <p>As programs grow, related functions can be grouped into modules. The purpose is not merely to shorten individual files. Modules define responsibilities, import relationships, and reusable interfaces. Suppose a grade-reporting application contains code for validating scores, computing statistics, formatting reports, and reading files. Grouping these responsibilities can make the dependency direction clearer: the reporting layer may call calculation functions, while the calculation layer should not depend on the reporting interface. Such a design allows the same calculations to be used in a command-line program or a web application.</p>
 
@@ -246,15 +246,15 @@ print(factorial(5))</code></pre>
 
 <p>A module's import-time behavior also matters. A module that immediately reads a large dataset, opens a connection, or launches an application when imported is harder to test and reuse. Put executable entry-point behavior behind an explicit main function or conventional guard, while exposing importable computations separately. This makes the module useful both as a program and as a library without surprising side effects.</p>
 
-<p>## A worked design: statistics from a classroom roster</p>
+<h4>A worked design: statistics from a classroom roster</h4>
 
 <p>Suppose a roster contains student identifiers and scores. The application should compute a class mean, classify individual scores, and create a text report. Start with independent contracts. The parser accepts structured records and rejects missing identifiers or invalid score types. The mean function takes a nonempty numeric list and returns a numeric mean. The classifier accepts a score and a policy and returns a category. The formatter accepts results and returns a string; it does not modify scores. The save operation writes that string to a chosen destination and reports filesystem errors.</p>
 
-<p>For scores 70, 80, and 90, the mean is `(70 + 80 + 90)/3 = 80`. Write one test for this example, but do not stop there. Test a single score, a repeated score, an empty list, and a list containing an invalid value. Decide whether the parser or calculation function rejects non-finite floats. Test classification exactly at grade thresholds. Confirm that formatting the report does not change the input data. Finally, run an integration test that writes the report and verifies the stored contents, while keeping filesystem effects out of arithmetic tests.</p>
+<p>For scores 70, 80, and 90, the mean is <code>(70 + 80 + 90)/3 = 80</code>. Write one test for this example, but do not stop there. Test a single score, a repeated score, an empty list, and a list containing an invalid value. Decide whether the parser or calculation function rejects non-finite floats. Test classification exactly at grade thresholds. Confirm that formatting the report does not change the input data. Finally, run an integration test that writes the report and verifies the stored contents, while keeping filesystem effects out of arithmetic tests.</p>
 
 <p>If a new requirement adds a median, the program should need one new calculation and an update to report assembly, not a rewrite of the parser or grade classifier. If a different output format is requested, the calculations should remain untouched. These change scenarios demonstrate whether the decomposition corresponds to independent responsibilities. A design is not validated merely because its initial output is correct; it should also localize likely changes.</p>
 
-<p>## Test doubles and dependency injection</p>
+<h4>Test doubles and dependency injection</h4>
 
 <p>External dependencies such as storage and email services can be supplied through parameters or small interfaces. During a test, a fake storage object can record what the program attempted to save without writing to production. This is often called dependency injection. It is useful when a function's responsibility includes coordinating external effects. The fake must reproduce the behavior relevant to the test, including possible failures; a fake that always succeeds cannot establish correct behavior under network outages or storage conflicts.</p>
 
@@ -262,11 +262,11 @@ print(factorial(5))</code></pre>
 
 <h4>Capstone: separating a calculation into stable interfaces</h4>
 
-<p>Imagine a program that computes the total price of a customer's order, including a discount and tax. A monolithic function might read a file, decide the discount percentage, calculate subtotals, round monetary values, and print an invoice. This mixes independent concerns. A more testable design separates pure calculations from I/O: `subtotal(items)`, `discount(subtotal, policy)`, `taxable_amount(...)`, `tax(...)`, and `format_invoice(...)`. The function boundaries are not arbitrary. Each represents a defined transformation whose inputs, output, and failure modes can be tested separately. A pure calculation is deterministic when its parameters are fixed and it does not read hidden mutable state.</p>
+<p>Imagine a program that computes the total price of a customer's order, including a discount and tax. A monolithic function might read a file, decide the discount percentage, calculate subtotals, round monetary values, and print an invoice. This mixes independent concerns. A more testable design separates pure calculations from I/O: <code>subtotal(items)</code>, <code>discount(subtotal, policy)</code>, <code>taxable_amount(...)</code>, <code>tax(...)</code>, and <code>format_invoice(...)</code>. The function boundaries are not arbitrary. Each represents a defined transformation whose inputs, output, and failure modes can be tested separately. A pure calculation is deterministic when its parameters are fixed and it does not read hidden mutable state.</p>
 
-<p>Scope is central to this design. A function argument such as `tax_rate` should ordinarily determine its behavior rather than a hidden global variable. If a function silently reads a global default, the same invocation may produce a different output after an unrelated part of the program changes that default. Passing the rate makes the dependency explicit. This is not a claim that globals are always forbidden: immutable configuration constants can be reasonable. But mutable global policy should not contaminate a function that is supposed to be a reusable mathematical operation. The caller can provide different rates for different jurisdictions and can exercise boundary tests without replacing the function.</p>
+<p>Scope is central to this design. A function argument such as <code>tax_rate</code> should ordinarily determine its behavior rather than a hidden global variable. If a function silently reads a global default, the same invocation may produce a different output after an unrelated part of the program changes that default. Passing the rate makes the dependency explicit. This is not a claim that globals are always forbidden: immutable configuration constants can be reasonable. But mutable global policy should not contaminate a function that is supposed to be a reusable mathematical operation. The caller can provide different rates for different jurisdictions and can exercise boundary tests without replacing the function.</p>
 
-<p>Recursion provides another way to organize behavior, but it is not appropriate for every task. A recursive function must define a base case, show progress toward it, and preserve the desired result. Computing factorial with `factorial(0)=1` and `factorial(n)=n*factorial(n-1)` is a clean mathematical example for nonnegative integers, yet ordinary languages impose recursion-depth limits and each call consumes resources. For a list of a million items, an iterative aggregation may be safer and clearer. Recursive tree traversal is often natural because subtrees share the same structure as the parent, whereas recursive summation of a flat array is usually optional rather than essential.</p>
+<p>Recursion provides another way to organize behavior, but it is not appropriate for every task. A recursive function must define a base case, show progress toward it, and preserve the desired result. Computing factorial with <code>factorial(0)=1</code> and <code>factorial(n)=n*factorial(n-1)</code> is a clean mathematical example for nonnegative integers, yet ordinary languages impose recursion-depth limits and each call consumes resources. For a list of a million items, an iterative aggregation may be safer and clearer. Recursive tree traversal is often natural because subtrees share the same structure as the parent, whereas recursive summation of a flat array is usually optional rather than essential.</p>
 
 <p>Interface design also includes errors. If an item quantity is negative or a rate falls outside an allowed range, one layer should identify which component validates it and how the failure reaches the caller. Silently converting bad input to zero can mask fraud, missing data, or accidental corruption. Returning a structured error is often preferable to printing a warning deep inside a math function. Exception handling should be placed where recovery is meaningful: an interactive user interface can prompt for correction, while a pure subtotal function typically should not catch every exception and continue with an arbitrary fallback value.</p>
 
@@ -281,19 +281,19 @@ print(factorial(5))</code></pre>
           </h3>
         </header>
         <div class="sec-content">
-          <p>## Modular Interfaces: the computational contract</p>
+          <h4>Modular Interfaces: the computational contract</h4>
 
 <p><strong>Core idea.</strong> Local rebinding does not alter the module binding. Mutable objects introduce a distinct issue: mutation through an alias. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
 
 <p><strong>Executable Python example:</strong></p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>rate = 0.1
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">rate = 0.1
 def calculate(amount):
     rate = 0.2
     return amount * rate
 print(calculate(10), rate)</code></pre>
 
-<p><strong>Expected result:</strong> `2.0 0.1`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
+<p><strong>Expected result:</strong> <code>2.0 0.1</code>. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
 
 <p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For modular interfaces, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
 
@@ -301,19 +301,19 @@ print(calculate(10), rate)</code></pre>
 
 <h4>Extended case study, part 4</h4>
 
-<p>## API design and error communication</p>
+<h4>API design and error communication</h4>
 
-<p>A public function should have a name that communicates its purpose, not merely the fact that it does something. `validate_temperature` is clearer than `process`, and `mean_nonempty` signals a requirement that should appear in documentation. Arguments should have stable meanings; changing an argument from metres to centimetres without changing the contract breaks callers even if the function still accepts floats. Error messages should be actionable and avoid leaking irrelevant implementation details to end users, while logs may retain deeper diagnostic information for developers.</p>
+<p>A public function should have a name that communicates its purpose, not merely the fact that it does something. <code>validate_temperature</code> is clearer than <code>process</code>, and <code>mean_nonempty</code> signals a requirement that should appear in documentation. Arguments should have stable meanings; changing an argument from metres to centimetres without changing the contract breaks callers even if the function still accepts floats. Error messages should be actionable and avoid leaking irrelevant implementation details to end users, while logs may retain deeper diagnostic information for developers.</p>
 
 <p>Versioning matters when a function or module becomes widely used. Adding an optional parameter with a safe default may be compatible with existing calls; reordering positional parameters may not be. Changing a returned tuple to a dictionary may be beneficial but break code that unpacks the original result. Explicit interfaces permit controlled evolution. In a small academic exercise, write a short contract and revisit it when changing requirements so that compatibility becomes a deliberate decision.</p>
 
-<p>## A failure-first exercise: hidden shared state</p>
+<h4>A failure-first exercise: hidden shared state</h4>
 
-<p>Imagine a function that records the names of students who received an alert. It declares a default parameter `recipients=[]` and appends to it on every call. The author intended a fresh list when no recipients were supplied, but the list object is created only once when the function is defined. The second call may see names from the first. This can result in duplicate notifications or disclosure of unrelated recipient information. The function might pass a single-call demonstration, making the bug easy to miss.</p>
+<p>Imagine a function that records the names of students who received an alert. It declares a default parameter <code>recipients=[]</code> and appends to it on every call. The author intended a fresh list when no recipients were supplied, but the list object is created only once when the function is defined. The second call may see names from the first. This can result in duplicate notifications or disclosure of unrelated recipient information. The function might pass a single-call demonstration, making the bug easy to miss.</p>
 
-<p>The repair is to use `None` as the default and allocate a new list inside the function when no collection was supplied. Test two independent calls and verify that the second does not inherit the first call's state. If callers intentionally provide a mutable list, decide whether the function may modify that supplied object or should copy it. There is no universally correct choice, but the contract must state it. The exercise illustrates how function parameters, object identity, and scope combine to determine program behavior.</p>
+<p>The repair is to use <code>None</code> as the default and allocate a new list inside the function when no collection was supplied. Test two independent calls and verify that the second does not inherit the first call's state. If callers intentionally provide a mutable list, decide whether the function may modify that supplied object or should copy it. There is no universally correct choice, but the contract must state it. The exercise illustrates how function parameters, object identity, and scope combine to determine program behavior.</p>
 
-<p>## Final synthesis</p>
+<h4>Final synthesis</h4>
 
 <p>Functions bring together three forms of reasoning. Parameter and return contracts explain what computation means at the boundary. Scope and purity explain what can change inside and outside that boundary. Recursion and modular organization explain how larger problems are decomposed into reusable operations. An effective function is not judged only by its length or reusability; it is judged by whether a caller can use it correctly, test its guarantees, and understand its side effects.</p>
 

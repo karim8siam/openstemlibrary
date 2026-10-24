@@ -109,19 +109,19 @@
           </h3>
         </header>
         <div class="sec-content">
-          <p>## Conditionals: the computational contract</p>
+          <h4>Conditionals: the computational contract</h4>
 
 <p><strong>Core idea.</strong> Branch order encodes priority. Testing boundary values such as 59, 60, 79, and 80 exposes wrong inequalities. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
 
 <p><strong>Executable Python example:</strong></p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>def grade(score):
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">def grade(score):
     if score &gt;= 80: return 'A'
     if score &gt;= 60: return 'B'
     return 'C'
 print(grade(80))</code></pre>
 
-<p><strong>Expected result:</strong> `A`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
+<p><strong>Expected result:</strong> <code>A</code>. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
 
 <p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For conditionals, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
 
@@ -129,23 +129,23 @@ print(grade(80))</code></pre>
 
 <h4>Extended case study, part 1</h4>
 
-<p># Extended laboratory: control flow as a proof about changing state</p>
+<h4>Extended laboratory: control flow as a proof about changing state</h4>
 
 <p>A conditional chooses a path; a loop repeats a path while a condition holds. Those definitions are easy to memorize, but the deeper skill is connecting branching and repetition to claims about program behavior. Control flow determines which operations can execute, in what order, and under which assumptions. A program may contain only a few statements and still have hundreds of meaningful execution paths when input validation, errors, and nested decisions interact. Understanding control flow therefore requires tracing state, making branch coverage deliberate, and explaining why loops both compute the intended result and eventually stop.</p>
 
-<p>## Boundaries reveal conditional mistakes</p>
+<h4>Boundaries reveal conditional mistakes</h4>
 
-<p>Consider a function classifying numeric scores. Suppose scores at least eighty receive grade A, scores at least sixty but below eighty receive B, and lower scores receive C. An implementation that checks `score &gt;= 60` before `score &gt;= 80` and immediately returns B makes the A branch unreachable. The conditions individually look reasonable; their order changes their meaning. The rule is a partition of the valid input domain. A correctly ordered branch chain first distinguishes the upper interval and then the middle interval. Testing eighty and ninety alone is insufficient if tests do not include the boundary at sixty and the value immediately below eighty.</p>
+<p>Consider a function classifying numeric scores. Suppose scores at least eighty receive grade A, scores at least sixty but below eighty receive B, and lower scores receive C. An implementation that checks <code>score &gt;= 60</code> before <code>score &gt;= 80</code> and immediately returns B makes the A branch unreachable. The conditions individually look reasonable; their order changes their meaning. The rule is a partition of the valid input domain. A correctly ordered branch chain first distinguishes the upper interval and then the middle interval. Testing eighty and ninety alone is insufficient if tests do not include the boundary at sixty and the value immediately below eighty.</p>
 
 <p>Conditional correctness begins with a complete set of cases. For discrete integer scores from zero through one hundred, check the endpoints zero and one hundred, the transition at sixty, and the transition at eighty. Consider what happens for a floating-point score of 79.5 if such values are accepted. A rule written only for integers may need a stated rounding policy before classification. Also consider an out-of-range score such as 140. If an implementation returns A without rejecting it, the branch logic is consistent with its inequalities but may violate the domain contract. Validation and classification are distinct responsibilities.</p>
 
-<p>Boolean conditions can be composed using `and`, `or`, and `not`, but operator precedence and short-circuit evaluation matter. In a predicate like `record is not None and record['active']`, the second expression is evaluated only after the first succeeds. This can safely avoid indexing a missing record. Reversing the operands may raise an exception. When conditions are complex, extract named boolean expressions such as `has_seat`, `is_eligible`, and `payment_confirmed`; the final predicate then reads like a policy rather than a puzzle. Each named expression still needs tests, particularly when input data may be incomplete.</p>
+<p>Boolean conditions can be composed using <code>and</code>, <code>or</code>, and <code>not</code>, but operator precedence and short-circuit evaluation matter. In a predicate like <code>record is not None and record['active']</code>, the second expression is evaluated only after the first succeeds. This can safely avoid indexing a missing record. Reversing the operands may raise an exception. When conditions are complex, extract named boolean expressions such as <code>has_seat</code>, <code>is_eligible</code>, and <code>payment_confirmed</code>; the final predicate then reads like a policy rather than a puzzle. Each named expression still needs tests, particularly when input data may be incomplete.</p>
 
-<p>## Write conditions that cover rather than overlap</p>
+<h4>Write conditions that cover rather than overlap</h4>
 
-<p>For an access-control example, assume a user may view a document when either the document is public or the user is an authenticated member of the associated group. A reliable condition must reflect the full authorization rule. Checking only membership excludes public documents; checking `public or authenticated` might expose private group documents to any authenticated person. The distinction is not syntax but missing relationships among variables. A truth table can list all combinations of public status, authentication, and membership, then provide an expected allow-or-deny result for each. Comparing the implementation against that table exposes both overly restrictive and overly permissive behavior.</p>
+<p>For an access-control example, assume a user may view a document when either the document is public or the user is an authenticated member of the associated group. A reliable condition must reflect the full authorization rule. Checking only membership excludes public documents; checking <code>public or authenticated</code> might expose private group documents to any authenticated person. The distinction is not syntax but missing relationships among variables. A truth table can list all combinations of public status, authentication, and membership, then provide an expected allow-or-deny result for each. Comparing the implementation against that table exposes both overly restrictive and overly permissive behavior.</p>
 
-<p>Truth tables are especially useful when one branch must dominate another. A suspended account may be denied access regardless of membership or document visibility. The policy then needs an explicit precedence: deny suspended accounts first, otherwise evaluate the ordinary viewing rule. Writing conditions as independent `if` statements without `elif` or early returns may accidentally overwrite an earlier decision. Branch structure should mirror the decision hierarchy, and the tests should deliberately exercise conflicting conditions.</p>
+<p>Truth tables are especially useful when one branch must dominate another. A suspended account may be denied access regardless of membership or document visibility. The policy then needs an explicit precedence: deny suspended accounts first, otherwise evaluate the ordinary viewing rule. Writing conditions as independent <code>if</code> statements without <code>elif</code> or early returns may accidentally overwrite an earlier decision. Branch structure should mirror the decision hierarchy, and the tests should deliberately exercise conflicting conditions.</p>
         </div>
         
           <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
@@ -160,18 +160,18 @@ print(grade(80))</code></pre>
           </h3>
         </header>
         <div class="sec-content">
-          <p>## Loops: the computational contract</p>
+          <h4>Loops: the computational contract</h4>
 
 <p><strong>Core idea.</strong> A loop processes a sequence of states. The accumulator after each iteration should have a precise meaning. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
 
 <p><strong>Executable Python example:</strong></p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>total = 0
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">total = 0
 for n in [2, 4, 6]:
     total += n
 print(total)</code></pre>
 
-<p><strong>Expected result:</strong> `12`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
+<p><strong>Expected result:</strong> <code>12</code>. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
 
 <p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For loops, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
 
@@ -179,27 +179,27 @@ print(total)</code></pre>
 
 <h4>Extended case study, part 2</h4>
 
-<p>## Loop invariants as continuously maintained promises</p>
+<h4>Loop invariants as continuously maintained promises</h4>
 
-<p>A loop invariant is a statement that holds before the first iteration, remains true after each iteration, and supports the desired result when the loop ends. For summing `[3, 5, 7]`, initialize `total = 0`. The invariant is that `total` equals the sum of already processed values. After processing three, it equals three. After processing five, it equals eight. After processing seven, it equals fifteen. The invariant alone does not say the loop stops; it describes what is true at every point where the next iteration may begin. Combined with traversal of every element and termination, it proves the final total is the sum of the list.</p>
+<p>A loop invariant is a statement that holds before the first iteration, remains true after each iteration, and supports the desired result when the loop ends. For summing <code>[3, 5, 7]</code>, initialize <code>total = 0</code>. The invariant is that <code>total</code> equals the sum of already processed values. After processing three, it equals three. After processing five, it equals eight. After processing seven, it equals fifteen. The invariant alone does not say the loop stops; it describes what is true at every point where the next iteration may begin. Combined with traversal of every element and termination, it proves the final total is the sum of the list.</p>
 
 <p>For finding a minimum in a nonempty list, initialize the candidate from the first element. At each step, replace it when a smaller value is encountered. The invariant states that the candidate is the minimum of the examined prefix. A clear initialization is essential: using zero as an initial candidate invalidates the invariant for all-positive inputs. Likewise, starting from infinity may be mathematically legitimate for some domains but requires a representation and a convention for empty inputs. An invariant is not a decorative sentence; it constrains initialization and the update rule.</p>
 
-<p>A more interesting invariant appears in binary search. Suppose a sorted sequence is searched for a target using a half-open interval `[lo, hi)`. Maintain the property that any position containing the target, under the chosen search convention, lies inside the current interval. At each step, compare the target with the middle element and eliminate a region that cannot contain the desired position. The interval decreases until no positions remain, or until the first qualifying position is located. An implementation that inconsistently treats `hi` as inclusive in one branch and exclusive in another may skip or repeat an element. State the interval convention before debugging indices.</p>
+<p>A more interesting invariant appears in binary search. Suppose a sorted sequence is searched for a target using a half-open interval <code>[lo, hi)</code>. Maintain the property that any position containing the target, under the chosen search convention, lies inside the current interval. At each step, compare the target with the middle element and eliminate a region that cannot contain the desired position. The interval decreases until no positions remain, or until the first qualifying position is located. An implementation that inconsistently treats <code>hi</code> as inclusive in one branch and exclusive in another may skip or repeat an element. State the interval convention before debugging indices.</p>
 
-<p>## Termination requires a decreasing measure</p>
+<h4>Termination requires a decreasing measure</h4>
 
-<p>A loop can preserve a correctness invariant forever and still fail to finish. Consider `while n &gt; 0: n -= 1` for a nonnegative integer n. The variant is n itself, a value that never becomes negative during execution and decreases strictly whenever the loop repeats. There cannot be infinitely many strictly decreasing nonnegative integers, so the loop terminates after at most the initial number of iterations. This argument depends on n being an integer and on the body actually decreasing it. If the body accidentally increases n, the proof collapses even if a test with n equal to zero returns immediately.</p>
+<p>A loop can preserve a correctness invariant forever and still fail to finish. Consider <code>while n &gt; 0: n -= 1</code> for a nonnegative integer n. The variant is n itself, a value that never becomes negative during execution and decreases strictly whenever the loop repeats. There cannot be infinitely many strictly decreasing nonnegative integers, so the loop terminates after at most the initial number of iterations. This argument depends on n being an integer and on the body actually decreasing it. If the body accidentally increases n, the proof collapses even if a test with n equal to zero returns immediately.</p>
 
-<p>For a binary search, the interval length `hi - lo` is a natural variant. Each iteration must strictly reduce this nonnegative integer. A bug such as setting `lo = mid` when `mid` already equals `lo` can cause an infinite loop on a two-element or one-element interval. The invariant about where the target may be located might still appear plausible; the failure is lack of progress. For every iterative algorithm, ask two separate questions: what property is preserved, and what measurable quantity forces eventual completion?</p>
+<p>For a binary search, the interval length <code>hi - lo</code> is a natural variant. Each iteration must strictly reduce this nonnegative integer. A bug such as setting <code>lo = mid</code> when <code>mid</code> already equals <code>lo</code> can cause an infinite loop on a two-element or one-element interval. The invariant about where the target may be located might still appear plausible; the failure is lack of progress. For every iterative algorithm, ask two separate questions: what property is preserved, and what measurable quantity forces eventual completion?</p>
 
 <p>Termination analysis also informs resource limits. An algorithm that performs exactly one iteration per input item terminates when the input is finite, but that may still be too slow for billions of items. A nested scan can require work proportional to the square of the input length. A retry loop that repeatedly calls an external service may have no natural finite bound if the service never responds successfully. Such loops should define a retry count, deadline, or cancellation behavior and expose failure when the allowed attempts are exhausted. Infinite retry is a policy choice with real operational consequences, not a safe default.</p>
 
-<p>## A case study: searching a sorted catalogue</p>
+<h4>A case study: searching a sorted catalogue</h4>
 
 <p>Suppose a library stores course identifiers in ascending order and needs to determine whether a requested identifier exists. A linear scan is correct without sorting but may examine every item. A binary search can be faster for repeated queries if the sequence remains sorted. State the precondition explicitly: the identifiers must be sorted according to the same comparison convention used by the search. If a new course is appended without restoring order, binary search may report a false absence. The input's structural invariant is as important as the loop's internal invariant.</p>
 
-<p>For a small example `[3, 7, 11, 18, 24]`, search for eighteen using a half-open interval. Initially `lo = 0` and `hi = 5`. The middle index is two, with value eleven, so a search for the first position at least eighteen can discard indices zero through two by setting `lo = 3`. The remaining interval contains indices three and four. The middle index becomes four with value twenty-four, so `hi = 4`. The final comparison narrows the interval to index three, yielding eighteen. The step sequence is useful because it shows the interval convention and explains why the search does not simply guess a midpoint until lucky.</p>
+<p>For a small example <code>[3, 7, 11, 18, 24]</code>, search for eighteen using a half-open interval. Initially <code>lo = 0</code> and <code>hi = 5</code>. The middle index is two, with value eleven, so a search for the first position at least eighteen can discard indices zero through two by setting <code>lo = 3</code>. The remaining interval contains indices three and four. The middle index becomes four with value twenty-four, so <code>hi = 4</code>. The final comparison narrows the interval to index three, yielding eighteen. The step sequence is useful because it shows the interval convention and explains why the search does not simply guess a midpoint until lucky.</p>
 
 <p>Now search for a missing value, such as thirteen. The algorithm may return the insertion position between eleven and eighteen. If the public interface promises only a boolean existence result, convert that insertion position to a comparison with the actual list element and return false. If it promises an index, decide whether absence is represented by negative one, an optional result, or a separate status value. The underlying loop can support several interfaces, but each must have a coherent absence convention.</p>
         </div>
@@ -216,19 +216,19 @@ print(total)</code></pre>
           </h3>
         </header>
         <div class="sec-content">
-          <p>## Invariants: the computational contract</p>
+          <h4>Invariants: the computational contract</h4>
 
 <p><strong>Core idea.</strong> The invariant is that best equals the smallest element of the processed prefix. Explain initialization, maintenance and termination. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
 
 <p><strong>Executable Python example:</strong></p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>numbers = [3, 1, 4]
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">numbers = [3, 1, 4]
 best = numbers[0]
 for n in numbers[1:]:
     best = min(best, n)
 print(best)</code></pre>
 
-<p><strong>Expected result:</strong> `1`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
+<p><strong>Expected result:</strong> <code>1</code>. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
 
 <p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For invariants, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
 
@@ -236,13 +236,13 @@ print(best)</code></pre>
 
 <h4>Extended case study, part 3</h4>
 
-<p>## Avoid confusing exhaustive testing with representative testing</p>
+<h4>Avoid confusing exhaustive testing with representative testing</h4>
 
 <p>The number of paths through a program can grow rapidly. Four independent boolean conditions produce sixteen combinations before considering loops, failures, and numeric boundaries. It may be practical to enumerate all combinations for a small authorization predicate, but not every possible state of a large program. Testing should therefore combine equivalence classes, boundary cases, path coverage, and properties. A condition handling positive integers may be tested with one ordinary positive value, zero, and negative inputs when the domain permits them. Loop tests should include zero iterations, one iteration, several iterations, and cases where the loop body changes the decision near a boundary.</p>
 
-<p>For a grade classifier, simply executing every branch once does not guarantee that the inequalities are correct. A mistaken `&gt;` instead of `&gt;=` may still execute all branches for ordinary examples. Testing exactly at the threshold is more informative. For a search algorithm, testing one successful target and one missing target is also insufficient; first-element, last-element, duplicate-element, empty-list, and insertion-at-end cases expose different indexing errors. The goal is not to maximize the number of tests mechanically, but to connect each test to a plausible failure.</p>
+<p>For a grade classifier, simply executing every branch once does not guarantee that the inequalities are correct. A mistaken <code>&gt;</code> instead of <code>&gt;=</code> may still execute all branches for ordinary examples. Testing exactly at the threshold is more informative. For a search algorithm, testing one successful target and one missing target is also insufficient; first-element, last-element, duplicate-element, empty-list, and insertion-at-end cases expose different indexing errors. The goal is not to maximize the number of tests mechanically, but to connect each test to a plausible failure.</p>
 
-<p>## Defensive iteration over changing collections</p>
+<h4>Defensive iteration over changing collections</h4>
 
 <p>Iterating over a list while deleting elements from it can skip values because indices shift as the list changes. If the objective is to remove all invalid records, building a new list of retained records is often clearer than mutating the original list during traversal. For instance, a comprehension that keeps all records satisfying a validation predicate expresses filtering as a transformation rather than a sequence of destructive updates. If in-place mutation is required for performance or identity reasons, design it deliberately with careful indexing and test consecutive invalid elements.</p>
 
@@ -250,18 +250,18 @@ print(best)</code></pre>
 
 <h4>Capstone: a loop that can be proved to finish</h4>
 
-<p>Consider the task of finding the first position of a target in a sequence. A simple linear-search loop maintains an index `i`, checks the element at `i`, and advances until it finds a match or reaches the sequence length. The algorithm's contract might return the first matching index or a special missing result. The first-match detail matters when the sequence contains duplicates. An implementation that keeps searching after a match and overwrites the answer would instead return the last matching index, violating the chosen contract while still returning a valid-looking integer.</p>
+<p>Consider the task of finding the first position of a target in a sequence. A simple linear-search loop maintains an index <code>i</code>, checks the element at <code>i</code>, and advances until it finds a match or reaches the sequence length. The algorithm's contract might return the first matching index or a special missing result. The first-match detail matters when the sequence contains duplicates. An implementation that keeps searching after a match and overwrites the answer would instead return the last matching index, violating the chosen contract while still returning a valid-looking integer.</p>
 
-<p>A loop invariant states the fact that remains true before each iteration. For linear search, a useful invariant is: all positions strictly before `i` have been examined, and none contains the target. Initially `i=0`, so there are no earlier positions and the statement is vacuously true. If the current position does not match, incrementing `i` preserves the invariant because this new position has now been checked. If a match occurs, the invariant establishes that it is the first match. If `i` reaches the sequence length, every position has been examined and absence is justified. This reasoning is stronger than saying a loop worked on three example inputs.</p>
+<p>A loop invariant states the fact that remains true before each iteration. For linear search, a useful invariant is: all positions strictly before <code>i</code> have been examined, and none contains the target. Initially <code>i=0</code>, so there are no earlier positions and the statement is vacuously true. If the current position does not match, incrementing <code>i</code> preserves the invariant because this new position has now been checked. If a match occurs, the invariant establishes that it is the first match. If <code>i</code> reaches the sequence length, every position has been examined and absence is justified. This reasoning is stronger than saying a loop worked on three example inputs.</p>
 
-<p>Termination needs a separate argument. The natural variant is `n-i`, a nonnegative integer that strictly decreases whenever the loop continues. If `i` is advanced once per unsuccessful iteration, the variant eventually reaches zero and the loop ends. A mistaken update such as `i=i+0`, or an update placed only in a branch that never executes, destroys this reasoning. A loop can maintain a true invariant forever and still be wrong because it never terminates. Partial correctness and termination combine to give total correctness. They should not be conflated.</p>
+<p>Termination needs a separate argument. The natural variant is <code>n-i</code>, a nonnegative integer that strictly decreases whenever the loop continues. If <code>i</code> is advanced once per unsuccessful iteration, the variant eventually reaches zero and the loop ends. A mistaken update such as <code>i=i+0</code>, or an update placed only in a branch that never executes, destroys this reasoning. A loop can maintain a true invariant forever and still be wrong because it never terminates. Partial correctness and termination combine to give total correctness. They should not be conflated.</p>
 
-<p>Boundary conditions reveal most practical defects. An empty sequence must return missing without indexing element zero. A target at the first position should require one comparison. A target at the last position requires a full scan. A missing target also scans all `n` elements. Off-by-one errors appear when a loop tests `i&lt;=n` instead of `i<n`; then="" index="" `n`="" is="" accessed="" even="" though="" valid="" zero-based="" indices="" stop="" at="" `n-1`.="" the="" condition="" and="" variant="" both="" explain="" why="" strict="" bound="" matters.="" in="" a="" dynamic="" language,="" catching="" an="" `indexerror`="" treating="" it="" as="" normal="" loop="" termination="" hides="" specification="" error="" makes="" accidental="" mistakes="" harder="" to="" detect.<="" p="">
+<p>Boundary conditions reveal most practical defects. An empty sequence must return missing without indexing element zero. A target at the first position should require one comparison. A target at the last position requires a full scan. A missing target also scans all <code>n</code> elements. Off-by-one errors appear when a loop tests <code>i&lt;=n</code> instead of <code>i<n< code="">; then index <code>n</code> is accessed even though valid zero-based indices stop at <code>n-1</code>. The condition and the variant both explain why the strict bound matters. In a dynamic language, catching an <code>IndexError</code> and treating it as normal loop termination hides a specification error and makes accidental mistakes harder to detect.</n<></code></p><code>
 
-</n`;></p><p>For a sorted sequence, binary search offers a different contract and a shorter asymptotic bound. Its invariant concerns a shrinking candidate interval, not all earlier positions. A common half-open formulation maintains that a desired lower-bound index, if one exists, lies within `[lo, hi)`, updating the bounds without excluding valid candidates. This method requires an ordering relation and sorted data. Using it on unsorted input is not a faster alternative: it is an invalid algorithm for that precondition. The algorithm should be selected after the problem is understood, with evidence about expected sizes and costs, not simply because logarithmic complexity looks more impressive in isolation.</p>
-        </div>
+<p>For a sorted sequence, binary search offers a different contract and a shorter asymptotic bound. Its invariant concerns a shrinking candidate interval, not all earlier positions. A common half-open formulation maintains that a desired lower-bound index, if one exists, lies within <code>[lo, hi)</code>, updating the bounds without excluding valid candidates. This method requires an ordering relation and sorted data. Using it on unsorted input is not a faster alternative: it is an invalid algorithm for that precondition. The algorithm should be selected after the problem is understood, with evidence about expected sizes and costs, not simply because logarithmic complexity looks more impressive in isolation.</p>
+        </code></div><code>
         
-      </section><section class="textbook-section-card" id="sec-3-4">
+      </code></section><section class="textbook-section-card" id="sec-3-4">
         <header class="sec-header">
           <h3 class="sec-title">
             <span class="sec-num">§3.4</span>
@@ -269,19 +269,19 @@ print(best)</code></pre>
           </h3>
         </header>
         <div class="sec-content">
-          <p>## Termination: the computational contract</p>
+          <h4>Termination: the computational contract</h4>
 
 <p><strong>Core idea.</strong> The nonnegative integer n decreases strictly when the loop runs. This ranking function proves termination for valid input. The primary obligation of a program is to implement an explicit input–output contract. State its accepted inputs, its observable outputs, and assumptions about ordering, numeric ranges or persistence. If a program has side effects, include them in the contract: displaying output, mutating memory and writing to a file are not equivalent to returning a value.</p>
 
 <p><strong>Executable Python example:</strong></p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>def countdown(n):
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">def countdown(n):
     while n &gt; 0:
         n -= 1
     return n
 print(countdown(5))</code></pre>
 
-<p><strong>Expected result:</strong> `0`. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
+<p><strong>Expected result:</strong> <code>0</code>. Trace the program without executing it, paying attention to evaluation order, intermediate state, exceptions and the meaning of each name. Then execute it in Python 3. When a snippet contains commented integration lines, place them in the described module context before running.</p>
 
 <p><strong>Underlying reasoning.</strong> Computational correctness has several layers. A mathematical idea must match the requested problem; the algorithm must implement the idea; the code must implement the algorithm; and the input and output interface must preserve the intended meaning. A failure in any layer can produce a plausible looking result. For termination, first describe the invariant or property that should remain true. Construct a small counterexample that would violate the property if a step were removed or reordered.</p>
 
@@ -289,19 +289,19 @@ print(countdown(5))</code></pre>
 
 <h4>Extended case study, part 4</h4>
 
-<p>## Input-dependent loops and progress reporting</p>
+<h4>Input-dependent loops and progress reporting</h4>
 
 <p>A numerical algorithm such as Newton's method repeats updates until an estimated root converges. Unlike counting down an integer, the measure of progress may be a residual or step size that does not decrease monotonically on every iteration. An algorithm should have an iteration cap, recognize invalid numeric states, and distinguish successful convergence from exhaustion of the budget. A small change between successive estimates is not always proof of an accurate solution; a method can stagnate far from a root. Check a residual or other problem-specific criterion and report the reason for stopping.</p>
 
 <p>An interactive program should also remain responsive during heavy iterations. A loop that blocks the browser's main thread for several seconds may produce a correct answer while delivering a poor user experience. For longer computations, consider chunked execution or a worker, with clear progress and cancellation controls. In a simple teaching simulation, reduce the amount of work per frame and use capped input ranges. Performance limits are part of control-flow design because they define when operations may execute and what happens when the work is interrupted.</p>
 
-<p>## Integrated debugging example: a defective accumulation loop</p>
+<h4>Integrated debugging example: a defective accumulation loop</h4>
 
 <p>Suppose the intended task is to sum positive values until a zero sentinel is encountered. A defect-prone implementation might read the first value, add it, and then check whether it is zero, or might forget to read the next value inside the loop. The first error processes the sentinel; the second may repeat forever. The correct design begins with a contract: zero ends the stream and is not included; the sum includes earlier values; invalid text produces a documented failure; end-of-file is an acceptable termination condition if specified. Now the loop should read, check whether input is available and whether it is the sentinel, validate, update the accumulator, and repeat. The ordering implements the contract.</p>
 
-<p>Build a trace for inputs `4, 6, 0`. Initially the accumulator is zero. After four it is four; after six it is ten; zero causes termination without changing the accumulator. The result is ten. For input `0`, the loop should perform no accumulation and return zero. For an empty stream, behavior depends on the contract and should be specified separately. For invalid text, the result should not be silently reported as if every entry were valid. Such small traces turn vague debugging into a comparison between expected and observed state transitions.</p>
+<p>Build a trace for inputs <code>4, 6, 0</code>. Initially the accumulator is zero. After four it is four; after six it is ten; zero causes termination without changing the accumulator. The result is ten. For input <code>0</code>, the loop should perform no accumulation and return zero. For an empty stream, behavior depends on the contract and should be specified separately. For invalid text, the result should not be silently reported as if every entry were valid. Such small traces turn vague debugging into a comparison between expected and observed state transitions.</p>
 
-<p>## Final synthesis</p>
+<h4>Final synthesis</h4>
 
 <p>Control flow turns a static description of a computation into a sequence of states. Conditionals must implement an exhaustive and correctly prioritized partition of permitted inputs. Loops need both invariants that explain correctness and progress measures that explain termination. Their behavior depends on data structure semantics, numeric boundaries, and interactions with external systems. Good testing checks those assumptions explicitly rather than trusting a handful of successful examples.</p>
 

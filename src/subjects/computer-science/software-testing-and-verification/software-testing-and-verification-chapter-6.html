@@ -111,7 +111,7 @@
         <div class="sec-content">
           <h4>Core reasoning and definitions</h4>
 
-<p>Temporal properties describe how propositions behave across sequences of states. A safety property says something bad never happens, such as two users never simultaneously owning one exclusive lock. Liveness says something good eventually happens under stated fairness and environmental assumptions. Temporal logics provide operators such as “always,” “eventually,” “next,” and “until”; they express requirements about traces rather than isolated output snapshots. In Linear Temporal Logic, `G p` means proposition p holds globally on a trace, and `F q` says q eventually becomes true. A finite test execution cannot generally establish unbounded liveness, because the promised event might occur after the test stops; bounded response properties require an explicit deadline or step limit. Fairness assumptions determine whether a scheduler could ignore a task forever.</p>
+<p>Temporal properties describe how propositions behave across sequences of states. A safety property says something bad never happens, such as two users never simultaneously owning one exclusive lock. Liveness says something good eventually happens under stated fairness and environmental assumptions. Temporal logics provide operators such as “always,” “eventually,” “next,” and “until”; they express requirements about traces rather than isolated output snapshots. In Linear Temporal Logic, <code>G p</code> means proposition p holds globally on a trace, and <code>F q</code> says q eventually becomes true. A finite test execution cannot generally establish unbounded liveness, because the promised event might occur after the test stops; bounded response properties require an explicit deadline or step limit. Fairness assumptions determine whether a scheduler could ignore a task forever.</p>
 
 <h4>Original investigative exercise</h4>
 
@@ -119,7 +119,7 @@
 
 <h4>Limits and counterexamples</h4>
 
-<p>Testing three successful traces cannot prove `G p` for every possible interleaving. A liveness argument that ignores indefinite dependency failure conceals the very assumption on which progress depends.</p>
+<p>Testing three successful traces cannot prove <code>G p</code> for every possible interleaving. A liveness argument that ignores indefinite dependency failure conceals the very assumption on which progress depends.</p>
 
 <h4>Deep dive: bridging model checking and implementation testing</h4>
 
@@ -131,7 +131,7 @@
 
 <p>Counterexample traces are valuable because they suggest concrete fault-injection tests. If the model discovers that a lease expires before an owner learns its renewal failed, create a controlled schedule in which the old worker pauses, another worker acquires the lease, and the first resumes. The production implementation may require fencing tokens so that stale workers cannot commit writes after losing a lease. A mutex inside one process would not address a distributed lease race across machines. The test should inspect durable outputs and the fencing/version check, not just the log message claiming the worker stopped.</p>
 
-<p>Hoare-style reasoning is useful for local state changes. For `i=0; while(i<n){i++}`, invariant="" `0<="i<=n`" establishes="" partial="" correctness="" under="" n="">=0, and the decreasing variant n-i establishes termination if integer arithmetic behaves as modeled. A more complex queue cannot be proved by copying this pattern unchanged. It needs separate invariants for durable queue membership, lease ownership, duplicate suppression, and state transitions. Proof obligations should be broken into small lemmas. A failed proof step often identifies either a missing assumption or a real transition that violates the intended property.</n){i++}`,></p>
+<p>Hoare-style reasoning is useful for local state changes. For <code>i=0; while(i<n){i++}< code="">, invariant <code>0&lt;=i&lt;=n</code> establishes partial correctness under n&gt;=0, and the decreasing variant n-i establishes termination if integer arithmetic behaves as modeled. A more complex queue cannot be proved by copying this pattern unchanged. It needs separate invariants for durable queue membership, lease ownership, duplicate suppression, and state transitions. Proof obligations should be broken into small lemmas. A failed proof step often identifies either a missing assumption or a real transition that violates the intended property.</n){i++}<></code></p><code>
 
 <p>Refinement connects a concrete implementation to the abstract machine. The concrete system may perform several invisible operations before one abstract enqueue transition is deemed to occur. A correct refinement should preserve the externally observable behavior, while permitting implementation details such as logging and retry scheduling. For concurrent APIs, linearizability asks whether each operation can be placed at an instant between invocation and response consistent with real-time ordering. A stale read replica may violate a strong-read contract even if reservations themselves are atomic; separate each API's consistency promise.</p>
 
@@ -140,9 +140,9 @@
 <h4>Unit synthesis: from bounded models to real implementations</h4>
 
 <p>A model checker can completely enumerate a finite transition system, but the word completely applies only to the constructed model. If the model omits message loss or clock skew, a successful safety proof does not cover them. A shortest counterexample can still be valuable when translated into a deterministic integration test. Write the mutual-exclusion invariant, identify a transition that could violate it, and map that abstract transition to an actual storage operation. For progress, distinguish eventual success under fairness assumptions from completion within a fixed bound. A finite incomplete trace cannot refute eventual success unless the model has a counterexample lasso or a stronger bounded claim. Include the code-level semantics of integer arithmetic, database transactions and worker lease renewal in the refinement discussion. The goal is a scoped verification argument whose assumptions are visible and whose experimental counterparts test what the abstract machine cannot represent.</p>
-        </div>
+        </code></div><code>
         
-      </section><section class="textbook-section-card" id="sec-6-2">
+      </code></section><section class="textbook-section-card" id="sec-6-2">
         <header class="sec-header">
           <h3 class="sec-title">
             <span class="sec-num">§6.2</span>
@@ -168,11 +168,11 @@
 
 <p>Formulate safety properties first. A job cannot be Completed before it has been accepted into durable storage. There must be at most one current lease holder for any job identifier. A completed output must correspond to the correct input and declared schema version. These are invariants over reachable committed states. Formulate liveness separately: if healthy workers continue processing and the queue remains within its operating capacity, every valid queued job eventually reaches a terminal outcome. This conditional statement needs fairness, bounded failures, and enough service capacity. Without assumptions, a permanent network partition can prevent progress forever, and a formal liveness assertion that ignored it would be misleading.</p>
 
-<p>Write a toy model enumerator with a state tuple `(job_state, lease_owner, attempts)`. Limit attempts to three for tractability. Starting from New, generate valid transitions and collect reachable states using breadth-first search. Assert that Completed states have no active worker lease, and that no state grants the same job lease to two workers. Introduce a faulty transition that grants a lease without clearing the previous owner; the shortest counterexample is a path beginning with acquisition by one worker and erroneous acquisition by another. A model checker produces a trace in the model, not direct proof that a production system executes that same sequence. Turn the trace into an integration test with a controllable scheduler or lease-store fake and observe the real atomicity boundary.</p>
+<p>Write a toy model enumerator with a state tuple <code>(job_state, lease_owner, attempts)</code>. Limit attempts to three for tractability. Starting from New, generate valid transitions and collect reachable states using breadth-first search. Assert that Completed states have no active worker lease, and that no state grants the same job lease to two workers. Introduce a faulty transition that grants a lease without clearing the previous owner; the shortest counterexample is a path beginning with acquisition by one worker and erroneous acquisition by another. A model checker produces a trace in the model, not direct proof that a production system executes that same sequence. Turn the trace into an integration test with a controllable scheduler or lease-store fake and observe the real atomicity boundary.</p>
 
-<p>Compare bounded testing and theorem proving. An integration suite with ten thousand random job sequences can miss a single rare interleaving. A complete model checker can prove the specified property over every state in a deliberately bounded model. A theorem proof may establish that an abstract `acquire` transition preserves uniqueness for all admissible jobs, but only if its precondition and state-update rules accurately represent production. A refinement argument must connect the concrete storage lock, transaction, retry, and timeout implementation to that abstract transition. Missing details such as clock skew or eventual consistency can invalidate a claim that an abstract proof covers the deployment.</p>
+<p>Compare bounded testing and theorem proving. An integration suite with ten thousand random job sequences can miss a single rare interleaving. A complete model checker can prove the specified property over every state in a deliberately bounded model. A theorem proof may establish that an abstract <code>acquire</code> transition preserves uniqueness for all admissible jobs, but only if its precondition and state-update rules accurately represent production. A refinement argument must connect the concrete storage lock, transaction, retry, and timeout implementation to that abstract transition. Missing details such as clock skew or eventual consistency can invalidate a claim that an abstract proof covers the deployment.</p>
 
-<p>Consider the temporal assertion `G(Completed -&gt; WasQueued)` and a conditional progress assertion `G(Queued and Healthy -&gt; F Terminal)`. The first expresses a safety history relationship; the second requires an interpretation of sustained health and fairness, not just a snapshot boolean. In a finite-trace simulator, a bounded alternative can check that a healthy job reaches a terminal state within ten steps. If the job has not finished by step nine, the run has not yet violated a ten-step deadline. If step eleven is reached, the bound is violated. This is not a general proof of unbounded liveness. The simulation deliberately exposes the difference between a pedagogical bounded property and a complete model of a distributed queue.</p>
+<p>Consider the temporal assertion <code>G(Completed -&gt; WasQueued)</code> and a conditional progress assertion <code>G(Queued and Healthy -&gt; F Terminal)</code>. The first expresses a safety history relationship; the second requires an interpretation of sustained health and fairness, not just a snapshot boolean. In a finite-trace simulator, a bounded alternative can check that a healthy job reaches a terminal state within ten steps. If the job has not finished by step nine, the run has not yet violated a ten-step deadline. If step eleven is reached, the bound is violated. This is not a general proof of unbounded liveness. The simulation deliberately exposes the difference between a pedagogical bounded property and a complete model of a distributed queue.</p>
 
 <p>Prepare a refinement checklist: specify which concrete event corresponds to accepting a job, which storage operation constitutes lease acquisition, what a retry token means, which states are externally observable, and which transient steps may be ignored by the abstract machine. Add traceability from each invariant to model assertions and deployment tests. The output is not simply "verified": it is a scoped statement that a named property holds within a named model under explicit environmental assumptions, with counterexamples and unmodeled cases recorded separately.</p>
         </div>
@@ -187,11 +187,11 @@
         <div class="sec-content">
           <h4>Core reasoning and definitions</h4>
 
-<p>Theorem proving establishes logical statements from axioms, definitions, and proof rules, often with computer assistance. A Hoare triple `{P} C {Q}` asserts that if command C starts in a state satisfying P and terminates, the resulting state satisfies Q; total correctness requires a separate termination argument. Interactive proof assistants allow a developer to define data types and discharge obligations with trusted kernels, while automated SMT solvers can handle many arithmetic and logical fragments. Every proof is conditional on the formal model and trusted computing base. A successful proof does not validate that the implemented parser, network interface, or compiler conforms to the model unless a correspondence argument connects them.</p>
+<p>Theorem proving establishes logical statements from axioms, definitions, and proof rules, often with computer assistance. A Hoare triple <code>{P} C {Q}</code> asserts that if command C starts in a state satisfying P and terminates, the resulting state satisfies Q; total correctness requires a separate termination argument. Interactive proof assistants allow a developer to define data types and discharge obligations with trusted kernels, while automated SMT solvers can handle many arithmetic and logical fragments. Every proof is conditional on the formal model and trusted computing base. A successful proof does not validate that the implemented parser, network interface, or compiler conforms to the model unless a correspondence argument connects them.</p>
 
 <h4>Original investigative exercise</h4>
 
-<p>Verify a simple bounded counter loop. Use invariant `0&lt;=i&lt;=n` for code starting at i=0 and incrementing until i=n under precondition n&gt;=0. Show initialization, preservation after an increment, and termination via decreasing variant n-i. Then analyze how integer overflow or a mistaken condition `i&lt;=n` invalidates the argument. For a transfer operation, encode a conservation invariant and show atomic state transitions preserve the sum. Write test cases derived from failed proof obligations, including n=0 and n at the machine integer limit.</p>
+<p>Verify a simple bounded counter loop. Use invariant <code>0&lt;=i&lt;=n</code> for code starting at i=0 and incrementing until i=n under precondition n&gt;=0. Show initialization, preservation after an increment, and termination via decreasing variant n-i. Then analyze how integer overflow or a mistaken condition <code>i&lt;=n</code> invalidates the argument. For a transfer operation, encode a conservation invariant and show atomic state transitions preserve the sum. Write test cases derived from failed proof obligations, including n=0 and n at the machine integer limit.</p>
 
 <h4>Limits and counterexamples</h4>
 
@@ -320,8 +320,8 @@
           </div>
         </div>
         <div class="problem-question-box">
-          <p>Prove partial correctness of `i=0; while(i<n){i++}` under="" precondition="" n="">=0 using an invariant. What extra argument establishes termination?</n){i++}`></p>
-        </div>
+          <p>Prove partial correctness of <code>i=0; while(i<n){i++}< code=""> under precondition n&gt;=0 using an invariant. What extra argument establishes termination?</n){i++}<></code></p><code>
+        </code></div><code>
         <button class="solution-toggle-btn" id="btn-sol-software-verification-6-3" aria-expanded="false">
           👁️ Reveal Complete Derivation &amp; Solution
         </button>
@@ -346,7 +346,7 @@
             </div>
           
         </div>
-      </div></div>
+      </code></div></div>
           </div>
 
           <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->

@@ -133,7 +133,7 @@
 
 <p>where the leading $1$ is an implicit (hidden) bit not physically stored in memory, granting an additional bit of precision for normalized numbers.</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>IEEE 754 64-Bit Double-Precision Layout:
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">IEEE 754 64-Bit Double-Precision Layout:
 +---+----------------------+----------------------------------------------------+
 | s | Exponent e (11 bits) | Fraction / Significand m (52 bits)                 |
 +---+----------------------+----------------------------------------------------+
@@ -143,7 +143,7 @@
 
 <ul>
 
-  <li><strong>Single Precision (`binary32` / `float32`)</strong>:</li>
+  <li><strong>Single Precision (<code>binary32</code> / <code>float32</code>)</strong>:</li>
 
   <li>Total bits: 32 (1 sign bit, 8 exponent bits, 23 fraction bits).</li>
 
@@ -153,7 +153,7 @@
 
   <li>Dynamic range: $\approx 1.18 \times 10^{-38}$ to $3.40 \times 10^{38}$.</li>
 
-  <li><strong>Double Precision (`binary64` / `float64`)</strong>:</li>
+  <li><strong>Double Precision (<code>binary64</code> / <code>float64</code>)</strong>:</li>
 
   <li>Total bits: 64 (1 sign bit, 11 exponent bits, 52 fraction bits).</li>
 
@@ -298,7 +298,7 @@
 
 <p>Software developers frequently implement this formula because it requires only a <strong>single pass</strong> over the data, accumulating $S_1 = \sum x_i$ and $S_2 = \sum x_i^2$ simultaneously:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code># CATASTROPHIC ONE-PASS VARIANCE
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;"># CATASTROPHIC ONE-PASS VARIANCE
 def naive_variance(x):
     n = len(x)
     s1 = sum(x)
@@ -329,7 +329,7 @@ def naive_variance(x):
 
 <p>The standard textbook two-pass algorithm computes the sample mean in the first pass, and then accumulates squared deviations in a second pass:</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code># TWO-PASS ALGORITHM
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;"># TWO-PASS ALGORITHM
 def two_pass_variance(x):
     n = len(x)
     xbar = sum(x) / n
@@ -355,7 +355,7 @@ def two_pass_variance(x):
 
 <div class="math-display">$$s^2 = \frac{M_{2, n}}{n - 1}$$</div>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>Welford Single-Pass State Flow:
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">Welford Single-Pass State Flow:
   (x_{k+1}) ---&gt; [ Delta1 = x_{k+1} - xbar_k ]
                          |
                          +---&gt; [ xbar_{k+1} = xbar_k + Delta1 / (k+1) ]
@@ -493,7 +493,7 @@ def two_pass_variance(x):
 
 <h4>The Numerical Stability Paradox: The Squaring of the Condition Number</h4>
 
-<p>Why do standard statistical packages (`lm()` in R, `np.linalg.lstsq` in NumPy) default to QR decomposition despite it requiring twice as many operations?</p>
+<p>Why do standard statistical packages (<code>lm()</code> in R, <code>np.linalg.lstsq</code> in NumPy) default to QR decomposition despite it requiring twice as many operations?</p>
 
 <p>The answer lies in <strong>matrix conditioning</strong>:</p>
 
@@ -663,15 +663,15 @@ def two_pass_variance(x):
 
 <ul>
 
-  <li>`data`: A floating-point array of length $N_{nz}$ containing all non-zero values in row-major order.</li>
+  <li><code>data</code>: A floating-point array of length $N_{nz}$ containing all non-zero values in row-major order.</li>
 
-  <li>`indices`: An integer array of length $N_{nz}$ containing the column indices ($0 \le j &lt; C$) for each corresponding entry in `data`.</li>
+  <li><code>indices</code>: An integer array of length $N_{nz}$ containing the column indices ($0 \le j &lt; C$) for each corresponding entry in <code>data</code>.</li>
 
-  <li>`indptr` (Index Pointers): An integer array of length $R + 1$, where `indptr[i]` denotes the starting index in `data` and `indices` for row $i$. The number of non-zero elements in row $i$ is simply `indptr[i+1] - indptr[i]`.</li>
+  <li><code>indptr</code> (Index Pointers): An integer array of length $R + 1$, where <code>indptr[i]</code> denotes the starting index in <code>data</code> and <code>indices</code> for row $i$. The number of non-zero elements in row $i$ is simply <code>indptr[i+1] - indptr[i]</code>.</li>
 
 </ul>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>CSR Layout Example for Matrix:
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">CSR Layout Example for Matrix:
   [ 0.0  5.2  0.0 ]
   [ 1.8  0.0  0.0 ]
   [ 0.0  3.4  9.1 ]
@@ -682,9 +682,9 @@ indptr  : [  0,    1,    2,    4  ] (Length = 3 + 1 = 4)</code></pre>
 
 <ul>
 
-  <li><strong>Strengths</strong>: Extremely efficient for row slicing (`A[i, :]`), row-wise matrix additions, and <strong>Sparse Matrix-Vector Multiplication (SpMV)</strong> $\mathbf{y} = \mathbf{A} \mathbf{x}$.</li>
+  <li><strong>Strengths</strong>: Extremely efficient for row slicing (<code>A[i, :]</code>), row-wise matrix additions, and <strong>Sparse Matrix-Vector Multiplication (SpMV)</strong> $\mathbf{y} = \mathbf{A} \mathbf{x}$.</li>
 
-  <li>In SpMV, the inner product for row $i$ is evaluated by sweeping over the slice `data[indptr[i]:indptr[i+1]]`, executing in $O(N_{nz})$ time without touching any zero elements.</li>
+  <li>In SpMV, the inner product for row $i$ is evaluated by sweeping over the slice <code>data[indptr[i]:indptr[i+1]]</code>, executing in $O(N_{nz})$ time without touching any zero elements.</li>
 
 </ul>
 
@@ -694,13 +694,13 @@ indptr  : [  0,    1,    2,    4  ] (Length = 3 + 1 = 4)</code></pre>
 
 <ul>
 
-  <li>`data`: Non-zero values stored in column-major order.</li>
+  <li><code>data</code>: Non-zero values stored in column-major order.</li>
 
-  <li>`indices`: Row indices for each non-zero entry.</li>
+  <li><code>indices</code>: Row indices for each non-zero entry.</li>
 
-  <li>`indptr`: Column index pointers of length $C + 1$.</li>
+  <li><code>indptr</code>: Column index pointers of length $C + 1$.</li>
 
-  <li><strong>Strengths</strong>: Extremely efficient for column slicing (`A[:, j]`) and sparse matrix-matrix multiplication (`SpGEMM`). CSC is the standard format used by compiled sparse solvers such as SuperLU and SuiteSparse (CHOLMOD).</li>
+  <li><strong>Strengths</strong>: Extremely efficient for column slicing (<code>A[:, j]</code>) and sparse matrix-matrix multiplication (<code>SpGEMM</code>). CSC is the standard format used by compiled sparse solvers such as SuperLU and SuiteSparse (CHOLMOD).</li>
 
 </ul>
 
@@ -731,7 +731,7 @@ indptr  : [  0,    1,    2,    4  ] (Length = 3 + 1 = 4)</code></pre>
 
 <div class="math-display">$$G_{ki} = -s = -\sin\theta, \quad G_{kk} = c = \cos\theta$$</div>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>Givens Rotation Matrix Structure:
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">Givens Rotation Matrix Structure:
             Row i       Row k
 Row i [ ...   c   ...    s   ... ]
       [          ...             ]
@@ -888,7 +888,7 @@ Row k [ ...  -s   ...    c   ... ]</code></pre>
 
 <p>In 2011, Nathan Halko, Per-Gunnar Martinsson, and Joel Tropp synthesized randomized sketching theory into the <strong>Randomized SVD</strong> algorithm. For massive matrices where $p$ is large but the effective statistical rank $k$ is small ($k \ll p$), randomized SVD computes near-optimal low-rank factorizations in $\mathcal{O}(n p \log k)$ operations instead of $\mathcal{O}(n p^2)$ deterministic operations.</p>
 
-<pre class="diagram-code-block" style="background: var(--bg-surface-2, #1e293b); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; line-height: 1.4;"><code>Randomized SVD Pipeline:
+<pre class="diagram-code-block" style="background: #0b1729; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-family: monospace; font-size: 0.92rem; line-height: 1.55; border: 1px solid #334155; margin: 1.25rem 0 1.5rem;"><code style="color: #f8fafc; background: transparent;">Randomized SVD Pipeline:
   [ High-Dim Matrix X (n x p) ] x [ Gaussian Sketch Omega (p x (k+s)) ]
                                 |
                                 v
@@ -1090,7 +1090,7 @@ Row k [ ...  -s   ...    c   ... ]</code></pre>
 
 <div class="math-display">$$\mathbf{X} \mathbf{P} = \mathbf{Q} \mathbf{R} = \mathbf{Q} \begin{bmatrix} \mathbf{R}_{11} &amp; \mathbf{R}_{12} \\ \mathbf{0} &amp; \mathbf{R}_{22} \end{bmatrix}$$</div>
 
-<p>where permutation matrix $\mathbf{P}$ reorders columns so that diagonal elements $|R_{kk}|$ are strictly non-increasing. If $\mathbf{X}$ has numerical rank $r &lt; p$, the sub-block $\|\mathbf{R}_{22}\|_2 \le \epsilon$, allowing the statistical software to detect and drop collinear columns automatically (the engine of R's `lm()`).</p>
+<p>where permutation matrix $\mathbf{P}$ reorders columns so that diagonal elements $|R_{kk}|$ are strictly non-increasing. If $\mathbf{X}$ has numerical rank $r &lt; p$, the sub-block $\|\mathbf{R}_{22}\|_2 \le \epsilon$, allowing the statistical software to detect and drop collinear columns automatically (the engine of R's <code>lm()</code>).</p>
 
 <h4>Generalized Eigenvalue Problems in Discriminant and Canonical Analysis</h4>
 

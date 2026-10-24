@@ -160,7 +160,7 @@
 
 <ul>
 
-  <li>Mapper: on node $m$, compute local count $n_m = |S_m|$ and local sum $s_m = \sum_{i \in S_m} x_i$. Emit key-value pair `("mean", (n_m, s_m))`.</li>
+  <li>Mapper: on node $m$, compute local count $n_m = |S_m|$ and local sum $s_m = \sum_{i \in S_m} x_i$. Emit key-value pair <code>("mean", (n_m, s_m))</code>.</li>
 
   <li>Reducer: sum local counts $N = \sum n_m$ and local sums $S = \sum s_m$. Emit $\bar{x} = S / N$.</li>
 
@@ -172,7 +172,7 @@
 
 <ul>
 
-  <li>Mapper: on node $m$, compute the local $p \times p$ matrix $\mathbf{G}_m = \mathbf{X}^{(m)T} \mathbf{X}^{(m)}$. Emit `("gram", G_m)`.</li>
+  <li>Mapper: on node $m$, compute the local $p \times p$ matrix $\mathbf{G}_m = \mathbf{X}^{(m)T} \mathbf{X}^{(m)}$. Emit <code>("gram", G_m)</code>.</li>
 
   <li>Reducer: sum $\mathbf{X}^T \mathbf{X} = \sum_{m=1}^M \mathbf{G}_m$.</li>
 
@@ -199,9 +199,9 @@
 
 <ul>
 
-  <li><strong>Transformations</strong> (Lazy): Construct a new RDD from an existing RDD (e.g., `map`, `filter`, `flatMap`, `groupByKey`). Transformations do not execute immediately; Spark constructs a Directed Acyclic Graph (DAG) representing the <strong>Lineage Graph</strong>.</li>
+  <li><strong>Transformations</strong> (Lazy): Construct a new RDD from an existing RDD (e.g., <code>map</code>, <code>filter</code>, <code>flatMap</code>, <code>groupByKey</code>). Transformations do not execute immediately; Spark constructs a Directed Acyclic Graph (DAG) representing the <strong>Lineage Graph</strong>.</li>
 
-  <li><strong>Actions</strong> (Eager): Trigger cluster execution and return a result to the driver program or write to storage (e.g., `count`, `collect`, `reduce`, `take`).</li>
+  <li><strong>Actions</strong> (Eager): Trigger cluster execution and return a result to the driver program or write to storage (e.g., <code>count</code>, <code>collect</code>, <code>reduce</code>, <code>take</code>).</li>
 
   <li><strong>Fault Tolerance via Lineage</strong>: If a cluster worker node crashes mid-computation, Spark does not restore from periodic disk checkpoints. Instead, it recomputes only the lost partition by replaying the mathematical transformations along the RDD lineage graph.</li>
 
@@ -209,7 +209,7 @@
 
 <h4>2. In-Memory Caching for Iterative Machine Learning</h4>
 
-<p>By invoking `rdd.cache()` or `rdd.persist(StorageLevel.MEMORY_ONLY)`, the dataset partitions are pinned directly inside worker node RAM. In subsequent iterations of an optimization algorithm:</p>
+<p>By invoking <code>rdd.cache()</code> or <code>rdd.persist(StorageLevel.MEMORY_ONLY)</code>, the dataset partitions are pinned directly inside worker node RAM. In subsequent iterations of an optimization algorithm:</p>
 
 <div class="math-display">$$\boldsymbol{\beta}_{t+1} = \boldsymbol{\beta}_t - \alpha_t \sum_{m=1}^M \nabla f_m(\boldsymbol{\beta}_t)$$</div>
 
@@ -308,13 +308,13 @@
           </h3>
         </header>
         <div class="sec-content">
-          <p>In big data analytics, the physical layout of statistical tables in memory and on disk dictates computational performance. Historically, database systems stored data in <strong>Row-Oriented</strong> formats (e.g., CSV, JSON, relational database rows): `Record 1: [ID, Age, Income, Diagnosis]` `Record 2: [ID, Age, Income, Diagnosis]`</p>
+          <p>In big data analytics, the physical layout of statistical tables in memory and on disk dictates computational performance. Historically, database systems stored data in <strong>Row-Oriented</strong> formats (e.g., CSV, JSON, relational database rows): <code>Record 1: [ID, Age, Income, Diagnosis]</code> <code>Record 2: [ID, Age, Income, Diagnosis]</code></p>
 
 <h4>1. The Columnar Revolution: Apache Parquet</h4>
 
 <p>In statistical analysis, queries rarely access all columns: an econometric regression model $Y \sim X_1 + X_2$ extracts 3 columns out of a dataset containing 2,000 columns. In a row-oriented file, the computer must read every byte of all 2,000 columns from disk, discarding $99.8\%$ of data in memory.</p>
 
-<p><strong>Apache Parquet</strong> stores data in <strong>Columnar Format</strong>: `Age:     [25, 42, 67, ...]` `Income:  [55000, 82000, 110000, ...]` `Disease: [0, 1, 0, ...]`</p>
+<p><strong>Apache Parquet</strong> stores data in <strong>Columnar Format</strong>: <code>Age:     [25, 42, 67, ...]</code> <code>Income:  [55000, 82000, 110000, ...]</code> <code>Disease: [0, 1, 0, ...]</code></p>
 
 <p>Advantages for statisticians:</p>
 
@@ -408,9 +408,9 @@
 
   <li>Workers transmit and receive parameters asynchronously using two primitives:</li>
 
-  <li>`Push(keys, gradients)`: Worker sends sparse gradients for the specific features present in its mini-batch to the designated server node.</li>
+  <li><code>Push(keys, gradients)</code>: Worker sends sparse gradients for the specific features present in its mini-batch to the designated server node.</li>
 
-  <li>`Pull(keys)`: Worker fetches the current parameter weights for its active mini-batch features.</li>
+  <li><code>Pull(keys)</code>: Worker fetches the current parameter weights for its active mini-batch features.</li>
 
 </ul>
 
@@ -480,7 +480,7 @@
 
 <p><em>Network Cost</em>: $O(P \cdot |\mathbf{B}|)$ network transmission. Zero shuffle traffic for table $\mathbf{A}$.</p>
 
-<p>Catalyst query optimizers inspect table statistics automatically: if a table size falls below `spark.sql.autoBroadcastJoinThreshold` (default 10 MB), it automatically promotes the query to a Broadcast Hash Join, accelerating distributed queries by factors of 10 to 100.</p>
+<p>Catalyst query optimizers inspect table statistics automatically: if a table size falls below <code>spark.sql.autoBroadcastJoinThreshold</code> (default 10 MB), it automatically promotes the query to a Broadcast Hash Join, accelerating distributed queries by factors of 10 to 100.</p>
         </div>
         
       </section><section class="textbook-section-card" id="sec-4-12">
@@ -544,9 +544,9 @@
 
 <ul>
 
-  <li><strong>Volcano Iterator Model</strong>: The execution engine processes queries one row at a time: `next()` returns a single record tuple. Every single field access triggers a virtual function call, incurring severe CPU instruction cache misses and branch mispredictions.</li>
+  <li><strong>Volcano Iterator Model</strong>: The execution engine processes queries one row at a time: <code>next()</code> returns a single record tuple. Every single field access triggers a virtual function call, incurring severe CPU instruction cache misses and branch mispredictions.</li>
 
-  <li><strong>Vectorized Execution (MonetDB/X100, Boncz et al. 2005)</strong>: The primitive execution operator `next()` processes a contiguous <strong>vector batch</strong> of $N \approx 1024$ values from a single column at a time:</li>
+  <li><strong>Vectorized Execution (MonetDB/X100, Boncz et al. 2005)</strong>: The primitive execution operator <code>next()</code> processes a contiguous <strong>vector batch</strong> of $N \approx 1024$ values from a single column at a time:</li>
 
   <li>Vector batches fit entirely inside the fast L1 CPU data cache.</li>
 
@@ -692,7 +692,7 @@
 
 <h4>1. Lineage Graphs vs. Periodic Checkpointing</h4>
 
-<p>Classical distributed systems relied on global coordinated checkpointing: pausing computation every 30 minutes to serialize all memory state to distributed disks (HDFS). In statistical learning, checkpointing consumes up to $50\%$ of cluster compute capacity. Apache Spark eliminates checkpointing through <strong>Deterministic Lineage Graphs</strong>: because transformations (e.g., `map`, `filter`) are pure mathematical functions, if worker node 42 fails, Spark re-schedules only the specific lost partition on an idle worker, recomputing it from the original input blocks in seconds.</p>
+<p>Classical distributed systems relied on global coordinated checkpointing: pausing computation every 30 minutes to serialize all memory state to distributed disks (HDFS). In statistical learning, checkpointing consumes up to $50\%$ of cluster compute capacity. Apache Spark eliminates checkpointing through <strong>Deterministic Lineage Graphs</strong>: because transformations (e.g., <code>map</code>, <code>filter</code>) are pure mathematical functions, if worker node 42 fails, Spark re-schedules only the specific lost partition on an idle worker, recomputing it from the original input blocks in seconds.</p>
 
 <h4>2. Straggler Mitigation via Speculative Execution</h4>
 

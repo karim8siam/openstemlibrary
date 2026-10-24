@@ -129,13 +129,13 @@
 
 <p>Boundary tests exploit common faults in comparisons. For an inclusive range from zero to one hundred, test negative one, zero, one, ninety-nine, one hundred, and one hundred one. For thresholds fifty, seventy, and eighty-five, test an adjacent value on each side. If decimal scores are prohibited, testing 49.5 is a type/domain test rather than an adjacent integer boundary. Document the type semantics: JSON does not preserve arbitrary integer precision, and some languages coerce strings or booleans to numbers. A test that sends the string "50" should assert rejection or acceptance according to the API contract, never according to implementation convenience.</p>
 
-<p>Property-based testing adds relations that hold for broad families of inputs. The grade classification must be total over valid integer scores, monotone in grade rank, and deterministic for the same version of the grading policy. A generator can explore many valid inputs, and a shrinker can reduce a failure near a threshold to a compact counterexample. If the property requires monotonicity, it should use `&lt;=`, not `&lt;`: increasing the score does not always change the grade category. Stateful property tests can generate sequences of enrollment and cancellation operations and compare an abstract model's invariant with the implementation's observations.</p>
+<p>Property-based testing adds relations that hold for broad families of inputs. The grade classification must be total over valid integer scores, monotone in grade rank, and deterministic for the same version of the grading policy. A generator can explore many valid inputs, and a shrinker can reduce a failure near a threshold to a compact counterexample. If the property requires monotonicity, it should use <code>&lt;=</code>, not <code>&lt;</code>: increasing the score does not always change the grade category. Stateful property tests can generate sequences of enrollment and cancellation operations and compare an abstract model's invariant with the implementation's observations.</p>
 
 <p>Pairwise testing targets interactions rather than all full combinations. For factors of size two, three, and four, there are 24 complete assignments but only 26 distinct pair targets distributed across AB, AC, and BC. Those 26 targets can be covered by far fewer than 26 rows because each assignment covers one pair from each factor pair. A valid covering array must be checked by enumerating its covered projections; quoting only the theoretical target count is not evidence the array covers them. Constrained values complicate generation: a payment method may be unavailable in a particular country, making some combinations invalid by design. The generator must respect constraints while clearly reporting pairs that are impossible, rather than treating missing impossible pairs as coverage failures.</p>
 
 <p>Risk-driven higher-order interactions matter. Imagine an old API client, a particular locale, and a mobile browser trigger a parsing error only when all three coincide. A two-way array may not contain this triple even though every pair appears somewhere. Based on incident history, augment the pairwise suite with targeted three-way combinations. Likewise, concurrency, time, and retry state often interact in ways not represented by a simple factor table. Combining combinatorial testing with model-based state sequences makes those transitions explicit.</p>
 
-<p>Use mutation analysis to test the strength of oracles. Deliberately change `&gt;=85` to `&gt;85`; the test at exactly 85 should fail. Deliberately remove authorization from a grade-update endpoint; a negative authentication test should fail while a pure grade-function test remains green. These mutations show why independent boundaries require distinct tests. A high test count, branch-coverage number, or mutation score cannot compensate for entirely missing requirements. A good design document explains which fault families each group of tests addresses and which remain out of scope.</p>
+<p>Use mutation analysis to test the strength of oracles. Deliberately change <code>&gt;=85</code> to <code>&gt;85</code>; the test at exactly 85 should fail. Deliberately remove authorization from a grade-update endpoint; a negative authentication test should fail while a pure grade-function test remains green. These mutations show why independent boundaries require distinct tests. A high test count, branch-coverage number, or mutation score cannot compensate for entirely missing requirements. A good design document explains which fault families each group of tests addresses and which remain out of scope.</p>
 
 <h4>Unit synthesis: every selected test has a fault hypothesis</h4>
 
@@ -174,7 +174,7 @@
 
 <p>Introduce interacting factors: authenticated versus anonymous, request sent by browser versus mobile client, locale preference, and an application version using a revised threshold. Pairwise combinatorial testing can cover every pair of factor values more economically than the full Cartesian product. But domain-specific risks may require three-way or higher-order combinations. A legacy threshold activated only when a mobile client uses a particular locale and an old API version will evade pairwise coverage if the full triple is not in any selected case. Risk analysis determines where combinations deserve exhaustive attention. In the accompanying pairwise simulation, the sum of pair targets is not the minimum number of test cases; distinguish targets from an actual covering-array construction.</p>
 
-<p>Finally evaluate a hidden state dependence. The service records a grade publication timestamp and sends a notification; a retry using the same request token should not duplicate the notification. Check both returned grade and persisted event count. Mutation testing can intentionally change `&gt;=` to `&gt;` at the eighty-five boundary and confirm a test fails. If no test detects that mutation, improve the oracle instead of reporting a superficial rise in line coverage. The result is a compact suite with documented partitions, exact boundary tests, properties, interaction factors, state assertions, and an honest statement of what remains untested.</p>
+<p>Finally evaluate a hidden state dependence. The service records a grade publication timestamp and sends a notification; a retry using the same request token should not duplicate the notification. Check both returned grade and persisted event count. Mutation testing can intentionally change <code>&gt;=</code> to <code>&gt;</code> at the eighty-five boundary and confirm a test fails. If no test detects that mutation, improve the oracle instead of reporting a superficial rise in line coverage. The result is a compact suite with documented partitions, exact boundary tests, properties, interaction factors, state assertions, and an honest statement of what remains untested.</p>
         </div>
         
       </section><section class="textbook-section-card" id="sec-4-3">
@@ -252,7 +252,7 @@
           </div>
         </div>
         <div class="problem-question-box">
-          <p>An integer grade endpoint accepts 0 through 100 and assigns Distinction at 85. Design the smallest targeted boundary set to detect a `&gt;` versus `&gt;=` mutation at the distinction boundary.</p>
+          <p>An integer grade endpoint accepts 0 through 100 and assigns Distinction at 85. Design the smallest targeted boundary set to detect a <code>&gt;</code> versus <code>&gt;=</code> mutation at the distinction boundary.</p>
         </div>
         <button class="solution-toggle-btn" id="btn-sol-software-verification-4-1" aria-expanded="false">
           👁️ Reveal Complete Derivation &amp; Solution
@@ -262,7 +262,7 @@
             <div class="solution-step">
               <div class="step-title">Define the property and assumptions</div>
               
-              <div class="step-explanation"><p>Write the contract as `score &gt;= 85` for Distinction among valid integer scores. The mutated implementation incorrectly uses `score &gt; 85`. Tests far from the boundary such as 90 and 20 cannot distinguish the predicates.</p></div>
+              <div class="step-explanation"><p>Write the contract as <code>score &gt;= 85</code> for Distinction among valid integer scores. The mutated implementation incorrectly uses <code>score &gt; 85</code>. Tests far from the boundary such as 90 and 20 cannot distinguish the predicates.</p></div>
             </div>
           
             <div class="solution-step">

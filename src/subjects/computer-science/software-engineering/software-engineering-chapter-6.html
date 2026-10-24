@@ -195,7 +195,7 @@
 
 <h4>Investigation: mixed-version evolution</h4>
 
-<p>Design a schema migration where a product moves from `status: string` to `status: {code, reason}`. Phase one adds the new representation, phase two backfills and verifies, and phase three removes the obsolete field after supported clients have updated. Simulate an old client that writes only the string during phase two. Define how the canonical state is maintained and how conflicts are detected. Add records whose historic status is genuinely unknown and must not be silently mapped to “inactive.” Write rollback limits: some data transformations are not reversible by simply redeploying old code. Produce tests for clients at old, intermediate, and new versions.</p>
+<p>Design a schema migration where a product moves from <code>status: string</code> to <code>status: {code, reason}</code>. Phase one adds the new representation, phase two backfills and verifies, and phase three removes the obsolete field after supported clients have updated. Simulate an old client that writes only the string during phase two. Define how the canonical state is maintained and how conflicts are detected. Add records whose historic status is genuinely unknown and must not be silently mapped to “inactive.” Write rollback limits: some data transformations are not reversible by simply redeploying old code. Produce tests for clients at old, intermediate, and new versions.</p>
 
 <h4>Long-lived clients create migration windows</h4>
 
@@ -249,7 +249,7 @@
 
 <h4>Studio case: modernizing an enrollment database without losing history</h4>
 
-<p>A university’s legacy enrollment service stores an enrollment status as free text: `active`, `deferred`, `temporarily suspended`, and several historical abbreviations. A new application wants a two-valued active/inactive flag. Compressing the old categories would simplify its code but destroy important distinctions. Before replacement, inventory who consumes exported CSV files, which reports depend on status dates, and what staff do when they find contradictory records.</p>
+<p>A university’s legacy enrollment service stores an enrollment status as free text: <code>active</code>, <code>deferred</code>, <code>temporarily suspended</code>, and several historical abbreviations. A new application wants a two-valued active/inactive flag. Compressing the old categories would simplify its code but destroy important distinctions. Before replacement, inventory who consumes exported CSV files, which reports depend on status dates, and what staff do when they find contradictory records.</p>
 
 <p>Characterize the current behavior with representative examples: an active enrollment that was temporarily suspended, a course withdrawal that can be reversed, a student returning after approved leave, and a historical record whose source is incomplete. Add tests that preserve each outcome before refactoring. Separate status as a domain concept from its database representation. The new model might use explicit lifecycle states and a reason code, with unknown preserved where uncertainty genuinely exists.</p>
 
