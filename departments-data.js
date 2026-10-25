@@ -2103,6 +2103,101 @@ window.LIBRARY_CATALOG = {
             "Unit 07 — Comparative development and regeneration",
             "Unit 08 — Experimental approaches and responsible inference"
           ]
+        },
+        {
+          "id": "animal-physiology",
+          "title": "Animal Physiology",
+          "subtitle": "Homeostasis, Neurobiology, Muscle Mechanics, Circulation, Respiration, Osmoregulation & Endocrinology",
+          "status": "AVAILABLE",
+          "url": "animal-physiology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering homeostatic control systems, neurophysiology and action potentials, sensory and motor systems, cardiovascular dynamics, gas exchange and respiration, renal physiology and osmoregulation, gastrointestinal processing, and endocrine signaling with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 01 — Homeostasis, transport and physiological scaling",
+            "Unit 02 — Neural, sensory and information processing",
+            "Unit 03 — Muscles, movement and energetic performance",
+            "Unit 04 — Circulation, breathing and gas exchange",
+            "Unit 05 — Fluid balance, excretion and acid–base regulation",
+            "Unit 06 — Digestion, nutrient exchange and bioenergetics",
+            "Unit 07 — Hormones, reproduction and immune coordination",
+            "Unit 08 — Comparative environmental and experimental physiology"
+          ]
+        },
+        {
+          "id": "plant-physiology",
+          "title": "Plant Physiology",
+          "subtitle": "Water Relations, Solute Transport, Photosynthetic Carbon Assimilation, Phloem Translocation & Hormonal Regulation",
+          "status": "AVAILABLE",
+          "url": "plant-physiology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering plant water relations and cavitation, mineral nutrient uptake and assimilation, photosynthetic light reactions and carbon fixation (C3, C4, CAM), phloem translocation mechanics, respiration and lipid metabolism, plant growth regulators (auxin, cytokinin, gibberellin, ABA, ethylene), photoperiodism, and abiotic stress physiology with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 01 — Water relations and hydraulic transport",
+            "Unit 02 — Mineral nutrition and nutrient acquisition",
+            "Unit 03 — Photosynthetic energy conversion",
+            "Unit 04 — Respiration and metabolic integration",
+            "Unit 05 — Long-distance transport and source–sink networks",
+            "Unit 06 — Growth regulators and environmental signaling",
+            "Unit 07 — Reproductive physiology and senescence",
+            "Unit 08 — Stress physiology and integrative plant experiments"
+          ]
+        },
+        {
+          "id": "immunology",
+          "title": "Immunology",
+          "subtitle": "Innate Immunity, Antigen Processing, T & B Cell Development, Antibodies, Cytokines & Immunopathology",
+          "status": "AVAILABLE",
+          "url": "immunology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering anatomical and chemical innate defenses, pattern recognition receptors, complement pathways, MHC antigen presentation, T cell and B cell receptor gene rearrangement, lymphocyte activation and differentiation, antibody effector functions, immunological memory, tolerance, and clinical immunopathology with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 01 — Immune organization and the logic of host defense",
+            "Unit 02 — Innate recognition, inflammation and complement",
+            "Unit 03 — Antigen recognition, processing and presentation",
+            "Unit 04 — T lymphocytes and cell-mediated responses",
+            "Unit 05 — B lymphocytes, antibodies and humoral memory",
+            "Unit 06 — Tolerance, hypersensitivity and immune dysfunction",
+            "Unit 07 — Infection, vaccines and population immunity",
+            "Unit 08 — Transplantation, tumors and experimental immunology"
+          ]
+        },
+        {
+          "id": "virology",
+          "title": "Virology",
+          "subtitle": "Viral Architecture, Genome Replication, Viral Entry & Assembly, Pathogenesis, Antivirals & Vaccines",
+          "status": "AVAILABLE",
+          "url": "virology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering viral morphology and capsid geometry, Baltimore classification, replication cycles of DNA and RNA viruses, retroviral reverse transcription, host cell entry and membrane fusion, viral assembly and egress, cellular tropism, viral immune evasion, antiviral pharmacology, and vaccine design with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 01 — Virus identity, structure and taxonomic reasoning",
+            "Unit 02 — Viral information flow and the logic of infection",
+            "Unit 03 — Viral genetics, evolution and phylogenetic inference",
+            "Unit 04 — Virus–host interactions and the immune response",
+            "Unit 05 — Transmission, ecological setting and population dynamics",
+            "Unit 06 — Virological measurements, surveillance and scientific uncertainty",
+            "Unit 07 — Vaccination, antiviral principles and prevention literacy",
+            "Unit 08 — Environmental virology, research synthesis and responsible practice"
+          ]
+        },
+        {
+          "id": "bioinformatics",
+          "title": "Bioinformatics",
+          "subtitle": "Sequence Alignment, Database Searching, Phylogenetics, RNA-Seq Analysis, Structural Modeling & Pipelines",
+          "status": "AVAILABLE",
+          "url": "bioinformatics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering biological sequence file formats, dynamic programming alignment (Needleman-Wunsch, Smith-Waterman), heuristic search algorithms (BLAST), substitution models (Jukes-Cantor, Kimura), molecular phylogenetics, high-throughput RNA-Seq quantification (CPM, log2 fold change), multiple testing corrections (Benjamini-Hochberg FDR), and structural bioinformatics (RMSD) with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 01 — Biological data, formats and responsible provenance",
+            "Unit 02 — Sequence comparison and statistical search",
+            "Unit 03 — Gene prediction, annotation and genomic comparison",
+            "Unit 04 — Computational phylogenetics and tree interpretation",
+            "Unit 05 — Transcriptomics, proteomics and integrated omics",
+            "Unit 06 — Structural bioinformatics and molecular interpretation",
+            "Unit 07 — Statistics, machine learning and scientific uncertainty",
+            "Unit 08 — Scripting, workflows and reproducible biological inference"
+          ]
         }
       ]
     }

@@ -1,0 +1,534 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Unit 02 — Sequence comparison and statistical search | Bioinformatics | OpenSTEM Library</title>
+  <meta name="description" content="> **OpenSTEM Bioinformatics · Book 15 · Editorial draft.** All instructional sequences, measurements, cases and figures in this unit are fictional. Scientific peer review and publication approval are pending. **When do two molecular strings provide credible evidence of shared evolutionary origin or function?** An align">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/bioinformatics-chapter-2">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/bioinformatics-chapter-2">
+  <meta property="og:title" content="Bioinformatics: Sequence Alignment, BLAST, RNA-Seq &amp; Structural Modeling | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering biological sequence file formats, dynamic programming alignment (Needleman-Wunsch, Smith-Waterman), heuristic search algorithms (BLAST), substitution models (Jukes-Cantor, Kimura), molecular phylogenetics, high-throughput RNA-Seq quantification (CPM, log2 fold change), multiple testing corrections (Benjamini-Hochberg FDR), and structural bioinformatics (RMSD) with 40 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bioinformatics: Sequence Alignment, BLAST, RNA-Seq &amp; Structural Modeling | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering biological sequence file formats, dynamic programming alignment (Needleman-Wunsch, Smith-Waterman), heuristic search algorithms (BLAST), substitution models (Jukes-Cantor, Kimura), molecular phylogenetics, high-throughput RNA-Seq quantification (CPM, log2 fold change), multiple testing corrections (Benjamini-Hochberg FDR), and structural bioinformatics (RMSD) with 40 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="bioinformatics.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Bioinformatics: Unit 02 — Sequence comparison and statistical search","description":"Comprehensive university textbook covering biological sequence file formats, dynamic programming alignment (Needleman-Wunsch, Smith-Waterman), heuristic search algorithms (BLAST), substitution models (Jukes-Cantor, Kimura), molecular phylogenetics, high-throughput RNA-Seq quantification (CPM, log2 fold change), multiple testing corrections (Benjamini-Hochberg FDR), and structural bioinformatics (RMSD) with 40 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/bioinformatics-chapter-2","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Bioinformatics","Sequence Alignment","Needleman-Wunsch","BLAST Search","Phred Quality Scores","RNA-Seq Analysis","Multiple Testing Correction","Structural Bioinformatics"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Biological Sciences","item":"https://openstemlibrary.com/#dept-biological-sciences"},{"@type":"ListItem","position":3,"name":"Bioinformatics","item":"https://openstemlibrary.com/bioinformatics"}]}</script></head>
+<body data-book-path="bioinformatics.html" data-chapter-index="1" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Bioinformatics</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search Phred quality scores, FASTQ format, Needleman-Wunsch global alignment, Smith-Waterman local alignment, BLAST E-values and bit scores, PAM and BLOSUM substitution matrices, Jukes-Cantor distance, RNA-Seq CPM and TPM normalization, DESeq2 fold change, Benjamini-Hochberg FDR…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="bioinformatics" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Unit 01 — Biological data, formats and responsible provenance</span></a></li><li class="unit-nav-item active" data-unit-index="1"><a href="bioinformatics-chapter-2" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Unit 02 — Sequence comparison and statistical search</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="bioinformatics-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Unit 03 — Gene prediction, annotation and genomic comparison</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="bioinformatics-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Unit 04 — Computational phylogenetics and tree interpretation</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="bioinformatics-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Unit 05 — Transcriptomics, proteomics and integrated omics</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="bioinformatics-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Unit 06 — Structural bioinformatics and molecular interpretation</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="bioinformatics-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Unit 07 — Statistics, machine learning and scientific uncertainty</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="bioinformatics-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Unit 08 — Scripting, workflows and reproducible biological inference</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Bioinformatics core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 2 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Unit 02 — Sequence comparison and statistical search</h1>
+            <p class="unit-desc-lead" id="unit-desc">&gt; **OpenSTEM Bioinformatics · Book 15 · Editorial draft.** All instructional sequences, measurements, cases and figures in this unit are fictional. Scientific peer review and publication approval are pending. **When do two molecular strings provide credible evidence of shared evolutionary origin or function?** An align</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university bioinformatics courses. Eight units with five solved questions per unit and 16 interactive simulations illustrating Phred error rates, pairwise alignment matrices, BLAST E-value scaling, Jukes-Cantor correction curves, and FDR ranking thresholds. Numerical checks and an editorial review support this edition.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-2-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.1</span>
+            <span>Learning outcomes</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>By the end of this unit you should be able to: (1) define the five techniques in their proper inferential scope; (2) compute and audit the five numerical examples; (3) propose a minimal control or validation for an ambiguous result; (4) interpret each interactive model's assumptions; and (5) write a cautious, reproducible conclusion.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.2</span>
+            <span>Lesson 2.1 — Edit distance and similarity definitions</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Concept and biological meaning</h4>
+
+<p>Edit distance counts a minimum series of substitutions, insertions and deletions; biological similarity generally uses weighted scores rather than an unqualified identity percentage.</p>
+
+<h4>Method and reproducible data contract</h4>
+
+<p>Specify gap penalties and whether terminal gaps count; align sequences in an explicit orientation, and never infer homology from a trivial short exact match. Before running an analysis, write down the input type, reference release, allowed missing values, expected columns and numerical settings. Record the observation level—organism, specimen, sequencing run, read, transcript, protein or residue—because the number of table rows need not equal the number of independent biological replicates. Reproduce one calculation using a tiny invented example and write an automatic assertion for its expected output. This validates implementation, not the scientific truth of the starting assumptions.</p>
+
+<h4>Case study: a plausible signal and a rival explanation</h4>
+
+<p>Two imagined genes share 92% identity over 20 aligned positions but only 20 positions were aligned out of a 1,000-base gene. The first task is to frame a biological hypothesis and a specific technical or sampling alternative. Describe what would be observed if the preferred explanation were true, then name an observation that might discriminate it from the rival. Consider label mix-ups, reference changes, missingness and biased sample recruitment before treating agreement among software tools as independent confirmation.</p>
+
+<h4>Worked quantitative example</h4>
+
+<p>Three substitutions and one deletion under unit costs give edit distance four; with a gap-open cost three, the optimal scoring alignment may differ. Treat these numbers as fictional teaching inputs. Reproduce the arithmetic in your notes, identify the denominator and decide whether the answer has physical units, is a dimensionless proportion or is a model score. Explain which input change would mechanically alter the answer. A numerical value calculated exactly from inaccurate or unrepresentative data is still a limited scientific result.</p>
+
+<h4>Caveats, sensitivity and evidence strength</h4>
+
+<p>Local identity of 92% over a tiny aligned segment is not 92% identity over whole genes and may reflect a low-complexity region. Percent identity is a descriptive property of an alignment; the biological relationship depends on coverage, composition, scoring and database context.</p>
+
+<h4>Independent evaluation and advanced extension</h4>
+
+<p>Compare the same toy pair under edit distance and a score with a gap-open penalty, documenting when preferred alignments change. Use this extension as a miniature sensitivity study. Change one defensible setting at a time and record whether the inference remains stable. Where methods disagree, identify whether they use different definitions, references or sources of uncertainty. Avoid the practice of choosing whichever method produces the desired biological story.</p>
+
+<p><strong>Biological unit.</strong> Count the unit actually sampled rather than the number of rows generated by instruments or algorithms. Repeated reads, peptides, contigs or scans may improve measurement of one specimen without increasing independence for population-level inference. For <strong>edit distance and similarity definitions</strong>, supply an actual auditable record—not a generic pledge of reproducibility—that would expose a mistaken assumption in the fictional case.</p>
+
+<h4>Questions for mastery</h4>
+
+<ol>
+
+  <li>What is directly observed, what is computed, and what is inferred? Explain the transitions using this lesson’s situation.</li>
+
+  <li>Which negative control, alternative model or independent observation could test a rival explanation? State what result would weaken your preferred account.</li>
+
+  <li>Repeat the numerical example after changing one input and report units, denominator and interpretation. Explain why a correct recalculation does not establish biological validity.</li>
+
+  <li>Which detail would another scientist need to rerun the analysis from precisely the same inputs? Describe a realistic failure if it were missing.</li>
+
+</ol>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.3</span>
+            <span>Lesson 2.2 — Global alignment and Needleman–Wunsch</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Concept and biological meaning</h4>
+
+<p>Global dynamic programming computes the best end-to-end alignment under an additive scoring rule; the recurrence considers diagonal match, insertion and deletion transitions.</p>
+
+<h4>Method and reproducible data contract</h4>
+
+<p>Initialize matrix boundaries consistently with the stated gap costs; retain a traceback path instead of assuming the final score identifies one unique alignment. Before running an analysis, write down the input type, reference release, allowed missing values, expected columns and numerical settings. Record the observation level—organism, specimen, sequencing run, read, transcript, protein or residue—because the number of table rows need not equal the number of independent biological replicates. Reproduce one calculation using a tiny invented example and write an automatic assertion for its expected output. This validates implementation, not the scientific truth of the starting assumptions.</p>
+
+<h4>Case study: a plausible signal and a rival explanation</h4>
+
+<p>Two homologous coding regions are roughly the same length, but a short internal deletion occurred in one lineage. The first task is to frame a biological hypothesis and a specific technical or sampling alternative. Describe what would be observed if the preferred explanation were true, then name an observation that might discriminate it from the rival. Consider label mix-ups, reference changes, missingness and biased sample recruitment before treating agreement among software tools as independent confirmation.</p>
+
+<h4>Worked quantitative example</h4>
+
+<p>Using match +2, mismatch -1 and linear gap -2, an exact match of five bases scores 10 before any terminal-gap policy applies. Treat these numbers as fictional teaching inputs. Reproduce the arithmetic in your notes, identify the denominator and decide whether the answer has physical units, is a dimensionless proportion or is a model score. Explain which input change would mechanically alter the answer. A numerical value calculated exactly from inaccurate or unrepresentative data is still a limited scientific result.</p>
+
+<h4>Caveats, sensitivity and evidence strength</h4>
+
+<p>End-to-end alignment is helpful for comparable regions; it can be misleading for sequences with unrelated flanking segments. A visually plausible alignment is not proof it maximizes the announced scoring scheme, especially when several optima tie.</p>
+
+<h4>Independent evaluation and advanced extension</h4>
+
+<p>Fill a four-by-four scoring matrix by hand, mark ties, and reconstruct all equal-score tracebacks for a short pair. Use this extension as a miniature sensitivity study. Change one defensible setting at a time and record whether the inference remains stable. Where methods disagree, identify whether they use different definitions, references or sources of uncertainty. Avoid the practice of choosing whichever method produces the desired biological story.</p>
+
+<p><strong>Model adequacy.</strong> Mathematical formulas compress real biological processes. Before interpreting a parameter, check limiting cases, dimensional consistency and residual patterns. Simple models can sharpen reasoning precisely because their omissions are transparent. For <strong>global alignment and needleman–wunsch</strong>, supply an actual auditable record—not a generic pledge of reproducibility—that would expose a mistaken assumption in the fictional case.</p>
+
+<h4>Questions for mastery</h4>
+
+<ol>
+
+  <li>What is directly observed, what is computed, and what is inferred? Explain the transitions using this lesson’s situation.</li>
+
+  <li>Which negative control, alternative model or independent observation could test a rival explanation? State what result would weaken your preferred account.</li>
+
+  <li>Repeat the numerical example after changing one input and report units, denominator and interpretation. Explain why a correct recalculation does not establish biological validity.</li>
+
+  <li>Which detail would another scientist need to rerun the analysis from precisely the same inputs? Describe a realistic failure if it were missing.</li>
+
+</ol>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.4</span>
+            <span>Lesson 2.3 — Local alignment and Smith–Waterman</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Concept and biological meaning</h4>
+
+<p>Local alignment permits an optimal similar subsequence by flooring dynamic-programming cells at zero; traceback starts at the highest score and stops at zero.</p>
+
+<h4>Method and reproducible data contract</h4>
+
+<p>Use local search to find shared domains inside longer proteins, and report start and end coordinates in both original sequences. Before running an analysis, write down the input type, reference release, allowed missing values, expected columns and numerical settings. Record the observation level—organism, specimen, sequencing run, read, transcript, protein or residue—because the number of table rows need not equal the number of independent biological replicates. Reproduce one calculation using a tiny invented example and write an automatic assertion for its expected output. This validates implementation, not the scientific truth of the starting assumptions.</p>
+
+<h4>Case study: a plausible signal and a rival explanation</h4>
+
+<p>A signaling protein has a conserved catalytic domain but gained a long regulatory tail in one lineage. The first task is to frame a biological hypothesis and a specific technical or sampling alternative. Describe what would be observed if the preferred explanation were true, then name an observation that might discriminate it from the rival. Consider label mix-ups, reference changes, missingness and biased sample recruitment before treating agreement among software tools as independent confirmation.</p>
+
+<h4>Worked quantitative example</h4>
+
+<p>With match +2, mismatch -1 and gap -2, four exact aligned positions contribute score eight in the absence of extending penalties. Treat these numbers as fictional teaching inputs. Reproduce the arithmetic in your notes, identify the denominator and decide whether the answer has physical units, is a dimensionless proportion or is a model score. Explain which input change would mechanically alter the answer. A numerical value calculated exactly from inaccurate or unrepresentative data is still a limited scientific result.</p>
+
+<h4>Caveats, sensitivity and evidence strength</h4>
+
+<p>Local alignment may conceal domain rearrangements or cause a shared low-complexity segment to dominate results unless composition is examined. Local maximum score alone provides no reliable genome-wide false-hit probability; significance depends on lengths and search space.</p>
+
+<h4>Independent evaluation and advanced extension</h4>
+
+<p>Compare local and global alignments for a domain-only match and explain why they answer different biological questions. Use this extension as a miniature sensitivity study. Change one defensible setting at a time and record whether the inference remains stable. Where methods disagree, identify whether they use different definitions, references or sources of uncertainty. Avoid the practice of choosing whichever method produces the desired biological story.</p>
+
+<p><strong>Reproducible decisions.</strong> A reader should be able to regenerate the same derived table from the same inputs and explicit settings. Preserve a checksum and environment record, and keep a log of decisions that change which records enter the analysis. For <strong>local alignment and smith–waterman</strong>, supply an actual auditable record—not a generic pledge of reproducibility—that would expose a mistaken assumption in the fictional case.</p>
+
+<h4>Questions for mastery</h4>
+
+<ol>
+
+  <li>What is directly observed, what is computed, and what is inferred? Explain the transitions using this lesson’s situation.</li>
+
+  <li>Which negative control, alternative model or independent observation could test a rival explanation? State what result would weaken your preferred account.</li>
+
+  <li>Repeat the numerical example after changing one input and report units, denominator and interpretation. Explain why a correct recalculation does not establish biological validity.</li>
+
+  <li>Which detail would another scientist need to rerun the analysis from precisely the same inputs? Describe a realistic failure if it were missing.</li>
+
+</ol>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.5</span>
+            <span>Lesson 2.4 — Substitution matrices and gap penalties</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Concept and biological meaning</h4>
+
+<p>A substitution matrix assigns relative support to amino-acid replacements based on an empirical evolutionary model or curated alignments, while affine gaps distinguish opening a gap from extending it.</p>
+
+<h4>Method and reproducible data contract</h4>
+
+<p>Choose matrix and gap costs appropriate to expected divergence; document that a score is not a probability without calibration. Before running an analysis, write down the input type, reference release, allowed missing values, expected columns and numerical settings. Record the observation level—organism, specimen, sequencing run, read, transcript, protein or residue—because the number of table rows need not equal the number of independent biological replicates. Reproduce one calculation using a tiny invented example and write an automatic assertion for its expected output. This validates implementation, not the scientific truth of the starting assumptions.</p>
+
+<h4>Case study: a plausible signal and a rival explanation</h4>
+
+<p>Two proteins preserve conservative replacements within a binding pocket while other sites drift substantially. The first task is to frame a biological hypothesis and a specific technical or sampling alternative. Describe what would be observed if the preferred explanation were true, then name an observation that might discriminate it from the rival. Consider label mix-ups, reference changes, missingness and biased sample recruitment before treating agreement among software tools as independent confirmation.</p>
+
+<h4>Worked quantitative example</h4>
+
+<p>An affine gap of length three with open=5 and extend=1 costs 5+2×1=7 under the convention that opening includes the first residue. Treat these numbers as fictional teaching inputs. Reproduce the arithmetic in your notes, identify the denominator and decide whether the answer has physical units, is a dimensionless proportion or is a model score. Explain which input change would mechanically alter the answer. A numerical value calculated exactly from inaccurate or unrepresentative data is still a limited scientific result.</p>
+
+<h4>Caveats, sensitivity and evidence strength</h4>
+
+<p>A larger raw score may result merely from length; normalized scores, domain architecture and independent annotations aid comparison. There are multiple gap-cost conventions; confusing open plus length times extension with open plus (length-1) times extension yields different reported numbers.</p>
+
+<h4>Independent evaluation and advanced extension</h4>
+
+<p>Perform a sensitivity analysis across two matrices and two gap regimes; note which conclusions remain stable. Use this extension as a miniature sensitivity study. Change one defensible setting at a time and record whether the inference remains stable. Where methods disagree, identify whether they use different definitions, references or sources of uncertainty. Avoid the practice of choosing whichever method produces the desired biological story.</p>
+
+<p><strong>Operational definition.</strong> Before computing, write an operational definition of the variable of interest, including its measurement unit, denominator, sampling level and admissible values. An operational definition is not bureaucracy; it is what makes two methods comparable and reveals when they answer different questions. For <strong>substitution matrices and gap penalties</strong>, supply an actual auditable record—not a generic pledge of reproducibility—that would expose a mistaken assumption in the fictional case.</p>
+
+<h4>Questions for mastery</h4>
+
+<ol>
+
+  <li>What is directly observed, what is computed, and what is inferred? Explain the transitions using this lesson’s situation.</li>
+
+  <li>Which negative control, alternative model or independent observation could test a rival explanation? State what result would weaken your preferred account.</li>
+
+  <li>Repeat the numerical example after changing one input and report units, denominator and interpretation. Explain why a correct recalculation does not establish biological validity.</li>
+
+  <li>Which detail would another scientist need to rerun the analysis from precisely the same inputs? Describe a realistic failure if it were missing.</li>
+
+</ol>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.6</span>
+            <span>Lesson 2.5 — Search significance: BLAST, E-values and coverage</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Concept and biological meaning</h4>
+
+<p>A database search reports local matches; under its background model, the E-value approximates the expected number of matches with at least a given score in the searched space.</p>
+
+<h4>Method and reproducible data contract</h4>
+
+<p>Inspect query coverage, subject coverage, alignment length, score composition and database size alongside E-value; apply low-complexity masking where justified. Before running an analysis, write down the input type, reference release, allowed missing values, expected columns and numerical settings. Record the observation level—organism, specimen, sequencing run, read, transcript, protein or residue—because the number of table rows need not equal the number of independent biological replicates. Reproduce one calculation using a tiny invented example and write an automatic assertion for its expected output. This validates implementation, not the scientific truth of the starting assumptions.</p>
+
+<h4>Case study: a plausible signal and a rival explanation</h4>
+
+<p>A protein domain returns a highly significant hit to a multidomain enzyme, but the rest of the protein has a different architecture. The first task is to frame a biological hypothesis and a specific technical or sampling alternative. Describe what would be observed if the preferred explanation were true, then name an observation that might discriminate it from the rival. Consider label mix-ups, reference changes, missingness and biased sample recruitment before treating agreement among software tools as independent confirmation.</p>
+
+<h4>Worked quantitative example</h4>
+
+<p>If a search setting doubles effective database size while the score stays fixed, E approximately doubles under simple assumptions. Treat these numbers as fictional teaching inputs. Reproduce the arithmetic in your notes, identify the denominator and decide whether the answer has physical units, is a dimensionless proportion or is a model score. Explain which input change would mechanically alter the answer. A numerical value calculated exactly from inaccurate or unrepresentative data is still a limited scientific result.</p>
+
+<h4>Caveats, sensitivity and evidence strength</h4>
+
+<p>A low E-value supports nonrandom similarity under the model, not identical function or experimentally demonstrated homology for every subregion. A tiny E-value can arise from one long conserved domain while the overall proteins are functionally distinct.</p>
+
+<h4>Independent evaluation and advanced extension</h4>
+
+<p>Record search algorithm, matrix, reference database release, query length, masking and domain coverage before annotating function. Use this extension as a miniature sensitivity study. Change one defensible setting at a time and record whether the inference remains stable. Where methods disagree, identify whether they use different definitions, references or sources of uncertainty. Avoid the practice of choosing whichever method produces the desired biological story.</p>
+
+<p><strong>Independent confirmation.</strong> Prefer independent forms of evidence to repeated analysis of the same imperfect input. A second algorithm may share the first algorithm’s reference bias or annotation assumption; an independently measured observation answers a more demanding question. For <strong>search significance: blast, e-values and coverage</strong>, supply an actual auditable record—not a generic pledge of reproducibility—that would expose a mistaken assumption in the fictional case.</p>
+
+<h4>Questions for mastery</h4>
+
+<ol>
+
+  <li>What is directly observed, what is computed, and what is inferred? Explain the transitions using this lesson’s situation.</li>
+
+  <li>Which negative control, alternative model or independent observation could test a rival explanation? State what result would weaken your preferred account.</li>
+
+  <li>Repeat the numerical example after changing one input and report units, denominator and interpretation. Explain why a correct recalculation does not establish biological validity.</li>
+
+  <li>Which detail would another scientist need to rerun the analysis from precisely the same inputs? Describe a realistic failure if it were missing.</li>
+
+</ol>
+
+<hr class="section-divider-hr">
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-2-7">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§2.7</span>
+            <span>Integrated laboratory 2: an auditable evidence chain</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Setting.</strong> Your undergraduate group receives fictional records about a small collection of biological material. The file descriptions are intentionally imperfect. The exercise focuses on <strong>edit distance and similarity definitions, global alignment and needleman–wunsch, local alignment and smith–waterman, substitution matrices and gap penalties, search significance: blast, e-values and coverage</strong> as five aspects of one argument rather than five disconnected tool demonstrations. No live database submissions, human specimen data, laboratory samples or web API credentials are required.</p>
+
+<p><strong>Question formation.</strong> Begin with the question in the unit introduction. Rewrite it as a comparison of named observations, identify the unit of sampling and decide what counts as a missing or uninterpretable value. Include a skeptical alternative hypothesis. For example, an association between two measurements could reflect a common technical batch rather than a causal connection. A sensible plan makes that alternative visible before results are plotted.</p>
+
+<p><strong>Table design.</strong> Create a machine-readable table with fields <code>record_id</code>, <code>biological_unit_id</code>, <code>source_release</code>, <code>assay_or_algorithm</code>, <code>quality_note</code>, <code>value</code>, <code>unit</code> and <code>exclusion_reason</code>. State which fields can be blank, what the file encoding is, and how missingness is represented. Never represent a missing quantitative measurement as zero unless zero is a genuine recorded value. If two rows share the same biological unit, decide whether they are technical repeats or separate conditions before assigning inferential sample size.</p>
+
+<p><strong>Computation plan.</strong> Reproduce the numerical case from each of the five lessons by hand. Put the given values and final expressions into a transparent notebook or script. Build a validation assertion for each worked result, add one deliberately malformed record and document its rejection. Verify that each numerical result has a denominator, unit or declared scale. The exercise does not ask you to rerun sophisticated tools on real genomes; it asks for defensible reasoning about toy outputs.</p>
+
+<p><strong>Sensitivity and counterexamples.</strong> Perform two controlled changes. First vary a parameter that the method explicitly allows the analyst to choose, such as a gap cost, cutoff, filter or comparison baseline. Second introduce a metadata problem such as duplicate labels or a mismatched reference version. Predict the consequences before performing the changed calculation. A surprising result should trigger investigation rather than selective deletion.</p>
+
+<p><strong>Scientific interpretation.</strong> Prepare a figure caption with the method, invented input description, assumptions and excluded observations. Write a conclusion with one supported statement, one plausible rival explanation and one test that would improve confidence. The conclusion must not convert a sequence match into experimental function, a score into clinical truth, a correlation into causation or a diagram into exact evolutionary history.</p>
+
+<p><strong>Peer review rubric.</strong> A second student receives only the manifest, script, small input table, expected numeric outputs and explanatory notes. Award one point each for exact input identity, correct sampling unit, reproducible arithmetic, transparent uncertainty and appropriate claim boundaries. A score of five means the teaching exercise was reported clearly; it is not independent scientific validation of the underlying assumptions.</p>
+
+<p><strong>Discussion prompt.</strong> If a second software package reproduces the same output, what failure modes remain? Could both tools share a database annotation, an unrepresentative sample or an invalid conceptual assumption? Suggest one independent observation that would provide new evidence rather than only computational agreement.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Bioinformatics Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.1: Worked quantitative example</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Three substitutions and one deletion under unit costs give edit distance four; with a gap-open cost three, the optimal scoring alignment may differ. Treat these numbers as fictional teaching inputs. Reproduce the arithmetic in your notes, identify the denominator and decide whether the answer has physical units, is a dimensionless proportion or is a model score. Explain which input change would mechanically alter the answer. A numerical value calculated exactly from inaccurate or unrepresentative data is still a limited scientific result.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-BIO-U2-P1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-BIO-U2-P1">
+          
+            <div class="solution-step">
+              <div class="step-title">Step</div>
+              
+              <div class="step-explanation"><p>Three substitutions and one deletion under unit costs give edit distance four; with a gap-open cost three, the optimal scoring alignment may differ. Treat these numbers as fictional teaching inputs. Reproduce the arithmetic in your notes, identify the denominator and decide whether the answer has physical units, is a dimensionless proportion or is a model score. Explain which input change would mechanically alter the answer. A numerical value calculated exactly from inaccurate or unrepresentative data is still a limited scientific result.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.2: Worked quantitative example</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Using match +2, mismatch -1 and linear gap -2, an exact match of five bases scores 10 before any terminal-gap policy applies. Treat these numbers as fictional teaching inputs. Reproduce the arithmetic in your notes, identify the denominator and decide whether the answer has physical units, is a dimensionless proportion or is a model score. Explain which input change would mechanically alter the answer. A numerical value calculated exactly from inaccurate or unrepresentative data is still a limited scientific result.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-BIO-U2-P2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-BIO-U2-P2">
+          
+            <div class="solution-step">
+              <div class="step-title">Step</div>
+              
+              <div class="step-explanation"><p>Using match +2, mismatch -1 and linear gap -2, an exact match of five bases scores 10 before any terminal-gap policy applies. Treat these numbers as fictional teaching inputs. Reproduce the arithmetic in your notes, identify the denominator and decide whether the answer has physical units, is a dimensionless proportion or is a model score. Explain which input change would mechanically alter the answer. A numerical value calculated exactly from inaccurate or unrepresentative data is still a limited scientific result.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.3: Worked quantitative example</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>With match +2, mismatch -1 and gap -2, four exact aligned positions contribute score eight in the absence of extending penalties. Treat these numbers as fictional teaching inputs. Reproduce the arithmetic in your notes, identify the denominator and decide whether the answer has physical units, is a dimensionless proportion or is a model score. Explain which input change would mechanically alter the answer. A numerical value calculated exactly from inaccurate or unrepresentative data is still a limited scientific result.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-BIO-U2-P3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-BIO-U2-P3">
+          
+            <div class="solution-step">
+              <div class="step-title">Step</div>
+              
+              <div class="step-explanation"><p>With match +2, mismatch -1 and gap -2, four exact aligned positions contribute score eight in the absence of extending penalties. Treat these numbers as fictional teaching inputs. Reproduce the arithmetic in your notes, identify the denominator and decide whether the answer has physical units, is a dimensionless proportion or is a model score. Explain which input change would mechanically alter the answer. A numerical value calculated exactly from inaccurate or unrepresentative data is still a limited scientific result.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.4: Worked quantitative example</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>An affine gap of length three with open=5 and extend=1 costs 5+2×1=7 under the convention that opening includes the first residue. Treat these numbers as fictional teaching inputs. Reproduce the arithmetic in your notes, identify the denominator and decide whether the answer has physical units, is a dimensionless proportion or is a model score. Explain which input change would mechanically alter the answer. A numerical value calculated exactly from inaccurate or unrepresentative data is still a limited scientific result.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-BIO-U2-P4" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-BIO-U2-P4">
+          
+            <div class="solution-step">
+              <div class="step-title">Step</div>
+              
+              <div class="step-explanation"><p>An affine gap of length three with open=5 and extend=1 costs 5+2×1=7 under the convention that opening includes the first residue. Treat these numbers as fictional teaching inputs. Reproduce the arithmetic in your notes, identify the denominator and decide whether the answer has physical units, is a dimensionless proportion or is a model score. Explain which input change would mechanically alter the answer. A numerical value calculated exactly from inaccurate or unrepresentative data is still a limited scientific result.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 2.5: Worked quantitative example</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>If a search setting doubles effective database size while the score stays fixed, E approximately doubles under simple assumptions. Treat these numbers as fictional teaching inputs. Reproduce the arithmetic in your notes, identify the denominator and decide whether the answer has physical units, is a dimensionless proportion or is a model score. Explain which input change would mechanically alter the answer. A numerical value calculated exactly from inaccurate or unrepresentative data is still a limited scientific result.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-BIO-U2-P5" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-BIO-U2-P5">
+          
+            <div class="solution-step">
+              <div class="step-title">Step</div>
+              
+              <div class="step-explanation"><p>If a search setting doubles effective database size while the score stays fixed, E approximately doubles under simple assumptions. Treat these numbers as fictional teaching inputs. Reproduce the arithmetic in your notes, identify the denominator and decide whether the answer has physical units, is a dimensionless proportion or is a model score. Explain which input change would mechanically alter the answer. A numerical value calculated exactly from inaccurate or unrepresentative data is still a limited scientific result.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-biological-sciences">Biological Sciences Department</a><a href="cell-biology">Cell Biology</a><a href="molecular-biology">Molecular Biology</a><a href="genetics">Genetics</a><a href="biochemistry-for-biology">Biochemistry for Biology</a><a href="microbiology">Microbiology</a><a href="plant-biology">Plant Biology</a><a href="animal-biology">Animal Biology</a><a href="evolutionary-biology">Evolutionary Biology</a><a href="ecology">Ecology</a><a href="developmental-biology">Developmental Biology</a><a href="animal-physiology">Animal Physiology</a><a href="plant-physiology">Plant Physiology</a><a href="immunology">Immunology</a><a href="virology">Virology</a><a href="bioinformatics">Bioinformatics</a><a href="physical-chemistry-1">Physical Chemistry prerequisite</a><a href="organic-chemistry-1">Organic Chemistry prerequisite</a><a href="introduction-to-statistics">Statistics prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and academic references</summary><ul><li><a href="https://openstemlibrary.com/references/pevsner-bioinformatics" target="_blank" rel="noopener noreferrer">Pevsner, J. (2015). Bioinformatics and Functional Genomics (3rd ed.): Comprehensive university standard covering sequence analysis, transcriptomics, proteomics, and genome browsers</a></li><li><a href="https://openstemlibrary.com/references/durbin-sequence-analysis" target="_blank" rel="noopener noreferrer">Durbin, R., et al. (1998). Biological Sequence Analysis: Probabilistic Models of Proteins and Nucleic Acids: Authoritative mathematical foundation on Markov chains, profile HMMs, and alignment statistics</a></li><li><a href="https://openstemlibrary.com/references/mount-bioinformatics" target="_blank" rel="noopener noreferrer">Mount, D.W. (2004). Bioinformatics: Sequence and Genome Analysis (2nd ed.): Definitive pedagogical textbook for dynamic programming, database searching, and phylogenetic reconstruction</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="bioinformatics">← Previous chapter</a><a href="bioinformatics">Book contents</a><a href="bioinformatics-chapter-3">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="bioinformatics-sims.js?v=1"></script>
+  <script src="bioinformatics-data.js?v=1"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>
