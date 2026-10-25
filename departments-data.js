@@ -2198,6 +2198,101 @@ window.LIBRARY_CATALOG = {
             "Unit 07 — Statistics, machine learning and scientific uncertainty",
             "Unit 08 — Scripting, workflows and reproducible biological inference"
           ]
+        },
+        {
+          "id": "genomics",
+          "title": "Genomics",
+          "subtitle": "Genome Architecture, Next-Generation Sequencing, Variant Calling, Epigenomics & Comparative Genomics",
+          "status": "AVAILABLE",
+          "url": "genomics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering eukaryotic genome architecture and ploidy, high-throughput sequencing technologies (Illumina, PacBio, Oxford Nanopore), read quality assessment, genome assembly algorithms (de Bruijn graphs, overlap-layout-consensus), variant discovery (SNVs, indels, SVs), functional genomics (RNA-Seq, ChIP-Seq, ATAC-Seq), chromatin conformation, and population pangenomics with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 01 — Genome architecture and reference representations",
+            "Unit 02 — Sequencing design, measurement and quality",
+            "Unit 03 — Genome assembly and functional annotation",
+            "Unit 04 — Sequence variation and haplotype inference",
+            "Unit 05 — Regulatory and functional genomics",
+            "Unit 06 — Population, comparative and evolutionary genomics",
+            "Unit 07 — Human genomics, medicine and responsible interpretation",
+            "Unit 08 — Single-cell, metagenomic and integrative genomics"
+          ]
+        },
+        {
+          "id": "biotechnology",
+          "title": "Biotechnology",
+          "subtitle": "Recombinant DNA, Bioprocess Engineering, Fermentation, CRISPR Gene Editing & Synthetic Biology",
+          "status": "AVAILABLE",
+          "url": "biotechnology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering recombinant DNA technology, gene editing platforms (CRISPR-Cas9, base editors, prime editors), protein expression hosts, upstream bioprocess and fermentation kinetics, mass transfer in bioreactors, downstream protein purification, biopharmaceutical quality control, biosafety compliance, and synthetic biology circuits with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 01 — Biotechnology foundations and molecular measurements",
+            "Unit 02 — Recombinant DNA, genome engineering and delivery",
+            "Unit 03 — Synthetic biology and programmable cells",
+            "Unit 04 — Bioprocess engineering and biomanufacturing",
+            "Unit 05 — Protein engineering, enzymes and biocatalysis",
+            "Unit 06 — Agricultural, environmental and food biotechnology",
+            "Unit 07 — Medical biotechnology and quantitative diagnostics",
+            "Unit 08 — Quality systems, governance and responsible innovation"
+          ]
+        },
+        {
+          "id": "conservation-biology",
+          "title": "Conservation Biology",
+          "subtitle": "Biodiversity Assessment, Population Viability, Habitat Fragmentation, Protected Areas & Restoration",
+          "status": "AVAILABLE",
+          "url": "conservation-biology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering global biodiversity patterns, extinction drivers (habitat loss, overexploitation, invasive species, climate change), conservation genetics and effective population size, population viability analysis, island biogeography applied to nature reserves, landscape connectivity, endangered species recovery, and ecological restoration with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 01 — Conservation foundations and extinction risk",
+            "Unit 02 — Population persistence, genetics and connectivity",
+            "Unit 03 — Landscape planning under environmental change",
+            "Unit 04 — Biodiversity observation and inference",
+            "Unit 05 — Conservation interventions and restoration",
+            "Unit 06 — Ecosystem-specific applications and trade-offs",
+            "Unit 07 — Rights, governance and conservation economics",
+            "Unit 08 — Evidence, adaptive management and integrated planning"
+          ]
+        },
+        {
+          "id": "biological-research-methods",
+          "title": "Biological Research Methods",
+          "subtitle": "Experimental Design, Hypothesis Testing, Bioimaging, Quantitative Measurements & Reproducibility",
+          "status": "AVAILABLE",
+          "url": "biological-research-methods.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering the scientific method in biology, hypothesis formulation, randomized experimental design, sample size determination, advanced light and electron microscopy, quantitative molecular assays (spectrophotometry, qPCR, Western blotting), flow cytometry, data normalization, error propagation, and scientific reproducibility with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 01 — Research questions, evidence and scientific judgment",
+            "Unit 02 — Experiments, samples and comparisons",
+            "Unit 03 — Measurement, controls and biological observation",
+            "Unit 04 — Data stewardship and reproducible computation",
+            "Unit 05 — Statistics, estimation and honest inference",
+            "Unit 06 — Specialized research methods and triangulation",
+            "Unit 07 — Synthesis, review and reliable communication",
+            "Unit 08 — Ethics, collaboration and decisions"
+          ]
+        },
+        {
+          "id": "systems-biology",
+          "title": "Systems Biology",
+          "subtitle": "Network Motifs, Dynamic Modeling, Feedback Loops, Metabolic Flux Analysis & Synthetic Gene Circuits",
+          "status": "AVAILABLE",
+          "url": "systems-biology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering biological networks, graph theory metrics, sensory transcription networks, dynamic modeling with differential equations, negative feedback accelerating response time, coherent and incoherent feed-forward loops, bistable switches and oscillations, genome-scale metabolic flux analysis, cellular noise and stochasticity, and design principles of synthetic biological circuits with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "System representations and mathematical boundaries",
+            "Networks: structure, evidence and interpretation",
+            "Dynamical systems, feedback and stability",
+            "Metabolic systems and constrained flux",
+            "Stochastic biology and cellular diversity",
+            "Multiscale integration: molecule to tissue",
+            "Data-informed inference and predictive validation",
+            "Applications, reproducibility and responsible use"
+          ]
         }
       ]
     }
