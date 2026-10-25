@@ -2008,6 +2008,101 @@ window.LIBRARY_CATALOG = {
             "Applied microbiology",
             "Microbiological methods"
           ]
+        },
+        {
+          "id": "plant-biology",
+          "title": "Plant Biology",
+          "subtitle": "Plant Architecture, Photosynthesis, Water Transport, Mineral Nutrition, Growth & Development",
+          "status": "AVAILABLE",
+          "url": "plant-biology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering plant cell architecture, meristems and tissue differentiation, xylem and phloem transport, water potential mechanics, C3/C4/CAM photosynthesis, mineral nutrition, plant hormones (auxin, cytokinin, gibberellin), photomorphogenesis, and reproductive development with 24 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Plant Cells and Tissues",
+            "Roots, Stems and Leaves",
+            "Water Relations and Mineral Nutrition",
+            "Photosynthesis and Carbon",
+            "Transport and Resource Allocation",
+            "Growth, Hormones and Development",
+            "Reproduction, Seeds and Diversity",
+            "Plant Ecology, Stress and Research"
+          ]
+        },
+        {
+          "id": "animal-biology",
+          "title": "Animal Biology",
+          "subtitle": "Animal Diversity, Body Plans, Phylogenetics, Invertebrates, Vertebrates & Comparative Anatomy",
+          "status": "AVAILABLE",
+          "url": "animal-biology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering animal origins, symmetry and tissue layers, phylogenetic reconstruction, major invertebrate phyla (Porifera, Cnidaria, Platyhelminthes, Annelida, Mollusca, Arthropoda, Echinodermata), chordate evolution, vertebrate comparative anatomy, and physiological adaptations with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Animal origins, classification and evidence",
+            "Embryos, body plans and the organization of animals",
+            "Sponges, cnidarians and small bilaterians",
+            "Molluscs, annelids and ecdysozoans",
+            "Deuterostomes and vertebrate transitions",
+            "Feeding, respiration, circulation and homeostasis",
+            "Animal communication, movement and behavior",
+            "Reproduction, population ecology and conservation"
+          ]
+        },
+        {
+          "id": "evolutionary-biology",
+          "title": "Evolutionary Biology",
+          "subtitle": "Natural Selection, Speciation, Phylogenetics, Coevolution, Molecular Evolution & Macroevolution",
+          "status": "AVAILABLE",
+          "url": "evolutionary-biology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering historical evidence for evolution, mechanisms of natural and sexual selection, genetic variation and drift, phylogenetic tree inference, speciation models (allopatric, sympatric), molecular evolution and molecular clocks, coevolution, evolutionary developmental biology (evo-devo), and macroevolutionary trends with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Evolutionary evidence: the historical record",
+            "Population processes and evolutionary forces",
+            "Adaptation, plasticity and experimental evolution",
+            "Speciation and hybridization",
+            "Phylogenetic inference and comparative analysis",
+            "Macroevolution and deep-time diversity",
+            "Life-history and social evolution",
+            "Evolution in medicine, conservation and society"
+          ]
+        },
+        {
+          "id": "ecology",
+          "title": "Ecology",
+          "subtitle": "Population Dynamics, Community Structure, Trophic Interactions, Ecosystem Energetics & Biomes",
+          "status": "AVAILABLE",
+          "url": "ecology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering environmental gradients and biomes, behavioral ecology and foraging, population growth models (exponential and logistic), life history strategies, interspecific competition (Lotka-Volterra), predation and herbivory, community succession, trophic cascades and food webs, and biogeochemical cycles with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 01 — Scope, environments and biomes",
+            "Unit 02 — Population ecology and demography",
+            "Unit 03 — Species interactions and community dynamics",
+            "Unit 04 — Ecosystem energetics and biogeochemistry",
+            "Unit 05 — Biodiversity and biogeography",
+            "Unit 06 — Field methods, experiments and inference",
+            "Unit 07 — Global change, restoration and conservation",
+            "Unit 08 — Applied ecology and adaptive decisions"
+          ]
+        },
+        {
+          "id": "developmental-biology",
+          "title": "Developmental Biology",
+          "subtitle": "Embryogenesis, Morphogen Gradients, Pattern Formation, Cell Fate Specification & Organogenesis",
+          "status": "AVAILABLE",
+          "url": "developmental-biology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering developmental mechanisms and cell fate, fertilization and cleavage, gastrulation and primary germ layers, neurulation and neural crest specification, morphogen gradient French Flag models, axis specification, limb bud development, organogenesis, and stem cell biology with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 01 — Developmental mechanisms and cell fate",
+            "Unit 02 — Gametes, fertilization and early embryos",
+            "Unit 03 — Body axes, morphogens and segmentation",
+            "Unit 04 — Organogenesis and tissue interactions",
+            "Unit 05 — Cell movement, adhesion and morphogenesis",
+            "Unit 06 — Developmental genetics and regulatory networks",
+            "Unit 07 — Comparative development and regeneration",
+            "Unit 08 — Experimental approaches and responsible inference"
+          ]
         }
       ]
     }
