@@ -330,7 +330,7 @@ function startApp() {
         <div class="problem-header">
           <div class="problem-title-box">
             <span class="diff-badge ${diffClass}">${diffLabel}</span>
-            <strong>${prob.title.includes('Example') ? prob.title : `Example ${activeUnitIndex + 1}.${idx + 1}: ${prob.title}`}</strong>
+            <strong>${(prob.title || 'Solved Problem').includes('Example') ? (prob.title || 'Solved Problem') : `Example ${activeUnitIndex + 1}.${idx + 1}: ${prob.title || 'Solved Problem'}`}</strong>
           </div>
         </div>
         <div class="problem-question-box">

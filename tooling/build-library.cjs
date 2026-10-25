@@ -215,7 +215,7 @@ for(const el of hd.querySelectorAll('script[src],link[rel="stylesheet"]')) {
   const attr=el.tagName==='SCRIPT'?'src':'href', value=el.getAttribute(attr);
   if (/^(departments-data\.js|portal\.js|portal\.css)(\?|$)/.test(value)) el.setAttribute(attr,value.split('?')[0]+'?v='+portalVersion);
 }
-const description='Free university textbooks in Physics, Mathematics, Chemistry, and Statistics & Probability, with solved problems and interactive simulations.';
+const description='Free university textbooks in Physics, Mathematics, Chemistry, Statistics, Computer Science, and Biological Sciences, with solved problems and interactive simulations.';
 for (const selector of ['meta[name="description"]','meta[property="og:description"]','meta[name="twitter:description"]']) hd.querySelector(selector).content=description;
 hd.querySelector('#portal-search-input').placeholder='Search by topic or course (e.g., Statistics, Regression, Calculus, Quantum Mechanics)...';
 // New books belong in the department catalog; do not recreate announcement boxes.

@@ -1906,6 +1906,110 @@ window.LIBRARY_CATALOG = {
           ]
         }
       ]
+    },
+    {
+      "id": "biological-sciences",
+      "name": "Biological Sciences",
+      "code": "BIO",
+      "icon": "🧬",
+      "description": "Foundational cellular and molecular biology, genetics, biochemistry, microbiology, physiology, ecology, genomics, and systems biology.",
+      "courses": [
+        {
+          "id": "cell-biology",
+          "title": "Cell Biology",
+          "subtitle": "Cell Architecture, Membrane Transport, Bioenergetics, Cell Signaling, Organelles & Cell Division",
+          "status": "AVAILABLE",
+          "url": "cell-biology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering eukaryotic and prokaryotic cellular organization, membrane structure and transport, bioenergetics and respiration, intracellular trafficking, signal transduction, cytoskeleton dynamics, cell cycle regulation, and programmed cell death with 24 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Cellular organization",
+            "Membranes",
+            "Organelles",
+            "Cell signaling",
+            "Cell cycles",
+            "Cell behavior",
+            "Cellular stress",
+            "Cell investigation"
+          ]
+        },
+        {
+          "id": "molecular-biology",
+          "title": "Molecular Biology",
+          "subtitle": "DNA Structure & Replication, Transcription, Translation, Gene Regulation & Recombinant DNA",
+          "status": "AVAILABLE",
+          "url": "molecular-biology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering nucleic acid chemistry, DNA replication mechanisms, DNA repair and recombination, prokaryotic and eukaryotic transcription, RNA processing, translation and the genetic code, gene expression regulation (operons and chromatin), and molecular biology techniques with 24 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Molecular information",
+            "Replication",
+            "Genome maintenance",
+            "Transcription",
+            "RNA processing",
+            "Translation",
+            "Gene regulation",
+            "Molecular methods"
+          ]
+        },
+        {
+          "id": "genetics",
+          "title": "Genetics",
+          "subtitle": "Mendelian Inheritance, Chromosomal Linkage, Pedigree Analysis, Quantitative & Population Genetics",
+          "status": "AVAILABLE",
+          "url": "genetics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering Mendelian principles of segregation and independent assortment, chromosomal basis of inheritance, sex linkage, gene mapping and genetic recombination, quantitative traits and heritability, population genetics (Hardy-Weinberg equilibrium), mutations, and developmental genetics with 24 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Inheritance",
+            "Chromosomes",
+            "Gene mapping",
+            "Molecular genetics",
+            "Quantitative genetics",
+            "Population genetics",
+            "Complex inheritance",
+            "Genetic investigation"
+          ]
+        },
+        {
+          "id": "biochemistry-for-biology",
+          "title": "Biochemistry for Biology",
+          "subtitle": "Biomolecules, Enzyme Kinetics, Glycolysis, Citric Acid Cycle, Oxidative Phosphorylation & Biosynthesis",
+          "status": "AVAILABLE",
+          "url": "biochemistry-for-biology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering water and buffer chemistry, amino acids and protein structure, enzyme kinetics (Michaelis-Menten, allosteric regulation), carbohydrate and lipid biochemistry, glycolysis, the citric acid cycle, oxidative phosphorylation and ATP synthesis, and metabolic integration with 24 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Biomolecules",
+            "Protein chemistry",
+            "Enzymes",
+            "Bioenergetics",
+            "Carbon metabolism",
+            "Lipid and nitrogen metabolism",
+            "Cellular energy systems",
+            "Biochemical methods"
+          ]
+        },
+        {
+          "id": "microbiology",
+          "title": "Microbiology",
+          "subtitle": "Microbial Diversity, Bacterial Cell Structure, Microbial Metabolism, Pathogenesis & Antimicrobial Action",
+          "status": "AVAILABLE",
+          "url": "microbiology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering microbial diversity, bacterial and archaeal cell wall structures, microbial growth kinetics and environmental influences, viral structure and replication, microbial genetics, host-pathogen interactions, mechanisms of antibiotic resistance, and environmental and industrial microbiology with 24 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Microbial diversity",
+            "Microbial structure",
+            "Growth and metabolism",
+            "Microbial genetics",
+            "Microbial communities",
+            "Host interactions",
+            "Applied microbiology",
+            "Microbiological methods"
+          ]
+        }
+      ]
     }
   ]
 };
