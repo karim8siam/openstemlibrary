@@ -2397,6 +2397,101 @@ window.LIBRARY_CATALOG = {
             "Unit 7 — Tectonic reconstruction and field synthesis",
             "Unit 8 — Integrative structural methods and quantification"
           ]
+        },
+        {
+          "id": "geomorphology",
+          "title": "Geomorphology",
+          "subtitle": "Fluvial Landscapes, Hillslope Processes, Glacial Dynamics, Coastal Landforms & Tectonic Geomorphology",
+          "status": "AVAILABLE",
+          "url": "geomorphology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering mechanical and chemical weathering, hillslope transport laws, channel network geometry, fluvial sediment routing, glacial valley evolution, periglacial landforms, coastal littoral drift, and tectonic landscape evolution with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 1 — Landscape systems, scale and quantitative evidence",
+            "Unit 2 — Weathering, soils and hillslope dynamics",
+            "Unit 3 — Rivers, sediment and floodplain evolution",
+            "Unit 4 — Glacial and periglacial landscapes",
+            "Unit 5 — Dryland and aeolian geomorphology",
+            "Unit 6 — Coasts, deltas and sea-level change",
+            "Unit 7 — Karst, tectonic and volcanic landforms",
+            "Unit 8 — Landscape evolution, human impacts and research practice"
+          ]
+        },
+        {
+          "id": "hydrology-and-hydrogeology",
+          "title": "Hydrology and Hydrogeology",
+          "subtitle": "Catchment Hydrology, Precipitation-Runoff Dynamics, Darcy Aquifer Flow & Contaminant Transport",
+          "status": "AVAILABLE",
+          "url": "hydrology-and-hydrogeology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering surface hydrological cycles, precipitation metrics, infiltration models (Green-Ampt), streamflow hydrograph analysis, saturated and unsaturated groundwater flow, pumping test well hydraulics, aquifer storage properties, and subsurface solute transport with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 1 — The hydrologic system and its measurements",
+            "Unit 2 — Atmosphere, infiltration and the soil zone",
+            "Unit 3 — Rivers, hydrographs and floods",
+            "Unit 4 — Groundwater fundamentals and flow",
+            "Unit 5 — Aquifer testing and groundwater–surface-water exchange",
+            "Unit 6 — Water quality, solute movement and contamination",
+            "Unit 7 — Water resources, extremes and climate variability",
+            "Unit 8 — Integrated hydrologic research and decision making"
+          ]
+        },
+        {
+          "id": "meteorology-and-atmospheric-science",
+          "title": "Meteorology and Atmospheric Science",
+          "subtitle": "Atmospheric Thermodynamics, Hydrostatic Balance, Synoptic Dynamics, Frontogenesis & Severe Storms",
+          "status": "AVAILABLE",
+          "url": "meteorology-and-atmospheric-science.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering atmospheric structure and composition, radiative equilibrium, dry and saturated parcel thermodynamics, cloud microphysics, equations of horizontal motion, synoptic weather maps and jet streams, midlatitude cyclones, and convective storm dynamics with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 1 — Atmospheric structure and thermodynamic foundations",
+            "Unit 2 — Radiation, surface exchange and the boundary layer",
+            "Unit 3 — Humidity, clouds and precipitation",
+            "Unit 4 — Atmospheric motion and planetary circulation",
+            "Unit 5 — Air masses, fronts and synoptic weather",
+            "Unit 6 — Convection, severe weather and tropical systems",
+            "Unit 7 — Observations, remote sensing and numerical forecasting",
+            "Unit 8 — Climate variability, atmospheric hazards and decisions"
+          ]
+        },
+        {
+          "id": "climatology-and-climate-science",
+          "title": "Climatology and Climate Science",
+          "subtitle": "Global Energy Budgets, General Circulation, Paleoclimate Forcings, Feedback Loops & Climate Modeling",
+          "status": "AVAILABLE",
+          "url": "climatology-and-climate-science.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering Earth radiation budgets, planetary boundary layer climatology, ocean-atmosphere coupled systems, teleconnections (ENSO, NAO, PDO), Quaternary glacial-interglacial cycles, climate sensitivity metrics, biogeochemical climate feedbacks, and IPCC radiative forcing projections with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 1 — Climate data, baselines and detection",
+            "Unit 2 — Energy balance and physical climate drivers",
+            "Unit 3 — Atmosphere–ocean circulation and variability",
+            "Unit 4 — Cryosphere, land, biosphere and carbon cycling",
+            "Unit 5 — Paleoclimate and evidence of past change",
+            "Unit 6 — Climate models, scenarios and uncertainty",
+            "Unit 7 — Extremes, attribution and compound hazards",
+            "Unit 8 — Adaptation, mitigation and climate-informed decisions"
+          ]
+        },
+        {
+          "id": "oceanography",
+          "title": "Oceanography",
+          "subtitle": "Seawater Thermodynamics, Wind-Driven Gyres, Thermohaline Circulation, Tides & Marine Ecology",
+          "status": "AVAILABLE",
+          "url": "oceanography.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering marine physiography, chemical composition of seawater, sound and light propagation in water, surface wind stress and Ekman dynamics, subtropical gyres and western boundary currents, abyssal ocean overturning, wave kinematics, tidal harmonic analysis, and marine primary production with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 1 — Ocean basins, exploration and evidence",
+            "Unit 2 — Seawater properties and vertical structure",
+            "Unit 3 — Circulation: momentum, rotation and transport",
+            "Unit 4 — Waves, tides, coasts and estuaries",
+            "Unit 5 — Air–sea interaction and ocean climate",
+            "Unit 6 — Marine chemistry and biogeochemical cycling",
+            "Unit 7 — Biological oceanography and ecosystems",
+            "Unit 8 — Oceanographic prediction, hazards and responsible decisions"
+          ]
         }
       ]
     }
