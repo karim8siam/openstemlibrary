@@ -2295,6 +2295,110 @@ window.LIBRARY_CATALOG = {
           ]
         }
       ]
+    },
+    {
+      "id": "earth-space-sciences",
+      "name": "Earth & Space Sciences",
+      "code": "EAS",
+      "icon": "🌍",
+      "description": "Physical geology, mineralogy, petrology, geophysics, geochemistry, oceanography, atmospheric sciences, meteorology, climatology, and planetary science.",
+      "courses": [
+        {
+          "id": "physical-geology",
+          "title": "Physical Geology",
+          "subtitle": "Plate Tectonics, Earth Structure, Igneous & Sedimentary Processes, Crustal Deformation & Geologic Time",
+          "status": "AVAILABLE",
+          "url": "physical-geology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering internal Earth structure, plate tectonic theory, mineral and rock classification, magma generation, weathering and soil formation, sedimentary environments, metamorphic facies, structural deformation, and geologic time with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Earth as an Investigated System",
+            "Minerals, Crystals, and Rock Materials",
+            "Igneous Processes and Volcanic Landscapes",
+            "Sediments, Strata, and Deep Time",
+            "Plate Tectonics, Earthquakes, and Deformation",
+            "Metamorphism and Mountain Building",
+            "Weathering and Surface Processes",
+            "Geologic Mapping, Water, Hazards, and Resources"
+          ]
+        },
+        {
+          "id": "mineralogy",
+          "title": "Mineralogy",
+          "subtitle": "Crystal Chemistry, Crystallography, Silicate Frameworks, Optical Mineralogy & Mineral Thermodynamics",
+          "status": "AVAILABLE",
+          "url": "mineralogy.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering crystal lattices and symmetry operations, crystal chemistry and ionic bonding, silicate and non-silicate mineral classification, optical mineralogy in thin section, X-ray diffraction principles, and mineral phase stability with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 1 — Minerals as measurable natural materials",
+            "Unit 2 — Crystallography and internal order",
+            "Unit 3 — Crystal chemistry and mineral stability",
+            "Unit 4 — Silicate minerals and Earth materials",
+            "Unit 5 — Non-silicate minerals",
+            "Unit 6 — Optical mineralogy",
+            "Unit 7 — Analytical and computational mineralogy",
+            "Unit 8 — Mineral assemblages and responsible applications"
+          ]
+        },
+        {
+          "id": "igneous-metamorphic-petrology",
+          "title": "Igneous and Metamorphic Petrology",
+          "subtitle": "Magma Genesis, Fractional Crystallization, Metamorphic Facies, Geothermobarometry & Tectonic Settings",
+          "status": "AVAILABLE",
+          "url": "igneous-metamorphic-petrology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering thermodynamics of silicate melts, phase equilibria, fractional crystallization, magma ascent and emplacement, basaltic and granitic suites, metamorphic heat and pressure regimes, metamorphic facies series, and geothermobarometric modeling with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 1 — Melt origins and the thermodynamics of melting",
+            "Unit 2 — Igneous classification and textures",
+            "Unit 3 — Magma evolution and intrusive architecture",
+            "Unit 4 — Volcanic systems, fluids and geochemical tracers",
+            "Unit 5 — Metamorphic reactions and mineral stability",
+            "Unit 6 — Metamorphic facies, fabric and pressure–temperature paths",
+            "Unit 7 — Microtextures and quantitative metamorphic petrology",
+            "Unit 8 — Integrated case studies and responsible inference"
+          ]
+        },
+        {
+          "id": "sedimentology-and-stratigraphy",
+          "title": "Sedimentology and Stratigraphy",
+          "subtitle": "Sedimentary Processes, Depositional Environments, Facies Models, Sequence Stratigraphy & Basin Analysis",
+          "status": "AVAILABLE",
+          "url": "sedimentology-and-stratigraphy.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering sediment transport fluid dynamics, primary sedimentary structures, clastic and carbonate depositional environments, facies associations, sequence stratigraphy systems tracts (LST, TST, HST), biostratigraphic correlation, and sedimentary basin subsidence modeling with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 1 — Sedimentary archives and field description",
+            "Unit 2 — Fluid motion, transport and deposition",
+            "Unit 3 — Sedimentary environments and facies",
+            "Unit 4 — Marine systems, carbonates and deep-water strata",
+            "Unit 5 — Lithostratigraphy, fossils and age correlation",
+            "Unit 6 — Sequence stratigraphy and basin architecture",
+            "Unit 7 — Diagenesis, sedimentary geochemistry and archives",
+            "Unit 8 — Integrated stratigraphic research and applications"
+          ]
+        },
+        {
+          "id": "structural-geology",
+          "title": "Structural Geology",
+          "subtitle": "Stress & Strain Mechanics, Brittle Faulting, Ductile Folding, Rheology & Tectonic Deformation",
+          "status": "AVAILABLE",
+          "url": "structural-geology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering stress tensors, finite and infinitesimal strain analysis, brittle fracture mechanics, Anderson fault dynamics, fold kinematics and buckling theory, ductile shear zones, rock rheology, and tectonic reconstruction with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Unit 1 — Geometry and orientation of geological structures",
+            "Unit 2 — Stress, strain and mechanical behaviour",
+            "Unit 3 — Fold geometry and histories",
+            "Unit 4 — Brittle faults and fault-zone architecture",
+            "Unit 5 — Joints, fractures and veins",
+            "Unit 6 — Ductile structures, shear zones and fabrics",
+            "Unit 7 — Tectonic reconstruction and field synthesis",
+            "Unit 8 — Integrative structural methods and quantification"
+          ]
+        }
+      ]
     }
   ]
 };
