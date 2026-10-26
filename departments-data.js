@@ -2587,6 +2587,101 @@ window.LIBRARY_CATALOG = {
             "Monitoring, Data, and Eruption Forecasting",
             "Volcanology Practice, People, and Planetary Perspectives"
           ]
+        },
+        {
+          "id": "seismology",
+          "title": "Seismology",
+          "subtitle": "Earthquake Source Mechanics, Wave Propagation, Earth Interior Structure & Seismic Inversion",
+          "status": "AVAILABLE",
+          "url": "seismology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering stress and strain tensors, elastodynamic wave propagation, travel time curves, spherical Earth ray tracing, earthquake source kinematics, double-couple moment tensors, free oscillations, and tomography with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Earthquake Sources, Faults, and Energy Release",
+            "Elasticity and Seismic Wave Propagation",
+            "Seismometers, Networks, and Signal Processing",
+            "Earthquake Location, Depth, and Magnitude",
+            "Ground Motion, Site Effects, and Engineering Interfaces",
+            "Earthquake Sequences, Statistics, and Tectonic Context",
+            "Earth Structure, Imaging, and Inverse Methods",
+            "Earthquake Monitoring, Risk, and Responsible Science"
+          ]
+        },
+        {
+          "id": "geodesy-and-earth-observation",
+          "title": "Geodesy and Earth Observation",
+          "subtitle": "Reference Frames, Satellite Positioning (GNSS), Satellite Gravity, InSAR & Remote Sensing",
+          "status": "AVAILABLE",
+          "url": "geodesy-and-earth-observation.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering geometric and physical geodesy, global terrestrial reference frames (ITRF), satellite orbital mechanics, GNSS precise positioning, gravity potential fields, satellite altimetry, radar interferometry (InSAR), and multispectral Earth observation with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Earth as a Measured Body and Geodetic Reference",
+            "Coordinates, Projections and Geospatial Computation",
+            "Satellite Positioning and GNSS Data Quality",
+            "Gravity, Elevation and Vertical Reference Systems",
+            "Deformation, Reference Frames and Earth Dynamics",
+            "Space Geodesy, Satellite Orbits and Imaging",
+            "Earth Observation Retrievals and Surface Mapping",
+            "Integrated Earth Observation and Responsible Decisions"
+          ]
+        },
+        {
+          "id": "planetary-science",
+          "title": "Planetary Science",
+          "subtitle": "Solar System Formation, Planetary Geology, Atmospheres, Magnetospheres & Small Bodies",
+          "status": "AVAILABLE",
+          "url": "planetary-science.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering nebular accretion, meteorite petrology, cratering mechanics, planetary interiors and volcanism, atmospheric structure and escape mechanisms, magnetospheric interactions, icy ocean moons, and exoplanet demographics with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Comparative Planetology and Solar System Origins",
+            "Orbits, Gravity and Planetary Interiors",
+            "Surface Geology of Rocky Worlds",
+            "Planetary Atmospheres, Climate and Escape",
+            "Icy Moons, Ocean Worlds and Cryospheres",
+            "Giant Planets, Rings and Magnetospheres",
+            "Small Bodies, Impacts and Planetary Defense",
+            "Planetary Missions, Habitability and Responsible Inference"
+          ]
+        },
+        {
+          "id": "astrobiology",
+          "title": "Astrobiology",
+          "subtitle": "Origin of Life, Extreme Environments, Planetary Habitability, Biosignatures & Exoplanets",
+          "status": "AVAILABLE",
+          "url": "astrobiology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering prebiotic organic synthesis, geochemical environments of early Earth, metabolic evolutionary pathways, extremophile adaptations, habitability criteria for rocky planets and icy satellites, false-positive biosignature screening, and exoplanet transmission spectroscopy with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "What Counts as Evidence for Life?",
+            "Cosmic Chemistry and Habitable Worlds",
+            "Prebiotic Chemistry and the Origins Problem",
+            "Earth as an Astrobiological Laboratory",
+            "Mars: Habitable Environments and Life Detection",
+            "Ocean Worlds, Icy Moons and Exotic Solvents",
+            "Exoplanets and Remote Biosignature Science",
+            "Mission Design, Data Integrity and Responsible Conclusions"
+          ]
+        },
+        {
+          "id": "environmental-geoscience",
+          "title": "Environmental Geoscience",
+          "subtitle": "Anthropogenic Impacts, Hydrogeological Contamination, Waste Management & Geoheritage",
+          "status": "AVAILABLE",
+          "url": "environmental-geoscience.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering geological resources and footprint, hydrogeochemical contaminant fate and transport, soil degradation and remediation, geological radioactive waste disposal, mining environmental engineering, carbon mineralization and sequestration, and geohazard risk assessment with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Earth Systems, Environmental Evidence and Responsibility",
+            "Groundwater, Rivers and Contaminant Transport",
+            "Soils, Sediments and Changing Land",
+            "Atmosphere, Particles and Environmental Change",
+            "Natural Hazards, Cascades and Risk Communication",
+            "Urban, Coastal and Resource Geoscience",
+            "Measurement, Modeling and Reproducible Evidence",
+            "Remediation, Governance and Integrated Decisions"
+          ]
         }
       ]
     }
