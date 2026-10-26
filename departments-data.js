@@ -2492,6 +2492,101 @@ window.LIBRARY_CATALOG = {
             "Unit 7 — Biological oceanography and ecosystems",
             "Unit 8 — Oceanographic prediction, hazards and responsible decisions"
           ]
+        },
+        {
+          "id": "marine-geology",
+          "title": "Marine Geology",
+          "subtitle": "Ocean Basins, Mid-Ocean Ridges, Subduction Trenches, Marine Sedimentation & Paleoceanography",
+          "status": "AVAILABLE",
+          "url": "marine-geology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering ocean basin morphology, oceanic lithosphere creation at mid-ocean ridges, subduction zones and island arcs, marine sediment classification, pelagic biogenic oozes, passive continental margin evolution, hydrothermal circulation, and paleoceanographic proxy records with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Mapping and the marine geological record",
+            "Oceanic crust, ridges and plate boundaries",
+            "Margins, basins and sediment pathways",
+            "Marine sediments, facies and diagenesis",
+            "Ocean drilling, marine geochronology and paleoceanography",
+            "Submarine hazards, fluid flow and slope stability",
+            "Marine geochemistry, resources and environments",
+            "Integration, modeling, ethics and reproducible marine geology"
+          ]
+        },
+        {
+          "id": "geophysics",
+          "title": "Geophysics",
+          "subtitle": "Seismic Wave Propagation, Gravity Anomalies, Geomagnetism, Geothermics & Subsurface Imaging",
+          "status": "AVAILABLE",
+          "url": "geophysics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering theoretical and applied geophysics, elastodynamics of seismic body and surface waves, seismic reflection profiling, gravity potential field theory, isostatic balance models, geomagnetic fields and paleomagnetism, electrical resistivity, and Earth thermal evolution with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "The inverse problem and geophysical observables",
+            "Seismology and earthquake source physics",
+            "Seismic reflection and refraction imaging",
+            "Gravity surveying and the Earth's gravity field",
+            "Magnetics and paleomagnetic inference",
+            "Electrical, electromagnetic and ground-penetrating methods",
+            "Heat flow, geodesy and integrated Earth processes",
+            "Inversion, uncertainty, reproducibility and applications"
+          ]
+        },
+        {
+          "id": "geochemistry",
+          "title": "Geochemistry",
+          "subtitle": "Element Abundances, Thermodynamics, Radiogenic & Stable Isotopes, Aquatic Chemistry & Geochemical Cycles",
+          "status": "AVAILABLE",
+          "url": "geochemistry.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering cosmochemical element origins, chemical thermodynamics in geological systems, mineral-solution equilibria, oxidation-reduction states, radiogenic isotope geochronology and mantle reservoirs, stable isotope paleothermometry, and global geochemical cycles with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Elemental inventories and geochemical reasoning",
+            "Thermodynamics, aqueous speciation and equilibrium",
+            "Igneous processes and element partitioning",
+            "Isotope geochemistry and geological time",
+            "Water–rock interaction and environmental geochemistry",
+            "Weathering, soils and biogeochemical cycles",
+            "Sediments, tracers and the critical zone",
+            "Laboratory methods, uncertainty and scientific communication"
+          ]
+        },
+        {
+          "id": "paleontology",
+          "title": "Paleontology",
+          "subtitle": "Fossilization, Invertebrate Clades, Vertebrate Evolution, Mass Extinctions, Biostratigraphy & Macroevolution",
+          "status": "AVAILABLE",
+          "url": "paleontology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering taphonomy and preservation modes, evolutionary paleoecology, functional morphology, phylogenetic systematics, biostratigraphic index fossils, the Cambrian radiation, vertebrate evolutionary milestones, the Big Five mass extinction crises, and macroevolutionary dynamics with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Fossils, Evidence, and the Architecture of Deep Time",
+            "Taphonomy, Preservation, and Fossil Preparation",
+            "Systematics, Morphology, and Evolutionary Relationships",
+            "Invertebrate Paleontology and Marine Ecosystems",
+            "Vertebrate Paleontology and the Evolution of Body Plans",
+            "Paleobotany, Paleoecology, and Ancient Environments",
+            "Macroevolution, Extinction, and the Incomplete Record",
+            "Quantitative Paleontology, Ethics, and Reproducibility"
+          ]
+        },
+        {
+          "id": "volcanology",
+          "title": "Volcanology",
+          "subtitle": "Magma Rheology, Eruption Styles, Pyroclastic Dispersal, Volcanic Hazards & Monitoring Systems",
+          "status": "AVAILABLE",
+          "url": "volcanology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering magmatic fluid dynamics, volatile degassing kinetics, subaerial and submarine eruption columns, pyroclastic surge physics, lava dome stability, volcano seismology, geodetic hazard monitoring, and volcanic risk mitigation with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Volcanoes in the Earth System",
+            "Magma Generation, Composition, and Storage",
+            "Volatiles and Magma Ascent",
+            "Effusive Eruptions and Lava Emplacement",
+            "Explosive Eruptions and Tephra",
+            "Volcanic Hazards and Cascading Events",
+            "Monitoring, Data, and Eruption Forecasting",
+            "Volcanology Practice, People, and Planetary Perspectives"
+          ]
         }
       ]
     }
