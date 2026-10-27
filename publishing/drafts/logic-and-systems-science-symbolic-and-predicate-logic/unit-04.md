@@ -1,0 +1,175 @@
+# Unit 4: Quantifier Scope, Identity, and Countermodels
+
+**Learning destination.** Understand dependencies introduced by nested quantifiers, equality, finite countermodels, and the boundary between finite and unrestricted claims.
+
+**Guiding principle.** Changing quantifier order often changes the asserted sharing or dependence of witnesses; a small countermodel makes the difference visible.
+
+**Running case.** A lab promises that each specimen has a calibration standard; the director assumes there is one standard common to every specimen.
+
+## Conceptual orientation
+
+A useful way to begin this unit is to resist writing symbols immediately. Separate witness dependence, distinctness, and finite search bounds. The first draft of any formal problem must identify what counts as an input, an allowed operation, a result, and an error. A lab promises that each specimen has a calibration standard; the director assumes there is one standard common to every specimen. If two readers obtain different formal sentences from the same English claim, the disagreement is often visible before either attempts a proof. A good analyst preserves both candidate translations until the intended interpretation can be resolved. The symbols do not decide the institutional meaning on their own.
+
+In a complete solution: when refuting an entailment claim, evaluate every premise and the negated conclusion in the same model. Record the domain size and tuple list. The student should also be able to explain what this particular workflow cannot establish. A countermodel passes only when every premise is true and the conclusion false; samples without witnesses do not earn the label. Absence of a found model under size limits is inconclusive. These are not decorative limitations; they tell an independent reader when a result is strong enough to reuse and when it should remain a hypothesis pending additional evidence.
+
+## Diagnostic pretest
+
+Take the following situation in isolation: A lab promises that each specimen has a calibration standard; the director assumes there is one standard common to every specimen. State three things that are known, two things that would need additional facts, and one piece of evidence that could falsify a tempting interpretation. Label each claim as *syntax*, *truth in a model*, *derivability*, *semantic consequence*, or *external factual premise*. If you cannot confidently assign a label, carry the question into the individual lessons rather than quietly collapsing the categories. A convincing formal report will make uncertainty legible.
+
+## Lesson 4.1: Universal–existential versus existential–universal
+
+### Core definition and significance
+
+The difference between a per-object choice and a shared choice becomes decisive in scheduling and matching. A countermodel requires all premises true and the candidate conclusion false. 
+
+### Exact symbolic object and derivation
+
+The central formal object is `∀x∃y R(x,y) ⊭ ∃y∀x R(x,y)`. Read it in full, including all quantifier scopes, function arities, and any dependence on an intended domain. **Worked construction:** On D={a,b}, set R={(a,a),(b,b)}. Every object is related to at least one object, proving ∀x∃yR(x,y) in the model. Neither a nor b is related from both sources, falsifying ∃y∀xR(x,y). 
+
+### Why the distinction matters
+
+One common failure is **Using a single successful witness for one x as a common witness for all x.** 
+
+**Boundary probe.** Even the conclusion implies the premise only if the domain is nonempty, as it is under standard first-order semantics. The probe is best answered by keeping the original expression next to its proposed revision. Compare their free variables, bound variables, domains, and truth conditions; do not assume that superficially similar symbols denote the same property. When a proof step is at issue, inspect every live assumption. When a semantics result is at issue, present one satisfying assignment or one falsifying tuple. A student who cannot supply either should qualify the claim as provisional rather than assert that it has been established.
+
+### Worked application and audit record
+
+**Transfer problem:** Compare assigning each participant an advisor with appointing one advisor for everyone. Create a four-part audit: (1) plain-language requirement, (2) symbol table and domain, (3) exact formal representation, and (4) output with its limits. Check at least one ordinary case and one intentionally awkward case: zero eligible subjects, a shared witness, contradictory records, duplicate identifiers, or a free-variable collision—whichever exposes the subject of the lesson most sharply. If the output differs, explain which condition caused the difference. A reliable application should not hide a failed edge case; it should make the discrepancy easy to reproduce and correct.
+
+### Practice: three graded problems
+
+**Problem A — reconstruct.** Rebuild `∀x∃y R(x,y) ⊭ ∃y∀x R(x,y)` without looking at it: define its atomic components, describe the argument positions in every predicate and function, and write the fully parenthesized expression where relevant. **Answer guide:** a reconstruction is correct when its parse and scopes agree with the original. If it produces a different sentence, provide a structure or interpretation that can separate the two when possible. If the object contains a transformation marker, specify the original and transformed languages separately. Merely reproducing a string does not establish understanding; explain the meaning of each operator.
+
+**Problem B — adversarial test.** Attempt the error “Using a single successful witness for one x as a common witness for all x.” on the worked example, then show why the corrected reasoning is required. **Answer guide:** first state the purported rule and how it would modify the original claim. Second, test a minimal finite case or inspect the proof side condition. Third, repair the reasoning without adding hidden premises. For a model-based test, record the actual domain and truth assignments; for a substitution, list free variables; for a proof, show which assumption is open at each step. The answer is incomplete if the purported countermodel violates a premise.
+
+**Problem C — controlled generalization.** Apply the idea to this task: Compare assigning each participant an advisor with appointing one advisor for everyone. **Answer guide:** write down the input data model, the exact claim being established, and one falsification attempt. Then address the qualification “Even the conclusion implies the premise only if the domain is nonempty, as it is under standard first-order semantics.” without declaring the original result universally valid unless a general proof supports it. If the task cannot be decided from given information, identify the missing element rather than invent one. A rigorous “undetermined” is better than a confident answer to a different question.
+
+## Lesson 4.2: Mixed quantifier dependencies
+
+### Core definition and significance
+
+Every quantifier changes which previously chosen values can influence later witnesses. Game-like evaluation offers a mental model: the universal choices are adversarial, and existential witnesses must be available afterward. 
+
+### Exact symbolic object and derivation
+
+The central formal object is `∀x∃y∀z∃w S(x,y,z,w)`. Read it in full, including all quantifier scopes, function arities, and any dependence on an intended domain. **Worked construction:** Interpret S to mean w=x or w=z over D={0,1}. Then regardless of the chosen x,y,z, choosing w=x satisfies the body; the y choice is irrelevant. Moving ∃w to the very front would demand a single w for every x,z and fail. 
+
+### Why the distinction matters
+
+One common failure is **Assuming that an existential variable always denotes one fixed object globally.** 
+
+**Boundary probe.** Quantifier games are intuition for classical semantics, not a substitute for specifying the exact predicate interpretation. The probe is best answered by keeping the original expression next to its proposed revision. Compare their free variables, bound variables, domains, and truth conditions; do not assume that superficially similar symbols denote the same property. When a proof step is at issue, inspect every live assumption. When a semantics result is at issue, present one satisfying assignment or one falsifying tuple. A student who cannot supply either should qualify the claim as provisional rather than assert that it has been established.
+
+### Worked application and audit record
+
+**Transfer problem:** Analyze a workflow that assigns a fallback reviewer after a particular conflict is reported. Create a four-part audit: (1) plain-language requirement, (2) symbol table and domain, (3) exact formal representation, and (4) output with its limits. Check at least one ordinary case and one intentionally awkward case: zero eligible subjects, a shared witness, contradictory records, duplicate identifiers, or a free-variable collision—whichever exposes the subject of the lesson most sharply. If the output differs, explain which condition caused the difference. A reliable application should not hide a failed edge case; it should make the discrepancy easy to reproduce and correct.
+
+### Practice: three graded problems
+
+**Problem A — reconstruct.** Rebuild `∀x∃y∀z∃w S(x,y,z,w)` without looking at it: define its atomic components, describe the argument positions in every predicate and function, and write the fully parenthesized expression where relevant. **Answer guide:** a reconstruction is correct when its parse and scopes agree with the original. If it produces a different sentence, provide a structure or interpretation that can separate the two when possible. If the object contains a transformation marker, specify the original and transformed languages separately. Merely reproducing a string does not establish understanding; explain the meaning of each operator.
+
+**Problem B — adversarial test.** Attempt the error “Assuming that an existential variable always denotes one fixed object globally.” on the worked example, then show why the corrected reasoning is required. **Answer guide:** first state the purported rule and how it would modify the original claim. Second, test a minimal finite case or inspect the proof side condition. Third, repair the reasoning without adding hidden premises. For a model-based test, record the actual domain and truth assignments; for a substitution, list free variables; for a proof, show which assumption is open at each step. The answer is incomplete if the purported countermodel violates a premise.
+
+**Problem C — controlled generalization.** Apply the idea to this task: Analyze a workflow that assigns a fallback reviewer after a particular conflict is reported. **Answer guide:** write down the input data model, the exact claim being established, and one falsification attempt. Then address the qualification “Quantifier games are intuition for classical semantics, not a substitute for specifying the exact predicate interpretation.” without declaring the original result universally valid unless a general proof supports it. If the task cannot be decided from given information, identify the missing element rather than invent one. A rigorous “undetermined” is better than a confident answer to a different question.
+
+## Lesson 4.3: Vacuity and empty restricted classes
+
+### Core definition and significance
+
+Vacuous truth is a logical property, not a factual success report. Universal conditionals constrain members of A; if A is empty, no counterexample exists. Separating compliance from coverage avoids misleading metrics. 
+
+### Exact symbolic object and derivation
+
+The central formal object is `∀x(A(x)→B(x)) is true when A^M=∅`. Read it in full, including all quantifier scopes, function arities, and any dependence on an intended domain. **Worked construction:** An institution has zero enrolled students. “Every enrolled student received training” is true in its domain model, but “some enrolled student received training” is false. A coverage dashboard should report enrollment count in addition to compliance. 
+
+### Why the distinction matters
+
+One common failure is **Presenting a 100% logical compliance result as evidence the program served someone.** 
+
+**Boundary probe.** The standard first-order domain itself is conventionally nonempty; an empty restriction A is not an empty domain. The probe is best answered by keeping the original expression next to its proposed revision. Compare their free variables, bound variables, domains, and truth conditions; do not assume that superficially similar symbols denote the same property. When a proof step is at issue, inspect every live assumption. When a semantics result is at issue, present one satisfying assignment or one falsifying tuple. A student who cannot supply either should qualify the claim as provisional rather than assert that it has been established.
+
+### Worked application and audit record
+
+**Transfer problem:** Build an audit that displays both a universal-rule check and the number of eligible records. Create a four-part audit: (1) plain-language requirement, (2) symbol table and domain, (3) exact formal representation, and (4) output with its limits. Check at least one ordinary case and one intentionally awkward case: zero eligible subjects, a shared witness, contradictory records, duplicate identifiers, or a free-variable collision—whichever exposes the subject of the lesson most sharply. If the output differs, explain which condition caused the difference. A reliable application should not hide a failed edge case; it should make the discrepancy easy to reproduce and correct.
+
+### Practice: three graded problems
+
+**Problem A — reconstruct.** Rebuild `∀x(A(x)→B(x)) is true when A^M=∅` without looking at it: define its atomic components, describe the argument positions in every predicate and function, and write the fully parenthesized expression where relevant. **Answer guide:** a reconstruction is correct when its parse and scopes agree with the original. If it produces a different sentence, provide a structure or interpretation that can separate the two when possible. If the object contains a transformation marker, specify the original and transformed languages separately. Merely reproducing a string does not establish understanding; explain the meaning of each operator.
+
+**Problem B — adversarial test.** Attempt the error “Presenting a 100% logical compliance result as evidence the program served someone.” on the worked example, then show why the corrected reasoning is required. **Answer guide:** first state the purported rule and how it would modify the original claim. Second, test a minimal finite case or inspect the proof side condition. Third, repair the reasoning without adding hidden premises. For a model-based test, record the actual domain and truth assignments; for a substitution, list free variables; for a proof, show which assumption is open at each step. The answer is incomplete if the purported countermodel violates a premise.
+
+**Problem C — controlled generalization.** Apply the idea to this task: Build an audit that displays both a universal-rule check and the number of eligible records. **Answer guide:** write down the input data model, the exact claim being established, and one falsification attempt. Then address the qualification “The standard first-order domain itself is conventionally nonempty; an empty restriction A is not an empty domain.” without declaring the original result universally valid unless a general proof supports it. If the task cannot be decided from given information, identify the missing element rather than invent one. A rigorous “undetermined” is better than a confident answer to a different question.
+
+## Lesson 4.4: Equality and distinctness
+
+### Core definition and significance
+
+The built-in equality symbol refers to identity of domain objects, unlike an arbitrary binary predicate named Eq. A theory may constrain elements to be distinct using inequality, but unique names are not assumed in general first-order semantics. 
+
+### Exact symbolic object and derivation
+
+The central formal object is `x=y; ∀x∀y((R(x,y)∧R(y,x))→x=y)`. Read it in full, including all quantifier scopes, function arities, and any dependence on an intended domain. **Worked construction:** Two constant symbols a and b may denote the same element. Therefore a≠b is not a logical truth merely because the strings differ. If the theory requires two distinct researchers, add a≠b as an explicit axiom. 
+
+### Why the distinction matters
+
+One common failure is **Treating database IDs, display labels, and logical object identity as interchangeable.** 
+
+**Boundary probe.** An uninterpreted predicate Equiv(x,y) may obey equivalence axioms without being true identity. The probe is best answered by keeping the original expression next to its proposed revision. Compare their free variables, bound variables, domains, and truth conditions; do not assume that superficially similar symbols denote the same property. When a proof step is at issue, inspect every live assumption. When a semantics result is at issue, present one satisfying assignment or one falsifying tuple. A student who cannot supply either should qualify the claim as provisional rather than assert that it has been established.
+
+### Worked application and audit record
+
+**Transfer problem:** Model duplicate researcher profiles and distinguish record-level uniqueness from person-level uniqueness. Create a four-part audit: (1) plain-language requirement, (2) symbol table and domain, (3) exact formal representation, and (4) output with its limits. Check at least one ordinary case and one intentionally awkward case: zero eligible subjects, a shared witness, contradictory records, duplicate identifiers, or a free-variable collision—whichever exposes the subject of the lesson most sharply. If the output differs, explain which condition caused the difference. A reliable application should not hide a failed edge case; it should make the discrepancy easy to reproduce and correct.
+
+### Practice: three graded problems
+
+**Problem A — reconstruct.** Rebuild `x=y; ∀x∀y((R(x,y)∧R(y,x))→x=y)` without looking at it: define its atomic components, describe the argument positions in every predicate and function, and write the fully parenthesized expression where relevant. **Answer guide:** a reconstruction is correct when its parse and scopes agree with the original. If it produces a different sentence, provide a structure or interpretation that can separate the two when possible. If the object contains a transformation marker, specify the original and transformed languages separately. Merely reproducing a string does not establish understanding; explain the meaning of each operator.
+
+**Problem B — adversarial test.** Attempt the error “Treating database IDs, display labels, and logical object identity as interchangeable.” on the worked example, then show why the corrected reasoning is required. **Answer guide:** first state the purported rule and how it would modify the original claim. Second, test a minimal finite case or inspect the proof side condition. Third, repair the reasoning without adding hidden premises. For a model-based test, record the actual domain and truth assignments; for a substitution, list free variables; for a proof, show which assumption is open at each step. The answer is incomplete if the purported countermodel violates a premise.
+
+**Problem C — controlled generalization.** Apply the idea to this task: Model duplicate researcher profiles and distinguish record-level uniqueness from person-level uniqueness. **Answer guide:** write down the input data model, the exact claim being established, and one falsification attempt. Then address the qualification “An uninterpreted predicate Equiv(x,y) may obey equivalence axioms without being true identity.” without declaring the original result universally valid unless a general proof supports it. If the task cannot be decided from given information, identify the missing element rather than invent one. A rigorous “undetermined” is better than a confident answer to a different question.
+
+## Lesson 4.5: Small countermodels and finite-model limits
+
+### Core definition and significance
+
+A concrete countermodel is decisive against entailment, no matter how small. Failure to find one after searching finite structures is inconclusive in general; some first-order theories lack finite models, and validity is not decidable by unrestricted finite search. 
+
+### Exact symbolic object and derivation
+
+The central formal object is `Γ⊭φ witnessed by M⊨Γ and M⊭φ`. Read it in full, including all quantifier scopes, function arities, and any dependence on an intended domain. **Worked construction:** To refute ∀x(P(x)∨Q(x)) from ∃xP(x), use D={a,b}, P={a}, Q=∅. The premise has witness a, but the universal fails at b. Show both evaluations rather than simply announcing invalidity. 
+
+### Why the distinction matters
+
+One common failure is **Treating “the checker found no countermodel up to size four” as a proof.** 
+
+**Boundary probe.** Finite model finding is powerful for errors but cannot establish unrestricted first-order validity by a bounded negative search. The probe is best answered by keeping the original expression next to its proposed revision. Compare their free variables, bound variables, domains, and truth conditions; do not assume that superficially similar symbols denote the same property. When a proof step is at issue, inspect every live assumption. When a semantics result is at issue, present one satisfying assignment or one falsifying tuple. A student who cannot supply either should qualify the claim as provisional rather than assert that it has been established.
+
+### Worked application and audit record
+
+**Transfer problem:** Document a model-finder run with domain bound, relation signature, and explicit witness. Create a four-part audit: (1) plain-language requirement, (2) symbol table and domain, (3) exact formal representation, and (4) output with its limits. Check at least one ordinary case and one intentionally awkward case: zero eligible subjects, a shared witness, contradictory records, duplicate identifiers, or a free-variable collision—whichever exposes the subject of the lesson most sharply. If the output differs, explain which condition caused the difference. A reliable application should not hide a failed edge case; it should make the discrepancy easy to reproduce and correct.
+
+### Practice: three graded problems
+
+**Problem A — reconstruct.** Rebuild `Γ⊭φ witnessed by M⊨Γ and M⊭φ` without looking at it: define its atomic components, describe the argument positions in every predicate and function, and write the fully parenthesized expression where relevant. **Answer guide:** a reconstruction is correct when its parse and scopes agree with the original. If it produces a different sentence, provide a structure or interpretation that can separate the two when possible. If the object contains a transformation marker, specify the original and transformed languages separately. Merely reproducing a string does not establish understanding; explain the meaning of each operator.
+
+**Problem B — adversarial test.** Attempt the error “Treating “the checker found no countermodel up to size four” as a proof.” on the worked example, then show why the corrected reasoning is required. **Answer guide:** first state the purported rule and how it would modify the original claim. Second, test a minimal finite case or inspect the proof side condition. Third, repair the reasoning without adding hidden premises. For a model-based test, record the actual domain and truth assignments; for a substitution, list free variables; for a proof, show which assumption is open at each step. The answer is incomplete if the purported countermodel violates a premise.
+
+**Problem C — controlled generalization.** Apply the idea to this task: Document a model-finder run with domain bound, relation signature, and explicit witness. **Answer guide:** write down the input data model, the exact claim being established, and one falsification attempt. Then address the qualification “Finite model finding is powerful for errors but cannot establish unrestricted first-order validity by a bounded negative search.” without declaring the original result universally valid unless a general proof supports it. If the task cannot be decided from given information, identify the missing element rather than invent one. A rigorous “undetermined” is better than a confident answer to a different question.
+
+## Unit 4 capstone — independent specification review
+
+**Case study.** A lab promises that each specimen has a calibration standard; the director assumes there is one standard common to every specimen. Produce a two-page formal reasoning memo. The opening paragraph must distinguish the original communication from the interpretation chosen for checking. Provide the signature with arities, a formula or axiom set, and at least two tests: one representative positive interpretation and one boundary or negative interpretation. When claiming an entailment, include a valid derivation or a checked countermodel. State exactly which hypotheses are independent of the formal result and how the real project would validate them. Conclude by explaining how the result would change if a key premise were relaxed.
+
+**Evidence standard.** Separate witness dependence, distinctness, and finite search bounds. When refuting an entailment claim, evaluate every premise and the negated conclusion in the same model. Record the domain size and tuple list. A countermodel passes only when every premise is true and the conclusion false; samples without witnesses do not earn the label. Absence of a found model under size limits is inconclusive. A good submission includes a machine-readable artifact where practical: a tiny truth table, predicate relation matrix, proof trace, or set of syntactically valid clauses. If a negative example fails to satisfy all premises, it is not evidence against the claimed entailment; correct the example before making the conclusion.
+
+**Marking rubric (100 points).** Formal vocabulary and precise domain: 20. Faithful translation and variable scope: 20. Semantic or proof certificate: 25. Adversarial countercase and scope limitations: 20. Reproducibility and clear writing: 15. Instructors should award no proof credit for fluent prose that hides an invalid inference. Conversely, a correct formula accompanied by an inadequate plain-language explanation should not receive full communication credit. Use student-reported uncertainty as evidence of intellectual discipline when it is accurately justified.
+
+### Unit closeout questions
+
+1. Identify the difference between the main claim in **Universal–existential versus existential–universal** and **Small countermodels and finite-model limits**. How would a careless reader mistakenly combine them?
+
+2. Construct a concrete countercase to one of the unit’s tempting informal inferences, naming each interpreted symbol.
+
+3. Explain whether the unit’s interactive models could prove a universal first-order result. State the exact finite guarantee, if any, and the evidence needed for a broader theorem.
+
+4. Revise the running case after one relevant premise changes. Record the old and new expressions side by side.

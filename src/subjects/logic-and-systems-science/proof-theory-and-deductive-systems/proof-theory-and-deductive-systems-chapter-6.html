@@ -1,0 +1,489 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Other proof calculi and proof search | Proof Theory and Deductive Systems | OpenSTEM Library</title>
+  <meta name="description" content="**Purpose.** Hilbert axioms, tableaux, resolution and search strategies produce different kinds of proof evidence.
+**Running application.** A satisfiability tool must return either a falsifying assignment or a checkable proof trace.
+**Dangerous assumption.** A closed search branch needs a sound closure rule; mere lack ">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/proof-theory-and-deductive-systems-chapter-6">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/proof-theory-and-deductive-systems-chapter-6">
+  <meta property="og:title" content="Proof Theory &amp; Deductive Systems: Sequent Calculus, Cut Elimination &amp; Normalization | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering deductive systems, Gentzen sequent calculi, natural deduction, cut elimination, normalization theorems, structural proof theory, and the Curry-Howard isomorphism with 40 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Proof Theory &amp; Deductive Systems: Sequent Calculus, Cut Elimination &amp; Normalization | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering deductive systems, Gentzen sequent calculi, natural deduction, cut elimination, normalization theorems, structural proof theory, and the Curry-Howard isomorphism with 40 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Proof Theory and Deductive Systems: Other proof calculi and proof search","description":"Comprehensive university textbook covering deductive systems, Gentzen sequent calculi, natural deduction, cut elimination, normalization theorems, structural proof theory, and the Curry-Howard isomorphism with 40 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/proof-theory-and-deductive-systems-chapter-6","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Judgments, Syntactic Derivations & Proof Trees", "Natural Deduction Rules for Propositional & First-Order Logic", "Gentzen Sequent Calculi (LK for Classical, LJ for Intuitionistic Logic)", "Structural Rules: Weakening, Contraction & Exchange", "Cut Elimination Theorem & the Subformula Property", "Proof Normalization & Detour Contractions in Natural Deduction", "Curry-Howard Correspondence & Simply Typed Lambda Calculus", "Analytic Tableaux, Resolution Refutations & Automated Proof Search"],"keywords":"Proof Theory, Deductive Systems, Sequent Calculus, Cut Elimination, Normalization, Curry-Howard Isomorphism, Natural Deduction, Resolution"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Logic & Systems Science","item":"https://openstemlibrary.com/#dept-logic-and-systems-science"},{"@type":"ListItem","position":3,"name":"Proof Theory and Deductive Systems","item":"https://openstemlibrary.com/proof-theory-and-deductive-systems"}]}</script><link rel="stylesheet" href="proof-theory-and-deductive-systems.css"></head>
+<body data-book-path="proof-theory-and-deductive-systems.html" data-chapter-index="5" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Proof Theory and Deductive Systems</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search PRNG, LCG, Mersenne Twister, inversion method, rejection sampling, Box-Muller, Monte Carlo integration, importance sampling, antithetic variates, Metropolis-Hastings, Gibbs sampler, Hamiltonian Monte Carlo, particle filter…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="proof-theory-and-deductive-systems" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Proofs as mathematical objects</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="proof-theory-and-deductive-systems-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Propositional natural deduction</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="proof-theory-and-deductive-systems-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Quantifiers, identity, and dependencies</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="proof-theory-and-deductive-systems-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Sequent calculus and structural discipline</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="proof-theory-and-deductive-systems-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Normalization, cut and consistency</span></a></li><li class="unit-nav-item active" data-unit-index="5"><a href="proof-theory-and-deductive-systems-chapter-6" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Other proof calculi and proof search</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="proof-theory-and-deductive-systems-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Soundness, completeness and metatheory</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="proof-theory-and-deductive-systems-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Constructive logic and machine-checked proofs</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Logic &amp; Systems Science</span>
+          <span class="badge-pill badge-credits">Proof theory core</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 6 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Other proof calculi and proof search</h1>
+            <p class="unit-desc-lead" id="unit-desc">**Purpose.** Hilbert axioms, tableaux, resolution and search strategies produce different kinds of proof evidence.
+**Running application.** A satisfiability tool must return either a falsifying assignment or a checkable proof trace.
+**Dangerous assumption.** A closed search branch needs a sound closure rule; mere lack </p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university proof theory courses. Eight units with five solved questions per unit and 16 interactive simulations illustrating sequent derivations, natural deduction rule certificates, detour contractions, lambda reductions, resolution refutations, and type checking derivations. Numerical checks and an editorial review support this edition.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-6-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.1</span>
+            <span>Research orientation and operational meaning</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Purpose.</strong> Hilbert axioms, tableaux, resolution and search strategies produce different kinds of proof evidence. <strong>Running application.</strong> A satisfiability tool must return either a falsifying assignment or a checkable proof trace. <strong>Dangerous assumption.</strong> A closed search branch needs a sound closure rule; mere lack of progress is not a proof.</p>
+
+<p>Different calculi illuminate different computational tasks. Hilbert systems make axioms sparse but proofs can be long; tableaux search for models or contradictions by expanding semantic constraints; resolution is well adapted to clause-based automated reasoning. Selecting a calculus is an engineering decision about certificate size, search behavior, and the trust boundary. They may prove the same propositions in a shared fragment but their derivations are different objects.</p>
+
+<p>A defensible solver interface returns either an explicit satisfying valuation or a checkable unsatisfiability proof, depending on the problem and proof format. An incomplete trace is not a certificate. SAT and first-order reasoning also differ: a fixed propositional assignment space can be completely enumerated, while the range of first-order structures includes unbounded and infinite domains.</p>
+
+<p>The continuing case in this unit is <strong>SAT and first-order verification pipeline</strong>, specifically <strong>a Boolean counterassignment and an UNSAT resolution trace are not interchangeable certificates</strong>. The main complication is <strong>a verifier receiving claimed satisfiability or unsatisfiability results</strong>. A formal report should record what is defined inside the logic and what requires a separate observation or human specification. The expected deliverable is: <strong>An unresolved branch is not evidence of inconsistency.</strong> This requirement makes the case genuinely useful rather than merely decorative; the proof language solves the implication problem only after the relevant facts have been expressed as formulas.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.2</span>
+            <span>Working with derivations rather than slogans</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>Semantic tableaux start by negating a target when checking validity, and search for a valuation satisfying the negated goal. Resolution starts with clauses and aims to derive the empty clause. The two approaches produce distinct artifacts: a branch valuation, a closed tableau, or a clause derivation.</p>
+
+<p>Search quality is not soundness. A fast solver may make heuristic guesses about which branch to visit first; these choices do not license any new inference rule. Every reported UNSAT claim should be backed by a recognized proof format or a verified exhaustive method for the defined finite setting.</p>
+
+<p>A deliberately minimal audit record has five fields: formal premises, goal formula, inference-rule schema, concrete substitution into that schema, and remaining open obligations. The audit record should not confuse a witness term with an interpretation, a goal with an assumption, or a line of output with a theorem. When a rule has side conditions, record them just as carefully as the displayed conclusion. In a system that discharges assumptions, the scope of the discharge belongs to the proof object.</p>
+
+<p>When the answer to a mathematical question is negative, supply evidence of the right kind. For finite propositional entailment, one satisfying valuation for the premises that falsifies the goal is decisive. For a claimed formula in a first-order setting, a legitimate structure and assignment can serve as a countermodel. For search failure on an undecidable class, however, no verdict follows. This evidence hierarchy will recur through every chapter, because it is central to responsible research and publication.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.3</span>
+            <span>Hilbert systems and derivation lists</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Exact rule or metatheorem</h4>
+
+<p><strong>Formal content.</strong> A Hilbert presentation uses a few axiom schemas and typically modus ponens as its central inference rule. Deduction theorems connect derivations with implication structure subject to the system’s hypotheses.</p>
+
+<h4>Worked argument with line-by-line reasoning</h4>
+
+<p><strong>Worked demonstration.</strong> With axiom schema A→(B→A), instantiate A=P and B=Q to obtain P→(Q→P). In a Hilbert system this is a theorem schema instance rather than a nested natural-deduction proof.</p>
+
+<p><strong>Derivation check.</strong> Begin by asking whether this demonstration establishes a theorem, an entailment from premises, a model property, or only a finite computational case. Reconstruct every line as a separate formula and annotate its dependencies. The critical proof move for <strong>hilbert systems and derivation lists</strong> is the one not already supplied by the syntax: its required premises must actually appear, and its side conditions must be recorded. In a physical or computational application, the validity of these formal moves should not be confused with the reliability of the measurements encoded as atomic claims.</p>
+
+<h4>Stress test: invalid shortcuts and boundary conditions</h4>
+
+<p><strong>Invalid shortcut to avoid.</strong> Assuming a printed axiom pattern is an arbitrary theorem regardless of uniform substitution and syntax.</p>
+
+<p><strong>Repair protocol.</strong> Identify the smallest point where the shortcut changes the mathematical conclusion. If there is a propositional countervaluation, give atom assignments explicitly and check all premises. If a first-order countermodel is needed, declare the domain, constants and predicate interpretations. If the issue is rule bookkeeping, show the missing premise or escaping assumption label. Reject a proposed repair if it merely says that the result is “obvious.” In advanced proofs, record an unproved lemma as an obligation rather than presenting it as already discharged.</p>
+
+<h4>Graded exercises and annotated solutions</h4>
+
+<p><strong>Exercise A — construct.</strong> Instantiate A→(B→A) with A=R∧S, B=T. <strong>Solution or proof outline.</strong> The instance is (R∧S)→(T→(R∧S)). The submitted solution should name each rule and write its dependency context, so that one does not have to rely on a prose paraphrase of the intended calculation.</p>
+
+<p><strong>Exercise B — diagnose.</strong> Does Hilbert proof checking require unrestricted semantic validity checking at every line? <strong>Expected explanation.</strong> Not if axiom-schema matching and modus ponens are decidable syntactic checks. Separate an illegal inference from a fact that happens to be true in a special interpretation; a rule can be invalid even if a particular application produces a true sentence.</p>
+
+<p><strong>Exercise C — adapt to the running case.</strong> Apply <strong>hilbert systems and derivation lists</strong> to <strong>sat and first-order verification pipeline</strong> in the setting <strong>a Boolean counterassignment and an UNSAT resolution trace are not interchangeable certificates</strong>. Formulate a premise set and one exact goal. <strong>Answer guidance.</strong> A complete answer identifies the rule to be checked, the source of every open assumption, and which assertion requires independent evidence from the application. It should explicitly guard against <strong>a verifier receiving claimed satisfiability or unsatisfiability results</strong>. If your proposal uses proof search, specify what evidence is emitted on success and what output is displayed on timeout. The mathematical outcome must remain distinct from the organization’s policy judgment.</p>
+
+<h4>Design review and independent verification</h4>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.4</span>
+            <span>Semantic tableaux</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Exact rule or metatheorem</h4>
+
+<p><strong>Formal content.</strong> A tableau decomposes formulas into branch constraints. Conjunction keeps both conditions on the same branch; disjunction creates alternatives. A branch closes when it requires both an atom and its negation.</p>
+
+<h4>Worked argument with line-by-line reasoning</h4>
+
+<p><strong>Worked demonstration.</strong> Test validity of P→P by starting from its negation. Negating the implication requires P and ¬P on one branch, which closes. With standard classical rules, if all branches close, no countervaluation exists.</p>
+
+<p><strong>Derivation check.</strong> Begin by asking whether this demonstration establishes a theorem, an entailment from premises, a model property, or only a finite computational case. Reconstruct every line as a separate formula and annotate its dependencies. The critical proof move for <strong>semantic tableaux</strong> is the one not already supplied by the syntax: its required premises must actually appear, and its side conditions must be recorded. In a physical or computational application, the validity of these formal moves should not be confused with the reliability of the measurements encoded as atomic claims.</p>
+
+<h4>Stress test: invalid shortcuts and boundary conditions</h4>
+
+<p><strong>Invalid shortcut to avoid.</strong> Closing a branch merely because it contains a complicated formula or because search cannot expand it.</p>
+
+<p><strong>Repair protocol.</strong> Identify the smallest point where the shortcut changes the mathematical conclusion. If there is a propositional countervaluation, give atom assignments explicitly and check all premises. If a first-order countermodel is needed, declare the domain, constants and predicate interpretations. If the issue is rule bookkeeping, show the missing premise or escaping assumption label. Reject a proposed repair if it merely says that the result is “obvious.” In advanced proofs, record an unproved lemma as an obligation rather than presenting it as already discharged.</p>
+
+<h4>Graded exercises and annotated solutions</h4>
+
+<p><strong>Exercise A — construct.</strong> Test satisfiability of P∨Q with a tableau. <strong>Solution or proof outline.</strong> One branch contains P and one contains Q; at least one branch is open, yielding a valuation satisfying P∨Q. The submitted solution should name each rule and write its dependency context, so that one does not have to rely on a prose paraphrase of the intended calculation.</p>
+
+<p><strong>Exercise B — diagnose.</strong> When is an open finite branch a model certificate? <strong>Expected explanation.</strong> After all relevant formulas are fully expanded and coherent atomic assignments can be read off. Separate an illegal inference from a fact that happens to be true in a special interpretation; a rule can be invalid even if a particular application produces a true sentence.</p>
+
+<p><strong>Exercise C — adapt to the running case.</strong> Apply <strong>semantic tableaux</strong> to <strong>sat and first-order verification pipeline</strong> in the setting <strong>a Boolean counterassignment and an UNSAT resolution trace are not interchangeable certificates</strong>. Formulate a premise set and one exact goal. <strong>Answer guidance.</strong> A complete answer identifies the rule to be checked, the source of every open assumption, and which assertion requires independent evidence from the application. It should explicitly guard against <strong>a verifier receiving claimed satisfiability or unsatisfiability results</strong>. If your proposal uses proof search, specify what evidence is emitted on success and what output is displayed on timeout. The mathematical outcome must remain distinct from the organization’s policy judgment.</p>
+
+<h4>Design review and independent verification</h4>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.5</span>
+            <span>Propositional resolution</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Exact rule or metatheorem</h4>
+
+<p><strong>Formal content.</strong> A clause is a disjunction of literals. Resolving (A∨x) and (B∨¬x) produces (A∨B). A resolution refutation derives the empty clause from an unsatisfiable clause set.</p>
+
+<h4>Worked argument with line-by-line reasoning</h4>
+
+<p><strong>Worked demonstration.</strong> Take {P}, {¬P∨Q}, {¬Q}. Resolve {P} with {¬P∨Q} to get {Q}. Resolve {Q} with {¬Q} to obtain the empty clause. This finite derivation certifies inconsistency of the clause set.</p>
+
+<p><strong>Derivation check.</strong> Begin by asking whether this demonstration establishes a theorem, an entailment from premises, a model property, or only a finite computational case. Reconstruct every line as a separate formula and annotate its dependencies. The critical proof move for <strong>propositional resolution</strong> is the one not already supplied by the syntax: its required premises must actually appear, and its side conditions must be recorded. In a physical or computational application, the validity of these formal moves should not be confused with the reliability of the measurements encoded as atomic claims.</p>
+
+<h4>Stress test: invalid shortcuts and boundary conditions</h4>
+
+<p><strong>Invalid shortcut to avoid.</strong> Deriving arbitrary clause conclusions without complementary literals, or treating an empty <em>set of clauses</em> as an empty <em>clause</em>.</p>
+
+<p><strong>Repair protocol.</strong> Identify the smallest point where the shortcut changes the mathematical conclusion. If there is a propositional countervaluation, give atom assignments explicitly and check all premises. If a first-order countermodel is needed, declare the domain, constants and predicate interpretations. If the issue is rule bookkeeping, show the missing premise or escaping assumption label. Reject a proposed repair if it merely says that the result is “obvious.” In advanced proofs, record an unproved lemma as an obligation rather than presenting it as already discharged.</p>
+
+<h4>Graded exercises and annotated solutions</h4>
+
+<p><strong>Exercise A — construct.</strong> Resolve {P,R} with {¬P,Q}. <strong>Solution or proof outline.</strong> The resolvent is {R,Q}; only P and ¬P are removed. The submitted solution should name each rule and write its dependency context, so that one does not have to rely on a prose paraphrase of the intended calculation.</p>
+
+<p><strong>Exercise B — diagnose.</strong> Can {P,Q} resolve with {P,R} on P? <strong>Expected explanation.</strong> Not by standard resolution because both have positive P, not complementary literals. Separate an illegal inference from a fact that happens to be true in a special interpretation; a rule can be invalid even if a particular application produces a true sentence.</p>
+
+<p><strong>Exercise C — adapt to the running case.</strong> Apply <strong>propositional resolution</strong> to <strong>sat and first-order verification pipeline</strong> in the setting <strong>a Boolean counterassignment and an UNSAT resolution trace are not interchangeable certificates</strong>. Formulate a premise set and one exact goal. <strong>Answer guidance.</strong> A complete answer identifies the rule to be checked, the source of every open assumption, and which assertion requires independent evidence from the application. It should explicitly guard against <strong>a verifier receiving claimed satisfiability or unsatisfiability results</strong>. If your proposal uses proof search, specify what evidence is emitted on success and what output is displayed on timeout. The mathematical outcome must remain distinct from the organization’s policy judgment.</p>
+
+<h4>Design review and independent verification</h4>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.6</span>
+            <span>Unification and first-order resolution</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Exact rule or metatheorem</h4>
+
+<p><strong>Formal content.</strong> First-order resolution combines clause reasoning with substitutions that make complementary atoms identical. Occurs checks prevent cyclic substitutions in ordinary first-order term algebra.</p>
+
+<h4>Worked argument with line-by-line reasoning</h4>
+
+<p><strong>Worked demonstration.</strong> Unify P(x,f(a)) with P(b,f(a)) by substitution x:=b. Then clauses P(x,f(a))∨R and ¬P(b,f(a))∨S resolve to R∨S under that substitution.</p>
+
+<p><strong>Derivation check.</strong> Begin by asking whether this demonstration establishes a theorem, an entailment from premises, a model property, or only a finite computational case. Reconstruct every line as a separate formula and annotate its dependencies. The critical proof move for <strong>unification and first-order resolution</strong> is the one not already supplied by the syntax: its required premises must actually appear, and its side conditions must be recorded. In a physical or computational application, the validity of these formal moves should not be confused with the reliability of the measurements encoded as atomic claims.</p>
+
+<h4>Stress test: invalid shortcuts and boundary conditions</h4>
+
+<p><strong>Invalid shortcut to avoid.</strong> Omitting the occurs check, e.g. pretending x=f(x) has a finite first-order unifier.</p>
+
+<p><strong>Repair protocol.</strong> Identify the smallest point where the shortcut changes the mathematical conclusion. If there is a propositional countervaluation, give atom assignments explicitly and check all premises. If a first-order countermodel is needed, declare the domain, constants and predicate interpretations. If the issue is rule bookkeeping, show the missing premise or escaping assumption label. Reject a proposed repair if it merely says that the result is “obvious.” In advanced proofs, record an unproved lemma as an obligation rather than presenting it as already discharged.</p>
+
+<h4>Graded exercises and annotated solutions</h4>
+
+<p><strong>Exercise A — construct.</strong> Find an mgu for P(x,a) and P(f(b),y). <strong>Solution or proof outline.</strong> Use {x↦f(b), y↦a}; the resulting atoms are identical. The submitted solution should name each rule and write its dependency context, so that one does not have to rely on a prose paraphrase of the intended calculation.</p>
+
+<p><strong>Exercise B — diagnose.</strong> Why can unification fail for P(x) and P(f(x))? <strong>Expected explanation.</strong> The occurs check detects x inside f(x); no finite term substitutes for x. Separate an illegal inference from a fact that happens to be true in a special interpretation; a rule can be invalid even if a particular application produces a true sentence.</p>
+
+<p><strong>Exercise C — adapt to the running case.</strong> Apply <strong>unification and first-order resolution</strong> to <strong>sat and first-order verification pipeline</strong> in the setting <strong>a Boolean counterassignment and an UNSAT resolution trace are not interchangeable certificates</strong>. Formulate a premise set and one exact goal. <strong>Answer guidance.</strong> A complete answer identifies the rule to be checked, the source of every open assumption, and which assertion requires independent evidence from the application. It should explicitly guard against <strong>a verifier receiving claimed satisfiability or unsatisfiability results</strong>. If your proposal uses proof search, specify what evidence is emitted on success and what output is displayed on timeout. The mathematical outcome must remain distinct from the organization’s policy judgment.</p>
+
+<h4>Design review and independent verification</h4>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-7">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.7</span>
+            <span>Search strategies and countermodels</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Exact rule or metatheorem</h4>
+
+<p><strong>Formal content.</strong> Backward chaining, breadth-first enumeration and heuristic-guided proof search are strategies, not logical rules. A sound derivation is a proof; exhaustive terminating failure may support a negative result only for decidable fragments.</p>
+
+<h4>Worked argument with line-by-line reasoning</h4>
+
+<p><strong>Worked demonstration.</strong> For a finite propositional formula, enumerate 2^n assignments to search for a countermodel. If one falsifies the goal while satisfying premises, it disproves entailment. For unrestricted first-order logic, the same finite search is incomplete.</p>
+
+<p><strong>Derivation check.</strong> Begin by asking whether this demonstration establishes a theorem, an entailment from premises, a model property, or only a finite computational case. Reconstruct every line as a separate formula and annotate its dependencies. The critical proof move for <strong>search strategies and countermodels</strong> is the one not already supplied by the syntax: its required premises must actually appear, and its side conditions must be recorded. In a physical or computational application, the validity of these formal moves should not be confused with the reliability of the measurements encoded as atomic claims.</p>
+
+<h4>Stress test: invalid shortcuts and boundary conditions</h4>
+
+<p><strong>Invalid shortcut to avoid.</strong> Describing a timeout, finite model-size bound or heuristic failure as an unprovability theorem.</p>
+
+<p><strong>Repair protocol.</strong> Identify the smallest point where the shortcut changes the mathematical conclusion. If there is a propositional countervaluation, give atom assignments explicitly and check all premises. If a first-order countermodel is needed, declare the domain, constants and predicate interpretations. If the issue is rule bookkeeping, show the missing premise or escaping assumption label. Reject a proposed repair if it merely says that the result is “obvious.” In advanced proofs, record an unproved lemma as an obligation rather than presenting it as already discharged.</p>
+
+<h4>Graded exercises and annotated solutions</h4>
+
+<p><strong>Exercise A — construct.</strong> Give a countermodel to {P∨Q} ⊨ P. <strong>Solution or proof outline.</strong> Set P=false, Q=true. Premise holds and conclusion fails. The submitted solution should name each rule and write its dependency context, so that one does not have to rely on a prose paraphrase of the intended calculation.</p>
+
+<p><strong>Exercise B — diagnose.</strong> Does failure to find a finite model imply unsatisfiability in first-order logic? <strong>Expected explanation.</strong> No. Some satisfiable first-order theories have only infinite models. Separate an illegal inference from a fact that happens to be true in a special interpretation; a rule can be invalid even if a particular application produces a true sentence.</p>
+
+<p><strong>Exercise C — adapt to the running case.</strong> Apply <strong>search strategies and countermodels</strong> to <strong>sat and first-order verification pipeline</strong> in the setting <strong>a Boolean counterassignment and an UNSAT resolution trace are not interchangeable certificates</strong>. Formulate a premise set and one exact goal. <strong>Answer guidance.</strong> A complete answer identifies the rule to be checked, the source of every open assumption, and which assertion requires independent evidence from the application. It should explicitly guard against <strong>a verifier receiving claimed satisfiability or unsatisfiability results</strong>. If your proposal uses proof search, specify what evidence is emitted on success and what output is displayed on timeout. The mathematical outcome must remain distinct from the organization’s policy judgment.</p>
+
+<h4>Design review and independent verification</h4>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-6-8">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§6.8</span>
+            <span>Unit 6 capstone — Other proof calculi and proof search</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p><strong>Design brief.</strong> Build a reviewable specification for <strong>SAT and first-order verification pipeline</strong>. Begin with the formal vocabulary that represents <strong>a Boolean counterassignment and an UNSAT resolution trace are not interchangeable certificates</strong>. Use at least three of the unit’s five lesson rules in one coherent derivation and one adversarial countercase. Do not use a model screenshot as the sole supporting evidence for a general inference. Report the assumptions that can be checked mechanically and the application assumptions that cannot. The most important quality boundary is <strong>a verifier receiving claimed satisfiability or unsatisfiability results</strong>.</p>
+
+<h4>Deliverables and answer checkpoints</h4>
+
+<ol>
+
+  <li>Define the logical calculus, syntax and semantics you are using. This step prevents an unannounced change from classical to intuitionistic rules. 2. Construct a derivation with at least six labeled inference steps or give a checked proof-search tree where every leaf closes by a legitimate initial rule. 3. Provide a negative test case. For a propositional problem include a concrete valuation; for a rule-scope error show the illegal dependency; for a first-order issue give a finite countermodel when one exists. 4. Explain whether the produced artifact is a proof, refutation, illustrative simulation or incomplete search record. 5. Write a short assurance statement describing the remaining outside-the-logic questions.</li>
+
+</ol>
+
+<p><strong>A sample critique.</strong> A project report says that <strong>sat and first-order verification pipeline</strong> is correct because a demo displayed a green status and accepted two sample inputs. The critique should reject this as logically inadequate. The green status may show that the interface reacted, but not that the rule system is sound. Replace the vague claim with specific evidence: a formal statement of the goal, a complete proof trace, a verified derivation and an independent check of <strong>a verifier receiving claimed satisfiability or unsatisfiability results</strong>. The final write-up should make <strong>an unresolved branch is not evidence of inconsistency.</strong> clear.</p>
+
+<h4>Rubric (100 points)</h4>
+
+<p>Formal statement and declared logic: 20. Complete rule-by-rule argument: 25. Correct assumption/freshness or structural bookkeeping: 20. Negative tests and countercases: 15. Honest evidence classification: 10. Clarity and reproducibility: 10. An elegant but unchecked demonstration cannot receive full correctness marks. A correct theorem about a visibly mistranslated real-world specification requires an explicit qualification.</p>
+
+<h4>End-of-unit oral examination</h4>
+
+<p><strong>Question 1.</strong> What would count as decisive evidence for the claim in <strong>other proof calculi and proof search</strong>, and what would be merely illustrative?</p>
+
+<p><strong>Question 2.</strong> Choose the unit’s most important side condition and construct a case that violates it. Explain what changes in the conclusion.</p>
+
+<p><strong>Question 3.</strong> Explain how you could independently audit <strong>an unresolved branch is not evidence of inconsistency.</strong> without trusting the original proof-search heuristic.</p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Proof Theory Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 6.1: Hilbert systems and derivation lists</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p><strong>Worked demonstration.</strong> With axiom schema A→(B→A), instantiate A=P and B=Q to obtain P→(Q→P). In a Hilbert system this is a theorem schema instance rather than a nested natural-deduction proof.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-PT-U6-P1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-PT-U6-P1">
+          
+            <div class="solution-step">
+              <div class="step-title">Step</div>
+              
+              <div class="step-explanation"><p><strong>Derivation check.</strong> Begin by asking whether this demonstration establishes a theorem, an entailment from premises, a model property, or only a finite computational case. Reconstruct every line as a separate formula and annotate its dependencies. The critical proof move for <strong>hilbert systems and derivation lists</strong> is the one not already supplied by the syntax: its required premises must actually appear, and its side conditions must be recorded. In a physical or computational application, the validity of these formal moves should not be confused with the reliability of the measurements encoded as atomic claims.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 6.2: Semantic tableaux</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p><strong>Worked demonstration.</strong> Test validity of P→P by starting from its negation. Negating the implication requires P and ¬P on one branch, which closes. With standard classical rules, if all branches close, no countervaluation exists.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-PT-U6-P2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-PT-U6-P2">
+          
+            <div class="solution-step">
+              <div class="step-title">Step</div>
+              
+              <div class="step-explanation"><p><strong>Derivation check.</strong> Begin by asking whether this demonstration establishes a theorem, an entailment from premises, a model property, or only a finite computational case. Reconstruct every line as a separate formula and annotate its dependencies. The critical proof move for <strong>semantic tableaux</strong> is the one not already supplied by the syntax: its required premises must actually appear, and its side conditions must be recorded. In a physical or computational application, the validity of these formal moves should not be confused with the reliability of the measurements encoded as atomic claims.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 6.3: Propositional resolution</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p><strong>Worked demonstration.</strong> Take {P}, {¬P∨Q}, {¬Q}. Resolve {P} with {¬P∨Q} to get {Q}. Resolve {Q} with {¬Q} to obtain the empty clause. This finite derivation certifies inconsistency of the clause set.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-PT-U6-P3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-PT-U6-P3">
+          
+            <div class="solution-step">
+              <div class="step-title">Step</div>
+              
+              <div class="step-explanation"><p><strong>Derivation check.</strong> Begin by asking whether this demonstration establishes a theorem, an entailment from premises, a model property, or only a finite computational case. Reconstruct every line as a separate formula and annotate its dependencies. The critical proof move for <strong>propositional resolution</strong> is the one not already supplied by the syntax: its required premises must actually appear, and its side conditions must be recorded. In a physical or computational application, the validity of these formal moves should not be confused with the reliability of the measurements encoded as atomic claims.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 6.4: Unification and first-order resolution</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p><strong>Worked demonstration.</strong> Unify P(x,f(a)) with P(b,f(a)) by substitution x:=b. Then clauses P(x,f(a))∨R and ¬P(b,f(a))∨S resolve to R∨S under that substitution.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-PT-U6-P4" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-PT-U6-P4">
+          
+            <div class="solution-step">
+              <div class="step-title">Step</div>
+              
+              <div class="step-explanation"><p><strong>Derivation check.</strong> Begin by asking whether this demonstration establishes a theorem, an entailment from premises, a model property, or only a finite computational case. Reconstruct every line as a separate formula and annotate its dependencies. The critical proof move for <strong>unification and first-order resolution</strong> is the one not already supplied by the syntax: its required premises must actually appear, and its side conditions must be recorded. In a physical or computational application, the validity of these formal moves should not be confused with the reliability of the measurements encoded as atomic claims.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 6.5: Search strategies and countermodels</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p><strong>Worked demonstration.</strong> For a finite propositional formula, enumerate 2^n assignments to search for a countermodel. If one falsifies the goal while satisfying premises, it disproves entailment. For unrestricted first-order logic, the same finite search is incomplete.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-PT-U6-P5" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-PT-U6-P5">
+          
+            <div class="solution-step">
+              <div class="step-title">Step</div>
+              
+              <div class="step-explanation"><p><strong>Derivation check.</strong> Begin by asking whether this demonstration establishes a theorem, an entailment from premises, a model property, or only a finite computational case. Reconstruct every line as a separate formula and annotate its dependencies. The critical proof move for <strong>search strategies and countermodels</strong> is the one not already supplied by the syntax: its required premises must actually appear, and its side conditions must be recorded. In a physical or computational application, the validity of these formal moves should not be confused with the reliability of the measurements encoded as atomic claims.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="statistical-computing-with-python-and-r">Statistical Computing</a><a href="mathematical-statistics">Mathematical Statistics</a><a href="statistical-estimation">Statistical Estimation</a><a href="demography-and-population-statistics">Demography and Population Statistics</a><a href="economic-statistics">Economic Statistics</a><a href="epidemiological-statistics">Epidemiological Statistics</a><a href="industrial-and-official-statistics">Industrial and Official Statistics</a><a href="actuarial-statistics-and-mathematical-demography">Actuarial Statistics</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Course Stat H-307 Simulation)</a></li><li><a href="https://openstemlibrary.com/references/robert-casella-monte-carlo" target="_blank" rel="noopener noreferrer">Robert, C.P., &amp; Casella, G. (2004). Monte Carlo Statistical Methods (2nd ed.): Definitive theoretical treatise on rejection sampling, Markov chain Monte Carlo, Metropolis-Hastings algorithms, and Gibbs sampling</a></li><li><a href="https://openstemlibrary.com/references/ripley-stochastic-simulation" target="_blank" rel="noopener noreferrer">Ripley, B.D. (1987). Stochastic Simulation: Foundational text on pseudorandom number generators, spatial simulation, and variate generation algorithms</a></li><li><a href="https://openstemlibrary.com/references/efron-tibshirani-bootstrap" target="_blank" rel="noopener noreferrer">Efron, B., &amp; Tibshirani, R.J. (1993). An Introduction to the Bootstrap: Canonical reference for bootstrap standard errors, percentile confidence intervals, BCa intervals, and jackknife methods</a></li><li><a href="https://openstemlibrary.com/references/gentle-random-number-generation" target="_blank" rel="noopener noreferrer">Gentle, J.E. (2003). Random Number Generation and Monte Carlo Methods: Authoritative manual on uniform generation tests, spectral lattice tests, and variance reduction techniques</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="proof-theory-and-deductive-systems-chapter-5">← Previous chapter</a><a href="proof-theory-and-deductive-systems">Book contents</a><a href="proof-theory-and-deductive-systems-chapter-7">Next chapter →</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="proof-theory-and-deductive-systems-sims.js"></script>
+  <script src="proof-theory-and-deductive-systems-data.js"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

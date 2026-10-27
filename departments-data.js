@@ -3073,6 +3073,110 @@ window.LIBRARY_CATALOG = {
           ]
         }
       ]
+    },
+    {
+      "id": "logic-and-systems-science",
+      "name": "Logic & Systems Science",
+      "code": "LSS",
+      "icon": "📐",
+      "description": "Formal logic, model theory, proof theory, set theory and mathematical foundations, and symbolic predicate calculus.",
+      "courses": [
+        {
+          "id": "formal-logic",
+          "title": "Formal Logic",
+          "subtitle": "Propositional Calculus, Truth Tables, Natural Deduction, Semantics & First-Order Languages",
+          "status": "AVAILABLE",
+          "url": "formal-logic.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering propositional logic, truth tables, semantic tableaux, natural deduction, first-order languages, validity, soundness, and completeness with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Logical Language and Arguments",
+            "Propositional Semantics and Truth Tables",
+            "Proof Systems and Derivations",
+            "Predicate Logic and Interpretations",
+            "Metatheory and Logical Consequence",
+            "Formal Reasoning and Proof Construction",
+            "Alternative Logical Frameworks",
+            "Applications and Responsible Formalization"
+          ]
+        },
+        {
+          "id": "model-theory-and-mathematical-semantics",
+          "title": "Model Theory and Mathematical Semantics",
+          "subtitle": "Structures, Satisfaction, Homomorphisms, Elementary Equivalence, Compactness & Ultraproducts",
+          "status": "AVAILABLE",
+          "url": "model-theory-and-mathematical-semantics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering mathematical semantics, first-order structures, Tarskian satisfaction, homomorphisms, elementary equivalence, compactness, type omission, and Ehrenfeucht-Fraïssé games with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Structures and semantic evaluation",
+            "Isomorphisms, substructures and morphisms",
+            "Definability and expressive limits",
+            "Theories, axiom systems and equivalence",
+            "Completeness, compactness and consequences",
+            "Löwenheim–Skolem and elementary extensions",
+            "Types, back-and-forth and finite comparisons",
+            "Applications, verification and semantic boundaries"
+          ]
+        },
+        {
+          "id": "proof-theory-and-deductive-systems",
+          "title": "Proof Theory and Deductive Systems",
+          "subtitle": "Natural Deduction, Sequent Calculus, Cut Elimination, Normalization & Curry-Howard Isomorphism",
+          "status": "AVAILABLE",
+          "url": "proof-theory-and-deductive-systems.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering deductive systems, Gentzen sequent calculi, natural deduction, cut elimination, normalization theorems, structural proof theory, and the Curry-Howard isomorphism with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Proofs as mathematical objects",
+            "Propositional natural deduction",
+            "Quantifiers, identity, and dependencies",
+            "Sequent calculus and structural discipline",
+            "Normalization, cut and consistency",
+            "Other proof calculi and proof search",
+            "Soundness, completeness and metatheory",
+            "Constructive logic and machine-checked proofs"
+          ]
+        },
+        {
+          "id": "set-theory-and-foundations",
+          "title": "Set Theory and Foundations",
+          "subtitle": "Zermelo-Fraenkel Axioms, Relations, Functions, Ordinals, Cardinals, Transfinite Induction & Choice",
+          "status": "AVAILABLE",
+          "url": "set-theory-and-foundations.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering axiomatic set theory (ZFC), relations, orderings, von Neumann ordinals, transfinite induction, cardinalities, Cantor's theorem, and the Axiom of Choice with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Sets, Membership, and Operations",
+            "Relations, Functions, and Structures",
+            "Natural Numbers and Inductive Constructions",
+            "Bijections and Infinite Sets",
+            "Countability, Cardinality, and Diagonalization",
+            "Ordinals and Transfinite Reasoning",
+            "Axioms, Choice, and Foundational Boundaries",
+            "Realizations, Models, and Proof Audits"
+          ]
+        },
+        {
+          "id": "symbolic-and-predicate-logic",
+          "title": "Symbolic and Predicate Logic",
+          "subtitle": "First-Order Languages, Quantifiers, Variable Binding, Semantic Domains, Prenex Normal Form & Skolemization",
+          "status": "AVAILABLE",
+          "url": "symbolic-and-predicate-logic.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering first-order predicate logic, quantifier scope, variable capture, semantic valuation, prenex normal forms, Skolem functions, first-order resolution, and Datalog with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Formal Symbols, Parsing, and Substitution",
+            "Precision in Natural-Language Translation",
+            "Structures and Compositional Semantics",
+            "Quantifier Scope, Identity, and Countermodels",
+            "Deduction and Proof Discipline",
+            "Normal Forms and Automated Inference",
+            "Theories, Expressibility, and Model Limits",
+            "Practical Logic Systems and Validation"
+          ]
+        }
+      ]
     }
   ]
 };
