@@ -100,6 +100,38 @@ function prepare(html, filename, book, index) {
   for (const el of doc.querySelectorAll('.reader-trust-copy')) {
     el.textContent = el.textContent.replace('Google AdSense Certified Academic Publisher', 'Free Open-Access Academic Library').replace('Peer-Reviewed University Textbooks', 'Interactive University Study Resources');
   }
+  // Strip unwanted statistical-simulation CSS from other textbooks
+  if (book.id !== 'statistical-simulation-and-monte-carlo-methods' && book.url !== 'statistical-simulation-and-monte-carlo-methods.html') {
+    for (const link of doc.querySelectorAll('link[href*="statistical-simulation-and-monte-carlo-methods.css"]')) {
+      link.remove();
+    }
+  }
+  // Ensure correct brand title, department badge, and breadcrumbs
+  const bookDept = departments.find(d => d.courses.some(c => c.id === book.id || c.url === book.url));
+  if (bookDept) {
+    const brandTitle = doc.querySelector('.brand-title');
+    if (brandTitle && book.title) brandTitle.textContent = book.title;
+    const badgeCourse = doc.querySelector('.badge-course');
+    if (badgeCourse && bookDept.name) badgeCourse.textContent = bookDept.name;
+    for (const script of doc.querySelectorAll('script[type="application/ld+json"]')) {
+      try {
+        const data = JSON.parse(script.textContent);
+        if (data['@type'] === 'BreadcrumbList' && Array.isArray(data.itemListElement)) {
+          const deptItem = data.itemListElement.find(item => item.position === 2);
+          if (deptItem) {
+            deptItem.name = bookDept.name;
+            deptItem.item = `https://openstemlibrary.com/#dept-${bookDept.id}`;
+          }
+          const bookItem = data.itemListElement.find(item => item.position === 3);
+          if (bookItem) {
+            bookItem.name = book.title;
+            bookItem.item = `https://openstemlibrary.com/${book.url.replace(/\.html$/, '')}`;
+          }
+          script.textContent = JSON.stringify(data);
+        }
+      } catch (e) {}
+    }
+  }
   const dataScript = [...doc.querySelectorAll('script[src]')].map(el => el.getAttribute('src').split('?')[0]).find(src => /(?:-data|course-data)\.js$/.test(src));
   if (!dataScript) throw Error(`No course data for ${book.url}`);
   w.eval(read(dataScript));

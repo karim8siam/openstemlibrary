@@ -205,11 +205,16 @@ function startApp() {
         `;
       });
 
+      const rawHeading = sec.heading || sec.title || "";
+      const cleanHeading = rawHeading
+        .replace(/^(?:Lesson\s+\d+(?:\.\d+)?[:\s—\-]+|\d+\.\d+\s*[:—\-]?\s*)/i, "")
+        .trim();
+
       card.innerHTML = `
         <header class="sec-header">
           <h3 class="sec-title">
             <span class="sec-num">§${rawNum}</span>
-            <span>${sec.heading || sec.title || ""}</span>
+            <span>${cleanHeading || rawHeading}</span>
           </h3>
         </header>
         <div class="sec-content">
