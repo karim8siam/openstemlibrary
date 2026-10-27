@@ -2881,6 +2881,101 @@ window.LIBRARY_CATALOG = {
             "Advanced composite families and multifunctionality",
             "Testing, reliability, repair, and circularity"
           ]
+        },
+        {
+          "id": "semiconductor-materials",
+          "title": "Semiconductor Materials",
+          "subtitle": "Band Structure, Carrier Transport, Doping, Junctions, Heterostructures & Device Physics",
+          "status": "AVAILABLE",
+          "url": "semiconductor-materials.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering electronic energy bands, effective mass tensor, shallow and deep dopants, recombination-generation mechanisms, minority carrier diffusion length, p-n and Schottky junctions, metal-oxide-semiconductor (MOS) electrostatics, and low-dimensional quantum heterostructures with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Crystal structures, bonding, and material families",
+            "Band structure and carrier statistics",
+            "Doping, equilibrium, and electrical transport",
+            "Scattering, recombination, and minority-carrier dynamics",
+            "Junctions, depletion regions, and metal contacts",
+            "Heterostructures, thin films, and dielectric interfaces",
+            "Optical properties, photocarriers, and defects",
+            "Crystal growth, fabrication, thermal management, and reliability"
+          ]
+        },
+        {
+          "id": "electronic-and-magnetic-materials",
+          "title": "Electronic and Magnetic Materials",
+          "subtitle": "Dielectrics, Ferroelectrics, Piezoelectrics, Ferromagnetism, Spintronics & Superconductors",
+          "status": "AVAILABLE",
+          "url": "electronic-and-magnetic-materials.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering electric polarization dynamics, dielectric breakdown, ferroelectric polarization switching, piezoelectric transduction, magnetic exchange interactions, ferromagnetic hysteresis loops, soft vs hard magnetic materials, spintronic spin valves, and Type I/II superconductors with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Electrical conduction and electronic response",
+            "Dielectric polarization, relaxation and loss",
+            "Ferroelectricity, piezoelectricity and domain physics",
+            "Magnetic moments, exchange and domains",
+            "Soft magnets, permanent magnets and dynamic loss",
+            "Spin dynamics, relaxation and spintronics",
+            "Interfaces, functional oxides and coupled phenomena",
+            "Measurement, reproducibility and engineering decisions"
+          ]
+        },
+        {
+          "id": "optical-and-photonic-materials",
+          "title": "Optical and Photonic Materials",
+          "subtitle": "Kramers-Kronig Relations, Band Transitions, Lasers, Photodetectors, Optical Fibers & Photonic Crystals",
+          "status": "AVAILABLE",
+          "url": "optical-and-photonic-materials.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering electromagnetic wave interaction with solids, dielectric permittivity dispersion, radiative and non-radiative transitions, light-emitting diodes (LEDs), laser diodes, photovoltaic solar cell absorption, fiber optic attenuation mechanisms, and periodic photonic crystals with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Optical fields, refractive index and interfaces",
+            "Optical dispersion, glass chemistry and anisotropy",
+            "Absorption, luminescence and optical defects",
+            "Thin films, interference coatings and resonators",
+            "Waveguides, optical fibers and integrated photonics",
+            "Light-emitting materials, lasers and detectors",
+            "Electro-optic, nonlinear and active photonic materials",
+            "Nanophotonics, optical metrology and engineering qualification"
+          ]
+        },
+        {
+          "id": "nanomaterials-and-surfaces",
+          "title": "Nanomaterials and Surfaces",
+          "subtitle": "Quantum Confinement, Surface Energy, Nanoparticle Synthesis, 2D Materials & Nanocomposites",
+          "status": "AVAILABLE",
+          "url": "nanomaterials-and-surfaces.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering size-dependent electronic and optical properties, surface thermodynamics and wetting, chemical vapor deposition (CVD) and colloidal nanocrystal growth, two-dimensional atomic crystals, carbon allotropes, plasmonic nanoparticles, and polymer-nanofiller composites with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Nanoscale definitions, geometry and size-dependent properties",
+            "Thermodynamics, interfaces and colloidal stability",
+            "Nanomaterial synthesis, growth and processing",
+            "Nanoscale characterization and uncertainty",
+            "Adsorption, catalysis and surface chemistry",
+            "Quantum, electronic and photonic effects in nanostructures",
+            "Nanostructured surfaces, wettability and coatings",
+            "Applications, reproducibility, environment and safe design"
+          ]
+        },
+        {
+          "id": "biomaterials",
+          "title": "Biomaterials",
+          "subtitle": "Biocompatibility, Host Response, Biodegradable Polymers, Bioactive Ceramics & Tissue Scaffolds",
+          "status": "AVAILABLE",
+          "url": "biomaterials.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering cell-material surface interactions, host immunological pathways, synthetic and natural biomedical polymers, structural metallic implants (Ti alloys, CoCr, 316L), calcium phosphate ceramics, tissue engineering scaffolds, controlled drug release kinetics, and regulatory ISO 10993 standards with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Biomaterial selection and structure–property relationships",
+            "Interfaces, proteins and host response",
+            "Hydrogels, soft biomaterials and rheology",
+            "Biodegradation, resorption and controlled release",
+            "Orthopedic, dental and structural biomaterials",
+            "Blood-contacting devices and fluid–material interactions",
+            "Tissue engineering scaffolds and bioprinting",
+            "Characterization, sterilization, regulation and reproducibility"
+          ]
         }
       ]
     }
