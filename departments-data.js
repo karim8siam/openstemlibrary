@@ -2976,6 +2976,101 @@ window.LIBRARY_CATALOG = {
             "Tissue engineering scaffolds and bioprinting",
             "Characterization, sterilization, regulation and reproducibility"
           ]
+        },
+        {
+          "id": "materials-characterization",
+          "title": "Materials Characterization",
+          "subtitle": "XRD, SEM, TEM, AFM, Spectroscopy, Thermal Analysis & Surface Diagnostics",
+          "status": "AVAILABLE",
+          "url": "materials-characterization.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering diffraction phenomena, electron beam optics, scanning and transmission electron microscopy, scanned probe microscopy, vibrational and core-level spectroscopies, thermal analysis, and surface chemical diagnostics with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Measurement science, sampling and uncertainty",
+            "Optical microscopy and scanning electron methods",
+            "X-ray diffraction, scattering and phase quantification",
+            "Spectroscopy, surface analysis and chemical identity",
+            "Thermal analysis and mechanical property measurements",
+            "Transmission electron microscopy, scanning probes and three-dimensional imaging",
+            "Electrical, magnetic and time-resolved characterization",
+            "Data fusion, validation and reproducible scientific reporting"
+          ]
+        },
+        {
+          "id": "corrosion-and-degradation",
+          "title": "Corrosion and Degradation",
+          "subtitle": "Thermodynamics, Kinetics, Pourbaix Diagrams, Passivity & Environmental Failure",
+          "status": "AVAILABLE",
+          "url": "corrosion-and-degradation.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering electrochemical thermodynamics, Butler-Volmer electrode kinetics, Evans and Pourbaix diagrams, passivation mechanisms, localized corrosion phenomena, environmentally assisted cracking, polymer degradation, and industrial cathodic/anodic protection with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Electrochemical thermodynamics and corrosion cells",
+            "Interfacial kinetics, transport and measurement",
+            "Localized corrosion and coupled failure",
+            "Passivation, alloy selection and microstructure",
+            "High-temperature oxidation and nonaqueous degradation",
+            "Environmental systems and degradation of nonmetals",
+            "Corrosion testing, monitoring and failure analysis",
+            "Mitigation, design and lifecycle decisions"
+          ]
+        },
+        {
+          "id": "sustainable-materials-and-circularity",
+          "title": "Sustainable Materials and Circularity",
+          "subtitle": "Life Cycle Assessment, Embodied Energy, Recycling, Biodegradation & Circular Economy",
+          "status": "AVAILABLE",
+          "url": "sustainable-materials-and-circularity.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering life cycle assessment (LCA), embodied carbon and energy metrics, thermodynamic limits of sorting and recycling, circular material flow indices, bio-derived and biodegradable polymers, critical raw materials scarcity, and closed-loop eco-design with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Materials, services and circular system boundaries",
+            "Life-cycle assessment and evidence quality",
+            "Circular metallurgy and alloy quality",
+            "Polymers, sorting and molecular lifetimes",
+            "Construction materials and mineral resources",
+            "Batteries, electronics and critical material loops",
+            "Process improvement, supply chains and justice",
+            "Circular design, economics and audit-ready decisions"
+          ]
+        },
+        {
+          "id": "materials-processing-and-manufacturing",
+          "title": "Materials Processing and Manufacturing",
+          "subtitle": "Solidification, Casting, Powder Metallurgy, Deformation, Joining & Additive Manufacturing",
+          "status": "AVAILABLE",
+          "url": "materials-processing-and-manufacturing.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering solidification thermodynamics, mold filling and casting design, powder synthesis and solid-state sintering, bulk deformation plastic flow, welding and brazing thermal cycles, polymer molding operations, and laser powder bed fusion additive manufacturing with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Process Selection and Manufacturing Systems",
+            "Casting and Solidification Processing",
+            "Deformation Processing and Metal Forming",
+            "Machining, Abrasion and Surface Finishing",
+            "Powder Processing and Additive Manufacturing",
+            "Polymer and Ceramic Manufacturing",
+            "Joining, Heat Treatment and Surface Engineering",
+            "Quality, Digital Process Control and Industrial Scale-up"
+          ]
+        },
+        {
+          "id": "computational-materials-science-design-and-selection",
+          "title": "Computational Materials Science, Design and Selection",
+          "subtitle": "Density Functional Theory, Molecular Dynamics, Phase-Field, CALPHAD & Ashby Charts",
+          "status": "AVAILABLE",
+          "url": "computational-materials-science-design-and-selection.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering electronic structure methods (DFT), classical molecular dynamics, statistical mechanics simulations, thermodynamic CALPHAD modeling, meso-scale phase-field microstructural evolution, machine learning for materials property prediction, and multi-objective Ashby materials selection with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Computational Materials Science, Design and Selection — Book 20",
+            "Electronic and Atomistic Methods",
+            "Thermodynamics, Kinetics and Mesoscale Models",
+            "Continuum and Multiscale Modeling",
+            "Materials Data Science and Surrogate Models",
+            "Engineering Materials Selection and Trade-offs",
+            "Inverse Design, Optimization and Verification",
+            "Application Case Studies and Research Reproducibility"
+          ]
         }
       ]
     }
