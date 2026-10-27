@@ -2786,6 +2786,101 @@ window.LIBRARY_CATALOG = {
             "Creep, relaxation and viscoelastic solids",
             "Testing, uncertainty and engineering decisions"
           ]
+        },
+        {
+          "id": "phase-transformations",
+          "title": "Phase Transformations",
+          "subtitle": "Thermodynamics of Interfaces, Solidification, Spinodal Decomposition, Diffusional & Martensitic Transformations",
+          "status": "AVAILABLE",
+          "url": "phase-transformations.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering interfacial energy and curvature, alloy solidification morphologies, solute redistribution and Scheil equation, diffusional precipitation kinetics, spinodal instability, massive transformations, and shear-dominant martensitic transitions with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Phase Transformations — Scope, methods, and responsible use",
+            "Nucleation and early-stage events",
+            "Growth, impingement and transformation kinetics",
+            "Solidification and casting transformations",
+            "Steels: diffusional and displacive products",
+            "Precipitation, ordering and coarsening",
+            "Polymorphic, ordering and glass transitions",
+            "Measurement, process design and responsible inference"
+          ]
+        },
+        {
+          "id": "physical-metallurgy",
+          "title": "Physical Metallurgy",
+          "subtitle": "Alloy Phase Equilibria, Solid Solution Strengthening, Precipitation Hardening & Ferrous Metallurgy",
+          "status": "AVAILABLE",
+          "url": "physical-metallurgy.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering binary and ternary alloy systems, solid solution thermodynamics, precipitation hardening pathways in aluminum alloys, ferrous heat treatments, quench-and-temper kinetics, grain boundary engineering, and microstructural characterization with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Metallic structures, defects and quantitative micrographs",
+            "Alloy chemistry and thermodynamic maps",
+            "Solidification, segregation and foundry structure",
+            "Deformation processing, recovery and grain control",
+            "Steels, cast irons and heat treatment",
+            "Nonferrous structural alloy families",
+            "Strength, fracture, corrosion and reliability",
+            "Integrated selection, joining and qualification"
+          ]
+        },
+        {
+          "id": "ceramic-materials",
+          "title": "Ceramic Materials",
+          "subtitle": "Bonding, Crystal & Glass Structures, Point Defects, Sintering Kinetics & Dielectric Properties",
+          "status": "AVAILABLE",
+          "url": "ceramic-materials.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering coordination polyhedra, oxide and non-oxide crystal structures, glass formation kinetics, point defect thermodynamics, solid-state and liquid-phase sintering, brittle fracture mechanics, thermal shock resistance, and functional electroceramics with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Ceramic bonding, structures, defect chemistry and equilibria",
+            "Powders, colloids, forming and green-body quality",
+            "Sintering, densification and microstructure control",
+            "Dielectric, ionic and electronic functionality",
+            "Thermal behavior, refractories and protective coatings",
+            "Fracture, damage statistics and toughening",
+            "Glasses, glass-ceramics and optical properties",
+            "Bioceramics, energy technologies and sustainable design"
+          ]
+        },
+        {
+          "id": "polymer-science",
+          "title": "Polymer Science",
+          "subtitle": "Synthesis, Molecular Weight, Chain Conformations, Glass Transition, Viscoelasticity & Crystallinity",
+          "status": "AVAILABLE",
+          "url": "polymer-science.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering macromolecular chemistry, step and chain polymerization kinetics, statistical thermodynamics of polymer coils and solutions, semi-crystalline polymer morphology, glass transition phenomena, linear viscoelastic relaxation, and polymer rheology with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Molecular architecture and polymer statistics",
+            "Polymer thermodynamics and phase transitions",
+            "Polymerization chemistry and reaction engineering",
+            "Viscoelasticity, rheology and time-dependent response",
+            "Mechanical behavior, fracture and long-term durability",
+            "Polymer processing and manufacturing",
+            "Characterization, data interpretation and quality",
+            "Functional polymers, applications and circularity"
+          ]
+        },
+        {
+          "id": "composite-materials",
+          "title": "Composite Materials",
+          "subtitle": "Fiber Reinforcements, Rule of Mixtures, Micromechanics, Laminate Theory & Failure Criteria",
+          "status": "AVAILABLE",
+          "url": "composite-materials.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering reinforcement types (carbon, glass, aramid), polymer, metal, and ceramic matrix composites, fiber-matrix interface bonding, micromechanical stress transfer, Classical Lamination Theory (CLT), failure envelopes under multiaxial loading, and fatigue behavior with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Constituents, architectures, and composite identity",
+            "Micromechanics, interfaces, and homogenization",
+            "Anisotropic elasticity and single-ply mechanics",
+            "Laminate theory, stacking sequences, and stability",
+            "Manufacturing, cure, consolidation, and defects",
+            "Damage, fracture, fatigue, and impact",
+            "Advanced composite families and multifunctionality",
+            "Testing, reliability, repair, and circularity"
+          ]
         }
       ]
     }
