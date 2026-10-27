@@ -1,0 +1,481 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Comprehensive SEO Meta Tags -->
+  <title>Experiments, numerical inversion and engineering decisions | Diffusion and Kinetics | OpenSTEM Library</title>
+  <meta name="description" content="**Guiding question:** How are credible kinetic coefficients estimated and used?">
+
+  <meta name="author" content="Shahriyar Karim Siam">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openstemlibrary.com/diffusion-and-kinetics-chapter-8">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openstemlibrary.com/diffusion-and-kinetics-chapter-8">
+  <meta property="og:title" content="Diffusion and Kinetics in Materials: Fick Laws &amp; Phase Transformations | OpenSTEM Library">
+  <meta property="og:description" content="Comprehensive university textbook covering mass transport fundamentals, non-steady-state diffusion solutions, interdiffusion in binary alloys, short-circuit transport, interface migration mechanics, classical nucleation theory, spinodal decomposition, and isothermal transformation kinetics with 40 solved questions and 16 interactive simulations.">
+  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Diffusion and Kinetics in Materials: Fick Laws &amp; Phase Transformations | OpenSTEM Library">
+  <meta name="twitter:description" content="Comprehensive university textbook covering mass transport fundamentals, non-steady-state diffusion solutions, interdiffusion in binary alloys, short-circuit transport, interface migration mechanics, classical nucleation theory, spinodal decomposition, and isothermal transformation kinetics with 40 solved questions and 16 interactive simulations.">
+  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
+
+  <!-- Favicon & Search Engine Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Schema.org Educational Course JSON-LD -->
+
+
+
+  <!-- Schema.org Breadcrumb Navigation -->
+
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
+<link rel="stylesheet" href="statistical-simulation-and-monte-carlo-methods.css?v=1"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Diffusion and Kinetics: Experiments, numerical inversion and engineering decisions","description":"Comprehensive university textbook covering mass transport fundamentals, non-steady-state diffusion solutions, interdiffusion in binary alloys, short-circuit transport, interface migration mechanics, classical nucleation theory, spinodal decomposition, and isothermal transformation kinetics with 40 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/diffusion-and-kinetics-chapter-8","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Statistical Simulation","Monte Carlo Methods","Pseudorandom Number Generators","Rejection Sampling and Inversion","Importance Sampling and Variance Reduction","Markov Chain Monte Carlo and Metropolis-Hastings","Gibbs Sampling and Hierarchical Bayes","Hamiltonian Monte Carlo and NUTS","Sequential Monte Carlo and Particle Filtering"],"keywords":"Diffusion, Kinetics, Fick Laws, Kirkendall Effect, Nucleation Theory, JMAK Kinetics, Interface Mobility, Spinodal Decomposition"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Statistics & Probability","item":"https://openstemlibrary.com/#dept-statistics-probability"},{"@type":"ListItem","position":3,"name":"Statistical Simulation and Monte Carlo Methods","item":"https://openstemlibrary.com/statistical-simulation-and-monte-carlo-methods"}]}</script><link rel="stylesheet" href="diffusion-and-kinetics.css"></head>
+<body data-book-path="diffusion-and-kinetics.html" data-chapter-index="7" class="reader-paper" style="--openstem-reader-font-scale: 1;">
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Book chapters">
+      <div class="brand-header">
+        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
+        <div>
+          <div class="brand-title">Statistical Simulation and Monte Carlo Methods</div>
+          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+        </div>
+      </div>
+
+      <!-- Live Search Filter for SEO / Navigation -->
+      <div class="search-box-container">
+        <input type="text" id="topic-search-input" placeholder="Search PRNG, LCG, Mersenne Twister, inversion method, rejection sampling, Box-Muller, Monte Carlo integration, importance sampling, antithetic variates, Metropolis-Hastings, Gibbs sampler, Hamiltonian Monte Carlo, particle filter…" class="search-input">
+      </div>
+
+      <div class="nav-section-title">Table of Contents</div>
+      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="diffusion-and-kinetics" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Conservation, flux and microscopic motion</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="diffusion-and-kinetics-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Fickian transport and boundary-value problems</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="diffusion-and-kinetics-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Atomic mechanisms and temperature dependence</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="diffusion-and-kinetics-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Interfaces, microstructure and coupled driving forces</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="diffusion-and-kinetics-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Diffusion couples and materials processing</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="diffusion-and-kinetics-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Reaction kinetics and phase transformations</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="diffusion-and-kinetics-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Microstructural evolution and heat treatments</span></a></li><li class="unit-nav-item active" data-unit-index="7"><a href="diffusion-and-kinetics-chapter-8" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Experiments, numerical inversion and engineering decisions</span></a></li></ul>
+    </aside>
+
+    <!-- Main Content Reader Container -->
+    <main class="main-content">
+      <!-- Top Sticky Navbar -->
+      <header class="top-navbar">
+        <div class="course-badge-container">
+          <span class="badge-pill badge-course">Statistics &amp; Probability</span>
+          <span class="badge-pill badge-credits">Statistical simulation &amp; Monte Carlo methods major</span>
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+        </div>
+        <div class="navbar-actions">
+          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
+          <div class="protection-notice">Read freely · Cite responsibly</div>
+        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
+      </header>
+
+      <!-- Content Columns (Wide Centered Reader) -->
+      <div class="content-columns" id="main-content-area">
+        <!-- Center Textbook Article -->
+        <article class="reader-main-column" id="textbook-article">
+          <!-- Chapter Hero Header -->
+          <header class="unit-hero">
+            <div class="unit-number-tag" id="unit-tag">Chapter 8 • Theory &amp; Derivations</div>
+            <h1 class="unit-title-heading" id="unit-title">Experiments, numerical inversion and engineering decisions</h1>
+            <p class="unit-desc-lead" id="unit-desc">**Guiding question:** How are credible kinetic coefficients estimated and used?</p>
+          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material mapped to University of Dhaka Statistics B.S. Honours 2023–24, Stat H-307 (Statistical Simulation and Monte Carlo Methods). Eight units and exactly three solved questions per unit. Interactive simulations illustrate linear congruential generators, rejection sampling envelopes, rare-event importance sampling, and Metropolis-Hastings random walks. Numerical checks and an editorial review support this edition; it has not received independent academic peer review. Curriculum mapping does not imply university endorsement.</aside>
+
+          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
+          <div id="textbook-sections"><section class="textbook-section-card" id="sec-8-1">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.1</span>
+            <span>Physical map and learning outcomes</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>An invented factory must choose one of three heating schedules to meet a diffusion-length specification while limiting grain growth. Only four synthetic concentration data points are available from a prototype, and the fitted Arrhenius parameters are strongly correlated. This fictional situation will be revisited in the integrated project. Start by distinguishing direct observations from physical descriptions and from parameters that a mathematical model proposes to infer. Write a list of controlled quantities, including imposed sample temperature, the physical boundary and the observation interval. Do not assume that the smoothness of a concentration profile confirms the absence of reactions or short-circuit paths.</p>
+
+<p>Fit an effective D to synthetic profiles, propagate ±10% time and ±5 K temperature uncertainty, and compare processing times required at candidate temperatures using an Arrhenius ratio. Document process constraints and whether the fitted model predicts outside the experimental calibration range. The mathematics provides a disciplined way to compare outcomes but still depends on the geometry and the meaning of the concentration variable. Across the five lessons, students should practice setting up a concrete mass or species balance, evaluating at least one numerical scale, and proposing a measurement that would discriminate among mechanisms. A complete argument identifies what a result cannot establish, even when a plotted trend agrees with an intuitive expectation.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-2">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.2</span>
+            <span>Units and model limits</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <p>For each lesson name whether its quantity is a flux, a concentration, a diffusivity, a rate constant, a transformed fraction, a physical length or a dimensionless numerical-stability ratio. A second unit conversion must be reproducible from the first. Any use of kelvin, micrometers, nanometers, molar activation energy or flux orientation should be explicit, because changing units silently can alter a processing decision by orders of magnitude.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-3">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.3</span>
+            <span>Lesson 8.1: Diffusivity measurements and inverse inference</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Physical reasoning and derivation target</h4>
+
+<p>Diffusivity may be estimated from concentration profiles, tracer experiments, mass uptake, permeation breakthrough or relaxation curves. Each experiment measures a response influenced by geometry, boundary conditions and instrument sensitivity. The fitted parameter is often an effective quantity specific to the model.</p>
+
+<h4>Laboratory thought experiment and numerical calculation</h4>
+
+<p>Fit a synthetic uptake curve using two candidate D values and a surface transfer coefficient. Explore the parameter combinations that reproduce the same first few data points.</p>
+
+<p>The paired local calculator for this lesson is <strong>Temperature-dependent process time</strong>. Use <strong>Holding temperature = 735.7143 K</strong> with the other parameters fixed. The model returns <strong>250010.35 s</strong>. Repeat the computation at <strong>Holding temperature = 831.7143 K</strong> to obtain <strong>28546.755 s</strong>; the output falls when the input rises. Record the expression and its model domain exactly: <strong>same D×t target across temperatures, Q=115 kJ/mol, reference hold=3600 s at 950 K</strong>. These results are <strong>synthetic arithmetic</strong>, not measured coefficients or validated engineering values. If the output represents a rate, compare the proposed observation interval with the reciprocal rate. If it represents a length, verify dimensional scaling and relate it to a physical specimen dimension. If it represents a fraction, confirm that it remains in its allowed interval. If it represents flux, convert the result to total inventory change using an explicitly chosen area and time.</p>
+
+<h4>Competing explanations and experimental controls</h4>
+
+<p>Inverse problems can have nonunique solutions; a narrow confidence interval from a restrictive fit may hide a large structural modeling error.</p>
+
+<h4>Model-to-measurement translation</h4>
+
+<h4>Solved reasoning audit and assessment</h4>
+
+<p><strong>Reasoning exercise.</strong> What second observable would improve identifiability of D and the surface transfer coefficient? Begin with the governing balance and appropriate boundary conditions. Show the expression corresponding to the local calculator, substitute <strong>735.7143 K</strong>, and recover <strong>250010.35 s</strong>. Explain the sign and the units. Then predict the changed output at the second input before using the model. If the sensitivity is small, discuss whether real experimental resolution could distinguish the cases. If it is large, specify a practical uncertainty bound for the input and ask whether that uncertainty dominates the inferred output.</p>
+
+<p><strong>Instructor check.</strong> A satisfactory answer must distinguish this lesson's physical claim from a convenient mathematical approximation, and it must confront the alternative mechanism: <strong>Inverse problems can have nonunique solutions; a narrow confidence interval from a restrictive fit may hide a large structural modeling error.</strong>. The submitted method should include one independent measurement, one falsification criterion, and a concise statement of what the result would <em>not</em> permit the engineer to conclude. Numerical correctness alone is insufficient when the wrong frame, a physically impossible concentration boundary, or an inappropriate phase-specific diffusivity was chosen.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-4">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.4</span>
+            <span>Lesson 8.2: Uncertainty and parameter correlations</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Physical reasoning and derivation target</h4>
+
+<p>Uncertainty propagates from temperature, time, profile calibration and sample geometry into inferred diffusion coefficients. In an Arrhenius fit, D0 and Q are strongly correlated when the measured temperature range is narrow, so reporting either without covariance can be misleading.</p>
+
+<h4>Laboratory thought experiment and numerical calculation</h4>
+
+<p>Add plausible synthetic noise to ln D across four temperatures, refit multiple times and compare predicted D within and outside the measured range.</p>
+
+<p>The paired local calculator for this lesson is <strong>Relative thermal penetration budget</strong>. Use <strong>Hold time = 7185.714 s</strong> with the other parameters fixed. The model returns <strong>328.30735 μm</strong>. Repeat the computation at <strong>Hold time = 11176.11 s</strong> to obtain <strong>409.44073 μm</strong>; the output rises when the input rises. Record the expression and its model domain exactly: <strong>single spatial dimension, uniform D=1.5×10⁻¹¹ m²/s; neglects ramp, phase changes, surfaces</strong>. These results are <strong>synthetic arithmetic</strong>, not measured coefficients or validated engineering values. If the output represents a rate, compare the proposed observation interval with the reciprocal rate. If it represents a length, verify dimensional scaling and relate it to a physical specimen dimension. If it represents a fraction, confirm that it remains in its allowed interval. If it represents flux, convert the result to total inventory change using an explicitly chosen area and time.</p>
+
+<h4>Competing explanations and experimental controls</h4>
+
+<p>Independent random noise calculations do not cover systematic temperature offsets or model-regime changes; extrapolated uncertainty can be much larger.</p>
+
+<h4>Model-to-measurement translation</h4>
+
+<h4>Solved reasoning audit and assessment</h4>
+
+<p><strong>Reasoning exercise.</strong> Which calibration standard constrains temperature error in an activation-energy estimate? Begin with the governing balance and appropriate boundary conditions. Show the expression corresponding to the local calculator, substitute <strong>7185.714 s</strong>, and recover <strong>328.30735 μm</strong>. Explain the sign and the units. Then predict the changed output at the second input before using the model. If the sensitivity is small, discuss whether real experimental resolution could distinguish the cases. If it is large, specify a practical uncertainty bound for the input and ask whether that uncertainty dominates the inferred output.</p>
+
+<p><strong>Instructor check.</strong> A satisfactory answer must distinguish this lesson's physical claim from a convenient mathematical approximation, and it must confront the alternative mechanism: <strong>Independent random noise calculations do not cover systematic temperature offsets or model-regime changes; extrapolated uncertainty can be much larger.</strong>. The submitted method should include one independent measurement, one falsification criterion, and a concise statement of what the result would <em>not</em> permit the engineer to conclude. Numerical correctness alone is insufficient when the wrong frame, a physically impossible concentration boundary, or an inappropriate phase-specific diffusivity was chosen.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-5">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.5</span>
+            <span>Lesson 8.3: Model validation and mesh convergence</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Physical reasoning and derivation target</h4>
+
+<p>Computational diffusion models should satisfy conservation, physical bounds, unit consistency and grid convergence. Cross-checking a code against an analytic constant-D solution tests its implementation, while validation against separate experimental observations tests scientific adequacy. These are different standards of evidence.</p>
+
+<h4>Laboratory thought experiment and numerical calculation</h4>
+
+<p>Compare explicit finite-volume and implicit finite-difference solutions for a sealed one-dimensional slab. Track mass residual and profile distance from a known Fourier solution across mesh refinements.</p>
+
+<p>The paired local calculator for this lesson is <strong>Temperature-dependent process time</strong>. Use <strong>Holding temperature = 907.1429 K</strong> with the other parameters fixed. The model returns <strong>7161.8912 s</strong>. Repeat the computation at <strong>Holding temperature = 1003.143 K</strong> to obtain <strong>1664.685 s</strong>; the output falls when the input rises. Record the expression and its model domain exactly: <strong>same D×t target across temperatures, Q=115 kJ/mol, reference hold=3600 s at 950 K</strong>. These results are <strong>synthetic arithmetic</strong>, not measured coefficients or validated engineering values. If the output represents a rate, compare the proposed observation interval with the reciprocal rate. If it represents a length, verify dimensional scaling and relate it to a physical specimen dimension. If it represents a fraction, confirm that it remains in its allowed interval. If it represents flux, convert the result to total inventory change using an explicitly chosen area and time.</p>
+
+<h4>Competing explanations and experimental controls</h4>
+
+<p>A numerically converged wrong boundary condition remains wrong; synthetic benchmark agreement does not validate the actual material's diffusivity.</p>
+
+<h4>Model-to-measurement translation</h4>
+
+<h4>Solved reasoning audit and assessment</h4>
+
+<p><strong>Reasoning exercise.</strong> Which experiment would test the chosen boundary and material-property assumptions independently? Begin with the governing balance and appropriate boundary conditions. Show the expression corresponding to the local calculator, substitute <strong>907.1429 K</strong>, and recover <strong>7161.8912 s</strong>. Explain the sign and the units. Then predict the changed output at the second input before using the model. If the sensitivity is small, discuss whether real experimental resolution could distinguish the cases. If it is large, specify a practical uncertainty bound for the input and ask whether that uncertainty dominates the inferred output.</p>
+
+<p><strong>Instructor check.</strong> A satisfactory answer must distinguish this lesson's physical claim from a convenient mathematical approximation, and it must confront the alternative mechanism: <strong>A numerically converged wrong boundary condition remains wrong; synthetic benchmark agreement does not validate the actual material's diffusivity.</strong>. The submitted method should include one independent measurement, one falsification criterion, and a concise statement of what the result would <em>not</em> permit the engineer to conclude. Numerical correctness alone is insufficient when the wrong frame, a physically impossible concentration boundary, or an inappropriate phase-specific diffusivity was chosen.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-6">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.6</span>
+            <span>Lesson 8.4: Process optimization and trade-offs</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Physical reasoning and derivation target</h4>
+
+<p>A longer, hotter treatment can accelerate homogenization or case penetration but may increase oxidation, grain growth, energy consumption and distortion. Optimization should balance multiple objectives and practical constraints rather than maximize diffusion distance alone.</p>
+
+<h4>Laboratory thought experiment and numerical calculation</h4>
+
+<p>For a fictional processing plant, compare three temperature-time schedules using an Arrhenius D and a fixed diffusion-length requirement. Add cost and microstructure constraints before selecting an option.</p>
+
+<p>The paired local calculator for this lesson is <strong>Relative thermal penetration budget</strong>. Use <strong>Hold time = 14311.43 s</strong> with the other parameters fixed. The model returns <strong>463.32648 μm</strong>. Repeat the computation at <strong>Hold time = 18301.83 s</strong> to obtain <strong>523.95365 μm</strong>; the output rises when the input rises. Record the expression and its model domain exactly: <strong>single spatial dimension, uniform D=1.5×10⁻¹¹ m²/s; neglects ramp, phase changes, surfaces</strong>. These results are <strong>synthetic arithmetic</strong>, not measured coefficients or validated engineering values. If the output represents a rate, compare the proposed observation interval with the reciprocal rate. If it represents a length, verify dimensional scaling and relate it to a physical specimen dimension. If it represents a fraction, confirm that it remains in its allowed interval. If it represents flux, convert the result to total inventory change using an explicitly chosen area and time.</p>
+
+<h4>Competing explanations and experimental controls</h4>
+
+<p>Economic and environmental costs cannot be obtained from a diffusion coefficient; equipment utilization, process atmosphere and scrap rate need their own evidence.</p>
+
+<h4>Model-to-measurement translation</h4>
+
+<h4>Solved reasoning audit and assessment</h4>
+
+<p><strong>Reasoning exercise.</strong> What decision would change if the estimated activation energy were 20% wrong? Begin with the governing balance and appropriate boundary conditions. Show the expression corresponding to the local calculator, substitute <strong>14311.43 s</strong>, and recover <strong>463.32648 μm</strong>. Explain the sign and the units. Then predict the changed output at the second input before using the model. If the sensitivity is small, discuss whether real experimental resolution could distinguish the cases. If it is large, specify a practical uncertainty bound for the input and ask whether that uncertainty dominates the inferred output.</p>
+
+<p><strong>Instructor check.</strong> A satisfactory answer must distinguish this lesson's physical claim from a convenient mathematical approximation, and it must confront the alternative mechanism: <strong>Economic and environmental costs cannot be obtained from a diffusion coefficient; equipment utilization, process atmosphere and scrap rate need their own evidence.</strong>. The submitted method should include one independent measurement, one falsification criterion, and a concise statement of what the result would <em>not</em> permit the engineer to conclude. Numerical correctness alone is insufficient when the wrong frame, a physically impossible concentration boundary, or an inappropriate phase-specific diffusivity was chosen.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-7">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.7</span>
+            <span>Lesson 8.5: Responsible kinetic reporting</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Physical reasoning and derivation target</h4>
+
+<p>Scientific conclusions must disclose synthetic versus observed values, the complete transport equation, units, geometry, boundary conditions, fit range and uncertainty. Repository code and plots should be reproducible; safety-critical design requires validated data, expert review and relevant standards.</p>
+
+<h4>Laboratory thought experiment and numerical calculation</h4>
+
+<p>Write a method section for a fictional diffusion-couple study, including temperature measurements, sample preparation, calibration, time points, raw data retention and a falsifiable rival mechanism.</p>
+
+<p>The paired local calculator for this lesson is <strong>Temperature-dependent process time</strong>. Use <strong>Holding temperature = 1078.571 K</strong> with the other parameters fixed. The model returns <strong>634.69541 s</strong>. Repeat the computation at <strong>Holding temperature = 1174.571 K</strong> to obtain <strong>222.52423 s</strong>; the output falls when the input rises. Record the expression and its model domain exactly: <strong>same D×t target across temperatures, Q=115 kJ/mol, reference hold=3600 s at 950 K</strong>. These results are <strong>synthetic arithmetic</strong>, not measured coefficients or validated engineering values. If the output represents a rate, compare the proposed observation interval with the reciprocal rate. If it represents a length, verify dimensional scaling and relate it to a physical specimen dimension. If it represents a fraction, confirm that it remains in its allowed interval. If it represents flux, convert the result to total inventory change using an explicitly chosen area and time.</p>
+
+<h4>Competing explanations and experimental controls</h4>
+
+<p>A polished interactive chart does not prove material behavior; neither a small fit residual nor an AI-generated explanation replaces the actual experiment.</p>
+
+<h4>Model-to-measurement translation</h4>
+
+<h4>Solved reasoning audit and assessment</h4>
+
+<p><strong>Reasoning exercise.</strong> What minimum evidence package would allow an independent researcher to repeat the proposed analysis? Begin with the governing balance and appropriate boundary conditions. Show the expression corresponding to the local calculator, substitute <strong>1078.571 K</strong>, and recover <strong>634.69541 s</strong>. Explain the sign and the units. Then predict the changed output at the second input before using the model. If the sensitivity is small, discuss whether real experimental resolution could distinguish the cases. If it is large, specify a practical uncertainty bound for the input and ask whether that uncertainty dominates the inferred output.</p>
+
+<p><strong>Instructor check.</strong> A satisfactory answer must distinguish this lesson's physical claim from a convenient mathematical approximation, and it must confront the alternative mechanism: <strong>A polished interactive chart does not prove material behavior; neither a small fit residual nor an AI-generated explanation replaces the actual experiment.</strong>. The submitted method should include one independent measurement, one falsification criterion, and a concise statement of what the result would <em>not</em> permit the engineer to conclude. Numerical correctness alone is insufficient when the wrong frame, a physically impossible concentration boundary, or an inappropriate phase-specific diffusivity was chosen.</p>
+        </div>
+        
+      </section><section class="textbook-section-card" id="sec-8-8">
+        <header class="sec-header">
+          <h3 class="sec-title">
+            <span class="sec-num">§8.8</span>
+            <span>Integrated investigation: Inverse transport model for a manufacturing decision</span>
+          </h3>
+        </header>
+        <div class="sec-content">
+          <h4>Scientific question and competing hypotheses</h4>
+
+<p>An invented factory must choose one of three heating schedules to meet a diffusion-length specification while limiting grain growth. Only four synthetic concentration data points are available from a prototype, and the fitted Arrhenius parameters are strongly correlated.</p>
+
+<p>Frame two hypotheses that predict distinguishable observations rather than two labels for the same curve. One may ascribe the time evolution to a homogeneous bulk diffusivity; the other may emphasize a boundary step, spatial heterogeneity or phase change. For each hypothesis identify what must remain fixed when comparing specimens. Define a primary observable with units and measurement precision, then propose a negative control and a distinct hold-out test. The fabricated dataset in this book can support method practice only; it cannot adjudicate real mechanisms.</p>
+
+<h4>Mathematical program and result interpretation</h4>
+
+<p>Fit an effective D to synthetic profiles, propagate ±10% time and ±5 K temperature uncertainty, and compare processing times required at candidate temperatures using an Arrhenius ratio. Document process constraints and whether the fitted model predicts outside the experimental calibration range.</p>
+
+<p>Begin with a local or integrated species balance. State whether sources, sinks, strain, moving interfaces and specimen volume changes are absent by observation or absent only by assumption. Show how the characteristic transport length and process time enter a dimensionless comparison; an observation interval short compared with L²/D interrogates a different regime from a long dwell. Derive the leading boundary condition from the actual proposed apparatus. If a numerical model is selected, report the solution scheme and a convergence tolerance; if an analytic approximation is used, report the time and geometry window in which it applies.</p>
+
+<p>Use both illustrative models in this unit to create sensitivity plots. Vary one input at a time, translate plotted outputs into coherent dimensional statements, and explain how a different trend would appear if the competing hypothesis were true. Where the model represents transformed fraction, avoid substituting that fraction for a mechanical property without independent evidence. Where it represents a diffusion length, name the width or threshold convention, and do not extrapolate a one-phase coefficient through a phase transformation.</p>
+
+<h4>Experimental design and quality controls</h4>
+
+<p>Validate the schedule on a new specimen and a second thickness, then collect an independently measured profile and microstructure image. Report the held-out prediction error separately from the fit residual. Keep the processing recommendation conditional until the out-of-sample evidence is available.</p>
+
+<p>Plan a sequence with specimen preparation, before-treatment measurement, treatment logging, after-treatment measurement and a repeated control. For each collected measurement record resolution, calibration, spatial location and a plausible systematic uncertainty. Use more than one time point and at least one geometric or compositional perturbation so a rate can be distinguished from a single endpoint. A blind second observer should be able to reconstruct the processing history and recalculate the central result from raw data without relying on an author's narrative.</p>
+
+<h4>Limitations, risks and defensible conclusions</h4>
+
+<p>Numerical optimizer success does not certify industrial robustness. The unknown temperature dependence of competing damage, surface reactions and energy costs must be addressed before selecting an actual production schedule.</p>
+
+<p>Suppose the synthetic fit residuals are smaller than all plotted symbols. That result demonstrates only that the chosen mathematical function can describe the synthetic observations at the chosen resolution. It does not prove a microscopic jump mechanism, validate extrapolation beyond the tested temperature interval, or establish manufacturing safety. A persuasive engineering recommendation should specify the material's composition and processing history, uncertainty in kinetic parameters, competing deterioration mechanisms, anticipated operating range, and the data that would reverse the decision.</p>
+
+<h4>Capstone deliverables</h4>
+
+<ol>
+
+  <li>A conservation equation written with signs, dimensions and geometry.</li>
+
+  <li>An independently reproducible numerical calculation from a specified initial value.</li>
+
+  <li>A synthetic concentration or time-series graph labelled as illustrative, with assumptions.</li>
+
+  <li>A one-page experimental design including at least two independent controls and two time points.</li>
+
+  <li>A failure analysis naming a competing mechanism and an observation that would favor it.</li>
+
+  <li>A conclusion that separates the demonstrated mathematical relationship from the unverified behavior of a real material.</li>
+
+</ol>
+
+<h4>Interactive demonstrations</h4>
+
+<p><!-- MODEL_14 --></p>
+
+<p><!-- MODEL_15 --></p>
+        </div>
+        
+      </section></div>
+
+          <!-- Pre-Rendered Solved Problems Container -->
+          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
+            <div class="problems-section-header">
+              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+              <h3 class="prob-sec-title">Step-by-Step Statistical Simulation and Monte Carlo Solutions</h3>
+              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+            </div>
+            <div class="problems-grid" id="problems-container"><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 8.1: Temperature-dependent process time</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Fit a synthetic uptake curve using two candidate D values and a surface transfer coefficient. Explore the parameter combinations that reproduce the same first few data points.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-DFK-U8-P1" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-DFK-U8-P1">
+          
+            <div class="solution-step">
+              <div class="step-title">Step</div>
+              
+              <div class="step-explanation"><p>The paired local calculator for this lesson is <strong>Temperature-dependent process time</strong>. Use <strong>Holding temperature = 735.7143 K</strong> with the other parameters fixed. The model returns <strong>250010.35 s</strong>. Repeat the computation at <strong>Holding temperature = 831.7143 K</strong> to obtain <strong>28546.755 s</strong>; the output falls when the input rises. Record the expression and its model domain exactly: <strong>same D×t target across temperatures, Q=115 kJ/mol, reference hold=3600 s at 950 K</strong>. These results are <strong>synthetic arithmetic</strong>, not measured coefficients or validated engineering values. If the output represents a rate, compare the proposed observation interval with the reciprocal rate. If it represents a length, verify dimensional scaling and relate it to a physical specimen dimension. If it represents a fraction, confirm that it remains in its allowed interval. If it represents flux, convert the result to total inventory change using an explicitly chosen area and time.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 8.2: Relative thermal penetration budget</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Add plausible synthetic noise to ln D across four temperatures, refit multiple times and compare predicted D within and outside the measured range.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-DFK-U8-P2" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-DFK-U8-P2">
+          
+            <div class="solution-step">
+              <div class="step-title">Step</div>
+              
+              <div class="step-explanation"><p>The paired local calculator for this lesson is <strong>Relative thermal penetration budget</strong>. Use <strong>Hold time = 7185.714 s</strong> with the other parameters fixed. The model returns <strong>328.30735 μm</strong>. Repeat the computation at <strong>Hold time = 11176.11 s</strong> to obtain <strong>409.44073 μm</strong>; the output rises when the input rises. Record the expression and its model domain exactly: <strong>single spatial dimension, uniform D=1.5×10⁻¹¹ m²/s; neglects ramp, phase changes, surfaces</strong>. These results are <strong>synthetic arithmetic</strong>, not measured coefficients or validated engineering values. If the output represents a rate, compare the proposed observation interval with the reciprocal rate. If it represents a length, verify dimensional scaling and relate it to a physical specimen dimension. If it represents a fraction, confirm that it remains in its allowed interval. If it represents flux, convert the result to total inventory change using an explicitly chosen area and time.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 8.3: Temperature-dependent process time</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Compare explicit finite-volume and implicit finite-difference solutions for a sealed one-dimensional slab. Track mass residual and profile distance from a known Fourier solution across mesh refinements.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-DFK-U8-P3" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-DFK-U8-P3">
+          
+            <div class="solution-step">
+              <div class="step-title">Step</div>
+              
+              <div class="step-explanation"><p>The paired local calculator for this lesson is <strong>Temperature-dependent process time</strong>. Use <strong>Holding temperature = 907.1429 K</strong> with the other parameters fixed. The model returns <strong>7161.8912 s</strong>. Repeat the computation at <strong>Holding temperature = 1003.143 K</strong> to obtain <strong>1664.685 s</strong>; the output falls when the input rises. Record the expression and its model domain exactly: <strong>same D×t target across temperatures, Q=115 kJ/mol, reference hold=3600 s at 950 K</strong>. These results are <strong>synthetic arithmetic</strong>, not measured coefficients or validated engineering values. If the output represents a rate, compare the proposed observation interval with the reciprocal rate. If it represents a length, verify dimensional scaling and relate it to a physical specimen dimension. If it represents a fraction, confirm that it remains in its allowed interval. If it represents flux, convert the result to total inventory change using an explicitly chosen area and time.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 8.4: Relative thermal penetration budget</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>For a fictional processing plant, compare three temperature-time schedules using an Arrhenius D and a fixed diffusion-length requirement. Add cost and microstructure constraints before selecting an option.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-DFK-U8-P4" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-DFK-U8-P4">
+          
+            <div class="solution-step">
+              <div class="step-title">Step</div>
+              
+              <div class="step-explanation"><p>The paired local calculator for this lesson is <strong>Relative thermal penetration budget</strong>. Use <strong>Hold time = 14311.43 s</strong> with the other parameters fixed. The model returns <strong>463.32648 μm</strong>. Repeat the computation at <strong>Hold time = 18301.83 s</strong> to obtain <strong>523.95365 μm</strong>; the output rises when the input rises. Record the expression and its model domain exactly: <strong>single spatial dimension, uniform D=1.5×10⁻¹¹ m²/s; neglects ramp, phase changes, surfaces</strong>. These results are <strong>synthetic arithmetic</strong>, not measured coefficients or validated engineering values. If the output represents a rate, compare the proposed observation interval with the reciprocal rate. If it represents a length, verify dimensional scaling and relate it to a physical specimen dimension. If it represents a fraction, confirm that it remains in its allowed interval. If it represents flux, convert the result to total inventory change using an explicitly chosen area and time.</p></div>
+            </div>
+          
+        </div>
+      </div><div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-title-box">
+            <span class="diff-badge diff-hard">Solved Problem</span>
+            <strong>Example 8.5: Temperature-dependent process time</strong>
+          </div>
+        </div>
+        <div class="problem-question-box">
+          <p>Write a method section for a fictional diffusion-couple study, including temperature measurements, sample preparation, calibration, time points, raw data retention and a falsifiable rival mechanism.</p>
+        </div>
+        <button class="solution-toggle-btn" id="btn-sol-DFK-U8-P5" aria-expanded="false">
+          👁️ Reveal Complete Derivation &amp; Solution
+        </button>
+        <div class="solution-content" id="sol-content-DFK-U8-P5">
+          
+            <div class="solution-step">
+              <div class="step-title">Step</div>
+              
+              <div class="step-explanation"><p>The paired local calculator for this lesson is <strong>Temperature-dependent process time</strong>. Use <strong>Holding temperature = 1078.571 K</strong> with the other parameters fixed. The model returns <strong>634.69541 s</strong>. Repeat the computation at <strong>Holding temperature = 1174.571 K</strong> to obtain <strong>222.52423 s</strong>; the output falls when the input rises. Record the expression and its model domain exactly: <strong>same D×t target across temperatures, Q=115 kJ/mol, reference hold=3600 s at 950 K</strong>. These results are <strong>synthetic arithmetic</strong>, not measured coefficients or validated engineering values. If the output represents a rate, compare the proposed observation interval with the reciprocal rate. If it represents a length, verify dimensional scaling and relate it to a physical specimen dimension. If it represents a fraction, confirm that it remains in its allowed interval. If it represents flux, convert the result to total inventory change using an explicitly chosen area and time.</p></div>
+            </div>
+          
+        </div>
+      </div></div>
+          </div>
+
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-statistics-probability">Statistics department</a><a href="introduction-to-statistics">Introduction to Statistics</a><a href="probability-and-probability-distributions">Probability and Probability Distributions</a><a href="sample-surveys-and-sampling-theory">Sample Surveys and Sampling Theory</a><a href="statistical-computing-with-python-and-r">Statistical Computing</a><a href="mathematical-statistics">Mathematical Statistics</a><a href="statistical-estimation">Statistical Estimation</a><a href="demography-and-population-statistics">Demography and Population Statistics</a><a href="economic-statistics">Economic Statistics</a><a href="epidemiological-statistics">Epidemiological Statistics</a><a href="industrial-and-official-statistics">Industrial and Official Statistics</a><a href="actuarial-statistics-and-mathematical-demography">Actuarial Statistics</a><a href="basic-algebra">Algebra prerequisite</a><a href="calculus-1">Calculus prerequisite</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><details><summary>Curriculum and mathematical references</summary><ul><li><a href="https://www.stat.du.ac.bd/wp-content/uploads/2025/06/Syllabus.Undergraduate.Final-2023-24-1.pdf" target="_blank" rel="noopener noreferrer">University of Dhaka, Department of Statistics: Syllabus foundation for B.S. Honours in Statistics (Course Stat H-307 Simulation)</a></li><li><a href="https://openstemlibrary.com/references/robert-casella-monte-carlo" target="_blank" rel="noopener noreferrer">Robert, C.P., &amp; Casella, G. (2004). Monte Carlo Statistical Methods (2nd ed.): Definitive theoretical treatise on rejection sampling, Markov chain Monte Carlo, Metropolis-Hastings algorithms, and Gibbs sampling</a></li><li><a href="https://openstemlibrary.com/references/ripley-stochastic-simulation" target="_blank" rel="noopener noreferrer">Ripley, B.D. (1987). Stochastic Simulation: Foundational text on pseudorandom number generators, spatial simulation, and variate generation algorithms</a></li><li><a href="https://openstemlibrary.com/references/efron-tibshirani-bootstrap" target="_blank" rel="noopener noreferrer">Efron, B., &amp; Tibshirani, R.J. (1993). An Introduction to the Bootstrap: Canonical reference for bootstrap standard errors, percentile confidence intervals, BCa intervals, and jackknife methods</a></li><li><a href="https://openstemlibrary.com/references/gentle-random-number-generation" target="_blank" rel="noopener noreferrer">Gentle, J.E. (2003). Random Number Generation and Monte Carlo Methods: Authoritative manual on uniform generation tests, spectral lattice tests, and variance reduction techniques</a></li></ul></details><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+
+        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="diffusion-and-kinetics-chapter-7">← Previous chapter</a><a href="diffusion-and-kinetics">Book contents</a></nav></article>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Textbook Application Scripts -->
+  <script src="diffusion-and-kinetics-sims.js"></script>
+  <script src="diffusion-and-kinetics-data.js"></script>
+  <script src="app.js?v=20261016_review_fix"></script>
+
+
+</body></html>

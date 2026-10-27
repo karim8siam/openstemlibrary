@@ -2684,6 +2684,110 @@ window.LIBRARY_CATALOG = {
           ]
         }
       ]
+    },
+    {
+      "id": "materials-science-and-engineering",
+      "name": "Materials Science & Engineering",
+      "code": "MSE",
+      "icon": "🔬",
+      "description": "Crystallography, thermodynamics of materials, phase transformations, mechanical behavior, polymers, ceramics, semiconductors, and biomaterials.",
+      "courses": [
+        {
+          "id": "fundamentals-of-materials-science",
+          "title": "Fundamentals of Materials Science and Engineering",
+          "subtitle": "Bonding, Crystal Structures, Imperfections, Mechanical Properties, Phase Diagrams & Failure",
+          "status": "AVAILABLE",
+          "url": "fundamentals-of-materials-science.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering atomic bonding, crystal structures, point and line imperfections, dislocation-mediated slip, diffusion kinetics, binary phase equilibria, mechanical testing, and fracture mechanics with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "From atoms to engineering decisions",
+            "Crystal structures and structural determination",
+            "Defects, diffusion and microstructural evolution",
+            "Mechanical properties, damage and reliability",
+            "Thermodynamics, phases and heat treatment",
+            "Metals, ceramics, polymers, composites and electronic materials",
+            "Electrical, thermal, magnetic and optical responses",
+            "Manufacturing, selection, degradation and sustainability"
+          ]
+        },
+        {
+          "id": "crystallography-and-diffraction",
+          "title": "Crystallography and Diffraction",
+          "subtitle": "Bravais Lattices, Space Groups, Reciprocal Space, X-Ray & Electron Diffraction",
+          "status": "AVAILABLE",
+          "url": "crystallography-and-diffraction.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering direct and reciprocal space geometry, symmetry operations, space group classification, kinematic diffraction theory, X-ray powder diffraction (XRD), transmission electron microscopy (TEM) diffraction patterns, and structure refinement with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Crystallography and Diffraction",
+            "Crystal planes and reciprocal space",
+            "Wave scattering and structure factors",
+            "Powder diffraction and phase identification",
+            "Single crystals, orientation and texture",
+            "Line profiles, defects and deformation",
+            "Strain, stress, and time-dependent lattice response",
+            "Advanced probes, analysis integrity and applications"
+          ]
+        },
+        {
+          "id": "thermodynamics-of-materials",
+          "title": "Thermodynamics of Materials",
+          "subtitle": "Laws of Thermodynamics, Chemical Potential, Free Energy Curves, Phase Equilibria & Solutions",
+          "status": "AVAILABLE",
+          "url": "thermodynamics-of-materials.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering classical and statistical thermodynamics of materials, enthalpy and entropy of phase transitions, partial molar properties, non-ideal solution thermodynamics, free energy-composition curves, electrochemical thermodynamics, and phase stability diagrams with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Systems, energy and material state",
+            "Entropy, free energies and stability",
+            "Chemical potentials, activities and open systems",
+            "Solution thermodynamics and mixing",
+            "Phase diagrams and transitions",
+            "Defects, interfaces and nanoscale thermodynamics",
+            "Reactive, electrochemical and thermal processes",
+            "Computational thermodynamics and evidence"
+          ]
+        },
+        {
+          "id": "diffusion-and-kinetics",
+          "title": "Diffusion and Kinetics",
+          "subtitle": "Fick Laws, Atomistic Mechanisms, Interface Mobility, Nucleation Kinetics & Growth",
+          "status": "AVAILABLE",
+          "url": "diffusion-and-kinetics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering mass transport fundamentals, non-steady-state diffusion solutions, interdiffusion in binary alloys, short-circuit transport, interface migration mechanics, classical nucleation theory, spinodal decomposition, and isothermal transformation kinetics with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Conservation, flux and microscopic motion",
+            "Fickian transport and boundary-value problems",
+            "Atomic mechanisms and temperature dependence",
+            "Interfaces, microstructure and coupled driving forces",
+            "Diffusion couples and materials processing",
+            "Reaction kinetics and phase transformations",
+            "Microstructural evolution and heat treatments",
+            "Experiments, numerical inversion and engineering decisions"
+          ]
+        },
+        {
+          "id": "mechanical-behavior-of-solids",
+          "title": "Mechanical Behavior of Solids",
+          "subtitle": "Elasticity, Dislocations, Plastic Deformation, Fracture Mechanics, Fatigue & Creep",
+          "status": "AVAILABLE",
+          "url": "mechanical-behavior-of-solids.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering anisotropic continuum elasticity, dislocation mechanics and interaction energetics, strengthening mechanisms (solid solution, precipitation, strain hardening), fracture mechanics (energy release rate G and stress intensity K), fatigue cycle life, and high-temperature creep with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Stress, strain and recoverable deformation",
+            "Yielding, work hardening and flow",
+            "Dislocations, crystals and deformation microstructures",
+            "Members, stability and multiaxial stress",
+            "Cracks, fracture resistance and toughness",
+            "Fatigue, damage accumulation and durability",
+            "Creep, relaxation and viscoelastic solids",
+            "Testing, uncertainty and engineering decisions"
+          ]
+        }
+      ]
     }
   ]
 };
