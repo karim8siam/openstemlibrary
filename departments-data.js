@@ -1,4 +1,4 @@
-// OpenSTEM academic catalog: only completed books appear as available.
+/* OpenSTEM Library — Complete Departmental Course Catalog */
 window.LIBRARY_CATALOG = {
   "institution": "OpenSTEM Global Academic Press",
   "contactEmail": "shahriyarkarimsiam@gmail.com",
@@ -3177,8 +3177,7 @@ window.LIBRARY_CATALOG = {
           ]
         }
       ]
-    }
-,
+    },
     {
       "id": "mechanical-engineering",
       "name": "Mechanical Engineering",
@@ -3279,6 +3278,101 @@ window.LIBRARY_CATALOG = {
             "Polymers, Ceramics and Joining",
             "Heat Treatment, Coatings and Precision Assembly",
             "Process Control, Metrology and Sustainable Production"
+          ]
+        },
+        {
+          "id": "heat-transfer",
+          "title": "Heat Transfer",
+          "subtitle": "Conduction, Convection, Radiation, Phase Change, Heat Exchangers & Numerical Thermal Modeling",
+          "status": "AVAILABLE",
+          "url": "heat-transfer.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering steady and transient conduction, thermal boundary layers, forced and free convection correlations, phase-change boiling and condensation, radiation enclosure analysis, and heat exchanger design with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Heat Transfer Foundations and Thermal Modeling",
+            "Steady Conduction and Thermal Resistance",
+            "Transient Heat Diffusion and Numerical Methods",
+            "Convection and Boundary-Layer Heat Transfer",
+            "Boiling, Condensation, and Phase-Change Heat Transfer",
+            "Thermal Radiation and Enclosure Exchange",
+            "Heat Exchangers and Integrated Thermal Systems",
+            "Measurement, Computation, and Engineering Design"
+          ]
+        },
+        {
+          "id": "theory-of-machines-and-mechanisms",
+          "title": "Theory of Machines and Mechanisms",
+          "subtitle": "Kinematic Pairs, Mobility, Four-Bar Linkages, Velocity/Acceleration Polygons, Cams, Gears & Balancing",
+          "status": "AVAILABLE",
+          "url": "theory-of-machines-and-mechanisms.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering planar kinematics, linkage loop closure, velocity and acceleration vector polygons, cam-follower synthesis, spur and epicyclic gear trains, mechanism force analysis, and rotor dynamic balancing with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Mechanisms, Topology and Mobility",
+            "Planar Motion and Velocity Analysis",
+            "Four-Bar and Slider-Crank Mechanisms",
+            "Gears, Belts and Power Transmission",
+            "Cams, Followers and Indexing Mechanisms",
+            "Machine Forces, Inertia and Energy",
+            "Balancing, Vibrations and Dynamic Response",
+            "Mechanism Synthesis, Measurement and Design Verification"
+          ]
+        },
+        {
+          "id": "machine-design",
+          "title": "Machine Design",
+          "subtitle": "Stress Concentrations, Fatigue Failure, Shafts, Bearings, Gears, Fasteners, Springs, Clutches & Brakes",
+          "status": "AVAILABLE",
+          "url": "machine-design.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering stress concentrations, static and fatigue failure criteria, shaft design for combined loads, rolling-contact bearing life, AGMA gear fatigue, threaded fastener preload, helical spring mechanics, and friction clutches with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Design Requirements, Load Paths and Failure Criteria",
+            "Shafts, Fits and Torque Transmission",
+            "Fatigue, Fracture and Durability",
+            "Bolted, Welded and Bonded Joints",
+            "Bearings, Tribology and Sealing",
+            "Gears, Belts and Powertrains",
+            "Springs, Brakes and Energy Storage",
+            "Tolerances, Simulation, Validation and Lifecycle Design"
+          ]
+        },
+        {
+          "id": "mechanical-vibrations",
+          "title": "Mechanical Vibrations",
+          "subtitle": "Harmonic Motion, SDOF Damped Oscillations, Resonance, Transmissibility, MDOF Systems & Modal Analysis",
+          "status": "AVAILABLE",
+          "url": "mechanical-vibrations.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering free and forced SDOF vibrations, viscous damping, logarithmic decrement, harmonic resonance, base excitation and isolation transmissibility, tuned vibration absorbers, and MDOF modal analysis with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Oscillatory Motion and Single-Degree-of-Freedom Models",
+            "Damping, Transients and Time-Domain Response",
+            "Harmonic Excitation and Resonance",
+            "Base Excitation and Vibration Isolation",
+            "Multi-Degree-of-Freedom Vibrations and Modal Analysis",
+            "Continuous Systems, Rotors and Flexible Structures",
+            "Sensors, Spectral Analysis and Vibration Diagnostics",
+            "Engineering Design, Testing and Vibration Control"
+          ]
+        },
+        {
+          "id": "internal-combustion-engines",
+          "title": "Internal Combustion Engines",
+          "subtitle": "Four-Stroke & Two-Stroke Cycles, Thermochemistry, Combustion Flame Propagation, Turbocharging & Emissions",
+          "status": "AVAILABLE",
+          "url": "internal-combustion-engines.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering two- and four-stroke thermodynamics, mean effective pressure, Otto/Diesel/Dual cycles, volumetric efficiency, turbocharging, turbulent combustion kinetics, knock limits, emissions mechanisms, and aftertreatment with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Engine Architecture, Geometry and Operating Measures",
+            "Ideal Cycles, Real Cycles and Thermodynamic Limits",
+            "Combustion Chemistry, Ignition and Flame Development",
+            "Intake, Exhaust, Turbocharging and Airflow",
+            "Fuel Systems, Engine Controls and Transients",
+            "Heat Transfer, Friction, Lubrication and Engine Durability",
+            "Emissions, Aftertreatment and Experimental Measurement",
+            "Engine Systems, Alternative Fuels and Integrated Design"
           ]
         }
       ]
