@@ -3178,5 +3178,110 @@ window.LIBRARY_CATALOG = {
         }
       ]
     }
+,
+    {
+      "id": "mechanical-engineering",
+      "name": "Mechanical Engineering",
+      "code": "ME",
+      "icon": "⚙️",
+      "description": "Classical statics, dynamics, solid mechanics, thermodynamics, fluid dynamics, manufacturing processes, heat transfer, machine design, vibrations, turbomachinery, robotics, and computational FEA.",
+      "courses": [
+        {
+          "id": "engineering-mechanics",
+          "title": "Engineering Mechanics",
+          "subtitle": "Statics, Particle & Rigid Body Dynamics, Trusses, Friction, Moments of Inertia & Work-Energy Principles",
+          "status": "AVAILABLE",
+          "url": "engineering-mechanics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering Newtonian vector statics, equilibrium, trusses, dry friction, particle kinematics, rigid body planar dynamics, and work-energy methods with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Force Systems, Vectors, and Coordinates",
+            "Equilibrium of Particles and Rigid Bodies",
+            "Structural Trusses, Frames, and Machines",
+            "Distributed Forces, Centroids, and Moments of Inertia",
+            "Friction, Contact, and Wedges",
+            "Particle Kinematics and Kinetics",
+            "Planar Rigid-Body Dynamics and Work-Energy",
+            "Impulse-Momentum and Engineering Mechanisms"
+          ]
+        },
+        {
+          "id": "mechanics-of-solids",
+          "title": "Mechanics of Solids",
+          "subtitle": "Stress-Strain Analysis, Axial Deformation, Torsion, Beam Bending, Deflections & Failure Criteria",
+          "status": "AVAILABLE",
+          "url": "mechanics-of-solids.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering stress and strain tensors, Hooke's law, axial members, circular shaft torsion, flexural and shear stresses in beams, beam deflection equations, Mohr's circle, and column buckling with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Stress, Strain and Elastic Response",
+            "Axial Members and Compatibility",
+            "Shafts, Shear and Torsion",
+            "Beam Stress and Internal Resultants",
+            "Beam Deflection and Energy Methods",
+            "Multiaxial Stress and Yield Criteria",
+            "Stability, Fatigue and Fracture",
+            "Testing, Models and Engineering Decisions"
+          ]
+        },
+        {
+          "id": "engineering-thermodynamics",
+          "title": "Engineering Thermodynamics",
+          "subtitle": "First & Second Laws, Pure Substance Properties, Control Volumes, Gas Cycles & Vapor Power Systems",
+          "status": "AVAILABLE",
+          "url": "engineering-thermodynamics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering thermodynamic properties, ideal and real gases, closed and open system energy conservation, entropy, second-law analysis, exergy, Carnot limits, Rankine and Brayton cycles, and psychrometrics with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Thermodynamic Systems, Properties, and State Postulate",
+            "Pure Substances, Phase Diagrams, and Equations of State",
+            "First Law of Thermodynamics and Closed-System Energy Analysis",
+            "Control Volume Mass and Energy Analysis",
+            "Second Law of Thermodynamics, Heat Engines, and Reversibility",
+            "Entropy, Isentropic Relations, and Exergy Analysis",
+            "Gas Power, Vapor Power, and Combined Thermodynamic Cycles",
+            "Gas Mixtures, Psychrometrics, and Reactive Systems"
+          ]
+        },
+        {
+          "id": "fluid-mechanics",
+          "title": "Fluid Mechanics",
+          "subtitle": "Fluid Statics, Control Volume Conservation, Navier-Stokes, Dimensional Analysis, Pipe Flow & Boundary Layers",
+          "status": "AVAILABLE",
+          "url": "fluid-mechanics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering fluid statics, manometry, Reynolds transport theorem, Bernoulli and energy equations, differential Navier-Stokes formulations, Buckingham Pi dimensional analysis, laminar and turbulent internal pipe flows, and external aerodynamics with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Fluid Properties, Dimensional Analysis and Continuum Mechanics",
+            "Fluid Statics and Hydrostatic Forces",
+            "Fluid Kinematics and Conservation of Mass",
+            "Momentum, Mechanical Energy and Bernoulli Analysis",
+            "Viscous Internal Flow and Pipe Networks",
+            "External Flow, Boundary Layers and Lift/Drag",
+            "Pumps, Turbomachinery and Open-Channel Flow",
+            "Applied Flow Measurement, CFD and Engineering Verification"
+          ]
+        },
+        {
+          "id": "manufacturing-processes",
+          "title": "Manufacturing Processes",
+          "subtitle": "Metal Casting, Bulk Deformation, Machining & Metal Cutting, Additive Manufacturing, Joining & Metrology",
+          "status": "AVAILABLE",
+          "url": "manufacturing-processes.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering sand and investment casting, Chvorinov solidification, rolling, forging, extrusion, orthogonal metal cutting, tool wear models, additive manufacturing, fusion welding, dimensional metrology, and statistical quality control with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Manufacturing Systems and Process Selection",
+            "Casting, Molding and Solidification",
+            "Bulk Deformation and Metal Forming",
+            "Material Removal and Surface Engineering",
+            "Powder, Additive and Advanced Manufacturing",
+            "Polymers, Ceramics and Joining",
+            "Heat Treatment, Coatings and Precision Assembly",
+            "Process Control, Metrology and Sustainable Production"
+          ]
+        }
+      ]
+    }
   ]
 };
