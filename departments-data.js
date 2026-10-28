@@ -3374,6 +3374,101 @@ window.LIBRARY_CATALOG = {
             "Emissions, Aftertreatment and Experimental Measurement",
             "Engine Systems, Alternative Fuels and Integrated Design"
           ]
+        },
+        {
+          "id": "turbomachinery",
+          "title": "Turbomachinery",
+          "subtitle": "Euler Turbine Equation, Velocity Triangles, Axial/Radial Pumps, Compressors, Steam & Gas Turbines",
+          "status": "AVAILABLE",
+          "url": "turbomachinery.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering angular momentum principles, velocity triangles, centrifugal pump cavitation, axial compressor surge and stall, impulse and reaction steam/gas turbine stages, and dimensionless performance scaling with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Foundations of Energy Transfer in Rotating Flow",
+            "Centrifugal Pumps, Fans and Hydraulic Systems",
+            "Axial Compressors and Aerodynamic Stability",
+            "Centrifugal Compressors and Diffusers",
+            "Gas and Steam Turbines",
+            "Hydraulic Turbines and Renewable Power",
+            "Rotor Dynamics, Blades and Mechanical Reliability",
+            "Performance Testing, Controls and Sustainable Operations"
+          ]
+        },
+        {
+          "id": "refrigeration-and-air-conditioning",
+          "title": "Refrigeration and Air Conditioning",
+          "subtitle": "Vapor Compression, Absorption, Psychrometrics, Cooling/Heating Load Estimation & HVAC Controls",
+          "status": "AVAILABLE",
+          "url": "refrigeration-and-air-conditioning.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering vapor-compression and absorption refrigeration, refrigerant thermodynamics, psychrometric process analysis, building heating/cooling load calculations, air distribution, and HVAC energy management with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Thermal Comfort, Energy Balances and Refrigeration Fundamentals",
+            "Refrigeration Cycles and Thermodynamic Performance",
+            "Refrigerants, Compressors and Heat Exchangers",
+            "Moist Air, Psychrometrics and Air Treatment",
+            "Building Cooling and Heating Load Calculations",
+            "Ventilation, Air Distribution and Indoor Air Quality",
+            "HVAC System Architectures, Controls and Energy Analysis",
+            "Integrated Design, Commissioning and Sustainability"
+          ]
+        },
+        {
+          "id": "power-plant-engineering",
+          "title": "Power Plant Engineering",
+          "subtitle": "Supercritical Rankine Cycles, Combined Cycle Gas Turbines, Nuclear, Boilers, Cooling Towers & Economics",
+          "status": "AVAILABLE",
+          "url": "power-plant-engineering.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering supercritical steam cycles, combined cycle gas turbines, steam generators, nuclear thermal balance, cooling towers, emissions abatement, and levelized electricity cost optimization with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Power-Plant Architecture and Energy Accounting",
+            "Steam-Cycle Power Generation",
+            "Fuels, Combustion and Gas-Turbine Cycles",
+            "Combined Cycles and Cogeneration",
+            "Cooling Systems, Water and Environmental Constraints",
+            "Nonfossil Generation and Hybrid Power Systems",
+            "Generators, Electrical Integration and Plant Controls",
+            "Reliability, Economics and Responsible Plant Design"
+          ]
+        },
+        {
+          "id": "control-systems-engineering",
+          "title": "Control Systems Engineering",
+          "subtitle": "Transfer Functions, Block Diagrams, Routh-Hurwitz, Root Locus, Bode/Nyquist Stability & State-Space",
+          "status": "AVAILABLE",
+          "url": "control-systems-engineering.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering linear dynamic system modeling, transient response, Routh-Hurwitz stability, root locus synthesis, Bode and Nyquist frequency-domain methods, PID compensation, and state-space modern control with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Modeling, Feedback, and Control Architecture",
+            "Time Response and Performance Specifications",
+            "Stability, Error, and Robustness",
+            "Frequency-Domain Analysis",
+            "PID, Compensation and Practical Tuning",
+            "State-Space and Modern Control",
+            "Digital Control and Implementation",
+            "Engineering Applications and Verification"
+          ]
+        },
+        {
+          "id": "automotive-engineering",
+          "title": "Automotive Engineering",
+          "subtitle": "Vehicle Dynamics, Aerodynamic Drag, Powertrain Matching, Braking, Steering, Suspension & EV Powertrains",
+          "status": "AVAILABLE",
+          "url": "automotive-engineering.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering longitudinal road resistance, powertrain gear matching, dynamic braking weight transfer, tire lateral slip, bicycle handling models, suspension ride frequencies, and battery EV powertrain architectures with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Vehicle Architecture, Requirements and Road Loads",
+            "Longitudinal Vehicle Dynamics and Performance",
+            "Engines, Transmissions and Driveline Integration",
+            "Braking Systems, Tires and Regenerative Braking",
+            "Steering, Handling and Vehicle Stability",
+            "Suspension, Ride Comfort and NVH",
+            "Electric and Hybrid Vehicle Energy Systems",
+            "Automotive Controls, Safety and Validation"
+          ]
         }
       ]
     }
