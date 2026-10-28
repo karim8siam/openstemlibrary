@@ -3469,6 +3469,101 @@ window.LIBRARY_CATALOG = {
             "Electric and Hybrid Vehicle Energy Systems",
             "Automotive Controls, Safety and Validation"
           ]
+        },
+        {
+          "id": "finite-element-analysis-and-computational-mechanics",
+          "title": "Finite Element Analysis and Computational Mechanics",
+          "subtitle": "Variational Methods, 1D/2D Elements, Isoparametric Formulations, Plate Bending, Dynamics & Non-Linear FEA",
+          "status": "AVAILABLE",
+          "url": "finite-element-analysis-and-computational-mechanics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering variational formulations, 1D bar and beam elements, 2D plane elasticity, isoparametric mapping, Gauss quadrature, dynamic modal extraction, and nonlinear iterations with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Mathematical Foundations and the Finite Element Idea",
+            "Truss, Beam, Frame and Structural Elements",
+            "Two-Dimensional Elasticity and Shape Functions",
+            "Meshing, Numerical Integration and Convergence",
+            "Three-Dimensional Solids and Material Modeling",
+            "Heat Transfer, Thermomechanics and Coupled Fields",
+            "Dynamic, Nonlinear and Stability Analysis",
+            "Verification, Validation, Uncertainty and Reporting"
+          ]
+        },
+        {
+          "id": "mechatronics-engineering",
+          "title": "Mechatronics Engineering",
+          "subtitle": "Sensor Transducers, Actuators, Power Electronics, Microcontrollers, PLC Interfaces & Motion Control",
+          "status": "AVAILABLE",
+          "url": "mechatronics-engineering.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering sensor transduction, operational amplifier signal conditioning, DC/stepper motor electromechanics, H-bridge PWM drives, microcontroller embedded architecture, industrial communication buses, and digital servo control with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "System Architecture and Multidisciplinary Design",
+            "Sensors, Signals and Measurement",
+            "Actuators, Drives and Power Electronics",
+            "Embedded Computing and Industrial Interfaces",
+            "Feedback Control and Estimation",
+            "Robotics, Kinematics and Motion Planning",
+            "Integration, Diagnostics and Verification",
+            "Integrated Mechatronic Applications"
+          ]
+        },
+        {
+          "id": "robotics-and-automation",
+          "title": "Robotics and Automation",
+          "subtitle": "Spatial Transformations, Forward/Inverse Kinematics, Jacobians, Dynamics, Path Planning & Industrial Cells",
+          "status": "AVAILABLE",
+          "url": "robotics-and-automation.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering spatial rotation matrices, Denavit-Hartenberg conventions, forward and inverse manipulator kinematics, Jacobian singularities, Lagrangian multi-body dynamics, polynomial trajectory generation, and industrial cell automation with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Robot Architecture, Workcells and Requirements",
+            "Manipulators and Robot Kinematics",
+            "Robot Dynamics, Actuation and Contacts",
+            "Motion Planning and Trajectory Generation",
+            "Mobile Robotics, Localization and Mapping",
+            "Perception, Navigation and Decision-Making",
+            "Industrial Automation, Integration and Reliability",
+            "Research Frontiers, Ethics and Capstone Design"
+          ]
+        },
+        {
+          "id": "engineering-reliability-and-maintenance",
+          "title": "Engineering Reliability and Maintenance",
+          "subtitle": "Failure Distributions, MTTF, Weibull Analysis, Markov Systems, FMEA, RCM & Condition Monitoring",
+          "status": "AVAILABLE",
+          "url": "engineering-reliability-and-maintenance.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering hazard functions, Weibull failure parameter estimation, series/parallel and standby system dependability, Markov availability modeling, FMEA risk ranking, Fault Tree minimal cut sets, and predictive maintenance with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Reliability Engineering Fundamentals",
+            "Failure-Time Statistics and Data Quality",
+            "System Reliability and Dependability Modeling",
+            "Failure Mechanisms and Root-Cause Methods",
+            "Maintenance Strategy and Condition Monitoring",
+            "Maintenance Data, Spares and Economic Optimization",
+            "Reliability Test Programs, Design for Maintainability and Safety",
+            "Integrated Asset Reliability Cases and Decision Reporting"
+          ]
+        },
+        {
+          "id": "mechanical-systems-design-and-optimization",
+          "title": "Mechanical Systems Design and Optimization",
+          "subtitle": "System Architecture, Multidisciplinary Design Optimization (MDO), Gradient Methods, Pareto Fronts & Robust Design",
+          "status": "AVAILABLE",
+          "url": "mechanical-systems-design-and-optimization.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering system decomposition, KKT optimality conditions, gradient and Newton optimization, sequential quadratic programming, multidisciplinary co-design, multi-objective Pareto frontiers, and Taguchi robust parameter optimization with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Engineering Requirements and System Architecture",
+            "Physics-Based Modeling and Digital Engineering",
+            "Optimization Methods and Design Tradeoffs",
+            "Structural, Thermal and Fluid Co-Design",
+            "Dynamics, Control and Mechatronic Integration",
+            "Manufacturing, Supply Chain and Sustainable Design",
+            "Uncertainty, Robustness, Testing and Reliability",
+            "Integrated Capstone and Engineering Decision-Making"
+          ]
         }
       ]
     }
