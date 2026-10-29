@@ -18,7 +18,13 @@ input.addEventListener('input',update);update();}}
     container.innerHTML = '';
     
     var unitNum = 1;
-    var mMatch = simType.match(/(\d+)$/);
+    var mMatch = (simType || '').match(/(\d+)$/);
+    if (!mMatch && typeof document !== 'undefined') {
+      var bIdx = document.body.dataset.chapterIndex;
+      if (bIdx !== undefined && bIdx !== null && bIdx !== '') {
+        unitNum = parseInt(bIdx, 10) + 1;
+      }
+    }
     if (mMatch) unitNum = parseInt(mMatch[1], 10);
     
     if (typeof MODELS === 'undefined' || !Array.isArray(MODELS)) {

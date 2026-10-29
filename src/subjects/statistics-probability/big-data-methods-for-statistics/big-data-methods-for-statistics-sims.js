@@ -456,8 +456,12 @@
     </svg>`;
   }
 
-  function initSimulation(el){
-    const simType = el.getAttribute('data-sim');
+  function initSimulation(el, type){
+    if(typeof document === 'undefined') return;
+    const host = typeof el === 'string' ? document.getElementById(el) : el;
+    if(!host) return;
+    const simType = type || (host.getAttribute ? host.getAttribute('data-sim') : null) || 'bigdata-dim-concentration';
+    el = host;
     let controls = '';
 
     if(simType === 'bigdata-dim-concentration'){

@@ -141,7 +141,7 @@ function bool(v){return v?'T':'F'}
 function parseBool(name){const e=document.querySelector(`[name="${name}"]`);return !!(e&&e.checked)}
 function select(name){const e=document.querySelector(`[name="${name}"]`);return e?e.value:''}
 function inputHtml(labels){return '<div class="inputgrid">'+labels.map(([key,label,checked])=>`<label><input type="checkbox" name="${key}" ${checked?'checked':''}>${label}</label>`).join('')+'</div>'}
-function text(html){$('#output').innerHTML=html}
+function text(html){const el=$('#output');if(el)el.innerHTML=html;}
 function update(){let t=document.body.dataset.type;
  if(t==='validity'){
   let mode=select('inference'),rows=[],bad=[];for(let p of [false,true])for(let q of [false,true]){let a=!p||q,b=mode==='mp'?p:q,c=mode==='mp'?q:p,v=a&&b&&!c;rows.push([bool(p),bool(q),bool(a),bool(b),bool(c),v?'COUNTERMODEL':'—']);if(v)bad.push([p,q])}text(table(['P','Q','P→Q','Second premise','Conclusion','Invalidating row'],rows)+(bad.length?'<p class="no">Invalid: a displayed countermodel makes the premises true and conclusion false.</p>':'<p class="ok">Valid: exhaustive search found no countermodel.</p>'))}

@@ -248,7 +248,9 @@ case 'graph': {
  `Connected by any finite positive path is the transitive closure of adjacency. A direct edge need not exist.`];break;}
 default:heading='Unknown model';out=['No calculation available.'];
 }
-const target=document.getElementById('output');target.replaceChildren();
+const target=document.getElementById('output');
+if(!target)return;
+target.replaceChildren();
 const title=document.createElement('h2');title.textContent=heading;target.append(title);
 const ul=document.createElement('ul');for(const line of out){const li=document.createElement('li');li.textContent=line;ul.append(li);}target.append(ul);
 const foot=document.createElement('p');foot.className='small';foot.textContent=notes;target.append(foot);

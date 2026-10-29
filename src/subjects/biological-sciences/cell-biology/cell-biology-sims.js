@@ -66,7 +66,9 @@
   }
 
   function buildCard(element,modelId){
-    const d=definitions.find(s=>s.key===modelId);if(!d)throw new Error(modelId);
+    const targetKey = (typeof modelId === 'string' ? modelId.replace(/^cell-/, '').replace(/-\d+$/, '') : '') || (definitions[0] && definitions[0].key);
+    const d=definitions.find(s=>s.key===modelId || s.key===targetKey) || definitions[0];
+    if(!d) return;
     element.classList.add("simulator");element.innerHTML='';
     const heading=document.createElement('h4');heading.textContent=d.name;element.appendChild(heading);
     const aside=document.createElement('p');aside.className='sim-limit';aside.textContent='Model assumption: '+d.limit;element.appendChild(aside);
@@ -78,7 +80,7 @@
       r.step=(max-min)<=1?'0.001':(max-min)<=10?'0.01':'0.1';r.value=val;
       r.setAttribute('aria-label',label);wrap.appendChild(r);controls.appendChild(wrap);return {r,txt,val};
     };
-    const a=mk(d.xlabel,d.xmin,d.xmax,d.xinit,'x-'+modelId),b=mk(d.plabel,d.pmin,d.pmax,d.pinit,'p-'+modelId);
+    const a=mk(d.xlabel,d.xmin,d.xmax,d.xinit,'x-'+d.key),b=mk(d.plabel,d.pmin,d.pmax,d.pinit,'p-'+d.key);
     const readout=document.createElement('p');readout.className='sim-readout';readout.setAttribute('aria-live','polite');element.appendChild(readout);
     const fig=document.createElement('div');fig.className='figure';element.appendChild(fig);
     const sketch=document.createElement('div');sketch.className='figure schematic';element.appendChild(sketch);
@@ -86,22 +88,22 @@
     let count=0;
     function draw(){
       const xv=Number(a.r.value),pv=Number(b.r.value);a.txt.textContent=xv.toPrecision(4);b.txt.textContent=pv.toPrecision(4);
-      const current=value(modelId,xv,pv);readout.textContent='Predicted output: '+Number(current.toPrecision(6))+' '+d.unit;
-      const vals=[];for(let i=0;i<=64;i++){const x=d.xmin+(d.xmax-d.xmin)*i/64;vals.push(value(modelId,x,pv));}
+      const current=value(d.key,xv,pv);readout.textContent='Predicted output: '+Number(current.toPrecision(6))+' '+d.unit;
+      const vals=[];for(let i=0;i<=64;i++){const x=d.xmin+(d.xmax-d.xmin)*i/64;vals.push(value(d.key,x,pv));}
       let low=Math.min(...vals,current),high=Math.max(...vals,current);if(Math.abs(high-low)<1e-12){high+=1;low-=1;}
       const fx=i=>55+535*i/64, fy=v=>185-145*(v-low)/(high-low);
       const path=vals.map((v,i)=>(i?'L':'M')+fx(i).toFixed(2)+' '+fy(v).toFixed(2)).join(' ');
       const xdot=55+535*(xv-d.xmin)/(d.xmax-d.xmin);
       const ydot=fy(current);
       fig.innerHTML='<svg role="img" aria-label="Interactive curve for '+d.name+'; marker is current choice" viewBox="0 0 620 230" xmlns="http://www.w3.org/2000/svg"><title>'+d.name+' model output</title><rect x="0" y="0" width="620" height="230" fill="#0c1627" rx="8"/><path d="M55 25 V185 H590" stroke="#7f8ba4" fill="none" stroke-width="1.2"/><path d="'+path+'" stroke="#38bdf8" fill="none" stroke-width="3"/><circle cx="'+xdot.toFixed(2)+'" cy="'+ydot.toFixed(2)+'" r="5.8" fill="#fbbf24" stroke="#fff" stroke-width="1.2"/><text x="55" y="207" fill="#d6e7f7" font-size="13">'+d.xmin+'</text><text x="568" y="207" fill="#d6e7f7" font-size="13">'+d.xmax+'</text><text x="18" y="33" fill="#d6e7f7" font-size="12">'+Number(high.toPrecision(3))+'</text><text x="18" y="183" fill="#d6e7f7" font-size="12">'+Number(low.toPrecision(3))+'</text><text x="240" y="225" fill="#d6e7f7" font-size="12">'+d.xlabel+'</text></svg>';
-      sketch.innerHTML=schematicSvg(modelId,xv,pv,current);
+      sketch.innerHTML=schematicSvg(d.key,xv,pv,current);
       element.dataset.renders=String(++count);
     }
     a.r.addEventListener('input',draw);b.r.addEventListener('input',draw);
     reset.addEventListener('click',()=>{a.r.value=d.xinit;b.r.value=d.pinit;draw();});draw();
   }
   const api={definitions,value,buildCard};global.CellModels=api;
-  root.OpenSTEMCellSims = api; if(typeof module!=='undefined'&&module.exports)module.exports=api;
+  global.OpenSTEMCellSims = api; if(typeof module!=='undefined'&&module.exports)module.exports=api;
   if(typeof document!=='undefined')document.addEventListener('DOMContentLoaded',()=>document.querySelectorAll('[data-cell-model]').forEach(el=>buildCard(el,el.dataset.cellModel)));
 })(typeof window==='undefined'?globalThis:window);
 

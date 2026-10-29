@@ -170,7 +170,7 @@ case 'datalog': {let R=relation(3), [C,steps]=closure(R),two=R.some((row,k)=>R[0
 case 'policy': {let assigned=yes('assigned'),eligible=yes('eligible'),consent=yes('consent'),cap=yes('capacity'),pass=!assigned||(eligible&&consent&&cap);title='Synthetic policy invariant';lines=[`Assigned(s,p) → (Eligible(s,p) ∧ Consented(s,p) ∧ CapacityAvailable(p)): ${flag(pass)}`,assigned?'An active assignment must satisfy every prerequisite.':'No assignment is present: the implication is true, but no matching activity is established.','All entries are illustrative toggles; they are not authenticated approvals or a production entitlement decision.'];break;}
 default: {title='Unsupported example';lines=['No computation is defined for this model.'];}
 }
-$('#output').innerHTML='<h2>'+title+'</h2><ul>'+lines.map(s=>'<li>'+s+'</li>').join('')+'</ul><p class="small">Computed locally with the declared finite example; academic review pending.</p>';
+const outEl=$('#output');if(outEl)outEl.innerHTML='<h2>'+title+'</h2><ul>'+lines.map(s=>'<li>'+s+'</li>').join('')+'</ul><p class="small">Computed locally with the declared finite example; academic review pending.</p>';
 }
 run();
 document.querySelectorAll('#controls input, #controls select').forEach(el=>el.addEventListener('change',run));

@@ -113,6 +113,22 @@ function prepare(html, filename, book, index) {
     if (brandTitle && book.title) brandTitle.textContent = book.title;
     const badgeCourse = doc.querySelector('.badge-course');
     if (badgeCourse && bookDept.name) badgeCourse.textContent = bookDept.name;
+    const badgeCredits = doc.querySelector('.badge-credits');
+    if (badgeCredits) badgeCredits.textContent = `${bookDept.name} major`;
+
+    if (book.id !== 'statistical-simulation-and-monte-carlo-methods') {
+      const statNote = doc.querySelector('.stat-editorial-note');
+      if (statNote) {
+        statNote.innerHTML = `<strong>About this textbook.</strong> Original English teaching material for university ${book.title} study. Eight units with verified worked problems and 16 interactive simulations illustrating fundamental principles and core applications. Numerical checks and an editorial review support this edition.`;
+      }
+      const footer = doc.querySelector('.reader-trust-footer');
+      if (footer) {
+        const siblings = bookDept.courses.filter(c => c.status === 'AVAILABLE' && c.id !== book.id).slice(0, 5);
+        const sibLinks = siblings.map(s => `<a href="${s.url.replace(/\.html$/, '')}">${s.title}</a>`).join('');
+        footer.innerHTML = `<nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-${bookDept.id}">${bookDept.name} Department</a>${sibLinks}<a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p>`;
+      }
+    }
+
     for (const script of doc.querySelectorAll('script[type="application/ld+json"]')) {
       try {
         const data = JSON.parse(script.textContent);
@@ -128,6 +144,12 @@ function prepare(html, filename, book, index) {
             bookItem.item = `https://openstemlibrary.com/${book.url.replace(/\.html$/, '')}`;
           }
           script.textContent = JSON.stringify(data);
+        } else if (data['@type'] === 'Book' && book.id !== 'statistical-simulation-and-monte-carlo-methods') {
+          if (data.about && Array.isArray(data.about) && data.about.includes('Statistical Simulation')) {
+            data.about = [book.title, bookDept.name, 'Undergraduate STEM Curriculum', 'Worked Problems', 'Interactive Simulations'];
+            data.keywords = `${book.title}, ${bookDept.name}, STEM, University Textbook, Open Education`;
+            script.textContent = JSON.stringify(data);
+          }
         }
       } catch (e) {}
     }

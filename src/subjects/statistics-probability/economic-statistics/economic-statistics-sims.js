@@ -238,8 +238,12 @@
   }
 
   // --- CONTROLLER INITIALIZATION ---
-  function initSimulation(el){
-    const type = el.dataset.sim;
+  function initSimulation(el, simType){
+    if(typeof document === 'undefined') return;
+    const host = typeof el === 'string' ? document.getElementById(el) : el;
+    if(!host) return;
+    const type = simType || host.dataset?.sim || 'econ-index-axioms';
+    el = host;
     let controls = '', initial = [];
 
     if(type === 'econ-index-axioms'){

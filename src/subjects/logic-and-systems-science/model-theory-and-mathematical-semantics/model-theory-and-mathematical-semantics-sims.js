@@ -171,10 +171,12 @@
  }
  if(typeof module!=='undefined'&&module.exports){module.exports={calculate};return;}
  function display(){
+ const out=document.getElementById('output');
+ if(!out) return;
  const mode=document.body.dataset.kind;
- const num=id=>Number(document.getElementById(id).value);
+ const num=id=>{const el=document.getElementById(id);return el?Number(el.value):0;};
  const result=calculate(mode,num('n'),num('a'),num('b'));
- const out=document.getElementById('output');out.replaceChildren();
+ out.replaceChildren();
  const h=document.createElement('h2');h.textContent=result.title;out.append(h);
  const ol=document.createElement('ol');for(const row of result.rows){const li=document.createElement('li');li.textContent=row;ol.append(li);}out.append(ol);
  }

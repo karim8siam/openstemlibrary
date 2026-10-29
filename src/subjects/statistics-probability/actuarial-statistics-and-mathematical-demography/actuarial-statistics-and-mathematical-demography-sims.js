@@ -404,7 +404,7 @@
           values = {
             'Endowment Annual Net Premium': fmt(m.annualPremium),
             'Whole Life Annual Net Premium': fmt(m.wholePremium),
-            'Mid-Term Reserve (t=' + Math.floor(get('termYears')/2) + ')': fmt(m.midReserve),
+            ['Mid-Term Reserve (t=' + Math.floor(get('termYears')/2) + ')']: fmt(m.midReserve),
             'Terminal Maturity Reserve': fmt(m.maturityReserve)
           };
           plot = chart([

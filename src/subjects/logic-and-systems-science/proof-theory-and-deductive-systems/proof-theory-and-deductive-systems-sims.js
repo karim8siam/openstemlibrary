@@ -138,7 +138,7 @@
 (()=>{
  const input=(name,defaultValue)=>{const e=document.querySelector(`[name="${name}"]`);const n=Number(e?.value);return Number.isFinite(n)?Math.trunc(n):defaultValue};
  const clamp=(x,lo,hi)=>Math.max(lo,Math.min(hi,x));
- const show=(title,lines)=>{const e=document.getElementById('output');e.replaceChildren();const h=document.createElement('h2');h.textContent=title;e.append(h);const ul=document.createElement('ol');for(const l of lines){const li=document.createElement('li');li.textContent=l;ul.append(li);}e.append(ul);};
+ const show=(title,lines)=>{const e=document.getElementById('output');if(!e)return;e.replaceChildren();const h=document.createElement('h2');h.textContent=title;e.append(h);const ul=document.createElement('ol');for(const l of lines){const li=document.createElement('li');li.textContent=l;ul.append(li);}e.append(ul);};
  const calculate=()=>{
  const mode=document.body.dataset.kind;
  const n=clamp(input('n',3),1,8),a=clamp(input('a',3),0,255),b=clamp(input('b',2),0,255);

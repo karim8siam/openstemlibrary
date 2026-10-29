@@ -56,7 +56,9 @@ function schematic(key,x,p,y){
  return `<svg viewBox="0 0 600 130" role="img" aria-label="Molecular mechanism schematic: ${groups[key]}" xmlns="http://www.w3.org/2000/svg"><title>Conceptual molecular state diagram</title><rect width="600" height="130" rx="11" fill="${dark}"/>${fig}</svg>`;
 }
 function buildCard(host,key){
- const d=definitions.find(d=>d.key===key);if(!d)throw new RangeError(key);
+ const targetKey = (typeof key === 'string' ? key.replace(/^molecular-/, '').replace(/-\d+$/, '') : '') || (definitions[0] && definitions[0].key);
+ const d=definitions.find(d=>d.key===key || d.key===targetKey) || definitions[0];
+ if(!d) return;
  host.className='simulator';host.innerHTML='';host.appendChild(el('h4','',d.name));
  host.appendChild(el('p','sim-limit','Model assumptions: '+d.limit));
  const ctl=el('div','control-grid');host.appendChild(ctl);
@@ -70,20 +72,20 @@ function buildCard(host,key){
  const svgMount=el('div','figure');host.appendChild(svgMount);
  const diagram=el('div','figure mechanism');host.appendChild(diagram);
  const reset=el('button','secondary','Reset model');reset.type='button';host.appendChild(reset);
- function draw(){const x=Number(a.r.value),p=Number(b.r.value),y=value(key,x,p);a.out.textContent=Number(x.toPrecision(5)).toString();b.out.textContent=Number(p.toPrecision(5)).toString();
+ function draw(){const x=Number(a.r.value),p=Number(b.r.value),y=value(d.key,x,p);a.out.textContent=Number(x.toPrecision(5)).toString();b.out.textContent=Number(p.toPrecision(5)).toString();
    readout.textContent='Modeled output: '+Number(y.toPrecision(7))+' '+d.unit;
-   const ys=[],n=72;for(let i=0;i<=n;i++){const xx=d.xmin+(d.xmax-d.xmin)*i/n;ys.push(value(key,xx,p));}
+   const ys=[],n=72;for(let i=0;i<=n;i++){const xx=d.xmin+(d.xmax-d.xmin)*i/n;ys.push(value(d.key,xx,p));}
    let lo=Math.min(...ys,y),hi=Math.max(...ys,y);if(hi-lo<1e-10){lo-=1;hi+=1;}const pad=(hi-lo)*.07;lo-=pad;hi+=pad;
    const fy=q=>190-154*(q-lo)/(hi-lo),fx=t=>58+520*t;
    const path=ys.map((q,i)=>(i?'L':'M')+fx(i/n).toFixed(2)+' '+fy(q).toFixed(2)).join(' ');
    const xx=fx((x-d.xmin)/(d.xmax-d.xmin)),yy=fy(y);
    svgMount.innerHTML=`<svg viewBox="0 0 610 235" role="img" aria-label="Dynamic model curve for ${d.name}" xmlns="http://www.w3.org/2000/svg"><title>${d.name}: model output against ${d.xlabel}</title><rect width="610" height="235" rx="10" fill="#0d2035"/><path d="M58 28V190H580" stroke="#9db4ca" stroke-width="1.5" fill="none"/><path d="${path}" fill="none" stroke="#38bdf8" stroke-width="3.2"/><circle cx="${xx.toFixed(2)}" cy="${yy.toFixed(2)}" r="7" fill="#fbbf24" stroke="#fff" stroke-width="1"/><text x="10" y="32" font-size="11" fill="#ecf7ff">${Number(hi.toPrecision(3))}</text><text x="10" y="190" font-size="11" fill="#ecf7ff">${Number(lo.toPrecision(3))}</text><text x="60" y="211" font-size="11" fill="#ecf7ff">${d.xmin}</text><text x="546" y="211" font-size="11" fill="#ecf7ff">${d.xmax}</text><text x="210" y="229" font-size="12" fill="#ecf7ff">${d.xlabel}</text></svg>`;
-   diagram.innerHTML=schematic(key,x,p,y);host.dataset.renderCount=String(1+Number(host.dataset.renderCount||0));
+   diagram.innerHTML=schematic(d.key,x,p,y);host.dataset.renderCount=String(1+Number(host.dataset.renderCount||0));
  }
  a.r.addEventListener('input',draw);b.r.addEventListener('input',draw);reset.addEventListener('click',()=>{a.r.value=String(a.initial);b.r.value=String(b.initial);draw();});draw();
 }
 const api={definitions,value,buildCard};global.MolecularModels=api;
-root.OpenSTEMMolecularSims = api; if(typeof module!=='undefined'&&module.exports)module.exports=api;
+global.OpenSTEMMolecularSims = api; if(typeof module!=='undefined'&&module.exports)module.exports=api;
 if(typeof document!=='undefined'){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>document.querySelectorAll('[data-molecular-model]').forEach(node=>buildCard(node,node.dataset.molecularModel)));else document.querySelectorAll('[data-molecular-model]').forEach(node=>buildCard(node,node.dataset.molecularModel));}
 })(typeof window==='undefined'?globalThis:window);
 
