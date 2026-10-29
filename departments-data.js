@@ -3781,6 +3781,101 @@ window.LIBRARY_CATALOG = {
             "Power System Protection: Overcurrent, Distance, and Differential Relaying",
             "High-Voltage Direct Current (HVDC) Transmission and Flexible AC Transmission Systems (FACTS)"
           ]
+        },
+        {
+          "id": "control-systems-i",
+          "title": "Control Systems I",
+          "subtitle": "Transfer Functions, Block Diagrams, Time-Domain Transient Response, Stability & Frequency-Response Design",
+          "status": "AVAILABLE",
+          "url": "control-systems-i.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering mathematical modeling of physical systems, transfer functions, block diagrams, time-domain transient and steady-state responses, Routh-Hurwitz stability, root locus techniques, frequency-response analysis (Bode and Nyquist), and lead-lag controller synthesis with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Introduction to Feedback and Physical System Mathematical Modeling",
+            "Transfer Functions, Block Diagram Algebra, and Signal Flow Graphs",
+            "Time-Domain Performance of First- and Second-Order Systems",
+            "Routh-Hurwitz Stability Criterion and Steady-State Error Analysis",
+            "Root Locus Analysis, Sketching Rules, and Parameter Sensitivity",
+            "Frequency-Response Techniques: Bode Plots and Relative Stability Margins",
+            "Nyquist Stability Criterion, Polar Plots, and Cauchy Principle",
+            "Classical Lead, Lag, and PID Controller Design in Frequency Domain"
+          ]
+        },
+        {
+          "id": "control-systems-ii",
+          "title": "Control Systems II",
+          "subtitle": "State-Space Methods, Controllability, Observability, Full-State Feedback, Observers, LQR & Digital Control",
+          "status": "AVAILABLE",
+          "url": "control-systems-ii.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering continuous and discrete state-space representations, state transition matrices, controllability, observability, full-state feedback pole placement, observer synthesis, LQR optimal control, discrete-time state systems, and Lyapunov stability with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "State-Space Representations of Continuous Dynamic Systems",
+            "State Transition Matrix, Homogeneous and Forced Time Solutions",
+            "Controllability, Observability, and Kalman Canonical Decompositions",
+            "Full-State Feedback Controller Design and Pole Placement via Ackermann",
+            "Full-Order and Reduced-Order State Observer Synthesis",
+            "Linear Quadratic Regulator (LQR) Optimal Control and Algebraic Riccati Equations",
+            "Discrete-Time State-Space Systems, Z-Transform State Equations, and Deadbeat Control",
+            "Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions"
+          ]
+        },
+        {
+          "id": "communication-systems-i",
+          "title": "Communication Systems I",
+          "subtitle": "Analog Modulation (AM, FM, PM), Noise Analysis, Pulse Modulation (PAM, PCM) & Baseband Transmission",
+          "status": "AVAILABLE",
+          "url": "communication-systems-i.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering continuous-wave analog modulation (AM, FM, PM), superheterodyne receiver architectures, thermal noise analysis, SNR derivations, sampling theorems, pulse code modulation (PCM), and baseband transmission with Nyquist pulse shaping with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Signals, Spectral Analysis, and Baseband Transmission Channels",
+            "Amplitude Modulation: DSB-FC, DSB-SC, SSB, and VSB Schemes",
+            "Angle Modulation: Frequency Modulation (FM), Phase Modulation (PM), and Carson Rule",
+            "Superheterodyne Receiver Architectures, Mixing, and Selectivity",
+            "Noise in Analog Continuous-Wave Communication Systems (SNR, Noise Figure)",
+            "Sampling Theorem, Pulse Amplitude Modulation (PAM), and Time-Division Multiplexing",
+            "Pulse Code Modulation (PCM), Uniform and Non-Uniform Quantization (A-Law, Mu-Law)",
+            "Digital Baseband Transmission, Inter-Symbol Interference (ISI), and Nyquist Criterion"
+          ]
+        },
+        {
+          "id": "communication-systems-ii",
+          "title": "Communication Systems II",
+          "subtitle": "Digital Passband Modulation (BPSK, QPSK, M-QAM), Information Theory, Entropy & Error-Control Coding",
+          "status": "AVAILABLE",
+          "url": "communication-systems-ii.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering geometric signal representation, matched filtering, coherent and non-coherent digital passband modulation (BPSK, QPSK, M-QAM), source coding and entropy, Shannon channel capacity, linear block codes, and convolutional error-control codes with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Geometric Representation of Signals, Gram-Schmidt Orthogonalization, and Vector AWGN",
+            "Binary Passband Signaling: BASK, BFSK, BPSK, and Coherent Matched Filters",
+            "M-ary Passband Modulation: QPSK, M-PSK, M-QAM, and Constellation Geometry",
+            "Non-Coherent Detection, Differential Phase Shift Keying (DPSK), and Continuous-Phase FSK",
+            "Information Measure, Source Entropy, Shannon-Fano, and Huffman Source Coding",
+            "Channel Capacity, Mutual Information, and Shannon Noisy-Channel Coding Theorem",
+            "Linear Block Error-Correcting Codes: Generator and Parity-Check Matrices, Syndrome Decoding",
+            "Convolutional Codes, Trellis Diagrams, Viterbi Decoding Algorithm, and Modern FEC"
+          ]
+        },
+        {
+          "id": "digital-signal-processing",
+          "title": "Digital Signal Processing",
+          "subtitle": "Discrete-Time Systems, Z-Transforms, DFT, FFT Algorithms, FIR/IIR Filter Synthesis & Multirate DSP",
+          "status": "AVAILABLE",
+          "url": "digital-signal-processing.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering discrete-time signals and systems, Z-transforms, DTFT, DFT, FFT decimation algorithms, digital filter realizations, FIR filter design (windowing, Remez), IIR filter synthesis (bilinear transform), coefficient quantization, and multirate DSP with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Discrete-Time Signals, Linear Constant-Coefficient Difference Equations, and Z-Transforms",
+            "Frequency-Domain Analysis: DTFT, Discrete Fourier Transform (DFT), and Properties",
+            "Fast Fourier Transform (FFT) Decimation-in-Time and Decimation-in-Frequency Algorithms",
+            "Structures for Discrete-Time Systems: Direct Form I/II, Cascade, and Parallel Realizations",
+            "Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez",
+            "Infinite Impulse Response (IIR) Filter Design: Bilinear Transformation and Impulse Invariance",
+            "Finite Register Length Effects, Coefficient Quantization, and Roundoff Noise",
+            "Multirate Digital Signal Processing: Decimation, Interpolation, and Filter Banks"
+          ]
         }
       ]
     }
