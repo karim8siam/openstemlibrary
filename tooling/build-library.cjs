@@ -145,7 +145,7 @@ function prepare(html, filename, book, index) {
           }
           script.textContent = JSON.stringify(data);
         } else if (data['@type'] === 'Book' && book.id !== 'statistical-simulation-and-monte-carlo-methods') {
-          if (data.about && Array.isArray(data.about) && data.about.includes('Statistical Simulation')) {
+          if (data.about && Array.isArray(data.about) && (data.about.includes('Statistical Simulation') || data.about.includes('Fundamentals of Materials Science and Engineering') || data.about.some(a => typeof a === 'string' && a.includes('Materials Science')))) {
             data.about = [book.title, bookDept.name, 'Undergraduate STEM Curriculum', 'Worked Problems', 'Interactive Simulations'];
             data.keywords = `${book.title}, ${bookDept.name}, STEM, University Textbook, Open Education`;
             script.textContent = JSON.stringify(data);
@@ -153,6 +153,10 @@ function prepare(html, filename, book, index) {
         }
       } catch (e) {}
     }
+  }
+  const probSec = doc.querySelector('.prob-sec-title') || doc.querySelector('#worked-problems-section h2');
+  if (probSec && book.id !== 'statistical-simulation-and-monte-carlo-methods') {
+    probSec.textContent = `Step-by-Step ${book.title} Solutions`;
   }
   const dataScript = [...doc.querySelectorAll('script[src]')].map(el => el.getAttribute('src').split('?')[0]).find(src => /(?:-data|course-data)\.js$/.test(src));
   if (!dataScript) throw Error(`No course data for ${book.url}`);

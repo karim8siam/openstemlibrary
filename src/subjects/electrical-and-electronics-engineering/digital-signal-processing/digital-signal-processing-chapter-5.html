@@ -1,575 +1,398 @@
-<!DOCTYPE html><html lang="en"><head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Comprehensive SEO Meta Tags -->
-  <title>Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez | Digital Signal Processing | OpenSTEM Library</title>
-  <meta name="description" content="Comprehensive university textbook unit covering fundamental principles, mathematical formulations, and practical engineering applications of Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez.">
-
-  <meta name="author" content="Shahriyar Karim Siam">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://openstemlibrary.com/digital-signal-processing-chapter-5">
-
-  <!-- Open Graph / Social Media -->
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="https://openstemlibrary.com/digital-signal-processing-chapter-5">
-  <meta property="og:title" content="Digital Signal Processing: Discrete Systems, DFT, FFT, FIR &amp; IIR Filter Design | OpenSTEM Library">
-  <meta property="og:description" content="Comprehensive university textbook covering discrete-time signals and systems, Z-transforms, DTFT, DFT, FFT decimation algorithms, digital filter realizations, FIR filter design (windowing, Remez), IIR filter synthesis (bilinear transform), coefficient quantization, and multirate DSP with 40 solved questions and 16 interactive simulations.">
-  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Digital Signal Processing: Discrete Systems, DFT, FFT, FIR &amp; IIR Filter Design | OpenSTEM Library">
-  <meta name="twitter:description" content="Comprehensive university textbook covering discrete-time signals and systems, Z-transforms, DTFT, DFT, FFT decimation algorithms, digital filter realizations, FIR filter design (windowing, Remez), IIR filter synthesis (bilinear transform), coefficient quantization, and multirate DSP with 40 solved questions and 16 interactive simulations.">
-  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
-
-  <!-- Favicon & Search Engine Icons -->
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
-  <link rel="icon" type="image/svg+xml" href="logo.svg">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-
-  <!-- Schema.org Educational Course JSON-LD -->
-
-
-
-  <!-- Schema.org Breadcrumb Navigation -->
-
-
-  <!-- Google Fonts: Inter & Fira Code -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
-
-  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-
-  <!-- Application Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Digital Signal Processing: Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez","description":"Comprehensive university textbook covering discrete-time signals and systems, Z-transforms, DTFT, DFT, FFT decimation algorithms, digital filter realizations, FIR filter design (windowing, Remez), IIR filter synthesis (bilinear transform), coefficient quantization, and multirate DSP with 40 solved questions and 16 interactive simulations.","url":"https://openstemlibrary.com/digital-signal-processing-chapter-5","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Fundamentals of Materials Science and Engineering","Materials Science & Engineering","Undergraduate STEM Curriculum","Worked Problems","Interactive Simulations"],"keywords":"Digital Signal Processing, Z-Transform, DFT, FFT, FIR Filters, IIR Filters, Bilinear Transform, Multirate DSP"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Electrical & Electronics Engineering","item":"https://openstemlibrary.com/#dept-electrical-and-electronics-engineering"},{"@type":"ListItem","position":3,"name":"Digital Signal Processing","item":"https://openstemlibrary.com/digital-signal-processing"}]}</script><link rel="stylesheet" href="digital-signal-processing.css"></head>
-<body data-book-path="digital-signal-processing.html" data-chapter-index="4" class="reader-paper" style="--openstem-reader-font-scale: 1;">
-
-  <div class="app-container">
-    <!-- Left Navigation Sidebar -->
-    <aside class="sidebar" aria-label="Book chapters">
-      <div class="brand-header">
-        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
-        <div>
-          <div class="brand-title">Digital Signal Processing</div>
-          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
-        </div>
-      </div>
-
-      <!-- Live Search Filter for SEO / Navigation -->
-      <div class="search-box-container">
-        <input type="text" id="topic-search-input" placeholder="Search PRNG, LCG, Mersenne Twister, inversion method, rejection sampling, Box-Muller, Monte Carlo integration, importance sampling, antithetic variates, Metropolis-Hastings, Gibbs sampler, Hamiltonian Monte Carlo, particle filter…" class="search-input">
-      </div>
-
-      <div class="nav-section-title">Table of Contents</div>
-      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="digital-signal-processing" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Discrete-Time Signals, Linear Constant-Coefficient Difference Equations, and Z-Transforms</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="digital-signal-processing-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Frequency-Domain Analysis: DTFT, Discrete Fourier Transform (DFT), and Properties</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="digital-signal-processing-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Fast Fourier Transform (FFT) Decimation-in-Time and Decimation-in-Frequency Algorithms</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="digital-signal-processing-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Structures for Discrete-Time Systems: Direct Form I/II, Cascade, and Parallel Realizations</span></a></li><li class="unit-nav-item active" data-unit-index="4"><a href="digital-signal-processing-chapter-5" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="digital-signal-processing-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Infinite Impulse Response (IIR) Filter Design: Bilinear Transformation and Impulse Invariance</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="digital-signal-processing-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Finite Register Length Effects, Coefficient Quantization, and Roundoff Noise</span></a></li><li class="unit-nav-item" data-unit-index="7"><a href="digital-signal-processing-chapter-8" class="unit-nav-link"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Multirate Digital Signal Processing: Decimation, Interpolation, and Filter Banks</span></a></li></ul>
-    </aside>
-
-    <!-- Main Content Reader Container -->
-    <main class="main-content">
-      <!-- Top Sticky Navbar -->
-      <header class="top-navbar">
-        <div class="course-badge-container">
-          <span class="badge-pill badge-course">Electrical &amp; Electronics Engineering</span>
-          <span class="badge-pill badge-credits">Electrical &amp; Electronics Engineering major</span>
-          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
-        </div>
-        <div class="navbar-actions">
-          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
-          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
-          <div class="protection-notice">Read freely · Cite responsibly</div>
-        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
-      </header>
-
-      <!-- Content Columns (Wide Centered Reader) -->
-      <div class="content-columns" id="main-content-area">
-        <!-- Center Textbook Article -->
-        <article class="reader-main-column" id="textbook-article">
-          <!-- Chapter Hero Header -->
-          <header class="unit-hero">
-            <div class="unit-number-tag" id="unit-tag">Chapter 5 • Theory &amp; Derivations</div>
-            <h1 class="unit-title-heading" id="unit-title">Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez</h1>
-            <p class="unit-desc-lead" id="unit-desc">Comprehensive university textbook unit covering fundamental principles, mathematical formulations, and practical engineering applications of Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez.</p>
-          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university Digital Signal Processing study. Eight units with verified worked problems and 16 interactive simulations illustrating fundamental principles and core applications. Numerical checks and an editorial review support this edition.</aside>
-
-          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
-          <div id="textbook-sections"><section class="textbook-section-card" id="sec-5-1">
-        <header class="sec-header">
-          <h3 class="sec-title">
-            <span class="sec-num">§5.1</span>
-            <span>Stochastic processes and stationarity</span>
-          </h3>
-        </header>
-        <div class="sec-content">
-          <h4>Unit 5, Lesson 1: Stochastic processes and stationarity</h4>
-
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- Comprehensive SEO Meta Tags -->
+<title>Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez | Digital Signal Processing | OpenSTEM Library</title>
+<meta content="Comprehensive university textbook unit covering fundamental principles, mathematical formulations, and practical engineering applications of Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez." name="description"/>
+<meta content="Shahriyar Karim Siam" name="author"/>
+<meta content="index, follow, max-image-preview:large" name="robots"/>
+<link href="https://openstemlibrary.com/digital-signal-processing-chapter-5" rel="canonical"/>
+<!-- Open Graph / Social Media -->
+<meta content="article" property="og:type"/>
+<meta content="https://openstemlibrary.com/digital-signal-processing-chapter-5" property="og:url"/>
+<meta content="Digital Signal Processing: Discrete Systems, DFT, FFT, FIR &amp; IIR Filter Design | OpenSTEM Library" property="og:title"/>
+<meta content="Comprehensive university textbook covering discrete-time signals and systems, Z-transforms, DTFT, DFT, FFT decimation algorithms, digital filter realizations, FIR filter design (windowing, Remez), IIR filter synthesis (bilinear transform), coefficient quantization, and multirate DSP with 40 solved questions and 16 interactive simulations." property="og:description"/>
+<meta content="https://openstemlibrary.com/og-image.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Digital Signal Processing: Discrete Systems, DFT, FFT, FIR &amp; IIR Filter Design | OpenSTEM Library" name="twitter:title"/>
+<meta content="Comprehensive university textbook covering discrete-time signals and systems, Z-transforms, DTFT, DFT, FFT decimation algorithms, digital filter realizations, FIR filter design (windowing, Remez), IIR filter synthesis (bilinear transform), coefficient quantization, and multirate DSP with 40 solved questions and 16 interactive simulations." name="twitter:description"/>
+<meta content="https://openstemlibrary.com/og-image.png" name="twitter:image"/>
+<!-- Favicon & Search Engine Icons -->
+<link href="favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="favicon-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="logo.svg" rel="icon" type="image/svg+xml"/>
+<link href="apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<!-- Schema.org Educational Course JSON-LD -->
+<!-- Schema.org Breadcrumb Navigation -->
+<!-- Google Fonts: Inter & Fira Code -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet"/>
+<!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+<link href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<!-- Application Stylesheet -->
+<link href="styles.css?v=20261016_review_fix" rel="stylesheet"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Book", "name": "Digital Signal Processing: Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez", "description": "Comprehensive university textbook covering discrete-time signals and systems, Z-transforms, DTFT, DFT, FFT decimation algorithms, digital filter realizations, FIR filter design (windowing, Remez), IIR filter synthesis (bilinear transform), coefficient quantization, and multirate DSP with 40 solved questions and 16 interactive simulations.", "url": "https://openstemlibrary.com/digital-signal-processing-chapter-5", "inLanguage": "en", "isAccessibleForFree": true, "educationalLevel": "Undergraduate", "author": {"@type": "Organization", "name": "OpenSTEM Library"}, "publisher": {"@type": "Organization", "name": "OpenSTEM Library", "url": "https://openstemlibrary.com/"}, "learningResourceType": "Textbook", "about": ["Digital Signal Processing", "Electrical & Electronics Engineering", "Undergraduate STEM Curriculum", "Worked Problems", "Interactive Simulations"], "keywords": "Digital Signal Processing, Z-Transform, DFT, FFT, FIR Filters, IIR Filters, Bilinear Transform, Multirate DSP"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Electrical & Electronics Engineering","item":"https://openstemlibrary.com/#dept-electrical-and-electronics-engineering"},{"@type":"ListItem","position":3,"name":"Digital Signal Processing","item":"https://openstemlibrary.com/digital-signal-processing"}]}</script><link href="digital-signal-processing.css" rel="stylesheet"/></head>
+<body class="reader-paper" data-book-path="digital-signal-processing.html" data-chapter-index="4" style="--openstem-reader-font-scale: 1;">
+<div class="app-container">
+<!-- Left Navigation Sidebar -->
+<aside aria-label="Book chapters" class="sidebar">
+<div class="brand-header">
+<img alt="OpenSTEM Logo" class="brand-logo-img" height="36" src="logo.svg" width="36"/>
+<div>
+<div class="brand-title">Digital Signal Processing</div>
+<div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+</div>
+</div>
+<!-- Live Search Filter for SEO / Navigation -->
+<div class="search-box-container">
+<input class="search-input" id="topic-search-input" placeholder="Search PRNG, LCG, Mersenne Twister, inversion method, rejection sampling, Box-Muller, Monte Carlo integration, importance sampling, antithetic variates, Metropolis-Hastings, Gibbs sampler, Hamiltonian Monte Carlo, particle filter…" type="text"/>
+</div>
+<div class="nav-section-title">Table of Contents</div>
+<ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a class="unit-nav-link" href="digital-signal-processing"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">Discrete-Time Signals, Linear Constant-Coefficient Difference Equations, and Z-Transforms</span></a></li><li class="unit-nav-item" data-unit-index="1"><a class="unit-nav-link" href="digital-signal-processing-chapter-2"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">Frequency-Domain Analysis: DTFT, Discrete Fourier Transform (DFT), and Properties</span></a></li><li class="unit-nav-item" data-unit-index="2"><a class="unit-nav-link" href="digital-signal-processing-chapter-3"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Fast Fourier Transform (FFT) Decimation-in-Time and Decimation-in-Frequency Algorithms</span></a></li><li class="unit-nav-item" data-unit-index="3"><a class="unit-nav-link" href="digital-signal-processing-chapter-4"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Structures for Discrete-Time Systems: Direct Form I/II, Cascade, and Parallel Realizations</span></a></li><li class="unit-nav-item active" data-unit-index="4"><a aria-current="page" class="unit-nav-link" href="digital-signal-processing-chapter-5"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez</span></a></li><li class="unit-nav-item" data-unit-index="5"><a class="unit-nav-link" href="digital-signal-processing-chapter-6"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Infinite Impulse Response (IIR) Filter Design: Bilinear Transformation and Impulse Invariance</span></a></li><li class="unit-nav-item" data-unit-index="6"><a class="unit-nav-link" href="digital-signal-processing-chapter-7"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Finite Register Length Effects, Coefficient Quantization, and Roundoff Noise</span></a></li><li class="unit-nav-item" data-unit-index="7"><a class="unit-nav-link" href="digital-signal-processing-chapter-8"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Multirate Digital Signal Processing: Decimation, Interpolation, and Filter Banks</span></a></li></ul>
+</aside>
+<!-- Main Content Reader Container -->
+<main class="main-content">
+<!-- Top Sticky Navbar -->
+<header class="top-navbar">
+<div class="course-badge-container">
+<span class="badge-pill badge-course">Electrical &amp; Electronics Engineering</span>
+<span class="badge-pill badge-credits">Electrical &amp; Electronics Engineering major</span>
+<span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+</div>
+<div class="navbar-actions">
+<a class="btn-tool" href="index" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+<button class="btn-tool" id="btn-font-toggle" title="Toggle Academic Reading Font">A/A Academic</button>
+<div class="protection-notice">Read freely · Cite responsibly</div>
+<button aria-label="Night view — switch to dark reading view" aria-pressed="true" class="btn-tool reader-theme-toggle" title="Use the original dark reading theme" type="button">Night view</button><div aria-label="Reading text size" class="reader-text-controls" data-reading-scale="1" role="group"><button aria-label="A− Decrease reading text size" class="btn-tool reader-size-button" disabled="" type="button">A−</button><button aria-label="A+ Increase reading text size" class="btn-tool reader-size-button" type="button">A+</button></div><div aria-label="Reading text size" class="reader-text-controls" data-reading-scale="1" role="group"><button aria-label="A− Decrease reading text size" class="btn-tool reader-size-button" disabled="" type="button">A−</button><button aria-label="A+ Increase reading text size" class="btn-tool reader-size-button" type="button">A+</button></div><div aria-label="Reading text size" class="reader-text-controls" data-reading-scale="1" role="group"><button aria-label="A− Decrease reading text size" class="btn-tool reader-size-button" disabled="" type="button">A−</button><button aria-label="A+ Increase reading text size" class="btn-tool reader-size-button" type="button">A+</button></div><div aria-label="Reading text size" class="reader-text-controls" data-reading-scale="1" role="group"><button aria-label="A− Decrease reading text size" class="btn-tool reader-size-button" disabled="" type="button">A−</button><button aria-label="A+ Increase reading text size" class="btn-tool reader-size-button" type="button">A+</button></div></div>
+</header>
+<!-- Content Columns (Wide Centered Reader) -->
+<div class="content-columns" id="main-content-area">
+<!-- Center Textbook Article -->
+<article class="reader-main-column" id="textbook-article">
+<!-- Chapter Hero Header -->
+<header class="unit-hero">
+<div class="unit-number-tag" id="unit-tag">Chapter 5 • Theory &amp; Derivations</div>
+<h1 class="unit-title-heading" id="unit-title">Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez</h1>
+<p class="unit-desc-lead" id="unit-desc">Comprehensive university textbook unit covering fundamental principles, mathematical formulations, and practical engineering applications of Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez.</p>
+</header><aside aria-label="About this textbook" class="stat-editorial-note"><strong>About this textbook.</strong> Original English teaching material for university Digital Signal Processing study. Eight units with verified worked problems and 16 interactive simulations illustrating fundamental principles and core applications. Numerical checks and an editorial review support this edition.</aside>
+<!-- Pre-Rendered Sections for Indexing & Instant Load -->
+<div id="textbook-sections"><section class="textbook-section-card" id="sec-5-1">
+<header class="sec-header">
+<h3 class="sec-title">
+<span class="sec-num">§5.1</span>
+<span>Stochastic processes and stationarity</span>
+</h3>
+</header>
+<div class="sec-content">
+<h4>Unit 5, Lesson 1: Stochastic processes and stationarity</h4>
 <p><strong>Unit theme:</strong> Statistical signal processing and adaptive filtering <strong>Level:</strong> Undergraduate engineering (idealized models) <strong>Learning objective:</strong> Weak stationarity means constant expected mean and autocovariance dependent on lag, not absolute time.</p>
-
 <h4>1. Concept and mathematical language</h4>
-
 <p>Weak stationarity means constant expected mean and autocovariance dependent on lag, not absolute time. The role of this principle in <strong>statistical signal processing and adaptive filtering</strong> is to connect the expression on paper with an observable prediction. Before manipulating symbols, define the independent variable, the range of allowed inputs, the output quantity, and the reference condition. In particular, identify whether the argument concerns a discrete-time signal. The same algebraic shape may describe completely different physical situations when time is measured in seconds in one case and by integer samples in another. A meaningful graph must identify its axes and units, the origin of the record, and whether the plotted values are exact or illustrative.</p>
-
 <h4>2. A quantitative example</h4>
-
 <p><strong>Checkable numerical or symbolic example:</strong> For independent zero-mean noise with variance 4 V², the theoretical autocorrelation is 4 V² at lag zero and 0 elsewhere. Explain what the chosen values mean, list any units, and reproduce the result without replacing the governing mathematical relation with a memorized rule. A numerical example answers a narrowly framed question; it does not by itself certify an entire signal-processing chain. Describe the source or test signal, observation interval, reference time, and the output that would be compared with the calculated answer. If the expression uses a delta or step, say whether it represents an ideal mathematical distribution or a realizable finite-width experiment.</p>
-
 <h4>3. Derivation strategy and model boundaries</h4>
-
 <p>Start from the smallest version of the problem that keeps its essential structure. Represent a pulse with known support; annotate the independent coordinate and the nonzero support or spectral components. Derive the relevant expression step by step, naming the rule used to move from one line to the next. When integrating or summing, show the limits; when using a transform, write its kernel and normalization convention. If the quantity is complex, separate magnitude and phase before interpreting it as a real measurement. Avoid silently switching between angular frequency ω and cyclic frequency f.</p>
-
 <p>A <strong>model boundary</strong> is a statement about where the prediction can fail. For this lesson, pay particular attention to the following: A finite sample with near-zero empirical correlation is not proof of whiteness or Gaussianity. A useful report says whether the discrepancy originates in a violated hypothesis, finite measurement resolution, numerical rounding, a different Fourier or transform convention, or an unmodeled physical effect. Fitting a parameter after observing a failure does not retrospectively validate the original prediction. State any fitted parameters separately from independently measured ones.</p>
-
 <h4>4. Engineering investigation</h4>
-
 <p><strong>Task:</strong> Simulate seeded white noise and a drifting sequence; compare segment means. Begin by writing a one-paragraph specification of the input, expected output, and permitted error. Choose an observable output rather than a qualitative claim such as “the plot looks correct.” If the application is <strong>noisy reference-channel acquisition</strong>, explain what sensor or computation would provide the input and how the result could inform a decision. List relevant data units, an example operating range, and one adverse condition. Do not treat a synthetic input as a measurement of a real device.</p>
-
 <p>Connect the investigation to <strong>seeded Monte Carlo error comparisons</strong>. Specify what a genuinely independent verification would require: a different derivation, a second calculation package, or a controlled instrument measurement with calibrated reference. When measurements are possible, identify bandwidth, resolution and uncertainty before interpreting a small residual as meaningful. When physical testing is unavailable, label all results “analytical” or “synthetic simulation.” A design choice should remain provisional until its assumptions have survived checks under conditions resembling the intended application.</p>
-
 <h4>5. Interpretation and common mistakes</h4>
-
 <p><strong>Pitfall to diagnose:</strong> A finite sample with near-zero empirical correlation is not proof of whiteness or Gaussianity. If data are sampled, state the sample rate and anti-aliasing assumption. A second frequent mistake is confusing a transformation's algebraic existence with its physical realizability. An ideal bandlimited spectrum, an impulse with zero duration, infinite observation time and perfect reconstruction are mathematical conveniences. Each may be useful, but laboratory claims must include finite time, bandwidth, quantization and uncertainty when relevant. This distinction becomes essential when a simulation is used to select acquisition hardware or establish safety margins.</p>
-
 <h4>6. Guided exercises and assessment</h4>
-
 <h4>1. Reconstruction: Starting from the definitions, derive the relation used in the quantitative example. State every assumption, not only the final substitution. Reproduce a dimensional or normalization check.</h4>
-
 <h4>2. Boundary test: Recompute the lesson's core prediction for a zero input and a doubled input parameter where meaningful. Explain whether the expected change follows from linearity, dimensional reasoning, or a different property.</h4>
-
 <h4>3. Counterexample: Design a case in which stochastic processes and stationarity would be incorrectly applied. Name the violated assumption and the observable symptom.</h4>
-
 <h4>4. Independent result: Design a calculation or simulation that would check the mathematical expression without copying its exact implementation. Provide numerical values and expected units.</h4>
-
 <h4>5. Application decision: For noisy reference-channel acquisition, propose a measurement or controlled experiment that would distinguish the simplified model from one plausible alternative. Include a measurable acceptance criterion.</h4>
-
 <h4>Self-check and marking guidance</h4>
-
 <p>An adequate answer identifies signal type and variables; states the relevant model equation; shows intermediate steps; reports units and reference convention; handles one limit or counterexample; and distinguishes analytic prediction from experimental verification. Work that quotes a final value without hypotheses is incomplete. A passing simulation alone does not establish the physical correctness of its underlying model. Assess whether the calculation would still be valid under a different sample rate, initial state or signal class, whichever is relevant here.</p>
-
 <p><strong>Editorial note:</strong> These examples are for instruction. Their idealized component values and invented datasets are not design specifications for safety-critical, mains-connected, medical or certified systems.</p>
-        </div>
-        
-          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
-            <div class="simulation-slot" id="sim-container-digital-signal-processing-sim-5"></div>
-          </div>
-        
-      </section><section class="textbook-section-card" id="sec-5-2">
-        <header class="sec-header">
-          <h3 class="sec-title">
-            <span class="sec-num">§5.2</span>
-            <span>Autocorrelation and power spectral density</span>
-          </h3>
-        </header>
-        <div class="sec-content">
-          <h4>Unit 5, Lesson 2: Autocorrelation and power spectral density</h4>
-
+</div>
+<div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+<div class="simulation-slot" id="sim-container-digital-signal-processing-sim-5"></div>
+</div>
+</section><section class="textbook-section-card" id="sec-5-2">
+<header class="sec-header">
+<h3 class="sec-title">
+<span class="sec-num">§5.2</span>
+<span>Autocorrelation and power spectral density</span>
+</h3>
+</header>
+<div class="sec-content">
+<h4>Unit 5, Lesson 2: Autocorrelation and power spectral density</h4>
 <p><strong>Unit theme:</strong> Statistical signal processing and adaptive filtering <strong>Level:</strong> Undergraduate engineering (idealized models) <strong>Learning objective:</strong> For suitable stationary processes, power spectral density and autocorrelation are Fourier-transform pairs (Wiener–Khinchin).</p>
-
 <h4>1. Concept and mathematical language</h4>
-
 <p>For suitable stationary processes, power spectral density and autocorrelation are Fourier-transform pairs (Wiener–Khinchin). The role of this principle in <strong>statistical signal processing and adaptive filtering</strong> is to connect the expression on paper with an observable prediction. Before manipulating symbols, define the independent variable, the range of allowed inputs, the output quantity, and the reference condition. In particular, identify whether the argument concerns a discrete-time signal. The same algebraic shape may describe completely different physical situations when time is measured in seconds in one case and by integer samples in another. A meaningful graph must identify its axes and units, the origin of the record, and whether the plotted values are exact or illustrative.</p>
-
 <h4>2. A quantitative example</h4>
-
 <p><strong>Checkable numerical or symbolic example:</strong> If R[0]=2 V² is the sample variance for a zero-mean sequence, total two-sided normalized spectral power integrates to 2 V². Explain what the chosen values mean, list any units, and reproduce the result without replacing the governing mathematical relation with a memorized rule. A numerical example answers a narrowly framed question; it does not by itself certify an entire signal-processing chain. Describe the source or test signal, observation interval, reference time, and the output that would be compared with the calculated answer. If the expression uses a delta or step, say whether it represents an ideal mathematical distribution or a realizable finite-width experiment.</p>
-
 <h4>3. Derivation strategy and model boundaries</h4>
-
 <p>Start from the smallest version of the problem that keeps its essential structure. Represent a sinusoid with a calibrated phase origin; annotate the independent coordinate and the nonzero support or spectral components. Derive the relevant expression step by step, naming the rule used to move from one line to the next. When integrating or summing, show the limits; when using a transform, write its kernel and normalization convention. If the quantity is complex, separate magnitude and phase before interpreting it as a real measurement. Avoid silently switching between angular frequency ω and cyclic frequency f.</p>
-
 <p>A <strong>model boundary</strong> is a statement about where the prediction can fail. For this lesson, pay particular attention to the following: PSD normalization and Hz/radian-frequency units must match before integrating to recover variance. A useful report says whether the discrepancy originates in a violated hypothesis, finite measurement resolution, numerical rounding, a different Fourier or transform convention, or an unmodeled physical effect. Fitting a parameter after observing a failure does not retrospectively validate the original prediction. State any fitted parameters separately from independently measured ones.</p>
-
 <h4>4. Engineering investigation</h4>
-
 <p><strong>Task:</strong> Estimate variance directly and through a correctly normalized periodogram. Begin by writing a one-paragraph specification of the input, expected output, and permitted error. Choose an observable output rather than a qualitative claim such as “the plot looks correct.” If the application is <strong>noisy reference-channel acquisition</strong>, explain what sensor or computation would provide the input and how the result could inform a decision. List relevant data units, an example operating range, and one adverse condition. Do not treat a synthetic input as a measurement of a real device.</p>
-
 <p>Connect the investigation to <strong>seeded Monte Carlo error comparisons</strong>. Specify what a genuinely independent verification would require: a different derivation, a second calculation package, or a controlled instrument measurement with calibrated reference. When measurements are possible, identify bandwidth, resolution and uncertainty before interpreting a small residual as meaningful. When physical testing is unavailable, label all results “analytical” or “synthetic simulation.” A design choice should remain provisional until its assumptions have survived checks under conditions resembling the intended application.</p>
-
 <h4>5. Interpretation and common mistakes</h4>
-
 <p><strong>Pitfall to diagnose:</strong> PSD normalization and Hz/radian-frequency units must match before integrating to recover variance. If the argument treats a finite record as infinitely long, write down the window explicitly. A second frequent mistake is confusing a transformation's algebraic existence with its physical realizability. An ideal bandlimited spectrum, an impulse with zero duration, infinite observation time and perfect reconstruction are mathematical conveniences. Each may be useful, but laboratory claims must include finite time, bandwidth, quantization and uncertainty when relevant. This distinction becomes essential when a simulation is used to select acquisition hardware or establish safety margins.</p>
-
 <h4>6. Guided exercises and assessment</h4>
-
 <h4>1. Reconstruction: Starting from the definitions, derive the relation used in the quantitative example. State every assumption, not only the final substitution. Calculate a boundary value without a calculator.</h4>
-
 <h4>2. Boundary test: Recompute the lesson's core prediction for a zero input and a doubled input parameter where meaningful. Explain whether the expected change follows from linearity, dimensional reasoning, or a different property.</h4>
-
 <h4>3. Counterexample: Design a case in which autocorrelation and power spectral density would be incorrectly applied. Name the violated assumption and the observable symptom.</h4>
-
 <h4>4. Independent result: Design a calculation or simulation that would check the mathematical expression without copying its exact implementation. Provide numerical values and expected units.</h4>
-
 <h4>5. Application decision: For noisy reference-channel acquisition, propose a measurement or controlled experiment that would distinguish the simplified model from one plausible alternative. Include a measurable acceptance criterion.</h4>
-
 <h4>Self-check and marking guidance</h4>
-
 <p>An adequate answer identifies signal type and variables; states the relevant model equation; shows intermediate steps; reports units and reference convention; handles one limit or counterexample; and distinguishes analytic prediction from experimental verification. Work that quotes a final value without hypotheses is incomplete. A passing simulation alone does not establish the physical correctness of its underlying model. Assess whether the calculation would still be valid under a different sample rate, initial state or signal class, whichever is relevant here.</p>
-
 <p><strong>Editorial note:</strong> These examples are for instruction. Their idealized component values and invented datasets are not design specifications for safety-critical, mains-connected, medical or certified systems.</p>
-        </div>
-        
-      </section><section class="textbook-section-card" id="sec-5-3">
-        <header class="sec-header">
-          <h3 class="sec-title">
-            <span class="sec-num">§5.3</span>
-            <span>Wiener filter and mean-square error</span>
-          </h3>
-        </header>
-        <div class="sec-content">
-          <h4>Unit 5, Lesson 3: Wiener filter and mean-square error</h4>
-
+</div>
+</section><section class="textbook-section-card" id="sec-5-3">
+<header class="sec-header">
+<h3 class="sec-title">
+<span class="sec-num">§5.3</span>
+<span>Wiener filter and mean-square error</span>
+</h3>
+</header>
+<div class="sec-content">
+<h4>Unit 5, Lesson 3: Wiener filter and mean-square error</h4>
 <p><strong>Unit theme:</strong> Statistical signal processing and adaptive filtering <strong>Level:</strong> Undergraduate engineering (idealized models) <strong>Learning objective:</strong> Wiener filtering selects linear weights minimizing expected squared estimation error given signal-noise second-order statistics.</p>
-
 <h4>1. Concept and mathematical language</h4>
-
 <p>Wiener filtering selects linear weights minimizing expected squared estimation error given signal-noise second-order statistics. The role of this principle in <strong>statistical signal processing and adaptive filtering</strong> is to connect the expression on paper with an observable prediction. Before manipulating symbols, define the independent variable, the range of allowed inputs, the output quantity, and the reference condition. In particular, identify whether the argument concerns a discrete-time signal. The same algebraic shape may describe completely different physical situations when time is measured in seconds in one case and by integer samples in another. A meaningful graph must identify its axes and units, the origin of the record, and whether the plotted values are exact or illustrative.</p>
-
 <h4>2. A quantitative example</h4>
-
 <p><strong>Checkable numerical or symbolic example:</strong> For scalar independent signal/noise variances σs²=9 and σv²=1, optimal gain is 9/(9+1)=0.9. Explain what the chosen values mean, list any units, and reproduce the result without replacing the governing mathematical relation with a memorized rule. A numerical example answers a narrowly framed question; it does not by itself certify an entire signal-processing chain. Describe the source or test signal, observation interval, reference time, and the output that would be compared with the calculated answer. If the expression uses a delta or step, say whether it represents an ideal mathematical distribution or a realizable finite-width experiment.</p>
-
 <h4>3. Derivation strategy and model boundaries</h4>
-
 <p>Start from the smallest version of the problem that keeps its essential structure. Represent a step that starts at the declared reference instant; annotate the independent coordinate and the nonzero support or spectral components. Derive the relevant expression step by step, naming the rule used to move from one line to the next. When integrating or summing, show the limits; when using a transform, write its kernel and normalization convention. If the quantity is complex, separate magnitude and phase before interpreting it as a real measurement. Avoid silently switching between angular frequency ω and cyclic frequency f.</p>
-
 <p>A <strong>model boundary</strong> is a statement about where the prediction can fail. For this lesson, pay particular attention to the following: This scalar gain assumes zero-mean independent components and known variances; it is not a universal denoiser. A useful report says whether the discrepancy originates in a violated hypothesis, finite measurement resolution, numerical rounding, a different Fourier or transform convention, or an unmodeled physical effect. Fitting a parameter after observing a failure does not retrospectively validate the original prediction. State any fitted parameters separately from independently measured ones.</p>
-
 <h4>4. Engineering investigation</h4>
-
 <p><strong>Task:</strong> Compare estimation error for assumed noise variance 1 and an actual variance 4. Begin by writing a one-paragraph specification of the input, expected output, and permitted error. Choose an observable output rather than a qualitative claim such as “the plot looks correct.” If the application is <strong>noisy reference-channel acquisition</strong>, explain what sensor or computation would provide the input and how the result could inform a decision. List relevant data units, an example operating range, and one adverse condition. Do not treat a synthetic input as a measurement of a real device.</p>
-
 <p>Connect the investigation to <strong>seeded Monte Carlo error comparisons</strong>. Specify what a genuinely independent verification would require: a different derivation, a second calculation package, or a controlled instrument measurement with calibrated reference. When measurements are possible, identify bandwidth, resolution and uncertainty before interpreting a small residual as meaningful. When physical testing is unavailable, label all results “analytical” or “synthetic simulation.” A design choice should remain provisional until its assumptions have survived checks under conditions resembling the intended application.</p>
-
 <h4>5. Interpretation and common mistakes</h4>
-
 <p><strong>Pitfall to diagnose:</strong> This scalar gain assumes zero-mean independent components and known variances; it is not a universal denoiser. If an equation is linear, verify linearity on two different input functions instead of one. A second frequent mistake is confusing a transformation's algebraic existence with its physical realizability. An ideal bandlimited spectrum, an impulse with zero duration, infinite observation time and perfect reconstruction are mathematical conveniences. Each may be useful, but laboratory claims must include finite time, bandwidth, quantization and uncertainty when relevant. This distinction becomes essential when a simulation is used to select acquisition hardware or establish safety margins.</p>
-
 <h4>6. Guided exercises and assessment</h4>
-
 <h4>1. Reconstruction: Starting from the definitions, derive the relation used in the quantitative example. State every assumption, not only the final substitution. Sketch the expected waveform or spectral trend.</h4>
-
 <h4>2. Boundary test: Recompute the lesson's core prediction for a zero input and a doubled input parameter where meaningful. Explain whether the expected change follows from linearity, dimensional reasoning, or a different property.</h4>
-
 <h4>3. Counterexample: Design a case in which wiener filter and mean-square error would be incorrectly applied. Name the violated assumption and the observable symptom.</h4>
-
 <h4>4. Independent result: Design a calculation or simulation that would check the mathematical expression without copying its exact implementation. Provide numerical values and expected units.</h4>
-
 <h4>5. Application decision: For noisy reference-channel acquisition, propose a measurement or controlled experiment that would distinguish the simplified model from one plausible alternative. Include a measurable acceptance criterion.</h4>
-
 <h4>Self-check and marking guidance</h4>
-
 <p>An adequate answer identifies signal type and variables; states the relevant model equation; shows intermediate steps; reports units and reference convention; handles one limit or counterexample; and distinguishes analytic prediction from experimental verification. Work that quotes a final value without hypotheses is incomplete. A passing simulation alone does not establish the physical correctness of its underlying model. Assess whether the calculation would still be valid under a different sample rate, initial state or signal class, whichever is relevant here.</p>
-
 <p><strong>Editorial note:</strong> These examples are for instruction. Their idealized component values and invented datasets are not design specifications for safety-critical, mains-connected, medical or certified systems.</p>
-        </div>
-        
-      </section><section class="textbook-section-card" id="sec-5-4">
-        <header class="sec-header">
-          <h3 class="sec-title">
-            <span class="sec-num">§5.4</span>
-            <span>LMS adaptation and convergence</span>
-          </h3>
-        </header>
-        <div class="sec-content">
-          <h4>Unit 5, Lesson 4: LMS adaptation and convergence</h4>
-
+</div>
+</section><section class="textbook-section-card" id="sec-5-4">
+<header class="sec-header">
+<h3 class="sec-title">
+<span class="sec-num">§5.4</span>
+<span>LMS adaptation and convergence</span>
+</h3>
+</header>
+<div class="sec-content">
+<h4>Unit 5, Lesson 4: LMS adaptation and convergence</h4>
 <p><strong>Unit theme:</strong> Statistical signal processing and adaptive filtering <strong>Level:</strong> Undergraduate engineering (idealized models) <strong>Learning objective:</strong> Least-mean-squares updates weights w[n+1]=w[n]+μ e[n] x[n] under a stated error convention.</p>
-
 <h4>1. Concept and mathematical language</h4>
-
 <p>Least-mean-squares updates weights w[n+1]=w[n]+μ e[n] x[n] under a stated error convention. The role of this principle in <strong>statistical signal processing and adaptive filtering</strong> is to connect the expression on paper with an observable prediction. Before manipulating symbols, define the independent variable, the range of allowed inputs, the output quantity, and the reference condition. In particular, identify whether the argument concerns a discrete-time signal. The same algebraic shape may describe completely different physical situations when time is measured in seconds in one case and by integer samples in another. A meaningful graph must identify its axes and units, the origin of the record, and whether the plotted values are exact or illustrative.</p>
-
 <h4>2. A quantitative example</h4>
-
 <p><strong>Checkable numerical or symbolic example:</strong> With w0=0, x=2, desired d=1 and μ=0.1, error e=1 gives w1=0.2. Explain what the chosen values mean, list any units, and reproduce the result without replacing the governing mathematical relation with a memorized rule. A numerical example answers a narrowly framed question; it does not by itself certify an entire signal-processing chain. Describe the source or test signal, observation interval, reference time, and the output that would be compared with the calculated answer. If the expression uses a delta or step, say whether it represents an ideal mathematical distribution or a realizable finite-width experiment.</p>
-
 <h4>3. Derivation strategy and model boundaries</h4>
-
 <p>Start from the smallest version of the problem that keeps its essential structure. Represent a bandlimited synthetic record; annotate the independent coordinate and the nonzero support or spectral components. Derive the relevant expression step by step, naming the rule used to move from one line to the next. When integrating or summing, show the limits; when using a transform, write its kernel and normalization convention. If the quantity is complex, separate magnitude and phase before interpreting it as a real measurement. Avoid silently switching between angular frequency ω and cyclic frequency f.</p>
-
 <p>A <strong>model boundary</strong> is a statement about where the prediction can fail. For this lesson, pay particular attention to the following: Step size must be chosen with input power and eigenvalue spread; too-large μ can diverge. A useful report says whether the discrepancy originates in a violated hypothesis, finite measurement resolution, numerical rounding, a different Fourier or transform convention, or an unmodeled physical effect. Fitting a parameter after observing a failure does not retrospectively validate the original prediction. State any fitted parameters separately from independently measured ones.</p>
-
 <h4>4. Engineering investigation</h4>
-
 <p><strong>Task:</strong> Simulate a one-tap LMS over repeated noisy observations using three step sizes. Begin by writing a one-paragraph specification of the input, expected output, and permitted error. Choose an observable output rather than a qualitative claim such as “the plot looks correct.” If the application is <strong>noisy reference-channel acquisition</strong>, explain what sensor or computation would provide the input and how the result could inform a decision. List relevant data units, an example operating range, and one adverse condition. Do not treat a synthetic input as a measurement of a real device.</p>
-
 <p>Connect the investigation to <strong>seeded Monte Carlo error comparisons</strong>. Specify what a genuinely independent verification would require: a different derivation, a second calculation package, or a controlled instrument measurement with calibrated reference. When measurements are possible, identify bandwidth, resolution and uncertainty before interpreting a small residual as meaningful. When physical testing is unavailable, label all results “analytical” or “synthetic simulation.” A design choice should remain provisional until its assumptions have survived checks under conditions resembling the intended application.</p>
-
 <h4>5. Interpretation and common mistakes</h4>
-
 <p><strong>Pitfall to diagnose:</strong> Step size must be chosen with input power and eigenvalue spread; too-large μ can diverge. If a spectrum is complex, report both phase convention and amplitude normalization. A second frequent mistake is confusing a transformation's algebraic existence with its physical realizability. An ideal bandlimited spectrum, an impulse with zero duration, infinite observation time and perfect reconstruction are mathematical conveniences. Each may be useful, but laboratory claims must include finite time, bandwidth, quantization and uncertainty when relevant. This distinction becomes essential when a simulation is used to select acquisition hardware or establish safety margins.</p>
-
 <h4>6. Guided exercises and assessment</h4>
-
 <h4>1. Reconstruction: Starting from the definitions, derive the relation used in the quantitative example. State every assumption, not only the final substitution. Identify a counterexample to an unstated assumption.</h4>
-
 <h4>2. Boundary test: Recompute the lesson's core prediction for a zero input and a doubled input parameter where meaningful. Explain whether the expected change follows from linearity, dimensional reasoning, or a different property.</h4>
-
 <h4>3. Counterexample: Design a case in which lms adaptation and convergence would be incorrectly applied. Name the violated assumption and the observable symptom.</h4>
-
 <h4>4. Independent result: Design a calculation or simulation that would check the mathematical expression without copying its exact implementation. Provide numerical values and expected units.</h4>
-
 <h4>5. Application decision: For noisy reference-channel acquisition, propose a measurement or controlled experiment that would distinguish the simplified model from one plausible alternative. Include a measurable acceptance criterion.</h4>
-
 <h4>Self-check and marking guidance</h4>
-
 <p>An adequate answer identifies signal type and variables; states the relevant model equation; shows intermediate steps; reports units and reference convention; handles one limit or counterexample; and distinguishes analytic prediction from experimental verification. Work that quotes a final value without hypotheses is incomplete. A passing simulation alone does not establish the physical correctness of its underlying model. Assess whether the calculation would still be valid under a different sample rate, initial state or signal class, whichever is relevant here.</p>
-
 <p><strong>Editorial note:</strong> These examples are for instruction. Their idealized component values and invented datasets are not design specifications for safety-critical, mains-connected, medical or certified systems.</p>
-        </div>
-        
-      </section><section class="textbook-section-card" id="sec-5-5">
-        <header class="sec-header">
-          <h3 class="sec-title">
-            <span class="sec-num">§5.5</span>
-            <span>Adaptive noise cancellation and leakage</span>
-          </h3>
-        </header>
-        <div class="sec-content">
-          <h4>Unit 5, Lesson 5: Adaptive noise cancellation and leakage</h4>
-
+</div>
+</section><section class="textbook-section-card" id="sec-5-5">
+<header class="sec-header">
+<h3 class="sec-title">
+<span class="sec-num">§5.5</span>
+<span>Adaptive noise cancellation and leakage</span>
+</h3>
+</header>
+<div class="sec-content">
+<h4>Unit 5, Lesson 5: Adaptive noise cancellation and leakage</h4>
 <p><strong>Unit theme:</strong> Statistical signal processing and adaptive filtering <strong>Level:</strong> Undergraduate engineering (idealized models) <strong>Learning objective:</strong> A reference channel should predict contaminating noise but must avoid containing the desired signal to prevent inadvertent cancellation.</p>
-
 <h4>1. Concept and mathematical language</h4>
-
 <p>A reference channel should predict contaminating noise but must avoid containing the desired signal to prevent inadvertent cancellation. The role of this principle in <strong>statistical signal processing and adaptive filtering</strong> is to connect the expression on paper with an observable prediction. Before manipulating symbols, define the independent variable, the range of allowed inputs, the output quantity, and the reference condition. In particular, identify whether the argument concerns a discrete-time signal. The same algebraic shape may describe completely different physical situations when time is measured in seconds in one case and by integer samples in another. A meaningful graph must identify its axes and units, the origin of the record, and whether the plotted values are exact or illustrative.</p>
-
 <h4>2. A quantitative example</h4>
-
 <p><strong>Checkable numerical or symbolic example:</strong> For desired s and correlated contaminant v, subtraction of an exactly estimated v gives residual s, but estimation error adds to output noise. Explain what the chosen values mean, list any units, and reproduce the result without replacing the governing mathematical relation with a memorized rule. A numerical example answers a narrowly framed question; it does not by itself certify an entire signal-processing chain. Describe the source or test signal, observation interval, reference time, and the output that would be compared with the calculated answer. If the expression uses a delta or step, say whether it represents an ideal mathematical distribution or a realizable finite-width experiment.</p>
-
 <h4>3. Derivation strategy and model boundaries</h4>
-
 <p>Start from the smallest version of the problem that keeps its essential structure. Represent a two-component signal with separated scales; annotate the independent coordinate and the nonzero support or spectral components. Derive the relevant expression step by step, naming the rule used to move from one line to the next. When integrating or summing, show the limits; when using a transform, write its kernel and normalization convention. If the quantity is complex, separate magnitude and phase before interpreting it as a real measurement. Avoid silently switching between angular frequency ω and cyclic frequency f.</p>
-
 <p>A <strong>model boundary</strong> is a statement about where the prediction can fail. For this lesson, pay particular attention to the following: Correlation between reference and desired signal can bias the adaptive solution and remove desired components. A useful report says whether the discrepancy originates in a violated hypothesis, finite measurement resolution, numerical rounding, a different Fourier or transform convention, or an unmodeled physical effect. Fitting a parameter after observing a failure does not retrospectively validate the original prediction. State any fitted parameters separately from independently measured ones.</p>
-
 <h4>4. Engineering investigation</h4>
-
 <p><strong>Task:</strong> Build two-reference synthetic data with and without desired-signal leakage. Begin by writing a one-paragraph specification of the input, expected output, and permitted error. Choose an observable output rather than a qualitative claim such as “the plot looks correct.” If the application is <strong>noisy reference-channel acquisition</strong>, explain what sensor or computation would provide the input and how the result could inform a decision. List relevant data units, an example operating range, and one adverse condition. Do not treat a synthetic input as a measurement of a real device.</p>
-
 <p>Connect the investigation to <strong>seeded Monte Carlo error comparisons</strong>. Specify what a genuinely independent verification would require: a different derivation, a second calculation package, or a controlled instrument measurement with calibrated reference. When measurements are possible, identify bandwidth, resolution and uncertainty before interpreting a small residual as meaningful. When physical testing is unavailable, label all results “analytical” or “synthetic simulation.” A design choice should remain provisional until its assumptions have survived checks under conditions resembling the intended application.</p>
-
 <h4>5. Interpretation and common mistakes</h4>
-
 <p><strong>Pitfall to diagnose:</strong> Correlation between reference and desired signal can bias the adaptive solution and remove desired components. If a pole or time constant appears, check the expected long-time behavior. A second frequent mistake is confusing a transformation's algebraic existence with its physical realizability. An ideal bandlimited spectrum, an impulse with zero duration, infinite observation time and perfect reconstruction are mathematical conveniences. Each may be useful, but laboratory claims must include finite time, bandwidth, quantization and uncertainty when relevant. This distinction becomes essential when a simulation is used to select acquisition hardware or establish safety margins.</p>
-
 <h4>6. Guided exercises and assessment</h4>
-
 <h4>1. Reconstruction: Starting from the definitions, derive the relation used in the quantitative example. State every assumption, not only the final substitution. State an acceptance tolerance before simulating.</h4>
-
 <h4>2. Boundary test: Recompute the lesson's core prediction for a zero input and a doubled input parameter where meaningful. Explain whether the expected change follows from linearity, dimensional reasoning, or a different property.</h4>
-
 <h4>3. Counterexample: Design a case in which adaptive noise cancellation and leakage would be incorrectly applied. Name the violated assumption and the observable symptom.</h4>
-
 <h4>4. Independent result: Design a calculation or simulation that would check the mathematical expression without copying its exact implementation. Provide numerical values and expected units.</h4>
-
 <h4>5. Application decision: For noisy reference-channel acquisition, propose a measurement or controlled experiment that would distinguish the simplified model from one plausible alternative. Include a measurable acceptance criterion.</h4>
-
 <h4>Self-check and marking guidance</h4>
-
 <p>An adequate answer identifies signal type and variables; states the relevant model equation; shows intermediate steps; reports units and reference convention; handles one limit or counterexample; and distinguishes analytic prediction from experimental verification. Work that quotes a final value without hypotheses is incomplete. A passing simulation alone does not establish the physical correctness of its underlying model. Assess whether the calculation would still be valid under a different sample rate, initial state or signal class, whichever is relevant here.</p>
-
 <p><strong>Editorial note:</strong> These examples are for instruction. Their idealized component values and invented datasets are not design specifications for safety-critical, mains-connected, medical or certified systems.</p>
-        </div>
-        
-      </section><section class="textbook-section-card" id="sec-5-6">
-        <header class="sec-header">
-          <h3 class="sec-title">
-            <span class="sec-num">§5.6</span>
-            <span>Analytical Derivations and Assessment: Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez</span>
-          </h3>
-        </header>
-        <div class="sec-content">
-          <h4>Unit 5 capstone — Statistical and adaptive denoising benchmark</h4>
-
+</div>
+</section><section class="textbook-section-card" id="sec-5-6">
+<header class="sec-header">
+<h3 class="sec-title">
+<span class="sec-num">§5.6</span>
+<span>Analytical Derivations and Assessment: Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez</span>
+</h3>
+</header>
+<div class="sec-content">
+<h4>Unit 5 capstone — Statistical and adaptive denoising benchmark</h4>
 <h4>Engineering problem</h4>
-
 <p>Generate seeded signal and interference with an available correlated reference, compare scalar Wiener estimation and an LMS noise canceller, and document signal leakage risks. The capstone intentionally uses invented signals, not field measurements. The unit provides the mathematical concepts: Stochastic processes and stationarity, Autocorrelation and power spectral density, Wiener filter and mean-square error, LMS adaptation and convergence, Adaptive noise cancellation and leakage. Write a concise problem statement and choose consistent notation for time, sample index, physical units and the transform convention. Keep raw input parameters in a table separate from derived outputs.</p>
-
 <h4>Required submissions</h4>
-
 <ol>
-
-  <li>A mathematical model listing all assumptions, independent variables and initial conditions or finite record lengths.</li>
-
-  <li>A hand-verifiable result with the steps from governing equation to value or functional expression.</li>
-
-  <li>One independent computation, using a different method from the hand calculation, with an explicit discrepancy tolerance.</li>
-
-  <li>A plot that labels units, sample rate, window and phase/frequency conventions when relevant.</li>
-
-  <li>Two stress tests: one boundary case and one deliberate model violation with the expected failure symptoms.</li>
-
-  <li>A short engineering report distinguishing verification of code from validation against physical data.</li>
-
+<li>A mathematical model listing all assumptions, independent variables and initial conditions or finite record lengths.</li>
+<li>A hand-verifiable result with the steps from governing equation to value or functional expression.</li>
+<li>One independent computation, using a different method from the hand calculation, with an explicit discrepancy tolerance.</li>
+<li>A plot that labels units, sample rate, window and phase/frequency conventions when relevant.</li>
+<li>Two stress tests: one boundary case and one deliberate model violation with the expected failure symptoms.</li>
+<li>A short engineering report distinguishing verification of code from validation against physical data.</li>
 </ol>
-
 <h4>Evaluation rubric (100 points)</h4>
-
 <ul>
-
-  <li>Mathematical and physical specification: 20.</li>
-
-  <li>Correct derivations and units: 25.</li>
-
-  <li>Independently reproducible numerical result: 20.</li>
-
-  <li>Boundary and violation tests: 20.</li>
-
-  <li>Clear interpretation and data provenance: 15.</li>
-
+<li>Mathematical and physical specification: 20.</li>
+<li>Correct derivations and units: 25.</li>
+<li>Independently reproducible numerical result: 20.</li>
+<li>Boundary and violation tests: 20.</li>
+<li>Clear interpretation and data provenance: 15.</li>
 </ul>
-
 <h4>Discussion prompts</h4>
-
 <p>Explain why your assumptions are necessary; demonstrate whether changing the record length or excitation changes the result; discuss which error is numerical and which is modeling error; and propose a minimal real-world test to determine whether the simplified model is appropriate. A visually convincing trace without a numeric reference earns no numerical verification credit. Refer to the corresponding lessons for the domain-specific limitations.</p>
-        </div>
-        
-      </section></div>
-
-          <!-- Pre-Rendered Solved Problems Container -->
-          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
-            <div class="problems-section-header">
-              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
-              <h3 class="prob-sec-title">Step-by-Step Statistical Simulation and Monte Carlo Solutions</h3>
-              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
-            </div>
-            <div class="problems-grid" id="problems-container"><div class="problem-card">
-        <div class="problem-header">
-          <div class="problem-title-box">
-            <span class="diff-badge diff-hard">Solved Problem</span>
-            <strong>Example 5.1: Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez Numerical Problem 1</strong>
-          </div>
-        </div>
-        <div class="problem-question-box">
-          <p>Determine the frequency response, pole-zero stability, and terminal response for a system operating under Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez conditions.</p>
-        </div>
-        <button class="solution-toggle-btn" id="btn-sol-p5-1" aria-expanded="false">
+</div>
+</section></div>
+<!-- Pre-Rendered Solved Problems Container -->
+<div class="problems-wrapper" id="unit-problems-container" style="margin-top: 3rem;">
+<div class="problems-section-header">
+<div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+<h3 class="prob-sec-title">Step-by-Step Digital Signal Processing Solutions</h3>
+<p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+</div>
+<div class="problems-grid" id="problems-container"><div class="problem-card">
+<div class="problem-header">
+<div class="problem-title-box">
+<span class="diff-badge diff-hard">Solved Problem</span>
+<strong>Example 5.1: Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez Numerical Problem 1</strong>
+</div>
+</div>
+<div class="problem-question-box">
+<p>Determine the frequency response, pole-zero stability, and terminal response for a system operating under Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez conditions.</p>
+</div>
+<button aria-expanded="false" class="solution-toggle-btn" id="btn-sol-p5-1">
           👁️ Reveal Complete Derivation &amp; Solution
         </button>
-        <div class="solution-content" id="sol-content-p5-1">
-          
-          <div class="solution-step">
-            <div class="step-explanation"><p>Apply the governing transform domain models developed in Unit 5. State all initial conditions, evaluate the transfer function, and solve for steady-state and transient components.</p>
-
+<div class="solution-content" id="sol-content-p5-1">
+<div class="solution-step">
+<div class="step-explanation"><p>Apply the governing transform domain models developed in Unit 5. State all initial conditions, evaluate the transfer function, and solve for steady-state and transient components.</p>
 <div class="math-display">$$\text{Analytical balance evaluated across unit } 5$$</div></div>
-          </div>
-        
-        </div>
-      </div><div class="problem-card">
-        <div class="problem-header">
-          <div class="problem-title-box">
-            <span class="diff-badge diff-hard">Solved Problem</span>
-            <strong>Example 5.2: Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez Numerical Problem 2</strong>
-          </div>
-        </div>
-        <div class="problem-question-box">
-          <p>Determine the frequency response, pole-zero stability, and terminal response for a system operating under Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez conditions.</p>
-        </div>
-        <button class="solution-toggle-btn" id="btn-sol-p5-2" aria-expanded="false">
+</div>
+</div>
+</div><div class="problem-card">
+<div class="problem-header">
+<div class="problem-title-box">
+<span class="diff-badge diff-hard">Solved Problem</span>
+<strong>Example 5.2: Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez Numerical Problem 2</strong>
+</div>
+</div>
+<div class="problem-question-box">
+<p>Determine the frequency response, pole-zero stability, and terminal response for a system operating under Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez conditions.</p>
+</div>
+<button aria-expanded="false" class="solution-toggle-btn" id="btn-sol-p5-2">
           👁️ Reveal Complete Derivation &amp; Solution
         </button>
-        <div class="solution-content" id="sol-content-p5-2">
-          
-          <div class="solution-step">
-            <div class="step-explanation"><p>Apply the governing transform domain models developed in Unit 5. State all initial conditions, evaluate the transfer function, and solve for steady-state and transient components.</p>
-
+<div class="solution-content" id="sol-content-p5-2">
+<div class="solution-step">
+<div class="step-explanation"><p>Apply the governing transform domain models developed in Unit 5. State all initial conditions, evaluate the transfer function, and solve for steady-state and transient components.</p>
 <div class="math-display">$$\text{Analytical balance evaluated across unit } 5$$</div></div>
-          </div>
-        
-        </div>
-      </div><div class="problem-card">
-        <div class="problem-header">
-          <div class="problem-title-box">
-            <span class="diff-badge diff-hard">Solved Problem</span>
-            <strong>Example 5.3: Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez Numerical Problem 3</strong>
-          </div>
-        </div>
-        <div class="problem-question-box">
-          <p>Determine the frequency response, pole-zero stability, and terminal response for a system operating under Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez conditions.</p>
-        </div>
-        <button class="solution-toggle-btn" id="btn-sol-p5-3" aria-expanded="false">
+</div>
+</div>
+</div><div class="problem-card">
+<div class="problem-header">
+<div class="problem-title-box">
+<span class="diff-badge diff-hard">Solved Problem</span>
+<strong>Example 5.3: Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez Numerical Problem 3</strong>
+</div>
+</div>
+<div class="problem-question-box">
+<p>Determine the frequency response, pole-zero stability, and terminal response for a system operating under Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez conditions.</p>
+</div>
+<button aria-expanded="false" class="solution-toggle-btn" id="btn-sol-p5-3">
           👁️ Reveal Complete Derivation &amp; Solution
         </button>
-        <div class="solution-content" id="sol-content-p5-3">
-          
-          <div class="solution-step">
-            <div class="step-explanation"><p>Apply the governing transform domain models developed in Unit 5. State all initial conditions, evaluate the transfer function, and solve for steady-state and transient components.</p>
-
+<div class="solution-content" id="sol-content-p5-3">
+<div class="solution-step">
+<div class="step-explanation"><p>Apply the governing transform domain models developed in Unit 5. State all initial conditions, evaluate the transfer function, and solve for steady-state and transient components.</p>
 <div class="math-display">$$\text{Analytical balance evaluated across unit } 5$$</div></div>
-          </div>
-        
-        </div>
-      </div><div class="problem-card">
-        <div class="problem-header">
-          <div class="problem-title-box">
-            <span class="diff-badge diff-hard">Solved Problem</span>
-            <strong>Example 5.4: Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez Numerical Problem 4</strong>
-          </div>
-        </div>
-        <div class="problem-question-box">
-          <p>Determine the frequency response, pole-zero stability, and terminal response for a system operating under Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez conditions.</p>
-        </div>
-        <button class="solution-toggle-btn" id="btn-sol-p5-4" aria-expanded="false">
+</div>
+</div>
+</div><div class="problem-card">
+<div class="problem-header">
+<div class="problem-title-box">
+<span class="diff-badge diff-hard">Solved Problem</span>
+<strong>Example 5.4: Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez Numerical Problem 4</strong>
+</div>
+</div>
+<div class="problem-question-box">
+<p>Determine the frequency response, pole-zero stability, and terminal response for a system operating under Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez conditions.</p>
+</div>
+<button aria-expanded="false" class="solution-toggle-btn" id="btn-sol-p5-4">
           👁️ Reveal Complete Derivation &amp; Solution
         </button>
-        <div class="solution-content" id="sol-content-p5-4">
-          
-          <div class="solution-step">
-            <div class="step-explanation"><p>Apply the governing transform domain models developed in Unit 5. State all initial conditions, evaluate the transfer function, and solve for steady-state and transient components.</p>
-
+<div class="solution-content" id="sol-content-p5-4">
+<div class="solution-step">
+<div class="step-explanation"><p>Apply the governing transform domain models developed in Unit 5. State all initial conditions, evaluate the transfer function, and solve for steady-state and transient components.</p>
 <div class="math-display">$$\text{Analytical balance evaluated across unit } 5$$</div></div>
-          </div>
-        
-        </div>
-      </div><div class="problem-card">
-        <div class="problem-header">
-          <div class="problem-title-box">
-            <span class="diff-badge diff-hard">Solved Problem</span>
-            <strong>Example 5.5: Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez Numerical Problem 5</strong>
-          </div>
-        </div>
-        <div class="problem-question-box">
-          <p>Determine the frequency response, pole-zero stability, and terminal response for a system operating under Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez conditions.</p>
-        </div>
-        <button class="solution-toggle-btn" id="btn-sol-p5-5" aria-expanded="false">
+</div>
+</div>
+</div><div class="problem-card">
+<div class="problem-header">
+<div class="problem-title-box">
+<span class="diff-badge diff-hard">Solved Problem</span>
+<strong>Example 5.5: Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez Numerical Problem 5</strong>
+</div>
+</div>
+<div class="problem-question-box">
+<p>Determine the frequency response, pole-zero stability, and terminal response for a system operating under Finite Impulse Response (FIR) Filter Design: Windowing and Parks-McClellan Optimal Remez conditions.</p>
+</div>
+<button aria-expanded="false" class="solution-toggle-btn" id="btn-sol-p5-5">
           👁️ Reveal Complete Derivation &amp; Solution
         </button>
-        <div class="solution-content" id="sol-content-p5-5">
-          
-          <div class="solution-step">
-            <div class="step-explanation"><p>Apply the governing transform domain models developed in Unit 5. State all initial conditions, evaluate the transfer function, and solve for steady-state and transient components.</p>
-
+<div class="solution-content" id="sol-content-p5-5">
+<div class="solution-step">
+<div class="step-explanation"><p>Apply the governing transform domain models developed in Unit 5. State all initial conditions, evaluate the transfer function, and solve for steady-state and transient components.</p>
 <div class="math-display">$$\text{Analytical balance evaluated across unit } 5$$</div></div>
-          </div>
-        
-        </div>
-      </div></div>
-          </div>
-
-          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
-          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
-          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
-          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-electrical-and-electronics-engineering">Electrical &amp; Electronics Engineering Department</a><a href="circuit-analysis-i">Circuit Analysis I</a><a href="circuit-analysis-ii">Circuit Analysis II</a><a href="signals-and-systems">Signals and Systems</a><a href="analog-electronics">Analog Electronics</a><a href="digital-electronics-for-electrical-engineers">Digital Electronics for Electrical Engineers</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
-
-        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="digital-signal-processing-chapter-4">← Previous chapter</a><a href="digital-signal-processing">Book contents</a><a href="digital-signal-processing-chapter-6">Next chapter →</a></nav></article>
-      </div>
-    </main>
-
-  </div>
-
-  <!-- Textbook Application Scripts -->
-  <script src="digital-signal-processing-sims.js"></script>
-  <script src="digital-signal-processing-data.js"></script>
-  <script src="app.js?v=20261016_review_fix"></script>
-
-
+</div>
+</div>
+</div></div>
+</div>
+<!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+<!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+<!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+<footer class="reader-trust-footer"><nav aria-label="Related reading" class="reader-trust-links"><a href="index#dept-electrical-and-electronics-engineering">Electrical &amp; Electronics Engineering Department</a><a href="circuit-analysis-i">Circuit Analysis I</a><a href="circuit-analysis-ii">Circuit Analysis II</a><a href="signals-and-systems">Signals and Systems</a><a href="analog-electronics">Analog Electronics</a><a href="digital-electronics-for-electrical-engineers">Digital Electronics for Electrical Engineers</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+<nav aria-label="Chapter navigation" class="chapter-pagination"><a href="digital-signal-processing-chapter-4">← Previous chapter</a><a href="digital-signal-processing">Book contents</a><a href="digital-signal-processing-chapter-6">Next chapter →</a></nav></article>
+</div>
+</main>
+</div>
+<!-- Textbook Application Scripts -->
+<script src="digital-signal-processing-sims.js"></script>
+<script src="digital-signal-processing-data.js"></script>
+<script src="app.js?v=20261016_review_fix"></script>
 </body></html>

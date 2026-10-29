@@ -110,7 +110,9 @@ const fields=[["baseline power (kW)", 1, 25, 10], ["speed fraction", 0.4, 1.2, 0
 
   if (!window.SimulationEngine) window.SimulationEngine = {};
   window.SimulationEngine.initSimulation = function(containerId, simType) {
-    var container = document.getElementById(containerId || 'sim-container');
+    var container = document.getElementById(containerId) ||
+                    document.getElementById('sim-container') ||
+                    document.querySelector('.simulation-slot');
     if (!container) return;
     container.innerHTML = '';
     var unitNum = 1;
@@ -140,12 +142,16 @@ const fields=[["baseline power (kW)", 1, 25, 10], ["speed fraction", 0.4, 1.2, 0
   };
 
   if (typeof document !== 'undefined') {
+    var autoInit = function() {
+      var slot = document.getElementById('sim-container') || document.querySelector('.simulation-slot');
+      if (slot && slot.children.length === 0) {
+        window.SimulationEngine.initSimulation(slot.id || 'sim-container');
+      }
+    };
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function() {
-        if (document.getElementById('sim-container')) window.SimulationEngine.initSimulation('sim-container');
-      });
+      document.addEventListener('DOMContentLoaded', autoInit);
     } else {
-      if (document.getElementById('sim-container')) window.SimulationEngine.initSimulation('sim-container');
+      autoInit();
     }
   }
 })(typeof window === 'undefined' ? globalThis : window);

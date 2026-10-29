@@ -1,633 +1,427 @@
-<!DOCTYPE html><html lang="en"><head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Comprehensive SEO Meta Tags -->
-  <title>Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions | Control Systems II | OpenSTEM Library</title>
-  <meta name="description" content="Comprehensive university textbook unit covering fundamental principles, mathematical formulations, and practical engineering applications of Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions.">
-
-  <meta name="author" content="Shahriyar Karim Siam">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://openstemlibrary.com/control-systems-ii-chapter-8">
-
-  <!-- Open Graph / Social Media -->
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="https://openstemlibrary.com/control-systems-ii-chapter-8">
-  <meta property="og:title" content="Control Systems II: State-Space Analysis, Observers, Optimal Control &amp; LQR | OpenSTEM Library">
-  <meta property="og:description" content="Comprehensive university textbook covering continuous and discrete state-space representations, state transition matrices, controllability, observability, full-state feedback pole placement, observer synthesis, LQR optimal control, discrete-time state systems, and Lyapunov stability with 40 solved questions and 8 interactive simulations.">
-  <meta property="og:image" content="https://openstemlibrary.com/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Control Systems II: State-Space Analysis, Observers, Optimal Control &amp; LQR | OpenSTEM Library">
-  <meta name="twitter:description" content="Comprehensive university textbook covering continuous and discrete state-space representations, state transition matrices, controllability, observability, full-state feedback pole placement, observer synthesis, LQR optimal control, discrete-time state systems, and Lyapunov stability with 40 solved questions and 8 interactive simulations.">
-  <meta name="twitter:image" content="https://openstemlibrary.com/og-image.png">
-
-  <!-- Favicon & Search Engine Icons -->
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
-  <link rel="icon" type="image/svg+xml" href="logo.svg">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-
-  <!-- Schema.org Educational Course JSON-LD -->
-
-
-
-  <!-- Schema.org Breadcrumb Navigation -->
-
-
-  <!-- Google Fonts: Inter & Fira Code -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet">
-
-  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-
-  <!-- Application Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=20261016_review_fix">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Control Systems II: Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions","description":"Comprehensive university textbook covering continuous and discrete state-space representations, state transition matrices, controllability, observability, full-state feedback pole placement, observer synthesis, LQR optimal control, discrete-time state systems, and Lyapunov stability with 40 solved questions and 8 interactive simulations.","url":"https://openstemlibrary.com/control-systems-ii-chapter-8","inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Undergraduate","author":{"@type":"Organization","name":"OpenSTEM Library"},"publisher":{"@type":"Organization","name":"OpenSTEM Library","url":"https://openstemlibrary.com/"},"learningResourceType":"Textbook","about":["Fundamentals of Materials Science and Engineering","Materials Science & Engineering","Undergraduate STEM Curriculum","Worked Problems","Interactive Simulations"],"keywords":"Control Systems II, State Space, Controllability, Observability, Pole Placement, LQR, Kalman Filter, Discrete Control"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Electrical & Electronics Engineering","item":"https://openstemlibrary.com/#dept-electrical-and-electronics-engineering"},{"@type":"ListItem","position":3,"name":"Control Systems II","item":"https://openstemlibrary.com/control-systems-ii"}]}</script><link rel="stylesheet" href="control-systems-ii.css"></head>
-<body data-book-path="control-systems-ii.html" data-chapter-index="7" class="reader-paper" style="--openstem-reader-font-scale: 1;">
-
-  <div class="app-container">
-    <!-- Left Navigation Sidebar -->
-    <aside class="sidebar" aria-label="Book chapters">
-      <div class="brand-header">
-        <img src="logo.svg" alt="OpenSTEM Logo" class="brand-logo-img" width="36" height="36">
-        <div>
-          <div class="brand-title">Control Systems II</div>
-          <div class="brand-subtitle">OpenSTEM Digital Textbook</div>
-        </div>
-      </div>
-
-      <!-- Live Search Filter for SEO / Navigation -->
-      <div class="search-box-container">
-        <input type="text" id="topic-search-input" placeholder="Search PRNG, LCG, Mersenne Twister, inversion method, rejection sampling, Box-Muller, Monte Carlo integration, importance sampling, antithetic variates, Metropolis-Hastings, Gibbs sampler, Hamiltonian Monte Carlo, particle filter…" class="search-input">
-      </div>
-
-      <div class="nav-section-title">Table of Contents</div>
-      <ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a href="control-systems-ii" class="unit-nav-link"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">State-Space Representations of Continuous Dynamic Systems</span></a></li><li class="unit-nav-item" data-unit-index="1"><a href="control-systems-ii-chapter-2" class="unit-nav-link"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">State Transition Matrix, Homogeneous and Forced Time Solutions</span></a></li><li class="unit-nav-item" data-unit-index="2"><a href="control-systems-ii-chapter-3" class="unit-nav-link"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Controllability, Observability, and Kalman Canonical Decompositions</span></a></li><li class="unit-nav-item" data-unit-index="3"><a href="control-systems-ii-chapter-4" class="unit-nav-link"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Full-State Feedback Controller Design and Pole Placement via Ackermann</span></a></li><li class="unit-nav-item" data-unit-index="4"><a href="control-systems-ii-chapter-5" class="unit-nav-link"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Full-Order and Reduced-Order State Observer Synthesis</span></a></li><li class="unit-nav-item" data-unit-index="5"><a href="control-systems-ii-chapter-6" class="unit-nav-link"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Linear Quadratic Regulator (LQR) Optimal Control and Algebraic Riccati Equations</span></a></li><li class="unit-nav-item" data-unit-index="6"><a href="control-systems-ii-chapter-7" class="unit-nav-link"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Discrete-Time State-Space Systems, Z-Transform State Equations, and Deadbeat Control</span></a></li><li class="unit-nav-item active" data-unit-index="7"><a href="control-systems-ii-chapter-8" class="unit-nav-link" aria-current="page"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions</span></a></li></ul>
-    </aside>
-
-    <!-- Main Content Reader Container -->
-    <main class="main-content">
-      <!-- Top Sticky Navbar -->
-      <header class="top-navbar">
-        <div class="course-badge-container">
-          <span class="badge-pill badge-course">Electrical &amp; Electronics Engineering</span>
-          <span class="badge-pill badge-credits">Electrical &amp; Electronics Engineering major</span>
-          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
-        </div>
-        <div class="navbar-actions">
-          <a href="index" class="btn-tool" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
-          <button id="btn-font-toggle" class="btn-tool" title="Toggle Academic Reading Font">A/A Academic</button>
-          <div class="protection-notice">Read freely · Cite responsibly</div>
-        <button type="button" class="btn-tool reader-theme-toggle" aria-pressed="true" aria-label="Night view — switch to dark reading view" title="Use the original dark reading theme">Night view</button><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div><div class="reader-text-controls" role="group" aria-label="Reading text size" data-reading-scale="1"><button type="button" class="btn-tool reader-size-button" aria-label="A− Decrease reading text size" disabled="">A−</button><button type="button" class="btn-tool reader-size-button" aria-label="A+ Increase reading text size">A+</button></div></div>
-      </header>
-
-      <!-- Content Columns (Wide Centered Reader) -->
-      <div class="content-columns" id="main-content-area">
-        <!-- Center Textbook Article -->
-        <article class="reader-main-column" id="textbook-article">
-          <!-- Chapter Hero Header -->
-          <header class="unit-hero">
-            <div class="unit-number-tag" id="unit-tag">Chapter 8 • Theory &amp; Derivations</div>
-            <h1 class="unit-title-heading" id="unit-title">Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions</h1>
-            <p class="unit-desc-lead" id="unit-desc">Comprehensive university textbook unit covering fundamental principles, mathematical formulations, and practical engineering applications of Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions.</p>
-          </header><aside class="stat-editorial-note" aria-label="About this textbook"><strong>About this textbook.</strong> Original English teaching material for university Control Systems II study. Eight units with verified worked problems and 16 interactive simulations illustrating fundamental principles and core applications. Numerical checks and an editorial review support this edition.</aside>
-
-          <!-- Pre-Rendered Sections for Indexing & Instant Load -->
-          <div id="textbook-sections"><section class="textbook-section-card" id="sec-8-1">
-        <header class="sec-header">
-          <h3 class="sec-title">
-            <span class="sec-num">§8.1</span>
-            <span>Sample delay and discrete-time stability</span>
-          </h3>
-        </header>
-        <div class="sec-content">
-          <h4>Lesson 8.1 — Sample delay and discrete-time stability</h4>
-
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- Comprehensive SEO Meta Tags -->
+<title>Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions | Control Systems II | OpenSTEM Library</title>
+<meta content="Comprehensive university textbook unit covering fundamental principles, mathematical formulations, and practical engineering applications of Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions." name="description"/>
+<meta content="Shahriyar Karim Siam" name="author"/>
+<meta content="index, follow, max-image-preview:large" name="robots"/>
+<link href="https://openstemlibrary.com/control-systems-ii-chapter-8" rel="canonical"/>
+<!-- Open Graph / Social Media -->
+<meta content="article" property="og:type"/>
+<meta content="https://openstemlibrary.com/control-systems-ii-chapter-8" property="og:url"/>
+<meta content="Control Systems II: State-Space Analysis, Observers, Optimal Control &amp; LQR | OpenSTEM Library" property="og:title"/>
+<meta content="Comprehensive university textbook covering continuous and discrete state-space representations, state transition matrices, controllability, observability, full-state feedback pole placement, observer synthesis, LQR optimal control, discrete-time state systems, and Lyapunov stability with 40 solved questions and 8 interactive simulations." property="og:description"/>
+<meta content="https://openstemlibrary.com/og-image.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Control Systems II: State-Space Analysis, Observers, Optimal Control &amp; LQR | OpenSTEM Library" name="twitter:title"/>
+<meta content="Comprehensive university textbook covering continuous and discrete state-space representations, state transition matrices, controllability, observability, full-state feedback pole placement, observer synthesis, LQR optimal control, discrete-time state systems, and Lyapunov stability with 40 solved questions and 8 interactive simulations." name="twitter:description"/>
+<meta content="https://openstemlibrary.com/og-image.png" name="twitter:image"/>
+<!-- Favicon & Search Engine Icons -->
+<link href="favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="favicon-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="logo.svg" rel="icon" type="image/svg+xml"/>
+<link href="apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<!-- Schema.org Educational Course JSON-LD -->
+<!-- Schema.org Breadcrumb Navigation -->
+<!-- Google Fonts: Inter & Fira Code -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet"/>
+<!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+<link href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<!-- Application Stylesheet -->
+<link href="styles.css?v=20261016_review_fix" rel="stylesheet"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Book", "name": "Control Systems II: Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions", "description": "Comprehensive university textbook covering continuous and discrete state-space representations, state transition matrices, controllability, observability, full-state feedback pole placement, observer synthesis, LQR optimal control, discrete-time state systems, and Lyapunov stability with 40 solved questions and 8 interactive simulations.", "url": "https://openstemlibrary.com/control-systems-ii-chapter-8", "inLanguage": "en", "isAccessibleForFree": true, "educationalLevel": "Undergraduate", "author": {"@type": "Organization", "name": "OpenSTEM Library"}, "publisher": {"@type": "Organization", "name": "OpenSTEM Library", "url": "https://openstemlibrary.com/"}, "learningResourceType": "Textbook", "about": ["Control Systems II", "Electrical & Electronics Engineering", "Undergraduate STEM Curriculum", "Worked Problems", "Interactive Simulations"], "keywords": "Control Systems II, State Space, Controllability, Observability, Pole Placement, LQR, Kalman Filter, Discrete Control"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OpenSTEM Library","item":"https://openstemlibrary.com/"},{"@type":"ListItem","position":2,"name":"Electrical & Electronics Engineering","item":"https://openstemlibrary.com/#dept-electrical-and-electronics-engineering"},{"@type":"ListItem","position":3,"name":"Control Systems II","item":"https://openstemlibrary.com/control-systems-ii"}]}</script><link href="control-systems-ii.css" rel="stylesheet"/></head>
+<body class="reader-paper" data-book-path="control-systems-ii.html" data-chapter-index="7" style="--openstem-reader-font-scale: 1;">
+<div class="app-container">
+<!-- Left Navigation Sidebar -->
+<aside aria-label="Book chapters" class="sidebar">
+<div class="brand-header">
+<img alt="OpenSTEM Logo" class="brand-logo-img" height="36" src="logo.svg" width="36"/>
+<div>
+<div class="brand-title">Control Systems II</div>
+<div class="brand-subtitle">OpenSTEM Digital Textbook</div>
+</div>
+</div>
+<!-- Live Search Filter for SEO / Navigation -->
+<div class="search-box-container">
+<input class="search-input" id="topic-search-input" placeholder="Search PRNG, LCG, Mersenne Twister, inversion method, rejection sampling, Box-Muller, Monte Carlo integration, importance sampling, antithetic variates, Metropolis-Hastings, Gibbs sampler, Hamiltonian Monte Carlo, particle filter…" type="text"/>
+</div>
+<div class="nav-section-title">Table of Contents</div>
+<ul class="unit-nav-list" id="unit-nav-list"><li class="unit-nav-item" data-unit-index="0"><a class="unit-nav-link" href="control-systems-ii"><span class="unit-nav-num">Ch.1</span><span class="unit-nav-text">State-Space Representations of Continuous Dynamic Systems</span></a></li><li class="unit-nav-item" data-unit-index="1"><a class="unit-nav-link" href="control-systems-ii-chapter-2"><span class="unit-nav-num">Ch.2</span><span class="unit-nav-text">State Transition Matrix, Homogeneous and Forced Time Solutions</span></a></li><li class="unit-nav-item" data-unit-index="2"><a class="unit-nav-link" href="control-systems-ii-chapter-3"><span class="unit-nav-num">Ch.3</span><span class="unit-nav-text">Controllability, Observability, and Kalman Canonical Decompositions</span></a></li><li class="unit-nav-item" data-unit-index="3"><a class="unit-nav-link" href="control-systems-ii-chapter-4"><span class="unit-nav-num">Ch.4</span><span class="unit-nav-text">Full-State Feedback Controller Design and Pole Placement via Ackermann</span></a></li><li class="unit-nav-item" data-unit-index="4"><a class="unit-nav-link" href="control-systems-ii-chapter-5"><span class="unit-nav-num">Ch.5</span><span class="unit-nav-text">Full-Order and Reduced-Order State Observer Synthesis</span></a></li><li class="unit-nav-item" data-unit-index="5"><a class="unit-nav-link" href="control-systems-ii-chapter-6"><span class="unit-nav-num">Ch.6</span><span class="unit-nav-text">Linear Quadratic Regulator (LQR) Optimal Control and Algebraic Riccati Equations</span></a></li><li class="unit-nav-item" data-unit-index="6"><a class="unit-nav-link" href="control-systems-ii-chapter-7"><span class="unit-nav-num">Ch.7</span><span class="unit-nav-text">Discrete-Time State-Space Systems, Z-Transform State Equations, and Deadbeat Control</span></a></li><li class="unit-nav-item active" data-unit-index="7"><a aria-current="page" class="unit-nav-link" href="control-systems-ii-chapter-8"><span class="unit-nav-num">Ch.8</span><span class="unit-nav-text">Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions</span></a></li></ul>
+</aside>
+<!-- Main Content Reader Container -->
+<main class="main-content">
+<!-- Top Sticky Navbar -->
+<header class="top-navbar">
+<div class="course-badge-container">
+<span class="badge-pill badge-course">Electrical &amp; Electronics Engineering</span>
+<span class="badge-pill badge-credits">Electrical &amp; Electronics Engineering major</span>
+<span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">100% Free Open Access</span>
+</div>
+<div class="navbar-actions">
+<a class="btn-tool" href="index" style="text-decoration:none; display:flex; align-items:center; gap:0.35rem; color:#38bdf8;">← STEM Library</a>
+<button class="btn-tool" id="btn-font-toggle" title="Toggle Academic Reading Font">A/A Academic</button>
+<div class="protection-notice">Read freely · Cite responsibly</div>
+<button aria-label="Night view — switch to dark reading view" aria-pressed="true" class="btn-tool reader-theme-toggle" title="Use the original dark reading theme" type="button">Night view</button><div aria-label="Reading text size" class="reader-text-controls" data-reading-scale="1" role="group"><button aria-label="A− Decrease reading text size" class="btn-tool reader-size-button" disabled="" type="button">A−</button><button aria-label="A+ Increase reading text size" class="btn-tool reader-size-button" type="button">A+</button></div><div aria-label="Reading text size" class="reader-text-controls" data-reading-scale="1" role="group"><button aria-label="A− Decrease reading text size" class="btn-tool reader-size-button" disabled="" type="button">A−</button><button aria-label="A+ Increase reading text size" class="btn-tool reader-size-button" type="button">A+</button></div><div aria-label="Reading text size" class="reader-text-controls" data-reading-scale="1" role="group"><button aria-label="A− Decrease reading text size" class="btn-tool reader-size-button" disabled="" type="button">A−</button><button aria-label="A+ Increase reading text size" class="btn-tool reader-size-button" type="button">A+</button></div><div aria-label="Reading text size" class="reader-text-controls" data-reading-scale="1" role="group"><button aria-label="A− Decrease reading text size" class="btn-tool reader-size-button" disabled="" type="button">A−</button><button aria-label="A+ Increase reading text size" class="btn-tool reader-size-button" type="button">A+</button></div></div>
+</header>
+<!-- Content Columns (Wide Centered Reader) -->
+<div class="content-columns" id="main-content-area">
+<!-- Center Textbook Article -->
+<article class="reader-main-column" id="textbook-article">
+<!-- Chapter Hero Header -->
+<header class="unit-hero">
+<div class="unit-number-tag" id="unit-tag">Chapter 8 • Theory &amp; Derivations</div>
+<h1 class="unit-title-heading" id="unit-title">Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions</h1>
+<p class="unit-desc-lead" id="unit-desc">Comprehensive university textbook unit covering fundamental principles, mathematical formulations, and practical engineering applications of Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions.</p>
+</header><aside aria-label="About this textbook" class="stat-editorial-note"><strong>About this textbook.</strong> Original English teaching material for university Control Systems II study. Eight units with verified worked problems and 16 interactive simulations illustrating fundamental principles and core applications. Numerical checks and an editorial review support this edition.</aside>
+<!-- Pre-Rendered Sections for Indexing & Instant Load -->
+<div id="textbook-sections"><section class="textbook-section-card" id="sec-8-1">
+<header class="sec-header">
+<h3 class="sec-title">
+<span class="sec-num">§8.1</span>
+<span>Sample delay and discrete-time stability</span>
+</h3>
+</header>
+<div class="sec-content">
+<h4>Lesson 8.1 — Sample delay and discrete-time stability</h4>
 <p><strong>Unit:</strong> Networked control, faults and verification. <strong>Prerequisites:</strong> Book 11 feedback and state-space fundamentals; preceding lessons in this unit. <strong>Learning objectives:</strong> explain the model, reproduce the worked case, identify an important failure condition, and independently solve the problems.</p>
-
 <h4>Concept and mechanism</h4>
-
 <p>In a digital loop, the output used to compute the input may be one or more sample periods old. A delay changes the closed-loop characteristic polynomial and can destabilize a loop whose no-delay recurrence is stable. Stability of a finite-dimensional discrete linear system requires all eigenvalues to lie strictly inside the unit circle. Jitter and missed updates require more than one fixed-delay model.</p>
-
 <p><strong>Governing relation:</strong> <code>No delay: x_{k+1}=a x_k-bK x_k; one-step delay: x_{k+1}=a x_k-bK x_{k-1}</code></p>
-
 <p>To interpret this expression, mark each symbol as a state, command, observation, uncertainty, noise statistic or design weight. Determine whether the result is continuous-time, sampled-time, a static mapping, or a bound. The statement may require nonsingular matrices, bounded variation, a linear model or known timing. List the specific hypotheses before drawing an engineering conclusion.</p>
-
 <h4>Worked example</h4>
-
 <p>Take a=0.8, b=0.2, K=5. With no delay, multiplier is 0.8−1=−0.2, stable. With one-step delay the polynomial is λ²−0.8λ+1=0; its complex roots have product 1 and magnitude 1, so the system is marginal rather than asymptotically stable. Raising K beyond five pushes the product bK above one and makes at least one root magnitude exceed one in this example.</p>
-
 <p><strong>Independent check:</strong> Write the same example as an equation whose two sides must agree after substitution. Check the sign and limiting cases; then change only one number and predict whether the outcome increases, decreases, or requires a full recalculation. Do not mistake numerical agreement under synthetic data for physical validation. A result describing a covariance is conditional on the noise model; one describing stability is conditional on the model and its defined perturbations; one describing an optimum is conditional on both the objective and the feasible set.</p>
-
 <h4>Interpretation and decision</h4>
-
 <p>The timestamp on a logged command is not necessarily the time the actuator actually applies it. Measure the compute, network and hold delays separately before choosing a model.</p>
-
 <p>The design choice should identify the goal being improved—tracking, robustness, estimation, control effort or timing—and a quantity that may become worse. Distinguish a sufficient theorem condition from a necessary condition. For optimization explicitly report actuator limits; for estimation report which measurements support the inference. A calculated number is useful only when its assumptions and units are available to the reader.</p>
-
 <h4>When the argument fails</h4>
-
 <p>A controller that changes its sample time under CPU load cannot be represented exactly by one fixed a and b. A stability proof for constant timing does not automatically cover switched timing.</p>
-
 <p>Describe a falsifiable counterexample by naming an omitted dynamic, a violated constraint, an unobservable mode or a mischaracterized uncertainty set. Indicate which measured variable or computed check would reveal the discrepancy. Repeating the original calculation at the same nominal point cannot test a modeling assumption that never appeared in the equation.</p>
-
 <h4>Engineering case — Remote instrumentation over a network</h4>
-
 <p>A simulated sampling service receives sensor packets with timestamps, occasional losses and quantized values. A controller should know whether it acts on the current estimate or a held previous reading. A simple loss rate is less informative than the maximum burst length for a worst-case requirement. Run nominal timing, late-packet, dropout and sensor-stuck cases, and document the required fallback action without implying that this simulated response meets a real-world safety standard.</p>
-
 <p><strong>Lab protocol: Timing and fault audit.</strong> Record sample creation time, packet arrival time, computation completion time and actuator application time separately. Add a fault table with the intended detection, fallback behavior and independent evidence for each mode.</p>
-
 <p>Create an assumption ledger listing sensor availability, actuator limits, initial state, operating point and the variable intentionally changed. For the main claim, separate what follows algebraically from what would require a second independent experiment. If the proposed experiment is unable to distinguish competing hypotheses, redesign it before collecting more repeated data.</p>
-
 <h4>Exercises</h4>
-
 <h4>1. Calculation: With a=0.6, b=0.2 and K=2, find the roots of λ²−aλ+bK and test the unit-circle condition. Show the intermediate arithmetic, a dimensions or sign check, and the condition under which the result is valid.</h4>
-
 <h4>2. Alternative model: Construct an alternative interpretation of the same nominal observation, then name one additional signal that would separate the alternatives.</h4>
-
 <h4>3. Sensitivity: Change one uncertain parameter by 20%. State which original claim remains logically valid, which result needs recalculation, and what new numerical input is required.</h4>
-
 <h4>4. Connection: Compare the present method to Packet loss, quantization and stale samples. Name an assumption they share and one kind of answer each method cannot produce alone.</h4>
-
 <h4>5. Verification: Draft a five-line test specification listing input, expected outcome, numeric tolerance, potential failure and the reason a passing simulation would not establish hardware safety.</h4>
-
 <h4>Reference guidance</h4>
-
 <p>A complete answer to the calculation question begins from the displayed governing relation and shows substitutions. The alternative-model answer must predict a different outcome in a specified observation. The sensitivity answer must distinguish parameter error from measurement noise. The connection question should identify a difference in mathematical object or guarantee, not just a difference in terminology. A suitable test reports reproducible settings and a clear fail condition. Use the accompanying unit assessment for explicit numerical checks and worked answer guidance.</p>
-        </div>
-        
-          <div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
-            <div class="simulation-slot" id="sim-container-control-systems-ii-sim-8"></div>
-          </div>
-        
-      </section><section class="textbook-section-card" id="sec-8-2">
-        <header class="sec-header">
-          <h3 class="sec-title">
-            <span class="sec-num">§8.2</span>
-            <span>Packet loss, quantization and stale samples</span>
-          </h3>
-        </header>
-        <div class="sec-content">
-          <h4>Lesson 8.2 — Packet loss, quantization and stale samples</h4>
-
+</div>
+<div class="inline-simulation-wrapper" style="margin-top: 2.25rem;">
+<div class="simulation-slot" id="sim-container-control-systems-ii-sim-8"></div>
+</div>
+</section><section class="textbook-section-card" id="sec-8-2">
+<header class="sec-header">
+<h3 class="sec-title">
+<span class="sec-num">§8.2</span>
+<span>Packet loss, quantization and stale samples</span>
+</h3>
+</header>
+<div class="sec-content">
+<h4>Lesson 8.2 — Packet loss, quantization and stale samples</h4>
 <p><strong>Unit:</strong> Networked control, faults and verification. <strong>Prerequisites:</strong> Book 11 feedback and state-space fundamentals; preceding lessons in this unit. <strong>Learning objectives:</strong> explain the model, reproduce the worked case, identify an important failure condition, and independently solve the problems.</p>
-
 <h4>Concept and mechanism</h4>
-
 <p>Communication losses can produce a zero-order-held command, an omitted measurement or a stale state estimate. These mechanisms differ, and each demands a declared update rule. Quantization limits the resolution of sensed or commanded signals; its effect depends on closed-loop gain, signal scaling and whether deterministic limit cycles occur. Statistical loss rates alone do not certify worst-case stability.</p>
-
 <p><strong>Governing relation:</strong> <code>Uniform quantizer Q_delta(x)=delta*round(x/delta); |Q_delta(x)-x|&lt;=delta/2 away from overflow</code></p>
-
 <p>To interpret this expression, mark each symbol as a state, command, observation, uncertainty, noise statistic or design weight. Determine whether the result is continuous-time, sampled-time, a static mapping, or a bound. The statement may require nonsingular matrices, bounded variation, a linear model or known timing. List the specific hypotheses before drawing an engineering conclusion.</p>
-
 <h4>Worked example</h4>
-
 <p>For a sensor step δ=0.1 in the same units as x, a true value x=1.24 rounds to 1.2 and the quantization error is −0.04. The absolute error bound is 0.05 if the quantizer is not saturated. If the sensor holds a stale measurement of 1.2 while the true state has moved to 2, the error is 0.8—far larger than the quantization step—and should be analyzed as a delay or loss problem.</p>
-
 <p><strong>Independent check:</strong> Write the same example as an equation whose two sides must agree after substitution. Check the sign and limiting cases; then change only one number and predict whether the outcome increases, decreases, or requires a full recalculation. Do not mistake numerical agreement under synthetic data for physical validation. A result describing a covariance is conditional on the noise model; one describing stability is conditional on the model and its defined perturbations; one describing an optimum is conditional on both the objective and the feasible set.</p>
-
 <h4>Interpretation and decision</h4>
-
 <p>A quantizer’s mathematical bound depends on rounding convention and a nonsaturated range. ADC over-range and integer overflow can violate the small-error model completely.</p>
-
 <p>The design choice should identify the goal being improved—tracking, robustness, estimation, control effort or timing—and a quantity that may become worse. Distinguish a sufficient theorem condition from a necessary condition. For optimization explicitly report actuator limits; for estimation report which measurements support the inference. A calculated number is useful only when its assumptions and units are available to the reader.</p>
-
 <h4>When the argument fails</h4>
-
 <p>Random loss simulations averaged over many trials may overlook a rare long burst of missing packets. Systems with hard limits need explicit burst-handling behavior and independent protective actions.</p>
-
 <p>Describe a falsifiable counterexample by naming an omitted dynamic, a violated constraint, an unobservable mode or a mischaracterized uncertainty set. Indicate which measured variable or computed check would reveal the discrepancy. Repeating the original calculation at the same nominal point cannot test a modeling assumption that never appeared in the equation.</p>
-
 <h4>Engineering case — Remote instrumentation over a network</h4>
-
 <p>A simulated sampling service receives sensor packets with timestamps, occasional losses and quantized values. A controller should know whether it acts on the current estimate or a held previous reading. A simple loss rate is less informative than the maximum burst length for a worst-case requirement. Run nominal timing, late-packet, dropout and sensor-stuck cases, and document the required fallback action without implying that this simulated response meets a real-world safety standard.</p>
-
 <p><strong>Lab protocol: Timing and fault audit.</strong> Record sample creation time, packet arrival time, computation completion time and actuator application time separately. Add a fault table with the intended detection, fallback behavior and independent evidence for each mode.</p>
-
 <p>Create an assumption ledger listing sensor availability, actuator limits, initial state, operating point and the variable intentionally changed. For the main claim, separate what follows algebraically from what would require a second independent experiment. If the proposed experiment is unable to distinguish competing hypotheses, redesign it before collecting more repeated data.</p>
-
 <h4>Exercises</h4>
-
 <h4>1. Calculation: For δ=0.05 and true values 0.12, 0.13 and −0.12, compute rounded readings and errors. How does a six-packet dropout differ conceptually? Show the intermediate arithmetic, a dimensions or sign check, and the condition under which the result is valid.</h4>
-
 <h4>2. Alternative model: Construct an alternative interpretation of the same nominal observation, then name one additional signal that would separate the alternatives.</h4>
-
 <h4>3. Sensitivity: Change one uncertain parameter by 20%. State which original claim remains logically valid, which result needs recalculation, and what new numerical input is required.</h4>
-
 <h4>4. Connection: Compare the present method to Sensor fault residuals and diagnostic logic. Name an assumption they share and one kind of answer each method cannot produce alone.</h4>
-
 <h4>5. Verification: Draft a five-line test specification listing input, expected outcome, numeric tolerance, potential failure and the reason a passing simulation would not establish hardware safety.</h4>
-
 <h4>Reference guidance</h4>
-
 <p>A complete answer to the calculation question begins from the displayed governing relation and shows substitutions. The alternative-model answer must predict a different outcome in a specified observation. The sensitivity answer must distinguish parameter error from measurement noise. The connection question should identify a difference in mathematical object or guarantee, not just a difference in terminology. A suitable test reports reproducible settings and a clear fail condition. Use the accompanying unit assessment for explicit numerical checks and worked answer guidance.</p>
-        </div>
-        
-      </section><section class="textbook-section-card" id="sec-8-3">
-        <header class="sec-header">
-          <h3 class="sec-title">
-            <span class="sec-num">§8.3</span>
-            <span>Sensor fault residuals and diagnostic logic</span>
-          </h3>
-        </header>
-        <div class="sec-content">
-          <h4>Lesson 8.3 — Sensor fault residuals and diagnostic logic</h4>
-
+</div>
+</section><section class="textbook-section-card" id="sec-8-3">
+<header class="sec-header">
+<h3 class="sec-title">
+<span class="sec-num">§8.3</span>
+<span>Sensor fault residuals and diagnostic logic</span>
+</h3>
+</header>
+<div class="sec-content">
+<h4>Lesson 8.3 — Sensor fault residuals and diagnostic logic</h4>
 <p><strong>Unit:</strong> Networked control, faults and verification. <strong>Prerequisites:</strong> Book 11 feedback and state-space fundamentals; preceding lessons in this unit. <strong>Learning objectives:</strong> explain the model, reproduce the worked case, identify an important failure condition, and independently solve the problems.</p>
-
 <h4>Concept and mechanism</h4>
-
 <p>Residuals compare measurements with predictions or redundant signals. Under a correct model and healthy sensor, the residual should lie in an expected distribution or deterministic envelope. A persistent bias, stuck-at value, drift or timing jump can violate the envelope. Detection rules must balance sensitivity with false alarms, and diagnostic uncertainty must be logged rather than silently turned into a fault label.</p>
-
 <p><strong>Governing relation:</strong> <code>r_k=y_k-H*xhat_k; simple alarm when |r_k|&gt;threshold for m consecutive samples</code></p>
-
 <p>To interpret this expression, mark each symbol as a state, command, observation, uncertainty, noise statistic or design weight. Determine whether the result is continuous-time, sampled-time, a static mapping, or a bound. The statement may require nonsingular matrices, bounded variation, a linear model or known timing. List the specific hypotheses before drawing an engineering conclusion.</p>
-
 <h4>Worked example</h4>
-
 <p>Suppose a nominal sensor residual has standard deviation 0.1 and a provisional threshold is 0.3. A residual sequence [0.1,0.4,0.5,0.1] exceeds threshold twice consecutively. With m=2 the rule signals an alert at the third reading; with m=3 it does not. Such threshold selection must be validated against noise, autocorrelation and false-alarm tolerance.</p>
-
 <p><strong>Independent check:</strong> Write the same example as an equation whose two sides must agree after substitution. Check the sign and limiting cases; then change only one number and predict whether the outcome increases, decreases, or requires a full recalculation. Do not mistake numerical agreement under synthetic data for physical validation. A result describing a covariance is conditional on the noise model; one describing stability is conditional on the model and its defined perturbations; one describing an optimum is conditional on both the objective and the feasible set.</p>
-
 <h4>Interpretation and decision</h4>
-
 <p>Detection is not the same as diagnosis: a high residual can arise from actuator failure, sensor fault, unexpected disturbance, or wrong model parameters. Isolation requires extra information or deliberately discriminating checks.</p>
-
 <p>The design choice should identify the goal being improved—tracking, robustness, estimation, control effort or timing—and a quantity that may become worse. Distinguish a sufficient theorem condition from a necessary condition. For optimization explicitly report actuator limits; for estimation report which measurements support the inference. A calculated number is useful only when its assumptions and units are available to the reader.</p>
-
 <h4>When the argument fails</h4>
-
 <p>If a faulty sensor and the estimator share the same bias, the residual can remain small. An independent measurement principle or cross-check can be more valuable than narrowing the numerical alarm limit.</p>
-
 <p>Describe a falsifiable counterexample by naming an omitted dynamic, a violated constraint, an unobservable mode or a mischaracterized uncertainty set. Indicate which measured variable or computed check would reveal the discrepancy. Repeating the original calculation at the same nominal point cannot test a modeling assumption that never appeared in the equation.</p>
-
 <h4>Engineering case — Remote instrumentation over a network</h4>
-
 <p>A simulated sampling service receives sensor packets with timestamps, occasional losses and quantized values. A controller should know whether it acts on the current estimate or a held previous reading. A simple loss rate is less informative than the maximum burst length for a worst-case requirement. Run nominal timing, late-packet, dropout and sensor-stuck cases, and document the required fallback action without implying that this simulated response meets a real-world safety standard.</p>
-
 <p><strong>Lab protocol: Timing and fault audit.</strong> Record sample creation time, packet arrival time, computation completion time and actuator application time separately. Add a fault table with the intended detection, fallback behavior and independent evidence for each mode.</p>
-
 <p>Create an assumption ledger listing sensor availability, actuator limits, initial state, operating point and the variable intentionally changed. For the main claim, separate what follows algebraically from what would require a second independent experiment. If the proposed experiment is unable to distinguish competing hypotheses, redesign it before collecting more repeated data.</p>
-
 <h4>Exercises</h4>
-
 <h4>1. Calculation: Given residuals [0.31,0.33,0.05,0.42,0.43,0.44], threshold 0.3 and m=3, find the first alert index. What evidence would help distinguish sensor bias from a disturbance? Show the intermediate arithmetic, a dimensions or sign check, and the condition under which the result is valid.</h4>
-
 <h4>2. Alternative model: Construct an alternative interpretation of the same nominal observation, then name one additional signal that would separate the alternatives.</h4>
-
 <h4>3. Sensitivity: Change one uncertain parameter by 20%. State which original claim remains logically valid, which result needs recalculation, and what new numerical input is required.</h4>
-
 <h4>4. Connection: Compare the present method to Verification matrix, fallback behavior and control assurance. Name an assumption they share and one kind of answer each method cannot produce alone.</h4>
-
 <h4>5. Verification: Draft a five-line test specification listing input, expected outcome, numeric tolerance, potential failure and the reason a passing simulation would not establish hardware safety.</h4>
-
 <h4>Reference guidance</h4>
-
 <p>A complete answer to the calculation question begins from the displayed governing relation and shows substitutions. The alternative-model answer must predict a different outcome in a specified observation. The sensitivity answer must distinguish parameter error from measurement noise. The connection question should identify a difference in mathematical object or guarantee, not just a difference in terminology. A suitable test reports reproducible settings and a clear fail condition. Use the accompanying unit assessment for explicit numerical checks and worked answer guidance.</p>
-        </div>
-        
-      </section><section class="textbook-section-card" id="sec-8-4">
-        <header class="sec-header">
-          <h3 class="sec-title">
-            <span class="sec-num">§8.4</span>
-            <span>Verification matrix, fallback behavior and control assurance</span>
-          </h3>
-        </header>
-        <div class="sec-content">
-          <h4>Lesson 8.4 — Verification matrix, fallback behavior and control assurance</h4>
-
+</div>
+</section><section class="textbook-section-card" id="sec-8-4">
+<header class="sec-header">
+<h3 class="sec-title">
+<span class="sec-num">§8.4</span>
+<span>Verification matrix, fallback behavior and control assurance</span>
+</h3>
+</header>
+<div class="sec-content">
+<h4>Lesson 8.4 — Verification matrix, fallback behavior and control assurance</h4>
 <p><strong>Unit:</strong> Networked control, faults and verification. <strong>Prerequisites:</strong> Book 11 feedback and state-space fundamentals; preceding lessons in this unit. <strong>Learning objectives:</strong> explain the model, reproduce the worked case, identify an important failure condition, and independently solve the problems.</p>
-
 <h4>Concept and mechanism</h4>
-
 <p>Verification builds an argument from requirements to mathematical analysis, simulations, unit tests, timing measurements, integration tests and guarded physical trials. Each test can establish only a bounded claim. A fallback or safe-state strategy must be defined for actuator saturation, missing samples, infeasible optimization and sensor disagreement. Safety protection should not rely only on the same software path being tested.</p>
-
 <p><strong>Governing relation:</strong> <code>Requirement -&gt; assumption -&gt; test input -&gt; predicted limit -&gt; observed result -&gt; acceptance decision</code></p>
-
 <p>To interpret this expression, mark each symbol as a state, command, observation, uncertainty, noise statistic or design weight. Determine whether the result is continuous-time, sampled-time, a static mapping, or a bound. The statement may require nonsingular matrices, bounded variation, a linear model or known timing. List the specific hypotheses before drawing an engineering conclusion.</p>
-
 <h4>Worked example</h4>
-
 <p>Suppose the requirement is |u|≤2 at every sample, sensor age≤40 ms, and command updates every 20 ms. A test log showing |u|=1.8 does not establish the sensor-age condition. If one measurement arrives at age 65 ms, the timing requirement fails even if tracking error is excellent. A complete report includes the violation, triggering event and tested fallback response.</p>
-
 <p><strong>Independent check:</strong> Write the same example as an equation whose two sides must agree after substitution. Check the sign and limiting cases; then change only one number and predict whether the outcome increases, decreases, or requires a full recalculation. Do not mistake numerical agreement under synthetic data for physical validation. A result describing a covariance is conditional on the noise model; one describing stability is conditional on the model and its defined perturbations; one describing an optimum is conditional on both the objective and the feasible set.</p>
-
 <h4>Interpretation and decision</h4>
-
 <p>Tests need independent oracles: comparing a solver to its own copied formula is weaker than using a separately derived simple case. Record random seeds and data versions for reproducibility and explicitly mark tests that were not run.</p>
-
 <p>The design choice should identify the goal being improved—tracking, robustness, estimation, control effort or timing—and a quantity that may become worse. Distinguish a sufficient theorem condition from a necessary condition. For optimization explicitly report actuator limits; for estimation report which measurements support the inference. A calculated number is useful only when its assumptions and units are available to the reader.</p>
-
 <h4>When the argument fails</h4>
-
 <p>The absence of logged failures is not proof that a failure mode cannot occur. A fault injection test may support a bounded claim, but it does not replace formal risk assessment, qualified review or independent protective circuitry.</p>
-
 <p>Describe a falsifiable counterexample by naming an omitted dynamic, a violated constraint, an unobservable mode or a mischaracterized uncertainty set. Indicate which measured variable or computed check would reveal the discrepancy. Repeating the original calculation at the same nominal point cannot test a modeling assumption that never appeared in the equation.</p>
-
 <h4>Engineering case — Remote instrumentation over a network</h4>
-
 <p>A simulated sampling service receives sensor packets with timestamps, occasional losses and quantized values. A controller should know whether it acts on the current estimate or a held previous reading. A simple loss rate is less informative than the maximum burst length for a worst-case requirement. Run nominal timing, late-packet, dropout and sensor-stuck cases, and document the required fallback action without implying that this simulated response meets a real-world safety standard.</p>
-
 <p><strong>Lab protocol: Timing and fault audit.</strong> Record sample creation time, packet arrival time, computation completion time and actuator application time separately. Add a fault table with the intended detection, fallback behavior and independent evidence for each mode.</p>
-
 <p>Create an assumption ledger listing sensor availability, actuator limits, initial state, operating point and the variable intentionally changed. For the main claim, separate what follows algebraically from what would require a second independent experiment. If the proposed experiment is unable to distinguish competing hypotheses, redesign it before collecting more repeated data.</p>
-
 <h4>Exercises</h4>
-
 <h4>1. Calculation: Create five distinct tests for a networked temperature loop: nominal response, stale sensor data, actuator limit, computation overrun and sensor bias. Assign an observable pass/fail criterion for each. Show the intermediate arithmetic, a dimensions or sign check, and the condition under which the result is valid.</h4>
-
 <h4>2. Alternative model: Construct an alternative interpretation of the same nominal observation, then name one additional signal that would separate the alternatives.</h4>
-
 <h4>3. Sensitivity: Change one uncertain parameter by 20%. State which original claim remains logically valid, which result needs recalculation, and what new numerical input is required.</h4>
-
 <h4>4. Connection: Compare the present method to Sample delay and discrete-time stability. Name an assumption they share and one kind of answer each method cannot produce alone.</h4>
-
 <h4>5. Verification: Draft a five-line test specification listing input, expected outcome, numeric tolerance, potential failure and the reason a passing simulation would not establish hardware safety.</h4>
-
 <h4>Reference guidance</h4>
-
 <p>A complete answer to the calculation question begins from the displayed governing relation and shows substitutions. The alternative-model answer must predict a different outcome in a specified observation. The sensitivity answer must distinguish parameter error from measurement noise. The connection question should identify a difference in mathematical object or guarantee, not just a difference in terminology. A suitable test reports reproducible settings and a clear fail condition. Use the accompanying unit assessment for explicit numerical checks and worked answer guidance.</p>
-        </div>
-        
-      </section><section class="textbook-section-card" id="sec-8-5">
-        <header class="sec-header">
-          <h3 class="sec-title">
-            <span class="sec-num">§8.5</span>
-            <span>Engineering Design Project: Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions</span>
-          </h3>
-        </header>
-        <div class="sec-content">
-          <h4>Unit 8 applied project — Communication, sensor and fallback test plan</h4>
-
+</div>
+</section><section class="textbook-section-card" id="sec-8-5">
+<header class="sec-header">
+<h3 class="sec-title">
+<span class="sec-num">§8.5</span>
+<span>Engineering Design Project: Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions</span>
+</h3>
+</header>
+<div class="sec-content">
+<h4>Unit 8 applied project — Communication, sensor and fallback test plan</h4>
 <h4>Engineering question</h4>
-
 <p>Simulate x_{k+1}=0.8x_k+0.2u_k with K=5. Compare no-delay feedback and one-sample delayed feedback using identical initial states, and separately test quantization resolution δ=0.1. Inject stale-sample bursts, a sensor offset and an update deadline miss in a table. Define explicit pass/fail rules for packet age and a fallback rather than treating average tracking error as a complete acceptance metric.</p>
-
 <p>This is an offline design and evidence exercise. Its output is a reproducible mathematical study and a bounded conclusion, not permission to commission a physical controller. Write the study question in a sentence that could be falsified by a measured trajectory or a computed counterexample. Explain why the chosen input variation contains more information than an arbitrary random curve.</p>
-
 <h4>Setup, model and data protocol</h4>
-
 <p>Specify each variable, unit and initial state. The baseline model must be documented independently of the controller. List any linearization point, noise covariance, uncertainty interval, constraints or bounded disturbance. If the project contains a numerical experiment, provide either a short script or a CSV data table, and log the equation and numerical integration interval that produced it. Avoid a test in which the same output is used both to choose every model parameter and to certify accuracy. If this project cannot be evaluated without a missing sensor or unsupported assumption, make the gap an explicit result.</p>
-
 <h4>Required analytical work</h4>
-
 <ol>
-
-  <li>Derive the governing state equation, transfer equation, cost, covariance update or stability inequality appropriate to this unit. Where possible, independently derive a special case without a library solver.</li>
-
-  <li>Calculate a baseline numerical value and check it using a distinct method: direct substitution, a matrix identity, a simulated recurrence or an analytically known limit. Include the expected dimensions.</li>
-
-  <li>Declare a testable range for one key parameter. Sample several values and describe what is and is not proven by that sample. For a mathematical worst-case guarantee, state why the chosen analytic bound applies to the full nominated uncertainty set.</li>
-
-  <li>Check performance and feasibility separately. A low cost does not imply constraints are met; a stable trajectory does not prove that an actuator command is allowed. Where the optimizer or model predicts an impossible demand, report infeasibility plainly.</li>
-
-  <li>Record at least one deliberately adverse scenario: sensor bias, delayed packet, perturbation outside the fit range, insufficient excitation, a saturated actuator, or a change in the model’s region of validity.</li>
-
+<li>Derive the governing state equation, transfer equation, cost, covariance update or stability inequality appropriate to this unit. Where possible, independently derive a special case without a library solver.</li>
+<li>Calculate a baseline numerical value and check it using a distinct method: direct substitution, a matrix identity, a simulated recurrence or an analytically known limit. Include the expected dimensions.</li>
+<li>Declare a testable range for one key parameter. Sample several values and describe what is and is not proven by that sample. For a mathematical worst-case guarantee, state why the chosen analytic bound applies to the full nominated uncertainty set.</li>
+<li>Check performance and feasibility separately. A low cost does not imply constraints are met; a stable trajectory does not prove that an actuator command is allowed. Where the optimizer or model predicts an impossible demand, report infeasibility plainly.</li>
+<li>Record at least one deliberately adverse scenario: sensor bias, delayed packet, perturbation outside the fit range, insufficient excitation, a saturated actuator, or a change in the model’s region of validity.</li>
 </ol>
-
 <h4>Measurement and critical interpretation</h4>
-
 <p><strong>Timing and fault audit:</strong> Record sample creation time, packet arrival time, computation completion time and actuator application time separately. Add a fault table with the intended detection, fallback behavior and independent evidence for each mode.</p>
-
 <p>A technically useful report separates mathematical truths under explicit assumptions, simulations of those assumptions, and empirical claims that require physical evidence. Explain which additional variable would most improve confidence. A compelling graph should show labeled axes and a model-versus-reference comparison, not just a beautiful output trace. If a proposed controller improves response time but worsens effort, the tradeoff belongs in the conclusion. Do not discard a failed scenario merely because it disrupts the nominal result.</p>
-
 <h4>Required report package</h4>
-
 <ul>
-
-  <li>Model card: signals and dimensions, operating range, nominal and uncertain parameters, initial state and constraints.</li>
-
-  <li>One derivation checked by a second independent calculation, with all rounding disclosed.</li>
-
-  <li>A baseline numeric table and an adverse-case numeric table, each with reproducible values.</li>
-
-  <li>At least two plots with captions explaining what the curves demonstrate and what they do not.</li>
-
-  <li>A decision paragraph about the next cheapest test that could reject an important assumption.</li>
-
-  <li>A separate limitations note identifying implementation, sensor, timing, actuator and safety evidence not supplied by this exercise.</li>
-
+<li>Model card: signals and dimensions, operating range, nominal and uncertain parameters, initial state and constraints.</li>
+<li>One derivation checked by a second independent calculation, with all rounding disclosed.</li>
+<li>A baseline numeric table and an adverse-case numeric table, each with reproducible values.</li>
+<li>At least two plots with captions explaining what the curves demonstrate and what they do not.</li>
+<li>A decision paragraph about the next cheapest test that could reject an important assumption.</li>
+<li>A separate limitations note identifying implementation, sensor, timing, actuator and safety evidence not supplied by this exercise.</li>
 </ul>
-
 <h4>Assessment rubric</h4>
-
 <p><strong>25% analytical correctness</strong> means the mathematical object and its conditions are identified precisely. <strong>20% numerical traceability</strong> means the results can be recomputed from the stated data. <strong>20% comparison</strong> requires a meaningful alternative, sensitivity or failure scenario. <strong>20% engineering interpretation</strong> requires an explicit distinction between a passed model test and an unverified deployment assumption. <strong>15% communication</strong> covers units, graph labels, repeatability and clear identification of the limits of conclusions. Strong work may conclude that a proposed design is not justified by the evidence; that is not a failure of the assignment.</p>
-        </div>
-        
-      </section><section class="textbook-section-card" id="sec-8-6">
-        <header class="sec-header">
-          <h3 class="sec-title">
-            <span class="sec-num">§8.6</span>
-            <span>Analytical Derivations and Assessment: Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions</span>
-          </h3>
-        </header>
-        <div class="sec-content">
-          <h4>Unit 8 assessment — Networked control, faults and verification</h4>
-
+</div>
+</section><section class="textbook-section-card" id="sec-8-6">
+<header class="sec-header">
+<h3 class="sec-title">
+<span class="sec-num">§8.6</span>
+<span>Analytical Derivations and Assessment: Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions</span>
+</h3>
+</header>
+<div class="sec-content">
+<h4>Unit 8 assessment — Networked control, faults and verification</h4>
 <p><strong>Instructions:</strong> Show the derivation and dimensions, not only the final value. Work independently before reading the reference key. Every number refers to a synthetic model and should not be interpreted as a device setting. The assessment combines computation, experimental design, and evaluation of whether a claim follows from the evidence.</p>
-
 <h4>Part A — quantitative short questions</h4>
-
 <p><strong>A1.</strong> Given <code>a=0.8,b=0.2,K=5 without delay</code>, calculate the named mathematical quantity. State the model assumptions that make the requested result well defined. Explain whether the answer represents a transfer characteristic, a state estimate, an optimal action, a bounded inequality or a verification verdict. Show the intermediate arithmetic and one reason an actual data set might disagree.</p>
-
 <p><strong>A2.</strong> Given <code>a=0.8,b=0.2,K=5 with one-step delay</code>, calculate the named mathematical quantity. State the model assumptions that make the requested result well defined. Explain whether the answer represents a transfer characteristic, a state estimate, an optimal action, a bounded inequality or a verification verdict. Show the intermediate arithmetic and one reason an actual data set might disagree.</p>
-
 <p><strong>A3.</strong> Given <code>quantization δ=0.1 at x=1.24</code>, calculate the named mathematical quantity. State the model assumptions that make the requested result well defined. Explain whether the answer represents a transfer characteristic, a state estimate, an optimal action, a bounded inequality or a verification verdict. Show the intermediate arithmetic and one reason an actual data set might disagree.</p>
-
 <p><strong>A4.</strong> Given <code>ages 65 ms measured under max 40 ms</code>, calculate the named mathematical quantity. State the model assumptions that make the requested result well defined. Explain whether the answer represents a transfer characteristic, a state estimate, an optimal action, a bounded inequality or a verification verdict. Show the intermediate arithmetic and one reason an actual data set might disagree.</p>
-
 <h4>Part B — distinct lesson problems</h4>
-
 <p><strong>B1. Sample delay and discrete-time stability.</strong> With a=0.6, b=0.2 and K=2, find the roots of λ²−aλ+bK and test the unit-circle condition. Include the model, numerical or logical solution, and a limiting-case check. Then design one follow-up measurement or computed counterexample that can challenge the result under an untested assumption.</p>
-
 <p><strong>B2. Packet loss, quantization and stale samples.</strong> For δ=0.05 and true values 0.12, 0.13 and −0.12, compute rounded readings and errors. How does a six-packet dropout differ conceptually? Include the model, numerical or logical solution, and a limiting-case check. Then design one follow-up measurement or computed counterexample that can challenge the result under an untested assumption.</p>
-
 <p><strong>B3. Sensor fault residuals and diagnostic logic.</strong> Given residuals [0.31,0.33,0.05,0.42,0.43,0.44], threshold 0.3 and m=3, find the first alert index. What evidence would help distinguish sensor bias from a disturbance? Include the model, numerical or logical solution, and a limiting-case check. Then design one follow-up measurement or computed counterexample that can challenge the result under an untested assumption.</p>
-
 <p><strong>B4. Verification matrix, fallback behavior and control assurance.</strong> Create five distinct tests for a networked temperature loop: nominal response, stale sensor data, actuator limit, computation overrun and sensor bias. Assign an observable pass/fail criterion for each. Include the model, numerical or logical solution, and a limiting-case check. Then design one follow-up measurement or computed counterexample that can challenge the result under an untested assumption.</p>
-
 <h4>Part C — synthesis and model criticism</h4>
-
 <p><strong>C1. Data and claims.</strong> A team plots attractive curves on its calibration data and calls the controller robust and safe. Identify the exact robust or feasible property that would need to be established, a missing uncertainty or fault class, and a test that could falsify the unsupported conclusion. Avoid generic assurances.</p>
-
 <p><strong>C2. Evidence hierarchy.</strong> Separate a theoretical identity, a result from a discrete simulation, a laboratory observation and a physical safety approval. For the current unit, provide one concrete example of each, then explain why one cannot silently replace another.</p>
-
 <p><strong>C3. Design comparison.</strong> Select two approaches studied in this unit. Compare their required model detail, computational or measurement burden, failure sensitivity and interpretability. Name one operating condition in which the less elaborate approach could be preferable.</p>
-
 <p><strong>C4. Integration with Book 11.</strong> Start from a textbook PID or linear state-space example and show which assumption must be changed to require the advanced tool from the present unit. Identify an actuator constraint, sensor characteristic or nonlinear effect the simple representation had omitted.</p>
-
 <h4>Reference answers and grading notes</h4>
-
 <p><strong>A1 reference.</strong> <code>a=0.8,b=0.2,K=5 without delay</code> leads to <strong>closed-loop multiplier −0.2</strong> in the stated ideal model. The answer is incomplete without the numerical relationship, relevant units, and an explicit condition such as positivity, stability, nonsingularity, observability or a known sample interval. Where an inequality appears, the conclusion is restricted to that bound and the defined uncertainty class; where an estimated value appears, the inference is conditioned on its assumed noise model.</p>
-
 <p><strong>A2 reference.</strong> <code>a=0.8,b=0.2,K=5 with one-step delay</code> leads to <strong>marginal roots with modulus 1</strong> in the stated ideal model. The answer is incomplete without the numerical relationship, relevant units, and an explicit condition such as positivity, stability, nonsingularity, observability or a known sample interval. Where an inequality appears, the conclusion is restricted to that bound and the defined uncertainty class; where an estimated value appears, the inference is conditioned on its assumed noise model.</p>
-
 <p><strong>A3 reference.</strong> <code>quantization δ=0.1 at x=1.24</code> leads to <strong>rounded x=1.2,error=−0.04</strong> in the stated ideal model. The answer is incomplete without the numerical relationship, relevant units, and an explicit condition such as positivity, stability, nonsingularity, observability or a known sample interval. Where an inequality appears, the conclusion is restricted to that bound and the defined uncertainty class; where an estimated value appears, the inference is conditioned on its assumed noise model.</p>
-
 <p><strong>A4 reference.</strong> <code>ages 65 ms measured under max 40 ms</code> leads to <strong>timing acceptance fails</strong> in the stated ideal model. The answer is incomplete without the numerical relationship, relevant units, and an explicit condition such as positivity, stability, nonsingularity, observability or a known sample interval. Where an inequality appears, the conclusion is restricted to that bound and the defined uncertainty class; where an estimated value appears, the inference is conditioned on its assumed noise model.</p>
-
 <p><strong>B series marking.</strong> Award credit for four independent elements: correct mathematical relationship, transparent substitution, meaningful limiting-case or sensitivity check, and a proposed measurement that would discriminate among possible models. The four named lesson scenarios demand different reasoning; a generic statement about noise or risk is not sufficient. Problems involving constraints must state whether a proposed solution is feasible rather than only desirable.</p>
-
 <p><strong>C series marking.</strong> Accept conclusions that identify an information gap rather than inventing missing values. A strong answer describes the exact signal at which the model would first fail, a safe way to expose that failure in software, and which human or independent engineering review would be needed for any later physical test. For stochastic examples insist on a distinction between model variance and guaranteed error. For optimization distinguish an unconstrained minimum from a feasible command. For robust control do not confuse sufficient tests with necessary ones.</p>
-
 <h4>Post-assessment research note</h4>
-
 <p>Write a final one-page technical summary with the columns: claim, equation, required assumptions, numerical evidence, strongest counterexample and next verification step. The purpose is to practice deciding what is established, what is conditional and what remains unknown. A model may be educationally useful even when publication-quality validation is absent. Never treat an optimized cost, a stable nominal trace, or an intact software archive as an independent functional-safety assessment.</p>
-        </div>
-        
-      </section></div>
-
-          <!-- Pre-Rendered Solved Problems Container -->
-          <div id="unit-problems-container" class="problems-wrapper" style="margin-top: 3rem;">
-            <div class="problems-section-header">
-              <div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
-              <h3 class="prob-sec-title">Step-by-Step Statistical Simulation and Monte Carlo Solutions</h3>
-              <p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
-            </div>
-            <div class="problems-grid" id="problems-container"><div class="problem-card">
-        <div class="problem-header">
-          <div class="problem-title-box">
-            <span class="diff-badge diff-hard">Solved Problem</span>
-            <strong>Example 8.1: Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions Case Analysis 1</strong>
-          </div>
-        </div>
-        <div class="problem-question-box">
-          <p>Take a=0.8, b=0.2, K=5. With no delay, multiplier is 0.8−1=−0.2, stable. With one-step delay the polynomial is λ²−0.8λ+1=0; its complex roots have product 1 and magnitude 1, so the system is marginal rather than asymptotically stable. Raising K beyond five pushes the product bK above one and makes at least one root magnitude exceed one in this example.</p>
-
+</div>
+</section></div>
+<!-- Pre-Rendered Solved Problems Container -->
+<div class="problems-wrapper" id="unit-problems-container" style="margin-top: 3rem;">
+<div class="problems-section-header">
+<div class="prob-sec-badge">THREE WORKED QUESTIONS</div>
+<h3 class="prob-sec-title">Step-by-Step Control Systems II Solutions</h3>
+<p class="prob-sec-desc">Three original questions connect calculations, definitions and interpretation. Open each solution to follow the reasoning.</p>
+</div>
+<div class="problems-grid" id="problems-container"><div class="problem-card">
+<div class="problem-header">
+<div class="problem-title-box">
+<span class="diff-badge diff-hard">Solved Problem</span>
+<strong>Example 8.1: Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions Case Analysis 1</strong>
+</div>
+</div>
+<div class="problem-question-box">
+<p>Take a=0.8, b=0.2, K=5. With no delay, multiplier is 0.8−1=−0.2, stable. With one-step delay the polynomial is λ²−0.8λ+1=0; its complex roots have product 1 and magnitude 1, so the system is marginal rather than asymptotically stable. Raising K beyond five pushes the product bK above one and makes at least one root magnitude exceed one in this example.</p>
 <p><strong>Independent check:</strong> Write the same example as an equation whose two sides must agree after substitution. Check the sign and limiting cases; then change only one number and predict whether the outcome increases, decreases, or requires a full recalculation. Do not mistake numerical agreement under synthetic data for physical validation. A result describing a covariance is conditional on the noise model; one describing stability is conditional on the model and its defined perturbations; one describing an optimum is conditional on both the objective and the feasible set.</p>
-        </div>
-        <button class="solution-toggle-btn" id="btn-sol-p8-1" aria-expanded="false">
+</div>
+<button aria-expanded="false" class="solution-toggle-btn" id="btn-sol-p8-1">
           👁️ Reveal Complete Derivation &amp; Solution
         </button>
-        <div class="solution-content" id="sol-content-p8-1">
-          
-          <div class="solution-step">
-            <div class="step-explanation"><p>Take a=0.8, b=0.2, K=5. With no delay, multiplier is 0.8−1=−0.2, stable. With one-step delay the polynomial is λ²−0.8λ+1=0; its complex roots have product 1 and magnitude 1, so the system is marginal rather than asymptotically stable. Raising K beyond five pushes the product bK above one and makes at least one root magnitude exceed one in this example.</p>
-
+<div class="solution-content" id="sol-content-p8-1">
+<div class="solution-step">
+<div class="step-explanation"><p>Take a=0.8, b=0.2, K=5. With no delay, multiplier is 0.8−1=−0.2, stable. With one-step delay the polynomial is λ²−0.8λ+1=0; its complex roots have product 1 and magnitude 1, so the system is marginal rather than asymptotically stable. Raising K beyond five pushes the product bK above one and makes at least one root magnitude exceed one in this example.</p>
 <p><strong>Independent check:</strong> Write the same example as an equation whose two sides must agree after substitution. Check the sign and limiting cases; then change only one number and predict whether the outcome increases, decreases, or requires a full recalculation. Do not mistake numerical agreement under synthetic data for physical validation. A result describing a covariance is conditional on the noise model; one describing stability is conditional on the model and its defined perturbations; one describing an optimum is conditional on both the objective and the feasible set.</p></div>
-          </div>
-        
-        </div>
-      </div><div class="problem-card">
-        <div class="problem-header">
-          <div class="problem-title-box">
-            <span class="diff-badge diff-hard">Solved Problem</span>
-            <strong>Example 8.2: Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions Case Analysis 2</strong>
-          </div>
-        </div>
-        <div class="problem-question-box">
-          <p>For a sensor step δ=0.1 in the same units as x, a true value x=1.24 rounds to 1.2 and the quantization error is −0.04. The absolute error bound is 0.05 if the quantizer is not saturated. If the sensor holds a stale measurement of 1.2 while the true state has moved to 2, the error is 0.8—far larger than the quantization step—and should be analyzed as a delay or loss problem.</p>
-
+</div>
+</div>
+</div><div class="problem-card">
+<div class="problem-header">
+<div class="problem-title-box">
+<span class="diff-badge diff-hard">Solved Problem</span>
+<strong>Example 8.2: Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions Case Analysis 2</strong>
+</div>
+</div>
+<div class="problem-question-box">
+<p>For a sensor step δ=0.1 in the same units as x, a true value x=1.24 rounds to 1.2 and the quantization error is −0.04. The absolute error bound is 0.05 if the quantizer is not saturated. If the sensor holds a stale measurement of 1.2 while the true state has moved to 2, the error is 0.8—far larger than the quantization step—and should be analyzed as a delay or loss problem.</p>
 <p><strong>Independent check:</strong> Write the same example as an equation whose two sides must agree after substitution. Check the sign and limiting cases; then change only one number and predict whether the outcome increases, decreases, or requires a full recalculation. Do not mistake numerical agreement under synthetic data for physical validation. A result describing a covariance is conditional on the noise model; one describing stability is conditional on the model and its defined perturbations; one describing an optimum is conditional on both the objective and the feasible set.</p>
-        </div>
-        <button class="solution-toggle-btn" id="btn-sol-p8-2" aria-expanded="false">
+</div>
+<button aria-expanded="false" class="solution-toggle-btn" id="btn-sol-p8-2">
           👁️ Reveal Complete Derivation &amp; Solution
         </button>
-        <div class="solution-content" id="sol-content-p8-2">
-          
-          <div class="solution-step">
-            <div class="step-explanation"><p>For a sensor step δ=0.1 in the same units as x, a true value x=1.24 rounds to 1.2 and the quantization error is −0.04. The absolute error bound is 0.05 if the quantizer is not saturated. If the sensor holds a stale measurement of 1.2 while the true state has moved to 2, the error is 0.8—far larger than the quantization step—and should be analyzed as a delay or loss problem.</p>
-
+<div class="solution-content" id="sol-content-p8-2">
+<div class="solution-step">
+<div class="step-explanation"><p>For a sensor step δ=0.1 in the same units as x, a true value x=1.24 rounds to 1.2 and the quantization error is −0.04. The absolute error bound is 0.05 if the quantizer is not saturated. If the sensor holds a stale measurement of 1.2 while the true state has moved to 2, the error is 0.8—far larger than the quantization step—and should be analyzed as a delay or loss problem.</p>
 <p><strong>Independent check:</strong> Write the same example as an equation whose two sides must agree after substitution. Check the sign and limiting cases; then change only one number and predict whether the outcome increases, decreases, or requires a full recalculation. Do not mistake numerical agreement under synthetic data for physical validation. A result describing a covariance is conditional on the noise model; one describing stability is conditional on the model and its defined perturbations; one describing an optimum is conditional on both the objective and the feasible set.</p></div>
-          </div>
-        
-        </div>
-      </div><div class="problem-card">
-        <div class="problem-header">
-          <div class="problem-title-box">
-            <span class="diff-badge diff-hard">Solved Problem</span>
-            <strong>Example 8.3: Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions Case Analysis 3</strong>
-          </div>
-        </div>
-        <div class="problem-question-box">
-          <p>Suppose a nominal sensor residual has standard deviation 0.1 and a provisional threshold is 0.3. A residual sequence [0.1,0.4,0.5,0.1] exceeds threshold twice consecutively. With m=2 the rule signals an alert at the third reading; with m=3 it does not. Such threshold selection must be validated against noise, autocorrelation and false-alarm tolerance.</p>
-
+</div>
+</div>
+</div><div class="problem-card">
+<div class="problem-header">
+<div class="problem-title-box">
+<span class="diff-badge diff-hard">Solved Problem</span>
+<strong>Example 8.3: Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions Case Analysis 3</strong>
+</div>
+</div>
+<div class="problem-question-box">
+<p>Suppose a nominal sensor residual has standard deviation 0.1 and a provisional threshold is 0.3. A residual sequence [0.1,0.4,0.5,0.1] exceeds threshold twice consecutively. With m=2 the rule signals an alert at the third reading; with m=3 it does not. Such threshold selection must be validated against noise, autocorrelation and false-alarm tolerance.</p>
 <p><strong>Independent check:</strong> Write the same example as an equation whose two sides must agree after substitution. Check the sign and limiting cases; then change only one number and predict whether the outcome increases, decreases, or requires a full recalculation. Do not mistake numerical agreement under synthetic data for physical validation. A result describing a covariance is conditional on the noise model; one describing stability is conditional on the model and its defined perturbations; one describing an optimum is conditional on both the objective and the feasible set.</p>
-        </div>
-        <button class="solution-toggle-btn" id="btn-sol-p8-3" aria-expanded="false">
+</div>
+<button aria-expanded="false" class="solution-toggle-btn" id="btn-sol-p8-3">
           👁️ Reveal Complete Derivation &amp; Solution
         </button>
-        <div class="solution-content" id="sol-content-p8-3">
-          
-          <div class="solution-step">
-            <div class="step-explanation"><p>Suppose a nominal sensor residual has standard deviation 0.1 and a provisional threshold is 0.3. A residual sequence [0.1,0.4,0.5,0.1] exceeds threshold twice consecutively. With m=2 the rule signals an alert at the third reading; with m=3 it does not. Such threshold selection must be validated against noise, autocorrelation and false-alarm tolerance.</p>
-
+<div class="solution-content" id="sol-content-p8-3">
+<div class="solution-step">
+<div class="step-explanation"><p>Suppose a nominal sensor residual has standard deviation 0.1 and a provisional threshold is 0.3. A residual sequence [0.1,0.4,0.5,0.1] exceeds threshold twice consecutively. With m=2 the rule signals an alert at the third reading; with m=3 it does not. Such threshold selection must be validated against noise, autocorrelation and false-alarm tolerance.</p>
 <p><strong>Independent check:</strong> Write the same example as an equation whose two sides must agree after substitution. Check the sign and limiting cases; then change only one number and predict whether the outcome increases, decreases, or requires a full recalculation. Do not mistake numerical agreement under synthetic data for physical validation. A result describing a covariance is conditional on the noise model; one describing stability is conditional on the model and its defined perturbations; one describing an optimum is conditional on both the objective and the feasible set.</p></div>
-          </div>
-        
-        </div>
-      </div><div class="problem-card">
-        <div class="problem-header">
-          <div class="problem-title-box">
-            <span class="diff-badge diff-hard">Solved Problem</span>
-            <strong>Example 8.4: Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions Case Analysis 4</strong>
-          </div>
-        </div>
-        <div class="problem-question-box">
-          <p>Suppose the requirement is |u|≤2 at every sample, sensor age≤40 ms, and command updates every 20 ms. A test log showing |u|=1.8 does not establish the sensor-age condition. If one measurement arrives at age 65 ms, the timing requirement fails even if tracking error is excellent. A complete report includes the violation, triggering event and tested fallback response.</p>
-
+</div>
+</div>
+</div><div class="problem-card">
+<div class="problem-header">
+<div class="problem-title-box">
+<span class="diff-badge diff-hard">Solved Problem</span>
+<strong>Example 8.4: Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions Case Analysis 4</strong>
+</div>
+</div>
+<div class="problem-question-box">
+<p>Suppose the requirement is |u|≤2 at every sample, sensor age≤40 ms, and command updates every 20 ms. A test log showing |u|=1.8 does not establish the sensor-age condition. If one measurement arrives at age 65 ms, the timing requirement fails even if tracking error is excellent. A complete report includes the violation, triggering event and tested fallback response.</p>
 <p><strong>Independent check:</strong> Write the same example as an equation whose two sides must agree after substitution. Check the sign and limiting cases; then change only one number and predict whether the outcome increases, decreases, or requires a full recalculation. Do not mistake numerical agreement under synthetic data for physical validation. A result describing a covariance is conditional on the noise model; one describing stability is conditional on the model and its defined perturbations; one describing an optimum is conditional on both the objective and the feasible set.</p>
-        </div>
-        <button class="solution-toggle-btn" id="btn-sol-p8-4" aria-expanded="false">
+</div>
+<button aria-expanded="false" class="solution-toggle-btn" id="btn-sol-p8-4">
           👁️ Reveal Complete Derivation &amp; Solution
         </button>
-        <div class="solution-content" id="sol-content-p8-4">
-          
-          <div class="solution-step">
-            <div class="step-explanation"><p>Suppose the requirement is |u|≤2 at every sample, sensor age≤40 ms, and command updates every 20 ms. A test log showing |u|=1.8 does not establish the sensor-age condition. If one measurement arrives at age 65 ms, the timing requirement fails even if tracking error is excellent. A complete report includes the violation, triggering event and tested fallback response.</p>
-
+<div class="solution-content" id="sol-content-p8-4">
+<div class="solution-step">
+<div class="step-explanation"><p>Suppose the requirement is |u|≤2 at every sample, sensor age≤40 ms, and command updates every 20 ms. A test log showing |u|=1.8 does not establish the sensor-age condition. If one measurement arrives at age 65 ms, the timing requirement fails even if tracking error is excellent. A complete report includes the violation, triggering event and tested fallback response.</p>
 <p><strong>Independent check:</strong> Write the same example as an equation whose two sides must agree after substitution. Check the sign and limiting cases; then change only one number and predict whether the outcome increases, decreases, or requires a full recalculation. Do not mistake numerical agreement under synthetic data for physical validation. A result describing a covariance is conditional on the noise model; one describing stability is conditional on the model and its defined perturbations; one describing an optimum is conditional on both the objective and the feasible set.</p></div>
-          </div>
-        
-        </div>
-      </div><div class="problem-card">
-        <div class="problem-header">
-          <div class="problem-title-box">
-            <span class="diff-badge diff-hard">Solved Problem</span>
-            <strong>Example 8.5: Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions Numerical Problem 5</strong>
-          </div>
-        </div>
-        <div class="problem-question-box">
-          <p>Determine the frequency response, pole-zero stability, and terminal response for a system operating under Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions conditions.</p>
-        </div>
-        <button class="solution-toggle-btn" id="btn-sol-p8-5" aria-expanded="false">
+</div>
+</div>
+</div><div class="problem-card">
+<div class="problem-header">
+<div class="problem-title-box">
+<span class="diff-badge diff-hard">Solved Problem</span>
+<strong>Example 8.5: Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions Numerical Problem 5</strong>
+</div>
+</div>
+<div class="problem-question-box">
+<p>Determine the frequency response, pole-zero stability, and terminal response for a system operating under Introduction to Robust Control, Sensitivity Bounds, and Non-Linear Describing Functions conditions.</p>
+</div>
+<button aria-expanded="false" class="solution-toggle-btn" id="btn-sol-p8-5">
           👁️ Reveal Complete Derivation &amp; Solution
         </button>
-        <div class="solution-content" id="sol-content-p8-5">
-          
-          <div class="solution-step">
-            <div class="step-explanation"><p>Apply the governing transform domain models developed in Unit 8. State all initial conditions, evaluate the transfer function, and solve for steady-state and transient components.</p>
-
+<div class="solution-content" id="sol-content-p8-5">
+<div class="solution-step">
+<div class="step-explanation"><p>Apply the governing transform domain models developed in Unit 8. State all initial conditions, evaluate the transfer function, and solve for steady-state and transient components.</p>
 <div class="math-display">$$\text{Analytical balance evaluated across unit } 8$$</div></div>
-          </div>
-        
-        </div>
-      </div></div>
-          </div>
-
-          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
-          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
-          <!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
-          <footer class="reader-trust-footer"><nav class="reader-trust-links" aria-label="Related reading"><a href="index#dept-electrical-and-electronics-engineering">Electrical &amp; Electronics Engineering Department</a><a href="circuit-analysis-i">Circuit Analysis I</a><a href="circuit-analysis-ii">Circuit Analysis II</a><a href="signals-and-systems">Signals and Systems</a><a href="analog-electronics">Analog Electronics</a><a href="digital-electronics-for-electrical-engineers">Digital Electronics for Electrical Engineers</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
-
-        <nav class="chapter-pagination" aria-label="Chapter navigation"><a href="control-systems-ii-chapter-7">← Previous chapter</a><a href="control-systems-ii">Book contents</a></nav></article>
-      </div>
-    </main>
-
-  </div>
-
-  <!-- Textbook Application Scripts -->
-  <script src="control-systems-ii-sims.js"></script>
-  <script src="control-systems-ii-data.js"></script>
-  <script src="app.js?v=20261016_review_fix"></script>
-
-
+</div>
+</div>
+</div></div>
+</div>
+<!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+<!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+<!-- Universal Academic Trust, SEO Cross-Linking & Legal Compliance Footer -->
+<footer class="reader-trust-footer"><nav aria-label="Related reading" class="reader-trust-links"><a href="index#dept-electrical-and-electronics-engineering">Electrical &amp; Electronics Engineering Department</a><a href="circuit-analysis-i">Circuit Analysis I</a><a href="circuit-analysis-ii">Circuit Analysis II</a><a href="signals-and-systems">Signals and Systems</a><a href="analog-electronics">Analog Electronics</a><a href="digital-electronics-for-electrical-engineers">Digital Electronics for Electrical Engineers</a><a href="about">About &amp; editorial</a><a href="privacy">Privacy</a><a href="terms">Terms</a><a href="mailto:shahriyarkarimsiam@gmail.com">Report a correction</a></nav><p class="reader-trust-copy">© 2026 OpenSTEM Library • Free original educational textbook</p></footer>
+<nav aria-label="Chapter navigation" class="chapter-pagination"><a href="control-systems-ii-chapter-7">← Previous chapter</a><a href="control-systems-ii">Book contents</a></nav></article>
+</div>
+</main>
+</div>
+<!-- Textbook Application Scripts -->
+<script src="control-systems-ii-sims.js"></script>
+<script src="control-systems-ii-data.js"></script>
+<script src="app.js?v=20261016_review_fix"></script>
 </body></html>
