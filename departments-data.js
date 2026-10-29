@@ -1,4 +1,3 @@
-/* OpenSTEM Library — Complete Departmental Course Catalog */
 window.LIBRARY_CATALOG = {
   "institution": "OpenSTEM Global Academic Press",
   "contactEmail": "shahriyarkarimsiam@gmail.com",
@@ -3566,8 +3565,7 @@ window.LIBRARY_CATALOG = {
           ]
         }
       ]
-    }
-,
+    },
     {
       "id": "electrical-and-electronics-engineering",
       "name": "Electrical & Electronics Engineering",
@@ -3687,6 +3685,101 @@ window.LIBRARY_CATALOG = {
             "Poisson and Laplace Equations and Boundary-Value Methods",
             "Steady Electric Currents, Resistance, and Continuity",
             "Magnetostatics: Biot-Savart Law, Ampère Law, and Vector Potential"
+          ]
+        },
+        {
+          "id": "electromagnetic-field-theory-ii",
+          "title": "Electromagnetic Field Theory II",
+          "subtitle": "Maxwell Equations, Time-Harmonic Fields, Plane Waves, Transmission Lines, Waveguides & Antennas",
+          "status": "AVAILABLE",
+          "url": "electromagnetic-field-theory-ii.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering Maxwell equations, Poynting theorem, uniform plane waves in lossless and lossy media, oblique reflection and refraction, transmission line transients and steady-state Smith charts, metallic rectangular waveguides, dielectric guides, and radiation from dipole antennas with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Time-Varying Fields, Maxwell Equations, and Boundary Conditions",
+            "Electromagnetic Energy, Poynting Theorem, and Conservation",
+            "Uniform Plane Waves and Lossy Media Propagation",
+            "Reflection, Refraction, and Oblique Incidence Boundaries",
+            "Transmission Line Theory, Transient Reflections, and Smith Chart",
+            "Guided Waves and Rectangular Metallic Waveguides",
+            "Cavity Resonators, Dielectric Waveguides, and Microstrip Lines",
+            "Radiation Fundamentals, Retarded Potentials, and Dipole Antennas"
+          ]
+        },
+        {
+          "id": "electrical-machines-i",
+          "title": "Electrical Machines I",
+          "subtitle": "Magnetic Circuits, Coenergy, Electromechanical Energy Conversion, Single-Phase & Three-Phase Transformers & DC Machines",
+          "status": "AVAILABLE",
+          "url": "electrical-machines-i.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering magnetic circuits, electromechanical energy conversion, magnetic coenergy, single-phase and three-phase transformers, equivalent circuit parameter determination, autotransformers, DC machines, armature reaction, motor speed-torque dynamics, starting and speed control, and generator characteristics with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Magnetic Circuits, Reluctance, and Non-Linear B-H Behavior",
+            "Electromechanical Energy Conversion and Coenergy Principles",
+            "Single-Phase Transformers: Equivalent Circuits and Regulation",
+            "Polyphase Transformers, Autotransformers, and Harmonics",
+            "DC Machine Construction, Field Windings, and Armature Reaction",
+            "DC Motor Operating Characteristics, Starters, and Speed Control",
+            "DC Generators: Excitation Methods, Voltage Buildup, and Paralleling",
+            "Machine Testing, Efficiency Segregation, and Thermal Ratings"
+          ]
+        },
+        {
+          "id": "electrical-machines-ii",
+          "title": "Electrical Machines II",
+          "subtitle": "Polyphase Induction Motors, Synchronous Alternators, Synchronous Motors, Permanent Magnet & Reluctance Machines",
+          "status": "AVAILABLE",
+          "url": "electrical-machines-ii.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering rotating magnetic fields, polyphase induction motors, equivalent circuits, torque-slip analysis, starting and speed control, synchronous generators, cylindrical and salient-pole d-q models, parallel grid operation, synchronous motors, permanent magnet synchronous machines (PMSM), BLDC drives, and variable frequency control with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Rotating Magnetic Fields and Distributed Stator Windings",
+            "Polyphase Induction Machines: Operation, Torque-Speed, and Circle Diagrams",
+            "Induction Motor Starting, Speed Control, and Braking Dynamics",
+            "Synchronous Generators: Cylindrical Rotor, Salient Pole, and Power Angle",
+            "Alternator Synchronization, Parallel Operation, and Capability Curves",
+            "Synchronous Motors: V-Curves, Power Factor Correction, and Starting",
+            "Permanent Magnet Synchronous (PMSM) and Brushless DC (BLDC) Drives",
+            "Special Machines: Stepper Motors, Switched Reluctance, and Linear Induction"
+          ]
+        },
+        {
+          "id": "power-systems-i",
+          "title": "Power Systems I",
+          "subtitle": "Generation, Transmission Line Modeling, Per-Unit Systems, Admittance Bus, Gauss-Seidel & Newton-Raphson Power Flow",
+          "status": "AVAILABLE",
+          "url": "power-systems-i.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering electric grid architectures, load duration curves, transmission line parameters (GMD/GMR, bundling), ABCD parameters, short/medium/long line models, Ferranti effect, per-unit systems, Y-bus formulation, Gauss-Seidel and Newton-Raphson power flow algorithms, voltage control, and economic generation dispatch with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Modern Power Grid Structure, Energy Sources, and Load Curves",
+            "Transmission Line Parameters: Resistance, Inductance, and Capacitance",
+            "Steady-State Modeling of Short, Medium, and Long Transmission Lines",
+            "Per-Unit System Formulations and Network Representation",
+            "Bus Admittance Matrix (Y-bus) Formulation and Transformations",
+            "Power Flow Problem: Gauss-Seidel and Newton-Raphson Solvers",
+            "Fast Decoupled Load Flow and Power Grid Voltage Control",
+            "Economic Dispatch, Loss Penalty Factors, and Optimal Generation"
+          ]
+        },
+        {
+          "id": "power-systems-ii",
+          "title": "Power Systems II",
+          "subtitle": "Symmetrical Components, Unsymmetrical Faults, Rotor-Angle Transient Stability, Swing Equation, HVDC & Grid Control",
+          "status": "AVAILABLE",
+          "url": "power-systems-ii.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering symmetrical components, symmetrical and unsymmetrical fault calculations (SLG, LL, DLG), rotor-angle stability, swing equation, equal-area criterion, critical clearing times, automatic generation control (AGC), protective relaying (overcurrent, distance, differential), HVDC transmission, and FACTS controllers with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Symmetrical Components and Sequence Network Modeling",
+            "Symmetrical Three-Phase Faults and Circuit Breaker Ratings",
+            "Unsymmetrical Fault Analysis: Line-to-Ground, Line-to-Line, and Double Line-to-Ground",
+            "Power System Stability: Rotor Dynamics, Swing Equation, and Equal-Area Criterion",
+            "Multi-Machine Transient Stability and Numerical Time-Domain Integration",
+            "Automatic Generation Control (AGC), Frequency Regulation, and Area Control Error",
+            "Power System Protection: Overcurrent, Distance, and Differential Relaying",
+            "High-Voltage Direct Current (HVDC) Transmission and Flexible AC Transmission Systems (FACTS)"
           ]
         }
       ]
