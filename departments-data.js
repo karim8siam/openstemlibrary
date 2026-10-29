@@ -3567,5 +3567,129 @@ window.LIBRARY_CATALOG = {
         }
       ]
     }
+,
+    {
+      "id": "electrical-and-electronics-engineering",
+      "name": "Electrical & Electronics Engineering",
+      "code": "EEE",
+      "icon": "⚡",
+      "description": "Electric circuits, signals and systems, analog and digital electronics, electromagnetic fields, electrical machines, power systems, control engineering, telecommunications, digital signal processing, power electronics, and high voltage engineering.",
+      "courses": [
+        {
+          "id": "circuit-analysis-i",
+          "title": "Circuit Analysis I",
+          "subtitle": "Ohm's Law, Kirchhoff's Laws, Nodal & Mesh Analysis, Network Theorems, First & Second Order RLC Transients",
+          "status": "AVAILABLE",
+          "url": "circuit-analysis-i.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering electric charge, current, Ohm's law, Kirchhoff's laws, nodal and mesh analysis, Thevenin and Norton theorems, maximum power transfer, first-order RL and RC transients, second-order RLC circuits, and measurement loading with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Circuit Quantities and Conservation Principles",
+            "Resistive Circuits, Kirchhoff Laws, and Reduction",
+            "Systematic Nodal and Mesh Formulations",
+            "Network Theorems, Linearity, and Equivalence",
+            "Energy Storage: Capacitors and Inductors",
+            "First-Order RL and RC Transient Responses",
+            "Second-Order RLC Transient Responses and Damping",
+            "Measurement Loading, Tolerances, and Design Verification"
+          ]
+        },
+        {
+          "id": "circuit-analysis-ii",
+          "title": "Circuit Analysis II",
+          "subtitle": "Sinusoidal Steady-State, Phasor Analysis, AC Power, Three-Phase Networks, Resonance & Laplace Transform",
+          "status": "AVAILABLE",
+          "url": "circuit-analysis-ii.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering sinusoidal steady-state analysis, phasors, impedance, AC power and power factor correction, series and parallel resonance, magnetically coupled circuits, balanced and unbalanced three-phase systems, Laplace transforms, and frequency response with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Sinusoids, Phasors, and Complex Frequency",
+            "AC Impedance, Admittance, and Frequency Domain Laws",
+            "Sinusoidal Steady-State Nodal and Mesh Methods",
+            "AC Power Analysis, Power Factor, and Maximum Power",
+            "Resonance, Quality Factor, and Frequency Response",
+            "Magnetically Coupled Circuits and Transformers",
+            "Polyphase and Three-Phase Power Networks",
+            "Laplace Transform and Two-Port Network Analysis"
+          ]
+        },
+        {
+          "id": "signals-and-systems",
+          "title": "Signals and Systems",
+          "subtitle": "Continuous & Discrete Signals, LTI Systems, Convolution, Fourier Series, Transforms, Sampling & Z-Transforms",
+          "status": "AVAILABLE",
+          "url": "signals-and-systems.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering continuous and discrete-time signals, linear time-invariant (LTI) systems, convolution, continuous-time Fourier series and transforms, discrete-time Fourier transforms (DTFT), sampling theory, Laplace transforms, and Z-transforms with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Foundations of Continuous and Discrete Signals",
+            "Linear Time-Invariant Systems and Convolution",
+            "Continuous-Time Fourier Series Representations",
+            "Continuous-Time Fourier Transform and Spectral Analysis",
+            "Sampling Theory and Bandlimited Reconstruction",
+            "Discrete-Time Fourier Transform and Processing",
+            "Laplace Transform and Continuous System Transfer Functions",
+            "Z-Transform, Pole-Zero Analysis, and Digital Systems"
+          ]
+        },
+        {
+          "id": "analog-electronics",
+          "title": "Analog Electronics",
+          "subtitle": "Semiconductor Diodes, BJT & MOSFET Bias, Small-Signal Amplifiers, Op-Amps, Feedback & Oscillators",
+          "status": "AVAILABLE",
+          "url": "analog-electronics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering semiconductor physics, p-n junction diodes, rectifiers, BJT and MOSFET bias design, small-signal hybrid-pi modeling, single-stage and differential amplifiers, op-amp circuits, frequency response, feedback stability, active filters, and oscillators with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Semiconductor Physics and Circuit Models",
+            "Diodes, Rectifiers, and Power Supply Conditioning",
+            "Bipolar Transistor Bias and Operating Regions",
+            "Bipolar Small-Signal Amplifiers and Frequency Response",
+            "MOS Transistors and Amplifier Topologies",
+            "Operational Amplifiers and Active Functions",
+            "Feedback, Bandwidth, Stability, and Noise",
+            "Power Stages, Interfaces, and Robust Analog Design"
+          ]
+        },
+        {
+          "id": "digital-electronics-for-electrical-engineers",
+          "title": "Digital Electronics for Electrical Engineers",
+          "subtitle": "Boolean Algebra, Karnaugh Maps, Combinational Logic, Sequential Circuits, Counters, FSMs & Memory",
+          "status": "AVAILABLE",
+          "url": "digital-electronics-for-electrical-engineers.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering number systems, Boolean algebra, logic minimization via Karnaugh maps, combinational MSI circuits, flip-flops, synchronous counters, registers, finite state machine (FSM) synthesis, logic families (TTL, CMOS), and semiconductor memory architectures with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Information Representation, Codes, and Logic Levels",
+            "Boolean Algebra, Canonical Forms, and Karnaugh Maps",
+            "Combinational Logic Modules and Arithmetic Circuits",
+            "Bistable Elements, Latches, and Flip-Flops",
+            "Synchronous Sequential Circuits, Registers, and Counters",
+            "Finite State Machine Design and Synthesis",
+            "CMOS Logic Families, Electrical Characteristics, and Timing",
+            "Memory Arrays, Programmable Logic, and System Integration"
+          ]
+        },
+        {
+          "id": "electromagnetic-field-theory-i",
+          "title": "Electromagnetic Field Theory I",
+          "subtitle": "Curvilinear Vector Calculus, Electrostatics, Gauss Law, Dielectrics, Magnetostatics, Ampère Law & Boundary Values",
+          "status": "AVAILABLE",
+          "url": "electromagnetic-field-theory-i.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering curvilinear vector calculus, Coulomb's and Gauss's laws, electrostatic potential, Laplace and Poisson equations, boundary value problems, dielectrics and capacitance, Biot-Savart and Ampère circuital laws, magnetic vector potential, magnetic forces and boundary conditions with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Vector Algebra, Orthogonal Coordinate Systems, and Calculus",
+            "Electrostatic Fields, Coulomb Force, and Field Intensity",
+            "Gauss Law, Electric Flux Density, and Divergence",
+            "Electric Potential, Energy Density, and Conservative Fields",
+            "Conductors, Dielectrics, Boundary Conditions, and Capacitance",
+            "Poisson and Laplace Equations and Boundary-Value Methods",
+            "Steady Electric Currents, Resistance, and Continuity",
+            "Magnetostatics: Biot-Savart Law, Ampère Law, and Vector Potential"
+          ]
+        }
+      ]
+    }
   ]
 };
