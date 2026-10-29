@@ -132,6 +132,16 @@
     return {series: series, metric: metric, note: note, xlabel: xlabel, ylabel: ylabel};
   }
 
+  function makeSvgEl(tag, attrs) {
+    var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (var k in attrs) {
+      if (Object.prototype.hasOwnProperty.call(attrs, k)) {
+        el.setAttribute(k, String(attrs[k]));
+      }
+    }
+    return el;
+  }
+
   var CS2_COLORS = ['#087b9c', '#e67e22', '#27ae60'];
 
   function renderCS2Plot(plot, d) {

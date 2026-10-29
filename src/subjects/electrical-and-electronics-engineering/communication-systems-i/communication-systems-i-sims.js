@@ -14,6 +14,16 @@
 
   function Q(x) { return 0.5 * (1 - erf(x / Math.SQRT2)); }
 
+  function makeSvgEl(tag, attrs) {
+    var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (var k in attrs) {
+      if (Object.prototype.hasOwnProperty.call(attrs, k)) {
+        el.setAttribute(k, String(attrs[k]));
+      }
+    }
+    return el;
+  }
+
   function calcComm1(unit, v) {
     var points = [], head = '';
     if (unit === 1) {

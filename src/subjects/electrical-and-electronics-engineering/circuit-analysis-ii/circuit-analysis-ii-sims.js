@@ -4,7 +4,7 @@
   const pi = Math.PI, sq = Math.sqrt;
   const logspace = (a, b, n=81) => Array.from({length: n}, (_, i) => a * Math.pow(b / a, i / (n - 1)));
   const line = (fn, xs) => xs.map(x => [x, fn(x)]);
-  const format = v => typeof v === 'number' ? (Math.abs(v) >= 1000 || (Math.abs(v) < 0.01 && v !== 0) ? v.toExponential(3) : v.toFixed(3)) : v;
+
 
 function calculate(id,p){
 const f=(k)=>Number(p[k]);let a,b,c,d,xs,points,metrics,units,axis;

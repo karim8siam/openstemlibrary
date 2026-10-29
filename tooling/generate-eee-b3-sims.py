@@ -512,6 +512,16 @@ cs2_js = """/* Control Systems II Interactive Simulation Suite */
     return {series: series, metric: metric, note: note, xlabel: xlabel, ylabel: ylabel};
   }
 
+  function makeSvgEl(tag, attrs) {
+    var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (var k in attrs) {
+      if (Object.prototype.hasOwnProperty.call(attrs, k)) {
+        el.setAttribute(k, String(attrs[k]));
+      }
+    }
+    return el;
+  }
+
   var CS2_COLORS = ['#087b9c', '#e67e22', '#27ae60'];
 
   function renderCS2Plot(plot, d) {
@@ -689,6 +699,16 @@ comm1_js = """/* Communication Systems I Interactive Simulation Suite */
   }
 
   function Q(x) { return 0.5 * (1 - erf(x / Math.SQRT2)); }
+
+  function makeSvgEl(tag, attrs) {
+    var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (var k in attrs) {
+      if (Object.prototype.hasOwnProperty.call(attrs, k)) {
+        el.setAttribute(k, String(attrs[k]));
+      }
+    }
+    return el;
+  }
 
   function calcComm1(unit, v) {
     var points = [], head = '';
@@ -925,6 +945,16 @@ comm2_js = """/* Communication Systems II Interactive Simulation Suite */
   }
 
   function Q(x) { return Math.max(0, Math.min(1, 0.5 * (1 - erf(x / Math.SQRT2)))); }
+
+  function makeSvgEl(tag, attrs) {
+    var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (var k in attrs) {
+      if (Object.prototype.hasOwnProperty.call(attrs, k)) {
+        el.setAttribute(k, String(attrs[k]));
+      }
+    }
+    return el;
+  }
 
   function hamming74(message, err) {
     var b = [0, 0, 0, 0, 0, 0, 0, 0];

@@ -1,7 +1,63 @@
 /* Analog Electronics Interactive Simulation Suite */
 (function(window) {
   'use strict';
-  const specs = {};
+  const kb = 1.380649e-23;
+  const specs = {
+    diode: [0, 0.65, 0.005, 0.52, 'V'],
+    rectifier: [1, 20, 0.2, 10, 'V'],
+    ripple: [10, 400, 5, 100, 'mA'],
+    zener: [0, 30, 0.5, 10, 'mA'],
+    bjt_sat: [0, 7, 0.05, 2, 'mA'],
+    bjt_bias: [50, 250, 5, 100, 'β'],
+    ce_gain: [0.1, 5, 0.05, 1, 'mA'],
+    degen: [0, 400, 5, 100, 'Ω'],
+    mos_square: [0, 4, 0.05, 1, 'V'],
+    cs_stage: [0.5, 20, 0.1, 8, 'mS'],
+    diff_pair: [-100, 100, 2, 0, 'mV'],
+    opamp_inv: [-1, 1, 0.02, 0.5, 'V'],
+    sallen_key: [10, 10000, 10, 1000, 'Hz'],
+    feedback: [1, 2000, 10, 1000, 'V/V'],
+    pushpull: [0.1, 9, 0.1, 8, 'V'],
+    thermal: [0.1, 10, 0.1, 2.5, 'W']
+  };
+
+  function model(kind, x) {
+    let y = 0, units = '', text = '';
+    if (kind === 'diode') {
+      y = 1e-12 * Math.expm1(x / (1.8 * 0.02585)) * 1e3; units = 'mA'; text = 'Diode current ' + y.toFixed(4) + ' mA';
+    } else if (kind === 'rectifier') {
+      y = 2 * x / Math.PI; units = 'V'; text = 'Ideal full-wave mean ≈ ' + y.toFixed(3) + ' V';
+    } else if (kind === 'ripple') {
+      y = (x / 1000) / (100 * 0.001); units = 'V'; text = 'Ripple ≈ ' + y.toFixed(3) + ' V pk-pk';
+    } else if (kind === 'zener') {
+      let I = (12 - 5.1) / 330 * 1000, iz = I - x; y = Math.max(0, iz); units = 'mA'; text = 'Zener current ≈ ' + iz.toFixed(3) + ' mA';
+    } else if (kind === 'bjt_sat') {
+      y = 12 - (x / 1000) * 2200; units = 'V'; text = 'V_ce ≈ ' + y.toFixed(3) + ' V';
+    } else if (kind === 'bjt_bias') {
+      let ib = (2 - 0.7) / (5000 + (x + 1) * 1000); y = x * ib * 1000; units = 'mA'; text = 'I_c ≈ ' + y.toFixed(3) + ' mA';
+    } else if (kind === 'ce_gain') {
+      let gm = (x / 1000) / 0.02585; y = -gm * 2000; units = 'V/V'; text = 'Small-signal gain ≈ ' + y.toFixed(2) + ' V/V';
+    } else if (kind === 'degen') {
+      y = -0.04 * 2000 / (1 + 0.04 * x); units = 'V/V'; text = 'Degenerated gain ≈ ' + y.toFixed(2) + ' V/V';
+    } else if (kind === 'mos_square') {
+      let vov = Math.max(0, x - 1.0), k = 0.002; y = 0.5 * k * vov * vov * 1000; units = 'mA'; text = 'I_d ≈ ' + y.toFixed(3) + ' mA';
+    } else if (kind === 'cs_stage') {
+      let g = x / 1000; y = -g * 2200; units = 'V/V'; text = 'CS voltage gain ≈ ' + y.toFixed(2) + ' V/V';
+    } else if (kind === 'diff_pair') {
+      let vdiff = x * 0.001, Itail = 2.0; y = Itail / (1 + Math.exp(-vdiff / 0.02585)); units = 'mA'; text = 'I_c1 ≈ ' + y.toFixed(3) + ' mA';
+    } else if (kind === 'opamp_inv') {
+      y = Math.max(-12, Math.min(12, -10 * x)); units = 'V'; text = 'V_out ≈ ' + y.toFixed(3) + ' V';
+    } else if (kind === 'sallen_key') {
+      y = 1 / Math.sqrt(1 + Math.pow(x / 1000, 4)); units = 'mag'; text = '2nd-order gain ≈ ' + y.toFixed(4);
+    } else if (kind === 'feedback') {
+      y = x / (1 + x * 0.05); units = 'V/V'; text = 'Closed-loop A_f ≈ ' + y.toFixed(3) + ' V/V';
+    } else if (kind === 'pushpull') {
+      let vout = Math.abs(x) > 0.7 ? (x > 0 ? x - 0.7 : x + 0.7) : 0; y = vout; units = 'V'; text = 'V_out ≈ ' + y.toFixed(3) + ' V';
+    } else if (kind === 'thermal') {
+      let Rth = 40; y = 25 + x * Rth; units = '°C'; text = 'Junction temp Tj ≈ ' + y.toFixed(1) + ' °C';
+    }
+    return { val: y, text: text, units: units };
+  }
   
 
   function renderGraph(kind, v, S) {

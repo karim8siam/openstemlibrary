@@ -13,6 +13,16 @@
 
   function Q(x) { return Math.max(0, Math.min(1, 0.5 * (1 - erf(x / Math.SQRT2)))); }
 
+  function makeSvgEl(tag, attrs) {
+    var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (var k in attrs) {
+      if (Object.prototype.hasOwnProperty.call(attrs, k)) {
+        el.setAttribute(k, String(attrs[k]));
+      }
+    }
+    return el;
+  }
+
   function hamming74(message, err) {
     var b = [0, 0, 0, 0, 0, 0, 0, 0];
     var d = [3, 5, 6, 7];

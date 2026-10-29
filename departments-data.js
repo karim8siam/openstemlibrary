@@ -3876,6 +3876,120 @@ window.LIBRARY_CATALOG = {
             "Finite Register Length Effects, Coefficient Quantization, and Roundoff Noise",
             "Multirate Digital Signal Processing: Decimation, Interpolation, and Filter Banks"
           ]
+        },
+        {
+          "id": "power-electronics-i",
+          "title": "Power Electronics I",
+          "subtitle": "Power Semiconductors, Gate Drives, Non-Isolated DC-DC Converters (Buck, Boost, Buck-Boost), Rectifiers & Thermal Design",
+          "status": "AVAILABLE",
+          "url": "power-electronics-i.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering power semiconductor devices (diodes, MOSFETs, IGBTs), thermal modeling, gate drives, non-isolated DC-DC converters (buck, boost, buck-boost), CCM/DCM operating boundaries, uncontrolled and controlled rectifiers, and passive magnetic components with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Unit 1: Power Semiconductor Devices, Switching Characteristics, and Conduction Losses",
+            "Unit 2: Thermal Modeling, Safe Operating Area (SOA), and Heat Sink Design",
+            "Unit 3: Gate Drive Circuits, Optical Isolation, and Overcurrent Protection",
+            "Unit 4: Buck Converters: Inductor Volt-Second Balance, Ripple, and CCM/DCM Operation",
+            "Unit 5: Boost and Buck-Boost Topologies: Energy Storage and Voltage Conversion",
+            "Unit 6: Single-Phase Rectifier Topologies: Uncontrolled and Phase-Controlled Bridges",
+            "Unit 7: Three-Phase Bridge Rectifiers: Commutation Overlap and Harmonic Profiles",
+            "Unit 8: Passive Component Selection: High-Frequency Inductors and Capacitors"
+          ]
+        },
+        {
+          "id": "power-electronics-ii",
+          "title": "Power Electronics II",
+          "subtitle": "Isolated Converters, Resonant Power Supplies, Inverters, Sinusoidal PWM, Space Vector Modulation (SVPWM) & Grid Ties",
+          "status": "AVAILABLE",
+          "url": "power-electronics-ii.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering galvanically isolated DC-DC converters (flyback, forward, full-bridge), resonant LLC converters with ZVS/ZCS soft switching, single-phase and three-phase voltage source inverters, sinusoidal and space-vector PWM (SVPWM), multilevel inverters, and grid-connected renewable power converters with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Unit 1: Isolated DC-DC Topologies: Flyback, Forward, and Push-Pull Converters",
+            "Unit 2: Bridge Topologies: Half-Bridge and Full-Bridge Isolated Conversion",
+            "Unit 3: Resonant Converters: LLC Resonant Tanks, Zero-Voltage and Zero-Current Switching",
+            "Unit 4: Single-Phase Voltage-Source Inverters and Sinusoidal Pulse-Width Modulation",
+            "Unit 5: Three-Phase Inverters, Space Vector PWM (SVPWM), and Harmonic Minimization",
+            "Unit 6: Multi-Level Inverter Topologies: Diode-Clamped, Flying-Capacitor, and Cascaded H-Bridge",
+            "Unit 7: Current-Source Inverters and Active Power Factor Correction (PFC) Boost Front-Ends",
+            "Unit 8: Grid-Connected Renewable Inverters, LCL Filters, and Synchronization Control"
+          ]
+        },
+        {
+          "id": "electrical-measurements-and-instrumentation-i",
+          "title": "Electrical Measurements & Instrumentation I",
+          "subtitle": "Measurement Errors, Traceability, Analog Meters (PMMC, MI), DC/AC Bridges, Potentiometers & Instrument Transformers",
+          "status": "AVAILABLE",
+          "url": "electrical-measurements-and-instrumentation-i.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering measurement metrology, uncertainty propagation, SI traceability, PMMC, moving-iron and dynamometer movements, ammeter shunts, voltmeter multipliers, DC potentiometers, Kelvin double bridges, AC impedance bridges (Maxwell, Hay, Schering, Wien), and instrument transformers (CT/PT) with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Unit 1: Measurement Standards, Calibration, Traceability, and Uncertainty Analysis",
+            "Unit 2: Analog Electromechanical Indicating Instruments: PMMC, Moving Iron, and Electrodynamometer",
+            "Unit 3: Instrument Extension: Ammeter Shunts, Voltmeter Multipliers, and Loading Errors",
+            "Unit 4: Direct-Current Potentiometers and Precision Low-Resistance Kelvin Bridges",
+            "Unit 5: Alternating-Current Impedance Bridges: Maxwell, Hay, Anderson, and Schering",
+            "Unit 6: Power and Energy Measurement: Single-Phase and Polyphase Electrodynamic Wattmeters",
+            "Unit 7: Instrument Transformers: Current Transformers (CT), Potential Transformers (PT), and Phase Errors",
+            "Unit 8: Magnetic Field Measurements: Search Coils, Fluxmeters, and Hall-Effect Sensors"
+          ]
+        },
+        {
+          "id": "electrical-measurements-and-instrumentation-ii",
+          "title": "Electrical Measurements & Instrumentation II",
+          "subtitle": "Digital Instrumentation, Transducers (RTD, Thermocouples, LVDT, Strain Gauges), DAQ, Oscilloscopes & Virtual Instruments",
+          "status": "AVAILABLE",
+          "url": "electrical-measurements-and-instrumentation-ii.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering primary transducers (strain gauges, RTDs, thermocouples, LVDTs, piezoelectric crystals), signal conditioning, high-resolution ADCs (dual-slope, SAR, sigma-delta), digital storage oscilloscopes, FFT spectrum analyzers, multichannel DAQ architectures, and virtual instrumentation with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Unit 1: Primary Transducers: Resistive Strain Gauges, Load Cells, and Signal Conditioning",
+            "Unit 2: Temperature Sensors: Thermocouples, RTDs, Thermistors, and Cold-Junction Compensation",
+            "Unit 3: Displacement and Motion Transducers: LVDT, Capacitive, Inductive, and Piezoelectric",
+            "Unit 4: Digital Voltmeters (DVM) and High-Resolution Analog-to-Digital Conversion Architectures",
+            "Unit 5: Digital Storage Oscilloscopes (DSO): Sampling Modes, Bandwidth, and Triggering",
+            "Unit 6: Spectrum Analyzers, FFT Signal Analyzers, and Harmonic Distortion Measurement",
+            "Unit 7: Data Acquisition Systems (DAQ): Multiplexing, Sample-and-Hold, and Instrumentation Amplifiers",
+            "Unit 8: Automated Test Systems, GPIB / IEEE 488, SCPI Protocols, and Virtual Instrumentation"
+          ]
+        },
+        {
+          "id": "high-voltage-engineering-i",
+          "title": "High Voltage Engineering I",
+          "subtitle": "Electric Field Computation, Dielectric Breakdown in Gases, Liquids & Solids, Impulse Generation & Marx Circuits",
+          "status": "AVAILABLE",
+          "url": "high-voltage-engineering-i.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering electrostatic field modeling, numerical methods (FEM, CSM), dielectric breakdown in gases (Townsend, streamer, Paschen law), liquids, and solid dielectrics (thermal, treeing), generation of high AC voltages (cascaded, series-resonant), high DC (Cockcroft-Walton), and impulse lightning/switching waveforms via Marx generators with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Unit 1: Electrostatic Field Analysis, Numerical Field Computation, and Insulation Stress",
+            "Unit 2: Conduction and Dielectric Breakdown in Gases: Townsend and Streamer Mechanisms",
+            "Unit 3: Breakdown Phenomena in Liquid Dielectrics: Commercial Oils and Suspended Particles",
+            "Unit 4: Breakdown in Solid Dielectrics: Intrinsic, Electromechanical, Thermal, and Treeing",
+            "Unit 5: Generation of High Direct-Current Voltages: Rectifiers and Cockcroft-Walton Multipliers",
+            "Unit 6: Generation of High Alternating-Current Voltages: Cascaded and Series-Resonant Transformers",
+            "Unit 7: Generation of Impulse Voltages: Single-Stage and Multi-Stage Marx Generators",
+            "Unit 8: Generation of Switching Impulses and High-Current Impulse Waveforms"
+          ]
+        },
+        {
+          "id": "high-voltage-engineering-ii",
+          "title": "High Voltage Engineering II",
+          "subtitle": "Overvoltages, Insulation Coordination, Lightning Protection, High-Voltage Testing, Corona & Partial Discharges",
+          "status": "AVAILABLE",
+          "url": "high-voltage-engineering-ii.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering transmission line traveling waves, Bewley lattice diagrams, lightning and switching surges, insulation coordination (IEC 60071, BIL), metal-oxide surge arresters, high-voltage measurement (sphere gaps, dividers), corona phenomena, and partial discharge / tan-delta non-destructive testing with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Unit 1: Traveling Waves on Transmission Lines, Reflection, and Bewley Lattice Diagrams",
+            "Unit 2: Lightning Phenomenon: Shielding Failure, Back-Flashover, and Overhead Protection",
+            "Unit 3: Switching Overvoltages: Line Energization, Current Chopping, and Ferroresonance",
+            "Unit 4: Insulation Coordination: Deterministic and Statistical Approaches, BIL Selection",
+            "Unit 5: Surge Protection: Spark Gaps, Modern Metal-Oxide (ZnO) Surge Arresters",
+            "Unit 6: High-Voltage Measurement Techniques: Sphere Gaps, High-Voltage Dividers, and Electrometers",
+            "Unit 7: Corona Phenomena, Power Loss, Audible Noise, and Radio Interference",
+            "Unit 8: Non-Destructive Insulation Testing: Partial Discharge Detection and Dielectric Tan-Delta"
+          ]
         }
       ]
     }
