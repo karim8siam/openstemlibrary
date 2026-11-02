@@ -4247,6 +4247,101 @@ window.LIBRARY_CATALOG = {
             "Secondary Clarification, Sludge Thickening, Digestion and Effluent Reuse",
             "Plant Operation, Energy Recovery, Asset Management and Environmental Resilience"
           ]
+        },
+        {
+          "id": "environmental-engineering",
+          "title": "Environmental Engineering",
+          "subtitle": "Mass Balances, Water Quality, Drinking Water Treatment, Wastewater, Air Dispersion & Waste Systems",
+          "status": "AVAILABLE",
+          "url": "environmental-engineering.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering environmental mass balances, stream water quality and Streeter-Phelps oxygen sag, drinking water treatment separation processes, biological wastewater kinetics, atmospheric Gaussian plume dispersion, municipal solid waste and landfill engineering, environmental risk assessment, and life-cycle sustainability with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Environmental Systems: Mass Balances, Pathways and Exposure",
+            "Water Quality: Measurements, Sampling and Hydrochemistry",
+            "Water Treatment: Separation, Physical Barriers and Disinfection",
+            "Wastewater Treatment: Biological Conversion, Nutrients and Residuals",
+            "Air Pollution: Emissions, Atmospheric Dispersion and Control",
+            "Solid and Hazardous Waste: Systems, Recovery and Containment",
+            "Environmental Assessment, Monitoring and Soil/Groundwater Remediation",
+            "Environmental Management: Circularity, Climate and Life-Cycle Evidence"
+          ]
+        },
+        {
+          "id": "transportation-engineering",
+          "title": "Transportation Engineering",
+          "subtitle": "Traffic Flow Theory, Roadway Performance, Geometric Alignment, Signalized Intersections & Transit Planning",
+          "status": "AVAILABLE",
+          "url": "transportation-engineering.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering microscopic and macroscopic traffic stream theory, highway capacity and level of service, roadway geometric alignment and sight distances, signal timing optimization and queueing dynamics, travel demand forecasting, public transit scheduling, traffic safety analytics, and intelligent transportation systems with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Traffic Stream Theory, Speed-Flow-Density and Shockwaves",
+            "Traffic Data Collection, Statistical Distributions and Performance",
+            "Geometric Design, Sight Distances and Horizontal/Vertical Alignments",
+            "Intersections, Signal Phasing, Queueing and Highway Capacity",
+            "Pavement Systems and Material Structural Performance",
+            "Roadway Drainage, Hydrology and Infrastructure Systems",
+            "Transit Systems, Network Planning, Walking and Active Mobility",
+            "Road Safety Engineering, Human Factors and Sustainable Planning"
+          ]
+        },
+        {
+          "id": "highway-and-pavement-engineering",
+          "title": "Highway and Pavement Engineering",
+          "subtitle": "Highway Route Planning, Subgrade Soils, Bituminous Binders, Flexible & Rigid Pavement Structural Design",
+          "status": "AVAILABLE",
+          "url": "highway-and-pavement-engineering.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering highway alignment economics, earthwork balancing, bituminous binder and aggregate characterization, Superpave asphalt mix volumetrics, AASHTO flexible pavement structural number design, Westergaard rigid concrete pavement mechanics, joint load transfer, subsurface pavement drainage, and life-cycle pavement management systems with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Highway Planning, Reconnaissance and Route Alignment Selection",
+            "Geometric Design, Cross-Sections and Roadway Safety Margins",
+            "Pavement Materials, Mineral Aggregates and Bituminous Binders",
+            "Flexible Pavement Mechanics, Layered Systems and AASHTO Design",
+            "Rigid Pavement Mechanics, Concrete Slabs and Joint Load Transfer",
+            "Highway Construction, Compaction and Quality Assurance",
+            "Pavement Management Systems (PMS), Distress and Rehabilitation",
+            "Highway Performance, Environmental Durability and Life-Cycle Costs"
+          ]
+        },
+        {
+          "id": "surveying-and-geomatics",
+          "title": "Surveying and Geomatics",
+          "subtitle": "Geodetic Reference Frames, Distance & Angle Measurement, Leveling, Traversing, GNSS & Photogrammetry",
+          "status": "AVAILABLE",
+          "url": "surveying-and-geomatics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering geodetic and plane surveying foundations, optical distance and angular measurement precision, leveling and refraction corrections, traverse closure balancing, coordinate transformations, GNSS positioning mechanics, aerial and UAV photogrammetry, LiDAR scanning, and route alignment geometry with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Survey Foundations, Reference Frames and Coordinate Systems",
+            "Distance Measurement, EDM Physics and Angular Instrumentation",
+            "Differential Leveling, Optical Instruments and Earth Curvature",
+            "Traverse Computations, Error Propagation and Compass Rule Adjustment",
+            "Global Navigation Satellite Systems (GNSS) and Geodetic Datums",
+            "Mapping Technologies, Photogrammetry and LiDAR Scanning",
+            "Engineering Route Surveys, Circular Curves and Earthwork Volumes",
+            "Geospatial Data Deliverables, GIS Integration and Quality Assurance"
+          ]
+        },
+        {
+          "id": "engineering-geology-for-civil-engineers",
+          "title": "Engineering Geology for Civil Engineers",
+          "subtitle": "Rock Minerals, Weathering, Structural Mapping, Seepage, Rock Mass Classification, Slopes & Geohazards",
+          "status": "AVAILABLE",
+          "url": "engineering-geology-for-civil-engineers.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering applied mineralogy and petrology, geological structures and stereonet discontinuity mapping, groundwater seepage and rock weathering mechanics, geophysical subsurface exploration, rock mass classification (RQD, RMR, Q), rock slope kinematic stability, underground excavation support, and earthquake/landslide geohazard assessment with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Geologic Time, Mineralogy, Petrology and Engineering Evidence",
+            "Weathering Mechanisms, Rock Mass Quality and Discontinuity Surveys",
+            "Structural Geology, Folds, Faults and Geological Field Mapping",
+            "Hydrogeology, Seepage Flow and Water-Rock Interaction Mechanics",
+            "Subsurface Investigation Methods, Core Drilling and Geophysical Surveys",
+            "Rock Slope Stability, Kinematic Analysis and Mass-Movement Hazards",
+            "Underground Excavations, Tunnels and Geologic Construction Risks",
+            "Seismic Geology, Active Faulting, Ground Shaking and Site Decisions"
+          ]
         }
       ]
     }
