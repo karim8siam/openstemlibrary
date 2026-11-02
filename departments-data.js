@@ -4171,6 +4171,82 @@ window.LIBRARY_CATALOG = {
             "Ground Improvement, Geotechnical Risk and Quality Control",
             "Comprehensive Foundation Design Synthesis and Forensic Case Studies"
           ]
+        },
+        {
+          "id": "fluid-mechanics-and-hydraulics",
+          "title": "Fluid Mechanics and Hydraulics",
+          "subtitle": "Fluid Properties, Hydrostatics, Pipe Networks, Pumps, Open Channels, Weirs & Similitude",
+          "status": "AVAILABLE",
+          "url": "fluid-mechanics-and-hydraulics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering continuum fluid mechanics, hydrostatics and submerged gate forces, pressurized pipe friction and network hydraulics, pump characteristics and cavitation margins, open channel flow and specific energy, hydraulic jumps, flow measurement weirs and flumes, and dimensional similitude with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Fluid Foundations, Continuum and Physical Properties",
+            "Hydraulic Forces, Hydrostatics and Submerged Surfaces",
+            "Pipe Flow, Energy Equation and Friction Losses",
+            "Hydraulic Machines, Centrifugal Pumps and Turbines",
+            "Open-Channel Flow, Specific Energy and Critical Depth",
+            "Flow Measurement, Weirs, Flumes and Orifices",
+            "Hydraulic Structures, Spillways, Gates and Energy Dissipation",
+            "Hydraulic Modeling, Dimensional Analysis and Similitude"
+          ]
+        },
+        {
+          "id": "hydrology",
+          "title": "Hydrology",
+          "subtitle": "Catchment Balances, Precipitation, Infiltration, Hydrographs, Flood Routing & Frequency Analysis",
+          "status": "AVAILABLE",
+          "url": "hydrology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering catchment water accounting, precipitation spatial interpolation and IDF design curves, soil infiltration mechanics, rainfall-runoff transformation, unit hydrograph convolution, reservoir and Muskingum flood routing, statistical extreme value frequency analysis, urban drainage detention, and hydrologic simulation model evaluation with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Catchments and the Hydrologic Water Balance",
+            "Precipitation, Hyetographs and Design Storm IDF Curves",
+            "Evapotranspiration, Soil Moisture and Green-Ampt Infiltration",
+            "Rainfall-Runoff Transformation and NRCS Curve Number",
+            "Unit Hydrographs, Storage Reservoirs and Muskingum Flood Routing",
+            "Flood Frequency Analysis, Extreme Values and Hydrologic Risk",
+            "Drought Indices, Urban Drainage Systems and Watershed Management",
+            "Hydrologic Simulation Models, Parameter Calibration and Uncertainty"
+          ]
+        },
+        {
+          "id": "water-resources-engineering",
+          "title": "Water Resources Engineering",
+          "subtitle": "Basin Assessment, Allocation Rules, Storage Reservoirs, Irrigation, Groundwater & IWRM",
+          "status": "AVAILABLE",
+          "url": "water-resources-engineering.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering river basin water accounting, multi-sector allocation priority frameworks, storage reservoir capacity and yield optimization, agricultural irrigation demand and conveyance canal design, river sedimentation and training, confined and unconfined groundwater well hydraulics, system drought resilience, and climate-adaptive IWRM with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Water Resource Assessment, Basin Water Accounting and Demands",
+            "Water Allocation Rules, Multi-Sector Trade-Offs and Priorities",
+            "Storage Reservoir Operations, Mass Curves and Sequent Peak Algorithm",
+            "Irrigation Systems, Canal Hydraulics and Crop Water Requirements",
+            "River Engineering, Sediment Transport, Morphology and Training",
+            "Groundwater Basin Development, Well Hydraulics and Aquifer Yield",
+            "Water-System Risk, Extreme Droughts, Flood Infrastructure and Reliability",
+            "Integrated Water Resources Management (IWRM) and Climate Adaptation"
+          ]
+        },
+        {
+          "id": "water-supply-and-wastewater-engineering",
+          "title": "Water Supply and Wastewater Engineering",
+          "subtitle": "Demographic Demands, Distribution Networks, Treatment Trains, Disinfection, Sewers & Biological Treatment",
+          "status": "AVAILABLE",
+          "url": "water-supply-and-wastewater-engineering.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering municipal water demand forecasting, distribution pipe network hydraulics and storage tanks, coagulation-flocculation water clarification, granular media filtration, chlorine disinfection kinetics and distribution water quality, gravity sanitary sewer design, activated sludge biological wastewater treatment kinetics, secondary clarification, and sludge solids management with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Planning Reliable Water Supply Infrastructure and Demographic Demands",
+            "Water Distribution Networks, Storage Reservoirs and Pumping Stations",
+            "Drinking-Water Treatment: Coagulation, Flocculation and Filtration",
+            "Chemical Disinfection, Chlorine Decay and Distribution System Water Quality",
+            "Sewerage Collection Networks and Wet-Weather Inflow/Infiltration Hydraulics",
+            "Biological Wastewater Treatment: Activated Sludge Kinetics and Aeration",
+            "Secondary Clarification, Sludge Thickening, Digestion and Effluent Reuse",
+            "Plant Operation, Energy Recovery, Asset Management and Environmental Resilience"
+          ]
         }
       ]
     }
