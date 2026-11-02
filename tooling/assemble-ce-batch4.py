@@ -366,6 +366,7 @@ with zipfile.ZipFile(ARCHIVE, 'r') as z:
                 "title": u_title,
                 "leadSummary": f"Comprehensive university unit covering foundational theory, design formulations, laboratory evidence, and step-by-step solved problems in {u_title}.",
                 "sections": sec_objs,
+                "problems": probs,
                 "workedProblems": probs
             })
             print(f"  Unit {u}: {u_title} ({u_words} words, {len(sec_objs)} sections, {len(probs)} problems)")

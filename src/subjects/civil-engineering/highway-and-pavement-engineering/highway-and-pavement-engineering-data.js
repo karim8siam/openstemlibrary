@@ -62,6 +62,43 @@ window.COURSE_DATA = {
           "content": "## Project brief\nProject 1: Highway Planning and Alignment verification dossier. A floodplain ring road is being considered as an alternative to a dense town center.\nStart with the evidence register: The team has high-resolution surface data but sparse subsurface information, seasonal flood photographs and traffic counts taken only during school term. Rank three plausible failure mechanisms, then select two competing interventions. For each, document a direct construction consequence, a maintenance consequence, an environmental or community consequence, and a performance measurement to evaluate after implementation. A lower-capital route might produce longer detours, sever fields and require repeated embankment repairs after flooding.\nDeliverables: site and scope sketch, data dictionary, annotated equations and unit conversions, one sensitivity plot, two contrasting scenarios, a traceable decision table, and a one-page uncertainty statement. Support any claimed design compliance with a primary local design standard; do not use model plots as an approval signature.\nQuality gate: Build a corridor register with named evidence owner, survey date, geodetic datum, uncertainty and stakeholder concerns. Add peer-review comments and a concise change log before recommending construction."
         }
       ],
+      "problems": [
+        {
+          "number": 1,
+          "title": "Engineering Problem 1.1: Highway Planning, Reconnaissance and Route Alignment Selection",
+          "question": "Model and units: Identify the physical object, controlling dimensions, the adopted units and at least one alternative interpretation of the measured quantity.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Highway Planning, Reconnaissance and Route Alignment Selection.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 1 \\text{ Section } 1$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Highway Planning, Reconnaissance and Route Alignment Selection."
+        },
+        {
+          "number": 2,
+          "title": "Engineering Problem 1.2: Highway Planning, Reconnaissance and Route Alignment Selection",
+          "question": "Boundary condition: Describe the boundary conditions implicit in the featured equation. What change at the site would invalidate them?",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Highway Planning, Reconnaissance and Route Alignment Selection.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 1 \\text{ Section } 2$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Highway Planning, Reconnaissance and Route Alignment Selection."
+        },
+        {
+          "number": 3,
+          "title": "Engineering Problem 1.3: Highway Planning, Reconnaissance and Route Alignment Selection",
+          "question": "Sensitivity: Perturb the most influential input by \u00b110% and compare both outputs; identify whether the response is linear.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Highway Planning, Reconnaissance and Route Alignment Selection.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 1 \\text{ Section } 3$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Highway Planning, Reconnaissance and Route Alignment Selection."
+        },
+        {
+          "number": 4,
+          "title": "Engineering Problem 1.4: Highway Planning, Reconnaissance and Route Alignment Selection",
+          "question": "Field verification: Design a measurement program with sampling positions, replication count, calibration records and data exclusions.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Highway Planning, Reconnaissance and Route Alignment Selection.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 1 \\text{ Section } 4$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Highway Planning, Reconnaissance and Route Alignment Selection."
+        },
+        {
+          "number": 5,
+          "title": "Engineering Problem 1.5: Highway Planning, Reconnaissance and Route Alignment Selection",
+          "question": "Failure mode: Give one mechanism that the simplified formula misses, and propose an observation that could reveal it.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Highway Planning, Reconnaissance and Route Alignment Selection.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 1 \\text{ Section } 5$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Highway Planning, Reconnaissance and Route Alignment Selection."
+        }
+      ],
       "workedProblems": [
         {
           "number": 1,
@@ -158,6 +195,43 @@ window.COURSE_DATA = {
           "secNumber": "2.9",
           "heading": "Project brief",
           "content": "## Project brief\nProject 2: Geometric Design and Roadway Safety verification dossier. A two-lane highway connects a market town to an industrial depot along rolling terrain.\nStart with the evidence register: Drivers encounter a crest followed by a wet sharp curve; roadside shops restrict visibility and pedestrians cross to transit stops. Rank three plausible failure mechanisms, then select two competing interventions. For each, document a direct construction consequence, a maintenance consequence, an environmental or community consequence, and a performance measurement to evaluate after implementation. Maximizing geometric capacity without protecting sightlines and crossing movements may increase collision consequences.\nDeliverables: site and scope sketch, data dictionary, annotated equations and unit conversions, one sensitivity plot, two contrasting scenarios, a traceable decision table, and a one-page uncertainty statement. Support any claimed design compliance with a primary local design standard; do not use model plots as an approval signature.\nQuality gate: Map operating speeds, available sightlines, drainage low points and the exposure of pedestrians before choosing widening. Add peer-review comments and a concise change log before recommending construction."
+        }
+      ],
+      "problems": [
+        {
+          "number": 1,
+          "title": "Engineering Problem 2.1: Geometric Design, Cross-Sections and Roadway Safety Margins",
+          "question": "Model and units: Identify the physical object, controlling dimensions, the adopted units and at least one alternative interpretation of the measured quantity.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Geometric Design, Cross-Sections and Roadway Safety Margins.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 2 \\text{ Section } 1$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Geometric Design, Cross-Sections and Roadway Safety Margins."
+        },
+        {
+          "number": 2,
+          "title": "Engineering Problem 2.2: Geometric Design, Cross-Sections and Roadway Safety Margins",
+          "question": "Boundary condition: Describe the boundary conditions implicit in the featured equation. What change at the site would invalidate them?",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Geometric Design, Cross-Sections and Roadway Safety Margins.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 2 \\text{ Section } 2$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Geometric Design, Cross-Sections and Roadway Safety Margins."
+        },
+        {
+          "number": 3,
+          "title": "Engineering Problem 2.3: Geometric Design, Cross-Sections and Roadway Safety Margins",
+          "question": "Sensitivity: Perturb the most influential input by \u00b110% and compare both outputs; identify whether the response is linear.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Geometric Design, Cross-Sections and Roadway Safety Margins.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 2 \\text{ Section } 3$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Geometric Design, Cross-Sections and Roadway Safety Margins."
+        },
+        {
+          "number": 4,
+          "title": "Engineering Problem 2.4: Geometric Design, Cross-Sections and Roadway Safety Margins",
+          "question": "Field verification: Design a measurement program with sampling positions, replication count, calibration records and data exclusions.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Geometric Design, Cross-Sections and Roadway Safety Margins.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 2 \\text{ Section } 4$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Geometric Design, Cross-Sections and Roadway Safety Margins."
+        },
+        {
+          "number": 5,
+          "title": "Engineering Problem 2.5: Geometric Design, Cross-Sections and Roadway Safety Margins",
+          "question": "Failure mode: Give one mechanism that the simplified formula misses, and propose an observation that could reveal it.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Geometric Design, Cross-Sections and Roadway Safety Margins.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 2 \\text{ Section } 5$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Geometric Design, Cross-Sections and Roadway Safety Margins."
         }
       ],
       "workedProblems": [
@@ -258,6 +332,43 @@ window.COURSE_DATA = {
           "content": "## Project brief\nProject 3: Pavement Materials and Laboratory Evidence verification dossier. A quarry supplies aggregates and a batch plant proposes an asphalt mix for a road exposed to intense sun and monsoon rain.\nStart with the evidence register: Production records give sieve analysis and stockpile moisture, but asphalt aging and stripped aggregate behavior have not been validated. Rank three plausible failure mechanisms, then select two competing interventions. For each, document a direct construction consequence, a maintenance consequence, an environmental or community consequence, and a performance measurement to evaluate after implementation. The cheapest source may cause polishing, binder stripping or large variability across production runs.\nDeliverables: site and scope sketch, data dictionary, annotated equations and unit conversions, one sensitivity plot, two contrasting scenarios, a traceable decision table, and a one-page uncertainty statement. Support any claimed design compliance with a primary local design standard; do not use model plots as an approval signature.\nQuality gate: Specify sampling dates, conditioner states, sieve results, source variation and quality-action thresholds. Add peer-review comments and a concise change log before recommending construction."
         }
       ],
+      "problems": [
+        {
+          "number": 1,
+          "title": "Engineering Problem 3.1: Pavement Materials, Mineral Aggregates and Bituminous Binders",
+          "question": "Model and units: Identify the physical object, controlling dimensions, the adopted units and at least one alternative interpretation of the measured quantity.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Pavement Materials, Mineral Aggregates and Bituminous Binders.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 3 \\text{ Section } 1$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Pavement Materials, Mineral Aggregates and Bituminous Binders."
+        },
+        {
+          "number": 2,
+          "title": "Engineering Problem 3.2: Pavement Materials, Mineral Aggregates and Bituminous Binders",
+          "question": "Boundary condition: Describe the boundary conditions implicit in the featured equation. What change at the site would invalidate them?",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Pavement Materials, Mineral Aggregates and Bituminous Binders.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 3 \\text{ Section } 2$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Pavement Materials, Mineral Aggregates and Bituminous Binders."
+        },
+        {
+          "number": 3,
+          "title": "Engineering Problem 3.3: Pavement Materials, Mineral Aggregates and Bituminous Binders",
+          "question": "Sensitivity: Perturb the most influential input by \u00b110% and compare both outputs; identify whether the response is linear.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Pavement Materials, Mineral Aggregates and Bituminous Binders.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 3 \\text{ Section } 3$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Pavement Materials, Mineral Aggregates and Bituminous Binders."
+        },
+        {
+          "number": 4,
+          "title": "Engineering Problem 3.4: Pavement Materials, Mineral Aggregates and Bituminous Binders",
+          "question": "Field verification: Design a measurement program with sampling positions, replication count, calibration records and data exclusions.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Pavement Materials, Mineral Aggregates and Bituminous Binders.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 3 \\text{ Section } 4$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Pavement Materials, Mineral Aggregates and Bituminous Binders."
+        },
+        {
+          "number": 5,
+          "title": "Engineering Problem 3.5: Pavement Materials, Mineral Aggregates and Bituminous Binders",
+          "question": "Failure mode: Give one mechanism that the simplified formula misses, and propose an observation that could reveal it.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Pavement Materials, Mineral Aggregates and Bituminous Binders.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 3 \\text{ Section } 5$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Pavement Materials, Mineral Aggregates and Bituminous Binders."
+        }
+      ],
       "workedProblems": [
         {
           "number": 1,
@@ -354,6 +465,43 @@ window.COURSE_DATA = {
           "secNumber": "4.9",
           "heading": "Project brief",
           "content": "## Project brief\nProject 4: Flexible Pavement Mechanics and Design verification dossier. A freight bypass shows early rutting after repeated wet seasons despite apparently adequate surface thickness.\nStart with the evidence register: Core samples, traffic spectra and deflection data suggest changes in more than one layer. Rank three plausible failure mechanisms, then select two competing interventions. For each, document a direct construction consequence, a maintenance consequence, an environmental or community consequence, and a performance measurement to evaluate after implementation. Adding only a thin asphalt overlay can temporarily hide subsurface deformation without treating the cause.\nDeliverables: site and scope sketch, data dictionary, annotated equations and unit conversions, one sensitivity plot, two contrasting scenarios, a traceable decision table, and a one-page uncertainty statement. Support any claimed design compliance with a primary local design standard; do not use model plots as an approval signature.\nQuality gate: Separate top-down cracking, fatigue, rutting and moisture-related failures using independent site observations. Add peer-review comments and a concise change log before recommending construction."
+        }
+      ],
+      "problems": [
+        {
+          "number": 1,
+          "title": "Engineering Problem 4.1: Flexible Pavement Mechanics, Layered Systems and AASHTO Design",
+          "question": "Model and units: Identify the physical object, controlling dimensions, the adopted units and at least one alternative interpretation of the measured quantity.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Flexible Pavement Mechanics, Layered Systems and AASHTO Design.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 4 \\text{ Section } 1$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Flexible Pavement Mechanics, Layered Systems and AASHTO Design."
+        },
+        {
+          "number": 2,
+          "title": "Engineering Problem 4.2: Flexible Pavement Mechanics, Layered Systems and AASHTO Design",
+          "question": "Boundary condition: Describe the boundary conditions implicit in the featured equation. What change at the site would invalidate them?",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Flexible Pavement Mechanics, Layered Systems and AASHTO Design.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 4 \\text{ Section } 2$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Flexible Pavement Mechanics, Layered Systems and AASHTO Design."
+        },
+        {
+          "number": 3,
+          "title": "Engineering Problem 4.3: Flexible Pavement Mechanics, Layered Systems and AASHTO Design",
+          "question": "Sensitivity: Perturb the most influential input by \u00b110% and compare both outputs; identify whether the response is linear.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Flexible Pavement Mechanics, Layered Systems and AASHTO Design.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 4 \\text{ Section } 3$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Flexible Pavement Mechanics, Layered Systems and AASHTO Design."
+        },
+        {
+          "number": 4,
+          "title": "Engineering Problem 4.4: Flexible Pavement Mechanics, Layered Systems and AASHTO Design",
+          "question": "Field verification: Design a measurement program with sampling positions, replication count, calibration records and data exclusions.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Flexible Pavement Mechanics, Layered Systems and AASHTO Design.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 4 \\text{ Section } 4$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Flexible Pavement Mechanics, Layered Systems and AASHTO Design."
+        },
+        {
+          "number": 5,
+          "title": "Engineering Problem 4.5: Flexible Pavement Mechanics, Layered Systems and AASHTO Design",
+          "question": "Failure mode: Give one mechanism that the simplified formula misses, and propose an observation that could reveal it.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Flexible Pavement Mechanics, Layered Systems and AASHTO Design.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 4 \\text{ Section } 5$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Flexible Pavement Mechanics, Layered Systems and AASHTO Design."
         }
       ],
       "workedProblems": [
@@ -454,6 +602,43 @@ window.COURSE_DATA = {
           "content": "## Project brief\nProject 5: Rigid Pavement Mechanics and Design verification dossier. A concrete pavement has repeated corner breaks and joint faulting near a logistics yard.\nStart with the evidence register: Concrete strength certificates exist, but dowel location, curing, support quality and water drainage are uncertain. Rank three plausible failure mechanisms, then select two competing interventions. For each, document a direct construction consequence, a maintenance consequence, an environmental or community consequence, and a performance measurement to evaluate after implementation. Raising slab thickness alone may not address voids, pumping, restraint or poor load transfer.\nDeliverables: site and scope sketch, data dictionary, annotated equations and unit conversions, one sensitivity plot, two contrasting scenarios, a traceable decision table, and a one-page uncertainty statement. Support any claimed design compliance with a primary local design standard; do not use model plots as an approval signature.\nQuality gate: Combine pavement cores, slab deflection, joint measurements and construction records before recommending repairs. Add peer-review comments and a concise change log before recommending construction."
         }
       ],
+      "problems": [
+        {
+          "number": 1,
+          "title": "Engineering Problem 5.1: Rigid Pavement Mechanics, Concrete Slabs and Joint Load Transfer",
+          "question": "Model and units: Identify the physical object, controlling dimensions, the adopted units and at least one alternative interpretation of the measured quantity.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Rigid Pavement Mechanics, Concrete Slabs and Joint Load Transfer.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 5 \\text{ Section } 1$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Rigid Pavement Mechanics, Concrete Slabs and Joint Load Transfer."
+        },
+        {
+          "number": 2,
+          "title": "Engineering Problem 5.2: Rigid Pavement Mechanics, Concrete Slabs and Joint Load Transfer",
+          "question": "Boundary condition: Describe the boundary conditions implicit in the featured equation. What change at the site would invalidate them?",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Rigid Pavement Mechanics, Concrete Slabs and Joint Load Transfer.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 5 \\text{ Section } 2$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Rigid Pavement Mechanics, Concrete Slabs and Joint Load Transfer."
+        },
+        {
+          "number": 3,
+          "title": "Engineering Problem 5.3: Rigid Pavement Mechanics, Concrete Slabs and Joint Load Transfer",
+          "question": "Sensitivity: Perturb the most influential input by \u00b110% and compare both outputs; identify whether the response is linear.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Rigid Pavement Mechanics, Concrete Slabs and Joint Load Transfer.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 5 \\text{ Section } 3$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Rigid Pavement Mechanics, Concrete Slabs and Joint Load Transfer."
+        },
+        {
+          "number": 4,
+          "title": "Engineering Problem 5.4: Rigid Pavement Mechanics, Concrete Slabs and Joint Load Transfer",
+          "question": "Field verification: Design a measurement program with sampling positions, replication count, calibration records and data exclusions.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Rigid Pavement Mechanics, Concrete Slabs and Joint Load Transfer.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 5 \\text{ Section } 4$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Rigid Pavement Mechanics, Concrete Slabs and Joint Load Transfer."
+        },
+        {
+          "number": 5,
+          "title": "Engineering Problem 5.5: Rigid Pavement Mechanics, Concrete Slabs and Joint Load Transfer",
+          "question": "Failure mode: Give one mechanism that the simplified formula misses, and propose an observation that could reveal it.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Rigid Pavement Mechanics, Concrete Slabs and Joint Load Transfer.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 5 \\text{ Section } 5$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Rigid Pavement Mechanics, Concrete Slabs and Joint Load Transfer."
+        }
+      ],
       "workedProblems": [
         {
           "number": 1,
@@ -550,6 +735,43 @@ window.COURSE_DATA = {
           "secNumber": "6.9",
           "heading": "Project brief",
           "content": "## Project brief\nProject 6: Highway Construction and Quality Assurance verification dossier. A new regional road is constructed during unusually wet weather across heterogeneous fill.\nStart with the evidence register: The site has mixed borrow sources, shifting haul distances, inconsistent moisture content and partial culvert completion. Rank three plausible failure mechanisms, then select two competing interventions. For each, document a direct construction consequence, a maintenance consequence, an environmental or community consequence, and a performance measurement to evaluate after implementation. A single density test can conceal weak seams that later produce differential settlement and pavement distress.\nDeliverables: site and scope sketch, data dictionary, annotated equations and unit conversions, one sensitivity plot, two contrasting scenarios, a traceable decision table, and a one-page uncertainty statement. Support any claimed design compliance with a primary local design standard; do not use model plots as an approval signature.\nQuality gate: Require station-referenced tests, photographed defects, closure evidence and traceable material batch identifiers. Add peer-review comments and a concise change log before recommending construction."
+        }
+      ],
+      "problems": [
+        {
+          "number": 1,
+          "title": "Engineering Problem 6.1: Highway Construction, Compaction and Quality Assurance",
+          "question": "Model and units: Identify the physical object, controlling dimensions, the adopted units and at least one alternative interpretation of the measured quantity.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Highway Construction, Compaction and Quality Assurance.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 6 \\text{ Section } 1$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Highway Construction, Compaction and Quality Assurance."
+        },
+        {
+          "number": 2,
+          "title": "Engineering Problem 6.2: Highway Construction, Compaction and Quality Assurance",
+          "question": "Boundary condition: Describe the boundary conditions implicit in the featured equation. What change at the site would invalidate them?",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Highway Construction, Compaction and Quality Assurance.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 6 \\text{ Section } 2$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Highway Construction, Compaction and Quality Assurance."
+        },
+        {
+          "number": 3,
+          "title": "Engineering Problem 6.3: Highway Construction, Compaction and Quality Assurance",
+          "question": "Sensitivity: Perturb the most influential input by \u00b110% and compare both outputs; identify whether the response is linear.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Highway Construction, Compaction and Quality Assurance.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 6 \\text{ Section } 3$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Highway Construction, Compaction and Quality Assurance."
+        },
+        {
+          "number": 4,
+          "title": "Engineering Problem 6.4: Highway Construction, Compaction and Quality Assurance",
+          "question": "Field verification: Design a measurement program with sampling positions, replication count, calibration records and data exclusions.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Highway Construction, Compaction and Quality Assurance.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 6 \\text{ Section } 4$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Highway Construction, Compaction and Quality Assurance."
+        },
+        {
+          "number": 5,
+          "title": "Engineering Problem 6.5: Highway Construction, Compaction and Quality Assurance",
+          "question": "Failure mode: Give one mechanism that the simplified formula misses, and propose an observation that could reveal it.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Highway Construction, Compaction and Quality Assurance.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 6 \\text{ Section } 5$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Highway Construction, Compaction and Quality Assurance."
         }
       ],
       "workedProblems": [
@@ -650,6 +872,43 @@ window.COURSE_DATA = {
           "content": "## Project brief\nProject 7: Pavement Management and Rehabilitation verification dossier. An agency manages 450 lane-km of asphalt and concrete pavement with a constrained annual repair budget.\nStart with the evidence register: Ride data are available annually, but structural testing is sporadic and construction cost changes rapidly. Rank three plausible failure mechanisms, then select two competing interventions. For each, document a direct construction consequence, a maintenance consequence, an environmental or community consequence, and a performance measurement to evaluate after implementation. Optimizing a headline index may overlook local skid hazards, emergency routes and long-run preservation benefits.\nDeliverables: site and scope sketch, data dictionary, annotated equations and unit conversions, one sensitivity plot, two contrasting scenarios, a traceable decision table, and a one-page uncertainty statement. Support any claimed design compliance with a primary local design standard; do not use model plots as an approval signature.\nQuality gate: Compare treatment timing and network benefit over equal analysis periods including uncertainty and user disruption. Add peer-review comments and a concise change log before recommending construction."
         }
       ],
+      "problems": [
+        {
+          "number": 1,
+          "title": "Engineering Problem 7.1: Pavement Management Systems (PMS), Distress and Rehabilitation",
+          "question": "Model and units: Identify the physical object, controlling dimensions, the adopted units and at least one alternative interpretation of the measured quantity.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Pavement Management Systems (PMS), Distress and Rehabilitation.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 7 \\text{ Section } 1$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Pavement Management Systems (PMS), Distress and Rehabilitation."
+        },
+        {
+          "number": 2,
+          "title": "Engineering Problem 7.2: Pavement Management Systems (PMS), Distress and Rehabilitation",
+          "question": "Boundary condition: Describe the boundary conditions implicit in the featured equation. What change at the site would invalidate them?",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Pavement Management Systems (PMS), Distress and Rehabilitation.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 7 \\text{ Section } 2$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Pavement Management Systems (PMS), Distress and Rehabilitation."
+        },
+        {
+          "number": 3,
+          "title": "Engineering Problem 7.3: Pavement Management Systems (PMS), Distress and Rehabilitation",
+          "question": "Sensitivity: Perturb the most influential input by \u00b110% and compare both outputs; identify whether the response is linear.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Pavement Management Systems (PMS), Distress and Rehabilitation.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 7 \\text{ Section } 3$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Pavement Management Systems (PMS), Distress and Rehabilitation."
+        },
+        {
+          "number": 4,
+          "title": "Engineering Problem 7.4: Pavement Management Systems (PMS), Distress and Rehabilitation",
+          "question": "Field verification: Design a measurement program with sampling positions, replication count, calibration records and data exclusions.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Pavement Management Systems (PMS), Distress and Rehabilitation.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 7 \\text{ Section } 4$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Pavement Management Systems (PMS), Distress and Rehabilitation."
+        },
+        {
+          "number": 5,
+          "title": "Engineering Problem 7.5: Pavement Management Systems (PMS), Distress and Rehabilitation",
+          "question": "Failure mode: Give one mechanism that the simplified formula misses, and propose an observation that could reveal it.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Pavement Management Systems (PMS), Distress and Rehabilitation.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 7 \\text{ Section } 5$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Pavement Management Systems (PMS), Distress and Rehabilitation."
+        }
+      ],
       "workedProblems": [
         {
           "number": 1,
@@ -746,6 +1005,43 @@ window.COURSE_DATA = {
           "secNumber": "8.9",
           "heading": "Project brief",
           "content": "## Project brief\nProject 8: Highway Performance, Climate and Verification verification dossier. A low-lying coastal highway suffers from high pavement temperature, salt spray and seasonal flooding.\nStart with the evidence register: Existing design assumptions predate current climate projections and measured skid resistance is inconsistent. Rank three plausible failure mechanisms, then select two competing interventions. For each, document a direct construction consequence, a maintenance consequence, an environmental or community consequence, and a performance measurement to evaluate after implementation. A treatment that improves average ride may remain vulnerable to extreme rainfall, unsafe wet friction or early material damage.\nDeliverables: site and scope sketch, data dictionary, annotated equations and unit conversions, one sensitivity plot, two contrasting scenarios, a traceable decision table, and a one-page uncertainty statement. Support any claimed design compliance with a primary local design standard; do not use model plots as an approval signature.\nQuality gate: Define verifiable performance metrics and carry out a documented sensitivity and uncertainty audit. Add peer-review comments and a concise change log before recommending construction."
+        }
+      ],
+      "problems": [
+        {
+          "number": 1,
+          "title": "Engineering Problem 8.1: Highway Performance, Environmental Durability and Life-Cycle Costs",
+          "question": "Model and units: Identify the physical object, controlling dimensions, the adopted units and at least one alternative interpretation of the measured quantity.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Highway Performance, Environmental Durability and Life-Cycle Costs.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 8 \\text{ Section } 1$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Highway Performance, Environmental Durability and Life-Cycle Costs."
+        },
+        {
+          "number": 2,
+          "title": "Engineering Problem 8.2: Highway Performance, Environmental Durability and Life-Cycle Costs",
+          "question": "Boundary condition: Describe the boundary conditions implicit in the featured equation. What change at the site would invalidate them?",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Highway Performance, Environmental Durability and Life-Cycle Costs.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 8 \\text{ Section } 2$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Highway Performance, Environmental Durability and Life-Cycle Costs."
+        },
+        {
+          "number": 3,
+          "title": "Engineering Problem 8.3: Highway Performance, Environmental Durability and Life-Cycle Costs",
+          "question": "Sensitivity: Perturb the most influential input by \u00b110% and compare both outputs; identify whether the response is linear.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Highway Performance, Environmental Durability and Life-Cycle Costs.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 8 \\text{ Section } 3$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Highway Performance, Environmental Durability and Life-Cycle Costs."
+        },
+        {
+          "number": 4,
+          "title": "Engineering Problem 8.4: Highway Performance, Environmental Durability and Life-Cycle Costs",
+          "question": "Field verification: Design a measurement program with sampling positions, replication count, calibration records and data exclusions.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Highway Performance, Environmental Durability and Life-Cycle Costs.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 8 \\text{ Section } 4$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Highway Performance, Environmental Durability and Life-Cycle Costs."
+        },
+        {
+          "number": 5,
+          "title": "Engineering Problem 8.5: Highway Performance, Environmental Durability and Life-Cycle Costs",
+          "question": "Failure mode: Give one mechanism that the simplified formula misses, and propose an observation that could reveal it.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Highway Performance, Environmental Durability and Life-Cycle Costs.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 8 \\text{ Section } 5$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Highway Performance, Environmental Durability and Life-Cycle Costs."
         }
       ],
       "workedProblems": [

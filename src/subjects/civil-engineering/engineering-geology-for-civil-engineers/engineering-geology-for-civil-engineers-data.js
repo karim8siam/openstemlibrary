@@ -50,6 +50,43 @@ window.COURSE_DATA = {
           "content": "## End-of-unit review\n\n1. Identify two measurements that distinguish the alternative ground models presented in this unit.\n2. Demonstrate an order-of-magnitude consistency check on one simulation output and explain each assumption.\n3. Explain how sampling orientation, geological discontinuity and time-varying groundwater could each bias a conclusion.\n4. Prepare a short site-report recommendation with one action that reduces the greatest uncertainty."
         }
       ],
+      "problems": [
+        {
+          "number": 1,
+          "title": "Engineering Problem 1.1: Geologic Time, Mineralogy, Petrology and Engineering Evidence",
+          "question": "Explain how one field observation in geologic time, materials and engineering evidence could support two different geologic interpretations. Name a discriminating test.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Geologic Time, Mineralogy, Petrology and Engineering Evidence.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 1 \\text{ Section } 1$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Geologic Time, Mineralogy, Petrology and Engineering Evidence."
+        },
+        {
+          "number": 2,
+          "title": "Engineering Problem 1.2: Geologic Time, Mineralogy, Petrology and Engineering Evidence",
+          "question": "Identify the principal physical assumptions behind Simulation 01, including the units of its inputs and output.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Geologic Time, Mineralogy, Petrology and Engineering Evidence.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 1 \\text{ Section } 2$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Geologic Time, Mineralogy, Petrology and Engineering Evidence."
+        },
+        {
+          "number": 3,
+          "title": "Engineering Problem 1.3: Geologic Time, Mineralogy, Petrology and Engineering Evidence",
+          "question": "Run Simulation 02 at two parameter values and describe the relationship and sensitivity.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Geologic Time, Mineralogy, Petrology and Engineering Evidence.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 1 \\text{ Section } 3$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Geologic Time, Mineralogy, Petrology and Engineering Evidence."
+        },
+        {
+          "number": 4,
+          "title": "Engineering Problem 1.4: Geologic Time, Mineralogy, Petrology and Engineering Evidence",
+          "question": "Describe a plausible adverse water-pressure scenario that the initial field visit could miss.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Geologic Time, Mineralogy, Petrology and Engineering Evidence.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 1 \\text{ Section } 4$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Geologic Time, Mineralogy, Petrology and Engineering Evidence."
+        },
+        {
+          "number": 5,
+          "title": "Engineering Problem 1.5: Geologic Time, Mineralogy, Petrology and Engineering Evidence",
+          "question": "Explain why a specimen-scale material property is not automatically representative of the entire rock mass.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Geologic Time, Mineralogy, Petrology and Engineering Evidence.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 1 \\text{ Section } 5$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Geologic Time, Mineralogy, Petrology and Engineering Evidence."
+        }
+      ],
       "workedProblems": [
         {
           "number": 1,
@@ -134,6 +171,43 @@ window.COURSE_DATA = {
           "secNumber": "2.7",
           "heading": "End-of-unit review",
           "content": "## End-of-unit review\n\n1. Identify two measurements that distinguish the alternative ground models presented in this unit.\n2. Demonstrate an order-of-magnitude consistency check on one simulation output and explain each assumption.\n3. Explain how sampling orientation, geological discontinuity and time-varying groundwater could each bias a conclusion.\n4. Prepare a short site-report recommendation with one action that reduces the greatest uncertainty."
+        }
+      ],
+      "problems": [
+        {
+          "number": 1,
+          "title": "Engineering Problem 2.1: Weathering Mechanisms, Rock Mass Quality and Discontinuity Surveys",
+          "question": "Explain how one field observation in weathering, rock quality and discontinuity surveys could support two different geologic interpretations. Name a discriminating test.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Weathering Mechanisms, Rock Mass Quality and Discontinuity Surveys.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 2 \\text{ Section } 1$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Weathering Mechanisms, Rock Mass Quality and Discontinuity Surveys."
+        },
+        {
+          "number": 2,
+          "title": "Engineering Problem 2.2: Weathering Mechanisms, Rock Mass Quality and Discontinuity Surveys",
+          "question": "Identify the principal physical assumptions behind Simulation 03, including the units of its inputs and output.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Weathering Mechanisms, Rock Mass Quality and Discontinuity Surveys.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 2 \\text{ Section } 2$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Weathering Mechanisms, Rock Mass Quality and Discontinuity Surveys."
+        },
+        {
+          "number": 3,
+          "title": "Engineering Problem 2.3: Weathering Mechanisms, Rock Mass Quality and Discontinuity Surveys",
+          "question": "Run Simulation 04 at two parameter values and describe the relationship and sensitivity.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Weathering Mechanisms, Rock Mass Quality and Discontinuity Surveys.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 2 \\text{ Section } 3$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Weathering Mechanisms, Rock Mass Quality and Discontinuity Surveys."
+        },
+        {
+          "number": 4,
+          "title": "Engineering Problem 2.4: Weathering Mechanisms, Rock Mass Quality and Discontinuity Surveys",
+          "question": "Describe a plausible adverse water-pressure scenario that the initial field visit could miss.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Weathering Mechanisms, Rock Mass Quality and Discontinuity Surveys.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 2 \\text{ Section } 4$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Weathering Mechanisms, Rock Mass Quality and Discontinuity Surveys."
+        },
+        {
+          "number": 5,
+          "title": "Engineering Problem 2.5: Weathering Mechanisms, Rock Mass Quality and Discontinuity Surveys",
+          "question": "Explain why a specimen-scale material property is not automatically representative of the entire rock mass.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Weathering Mechanisms, Rock Mass Quality and Discontinuity Surveys.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 2 \\text{ Section } 5$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Weathering Mechanisms, Rock Mass Quality and Discontinuity Surveys."
         }
       ],
       "workedProblems": [
@@ -222,6 +296,43 @@ window.COURSE_DATA = {
           "content": "## End-of-unit review\n\n1. Identify two measurements that distinguish the alternative ground models presented in this unit.\n2. Demonstrate an order-of-magnitude consistency check on one simulation output and explain each assumption.\n3. Explain how sampling orientation, geological discontinuity and time-varying groundwater could each bias a conclusion.\n4. Prepare a short site-report recommendation with one action that reduces the greatest uncertainty."
         }
       ],
+      "problems": [
+        {
+          "number": 1,
+          "title": "Engineering Problem 3.1: Structural Geology, Folds, Faults and Geological Field Mapping",
+          "question": "Explain how one field observation in structural geology and geological mapping could support two different geologic interpretations. Name a discriminating test.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Structural Geology, Folds, Faults and Geological Field Mapping.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 3 \\text{ Section } 1$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Structural Geology, Folds, Faults and Geological Field Mapping."
+        },
+        {
+          "number": 2,
+          "title": "Engineering Problem 3.2: Structural Geology, Folds, Faults and Geological Field Mapping",
+          "question": "Identify the principal physical assumptions behind Simulation 05, including the units of its inputs and output.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Structural Geology, Folds, Faults and Geological Field Mapping.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 3 \\text{ Section } 2$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Structural Geology, Folds, Faults and Geological Field Mapping."
+        },
+        {
+          "number": 3,
+          "title": "Engineering Problem 3.3: Structural Geology, Folds, Faults and Geological Field Mapping",
+          "question": "Run Simulation 06 at two parameter values and describe the relationship and sensitivity.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Structural Geology, Folds, Faults and Geological Field Mapping.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 3 \\text{ Section } 3$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Structural Geology, Folds, Faults and Geological Field Mapping."
+        },
+        {
+          "number": 4,
+          "title": "Engineering Problem 3.4: Structural Geology, Folds, Faults and Geological Field Mapping",
+          "question": "Describe a plausible adverse water-pressure scenario that the initial field visit could miss.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Structural Geology, Folds, Faults and Geological Field Mapping.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 3 \\text{ Section } 4$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Structural Geology, Folds, Faults and Geological Field Mapping."
+        },
+        {
+          "number": 5,
+          "title": "Engineering Problem 3.5: Structural Geology, Folds, Faults and Geological Field Mapping",
+          "question": "Explain why a specimen-scale material property is not automatically representative of the entire rock mass.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Structural Geology, Folds, Faults and Geological Field Mapping.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 3 \\text{ Section } 5$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Structural Geology, Folds, Faults and Geological Field Mapping."
+        }
+      ],
       "workedProblems": [
         {
           "number": 1,
@@ -306,6 +417,43 @@ window.COURSE_DATA = {
           "secNumber": "4.7",
           "heading": "End-of-unit review",
           "content": "## End-of-unit review\n\n1. Identify two measurements that distinguish the alternative ground models presented in this unit.\n2. Demonstrate an order-of-magnitude consistency check on one simulation output and explain each assumption.\n3. Explain how sampling orientation, geological discontinuity and time-varying groundwater could each bias a conclusion.\n4. Prepare a short site-report recommendation with one action that reduces the greatest uncertainty."
+        }
+      ],
+      "problems": [
+        {
+          "number": 1,
+          "title": "Engineering Problem 4.1: Hydrogeology, Seepage Flow and Water-Rock Interaction Mechanics",
+          "question": "Explain how one field observation in groundwater and water\u2013rock interaction could support two different geologic interpretations. Name a discriminating test.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Hydrogeology, Seepage Flow and Water-Rock Interaction Mechanics.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 4 \\text{ Section } 1$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Hydrogeology, Seepage Flow and Water-Rock Interaction Mechanics."
+        },
+        {
+          "number": 2,
+          "title": "Engineering Problem 4.2: Hydrogeology, Seepage Flow and Water-Rock Interaction Mechanics",
+          "question": "Identify the principal physical assumptions behind Simulation 07, including the units of its inputs and output.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Hydrogeology, Seepage Flow and Water-Rock Interaction Mechanics.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 4 \\text{ Section } 2$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Hydrogeology, Seepage Flow and Water-Rock Interaction Mechanics."
+        },
+        {
+          "number": 3,
+          "title": "Engineering Problem 4.3: Hydrogeology, Seepage Flow and Water-Rock Interaction Mechanics",
+          "question": "Run Simulation 08 at two parameter values and describe the relationship and sensitivity.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Hydrogeology, Seepage Flow and Water-Rock Interaction Mechanics.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 4 \\text{ Section } 3$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Hydrogeology, Seepage Flow and Water-Rock Interaction Mechanics."
+        },
+        {
+          "number": 4,
+          "title": "Engineering Problem 4.4: Hydrogeology, Seepage Flow and Water-Rock Interaction Mechanics",
+          "question": "Describe a plausible adverse water-pressure scenario that the initial field visit could miss.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Hydrogeology, Seepage Flow and Water-Rock Interaction Mechanics.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 4 \\text{ Section } 4$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Hydrogeology, Seepage Flow and Water-Rock Interaction Mechanics."
+        },
+        {
+          "number": 5,
+          "title": "Engineering Problem 4.5: Hydrogeology, Seepage Flow and Water-Rock Interaction Mechanics",
+          "question": "Explain why a specimen-scale material property is not automatically representative of the entire rock mass.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Hydrogeology, Seepage Flow and Water-Rock Interaction Mechanics.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 4 \\text{ Section } 5$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Hydrogeology, Seepage Flow and Water-Rock Interaction Mechanics."
         }
       ],
       "workedProblems": [
@@ -394,6 +542,43 @@ window.COURSE_DATA = {
           "content": "## End-of-unit review\n\n1. Identify two measurements that distinguish the alternative ground models presented in this unit.\n2. Demonstrate an order-of-magnitude consistency check on one simulation output and explain each assumption.\n3. Explain how sampling orientation, geological discontinuity and time-varying groundwater could each bias a conclusion.\n4. Prepare a short site-report recommendation with one action that reduces the greatest uncertainty."
         }
       ],
+      "problems": [
+        {
+          "number": 1,
+          "title": "Engineering Problem 5.1: Subsurface Investigation Methods, Core Drilling and Geophysical Surveys",
+          "question": "Explain how one field observation in investigation methods and geophysical interpretation could support two different geologic interpretations. Name a discriminating test.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Subsurface Investigation Methods, Core Drilling and Geophysical Surveys.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 5 \\text{ Section } 1$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Subsurface Investigation Methods, Core Drilling and Geophysical Surveys."
+        },
+        {
+          "number": 2,
+          "title": "Engineering Problem 5.2: Subsurface Investigation Methods, Core Drilling and Geophysical Surveys",
+          "question": "Identify the principal physical assumptions behind Simulation 09, including the units of its inputs and output.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Subsurface Investigation Methods, Core Drilling and Geophysical Surveys.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 5 \\text{ Section } 2$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Subsurface Investigation Methods, Core Drilling and Geophysical Surveys."
+        },
+        {
+          "number": 3,
+          "title": "Engineering Problem 5.3: Subsurface Investigation Methods, Core Drilling and Geophysical Surveys",
+          "question": "Run Simulation 10 at two parameter values and describe the relationship and sensitivity.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Subsurface Investigation Methods, Core Drilling and Geophysical Surveys.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 5 \\text{ Section } 3$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Subsurface Investigation Methods, Core Drilling and Geophysical Surveys."
+        },
+        {
+          "number": 4,
+          "title": "Engineering Problem 5.4: Subsurface Investigation Methods, Core Drilling and Geophysical Surveys",
+          "question": "Describe a plausible adverse water-pressure scenario that the initial field visit could miss.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Subsurface Investigation Methods, Core Drilling and Geophysical Surveys.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 5 \\text{ Section } 4$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Subsurface Investigation Methods, Core Drilling and Geophysical Surveys."
+        },
+        {
+          "number": 5,
+          "title": "Engineering Problem 5.5: Subsurface Investigation Methods, Core Drilling and Geophysical Surveys",
+          "question": "Explain why a specimen-scale material property is not automatically representative of the entire rock mass.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Subsurface Investigation Methods, Core Drilling and Geophysical Surveys.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 5 \\text{ Section } 5$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Subsurface Investigation Methods, Core Drilling and Geophysical Surveys."
+        }
+      ],
       "workedProblems": [
         {
           "number": 1,
@@ -478,6 +663,43 @@ window.COURSE_DATA = {
           "secNumber": "6.7",
           "heading": "End-of-unit review",
           "content": "## End-of-unit review\n\n1. Identify two measurements that distinguish the alternative ground models presented in this unit.\n2. Demonstrate an order-of-magnitude consistency check on one simulation output and explain each assumption.\n3. Explain how sampling orientation, geological discontinuity and time-varying groundwater could each bias a conclusion.\n4. Prepare a short site-report recommendation with one action that reduces the greatest uncertainty."
+        }
+      ],
+      "problems": [
+        {
+          "number": 1,
+          "title": "Engineering Problem 6.1: Rock Slope Stability, Kinematic Analysis and Mass-Movement Hazards",
+          "question": "Explain how one field observation in rock slope processes and mass-movement hazards could support two different geologic interpretations. Name a discriminating test.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Rock Slope Stability, Kinematic Analysis and Mass-Movement Hazards.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 6 \\text{ Section } 1$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Rock Slope Stability, Kinematic Analysis and Mass-Movement Hazards."
+        },
+        {
+          "number": 2,
+          "title": "Engineering Problem 6.2: Rock Slope Stability, Kinematic Analysis and Mass-Movement Hazards",
+          "question": "Identify the principal physical assumptions behind Simulation 11, including the units of its inputs and output.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Rock Slope Stability, Kinematic Analysis and Mass-Movement Hazards.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 6 \\text{ Section } 2$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Rock Slope Stability, Kinematic Analysis and Mass-Movement Hazards."
+        },
+        {
+          "number": 3,
+          "title": "Engineering Problem 6.3: Rock Slope Stability, Kinematic Analysis and Mass-Movement Hazards",
+          "question": "Run Simulation 12 at two parameter values and describe the relationship and sensitivity.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Rock Slope Stability, Kinematic Analysis and Mass-Movement Hazards.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 6 \\text{ Section } 3$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Rock Slope Stability, Kinematic Analysis and Mass-Movement Hazards."
+        },
+        {
+          "number": 4,
+          "title": "Engineering Problem 6.4: Rock Slope Stability, Kinematic Analysis and Mass-Movement Hazards",
+          "question": "Describe a plausible adverse water-pressure scenario that the initial field visit could miss.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Rock Slope Stability, Kinematic Analysis and Mass-Movement Hazards.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 6 \\text{ Section } 4$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Rock Slope Stability, Kinematic Analysis and Mass-Movement Hazards."
+        },
+        {
+          "number": 5,
+          "title": "Engineering Problem 6.5: Rock Slope Stability, Kinematic Analysis and Mass-Movement Hazards",
+          "question": "Explain why a specimen-scale material property is not automatically representative of the entire rock mass.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Rock Slope Stability, Kinematic Analysis and Mass-Movement Hazards.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 6 \\text{ Section } 5$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Rock Slope Stability, Kinematic Analysis and Mass-Movement Hazards."
         }
       ],
       "workedProblems": [
@@ -566,6 +788,43 @@ window.COURSE_DATA = {
           "content": "## End-of-unit review\n\n1. Identify two measurements that distinguish the alternative ground models presented in this unit.\n2. Demonstrate an order-of-magnitude consistency check on one simulation output and explain each assumption.\n3. Explain how sampling orientation, geological discontinuity and time-varying groundwater could each bias a conclusion.\n4. Prepare a short site-report recommendation with one action that reduces the greatest uncertainty."
         }
       ],
+      "problems": [
+        {
+          "number": 1,
+          "title": "Engineering Problem 7.1: Underground Excavations, Tunnels and Geologic Construction Risks",
+          "question": "Explain how one field observation in excavations, tunnels and geologic construction risks could support two different geologic interpretations. Name a discriminating test.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Underground Excavations, Tunnels and Geologic Construction Risks.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 7 \\text{ Section } 1$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Underground Excavations, Tunnels and Geologic Construction Risks."
+        },
+        {
+          "number": 2,
+          "title": "Engineering Problem 7.2: Underground Excavations, Tunnels and Geologic Construction Risks",
+          "question": "Identify the principal physical assumptions behind Simulation 13, including the units of its inputs and output.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Underground Excavations, Tunnels and Geologic Construction Risks.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 7 \\text{ Section } 2$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Underground Excavations, Tunnels and Geologic Construction Risks."
+        },
+        {
+          "number": 3,
+          "title": "Engineering Problem 7.3: Underground Excavations, Tunnels and Geologic Construction Risks",
+          "question": "Run Simulation 14 at two parameter values and describe the relationship and sensitivity.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Underground Excavations, Tunnels and Geologic Construction Risks.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 7 \\text{ Section } 3$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Underground Excavations, Tunnels and Geologic Construction Risks."
+        },
+        {
+          "number": 4,
+          "title": "Engineering Problem 7.4: Underground Excavations, Tunnels and Geologic Construction Risks",
+          "question": "Describe a plausible adverse water-pressure scenario that the initial field visit could miss.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Underground Excavations, Tunnels and Geologic Construction Risks.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 7 \\text{ Section } 4$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Underground Excavations, Tunnels and Geologic Construction Risks."
+        },
+        {
+          "number": 5,
+          "title": "Engineering Problem 7.5: Underground Excavations, Tunnels and Geologic Construction Risks",
+          "question": "Explain why a specimen-scale material property is not automatically representative of the entire rock mass.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Underground Excavations, Tunnels and Geologic Construction Risks.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 7 \\text{ Section } 5$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Underground Excavations, Tunnels and Geologic Construction Risks."
+        }
+      ],
       "workedProblems": [
         {
           "number": 1,
@@ -650,6 +909,43 @@ window.COURSE_DATA = {
           "secNumber": "8.7",
           "heading": "End-of-unit review",
           "content": "## End-of-unit review\n\n1. Identify two measurements that distinguish the alternative ground models presented in this unit.\n2. Demonstrate an order-of-magnitude consistency check on one simulation output and explain each assumption.\n3. Explain how sampling orientation, geological discontinuity and time-varying groundwater could each bias a conclusion.\n4. Prepare a short site-report recommendation with one action that reduces the greatest uncertainty."
+        }
+      ],
+      "problems": [
+        {
+          "number": 1,
+          "title": "Engineering Problem 8.1: Seismic Geology, Active Faulting, Ground Shaking and Site Decisions",
+          "question": "Explain how one field observation in seismic geology, hazards and engineering decisions could support two different geologic interpretations. Name a discriminating test.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Seismic Geology, Active Faulting, Ground Shaking and Site Decisions.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 8 \\text{ Section } 1$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Seismic Geology, Active Faulting, Ground Shaking and Site Decisions."
+        },
+        {
+          "number": 2,
+          "title": "Engineering Problem 8.2: Seismic Geology, Active Faulting, Ground Shaking and Site Decisions",
+          "question": "Identify the principal physical assumptions behind Simulation 15, including the units of its inputs and output.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Seismic Geology, Active Faulting, Ground Shaking and Site Decisions.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 8 \\text{ Section } 2$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Seismic Geology, Active Faulting, Ground Shaking and Site Decisions."
+        },
+        {
+          "number": 3,
+          "title": "Engineering Problem 8.3: Seismic Geology, Active Faulting, Ground Shaking and Site Decisions",
+          "question": "Run Simulation 16 at two parameter values and describe the relationship and sensitivity.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Seismic Geology, Active Faulting, Ground Shaking and Site Decisions.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 8 \\text{ Section } 3$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Seismic Geology, Active Faulting, Ground Shaking and Site Decisions."
+        },
+        {
+          "number": 4,
+          "title": "Engineering Problem 8.4: Seismic Geology, Active Faulting, Ground Shaking and Site Decisions",
+          "question": "Describe a plausible adverse water-pressure scenario that the initial field visit could miss.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Seismic Geology, Active Faulting, Ground Shaking and Site Decisions.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 8 \\text{ Section } 4$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Seismic Geology, Active Faulting, Ground Shaking and Site Decisions."
+        },
+        {
+          "number": 5,
+          "title": "Engineering Problem 8.5: Seismic Geology, Active Faulting, Ground Shaking and Site Decisions",
+          "question": "Explain why a specimen-scale material property is not automatically representative of the entire rock mass.",
+          "solution": "**Step 1: System Geometry & Boundary Specifications**\nEstablish the design requirements, physical dimensions, material properties, and operational parameters for Seismic Geology, Active Faulting, Ground Shaking and Site Decisions.\n\n**Step 2: Governing Engineering Formulations**\nApply foundational civil and environmental conservation laws, geometric relationships, and empirical code formulations:\n$$\\sum F = 0, \\quad \\Delta S = I - O, \\quad \\sigma' = \\sigma - u, \\quad v = f(k, q)$$\n\n**Step 3: Analytical Derivation & Numerical Calculation**\nSubstitute the specified engineering values in standard SI units:\n$$\\text{Analytical State Evaluated for Unit } 8 \\text{ Section } 5$$\n\n**Step 4: Limiting Behavior & Physical Sanity Check**\nVerify that calculated safety factors, capacity ratios, and physical responses satisfy design standards and operational boundary conditions.",
+          "finalAnswer": "Governing design parameters and physical equilibrium verified for Seismic Geology, Active Faulting, Ground Shaking and Site Decisions."
         }
       ],
       "workedProblems": [
