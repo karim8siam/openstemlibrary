@@ -3992,8 +3992,7 @@ window.LIBRARY_CATALOG = {
           ]
         }
       ]
-    }
-,
+    },
     {
       "id": "civil-engineering",
       "name": "Civil Engineering",
@@ -4095,6 +4094,82 @@ window.LIBRARY_CATALOG = {
             "Durability and Environmental Transport",
             "Production, Placement and Quality Assurance",
             "Advanced and Low-Impact Concrete"
+          ]
+        },
+        {
+          "id": "reinforced-concrete-design",
+          "title": "Reinforced Concrete Design",
+          "subtitle": "Flexure, Shear, Torsion, Bond, Slabs, Columns, Foundations, Crack Widths, Seismic & Detailing",
+          "status": "AVAILABLE",
+          "url": "reinforced-concrete-design.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering limit states design, flexural mechanics of singly and doubly reinforced beams, shear and torsion transfer, one-way and two-way slabs, short and slender columns with P-M interaction, shallow footings, serviceability cracking and deflections, development length and seismic detailing with 40 solved questions and 15 interactive simulations.",
+          "topics": [
+            "The Design Problem and Structural Load Paths",
+            "Flexural Behavior and Beam Section Design",
+            "Shear, Torsion and Force Transfer",
+            "Slabs, Stairs and Floor Systems",
+            "Columns, Slenderness and Structural Walls",
+            "Foundations and Earth-Retaining Elements",
+            "Serviceability, Crack Control, Bond and Detailing",
+            "Seismic Design Principles, Durability and Verification"
+          ]
+        },
+        {
+          "id": "steel-structure-design",
+          "title": "Steel Structure Design",
+          "subtitle": "Tension Members, Column Buckling, Lateral-Torsional Buckling, Beam-Columns, Connections & Bracing",
+          "status": "AVAILABLE",
+          "url": "steel-structure-design.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering limit states and LRFD steel design, tension members and block shear, column compression and stability, beam flexure and lateral-torsional buckling, combined axial-moment beam-columns, high-strength bolted and welded connections, industrial frames, bracing systems, and fatigue with 40 solved questions and 15 interactive simulations.",
+          "topics": [
+            "Steel Design Foundations, Metallurgy and Structural Sections",
+            "Tension Members, Net Area and Block Shear",
+            "Compression Members, Column Buckling and Slenderness",
+            "Flexural Members, Lateral-Torsional Buckling and Compact Sections",
+            "Combined Axial and Bending Actions (Beam-Columns)",
+            "Connections: Bolted, Welded and Moment Resisting",
+            "Structural Systems, Bracing, Industrial Trusses and Frames",
+            "Steel Design Practice, Fabrication, Tolerances and Fatigue"
+          ]
+        },
+        {
+          "id": "soil-mechanics",
+          "title": "Soil Mechanics",
+          "subtitle": "Soil Origins, Weight-Volume Relationships, Permeability, Seepage, Compaction, Consolidation & Shear Strength",
+          "status": "AVAILABLE",
+          "url": "soil-mechanics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering soil phase relationships, index properties, soil classification, hydraulic permeability, two-dimensional seepage flownets, laboratory and field compaction, Terzaghi effective stress, one-dimensional consolidation theory and settlement rate, and Mohr-Coulomb shear strength under drained and undrained conditions with 40 solved questions and 16 interactive simulations.",
+          "topics": [
+            "Soil Origins, Phase Relationships and Characterization",
+            "Soil Water, Darcy Permeability and Seepage Flow Nets",
+            "Soil Compaction, Field Control and Stabilization",
+            "Compressibility, Consolidation and Settlement Time Rates",
+            "Shear Strength of Cohesive and Cohesionless Soils",
+            "Geostatic Stress and Induced Stress Distributions",
+            "Lateral Earth Pressure and Slope Stability Analysis",
+            "Geotechnical Field Exploration, Testing and Uncertainty"
+          ]
+        },
+        {
+          "id": "foundation-engineering",
+          "title": "Foundation Engineering",
+          "subtitle": "Site Exploration, Bearing Capacity, Shallow Footings, Mats, Deep Piles, Retaining Walls & Difficult Ground",
+          "status": "AVAILABLE",
+          "url": "foundation-engineering.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering subsurface geotechnical investigation, SPT/CPT correlation, Terzaghi and general bearing capacity theories, immediate and consolidation settlement of footings, mat foundations, single pile and pile group capacity, lateral earth pressures on cantilever retaining walls, deep excavations, and difficult ground engineering with 40 solved questions and 15 interactive simulations.",
+          "topics": [
+            "Geotechnical Site Investigation, Soil Profiling and Borehole Data",
+            "Shallow Foundations: Bearing Capacity and Settlement Criteria",
+            "Mat and Raft Foundations: Soil-Structure Interaction",
+            "Deep Foundations: Driven and Bored Piles and Capacity Mechanisms",
+            "Earth Retaining Structures, Cantilever and Anchored Walls",
+            "Difficult Ground Conditions, Collapsible, Expansive and Soft Soils",
+            "Ground Improvement, Geotechnical Risk and Quality Control",
+            "Comprehensive Foundation Design Synthesis and Forensic Case Studies"
           ]
         }
       ]
