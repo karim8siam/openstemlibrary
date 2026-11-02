@@ -3993,5 +3993,111 @@ window.LIBRARY_CATALOG = {
         }
       ]
     }
+,
+    {
+      "id": "civil-engineering",
+      "name": "Civil Engineering",
+      "code": "CE",
+      "icon": "🏗️",
+      "description": "Structural analysis and design, strength of materials, concrete technology, steel and timber structures, soil mechanics, foundation engineering, fluid mechanics and hydraulics, hydrology, water resources, environmental engineering, transportation, and surveying.",
+      "courses": [
+        {
+          "id": "civil-engineering-statics",
+          "title": "Civil Engineering Statics",
+          "subtitle": "Vector Forces, Moments, Equilibrium, Trusses, Frames, Cables, Friction & Virtual Work",
+          "status": "AVAILABLE",
+          "url": "civil-engineering-statics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering Newtonian vector equilibrium, support reactions, determinate trusses, frames, multi-force members, cables, three-hinged arches, centroids, moment of inertia, friction, sliding and overturning stability, and virtual work with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Forces, Moments and Structural Load Representation",
+            "Equilibrium, Reactions, Supports and Static Determinacy",
+            "Trusses, Joints, Sections and Idealization",
+            "Frames, Cables, Arches and Structural Load Paths",
+            "Centroids, Second Moments and Composite Cross Sections",
+            "Friction, Sliding, Overturning and Stability",
+            "Virtual Work, Equilibrium Checks and Energy Ideas",
+            "Civil Loading Cases, Construction Stages and Modeling Uncertainty"
+          ]
+        },
+        {
+          "id": "strength-of-materials",
+          "title": "Strength of Materials",
+          "subtitle": "Stress, Strain, Axial Loading, Torsion, Beam Bending & Shear, Deflections, Mohr's Circle & Column Buckling",
+          "status": "AVAILABLE",
+          "url": "strength-of-materials.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering stress and strain tensors, axially loaded bars, thermal stress, circular shaft torsion, beam shear and moment diagrams, elastic flexure, transverse shear flow, elastic deflections, plane stress transformation, Mohr's circle, combined loading, Euler buckling, and thin-walled cylinders with 45 solved questions and 13 interactive simulations.",
+          "topics": [
+            "Foundations: Stress, Strain, Load Paths",
+            "Axially Loaded Bars and Thermal Effects",
+            "Constitutive Response and Material Testing",
+            "Torsion and Shaft Design",
+            "Shear Forces and Bending Moments in Beams",
+            "Flexure, Shear Stress and Beam Deflection",
+            "Stress Transformation and Combined Loads",
+            "Columns, Stability and Geometric Effects",
+            "Pressure Vessels, Fatigue and Structural Decisions"
+          ]
+        },
+        {
+          "id": "structural-analysis-i",
+          "title": "Structural Analysis I",
+          "subtitle": "Determinate Beams, Trusses, Three-Hinged Arches, Energy Methods, Virtual Work & Influence Lines",
+          "status": "AVAILABLE",
+          "url": "structural-analysis-i.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering structural modeling, static determinacy and stability, determinate beam and frame analysis, pin-jointed trusses, three-hinged arches, suspension cables, elastic deflections via virtual work and energy methods, moving vehicle loads, influence lines, and structural verification with 40 solved questions and 13 interactive simulations.",
+          "topics": [
+            "Structural Modeling and Load Paths",
+            "Determinate Beams and Internal Forces",
+            "Pin-Jointed Trusses and Displacement",
+            "Frames, Cables and Three-Hinged Arches",
+            "Deflection, Energy and Virtual Work",
+            "Moving Loads and Influence Lines",
+            "Redundancy, Compatibility and Force Method",
+            "Verification, Model Comparison and Reporting"
+          ]
+        },
+        {
+          "id": "structural-analysis-ii",
+          "title": "Structural Analysis II",
+          "subtitle": "Indeterminate Structures, Force Method, Moment Distribution, Matrix Stiffness, Dynamics & Plastic Analysis",
+          "status": "AVAILABLE",
+          "url": "structural-analysis-ii.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering statically indeterminate structures, flexibility and force methods, slope-deflection, Hardy Cross moment distribution, direct stiffness method for trusses and frames, support settlement, thermal actions, geometric non-linearity and P-Delta effects, structural dynamics, and plastic limit analysis with 40 solved questions and 15 interactive simulations.",
+          "topics": [
+            "Indeterminacy, Compatibility and the Force Method",
+            "Displacement Methods and Moment Distribution",
+            "Matrix Stiffness of Trusses and Rigid Frames",
+            "Settlement, Thermal Actions and Imposed Strains",
+            "Stability and Second-Order Analysis",
+            "Influence Lines and Moving Loads",
+            "Structural Dynamics and Vibration",
+            "Plasticity, Uncertainty and Structural Model Verification"
+          ]
+        },
+        {
+          "id": "concrete-technology",
+          "title": "Concrete Technology",
+          "subtitle": "Cements, Aggregates, Admixtures, Hydration, Fresh Concrete Rheology, Mix Design, Durability & Quality Control",
+          "status": "AVAILABLE",
+          "url": "concrete-technology.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering Portland cements, supplementary cementitious materials, aggregate particle packing, chemical admixtures, hydration kinetics, heat of hydration, fresh concrete rheology, mix proportioning by absolute volume, compressive and tensile strength development, viscoelastic creep and shrinkage, durability transport mechanisms, chloride diffusion, carbonation, and statistical quality assurance with 40 solved questions and 14 interactive simulations.",
+          "topics": [
+            "Constituents and Particle Systems",
+            "Hydration, Heat and Microstructure",
+            "Fresh Concrete and Rheology",
+            "Mixture Proportioning and Trial Batches",
+            "Hardened Concrete Mechanics",
+            "Durability and Environmental Transport",
+            "Production, Placement and Quality Assurance",
+            "Advanced and Low-Impact Concrete"
+          ]
+        }
+      ]
+    }
   ]
 };
