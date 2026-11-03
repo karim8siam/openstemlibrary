@@ -90,14 +90,14 @@ Every textbook in the library features:
 
 ## 🤝 Global STEM Ecosystem Initiatives
 
-1. **[Open Academic Library](https://openstemlibrary.com/)**: 65 live digital university textbooks scaling toward 1,000 comprehensive titles.
+1. **[Open Academic Library](https://openstemlibrary.com/)**: 219 live digital university textbooks scaling toward 1,000 comprehensive titles.
 2. **[Global Research Network (OpenSTEM Replicate)](https://openstemreplicate.org/)**: Carefully curated peer-reviewed STEM research highlights, open paper replication, and international research collaboration.
 3. **[Scholarship & Fellowship Desk](https://openstemfield.org/)**: Curated tracker of fully funded graduate scholarships, CERN/DESY fellowships, and international research internships.
 4. **[OpenSTEM Tools](https://openstemtool.org/)**: Over 155 free university scientific calculators, graphing utilities, and numerical analyzers across 38 academic departments.
 5. **Global Student Community**: Active academic Discord peer network with specialized study rooms across all STEM branches.
-6. **Academic Mentorship**: 1-on-1 guidance and exam strategy sessions led by university toppers and Olympiad medalists.
+6. **[OpenSTEM Match (Research Placement & Mentorship)](https://www.openstembridge.space/)**: Connects emerging student talent with active scientific laboratories, reviewed research calls, and structured mentorship charters.
 7. **[Open STEM Lab](https://openstemlab.org/)**: Virtual lab platform featuring 1,000+ complete university-grade lab solutions and experimental simulations.
-8. **[1% Talent Club](https://openstemfield.org/)**: Elite community uniting the top 1% of international STEM talent, competitive coders, and researchers.
+8. **[OpenSTEM Recruitment (Study Pathways & Partnerships)](https://openstemrecruitment.com/)**: International study guidance and university recruitment pathways connecting prospective STEM students with global degree programs and institutional partnerships.
 
 ---
 
