@@ -4344,8 +4344,7 @@ window.LIBRARY_CATALOG = {
           ]
         }
       ]
-    }
-,
+    },
     {
       "id": "chemical-process-engineering",
       "name": "Chemical & Process Engineering",
@@ -4446,6 +4445,82 @@ window.LIBRARY_CATALOG = {
             "Two-Phase Gas-Liquid Flow Regimes and Slurry Transport",
             "Flow Measurement, Orifice Meters and Process Instrumentation",
             "Piping Network Analysis, Distribution Headers and Hydraulic Design"
+          ]
+        },
+        {
+          "id": "heat-transfer-in-processes",
+          "title": "Heat Transfer in Processes",
+          "subtitle": "Conduction, Thermal Resistance Networks, Transient Response, Convection, Radiation, Heat Exchangers & Evaporation",
+          "status": "AVAILABLE",
+          "url": "heat-transfer-in-processes.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering multidimensional conduction, extended surfaces, transient thermal response, forced and natural convection correlations, radiation exchange, heat exchanger design via LMTD and NTU methods, boiling, condensation, and industrial evaporation with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Thermal Foundations and Process Energy",
+            "Steady Conduction and Thermal Resistance Networks",
+            "Transient Conduction and Thermal Response",
+            "Convection in Process Equipment",
+            "Radiation and High-Temperature Heating",
+            "Heat Exchangers and Thermal Networks",
+            "Phase-Change Heat Transfer and Evaporation",
+            "Integrated Thermal Process Design and Heat Recovery"
+          ]
+        },
+        {
+          "id": "mass-transfer",
+          "title": "Mass Transfer",
+          "subtitle": "Molecular Diffusion, Convective Mass Transport, Interphase Flux, Two-Film Theory, Absorption & Membrane Transport",
+          "status": "AVAILABLE",
+          "url": "mass-transfer.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering molecular diffusion in fluids and porous media, convective mass transfer coefficients, two-film interphase flux coupling, packed absorption column sizing via HTU/NTU, psychrometric drying curves, membrane permeation mechanics, and solid-liquid leaching with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Molecular Diffusion and Driving Forces",
+            "Convective Mass Transfer and Boundary Layers",
+            "Interphase Mass Transfer and Two-Film Theory",
+            "Gas Absorption and Stripping in Packed Towers",
+            "Evaporation, Humidification and Industrial Drying",
+            "Membrane Transport and Selective Permeation",
+            "Solid-Fluid Mass Transfer and Leaching",
+            "Equipment Scaling, Hydrodynamics and Dispersion"
+          ]
+        },
+        {
+          "id": "separation-processes-i",
+          "title": "Separation Processes I",
+          "subtitle": "Phase Equilibria, Flash Separation, Binary Distillation, McCabe-Thiele, Multicomponent Fractionation & Extraction",
+          "status": "AVAILABLE",
+          "url": "separation-processes-i.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering phase equilibria, single-stage flash drum vapor-liquid separation, binary distillation column staging via McCabe-Thiele, column internals and hydraulic limits, multicomponent FUG shortcut design, absorption column stage calculations, and liquid-liquid extraction with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Separation Foundations and Thermodynamic Equilibrium",
+            "Flash Separation and Single-Stage Vapor-Liquid Equilibrium",
+            "Binary Distillation and McCabe-Thiele Analysis",
+            "Distillation Column Internals and Hydraulic Sizing",
+            "Multicomponent Distillation and Shortcut Methods",
+            "Gas Absorption and Stripping in Staged Columns",
+            "Liquid-Liquid Extraction and Ternary Phase Equilibria",
+            "Integrated Separation Trains and Energy Minimization"
+          ]
+        },
+        {
+          "id": "separation-processes-ii",
+          "title": "Separation Processes II",
+          "subtitle": "Membrane Separations, Reverse Osmosis, Gas Permeation, Adsorption, Chromatography & Industrial Crystallization",
+          "status": "AVAILABLE",
+          "url": "separation-processes-ii.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering advanced rate-based and modern separation technologies: reverse osmosis, ultrafiltration, gas permeation, fixed-bed adsorption breakthrough, preparative chromatography, solution crystallization kinetics, cake filtration, and solid-liquid processing with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Membrane Transport and Pressure-Driven Separations",
+            "Gas Permeation, Electrodialysis and Advanced Membranes",
+            "Adsorption Equilibrium, Fixed Beds and Ion Exchange",
+            "Chromatography and Preparative Resolution",
+            "Crystallization, Nucleation and Crystal Growth Kinetics",
+            "Mechanical Separations, Filtration and Clarification",
+            "Drying, Leaching and Complex Solid-Liquid Contacting",
+            "Hybrid Separation Systems, Process Intensification and Exergy"
           ]
         }
       ]
