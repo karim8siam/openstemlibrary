@@ -4522,6 +4522,82 @@ window.LIBRARY_CATALOG = {
             "Drying, Leaching and Complex Solid-Liquid Contacting",
             "Hybrid Separation Systems, Process Intensification and Exergy"
           ]
+        },
+        {
+          "id": "chemical-reaction-engineering-i",
+          "title": "Chemical Reaction Engineering I",
+          "subtitle": "Reaction Kinetics, Rate Laws, Ideal Reactor Design, Multiple Reactions, Thermal Stability & Residence Time Distributions",
+          "status": "AVAILABLE",
+          "url": "chemical-reaction-engineering-i.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering elementary reaction kinetics, Arrhenius rate laws, batch, CSTR and PFR reactor sizing, yield and selectivity in complex multiple reaction networks, non-isothermal energy balances and thermal stability, and residence time distributions with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Reaction Kinetics and Rate Laws",
+            "Kinetic Data Analysis and Reactor Measurement",
+            "Ideal Reactor Models (Batch, CSTR, PFR)",
+            "Isothermal Reactor Sizing and Comparison",
+            "Multiple Reactions, Yield and Selectivity",
+            "Non-Isothermal Reactor Thermal Stability",
+            "Residence Time Distribution and Non-Ideal Flow",
+            "Industrial Reactor Selection and Design Decisions"
+          ]
+        },
+        {
+          "id": "chemical-reaction-engineering-ii",
+          "title": "Chemical Reaction Engineering II",
+          "subtitle": "Heterogeneous Catalysis, Deactivation, Intraparticle Diffusion, Packed & Fluidized Beds & Multiphase Reactors",
+          "status": "AVAILABLE",
+          "url": "chemical-reaction-engineering-ii.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering heterogeneous surface catalysis, Langmuir-Hinshelwood rate formulations, catalyst deactivation dynamics, pore diffusion with Thiele modulus and effectiveness factor, packed-bed reactor design with Ergun pressure loss, bubbling fluidized beds, and shrinking core gas-solid kinetics with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Heterogeneous Catalysis and Surface Kinetics",
+            "Catalyst Deactivation and Kinetic Characterization",
+            "Intraparticle Diffusion and Reaction (Thiele Modulus)",
+            "Packed-Bed Catalytic Reactor Design (Ergun Pressure Drop)",
+            "Thermal Behavior of Catalytic Reactors",
+            "Fluidized-Bed and Multiphase Gas-Liquid Reactors",
+            "Fluid-Solid Reactions and Shrinking Core Models",
+            "RTD, Non-Ideal Mixing Models and Scale-Up"
+          ]
+        },
+        {
+          "id": "process-dynamics-and-control",
+          "title": "Process Dynamics and Control",
+          "subtitle": "First & Second-Order Dynamic Models, Transfer Functions, Feedback Stability, PID Tuning & Plantwide Control",
+          "status": "AVAILABLE",
+          "url": "process-dynamics-and-control.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering dynamic modeling of chemical processes from conservation laws, first and second-order time-domain responses, transfer function algebra, closed-loop feedback stability, PID controller sizing and tuning, control valve trim authority, feedforward decoupling, digital discrete control, and plantwide cascade architectures with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Dynamic Models from Conservation Laws",
+            "Time-Domain and Frequency-Domain Responses",
+            "Feedback Control, Transfer Functions and Stability",
+            "PID Controller Sizing and Loop Tuning",
+            "Instrumentation, Sensor Dynamics and Control Valves",
+            "Advanced and Multivariable Control Strategies",
+            "Digital Control, Sampling, PLC/DCS and Alarm Management",
+            "Industrial Plantwide Control and Validation"
+          ]
+        },
+        {
+          "id": "process-simulation",
+          "title": "Process Simulation",
+          "subtitle": "Flowsheet Architecture, Degree-of-Freedom Solvability, Equation-Oriented Modeling, Thermodynamic Packages & Recycle Convergence",
+          "status": "AVAILABLE",
+          "url": "process-simulation.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering chemical process flowsheet synthesis, degree-of-freedom solvability accounting, equation-of-state thermodynamic property method selection, rigorous unit operation modeling, flash separation solvers, shortcut and rigorous distillation columns, recycle tear stream convergence acceleration, plantwide pinch heat integration, and Guthrie CAPEX economic sizing with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Flowsheets, Specifications and Degree-of-Freedom Accounting",
+            "Thermodynamic Property Packages and Phase Equilibria",
+            "Unit Operations and Rigorous Equipment Modeling",
+            "Chemical Reaction System Simulation",
+            "Separation Train and Distillation Column Simulation",
+            "Flowsheet Recycle Loops and Numerical Convergence",
+            "Plantwide Integrated and Dynamic Simulation",
+            "Model Verification, Sensitivity, Safety and Economic Sizing"
+          ]
         }
       ]
     }
