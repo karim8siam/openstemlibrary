@@ -4345,5 +4345,110 @@ window.LIBRARY_CATALOG = {
         }
       ]
     }
+,
+    {
+      "id": "chemical-process-engineering",
+      "name": "Chemical & Process Engineering",
+      "code": "CPE",
+      "icon": "⚗️",
+      "description": "Chemical engineering thermodynamics, material and energy balances, transport phenomena, fluid mechanics, heat and mass transfer, separation processes, chemical reaction engineering, process dynamics and control, process simulation and plant design, process safety, biochemical engineering, polymers, and petroleum and petrochemical processes.",
+      "courses": [
+        {
+          "id": "chemical-engineering-fundamentals",
+          "title": "Chemical Engineering Fundamentals",
+          "subtitle": "Process Industries, Units & Dimensions, Flowsheets, Material & Energy Balances, PVT & Equipment Sizing",
+          "status": "AVAILABLE",
+          "url": "chemical-engineering-fundamentals.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering process industries, engineering dimensions, flowsheet representation, degrees of freedom, steady-state material conservation, recycle and purge loops, first-law enthalpy balances, PVT equation of state non-ideality, heat exchanger sizing, and process safety indices with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Process Industries and Chemical Manufacturing Value Chains",
+            "Engineering Quantities, Dimensions and Systems of Units",
+            "Process Representation, Flowsheets and Degrees of Freedom",
+            "Material Accounting, Conservation Principles and Recycle",
+            "Energy Foundations, Enthalpy and First Law Balances",
+            "Phase Behavior, Pure Component PVT and Fluid Equilibria",
+            "Process Operations, Unit Classifications and Equipment Sizing",
+            "Professional Practice, Safety, Ethics and Process Economics"
+          ]
+        },
+        {
+          "id": "material-and-energy-balances",
+          "title": "Material and Energy Balances",
+          "subtitle": "Conservation Laws, Multi-Unit Flowsheets, Combustion, Reactive Balances, Psychrometry & Unsteady-State Dynamics",
+          "status": "AVAILABLE",
+          "url": "material-and-energy-balances.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering multi-component mass balances, bypass and purge calculations, reactive systems, atomic and extent-of-reaction formulations, combustion stoichiometry, energy balances, enthalpy changes with phase change, psychrometric chart drying, and unsteady-state conservation equations with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Bases, Stream Definitions and Conservation Laws",
+            "Nonreactive Process Networks, Recycle, Bypass and Purge",
+            "Reaction Stoichiometry, Conversion, Selectivity and Yield",
+            "Transient Material Inventories and Unsteady-State Systems",
+            "Gas Mixtures, Humidity and Phase-Change Balances",
+            "Energy Balances on Unit Operations and Equipment",
+            "Reactive Energy, Heats of Formation and Integrated Thermochemistry",
+            "Full-Process Case Studies, Flowsheet Synthesis and Engineering Decisions"
+          ]
+        },
+        {
+          "id": "chemical-engineering-thermodynamics",
+          "title": "Chemical Engineering Thermodynamics",
+          "subtitle": "First & Second Laws, Real Fluids, Residual Properties, VLE, Activity Models, Chemical Equilibrium & Power Cycles",
+          "status": "AVAILABLE",
+          "url": "chemical-engineering-thermodynamics.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering volumetric properties of pure fluids, Maxwell relations and residual enthalpy/entropy, vapor-liquid phase equilibria (VLE), fugacity in fluid mixtures, non-ideal liquid activity models (NRTL, UNIQUAC, Margules), reaction equilibrium constants, and process power/refrigeration thermodynamic cycles with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Property Relations, State Variables and Maxwell Relations",
+            "Volumetric Properties of Pure Fluids and Cubic Equations of State",
+            "Heat Effects of Industrial Operations and Chemical Reactions",
+            "Second Law, Entropy Generation and Availability Analysis",
+            "Thermodynamic Properties of Real Fluids, Departures and Fugacity",
+            "Vapor-Liquid Equilibria, Azeotropy and Phase Rule Applications",
+            "Solution Thermodynamics, Excess Properties and Activity Models",
+            "Chemical Reaction Equilibria and Multi-Phase Reaction Systems"
+          ]
+        },
+        {
+          "id": "transport-phenomena",
+          "title": "Transport Phenomena",
+          "subtitle": "Unified Momentum, Thermal & Mass Transport: Shell Balances, Navier-Stokes, Boundary Layers & Analogies",
+          "status": "AVAILABLE",
+          "url": "transport-phenomena.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering unified momentum, energy, and mass transport mechanisms, microscopic differential shell balances, Navier-Stokes and energy equations, laminar and turbulent boundary layer velocity/temperature/concentration profiles, Chilton-Colburn and Reynolds analogies, and interphase flux coupling with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Conservation Framework, Microscopic Control Volumes and Flux Laws",
+            "Momentum Transport, Shell Balances and Differential Navier-Stokes",
+            "Boundary Layer Theory, Drag Coefficients and Frictional Losses",
+            "Thermal Conduction, Heat Generation and Multidimensional Profiles",
+            "Convective Heat Transfer, Dimensionless Numbers and Thermal Boundary Layers",
+            "Molecular Mass Diffusion, Fickian Shell Balances and Species Fluxes",
+            "Convective Mass Transfer, Interphase Coefficients and Two-Film Theory",
+            "Macroscopic Transport Balances, Interphase Transport and Universal Analogies"
+          ]
+        },
+        {
+          "id": "fluid-flow-in-processes",
+          "title": "Fluid Flow in Processes",
+          "subtitle": "Fluid Statics, Incompressible & Compressible Flow, Piping Networks, Centrifugal Pumps, Packed Beds & Fluidization",
+          "status": "AVAILABLE",
+          "url": "fluid-flow-in-processes.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering industrial fluid mechanics, manometer statics, mechanical energy balance with frictional dissipation, equivalent length minor losses, parallel pipe branching, centrifugal pump characteristic curves and NPSH cavitation limits, compressible gas expansion, Ergun packed bed pressure drop, and gas-solid fluidization dynamics with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Fluid Properties, Non-Newtonian Rheology and Shear Response",
+            "Fluid Statics, Hydrostatic Pressure Fields and Manometry",
+            "Flow Balances, Continuity and Mechanical Energy Conservation",
+            "Frictional Pipe Flow, Moody Chart and Fitting Resistance",
+            "Pumps, Compressors, Turbomachinery and Cavitation NPSH Limits",
+            "Two-Phase Gas-Liquid Flow Regimes and Slurry Transport",
+            "Flow Measurement, Orifice Meters and Process Instrumentation",
+            "Piping Network Analysis, Distribution Headers and Hydraulic Design"
+          ]
+        }
+      ]
+    }
   ]
 };
