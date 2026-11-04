@@ -4598,6 +4598,101 @@ window.LIBRARY_CATALOG = {
             "Plantwide Integrated and Dynamic Simulation",
             "Model Verification, Sensitivity, Safety and Economic Sizing"
           ]
+        },
+        {
+          "id": "process-design",
+          "title": "Process Design",
+          "subtitle": "Conceptual Synthesis, Flowsheet Hierarchy, Equipment Sizing, Guthrie Cost Estimation, Pinch Analysis & Plant Economics",
+          "status": "AVAILABLE",
+          "url": "process-design.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering conceptual flowsheet synthesis, Douglas hierarchy, heat exchanger network pinch analysis, composite curves, Guthrie bare module equipment sizing and costing, and discounted cash flow plant profitability with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Design Basis and Project Definition",
+            "Process Concept and Route Screening",
+            "Flowsheet Synthesis and Utility Integration",
+            "Equipment Specifications and Preliminary Sizing",
+            "Plant Layout, Operations and Maintainability",
+            "Capital, Operating Costs and Project Economics",
+            "Process Risk, Environment and Lifecycle",
+            "Design Deliverables and Engineering Review"
+          ]
+        },
+        {
+          "id": "process-safety",
+          "title": "Process Safety",
+          "subtitle": "Hazard Identification, Toxicity & Dispersion Models, Flammability, Relief Sizing, LOPA & SIL Verification",
+          "status": "AVAILABLE",
+          "url": "process-safety.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering process safety management, HAZOP methodology, probit toxicity models, atmospheric Gaussian dispersion, flammability limits and BLEVEs, DIERS emergency relief sizing, and LOPA risk reduction with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Foundations and Hazard Recognition",
+            "Reaction Hazards and Thermal Stability",
+            "Release, Exposure and Consequence Boundaries",
+            "Structured Process Hazard Analysis",
+            "Protection Layers and Functional Safety",
+            "Engineering Controls and Operational Readiness",
+            "Mechanical Integrity, Human Factors and Change",
+            "Assurance, Incidents and Safety Leadership"
+          ]
+        },
+        {
+          "id": "biochemical-engineering",
+          "title": "Biochemical Engineering",
+          "subtitle": "Microbial Growth Kinetics, Enzyme Biocatalysis, Bioreactor Design, Oxygen Mass Transfer, Sterilization & Downstream Processing",
+          "status": "AVAILABLE",
+          "url": "biochemical-engineering.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering cellular stoichiometry, Michaelis-Menten biocatalysis, Monod microbial growth kinetics, continuous chemostats and fed-batch bioreactors, volumetric oxygen transfer kLa, thermal batch sterilization, and downstream purification with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Biological Systems and Cellular Foundations",
+            "Enzyme Catalysis and Microbial Growth Kinetics",
+            "Bioreactor Configurations and Operating Modes",
+            "Gas-Liquid Oxygen Mass Transfer and kLa Scaling",
+            "Medium Sterilization and Contamination Control",
+            "Downstream Processing and Bioseparation Trains",
+            "Scale-Up Criteria and Process Analytical Technology",
+            "Industrial Bioprocess Case Studies and Economics"
+          ]
+        },
+        {
+          "id": "polymer-process-engineering",
+          "title": "Polymer Process Engineering",
+          "subtitle": "Polymerization Kinetics, Melt Rheology, Non-Newtonian Flow, Extrusion, Injection Molding & Sustainable Recycling",
+          "status": "AVAILABLE",
+          "url": "polymer-process-engineering.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering Carothers step-growth, free-radical polymerization kinetics, molecular weight distributions, non-Newtonian melt rheology, single-screw extruder pressure flow mechanics, injection molding filling and cooling dynamics, and plastics circularity with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Polymer Structure, Molecular Weight and Architecture",
+            "Step-Growth and Chain-Growth Polymerization Kinetics",
+            "Polymer Melt Rheology and Viscoelasticity",
+            "Single-Screw and Twin-Screw Extrusion Modeling",
+            "Injection Molding and Die Forming Processes",
+            "Process Measurement, Instrumentation and Thermal Control",
+            "Mechanical, Thermal and Rheological Characterization",
+            "Sustainable Polymers, Biodegradation and Circular Recycling"
+          ]
+        },
+        {
+          "id": "petroleum-and-petrochemical-processes",
+          "title": "Petroleum and Petrochemical Processes",
+          "subtitle": "Crude Characterization, Atmospheric Distillation, Fluid Catalytic Cracking, Hydrotreating, Steam Cracking & Petrochemical Building Blocks",
+          "status": "AVAILABLE",
+          "url": "petroleum-and-petrochemical-processes.html",
+          "badge": "Free Interactive Textbook",
+          "description": "Comprehensive university textbook covering crude oil assay characterization, atmospheric and vacuum distillation, fluid catalytic cracking FCC heat balances, hydrodesulfurization, naphtha steam cracking for olefins, BTX aromatics, and refinery decarbonization with 40 solved questions and 8 interactive simulations.",
+          "topics": [
+            "Crude Oil Characterization, Assays and Feedstocks",
+            "Atmospheric and Vacuum Crude Distillation Units",
+            "Conversion Processes: Catalytic Cracking (FCC) and Hydrocracking",
+            "Hydrotreating, Desulfurization and Catalytic Reforming",
+            "Steam Cracking of Naphtha/Ethane to Light Olefins",
+            "Aromatics Extraction (BTX) and Polymer-Grade Monomers",
+            "Refinery Energy, Hydrogen Integration and Flare Networks",
+            "Refinery Decarbonization, Economics and Petrochemical Evaluation"
+          ]
         }
       ]
     }
